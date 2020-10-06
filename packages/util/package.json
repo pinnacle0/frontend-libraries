@@ -1,0 +1,10 @@
+{
+    "name": "@pinnacle0/util",
+    "version": "2.0.15",
+    "license": "MIT",
+    "sideEffects": false,
+    "scripts": {},
+    "dependencies": {},
+    "peerDependencies": {},
+    "devDependencies": {}
+}
