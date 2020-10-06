@@ -1,0 +1,18 @@
+{
+    "name": "@pinnacle0/config-files",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {},
+    "dependencies": {
+        "@commitlint/config-conventional": "11.0.0",
+        "@jest/types": "^26.5.0",
+        "@types/eslint": "^7.2.3",
+        "@types/prettier": "^2.1.1",
+        "@types/stylelint": "^9.10.1"
+    },
+    "peerDependencies": {},
+    "devDependencies": {},
+    "optionalDependencies": {
+        "husky": ">=3.1.0 <4.0.0"
+    }
+}
