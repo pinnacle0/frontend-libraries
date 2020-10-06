@@ -1,0 +1,25 @@
+# IDE
+.idea/**
+.vscode/**
+
+# Artifacts
+**/build/**
+**/dist/**
+
+# Dependencies
+**/node_modules/**
+
+# Coverage Reports
+**/coverage/**
+
+# Temp
+/tmp/**
+
+# Misc
+**/.DS_Store
+**/*.iml
+**/yarn-error.log
+
+# Config Files
+**/*.config.js
+**/.*rc.js
