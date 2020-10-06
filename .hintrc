@@ -1,0 +1,11 @@
+{
+    "extends": ["development"],
+    "hints": {
+        "typescript-config/import-helpers": "error",
+        "typescript-config/is-valid": "error",
+        "typescript-config/no-comments": "error",
+        "typescript-config/strict": "error",
+        "typescript-config/target": "error",
+        "typescript-config/consistent-casing": "error"
+    }
+}
