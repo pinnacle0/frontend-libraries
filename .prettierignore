@@ -20,6 +20,5 @@
 **/*.iml
 **/yarn-error.log
 
-# Config Files
-**/*.config.js
-**/.*rc.js
+# VS Code
+!.vscode/extensions.json

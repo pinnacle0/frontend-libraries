@@ -20,6 +20,9 @@
 **/*.iml
 **/yarn-error.log
 
+# VS Code
+!.vscode/extensions.json
+
 # JS / TS
 **/*.js
 **/*.jsx

@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        // VS Code does not support editorconfig out of the box (unlike JetBrains products)
+        "editorconfig.editorconfig", // EditorConfig
+
+        // Linters / Formatters
+        "dbaeumer.vscode-eslint", // ESLint
+        "esbenp.prettier-vscode" // Prettier
+    ]
+}
