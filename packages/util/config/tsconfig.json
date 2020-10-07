@@ -14,7 +14,8 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "suppressImplicitAnyIndexErrors": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
+        "removeComments": true
     },
     "include": ["../src"],
     "exclude": ["../src/browser"]
