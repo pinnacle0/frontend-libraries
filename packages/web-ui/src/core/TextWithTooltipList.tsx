@@ -1,5 +1,6 @@
 import React from "react";
 import {Tooltip} from "./Tooltip";
+import {Link} from "./Link";
 
 export interface TooltipListProps {
     label: string;
@@ -16,6 +17,7 @@ export interface Props {
 export class TextWithTooltipList extends React.PureComponent<Props> {
     static displayName = "TextWithTooltipList";
 
+    private readonly dummyClick = () => {};
     private readonly labelStyle: React.CSSProperties = {display: "inline-block", width: 90};
 
     renderTooltip = () => {
@@ -55,9 +57,7 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
 
         return (
             <Tooltip placement="bottom" title={this.renderTooltip()} onVisibleChange={onVisibleChange}>
-                <a className="link" onClick={onClick}>
-                    {label}
-                </a>
+                <Link to={onClick || this.dummyClick}>{label}</Link>
             </Tooltip>
         );
     }
