@@ -13,7 +13,7 @@ import {pathMap} from "../../config/path-map";
  */
 export function runProcess(command: string, args: string[], errorMessage?: string) {
     console.info(chalk.white("Running: ") + chalk.yellowBright(command + " " + args.join(" ")));
-    const localPath = path.join(pathMap.rootDirectory, "node_modules", ".bin", command);
+    const localPath = path.join(pathMap.workspaceRootDirectory, "node_modules", ".bin", command);
     const canonicalCommand = fs.existsSync(localPath) ? localPath : command;
     const result = childProcess.spawnSync(canonicalCommand, args, {
         stdio: "inherit",
