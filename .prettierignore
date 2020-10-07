@@ -22,3 +22,6 @@
 
 # VS Code
 !.vscode/extensions.json
+
+# Codegen templates
+**/templates/*

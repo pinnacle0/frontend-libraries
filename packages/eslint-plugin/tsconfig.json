@@ -1,0 +1,7 @@
+{
+    "extends": "../config-files/tsconfig.node-lib.json",
+    "compilerOptions": {
+        "outDir": "./dist/out"
+    },
+    "include": ["./src", "./tests"]
+}

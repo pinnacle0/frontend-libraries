@@ -2,9 +2,33 @@
     "name": "@pinnacle0/eslint-plugin",
     "version": "0.0.6",
     "license": "MIT",
-    "scripts": {},
-    "dependencies": {},
-    "peerDependencies": {},
+    "scripts": {
+        "ts-node": "TS_NODE_PROJECT=../../tsconfig.json ../../node_modules/.bin/ts-node",
+        "build": "yarn ts-node tools/build.ts",
+        "export-rules-and-config": "yarn ts-node tools/export-rules-and-config.ts",
+        "format-check-only": "yarn ts-node tools/format-check-only.ts",
+        "format": "yarn ts-node tools/format.ts",
+        "lint": "yarn ts-node tools/lint.ts",
+        "rule": "yarn ts-node tools/rule.ts",
+        "test": "jest --config config/jest.config.js"
+    },
+    "dependencies": {
+        "@typescript-eslint/experimental-utils": "^4.1.1"
+    },
+    "peerDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.1.1",
+        "@typescript-eslint/parser": "^4.1.1",
+        "eslint": "^7.9.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-eslint-comments": "^3.2.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-react": "^7.20.6",
+        "eslint-plugin-react-hooks": "^4.1.2"
+    },
     "devDependencies": {},
-    "optionalDependencies": {}
+    "optionalDependencies": {
+        "eslint-plugin-jest": "^24.0.1",
+        "eslint-plugin-jest-dom": "^3.2.3",
+        "eslint-plugin-testing-library": "^3.8.0"
+    }
 }

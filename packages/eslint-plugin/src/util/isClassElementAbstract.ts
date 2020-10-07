@@ -1,0 +1,13 @@
+import {AST_NODE_TYPES, TSESTree} from "@typescript-eslint/experimental-utils";
+
+export function isClassElementAbstract(classElement: TSESTree.ClassElement): boolean {
+    switch (classElement.type) {
+        case AST_NODE_TYPES.ClassProperty:
+        case AST_NODE_TYPES.MethodDefinition:
+        case AST_NODE_TYPES.TSIndexSignature:
+            return false;
+        case AST_NODE_TYPES.TSAbstractClassProperty:
+        case AST_NODE_TYPES.TSAbstractMethodDefinition:
+            return true;
+    }
+}
