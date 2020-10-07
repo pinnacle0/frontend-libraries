@@ -58,6 +58,13 @@ const config = {
                 browser: true,
             },
         },
+        {
+            files: ["./packages/web-ui/**/*.ts", "./packages/web-ui/**/*.tsx"],
+            rules: {
+                "@typescript-eslint/no-non-null-assertion": "off",
+                "@typescript-eslint/no-unused-vars": "off",
+            },
+        },
     ],
 };
 

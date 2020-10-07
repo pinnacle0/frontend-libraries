@@ -14,11 +14,11 @@
     "scripts": {
         "test": "jest --config config/jest.config.js",
         "test-e2e": "testcafe \"chrome --headless --window-size='800,600' --app-shell-host-window-size='800,600' --content-shell-host-window-size='800,600'\" \"./e2e/**/*.e2e.{ts,tsx}\" --skip-js-errors --screenshots path=artifacts/screenshots --ts-config-path ./e2e/tsconfig.json",
-        "ts-node": "TS_NODE_PROJECT=./script/tsconfig.json ./node_modules/.bin/ts-node",
+        "ts-node": "TS_NODE_PROJECT=./script/tsconfig.json ../../node_modules/.bin/ts-node",
         "build": "yarn ts-node script/build.ts",
         "start": "yarn ts-node script/start.ts",
-        "lint": "eslint --config config/.eslintrc.js --ext .js,.jsx,.ts,.tsx .",
-        "format": "prettier --config config/prettier.config.js --write \"**/*.{js,json,jsx,less,ts,tsx}\""
+        "lint": "yarn ts-node script/lint.ts",
+        "format": "yarn ts-node script/format.ts"
     },
     "dependencies": {
         "@ant-design/icons": "4.2.2",

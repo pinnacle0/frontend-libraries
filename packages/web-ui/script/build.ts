@@ -25,7 +25,8 @@ function cleanup() {
 
 function checkCodeStyle() {
     console.info(chalk`{green.bold [task]} {white.bold check code style}`);
-    return spawn("prettier", ["--config", "config/prettier.config.js", "--list-different", "{src,test}/**/*.{ts,tsx}"], "check code style failed, please format above files");
+    require("./check-format");
+    // return spawn("prettier", ["--config", "config/prettier.config.js", "--list-different", "{src,test}/**/*.{ts,tsx}"], "check code style failed, please format above files");
 }
 
 function unitTest() {
@@ -35,7 +36,8 @@ function unitTest() {
 
 function lint() {
     console.info(chalk`{green.bold [task]} {white.bold lint}`);
-    return spawn("eslint", ["--config", "config/.eslintrc.js", "{src,test}/**/*.{ts,tsx}"], "lint failed, please fix");
+    require("./lint");
+    // return spawn("eslint", ["--config", "config/.eslintrc.js", "{src,test}/**/*.{ts,tsx}"], "lint failed, please fix");
 }
 
 function compile() {
