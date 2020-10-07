@@ -61,7 +61,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
                 ) {
                     const exportedName = node.id.name;
                     if (!(node.init.arguments[0].type === AST_NODE_TYPES.Literal && node.init.arguments[0].value === exportedName)) {
-                        context.report({messageId: "displayNameMismatch", node, fix: fixer => fixer.replaceText(node.init!["arguments"][0], `"${exportedName}"`)});
+                        context.report({messageId: "displayNameMismatch", node, fix: fixer => fixer.replaceText((node.init! as any)["arguments"][0], `"${exportedName}"`)});
                     }
                 }
             },
