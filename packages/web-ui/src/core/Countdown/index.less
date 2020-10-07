@@ -1,0 +1,37 @@
+.g-countdown {
+    @height: 26px;
+
+    .colon {
+        height: @height;
+        line-height: @height;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .sliding-digit-outer {
+        overflow: hidden;
+        background: transparent;
+        border-radius: 4px;
+        height: @height;
+        line-height: @height;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .sliding-digit-inner {
+        margin-top: -@height;
+
+        &.slided {
+            margin-top: 0;
+            transition: margin 0.2s;
+        }
+
+        p {
+            height: @height;
+            line-height: @height;
+            text-align: center;
+            margin: 0;
+            width: 10px; // Very important, for stable UI effect
+        }
+    }
+}

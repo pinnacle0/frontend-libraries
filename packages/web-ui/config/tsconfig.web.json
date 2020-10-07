@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "es5",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
+        "jsx": "react",
+        "lib": ["dom", "es2017", "esnext"],
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "downlevelIteration": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true
+    },
+    "include": ["../src", "./package-types.d.ts"]
+}

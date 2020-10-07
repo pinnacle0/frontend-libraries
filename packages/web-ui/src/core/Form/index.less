@@ -1,0 +1,172 @@
+.g-form {
+    line-height: 32px;
+    padding: 20px;
+
+    > * {
+        margin-bottom: 8px;
+    }
+
+    .g-form-item {
+        vertical-align: top;
+        display: flex;
+
+        &.g-form-submit-form-item {
+            .g-form-item-children {
+                button {
+                    margin: 0 5px;
+                }
+
+                button:only-child {
+                    width: 100%;
+                    margin: 0;
+                }
+            }
+        }
+
+        .g-form-item-label {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            vertical-align: top;
+            font-weight: 600;
+            display: inline-block;
+            text-align: right;
+            width: 100px;
+
+            > label::after {
+                content: ":";
+                position: relative;
+                top: -0.5px;
+                margin: 0 8px 0 2px;
+            }
+
+            &.required > label::before {
+                margin-right: 4px;
+                color: #f5222d;
+                font-size: 14px;
+                font-family: SimSun, sans-serif;
+                content: "*";
+            }
+        }
+
+        .g-form-item-children {
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            flex: 1;
+
+            .message {
+                font-size: 12px;
+                margin: 5px 0;
+                line-height: 15px;
+                text-align: left;
+
+                &.error {
+                    color: #f5222d;
+                }
+            }
+
+            &.has-error {
+                input,
+                .ant-select-selector,
+                .ant-descriptions-view,
+                .ant-input-affix-wrapper,
+                .ant-upload {
+                    border-color: #f5222d !important;
+                }
+
+                .bf-container {
+                    border-color: #f5222d;
+                }
+            }
+
+            .ant-input,
+            .ant-select,
+            .ant-input-password,
+            .ant-input-search.ant-input-affix-wrapper,
+            textarea {
+                width: 100%;
+            }
+
+            .ant-input-affix-wrapper {
+                vertical-align: top;
+            }
+
+            .g-number-input.stepper-always input {
+                width: 150px;
+            }
+
+            .ant-picker-input > input {
+                text-align: center;
+            }
+
+            // For braft editor
+            .bf-container {
+                border: 1px solid #d7d7d7;
+                border-radius: 4px;
+                width: 780px;
+
+                .bf-content {
+                    height: 350px;
+                }
+            }
+        }
+
+        &.separated {
+            .g-form-item-label,
+            .g-form-item-children {
+                display: block;
+            }
+
+            .g-form-item-label {
+                width: 100%;
+                text-align: left;
+            }
+        }
+    }
+
+    &.g-form-inline {
+        padding: 0;
+
+        .g-form-item {
+            display: inline-block;
+            margin-right: 12px;
+            white-space: nowrap;
+
+            .g-form-item-label {
+                display: inline-block;
+                width: inherit;
+            }
+
+            .g-form-item-children {
+                width: auto;
+                max-width: unset;
+
+                .ant-select {
+                    width: 120px;
+                }
+
+                .ant-calendar-picker-input {
+                    width: 100%;
+                }
+
+                .ant-input-group.ant-input-group-compact {
+                    display: inline;
+                }
+            }
+        }
+
+        > button {
+            margin-top: 0;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+    }
+
+    &.g-form-vertical {
+        .g-form-item-label {
+            display: block;
+            text-align: left;
+        }
+    }
+}

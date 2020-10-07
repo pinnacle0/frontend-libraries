@@ -1,0 +1,31 @@
+.g-mutable-table {
+    .operation {
+        vertical-align: middle;
+
+        button {
+            width: 26px;
+            height: 26px;
+            line-height: 24px;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            margin: 0 3px;
+            vertical-align: middle;
+
+            &:hover {
+                background-color: #202c3a;
+                border-color: #202c3a;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            &[disabled] {
+                background: #eee;
+                border-color: #eee;
+                color: #ccc;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

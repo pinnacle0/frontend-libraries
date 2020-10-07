@@ -1,0 +1,91 @@
+@import "../../css/variable";
+
+.g-paged-list {
+    display: flex;
+    color: white;
+    background-image: linear-gradient(to bottom, #2c2b30, #2c2b30), linear-gradient(to bottom, #d2ccc9, #fffaf5 20%, #fbfaf8 59%, #636363);
+
+    > .list-wrap {
+        overflow: hidden;
+        position: relative;
+
+        > .list {
+            display: flex;
+            flex-direction: row-reverse;
+            transition: transform 0.8s;
+            height: 100%;
+            align-items: center;
+        }
+
+        > .no-data {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    > .navigation {
+        padding: 12px 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .next-button {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 8px solid white;
+            margin-right: 6px;
+        }
+
+        .previous-button {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 8px solid white;
+            margin-right: 6px;
+        }
+
+        .current-button {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: white;
+            margin-right: 6px;
+        }
+
+        > * {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            &:first-child {
+                margin-bottom: 10px;
+            }
+
+            &:last-child {
+                margin-top: 10px;
+            }
+
+            &.disabled {
+                cursor: not-allowed;
+                color: @lib-border-gray;
+
+                .next-button {
+                    border-left: 8px solid @lib-border-gray;
+                }
+
+                .previous-button {
+                    border-right: 8px solid @lib-border-gray;
+                }
+
+                .current-button {
+                    background: @lib-border-gray;
+                }
+            }
+        }
+    }
+}

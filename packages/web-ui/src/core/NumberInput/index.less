@@ -1,0 +1,104 @@
+.g-number-input {
+    text-align: center;
+    user-select: none;
+    display: inline-block;
+
+    .ant-input-group-wrapper {
+        width: initial;
+        vertical-align: middle;
+    }
+
+    input {
+        vertical-align: middle;
+        display: inline-block;
+        height: 32px;
+        border-radius: 0;
+        background-color: transparent;
+        outline: none;
+        text-align: center;
+        font-size: 14px;
+        width: 90px;
+        border: 1px solid #ccc;
+        padding: 4px 11px;
+
+        &[disabled] {
+            cursor: not-allowed;
+            color: #b6bad1;
+            background-color: #ecedf3;
+        }
+    }
+
+    button {
+        vertical-align: middle;
+        display: inline-block;
+        width: 30px;
+        height: 32px;
+        line-height: 30px;
+        font-size: 20px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 0;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #202c3a;
+            border-color: #202c3a;
+            color: #fff;
+        }
+
+        &[disabled] {
+            background: #eee;
+            border-color: #eee;
+            color: #ccc;
+
+            &:hover {
+                background: #eee;
+                cursor: not-allowed;
+            }
+        }
+
+        &.minus {
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        &.add {
+            border-left: none;
+            border-radius: 0 5px 5px 0;
+        }
+    }
+
+    &.stepper-none {
+        input {
+            border-radius: 2px;
+            text-align: left;
+        }
+
+        button {
+            display: none;
+        }
+    }
+
+    &.stepper-hover.disabled {
+        // In hover mode, disabled means no stepper
+        button {
+            display: none;
+        }
+    }
+
+    &.stepper-hover {
+        button {
+            opacity: 0;
+        }
+
+        &:hover {
+            button {
+                opacity: 1;
+            }
+        }
+    }
+
+    &.money input {
+        width: 130px;
+    }
+}

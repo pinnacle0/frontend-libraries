@@ -1,0 +1,78 @@
+@import "../../css/variable.less";
+
+.g-button {
+    border-radius: 2px;
+    padding: 0;
+
+    &:not(:disabled) {
+        &:hover {
+            cursor: pointer;
+            opacity: 0.82;
+        }
+    }
+
+    &:focus,
+    &:active {
+        outline: none;
+    }
+
+    &.small {
+        font-size: 12px;
+        line-height: 24px;
+        height: 26px;
+        min-width: 80px;
+    }
+
+    &.medium {
+        font-size: 14px;
+        line-height: 30px;
+        height: 32px;
+        min-width: 120px;
+    }
+
+    &.large {
+        font-size: 16px;
+        line-height: 38px;
+        height: 40px;
+        min-width: 120px;
+    }
+
+    &.x-large {
+        font-size: 18px;
+        line-height: 38px;
+        height: 40px;
+        min-width: 150px;
+    }
+
+    &.primary {
+        background-color: @lib-main-blue;
+        border: 1px solid @lib-main-blue;
+        color: #fff;
+    }
+
+    &.wire-frame {
+        background-color: transparent;
+        border: 1px solid @lib-main-blue;
+        color: @lib-main-blue;
+    }
+
+    &.green {
+        background: @lib-main-green;
+        border: 1px solid @lib-main-green;
+        color: #fff;
+    }
+
+    &.red {
+        background: @lib-main-red;
+        border: 1px solid @lib-main-red;
+        color: #fff;
+    }
+
+    &[disabled] {
+        box-shadow: none;
+        cursor: not-allowed;
+        border: 1px solid @lib-border-gray;
+        color: #ccc;
+        background-color: #eee;
+    }
+}

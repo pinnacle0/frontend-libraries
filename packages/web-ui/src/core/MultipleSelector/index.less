@@ -1,0 +1,43 @@
+.g-multiple-selector-table {
+    .ant-table-wrapper {
+        td,
+        th {
+            &:first-child {
+                padding-left: 38px !important;
+                position: relative;
+            }
+        }
+
+        tr {
+            cursor: pointer;
+
+            &.selected {
+                background: #eee;
+
+                &:hover {
+                    opacity: 0.9;
+
+                    td {
+                        background: none;
+                    }
+                }
+
+                td {
+                    &:first-child::before {
+                        content: "✓";
+                        position: absolute;
+                        color: forestgreen;
+                        left: 8px;
+                        top: 10px;
+                    }
+                }
+            }
+        }
+
+        &.disabled {
+            tr {
+                cursor: no-drop;
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+import AntSteps, {StepsProps} from "antd/lib/steps";
+import React from "react";
+import "antd/lib/steps/style";
+
+export interface Props extends StepsProps {}
+
+export class Steps extends React.PureComponent<Props> {
+    static displayName = "Steps";
+
+    static Step = AntSteps.Step;
+
+    render() {
+        return <AntSteps {...this.props} />;
+    }
+}

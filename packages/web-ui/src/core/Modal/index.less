@@ -1,0 +1,21 @@
+.ant-modal {
+    .ant-modal-body {
+        padding: 0;
+
+        > .ant-spin-nested-loading {
+            > .ant-spin-container {
+                padding: 24px;
+            }
+        }
+    }
+
+    &.ant-modal-no-padding {
+        .ant-modal-body {
+            > .ant-spin-nested-loading {
+                > .ant-spin-container {
+                    padding: 0;
+                }
+            }
+        }
+    }
+}

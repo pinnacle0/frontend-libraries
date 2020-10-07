@@ -1,0 +1,70 @@
+.g-admin-page {
+    margin: 15px;
+    padding: 18px;
+    background: #fff;
+
+    .g-admin-page-filter {
+        margin-bottom: 8px;
+
+        > .reminder {
+            font-size: 18px;
+            margin-right: 4px;
+            margin-left: -6px;
+        }
+
+        > button {
+            margin-right: 5px;
+        }
+
+        > .expand-button {
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 4px;
+            vertical-align: middle;
+
+            &:hover {
+                color: #1890ff;
+            }
+
+            > .anticon {
+                margin-right: 4px;
+            }
+        }
+
+        > .more-filter-area {
+            max-height: 0;
+            overflow: hidden;
+            transition: all ease 300ms;
+
+            &.expanded {
+                border-top: 1px solid #ddd;
+                margin-top: 8px;
+                max-height: 1000px;
+                padding-top: 10px;
+            }
+
+            .g-form-item {
+                display: block;
+                line-height: 38px;
+
+                .g-form-item-label {
+                    width: 100px;
+                    text-align: left;
+                }
+
+                input,
+                .ant-select {
+                    width: 300px;
+                }
+            }
+        }
+    }
+
+    .g-admin-page-summary {
+        background-color: #e6f7ff;
+        border: 1px solid #91d5ff;
+        font-size: 14px;
+        margin-bottom: 10px;
+        padding: 4px 12px;
+    }
+}

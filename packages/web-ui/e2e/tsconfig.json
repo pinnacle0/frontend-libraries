@@ -1,0 +1,8 @@
+{
+    "include": ["."],
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": false,
+        "esModuleInterop": false,
+        "types": ["node", "testcafe"]
+    }
+}

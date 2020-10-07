@@ -1,0 +1,18 @@
+export default {
+    homePageTitle: "管理平台首页",
+    homePageSubtitle: "请在左侧菜单选择一项打开",
+    welcome: "欢迎登录{1}",
+    logout: "登出账户",
+    search: "查询",
+    reset: "重置",
+    save: "保存修改",
+    expand: "收起",
+    collapse: "展开",
+    goHome: "返回首页",
+    notificationSound: "新通知声音",
+    notFound: "您访问的页面不存在",
+    featurePermission: "功能权限",
+    fieldPermission: "数据权限",
+    extraPermission: "其他权限",
+    language: "语言",
+};

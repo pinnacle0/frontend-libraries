@@ -1,0 +1,12 @@
+{
+    "extends": "../config/tsconfig.web.json",
+    "include": ["../src", ".", "../config/package-types.d.ts"],
+    "compilerOptions": {
+        "target": "ES2018",
+        "baseUrl": ".",
+        "paths": {
+            "@pinnacle0/web-ui/*": ["../src/*"],
+            "test/*": ["./*"]
+        }
+    }
+}

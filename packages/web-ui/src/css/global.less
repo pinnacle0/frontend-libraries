@@ -1,0 +1,80 @@
+@import "~antd/lib/style/index.less";
+
+* {
+    font-family: Microsoft YaHei, Yahei, "Helvetica Neue", Helvetica, Arial, Segoe UI, Roboto, Hiragino Sans GB, sans-serif;
+}
+
+a {
+    // Remove antd pre-set color & animation
+    transition: none;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        color: inherit;
+    }
+
+    &:active,
+    &:link,
+    &:visited {
+        text-decoration: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    color: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+em {
+    color: #1e90ff;
+    font-style: normal;
+}
+
+pre {
+    margin: 0;
+
+    em {
+        margin: 0 2px;
+    }
+}
+
+del,
+del * {
+    // Without *, tags inside <del> is not deleted (e.g: <del>100.<small>1234</small></del>)
+    text-decoration: line-through;
+
+    &::before,
+    &::after {
+        content: "\00a0"; /* Make line-through looks longer */
+    }
+}
+
+button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &:not(:disabled) {
+        &:hover {
+            cursor: pointer;
+            opacity: 0.82;
+        }
+    }
+}
+
+::placeholder {
+    color: #ccc;
+}
