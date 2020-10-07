@@ -1,5 +1,7 @@
 // @ts-check
 
+const path = require("path");
+
 /** @type {import("@jest/types/build/Config").InitialOptionsWithRootDir} */
 const config = {
     // An array of file extensions your modules use
@@ -14,7 +16,7 @@ const config = {
     // A set of global variables that need to be available in all test environments
     globals: {
         "ts-jest": {
-            tsConfig: "./config/tsconfig.json",
+            tsConfig: path.join(__dirname, "./tsconfig.json"),
         },
     },
 
@@ -24,7 +26,7 @@ const config = {
     },
 
     // The root directory that Jest should scan for tests and modules within
-    rootDir: "..",
+    rootDir: path.join(__dirname, ".."),
 
     // A list of paths to directories that Jest should use to search for files in
     roots: ["<rootDir>/test"],

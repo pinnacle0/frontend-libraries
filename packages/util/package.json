@@ -8,11 +8,14 @@
     "module": "./esm/index.js",
     "scripts": {
         "build": "node script/build.js",
-        "test": "jest --config config/jest.config.js --coverage",
-        "format": "prettier --write --config ../../prettier.config.js --ignore-path ../../.prettierignore \"{src,test,config,script}/**/*.{js,ts,tsx,json}\"",
-        "lint": "eslint --ext .js,.jsx,.ts,.tsx --config ../../.eslintrc.js --ignore-path ../../.eslintignore ."
+        "test": "node script/test.js",
+        "format": "node script/format.js",
+        "lint": "node script/lint.js"
     },
     "dependencies": {},
     "peerDependencies": {},
-    "devDependencies": {}
+    "devDependencies": {
+        "@types/react": "16.9.49",
+        "react": "16.13.1"
+    }
 }
