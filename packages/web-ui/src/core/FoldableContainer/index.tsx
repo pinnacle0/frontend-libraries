@@ -34,7 +34,7 @@ export class FoldableContainer extends React.PureComponent<Props, State> {
         const t = i18n();
         return (
             <div className={`g-foldable-container ${className || ""}`} style={style}>
-                <div className="header">
+                <div className={`header ${folded ? "folded" : ""}`}>
                     {title}
                     <div className="right">
                         <div className="custom">{titleRight}</div>
