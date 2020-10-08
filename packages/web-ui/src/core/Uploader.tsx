@@ -100,6 +100,7 @@ export class Uploader extends React.PureComponent<Props, State> {
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
                 beforeUpload={this.beforeUpload}
+                // TODO: or hardcode application/json?
                 headers={headers}
             >
                 <Spin spinning={this.state.uploading} size="small">
