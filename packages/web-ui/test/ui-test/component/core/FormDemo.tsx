@@ -4,6 +4,7 @@ import {Form} from "@pinnacle0/web-ui/core/Form";
 import {Input, Props as InputProps} from "@pinnacle0/web-ui/core/Input";
 import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
 import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 
 const UncontrolledInput = (props: Omit<InputProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
@@ -27,6 +28,9 @@ const groups: DemoHelperGroupConfig[] = [
                 <Form.Item label="Password">
                     <PasswordInput />
                 </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
+                </Form.Item>
             </Form>,
         ],
     },
@@ -41,6 +45,9 @@ const groups: DemoHelperGroupConfig[] = [
                 <Form.Item label="Password">
                     <PasswordInput />
                 </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
+                </Form.Item>
             </Form>,
         ],
     },
@@ -54,6 +61,9 @@ const groups: DemoHelperGroupConfig[] = [
                 </Form.Item>
                 <Form.Item label="Password">
                     <PasswordInput />
+                </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
                 </Form.Item>
             </Form>,
         ],

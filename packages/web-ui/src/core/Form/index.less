@@ -10,19 +10,6 @@
         vertical-align: top;
         display: flex;
 
-        &.g-form-submit-form-item {
-            .g-form-item-children {
-                button {
-                    margin: 0 5px;
-                }
-
-                button:only-child {
-                    width: 100%;
-                    margin: 0;
-                }
-            }
-        }
-
         .g-form-item-label {
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -164,9 +151,13 @@
     }
 
     &.g-form-vertical {
-        .g-form-item-label {
-            display: block;
-            text-align: left;
+        .g-form-item {
+            flex-direction: column;
+
+            .g-form-item-label {
+                display: block;
+                text-align: left;
+            }
         }
     }
 }
