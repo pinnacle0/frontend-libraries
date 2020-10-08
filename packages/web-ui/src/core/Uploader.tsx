@@ -1,7 +1,7 @@
 import React, {CSSProperties} from "react";
 import {SafeReactChildren} from "../internal/type";
 import AntUpload, {RcFile, UploadChangeParam} from "antd/lib/upload";
-import {UploadFile} from "antd/lib/upload/interface";
+import {HttpRequestHeader, UploadFile} from "antd/lib/upload/interface";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
 
@@ -14,6 +14,7 @@ export interface Props {
      */
     accept: string;
     name?: string;
+    headers?: HttpRequestHeader;
     uploadURL?: string;
     beforeUpload?: (file: File) => void;
     onUpload?: (result: "success" | "failure", loggableInfo: {[key: string]: string}, duration: number, apiResponse: any, file: UploadFile) => void;
@@ -85,7 +86,7 @@ export class Uploader extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {children, accept, className, style, uploadURL, name, disabled} = this.props;
+        const {children, accept, className, style, uploadURL, name, disabled, headers} = this.props;
         return (
             <AntUpload.Dragger
                 name={name}
@@ -99,6 +100,7 @@ export class Uploader extends React.PureComponent<Props, State> {
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
                 beforeUpload={this.beforeUpload}
+                headers={headers}
             >
                 <Spin spinning={this.state.uploading} size="small">
                     {children}
