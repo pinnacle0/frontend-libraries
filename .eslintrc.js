@@ -1,8 +1,6 @@
-/* eslint-env node */
-
 // @ts-check
 
-/** @type {import("./packages/config-files/types").ESLintConfig} */
+/** @type {import("eslint").Linter.Config} */
 const config = {
     extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
     plugins: ["react-hooks"],
