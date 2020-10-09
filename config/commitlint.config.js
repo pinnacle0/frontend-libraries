@@ -1,12 +1,40 @@
 // @ts-check
 
+/**
+ * @typedef {{
+ *     extends?: string[];
+ *     formatter?: string;
+ *     rules?: Record<string, any>;
+ *     parserPreset?:
+ *         | string
+ *         | {
+ *             name?: string;
+ *             path?: string;
+ *             parserOpts: {
+ *                 commentChar?: string;
+ *                 headerCorrespondence?: string[];
+ *                 headerPattern?: RegExp;
+ *                 issuePrefixes?: string[];
+ *                 mergeCorrespondence?: string[];
+ *                 mergePattern?: RegExp;
+ *                 noteKeywords?: string[];
+ *                 revertCorrespondence?: string[];
+ *                 revertPattern?: RegExp;
+ *             };
+ *         };
+ *     ignores?: ((commit: string) => boolean)[];
+ *     defaultIgnores?: boolean;
+ *     plugins?: any[];
+ * }} CommitlintConfig
+ */
+
 const RuleSeverity = {
     Disabled: 0,
     Warning: 1,
     Error: 2,
 };
 
-/** @type {import("../packages/config-files/types").CommitlintConfig} */
+/** @type {CommitlintConfig} */
 const config = {
     extends: ["@commitlint/config-conventional"],
     parserPreset: {
