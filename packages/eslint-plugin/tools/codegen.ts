@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
-import {paths} from "./paths";
+import {pathMap} from "../config/path-map";
 import {createPrint, kebabToCamelCase} from "./util";
 
-const {srcDirectory, toolsDirectory} = paths;
+const {srcDirectory, toolsDirectory} = pathMap;
 const print = createPrint("codegen");
 
 export default function codegen() {

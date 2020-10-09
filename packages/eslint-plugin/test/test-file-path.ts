@@ -1,7 +1,7 @@
 import * as path from "path";
-import {paths} from "../tools/paths";
+import {pathMap} from "../config/path-map";
 
-const {testDirectory} = paths;
+const {testDirectory} = pathMap;
 
 export function testFilePath(relativePath: string): string {
     return path.join(testDirectory, "files", relativePath);

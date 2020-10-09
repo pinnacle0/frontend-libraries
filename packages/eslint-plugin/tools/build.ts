@@ -1,13 +1,13 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import yargs from "yargs";
+import {pathMap} from "../config/path-map";
 import checkFormat from "./check-format";
 import lint from "./lint";
-import {paths} from "./paths";
 import {runCommand} from "./run-command";
 import {createPrint} from "./util";
 
-const {projectDirectory, distDirectory} = paths;
+const {projectDirectory, distDirectory} = pathMap;
 
 const print = createPrint("build.ts");
 
@@ -20,7 +20,7 @@ export default function build() {
         lint();
         runCommand(
             String.raw`yarn run jest \
-            --config ${path.join(paths.configDirectory, "jest.config.js")} \
+            --config ${path.join(pathMap.configDirectory, "jest.config.js")} \
             --runInBand`
         );
     }

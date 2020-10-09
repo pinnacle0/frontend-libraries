@@ -1,10 +1,10 @@
 import * as childProcess from "child_process";
-import {paths} from "./paths";
+import {pathMap} from "../config/path-map";
 
 export function runCommand(command: string) {
     return childProcess.execSync(command, {
         stdio: "inherit",
         encoding: "utf8",
-        cwd: paths.workspaceRootDirectory,
+        cwd: pathMap.workspaceRootDirectory,
     });
 }

@@ -1,8 +1,8 @@
 import * as path from "path";
-import {paths} from "./paths";
+import {pathMap} from "../config/path-map";
 import {runCommand} from "./run-command";
 
-const {workspaceRootDirectory, configDirectory, srcDirectory, testDirectory, toolsDirectory} = paths;
+const {workspaceRootDirectory, configDirectory, srcDirectory, testDirectory, toolsDirectory} = pathMap;
 
 export default function format() {
     runCommand(
