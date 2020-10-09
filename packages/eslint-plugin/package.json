@@ -6,7 +6,7 @@
         "ts-node": "TS_NODE_PROJECT=../../tsconfig.json ../../node_modules/.bin/ts-node",
         "build": "yarn ts-node tools/build.ts",
         "export-rules-and-config": "yarn ts-node tools/export-rules-and-config.ts",
-        "format-check-only": "yarn ts-node tools/format-check-only.ts",
+        "check-format": "node tools check-format",
         "format": "node tools format",
         "lint": "node tools lint",
         "rule": "yarn ts-node tools/rule.ts",
