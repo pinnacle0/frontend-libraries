@@ -17,7 +17,6 @@ export interface Props {
 export class TextWithTooltipList extends React.PureComponent<Props> {
     static displayName = "TextWithTooltipList";
 
-    private readonly dummyClick = () => {};
     private readonly labelStyle: React.CSSProperties = {display: "inline-block", width: 90};
 
     renderTooltip = () => {
@@ -61,4 +60,6 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
             </Tooltip>
         );
     }
+
+    private readonly dummyClick = () => {};
 }
