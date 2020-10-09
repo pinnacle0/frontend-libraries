@@ -8,7 +8,7 @@
         "export-rules-and-config": "yarn ts-node tools/export-rules-and-config.ts",
         "format-check-only": "yarn ts-node tools/format-check-only.ts",
         "format": "yarn ts-node tools/format.ts",
-        "lint": "yarn ts-node tools/lint.ts",
+        "lint": "node tools lint",
         "rule": "yarn ts-node tools/rule.ts",
         "test": "jest --config config/jest.config.js"
     },
