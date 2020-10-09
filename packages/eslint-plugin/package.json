@@ -9,7 +9,7 @@
         "check-format": "node tools check-format",
         "format": "node tools format",
         "lint": "node tools lint",
-        "rule": "yarn ts-node tools/rule.ts",
+        "new-rule": "node tools new-rule",
         "test": "jest --config config/jest.config.js"
     },
     "dependencies": {

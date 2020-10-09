@@ -7,11 +7,6 @@ require("ts-node").register({
 
 const path = require("path");
 
-if (process.argv.length !== 3) {
-    console.error(`[tools] invalid usage: number of args must be 3, received ${process.argv.length}\n`);
-    process.exit(1);
-}
-
 const fileArg = path.basename(process.argv[2]);
 
 if (fileArg !== process.argv[2] || fileArg.includes(path.sep)) {

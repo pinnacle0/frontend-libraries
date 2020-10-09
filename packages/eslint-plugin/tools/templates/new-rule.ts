@@ -1,8 +1,8 @@
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
 
-export type MessageIds = "{1}";
+export type MessageIds = "// {{KEBAB_CASE_RULE_NAME}}";
 
-export const name = "{2}";
+export const name = "// {{CAMEL_CASE_RULE_NAME}}";
 
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
@@ -15,7 +15,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         },
         fixable: "code",
         messages: {
-            {1}: "",
+            // {{KEBAB_CASE_RULE_NAME}}: "",
         },
         schema: [],
     },
