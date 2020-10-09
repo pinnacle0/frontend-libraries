@@ -2,9 +2,9 @@
     "name": "@pinnacle0/eslint-plugin",
     "version": "0.0.6",
     "license": "MIT",
+    "main": "dist/index.js",
     "scripts": {
-        "ts-node": "TS_NODE_PROJECT=../../tsconfig.json ../../node_modules/.bin/ts-node",
-        "build": "yarn ts-node tools/build.ts",
+        "build": "node tools build",
         "codegen": "node tools codegen",
         "check-format": "node tools check-format",
         "format": "node tools format",

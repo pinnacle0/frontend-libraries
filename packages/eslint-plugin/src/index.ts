@@ -2,10 +2,9 @@ import {configBaseline} from "./config/baseline";
 import {configJest} from "./config/jest";
 import {allRules} from "./rules";
 
-export = {
-    rules: allRules,
-    configs: {
-        baseline: configBaseline,
-        jest: configJest,
-    },
+export const rules = allRules;
+
+export const configs = {
+    baseline: configBaseline,
+    jest: configJest,
 };
