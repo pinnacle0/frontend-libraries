@@ -5,12 +5,16 @@
 # Artifacts
 **/build/**
 **/dist/**
+!/packages/eslint-plugin/dist/**
 
 # Dependencies
 **/node_modules/**
 
 # Coverage Reports
 **/coverage/**
+
+# Cache
+.parcel-cache/**
 
 # Temp
 /tmp/**

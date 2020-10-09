@@ -3,6 +3,13 @@
     "version": "0.0.6",
     "license": "MIT",
     "main": "dist/index.js",
+    "targets": {
+        "main": {
+            "engines": {
+                "node": ">=12"
+            }
+        }
+    },
     "scripts": {
         "build": "node tools build",
         "codegen": "node tools codegen",
@@ -25,7 +32,9 @@
         "eslint-plugin-react": "^7.20.6",
         "eslint-plugin-react-hooks": "^4.1.2"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "parcel": "2.0.0-beta.1"
+    },
     "optionalDependencies": {
         "eslint-plugin-jest": "^24.0.1",
         "eslint-plugin-jest-dom": "^3.2.3",

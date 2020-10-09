@@ -4,8 +4,7 @@ import yargs from "yargs";
 import {pathMap} from "../config/path-map";
 import checkFormat from "./check-format";
 import lint from "./lint";
-import {runCommand} from "./run-command";
-import {createPrint} from "./util";
+import {createPrint, runCommand} from "./util";
 
 const {projectDirectory, distDirectory} = pathMap;
 
@@ -19,7 +18,9 @@ export default function build() {
         checkFormat();
         lint();
         runCommand(
-            String.raw`yarn run jest \
+            String.raw`yarn run \
+            --cwd="${projectDirectory}" \
+            jest \
             --config ${path.join(pathMap.configDirectory, "jest.config.js")} \
             --runInBand`
         );
@@ -33,8 +34,14 @@ export default function build() {
     {
         print.task("Compiling...");
         runCommand(
-            String.raw`yarn run tsc \
-            --project ${path.join(projectDirectory, "tsconfig.json")}`
+            String.raw`yarn run \
+            --cwd="${projectDirectory}" \
+            parcel \
+            build \
+            --no-minify \
+            --no-source-maps \
+            --no-autoinstall \
+            src/index.ts`
         );
     }
     print.info("Finishing...");
