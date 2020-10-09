@@ -11,8 +11,5 @@
         "@types/stylelint": "^9.10.1"
     },
     "peerDependencies": {},
-    "devDependencies": {},
-    "optionalDependencies": {
-        "husky": ">=3.1.0 <4.0.0"
-    }
+    "devDependencies": {}
 }
