@@ -2,45 +2,13 @@
 
 /** @type {import("eslint").Linter.Config} */
 const config = {
-    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
-    plugins: ["react-hooks"],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: "module",
-    },
-    rules: {
-        "@typescript-eslint/ban-types": "off",
-        "@typescript-eslint/ban-ts-comment": "off",
-        "@typescript-eslint/explicit-member-accessibility": ["error", {accessibility: "no-public"}],
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-inferrable-types": "off",
-        "no-duplicate-imports": ["error"],
-        "no-useless-computed-key": ["error"],
-        "no-useless-rename": ["error"],
-        "no-var": ["error"],
-        "object-shorthand": "error",
-        "prefer-const": ["error"],
-        "react-hooks/exhaustive-deps": ["error"],
-        "react-hooks/rules-of-hooks": ["error"],
-    },
+    extends: ["plugin:@pinnacle0/baseline"],
     overrides: [
         {
-            files: ["**/.*rc.js", "**/*.config.js", "./packages/config-files/**/*.js"],
-            env: {
-                commonjs: true,
-                node: true,
-            },
-        },
-        {
-            files: ["./packages/eslint-plugin/**/*.ts"],
+            files: ["**/.*rc.js", "**/*.config.js", "**/script/*.js"], // TODO/Lok: Use ts to write scripts
+            env: {commonjs: true, node: true},
             rules: {
-                "@typescript-eslint/no-non-null-assertion": "off",
-                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/no-var-requires": "off",
             },
         },
         {
@@ -52,13 +20,12 @@ const config = {
         },
         {
             files: ["./packages/util/src/browser/**/*.ts"],
-            env: {
-                browser: true,
-            },
+            env: {browser: true},
         },
         {
             files: ["./packages/web-ui/**/*.ts", "./packages/web-ui/**/*.tsx"],
             rules: {
+                "@pinnacle0/deep-nested-relative-imports": "off",
                 "@typescript-eslint/no-non-null-assertion": "off",
                 "@typescript-eslint/no-unused-vars": "off",
             },
