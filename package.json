@@ -16,6 +16,7 @@
     },
     "dependencies": {},
     "devDependencies": {
+        "@commitlint/config-conventional": "11.0.0",
         "@types/chalk": "2.2.0",
         "@types/fs-extra": "9.0.1",
         "@types/jest": "26.0.14",
@@ -40,7 +41,7 @@
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+            "commit-msg": "commitlint --env HUSKY_GIT_PARAMS --config config/commitlint.config.js"
         }
     },
     "lint-staged": {

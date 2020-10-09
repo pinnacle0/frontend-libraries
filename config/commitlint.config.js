@@ -6,7 +6,7 @@ const RuleSeverity = {
     Error: 2,
 };
 
-/** @type {import("./types").CommitlintConfig} */
+/** @type {import("../packages/config-files/types").CommitlintConfig} */
 const config = {
     extends: ["@commitlint/config-conventional"],
     parserPreset: {
