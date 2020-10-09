@@ -27,6 +27,7 @@ if (fileArg === "index") {
 const scriptFile = path.join(__dirname, fileArg);
 
 async function run() {
+    //    // eslint-disable-next-line import/no-dynamic-require -- dynamic require tools script
     const script = require(scriptFile);
     if (typeof script === "function") {
         await script();
