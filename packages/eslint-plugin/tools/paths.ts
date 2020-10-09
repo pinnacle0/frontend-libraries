@@ -5,7 +5,7 @@ export const paths = {
     projectDirectory: path.join(__dirname, ".."),
     srcDirectory: path.join(__dirname, "../src"),
     distDirectory: path.join(__dirname, "../dist"),
-    testDirectory: path.join(__dirname, "../tests"), // TODO/Lok: Rename folder
+    testDirectory: path.join(__dirname, "../test"),
     toolsDirectory: path.join(__dirname, "."),
     configDirectory: path.join(__dirname, "../config"),
 };

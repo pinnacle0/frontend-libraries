@@ -9,8 +9,16 @@ const ruleTester = new TSESLint.RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [
-        {code: `import React from "react";`, options: [{packages: ["antd", "moment"], path: "shared"}], filename: testFilePath("./shared/test.ts")},
-        {code: `import Input from "antd";`, options: [{packages: ["antd"], path: "shared"}], filename: testFilePath("./shared/test.ts")},
+        {
+            code: `import React from "react";`,
+            options: [{packages: ["antd", "moment"], path: "shared"}],
+            filename: testFilePath("./shared/test.ts"),
+        },
+        {
+            code: `import Input from "antd";`,
+            options: [{packages: ["antd"], path: "shared"}],
+            filename: testFilePath("./shared/test.ts"),
+        },
         // prettier-format-preserve
     ],
     invalid: [

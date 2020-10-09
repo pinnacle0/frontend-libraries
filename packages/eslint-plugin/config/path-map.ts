@@ -26,8 +26,8 @@ export const pathMap = {
     srcUtilDirectory: path.join(projectDirectory, "src", "util"),
 
     // Test directories
-    testDirectory: path.join(projectDirectory, "tests"),
-    testRuleDirectory: path.join(projectDirectory, "tests", "rules"),
+    testDirectory: path.join(projectDirectory, "test"),
+    testRuleDirectory: path.join(projectDirectory, "test", "rules"),
 
     // Tool directories
     toolDirectory: path.join(projectDirectory, "tools"),
