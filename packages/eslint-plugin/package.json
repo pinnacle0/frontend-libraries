@@ -7,7 +7,7 @@
         "build": "yarn ts-node tools/build.ts",
         "export-rules-and-config": "yarn ts-node tools/export-rules-and-config.ts",
         "format-check-only": "yarn ts-node tools/format-check-only.ts",
-        "format": "yarn ts-node tools/format.ts",
+        "format": "node tools format",
         "lint": "node tools lint",
         "rule": "yarn ts-node tools/rule.ts",
         "test": "jest --config config/jest.config.js"

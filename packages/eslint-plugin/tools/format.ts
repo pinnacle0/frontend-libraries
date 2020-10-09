@@ -1,6 +1,36 @@
-import {pathMap} from "../config/path-map";
-import * as commands from "./commands";
+import * as path from "path";
+import {paths} from "./paths";
+import {runCommand} from "./run-command";
 
-const {configDirectory, srcDirectory, testDirectory, toolDirectory} = pathMap;
+const {workspaceRootDirectory, configDirectory, srcDirectory, testDirectory, toolsDirectory} = paths;
 
-new commands.RunFormatter(configDirectory, srcDirectory, testDirectory, toolDirectory).run();
+export default function format() {
+    runCommand(
+        String.raw`yarn run prettier \
+        --config ${path.join(workspaceRootDirectory, "prettier.config.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".prettierignore")} \
+        --write \
+        "${configDirectory}/**/*.{js,json,jsx,ts,tsx}"`
+    );
+    runCommand(
+        String.raw`yarn run prettier \
+        --config ${path.join(workspaceRootDirectory, "prettier.config.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".prettierignore")} \
+        --write \
+        "${srcDirectory}/**/*.{js,json,jsx,ts,tsx}"`
+    );
+    runCommand(
+        String.raw`yarn run prettier \
+        --config ${path.join(workspaceRootDirectory, "prettier.config.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".prettierignore")} \
+        --write \
+        "${testDirectory}/**/*.{js,json,jsx,ts,tsx}"`
+    );
+    runCommand(
+        String.raw`yarn run prettier \
+        --config ${path.join(workspaceRootDirectory, "prettier.config.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".prettierignore")} \
+        --write \
+        "${toolsDirectory}/**/*.{js,json,jsx,ts,tsx}"`
+    );
+}
