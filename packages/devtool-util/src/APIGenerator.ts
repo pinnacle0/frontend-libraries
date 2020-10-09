@@ -42,6 +42,8 @@ export interface APIGeneratorOptions {
     platformConfig: PlatformConfig;
 }
 
+type PlatformSpecificAPIGeneratorOptions = Omit<APIGeneratorOptions, "platformConfig">;
+
 /**
  * APIGenerator is to generate API sources according to backend definition (_sys/api).
  *
@@ -55,6 +57,23 @@ export class APIGenerator {
     private readonly typeFilePath: string;
     private readonly serviceFolderPath: string;
     private readonly platformConfig: PlatformConfig;
+
+    /**
+     * Do not add static APIGenerator.App.
+     * Because app networking usage can vary from project to project.
+     */
+    static Web = class extends APIGenerator {
+        constructor(options: PlatformSpecificAPIGeneratorOptions) {
+            super({
+                ...options,
+                platformConfig: {
+                    ajaxFunction: "ajax",
+                    ajaxFunctionImportStatement: 'import {ajax} from "core-fe";',
+                    typeFileImportPath: "type/api",
+                },
+            });
+        }
+    };
 
     constructor({apiURL, typeFilePath, serviceFolderPath, platformConfig}: APIGeneratorOptions) {
         this.apiURL = apiURL;
