@@ -53,11 +53,6 @@ type PlatformSpecificAPIGeneratorOptions = Omit<APIGeneratorOptions, "platformCo
  *
  */
 export class APIGenerator {
-    private readonly apiURL: string;
-    private readonly typeFilePath: string;
-    private readonly serviceFolderPath: string;
-    private readonly platformConfig: PlatformConfig;
-
     /**
      * Do not add static APIGenerator.App.
      * Because app networking usage can vary from project to project.
@@ -74,6 +69,11 @@ export class APIGenerator {
             });
         }
     };
+
+    private readonly apiURL: string;
+    private readonly typeFilePath: string;
+    private readonly serviceFolderPath: string;
+    private readonly platformConfig: PlatformConfig;
 
     constructor({apiURL, typeFilePath, serviceFolderPath, platformConfig}: APIGeneratorOptions) {
         this.apiURL = apiURL;
