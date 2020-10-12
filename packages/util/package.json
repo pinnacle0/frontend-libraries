@@ -3,13 +3,13 @@
     "version": "2.0.15",
     "license": "MIT",
     "sideEffects": false,
-    "main": "./cjs/index.js",
-    "module": "./esm/index.js",
+    "main": "cjs/index.js",
+    "module": "esm/index.js",
     "scripts": {
-        "build": "node script/build.js",
-        "format": "node script/format.js",
-        "lint": "node script/lint.js",
-        "test": "node script/jest.js"
+        "build": "node tools build",
+        "format": "node tools format",
+        "lint": "node tools lint",
+        "test": "jest --config config/jest.config.js --coverage --runInBand"
     },
     "dependencies": {},
     "peerDependencies": {},
