@@ -12,8 +12,8 @@
     },
     "scripts": {
         "build": "node tools build",
-        "codegen": "node tools codegen",
         "check-format": "node tools check-format",
+        "codegen": "node tools codegen",
         "format": "node tools format",
         "lint": "node tools lint",
         "new-rule": "node tools new-rule",

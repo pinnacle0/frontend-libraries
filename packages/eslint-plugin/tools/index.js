@@ -5,29 +5,26 @@ require("ts-node").register({
     compilerOptions: require("../../../tsconfig.json").compilerOptions,
 });
 
+const fs = require("fs");
 const path = require("path");
 
 const fileArg = path.basename(process.argv[2]);
 
-if (fileArg !== process.argv[2] || fileArg.includes(path.sep)) {
-    console.error(`[tools] invalid usage: script arg should not reference any directory or contain path seperator: "${process.argv[2]}"\n`);
-    process.exit(1);
-}
+const scriptNames = fs
+    .readdirSync(__dirname, {encoding: "utf8"})
+    .map(directoryEntry => path.join(__dirname, directoryEntry))
+    .filter(filepath => fs.statSync(filepath).isFile())
+    .filter(filepath => path.extname(filepath).toLowerCase() === ".ts")
+    .map(filepath => path.basename(filepath, ".ts"));
 
-if (path.extname(fileArg) !== "") {
-    console.error(`[tools] invalid usage: script arg should not contain file extension: "${path.extname(fileArg)}"\n`);
-    process.exit(1);
-}
-
-if (fileArg === "index") {
-    console.error(`[tools] invalid usage: script arg cannot be "index"\n`);
+if (!scriptNames.includes(fileArg)) {
+    console.error(`[tools] invalid script arg "${fileArg}": should be one of ${scriptNames.map(_ => `"${_}"`).join(", ")}\n`);
     process.exit(1);
 }
 
 const scriptFile = path.join(__dirname, fileArg);
 
 async function run() {
-    //    // eslint-disable-next-line import/no-dynamic-require -- dynamic require tools script
     const script = require(scriptFile);
     if (typeof script === "function") {
         await script();

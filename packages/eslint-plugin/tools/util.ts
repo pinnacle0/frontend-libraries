@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import * as childProcess from "child_process";
 
 const curriedPrint = (emoji: string) => (color: typeof chalk["Color"]) => {
     return (descriptiveTitle: string) => (text: string | Error | Array<string | Error>) => {
@@ -13,3 +14,18 @@ export const createPrint = (descriptiveTitle: string) => ({
     task: curriedPrint("🛠")("greenBright")(descriptiveTitle),
     error: curriedPrint("❌")("redBright")(descriptiveTitle),
 });
+
+export function runCommand(command: string) {
+    return childProcess.execSync(command, {
+        stdio: "inherit",
+        encoding: "utf8",
+    });
+}
+
+export function isKebabCase(string: string) {
+    return /^[a-z-]+$/.test(string);
+}
+
+export function kebabToCamelCase(string: string) {
+    return string.replace(/([-_][a-z])/g, group => group.toUpperCase().replace("-", "").replace("_", ""));
+}
