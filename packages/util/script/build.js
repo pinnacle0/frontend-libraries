@@ -22,79 +22,57 @@ function spawn(command, args, errorMessage) {
 
 function cleanup() {
     console.info(chalk`{green.bold [task]} {white.bold cleanup}`);
-    fs.emptyDirSync("build");
+    fs.emptyDirSync("dist");
 }
 
 function checkCodeStyle() {
     console.info(chalk`{green.bold [task]} {white.bold check code style}`);
     require("./check-format");
-    // return spawn("prettier", ["--config", "../../prettier.config.js", "--list-different", "{src,test}/**/*.{ts,tsx}"], "check code style failed, please format above files");
 }
 
 function test() {
     console.info(chalk`{green.bold [task]} {white.bold test}`);
-    require("./test");
-    // return spawn("jest", ["--config", "config/jest.config.js"], "test failed, please fix");
+    require("./jest");
 }
 
 function lint() {
     console.info(chalk`{green.bold [task]} {white.bold lint}`);
     require("./lint");
-    // return spawn("eslint", ["--config", "../../.eslintrc.js", "{src,test}/**/*.{ts,tsx}"], "lint failed, please fix");
 }
 
 function compile() {
     console.info(chalk`{green.bold [task]} {white.bold compile}`);
-    return spawn("tsc", ["-b", "tsconfig.json"], "compile failed, please fix");
+    spawn("tsc", ["-b", "tsconfig.json"], "compile failed, please fix");
 }
 
-function copyAssets() {
-    const sourceDirectory = path.resolve(__dirname, "../src");
-    const files = fs.readdirSync(sourceDirectory).map(dir => path.join(sourceDirectory, dir));
-    while (files.length > 0) {
-        const filename = files.shift();
-        if (fs.statSync(filename).isDirectory()) {
-            files.push(...fs.readdirSync(filename).map(file => path.join(filename, file)));
-        } else if (/\.tsx?$/.test(filename)) {
-            const regex = /require\((.*)\)/g;
-            const fileContent = fs.readFileSync(filename).toString();
-            let copiedAssetCount = 0;
-            let matchedArray;
-
-            while ((matchedArray = regex.exec(fileContent)) !== null) {
-                copiedAssetCount++;
-                const assetFilePath = path.join(path.dirname(filename), matchedArray[1].replace(/"/g, ""));
-                if (fs.pathExistsSync(assetFilePath)) {
-                    fs.copySync(assetFilePath, assetFilePath.replace(/src/, "build/dist"));
-                } else {
-                    throw new Error(`Failed to copy asset file: ${assetFilePath}`);
-                }
-            }
-
-            if (copiedAssetCount > 0) {
-                console.info(chalk`{green.bold [task]} {white.bold copy asset}: ${path.dirname(filename)}, ${copiedAssetCount} assets copied`);
-            }
-        }
-    }
+function deleteTsBuildInfoFiles() {
+    console.info(chalk`{green.bold [task]} {white.bold delete tsbuildinfo files}`);
+    fs.readdirSync("dist", {encoding: "utf8"})
+        .filter(file => file.toLowerCase().endsWith(".tsbuildinfo"))
+        .map(file => path.join("dist", file))
+        .forEach(file => fs.unlinkSync(file));
 }
 
 function distribute() {
     console.info(chalk`{green.bold [task]} {white.bold distribute}`);
-    fs.mkdirsSync("build/dist");
-    fs.copySync("build/out", "build/dist/", {dereference: true});
-    fs.copySync("package.json", "build/dist/package.json", {dereference: true});
-    fs.copySync("README.md", "build/dist/README.md", {dereference: true});
-    fs.removeSync("build/out");
+    fs.copySync("package.json", "dist/package.json", {dereference: true});
+    fs.copySync("README.md", "dist/README.md", {dereference: true});
+    fs.copySync("LICENSE.md", "dist/LICENSE.md", {dereference: true});
 }
 
 function build() {
-    // TODO: add fast-mode too
+    const yargs = require("yargs");
+    const isFastMode = yargs.argv.mode === "fast";
     cleanup();
-    checkCodeStyle();
-    test();
-    lint();
+    if (isFastMode) {
+        console.info("Fast mode enabled, skipping format checking and testing");
+    } else {
+        checkCodeStyle();
+        test();
+        lint();
+    }
     compile();
-    copyAssets();
+    deleteTsBuildInfoFiles();
     distribute();
 
     console.info(chalk`{yellow.bold Build Successfully}`);

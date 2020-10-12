@@ -9,7 +9,7 @@
         "build": "node script/build.js",
         "format": "node script/format.js",
         "lint": "node script/lint.js",
-        "test": "node script/test.js"
+        "test": "node script/jest.js"
     },
     "dependencies": {},
     "peerDependencies": {},

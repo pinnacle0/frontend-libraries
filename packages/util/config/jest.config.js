@@ -11,7 +11,7 @@ const config = {
     // A set of global variables that need to be available in all test environments
     globals: {
         "ts-jest": {
-            tsConfig: "<rootDir>/tsconfig.json",
+            tsConfig: "<rootDir>/config/tsconfig.test.json",
         },
     },
 
@@ -19,7 +19,7 @@ const config = {
     rootDir: "../",
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    testPathIgnorePatterns: ["/node_modules/", "<rootDir>/cjs/", "<rootDir>/esm/"],
+    testPathIgnorePatterns: ["/node_modules/", "<rootDir>/dist/"],
 
     // A map from regular expressions to paths to transformers
     transform: {
