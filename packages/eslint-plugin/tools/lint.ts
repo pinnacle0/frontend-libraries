@@ -9,8 +9,8 @@ export default function lint() {
         String.raw`yarn run \
         --cwd="${projectDirectory}" \
         eslint \
-        --config ${(path.join(projectDirectory), ".eslintrc.js")} \
-        --ignore-path ${(path.join(workspaceRootDirectory), ".eslintignore")} \
+        --config ${path.join(projectDirectory, ".eslintrc.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".eslintignore")} \
         --ext .js,.jsx,.ts,.tsx \
         "${srcDirectory}"`
     );
@@ -18,8 +18,8 @@ export default function lint() {
         String.raw`yarn run \
         --cwd="${projectDirectory}" \
         eslint \
-        --config ${(path.join(projectDirectory), ".eslintrc.js")} \
-        --ignore-path ${(path.join(workspaceRootDirectory), ".eslintignore")} \
+        --config ${path.join(projectDirectory, ".eslintrc.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".eslintignore")} \
         --ext .js,.jsx,.ts,.tsx \
         "${testDirectory}"`
     );
@@ -27,8 +27,8 @@ export default function lint() {
         String.raw`yarn run \
         --cwd="${projectDirectory}" \
         eslint \
-        --config ${(path.join(projectDirectory), ".eslintrc.js")} \
-        --ignore-path ${(path.join(workspaceRootDirectory), ".eslintignore")} \
+        --config ${path.join(projectDirectory, ".eslintrc.js")} \
+        --ignore-path ${path.join(workspaceRootDirectory, ".eslintignore")} \
         --ext .js,.jsx,.ts,.tsx \
         "${toolsDirectory}"`
     );
