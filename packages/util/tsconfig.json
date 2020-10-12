@@ -1,3 +1,11 @@
 {
-    "extends": "./config/tsconfig.json"
+    "files": [],
+    "references": [
+        {
+            "path": "./config/tsconfig.cjs.lib.json"
+        },
+        {
+            "path": "./config/tsconfig.esm.lib.json"
+        }
+    ]
 }

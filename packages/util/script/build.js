@@ -45,10 +45,7 @@ function lint() {
 
 function compile() {
     console.info(chalk`{green.bold [task]} {white.bold compile}`);
-    spawn("tsc", ["-p", "config/tsconfig.json"], "compile failed, please fix");
-    spawn("tsc", ["-p", "config/tsconfig-cjs.json"], "compile failed, please fix");
-    spawn("tsc", ["-p", "src/browser/tsconfig.json"], "compile failed, please fix");
-    return spawn("tsc", ["-p", "src/browser/tsconfig-cjs.json"], "compile failed, please fix");
+    return spawn("tsc", ["-b", "tsconfig.json"], "compile failed, please fix");
 }
 
 function copyAssets() {
