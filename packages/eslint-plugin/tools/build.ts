@@ -36,12 +36,8 @@ export default function build() {
         runCommand(
             String.raw`yarn run \
             --cwd="${projectDirectory}" \
-            parcel \
-            build \
-            --no-minify \
-            --no-source-maps \
-            --no-autoinstall \
-            src/index.ts`
+            parcel build src/index.ts \
+            --no-autoinstall`
         );
     }
     print.info("Finishing...");

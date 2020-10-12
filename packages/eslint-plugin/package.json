@@ -5,9 +5,9 @@
     "main": "dist/index.js",
     "targets": {
         "main": {
-            "engines": {
-                "node": ">=12"
-            }
+            "minify": false,
+            "outputFormat": "commonjs",
+            "sourceMap": false
         }
     },
     "scripts": {
@@ -44,5 +44,8 @@
         "./dist/*",
         "./README.md",
         "./LICENSE.md"
-    ]
+    ],
+    "engines": {
+        "node": ">=12.19.x"
+    }
 }
