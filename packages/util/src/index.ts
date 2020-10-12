@@ -1,3 +1,4 @@
+// TODO/Lok: Split ./browsers to a separate npm package
 export {BrowserUtil} from "./browser/BrowserUtil";
 export {CanvasUtil} from "./browser/CanvasUtil";
 export {Clipboard} from "./browser/Clipboard";
