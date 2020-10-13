@@ -1,10 +1,11 @@
 import React from "react";
 import "./index.less";
 import {i18n} from "../../internal/i18n/core";
+import {StringKey} from "../../internal/type";
 
-export interface Props<T> {
+export interface Props<T extends object> {
     dataSource: T[];
-    rowKey: (keyof T & string) | ((record: T, index: number) => string) | "index";
+    rowKey: StringKey<T> | ((record: T, index: number) => string) | "index";
     renderItem: React.ComponentType<{item: T; index: number}>;
     itemWidth: number;
     pageSize: number;
@@ -14,7 +15,7 @@ interface State {
     currentItemIndex: number;
 }
 
-export class PagedList<T> extends React.PureComponent<Props<T>, State> {
+export class PagedList<T extends object> extends React.PureComponent<Props<T>, State> {
     static displayName = "PagedList";
 
     constructor(props: Props<T>) {

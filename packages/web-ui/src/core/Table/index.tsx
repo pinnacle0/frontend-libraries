@@ -4,7 +4,7 @@ import "antd/lib/table/style";
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
-import {PickOptional} from "../../internal/type";
+import {PickOptional, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import {RenderedCell} from "rc-table/lib/interface";
 import "./index.less";
@@ -43,7 +43,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      * Attention:
      * Use {rowKey: "index"} only if you are certain that the data source is immutable.
      */
-    rowKey: (keyof RowType & string) | ((record: RowType, index?: number) => string) | "index";
+    rowKey: StringKey<RowType> | ((record: RowType, index?: number) => string) | "index";
     onRowClick?: (record: RowType, index?: number) => void;
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
