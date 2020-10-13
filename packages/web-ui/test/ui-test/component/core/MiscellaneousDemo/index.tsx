@@ -9,6 +9,8 @@ import {Markdown} from "@pinnacle0/web-ui/core/Markdown";
 import {PagedList} from "@pinnacle0/web-ui/core/PagedList";
 import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
 import {TabsDemo} from "./TabsDemo";
+import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
+import {TagInputDemo} from "test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -76,6 +78,10 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "TextWithTooltipList",
         components: [<TextWithTooltipList list={[{label: "Test 2", content: 1234}, "-", {label: "Test 2", content: 2234}]} />],
+    },
+    {
+        title: "TagInput",
+        components: [<TagInputDemo />],
     },
 ];
 
