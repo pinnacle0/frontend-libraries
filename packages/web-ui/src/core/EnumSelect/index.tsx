@@ -46,7 +46,7 @@ export class EnumSelect<Enum extends string | boolean | number, Text extends Rea
 
     onChange = ({value: antValue}: LabeledValue) => {
         const enumValue = antValue === this.nullValue ? null : antValue === "true" ? true : antValue === "false" ? false : antValue;
-        this.props.onChange!(enumValue as any);
+        this.props.onChange(enumValue as any);
     };
 
     render() {
@@ -60,11 +60,15 @@ export class EnumSelect<Enum extends string | boolean | number, Text extends Rea
                 onChange={this.onChange}
                 className={className}
                 style={style}
-                options={list.map(_ => ({value: _.toString(), label: translator(_)}))}
                 showSearch={showSearch}
                 optionFilterProp={optionFilterProp}
             >
                 {allowNull !== false && <Select.Option value={this.nullValue}>{allowNull || t.all}</Select.Option>}
+                {list.map(_ => (
+                    <Select.Option key={_.toString()} value={_.toString()}>
+                        {translator(_)}
+                    </Select.Option>
+                ))}
             </Select>
         );
     }
