@@ -1,11 +1,12 @@
-import React, {CSSProperties} from "react";
+import React from "react";
 import {SafeReactChildren} from "../internal/type";
 import AntUpload, {RcFile, UploadChangeParam} from "antd/lib/upload";
 import {HttpRequestHeader, UploadFile} from "antd/lib/upload/interface";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
+import {UploadLogInfo, UploadProps} from "../internal/UploadUtil";
 
-export interface Props {
+export interface Props extends Partial<UploadProps> {
     children: SafeReactChildren;
     /**
      * Please follow W3C standard for HTML accept string.
@@ -14,13 +15,12 @@ export interface Props {
      */
     accept: string;
     name?: string;
+    // TODO/andy?: really need?
     headers?: HttpRequestHeader;
-    uploadURL?: string;
     beforeUpload?: (file: File) => void;
-    onUpload?: (result: "success" | "failure", loggableInfo: {[key: string]: string}, duration: number, apiResponse: any, file: UploadFile) => void;
     className?: string;
-    // only accept height with number
-    style?: CSSProperties;
+    // TODO/andy: only accept height with number, discuss
+    style?: React.CSSProperties;
     disabled?: boolean;
 }
 
@@ -54,31 +54,39 @@ export class Uploader extends React.PureComponent<Props, State> {
     beforeUpload = (file: RcFile) => {
         const {beforeUpload, uploadURL} = this.props;
         beforeUpload?.(file);
-        return uploadURL ? true : false;
+        return Boolean(uploadURL);
     };
 
     onUpload = (info: UploadChangeParam) => {
         const file = info.file;
-        const fileInfo: {[key: string]: string} = {
-            fileName: file.fileName || file.name,
-            fileSize: file.size.toString(),
-            fileType: file.type,
-        };
         if (file.status === "uploading") {
             this.setState({uploading: true});
             this.uploadStartTime = Date.now();
         } else if (file.status === "done" || file.status === "error") {
-            const {onUpload} = this.props;
+            const {onUploadSuccess, onUploadFailure} = this.props;
             const response = file.response;
             try {
-                const info: {[key: string]: string} = {
-                    ...fileInfo,
-                    apiResponse: JSON.stringify(response),
+                const info: UploadLogInfo = {
+                    file_name: file.fileName || file.name,
+                    file_size: file.size.toString(),
+                    file_type: file.type,
+                    api_response: JSON.stringify(response),
                 };
-                if (file.error) {
-                    info.fileError = JSON.stringify(file.error);
+                const elapsedTime = this.uploadStartTime ? Date.now() - this.uploadStartTime : 0;
+
+                if (file.status === "error") {
+                    onUploadFailure?.(response, {
+                        info,
+                        elapsedTime,
+                        errorCode: "UPLOAD_FAILURE",
+                        errorMessage: JSON.stringify(file.error) || "[No Message]",
+                    });
+                } else {
+                    onUploadSuccess?.(response, {
+                        info,
+                        elapsedTime,
+                    });
                 }
-                onUpload?.(file.status === "done" ? "success" : "failure", info, this.uploadStartTime ? Date.now() - this.uploadStartTime : 0, response, file);
             } finally {
                 this.setState({uploading: false});
             }
@@ -100,7 +108,7 @@ export class Uploader extends React.PureComponent<Props, State> {
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
                 beforeUpload={this.beforeUpload}
-                // TODO: or hardcode application/json?
+                // TODO/andy: or hardcode application/json?
                 headers={headers}
             >
                 <Spin spinning={this.state.uploading} size="small">

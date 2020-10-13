@@ -1,15 +1,16 @@
+import React from "react";
 import CloudUploadOutlined from "@ant-design/icons/CloudUploadOutlined";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
-import React, {CSSProperties} from "react";
 import {ModalUtil} from "../util/ModalUtil";
 import {MediaUtil} from "../util/MediaUtil";
-import {ControlledFormValue, UploadProps, ImageUploadResponse} from "../internal/type";
+import {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 import {Uploader} from "./Uploader";
+import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../internal/UploadUtil";
 
 export interface Props extends ControlledFormValue<ImageUploadResponse | null>, UploadProps {
-    uploadURL: string;
-    style?: CSSProperties;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
 export class ImageUploader extends React.PureComponent<Props> {
@@ -35,11 +36,36 @@ export class ImageUploader extends React.PureComponent<Props> {
         }
     };
 
+    onUploadSuccess = (response: any, logEntry: UploadSuccessLogEntry) => {
+        const {onChange, onUploadSuccess, onUploadFailure} = this.props;
+        try {
+            const imageResponse = UploadUtil.castImageUploadResponse(response);
+            onChange(imageResponse);
+            onUploadSuccess(imageResponse, logEntry);
+        } catch (e) {
+            onUploadFailure(response, {
+                ...logEntry,
+                errorCode: "INVALID_UPLOAD_RESPONSE",
+                errorMessage: e?.message || "[Unknown]",
+            });
+        }
+    };
+
     render() {
-        const {value, onChange, uploadURL, onUpload, style} = this.props;
+        const {value, uploadURL, onUploadFailure, className, style} = this.props;
         const t = i18n();
+        // TODO/any: why disabled={!!value}
         return (
-            <Uploader name="image" accept="image/*" uploadURL={uploadURL} onUpload={onUpload} style={style} disabled={!!value}>
+            <Uploader
+                name="image"
+                accept="image/*"
+                uploadURL={uploadURL}
+                onUploadFailure={onUploadFailure}
+                onUploadSuccess={this.onUploadSuccess}
+                style={style}
+                className={className}
+                disabled={!!value}
+            >
                 {value ? (
                     <React.Fragment>
                         <img src={value.imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />

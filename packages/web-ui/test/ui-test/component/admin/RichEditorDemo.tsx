@@ -4,5 +4,5 @@ import {dummyUploadCallback, dummyUploadURL} from "../../util/dummyUpload";
 
 export const RichEditorDemo = () => {
     const initialValue = `<p>Initial Line 😂</p>`;
-    return <RichEditor value={initialValue} onChange={() => {}} uploadURL={dummyUploadURL} onUpload={dummyUploadCallback} />;
+    return <RichEditor value={initialValue} onChange={() => {}} uploadURL={dummyUploadURL} onUploadSuccess={dummyUploadCallback} onUploadFailure={dummyUploadCallback} />;
 };

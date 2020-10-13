@@ -24,7 +24,6 @@
         "@ant-design/icons": "4.2.2",
         "antd": "4.6.4",
         "braft-editor": "2.3.9",
-        "braft-extensions": "0.1.0",
         "moment": "2.29.1"
     },
     "peerDependencies": {

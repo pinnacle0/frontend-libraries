@@ -8,8 +8,8 @@ import {ControlledFormValue, PickOptional} from "../../internal/type";
 import {TooltipPlacement} from "antd/lib/tooltip";
 import {MessageUtil} from "../../util/MessageUtil";
 import {i18n} from "../../internal/i18n/core";
-import "./index.less";
 import {StringUtil} from "../../internal/StringUtil";
+import "./index.less";
 
 export interface Props<RowType extends object> extends ControlledFormValue<RowType[]> {
     dataSource: RowType[];
@@ -33,6 +33,7 @@ export interface Props<RowType extends object> extends ControlledFormValue<RowTy
     maxSelectedCount?: number;
     showSelectAll?: boolean;
     buttonText?: string;
+    scrollY?: number;
 }
 
 export class MultipleSelector<RowType extends object> extends React.PureComponent<Props<RowType>> {
@@ -42,6 +43,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         popoverPlacement: "bottomLeft",
     };
 
+    private readonly selectAllStyle: React.CSSProperties = {marginBottom: 8};
     private isPopoverMounted = false;
 
     getTableRowClassName = (item: RowType) => (this.getSelectedIndexInValue(item) >= 0 ? "selected" : "");
@@ -82,22 +84,23 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
     onSelectAll = (value: boolean) => this.props.onChange(value ? this.props.dataSource : []);
 
     renderTable = () => {
-        const {dataSource, tableColumns, rowKeyExtractor, showTableLoading, value, maxSelectedCount, showSelectAll, disabled} = this.props;
+        const {dataSource, tableColumns, rowKeyExtractor, showTableLoading, value, scrollY, maxSelectedCount, showSelectAll, disabled} = this.props;
         const t = i18n();
+        const canSelectAll = showSelectAll && !maxSelectedCount && disabled === undefined;
         return (
             <div className="g-multiple-selector-table">
-                {showSelectAll && !maxSelectedCount && (
+                {canSelectAll && (
                     <Checkbox
                         onChange={this.onSelectAll}
                         value={dataSource.length === value.length}
                         indeterminate={this.props.value.length > 0 && this.props.value.length != this.props.dataSource.length}
-                        disabled={disabled === "table"}
+                        style={this.selectAllStyle}
                     >
                         {t.selectAll}
                     </Checkbox>
                 )}
                 <Table
-                    scrollY={showSelectAll ? 300 : 320}
+                    scrollY={scrollY || 400}
                     onRowClick={disabled === "table" ? undefined : this.onToggleElement}
                     rowClassName={this.getTableRowClassName}
                     shouldRenderIfUpdate={value}

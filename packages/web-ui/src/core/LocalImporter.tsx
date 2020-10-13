@@ -1,4 +1,4 @@
-import React, {CSSProperties} from "react";
+import React from "react";
 import {SafeReactChildren} from "../internal/type";
 import {Uploader} from "./Uploader";
 import UploadOutlined from "@ant-design/icons/UploadOutlined";
@@ -15,7 +15,7 @@ export interface Props {
     className?: string;
     disabled?: boolean;
     // height will be ignored by antd
-    style?: CSSProperties;
+    style?: React.CSSProperties;
     // antd <Upload> accepts only separated height prop with number
     height?: number;
 }

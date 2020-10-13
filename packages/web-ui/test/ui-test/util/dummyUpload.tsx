@@ -1,25 +1,20 @@
 import React from "react";
-import {UploadProps} from "@pinnacle0/web-ui/internal/type";
 import {ModalUtil} from "@pinnacle0/web-ui/util/ModalUtil";
+import {UploadFailureLogEntry, UploadProps, UploadSuccessLogEntry} from "@pinnacle0/web-ui/internal/UploadUtil";
 
 /**
  * This API is mocked by webpack-dev-server, to respond a random image.
  */
 export const dummyUploadURL = "/ajax/upload";
 
-export const dummyUploadCallback: UploadProps["onUpload"] = (result, info, duration) => {
+export const dummyUploadCallback: UploadProps["onUploadFailure"] & UploadProps["onUploadSuccess"] = (response: any, logEntry: UploadFailureLogEntry | UploadSuccessLogEntry) => {
     ModalUtil.createSync({
         title: "Upload Callback",
-        body: [
-            <div>
-                Upload Result: <em>{result}</em>
-            </div>,
-            <div>
-                Info: <pre>{JSON.stringify(info, null, 2)}</pre>
-            </div>,
-            `Duration: ${duration} ms`,
-        ],
+        body: <pre>{JSON.stringify(logEntry, null, 2)}</pre>,
     });
+    console.info("Dummy upload callback:");
+    console.info("[Response]", response);
+    console.info("[LogEntry]", logEntry);
 };
 
 export const dummyImportCallback = async (file: File) => {

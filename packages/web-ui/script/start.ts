@@ -2,7 +2,7 @@ import webpack from "webpack";
 import path from "path";
 import DevServer from "webpack-dev-server";
 import HTMLPlugin from "html-webpack-plugin";
-import {ImageUploadResponse} from "../src/internal/type";
+import {ImageUploadResponse} from "../src/internal/UploadUtil";
 
 const port = 4455;
 const tsconfigPath = path.resolve(__dirname, "../tsconfig.json");

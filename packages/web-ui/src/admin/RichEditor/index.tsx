@@ -1,17 +1,10 @@
 import React from "react";
 import BraftEditor, {ControlType, EditorState, ImageControlType, MediaType} from "braft-editor";
-import Table from "braft-extensions/dist/table";
 import {LocaleUtil} from "../../util/LocaleUtil";
-import {ControlledFormValue, ImageUploadResponse, UploadProps} from "../../internal/type";
+import {ControlledFormValue} from "../../internal/type";
+import {UploadUtil, UploadProps, UploadLogInfo} from "../../internal/UploadUtil";
 import "braft-editor/dist/index.css";
-import "braft-extensions/dist/table.css";
 import "./index.less";
-
-BraftEditor.use(
-    Table({
-        withDropdown: true,
-    })
-);
 
 /**
  * onChange/value is of the HTML content.
@@ -45,15 +38,14 @@ export class RichEditor extends React.PureComponent<Props, State> {
         "italic",
         "underline",
         "strike-through",
-        "remove-styles",
         "separator",
         "list-ul",
         "list-ol",
-        "blockquote",
-        "table",
         "separator",
         "link",
         "media",
+        "separator",
+        "remove-styles",
     ];
     private readonly imageControls: ImageControlType[] = [];
     private readonly mediaConfig: MediaType = {
@@ -70,24 +62,27 @@ export class RichEditor extends React.PureComponent<Props, State> {
             embed: false,
         },
         uploadFn: params => {
-            const serverURL = "/ajax/upload";
+            const {uploadURL, onUploadFailure, onUploadSuccess} = this.props;
             const httpRequest = new XMLHttpRequest();
             const formData = new FormData();
             const startTime = Date.now();
-            const fileInfo: {[key: string]: string} = {
-                fileName: params.file.name,
-                fileSize: params.file.size.toString(),
-                fileType: params.file.type,
-            };
+
+            // Do not early evaluate before success/failure callback, because we need wait XHR response
+            const getLogInfo = (): UploadLogInfo => ({
+                file_name: params.file.name,
+                file_size: params.file.size.toString(),
+                file_type: params.file.type,
+                api_response: httpRequest.responseText,
+            });
+
             const onSuccess = () => {
-                let isSuccess = false;
-                const info: {[key: string]: string} = {...fileInfo, serverResponse: httpRequest.responseText};
+                const response = httpRequest.response;
                 try {
-                    const response: ImageUploadResponse = JSON.parse(httpRequest.responseText);
+                    const {imageKey, imageURL} = UploadUtil.castImageUploadResponse(httpRequest.response);
                     params.success({
-                        url: response.imageURL,
+                        url: imageURL,
                         meta: {
-                            id: response.imageKey,
+                            id: imageKey,
                             title: "",
                             alt: "image",
                             // Below are for video settings, not available here
@@ -97,24 +92,36 @@ export class RichEditor extends React.PureComponent<Props, State> {
                             poster: "",
                         },
                     });
-                    isSuccess = true;
+                    onUploadSuccess(response, {
+                        info: getLogInfo(),
+                        elapsedTime: Date.now() - startTime,
+                    });
                 } catch (e) {
-                    info["jsonParseError"] = e?.message || "Unknown Error";
-                } finally {
-                    this.props.onUpload(isSuccess ? "success" : "failure", info, Date.now() - startTime, undefined);
+                    onUploadFailure(response, {
+                        info: getLogInfo(),
+                        elapsedTime: Date.now() - startTime,
+                        errorCode: "RICH_EDITOR_INVALID_UPLOAD_RESPONSE",
+                        errorMessage: e?.message || "[Unknown]",
+                    });
                 }
             };
             const onFailure = (errorMessage: string) => {
-                const info: {[key: string]: string} = {...fileInfo, errorMessage};
-                this.props.onUpload("failure", info, Date.now() - startTime, undefined);
+                const response = httpRequest.response;
+                onUploadFailure(response, {
+                    info: getLogInfo(),
+                    elapsedTime: Date.now() - startTime,
+                    errorCode: "RICH_EDITOR_UPLOAD_FAILURE",
+                    errorMessage,
+                });
             };
+
             httpRequest.upload.addEventListener("progress", event => params.progress((event.loaded / event.total) * 100), false);
             httpRequest.addEventListener("load", onSuccess, false);
             httpRequest.addEventListener("error", () => onFailure("Upload invalid"), false);
             httpRequest.addEventListener("abort", () => onFailure("Upload aborted"), false);
             httpRequest.addEventListener("timeout", () => onFailure("Upload timeout"), false);
             formData.append("image", params.file);
-            httpRequest.open("POST", serverURL, true);
+            httpRequest.open("POST", uploadURL, true);
             httpRequest.send(formData);
         },
     };

@@ -4,18 +4,19 @@ import {dummyEmptyCallback} from "../../util/dummyCallback";
 import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
-import {ImageUploadResponse} from "@pinnacle0/web-ui/internal/type";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
 import {dummyTableColumns, generateDummyTableData, MockTableData} from "../../util/dummyTableData";
 import {dummyImportCallback, dummyUploadCallback, dummyUploadURL} from "../../util/dummyUpload";
 import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
+import {ImageUploadResponse} from "@pinnacle0/web-ui/internal/UploadUtil";
 
 const tableData = generateDummyTableData(8);
+const onNumberRangeChange = (_: [number, number]) => {};
 
 const FileUploaderDemo = () => (
-    <Uploader name="file" accept=".csv" uploadURL={dummyUploadURL} onUpload={dummyUploadCallback} style={{width: 300}}>
+    <Uploader name="file" accept=".csv" uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} style={{width: 300}}>
         <span>Click or Drag .csv file to here.</span>
     </Uploader>
 );
@@ -24,11 +25,12 @@ const LocalImporterDemo = () => <LocalImporter type="txt" style={{width: 300, bo
 
 const ImageUploaderDemo = () => {
     const [value, setValue] = React.useState<ImageUploadResponse | null>(null);
-    return <ImageUploader value={value} onChange={setValue} uploadURL={dummyUploadURL} onUpload={dummyUploadCallback} />;
+    return <ImageUploader value={value} onChange={setValue} uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} />;
 };
 
-const MultipleSelectorDemo1 = () => {
+const MultipleSelectorDemo = (props: {disabled?: "button" | "table"}) => {
     const [data, setData] = React.useState<MockTableData[]>([]);
+    const buttonText = props.disabled ? `Disabled (${props.disabled})` : "Click Me";
     return (
         <MultipleSelector
             tableColumns={dummyTableColumns}
@@ -38,13 +40,13 @@ const MultipleSelectorDemo1 = () => {
             dataSource={tableData}
             renderSelectedItems={items => items.map(_ => _.name)}
             showSelectAll
-            buttonText="Custome Please Select"
-            disabled="table"
+            buttonText={buttonText}
+            disabled={props.disabled}
         />
     );
 };
 
-const MultipleSelectorDemo2 = () => {
+const MultipleSelectorDemoWithMaxSelect = () => {
     const [data, setData] = React.useState<MockTableData[]>([]);
     return (
         <MultipleSelector
@@ -65,8 +67,6 @@ const MultipleSelectorDemo2 = () => {
         />
     );
 };
-
-const onNumberRangeChange = (_: [number, number]) => {};
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -100,7 +100,7 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Multiple Selector",
         showPropsHint: false,
-        components: [<MultipleSelectorDemo1 />, "-", <MultipleSelectorDemo2 />],
+        components: [<MultipleSelectorDemo />, "-", <MultipleSelectorDemo disabled="table" />, "-", <MultipleSelectorDemo disabled="button" />, "-", <MultipleSelectorDemoWithMaxSelect />],
     },
 ];
 

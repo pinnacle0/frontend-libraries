@@ -1,5 +1,5 @@
+import React from "react";
 import AntInput, {InputProps, PasswordProps, SearchProps, TextAreaProps} from "antd/lib/input";
-import React, {ChangeEvent} from "react";
 import {ControlledFormValue} from "../internal/type";
 import "antd/lib/input/style";
 
@@ -30,7 +30,7 @@ export class Input extends React.PureComponent<Props> {
 
     static NullableTextArea = ({value, onChange, ...rest}: InputNullableTextAreaProps) => <Input.TextArea value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />;
 
-    private static onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void) => onValueChange(e.target.value);
+    private static onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void) => onValueChange(e.target.value);
 
     private antInputRef = React.createRef<AntInput>();
 
