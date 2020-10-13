@@ -1,5 +1,5 @@
 import React from "react";
-import {Tooltip} from "./Tooltip";
+import {Tooltip, TooltipPlacement} from "./Tooltip";
 import {SafeReactChildren} from "../internal/type";
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
      * If falsy, tooltip icon will hide.
      */
     explanation?: SafeReactChildren;
+    placement?: TooltipPlacement;
 }
 
 export class TextWithExplanation extends React.PureComponent<Props> {

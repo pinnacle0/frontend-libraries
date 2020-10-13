@@ -1,4 +1,4 @@
-import AntTooltip, {TooltipProps} from "antd/lib/tooltip";
+import AntTooltip, {TooltipProps, TooltipPlacement} from "antd/lib/tooltip";
 import React from "react";
 import "antd/lib/tooltip/style";
 
@@ -12,3 +12,5 @@ export class Tooltip extends React.PureComponent<Props> {
         return <AntTooltip {...this.props} />;
     }
 }
+
+export {TooltipPlacement};

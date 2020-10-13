@@ -4,10 +4,10 @@ import {Popover} from "../Popover";
 import {Button} from "../Button";
 import {Tags} from "../Tags";
 import {Checkbox} from "../Checkbox";
-import {ControlledFormValue, PickOptional} from "../../internal/type";
-import {TooltipPlacement} from "antd/lib/tooltip";
+import {TooltipPlacement} from "../Tooltip";
 import {MessageUtil} from "../../util/MessageUtil";
 import {i18n} from "../../internal/i18n/core";
+import {ControlledFormValue, PickOptional} from "../../internal/type";
 import {StringUtil} from "../../internal/StringUtil";
 import "./index.less";
 
