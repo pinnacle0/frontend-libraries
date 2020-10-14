@@ -3,7 +3,7 @@ import {SafeReactChildren} from "../internal/type";
 import AntUpload, {RcFile, UploadChangeParam} from "antd/lib/upload";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
-import {UploadLogInfo, UploadProps} from "../internal/UploadUtil";
+import {UploadLogInfo, UploadProps} from "../util/UploadUtil";
 
 export interface Props extends Partial<UploadProps> {
     children: SafeReactChildren;

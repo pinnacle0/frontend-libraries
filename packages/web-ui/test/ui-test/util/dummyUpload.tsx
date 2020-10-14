@@ -1,6 +1,6 @@
 import React from "react";
 import {ModalUtil} from "@pinnacle0/web-ui/util/ModalUtil";
-import {UploadFailureLogEntry, UploadProps, UploadSuccessLogEntry} from "@pinnacle0/web-ui/internal/UploadUtil";
+import {UploadFailureLogEntry, UploadProps, UploadSuccessLogEntry} from "@pinnacle0/web-ui/util/UploadUtil";
 
 /**
  * This API is mocked by webpack-dev-server, to respond a random image.

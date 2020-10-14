@@ -10,7 +10,7 @@ import {dummyImportCallback, dummyUploadCallback, dummyUploadURL} from "../../ut
 import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
-import {ImageUploadResponse} from "@pinnacle0/web-ui/internal/UploadUtil";
+import {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
 
 const tableData = generateDummyTableData(8);
 const onNumberRangeChange = (_: [number, number]) => {};

@@ -2,7 +2,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import {pathMap} from "../config/path-map";
-import type {ImageUploadResponse} from "../src/internal/UploadUtil";
+import type {ImageUploadResponse} from "../src/util/UploadUtil";
 
 const PORT = 4455;
 

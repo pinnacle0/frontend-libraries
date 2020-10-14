@@ -2,7 +2,7 @@ import React from "react";
 import BraftEditor, {ControlType, EditorState, ImageControlType, MediaType} from "braft-editor";
 import {LocaleUtil} from "../../util/LocaleUtil";
 import {ControlledFormValue} from "../../internal/type";
-import {UploadUtil, UploadProps, UploadLogInfo} from "../../internal/UploadUtil";
+import {UploadUtil, UploadProps, UploadLogInfo} from "../../util/UploadUtil";
 import "braft-editor/dist/index.css";
 import "./index.less";
 

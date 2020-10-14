@@ -6,7 +6,7 @@ import {MediaUtil} from "../util/MediaUtil";
 import {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 import {Uploader} from "./Uploader";
-import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../internal/UploadUtil";
+import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../util/UploadUtil";
 
 export interface Props extends ControlledFormValue<ImageUploadResponse | null>, UploadProps {
     className?: string;
