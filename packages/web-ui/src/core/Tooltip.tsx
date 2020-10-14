@@ -1,6 +1,6 @@
-import AntTooltip, {TooltipProps, TooltipPlacement} from "antd/lib/tooltip";
-import React from "react";
+import AntTooltip, {TooltipPlacement, TooltipProps} from "antd/lib/tooltip";
 import "antd/lib/tooltip/style";
+import React from "react";
 
 // Cannot use interface extends here because TooltipProps is a type union
 export type Props = TooltipProps;
@@ -13,4 +13,4 @@ export class Tooltip extends React.PureComponent<Props> {
     }
 }
 
-export {TooltipPlacement};
+export type {TooltipPlacement};

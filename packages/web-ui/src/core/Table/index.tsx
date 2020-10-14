@@ -155,4 +155,4 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
     }
 }
 
-export {TableRowSelection};
+export type {TableRowSelection};

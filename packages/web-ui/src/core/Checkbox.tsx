@@ -19,4 +19,4 @@ export class Checkbox extends React.PureComponent<Props> {
     }
 }
 
-export {CheckboxChangeEvent, CheckboxOptionType, CheckboxValueType};
+export type {CheckboxChangeEvent, CheckboxOptionType, CheckboxValueType};

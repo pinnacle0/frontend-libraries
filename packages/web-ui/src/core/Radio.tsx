@@ -16,4 +16,4 @@ export class Radio extends React.PureComponent<Props> {
     }
 }
 
-export {RadioChangeEvent};
+export type {RadioChangeEvent};

@@ -17,4 +17,4 @@ export class Select<ValueType extends SelectValue> extends React.PureComponent<P
     }
 }
 
-export {SelectValue, SelectOptionProps};
+export type {SelectValue, SelectOptionProps};
