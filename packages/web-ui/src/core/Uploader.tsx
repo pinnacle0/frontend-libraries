@@ -1,7 +1,6 @@
 import React from "react";
 import {SafeReactChildren} from "../internal/type";
 import AntUpload, {RcFile, UploadChangeParam} from "antd/lib/upload";
-import {HttpRequestHeader, UploadFile} from "antd/lib/upload/interface";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
 import {UploadLogInfo, UploadProps} from "../internal/UploadUtil";
@@ -15,8 +14,6 @@ export interface Props extends Partial<UploadProps> {
      */
     accept: string;
     name?: string;
-    // TODO/andy?: really need?
-    headers?: HttpRequestHeader;
     beforeUpload?: (file: File) => void;
     className?: string;
     // TODO/andy: only accept height with number, discuss
@@ -94,7 +91,7 @@ export class Uploader extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {children, accept, className, style, uploadURL, name, disabled, headers} = this.props;
+        const {children, accept, className, style, uploadURL, name, disabled} = this.props;
         return (
             <AntUpload.Dragger
                 name={name}
@@ -108,8 +105,7 @@ export class Uploader extends React.PureComponent<Props, State> {
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
                 beforeUpload={this.beforeUpload}
-                // TODO/andy: or hardcode application/json?
-                headers={headers}
+                headers={{Accept: "application/json"}}
             >
                 <Spin spinning={this.state.uploading} size="small">
                     {children}
