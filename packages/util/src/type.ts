@@ -4,6 +4,7 @@ export type KeysOfType<T, ExpectedValueType> = {[P in keyof T]: T[P] extends Exp
 
 export type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType[number];
 
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 export type PickOptional<T> = Pick<T, {[K in keyof T]-?: {} extends {[P in K]: T[K]} ? K : never}[keyof T]>;
 export type PickNonNullable<T> = Pick<T, NonNullableKeys<T>>;
 export type NullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? never : K}[keyof T];

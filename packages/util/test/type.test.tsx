@@ -1,5 +1,5 @@
 import React from "react";
-import {ArrayElement, KeysOfType, NonNullableKeys, NullableKeys, PickNonNullable, PickOptional, SafeReactChild, SafeReactChildren} from "../src/type";
+import {ArrayElement, KeysOfType, NonNullableKeys, NullableKeys, PickNonNullable, PickOptional, RequireFields, SafeReactChild, SafeReactChildren} from "../src/type";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
     type T = {
@@ -158,6 +158,45 @@ describe("ArrayElement<ArrayType extends readonly unknown[]>", () => {
         t3 = {foo: false};
         // @ts-expect-error
         t3 = {foo: "baz", note: 'Assigning an object literal to "t3" triggers the extra property check so this should fail'};
+    });
+});
+
+describe("RequireFields", () => {
+    type TestType = {
+        zoo: number;
+        cow: string;
+        foo?: string;
+        bar?: number | undefined;
+    };
+
+    test("foo and bar are required", () => {
+        let x: RequireFields<TestType, "foo" | "bar">;
+
+        x = {zoo: 10, cow: "st", foo: "21", bar: 5};
+        // @ts-expect-error
+        x = {zoo: 5, cow: "test"};
+        // @ts-expect-error
+        x = {zoo: 5, cow: "test", foo: "sad"};
+        // @ts-expect-error
+        x = {zoo: 5, cow: "test", foo: "sad", bar: "test"};
+        // @ts-expect-error
+        x = {zoo: 5, cow: "test", foo: 10, bar: 5};
+    });
+
+    test("foo and cow are required", () => {
+        let x: RequireFields<TestType, "foo" | "cow">;
+
+        x = {zoo: 10, cow: "st", foo: "21", bar: 5};
+        x = {zoo: 10, cow: "st", foo: "21"};
+        // @ts-expect-error
+        x = {zoo: 10, cow: "5"};
+        // @ts-expect-error
+        x = {zoo: 10, bar: 5};
+        // @ts-expect-error
+        x = {zoo: 10, foo: "21"};
+        // @ts-expect-error
+        x = {zoo: 10, foo: "21", bar: 5, cow: 5};
+        x = {zoo: 10, foo: "5", cow: "test"};
     });
 });
 

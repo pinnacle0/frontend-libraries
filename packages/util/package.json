@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/util",
-    "version": "2.0.15",
+    "version": "2.0.17",
     "license": "MIT",
     "sideEffects": false,
     "main": "cjs/index.js",
@@ -18,8 +18,8 @@
         "react": "16.13.1"
     },
     "files": [
-        "./cjs/*",
-        "./esm/*",
+        "./cjs/**",
+        "./esm/**",
         "./README.md",
         "./LICENSE.md"
     ],
