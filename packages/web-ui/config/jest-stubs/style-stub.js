@@ -7,5 +7,7 @@
  * This file will be used to replace all style imports as configured in jest.config.js#moduleNameMapper
  *
  * More info: https://jestjs.io/docs/en/webpack
+ *
+ * @type {any}
  */
 module.exports = null;

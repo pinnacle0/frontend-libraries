@@ -1,5 +1,5 @@
 {
-    "extends": "../config/tsconfig.web.json",
+    "extends": "../config/tsconfig.src.json",
     "include": ["../src", ".", "../config/package-types.d.ts"],
     "compilerOptions": {
         "target": "ES2018",

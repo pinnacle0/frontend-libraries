@@ -1,8 +1,9 @@
 {
-    "include": ["."],
     "compilerOptions": {
+        "rootDir": ".",
         "allowSyntheticDefaultImports": false,
         "esModuleInterop": false,
         "types": ["node", "testcafe"]
-    }
+    },
+    "include": ["."]
 }

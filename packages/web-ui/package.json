@@ -12,13 +12,12 @@
         "url": "https://github.com/pinnacle0/pinnacle-frontend-web-ui"
     },
     "scripts": {
-        "test": "jest --config config/jest.config.js",
-        "test-e2e": "testcafe \"chrome --headless --window-size='800,600' --app-shell-host-window-size='800,600' --content-shell-host-window-size='800,600'\" \"./e2e/**/*.e2e.{ts,tsx}\" --skip-js-errors --screenshots path=artifacts/screenshots --ts-config-path ./e2e/tsconfig.json",
-        "ts-node": "TS_NODE_PROJECT=./script/tsconfig.json ../../node_modules/.bin/ts-node",
-        "build": "yarn ts-node script/build.ts",
-        "start": "yarn ts-node script/start.ts",
-        "lint": "yarn ts-node script/lint.ts",
-        "format": "yarn ts-node script/format.ts"
+        "test-e2e": "node tools test-e2e",
+        "build": "node tools build",
+        "start": "node tools start",
+        "lint": "node tools lint",
+        "format": "node tools format",
+        "test": "jest --config config/jest.config.js"
     },
     "dependencies": {
         "@ant-design/icons": "4.2.2",

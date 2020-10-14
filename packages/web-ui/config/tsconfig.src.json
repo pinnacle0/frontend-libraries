@@ -1,0 +1,11 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react",
+        "lib": ["DOM", "ESNext"],
+        "module": "ESNext",
+        "outDir": "../dist/",
+        "target": "ES5"
+    },
+    "include": ["../src/"]
+}
