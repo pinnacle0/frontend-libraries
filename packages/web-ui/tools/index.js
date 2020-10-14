@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 require("ts-node").register({
-    project: path.join(__dirname, "../../../tsconfig.json"),
+    project: path.join(__dirname, "../../../config/tsconfig.base.json"),
 });
 
 const fileArg = process.argv[2];

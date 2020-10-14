@@ -1,10 +1,13 @@
-import * as path from "path";
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires -- node env */
 
-export const pathMap = {
+const path = require("path");
+
+module.exports.pathMap = {
     workspaceRootDirectory: path.join(__dirname, "../../.."),
     projectDirectory: path.join(__dirname, ".."),
     distDirectory: path.join(__dirname, "../dist"),
     configDirectory: path.join(__dirname, "../config"),
 };
 
-Object.freeze(pathMap);
+Object.freeze(module.exports.pathMap);

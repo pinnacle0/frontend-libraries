@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import * as childProcess from "child_process";
+import childProcess from "child_process";
 
 const curriedPrint = (emoji: string) => (color: typeof chalk["Color"]) => {
     return (descriptiveTitle: string) => (text: string | Error | Array<string | Error>) => {

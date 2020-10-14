@@ -5,7 +5,7 @@ const config = {
     extends: ["plugin:@pinnacle0/baseline"],
     overrides: [
         {
-            files: ["**/.*rc.js", "**/*.config.js", "**/script/*.js"], // TODO/Lok: Use ts to write scripts
+            files: ["**/.*rc.js", "**/*.config.js"],
             env: {commonjs: true, node: true},
             rules: {
                 "@typescript-eslint/no-var-requires": "off",

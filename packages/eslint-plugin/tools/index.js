@@ -1,14 +1,14 @@
 /* eslint-env node */
 // @ts-check
 
-require("ts-node").register({
-    compilerOptions: require("../../../tsconfig.json").compilerOptions,
-});
-
 const fs = require("fs");
 const path = require("path");
 
-const fileArg = path.basename(process.argv[2]);
+require("ts-node").register({
+    project: path.join(__dirname, "../../../config/tsconfig.base.json"),
+});
+
+const fileArg = process.argv[2];
 
 const scriptNames = fs
     .readdirSync(__dirname, {encoding: "utf8"})

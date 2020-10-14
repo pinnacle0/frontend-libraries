@@ -1,6 +1,6 @@
-import * as fs from "fs-extra";
-import * as path from "path";
-import * as yargs from "yargs";
+import fs from "fs-extra";
+import path from "path";
+import yargs from "yargs";
 import {pathMap} from "../config/path-map";
 import checkFormat from "./check-format";
 import lint from "./lint";

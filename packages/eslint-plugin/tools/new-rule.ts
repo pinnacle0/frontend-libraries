@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import yargs from "yargs";
 import {pathMap} from "../config/path-map";
 import codegen from "./codegen";
