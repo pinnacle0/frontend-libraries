@@ -53,10 +53,9 @@ const groups: DemoHelperGroupConfig[] = [
             <RequiredNumberInput scale={2} min={0} max={100} stepperMode="always" step={0.05} initialValue={3.88} />,
             "-",
             <RequiredNumberInput scale={2} stepperMode="always" step={0.05} initialValue={4} displayRenderer={_ => "<" + _ + ">"} />,
-            // TODO/James: Replace NumberInput.props.addonAfter
-            <RequiredNumberInput scale={2} initialValue={4} addonAfter={<FileSearchOutlined />} />,
-            <RequiredNumberInput scale={2} stepperMode="always" step={0.05} initialValue={4} addonAfter="After" />,
-            <RequiredNumberInput scale={2} stepperMode="hover" step={0.05} initialValue={4} addonAfter="After" />,
+            <RequiredNumberInput scale={2} initialValue={4} suffix={<FileSearchOutlined />} />,
+            <RequiredNumberInput scale={2} stepperMode="always" step={0.05} initialValue={4} suffix="After" />,
+            <RequiredNumberInput scale={2} stepperMode="hover" step={0.05} initialValue={4} suffix="After" />,
         ],
     },
     {
