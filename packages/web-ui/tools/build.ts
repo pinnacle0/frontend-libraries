@@ -25,7 +25,7 @@ export default function build() {
         runCommand(
             String.raw`yarn run \
             --cwd="${projectDirectory}" \
-            jest --config ${configDirectory}/jest.config.js`
+            jest --config "${configDirectory}/jest.config.js"`
         );
     }
     {
@@ -39,7 +39,7 @@ export default function build() {
         runCommand(
             String.raw`yarn run \
             --cwd="${projectDirectory}" \
-            tsc --project ${srcTsconfigFile}`
+            tsc --project "${srcTsconfigFile}"`
         );
     }
     {
