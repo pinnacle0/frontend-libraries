@@ -46,7 +46,7 @@ export class Link extends React.PureComponent<Props> {
             }
         } else {
             return (
-                <a onClick={to} className={className} style={style}>
+                <a onClick={to} className={fullClassNames.join(" ")} style={style}>
                     {children}
                 </a>
             );
