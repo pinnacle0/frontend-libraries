@@ -20,7 +20,7 @@ export default function build() {
             String.raw`yarn run \
             --cwd="${projectDirectory}" \
             jest \
-            --config ${configDirectory}/jest.config.js \
+            --config "${configDirectory}/jest.config.js" \
             --runInBand`
         );
     }

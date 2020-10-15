@@ -8,8 +8,8 @@ export default function format() {
         String.raw`yarn run \
         --cwd="${workspaceRootDirectory}" \
         prettier \
-        --config ${workspaceRootDirectory}/prettier.config.js \
-        --ignore-path ${workspaceRootDirectory}/.prettierignore \
+        --config "${workspaceRootDirectory}/prettier.config.js" \
+        --ignore-path "${workspaceRootDirectory}/.prettierignore" \
         --write \
         "${projectDirectory}/**/*.{js,json,jsx,ts,tsx}"`
     );
