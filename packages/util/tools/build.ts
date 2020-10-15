@@ -41,7 +41,7 @@ export default function build() {
         runCommand(
             String.raw`yarn run \
             --cwd="${projectDirectory}" \
-            tsc --build tsconfig.json`
+            tsc --build "${projectDirectory}/tsconfig.json"`
         );
     }
     {

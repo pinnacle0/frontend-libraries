@@ -8,8 +8,8 @@ export default function lint() {
         String.raw`yarn run \
         --cwd="${workspaceRootDirectory}" \
         eslint \
-        --config ${workspaceRootDirectory}/.eslintrc.js \
-        --ignore-path ${workspaceRootDirectory}/.eslintignore \
+        --config "${workspaceRootDirectory}/.eslintrc.js" \
+        --ignore-path "${workspaceRootDirectory}/.eslintignore" \
         --ext .js,.jsx,.ts,.tsx \
         "${projectDirectory}/{src,test,tools}"`
     );
