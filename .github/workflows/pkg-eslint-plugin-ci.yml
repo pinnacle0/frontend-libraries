@@ -1,0 +1,31 @@
+name: "@pinnacle0/eslint-plugin CI"
+
+on:
+    push:
+        branches: [$default-branch]
+        paths:
+            - "packages/eslint-plugin/**"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12, 14]
+
+        steps:
+            - name: Checkout repository under @GITHUB_WORKSPACE
+              uses: actions/checkout@v2
+
+            - name: Setup node ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Run yarn install and build
+              run: |
+                  yarn install
+                  yarn build
+              env:
+                  CI: true
