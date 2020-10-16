@@ -2,8 +2,48 @@
     "name": "@pinnacle0/webpack-util",
     "version": "0.0.1",
     "license": "MIT",
-    "scripts": {},
-    "dependencies": {},
+    "main": "./dist/index.js",
+    "scripts": {
+        "build": "node tools build",
+        "format": "node tools format"
+    },
+    "dependencies": {
+        "autoprefixer": "9.8.6",
+        "chalk": "4.1.0",
+        "css-loader": "4.3.0",
+        "file-loader": "6.1.0",
+        "fork-ts-checker-webpack-plugin": "5.2.0",
+        "fs-extra": "9.0.1",
+        "html-webpack-plugin": "4.5.0",
+        "less": "3.12.2",
+        "less-loader": "7.0.1",
+        "mini-css-extract-plugin": "0.12.0",
+        "optimize-css-assets-webpack-plugin": "5.0.4",
+        "postcss": "7.0.32",
+        "postcss-loader": "4.0.1",
+        "script-ext-html-webpack-plugin": "2.1.4",
+        "style-loader": "1.3.0",
+        "stylelint-webpack-plugin": "2.1.0",
+        "terser-webpack-plugin": "4.2.3",
+        "ts-loader": "8.0.4",
+        "url-loader": "4.1.0",
+        "webpack": "4.44.2",
+        "webpack-dev-server": "3.11.0"
+    },
     "peerDependencies": {},
-    "devDependencies": {}
+    "devDependencies": {
+        "@types/autoprefixer": "9.7.2",
+        "@types/html-webpack-plugin": "3.2.3",
+        "@types/mini-css-extract-plugin": "0.9.1",
+        "@types/optimize-css-assets-webpack-plugin": "5.0.1",
+        "@types/script-ext-html-webpack-plugin": "2.1.1",
+        "@types/stylelint-webpack-plugin": "2.1.0",
+        "@types/terser-webpack-plugin": "4.2.0",
+        "@types/webpack": "4.41.22",
+        "@types/webpack-dev-server": "3.11.0"
+    },
+    "files": [
+        "dist/**",
+        "LICENSE.md"
+    ]
 }
