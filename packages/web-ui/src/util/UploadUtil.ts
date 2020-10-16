@@ -6,12 +6,12 @@ export interface ImageUploadResponse {
 /**
  * Use underscore naming, for sake of logging purpose.
  */
-export interface UploadLogInfo {
+export type UploadLogInfo = {
     file_name: string;
     file_size: string;
     file_type: string;
     api_response: string;
-}
+};
 
 export interface UploadSuccessLogEntry {
     info: UploadLogInfo;
