@@ -48,6 +48,8 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
             propLabel
         ) : list[0] === "-" ? (
             "-"
+        ) : typeof list[0].content === "string" ? (
+            list[0].label + ": " + list[0].content
         ) : (
             <React.Fragment>
                 {list[0].label}: {list[0].content}
