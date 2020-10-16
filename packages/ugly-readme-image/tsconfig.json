@@ -1,0 +1,9 @@
+{
+    "extends": "../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "ESNext",
+        "noEmit": true
+    },
+    "include": ["./src/"]
+}

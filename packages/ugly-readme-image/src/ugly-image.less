@@ -1,0 +1,135 @@
+// ===========================================================================
+// Value definitions
+
+@dimensions: {
+    width: 600;
+    height: 300;
+};
+
+@durations: {
+    anim-total: 2s;
+    delay-line1: 0s;
+    delay-line2: 0.5s;
+    delay-line3: 1s;
+};
+
+// ===========================================================================
+// Mixin definitions
+
+.transform-origin-start(@x-percent, @y-percent) {
+    transform+_: translate(@dimensions[width] * (@x-percent / 100%) * 1px, @dimensions[height] * (@y-percent / 100%) * 1px);
+}
+
+.transform-origin-end(@x-percent, @y-percent) {
+    transform+_: translate(@dimensions[width] * (@x-percent / 100%) * -1px, @dimensions[height] * (@y-percent / 100%) * -1px);
+}
+
+// ===========================================================================
+// Global styles
+
+* {
+    font-family: Comic Sans MS;
+}
+
+text {
+    font-size: 60px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+}
+
+// ===========================================================================
+// Class specific styles
+
+.mask-static,
+.mask-anim {
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+    fill: url(#bgImg);
+}
+
+// prettier-ignore
+.mask-anim {
+    opacity: 0.4;
+    animation: mask (@durations[anim-total] * 5) ease-in-out 0s infinite;
+    @keyframes mask {
+        0%, 100% {
+            .transform-origin-start(50%, 50%);
+            transform+_: scale(3);
+            transform+_: rotate(90deg);
+            .transform-origin-end(50%, 50%);
+        }
+        50% {
+            .transform-origin-start(50%, 50%);
+            transform+_: scale(5);
+            transform+_: rotate(270deg);
+            .transform-origin-end(50%, 50%);
+        }
+    }
+}
+
+// prettier-ignore
+.line1 {
+    animation: line1 @durations[anim-total] linear @durations[delay-line1] infinite;
+    @keyframes line1 {
+        0%, 10%, 20%, 30%, 40% {
+            .transform-origin-start(50%, 25%);
+            transform+_: rotate(0deg);
+            .transform-origin-end(50%, 25%);
+        }
+        5%, 25% {
+            .transform-origin-start(50%, 25%);
+            transform+_: rotate(-10deg);
+            .transform-origin-end(50%, 25%);
+        }
+        15%, 35% {
+            .transform-origin-start(50%, 25%);
+            transform+_: rotate(10deg);
+            .transform-origin-end(50%, 25%);
+        }
+    }
+}
+
+// prettier-ignore
+.line2 {
+    animation: line2 @durations[anim-total] linear @durations[delay-line2] infinite;
+    @keyframes line2 {
+        0%, 10%, 20%, 30%, 40% {
+            .transform-origin-start(50%, 50%);
+            transform+_: rotate(0deg);
+            .transform-origin-end(50%, 50%);
+        }
+        5%, 25% {
+            .transform-origin-start(50%, 50%);
+            transform+_: rotate(-10deg);
+            .transform-origin-end(50%, 50%);
+        }
+        15%, 35% {
+            .transform-origin-start(50%, 50%);
+            transform+_: rotate(10deg);
+            .transform-origin-end(50%, 50%);
+        }
+    }
+}
+
+// prettier-ignore
+.line3 {
+    animation: line3 @durations[anim-total] linear @durations[delay-line3] infinite;
+    @keyframes line3 {
+        0%, 10%, 20%, 30%, 40% {
+            .transform-origin-start(50%, 75%);
+            transform+_: rotate(0deg);
+            .transform-origin-end(50%, 75%);
+        }
+        5%, 25% {
+            .transform-origin-start(50%, 75%);
+            transform+_: rotate(-10deg);
+            .transform-origin-end(50%, 75%);
+        }
+        15%, 35% {
+            .transform-origin-start(50%, 75%);
+            transform+_: rotate(10deg);
+            .transform-origin-end(50%, 75%);
+        }
+    }
+}

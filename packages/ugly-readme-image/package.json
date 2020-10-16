@@ -1,0 +1,30 @@
+{
+    "name": "@pinnacle0/ugly-readme-image",
+    "description": "This is a useless project to test out new react jsx transform with babel and parcel.",
+    "version": "0.0.1",
+    "private": true,
+    "main": "./dist/build.js",
+    "targets": {
+        "main": {
+            "context": "node",
+            "includeNodeModules": false
+        }
+    },
+    "scripts": {
+        "dev": "parcel serve src/index.html",
+        "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
+    },
+    "devDependencies": {
+        "@babel/core": "7.12.1",
+        "@babel/preset-env": "7.12.1",
+        "@babel/preset-react": "7.12.1",
+        "@babel/preset-typescript": "7.12.1",
+        "core-js": "3.6.5",
+        "parcel": "2.0.0-beta.1",
+        "react": "16.14.0",
+        "react-dom": "16.14.0"
+    },
+    "engines": {
+        "node": ">=12.19.x"
+    }
+}

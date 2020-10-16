@@ -34,3 +34,6 @@
 
 # Codegen templates
 **/templates/*
+
+# Babel config
+**/.babelrc
