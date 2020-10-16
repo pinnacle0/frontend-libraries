@@ -10,6 +10,7 @@ import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";
 import {Utility} from "./Utility";
 import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
+import {WebpackResolveLoaderModulesFactory} from "./WebpackResolveLoaderModulesFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
 /**
@@ -34,6 +35,7 @@ export class WebpackConfigGenerator {
     private readonly resolveExtensions: string[];
     private readonly resolveModules: string[];
     private readonly resolveAliases: {[moduleAlias: string]: string};
+    private readonly resolveLoaderModules: string[];
 
     constructor(options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
@@ -65,6 +67,7 @@ export class WebpackConfigGenerator {
             env: this.env,
             dynamicConfigResolvers: options.dynamicConfigResolvers ?? [],
         }).get();
+        this.resolveLoaderModules = new WebpackResolveLoaderModulesFactory().get();
 
         this.printInfo();
     }
@@ -81,6 +84,9 @@ export class WebpackConfigGenerator {
                 extensions: this.resolveExtensions,
                 modules: this.resolveModules,
                 alias: this.resolveAliases,
+            },
+            resolveLoader: {
+                modules: this.resolveLoaderModules,
             },
             devtool: "inline-cheap-module-source-map",
             optimization: {
@@ -153,6 +159,9 @@ export class WebpackConfigGenerator {
                 extensions: this.resolveExtensions,
                 modules: this.resolveModules,
                 alias: this.resolveAliases,
+            },
+            resolveLoader: {
+                modules: this.resolveLoaderModules,
             },
             bail: true,
             optimization: {
