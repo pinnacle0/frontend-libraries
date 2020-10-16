@@ -5,7 +5,7 @@ on:
         branches: [master]
         paths:
             - packages/eslint-plugin/**
-            - .github/workflows/**
+            - .github/workflows/pkg-eslint-plugin-ci.yml
 
 jobs:
     build:
@@ -27,6 +27,6 @@ jobs:
             - name: Run yarn install and build
               run: |
                   yarn install
-                  yarn build
+                  yarn workspace @pinnacle0/eslint-plugin run build
               env:
                   CI: true
