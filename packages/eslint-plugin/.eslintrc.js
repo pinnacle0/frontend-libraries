@@ -38,7 +38,7 @@ const config = {
             },
         },
         {
-            files: ["./tools/index.js"],
+            files: ["**/tools/index.js"],
             rules: {
                 "import/no-dynamic-require": "off",
             },
