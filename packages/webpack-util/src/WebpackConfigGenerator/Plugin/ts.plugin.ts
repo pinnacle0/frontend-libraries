@@ -1,4 +1,5 @@
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
+import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
 
 interface TsMinimizerPluginDeps {
@@ -31,7 +32,7 @@ export function tsStyleCheckerPlugin({tsconfigFilepath, projectSrcDirectory, esl
             configFile: tsconfigFilepath,
         },
         eslint: {
-            files: `${projectSrcDirectory}/**/*.{ts,tsx}`,
+            files: path.join(projectSrcDirectory, "**/*.{ts,tsx}"),
             options: {
                 extensions: ["ts", "tsx"],
                 configFile: eslintConfigFilepath,

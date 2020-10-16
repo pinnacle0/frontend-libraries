@@ -71,7 +71,7 @@ export class WebpackBuilder {
             String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
             --list-different \
-            "${this.projectDirectory}/src/**/*.{html,less,ts,tsx}"`
+            "${path.join(this.projectDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
         );
         const workspaceSharedDirectory = path.join(this.workspaceRootDirectory, "shared");
         if (fs.existsSync(workspaceSharedDirectory) && fs.statSync(workspaceSharedDirectory)) {
@@ -80,7 +80,7 @@ export class WebpackBuilder {
                 String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
             --list-different \
-            "${workspaceSharedDirectory}/src/**/*.{html,less,ts,tsx}"`
+            "${path.join(workspaceSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
             );
         }
         const workspaceWebSharedDirectory = path.join(this.workspaceRootDirectory, "web/shared");
@@ -90,7 +90,7 @@ export class WebpackBuilder {
                 String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
             --list-different \
-            "${workspaceWebSharedDirectory}/src/**/*.{html,less,ts,tsx}"`
+            "${path.join(workspaceWebSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
             );
         }
     }
