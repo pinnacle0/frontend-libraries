@@ -1,5 +1,8 @@
 name: "@pinnacle0/eslint-plugin CI"
 
+env:
+    CI: true
+
 on:
     push:
         branches: [master]
@@ -39,9 +42,9 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node${{ matrix.node-version }}-yarn-
 
-            - name: Run yarn install and build
-              run: |
-                  yarn install
-                  yarn workspace @pinnacle0/eslint-plugin run build
-              env:
-                  CI: true
+            # TODO/Lok: Use --immutable instead of --frozen-lockfile for yarn v2
+            - name: Install node_modules
+              run: yarn install --frozen-lockfile
+
+            - name: Run build script
+              run: yarn workspace @pinnacle0/eslint-plugin run build
