@@ -94,9 +94,24 @@ describe("DateUtil.parse", () => {
     });
 
     test("returns correct date", () => {
-        expect(DateUtil.parse("2018-12-11")).toStrictEqual(new Date("2018-12-11"));
-        expect(DateUtil.parse("2018-2-6")).toStrictEqual(new Date(Date.UTC(2018, 1, 6, -8, 0, 0)));
-        expect(DateUtil.parse("2018/12/11")).toStrictEqual(new Date(Date.UTC(2018, 11, 11, -8, 0, 0)));
+        const timezoneOffsetMinutes = new Date().getTimezoneOffset();
+        {
+            const resultDate = DateUtil.parse("2018-12-11");
+            const expectedDateParam = "2018-12-11";
+            expect(resultDate).toStrictEqual(new Date(expectedDateParam));
+        }
+        {
+            const resultDate = DateUtil.parse("2018-1-6");
+            const expectedDateUTCMilliseconds = Date.UTC(2018, 0, 6, 0, 0, 0, 0); // Note: month is 0-based
+            const expectedDateParam = expectedDateUTCMilliseconds + timezoneOffsetMinutes * 60 * 1000;
+            expect(resultDate).toStrictEqual(new Date(expectedDateParam));
+        }
+        {
+            const resultDate = DateUtil.parse("2018/12/11");
+            const expectedDateUTCMilliseconds = Date.UTC(2018, 11, 11, 0, 0, 0); // Note: month is 0-based
+            const expectedDateParam = expectedDateUTCMilliseconds + timezoneOffsetMinutes * 60 * 1000;
+            expect(resultDate).toStrictEqual(new Date(expectedDateParam));
+        }
     });
 });
 
