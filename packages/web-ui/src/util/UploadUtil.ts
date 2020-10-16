@@ -5,6 +5,7 @@ export interface ImageUploadResponse {
 
 /**
  * Use underscore naming, for sake of logging purpose.
+ * reason of using type: https://github.com/microsoft/TypeScript/issues/15300
  */
 export type UploadLogInfo = {
     file_name: string;
