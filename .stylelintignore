@@ -10,6 +10,14 @@
 # Dependencies
 **/node_modules/**
 
+# Yarn v2 Non Zero Install Configuration
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
 # Coverage Reports
 **/coverage/**
 
