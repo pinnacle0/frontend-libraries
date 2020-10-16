@@ -3,7 +3,9 @@ name: "@pinnacle0/eslint-plugin CI"
 on:
     push:
         branches: [master]
-        paths: [packages/eslint-plugin/**]
+        paths:
+            - packages/eslint-plugin/**
+            - .github/workflows/**
 
 jobs:
     build:
