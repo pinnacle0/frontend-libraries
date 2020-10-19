@@ -16,12 +16,61 @@ ruleTester.run(name, rule, {
     ],
     invalid: [
         {
-            code: `import DefaultImport from ".";`,
-            errors: [{line: 1, messageId}],
+            code: `
+            import DefaultImport from ".";
+            import DefaultImport from "./";
+            import DefaultImport from "..";
+            import DefaultImport from "../";
+            import DefaultImport from "../..";
+            import DefaultImport from "../../";`,
+            errors: [
+                {line: 2, messageId},
+                {line: 3, messageId},
+                {line: 4, messageId},
+                {line: 5, messageId},
+                {line: 6, messageId},
+                {line: 7, messageId},
+            ],
+            output: `
+            import DefaultImport from "./index";
+            import DefaultImport from "./index";
+            import DefaultImport from "../index";
+            import DefaultImport from "../index";
+            import DefaultImport from "../../index";
+            import DefaultImport from "../../index";`,
         },
         {
-            code: `import {NamedImport} from "..";`,
-            errors: [{line: 1, messageId}],
+            code: `
+            import DefaultImport from "../../..";
+            import DefaultImport from "../../../";`,
+            errors: [
+                {line: 2, messageId},
+                {line: 3, messageId},
+            ],
+        },
+        {
+            code: `
+            import {NamedImport} from ".";
+            import {NamedImport} from "./";
+            import {NamedImport} from "..";
+            import {NamedImport} from "../";
+            import {NamedImport} from "../..";
+            import {NamedImport} from "../../";`,
+            errors: [
+                {line: 2, messageId},
+                {line: 3, messageId},
+                {line: 4, messageId},
+                {line: 5, messageId},
+                {line: 6, messageId},
+                {line: 7, messageId},
+            ],
+            output: `
+            import {NamedImport} from "./index";
+            import {NamedImport} from "./index";
+            import {NamedImport} from "../index";
+            import {NamedImport} from "../index";
+            import {NamedImport} from "../../index";
+            import {NamedImport} from "../../index";`,
         },
     ],
 });

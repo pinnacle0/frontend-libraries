@@ -28,10 +28,19 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     create: context => {
         return {
             ImportDeclaration(node): void {
-                if (node.source.value?.toString().match(/^(\.\.?\/?)+$/)) {
+                const importSource: string | undefined = node.source.value?.toString();
+                if (!importSource) {
+                    return;
+                }
+                if (importSource.match(/^(\.\.?\/?)+$/)) {
                     context.report({
                         node,
                         messageId: "uglyRelativePath",
+                        fix: [".", "..", "../.."].includes(importSource)
+                            ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}/index"`)
+                            : ["./", "../", "../../"].includes(importSource)
+                            ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}index"`)
+                            : undefined,
                     });
                 }
             },
