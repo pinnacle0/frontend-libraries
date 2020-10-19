@@ -4,6 +4,7 @@
         "jsx": "react",
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
+        "rootDir": "../src/",
         "outDir": "../dist/",
         "target": "ES5"
     },

@@ -1,7 +1,6 @@
 import React from "react";
-import {ControlledFormValue} from "../../internal/type";
+import {ControlledFormValue, PickOptional} from "../../internal/type";
 import "./index.less";
-import {PickOptional} from "../../../../util/src/type";
 
 interface Props<T> extends ControlledFormValue<T[]> {
     parser: (rawString: string) => T[];
