@@ -14,6 +14,10 @@ const groups: DemoHelperGroupConfig[] = [
             />,
         ],
     },
+    {
+        title: "Overflow with custom style",
+        components: [<OverflowableText text="Should be red" width={{width: 100, color: "red"}} />, <OverflowableText text="Should be red" width={{width: 50, color: "red"}} />],
+    },
 ];
 
 export const OverflowableTextDemo = () => <DemoHelper groups={groups} />;
