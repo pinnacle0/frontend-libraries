@@ -48,7 +48,7 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
             propLabel
         ) : list[0] === "-" ? (
             "-"
-        ) : typeof list[0].content === "string" ? (
+        ) : typeof list[0].content === "string" || typeof list[0].content === "number" ? (
             list[0].label + ": " + list[0].content
         ) : (
             <React.Fragment>
@@ -58,7 +58,11 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
 
         return (
             <Tooltip placement="bottom" title={this.renderTooltip()} onVisibleChange={onVisibleChange}>
-                <Link to={onClick || this.dummyClick}>{label}</Link>
+                {/* Must wrap with a <div> since the child node of <Tooltip> must accept certain methods. */}
+                {/* See https://ant.design/components/tooltip/#Note */}
+                <div>
+                    <Link to={onClick || this.dummyClick}>{label}</Link>
+                </div>
             </Tooltip>
         );
     }

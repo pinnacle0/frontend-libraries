@@ -78,6 +78,7 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "TextWithTooltipList",
         components: [<TextWithTooltipList list={[{label: "Test 2", content: 1234}, "-", {label: "Test 2", content: 2234}]} />],
+        showPropsHint: false,
     },
     {
         title: "TagInput",
