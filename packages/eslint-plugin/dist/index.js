@@ -1111,10 +1111,17 @@ const $c6d81e5ca0dc11a62ad41b3c5fc13$export$rule = ESLintUtils.RuleCreator(name 
       ImportDeclaration(node) {
         var _node$source$value;
 
-        if ((_node$source$value = node.source.value) === null || _node$source$value === void 0 ? void 0 : _node$source$value.toString().match(/^(\.\.?\/?)+$/)) {
+        const importSource = (_node$source$value = node.source.value) === null || _node$source$value === void 0 ? void 0 : _node$source$value.toString();
+
+        if (!importSource) {
+          return;
+        }
+
+        if (importSource.match(/^(\.\.?\/?)+$/)) {
           context.report({
             node,
-            messageId: "uglyRelativePath"
+            messageId: "uglyRelativePath",
+            fix: [".", "..", "../.."].includes(importSource) ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}/index"`) : ["./", "../", "../../"].includes(importSource) ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}index"`) : undefined
           });
         }
       }
