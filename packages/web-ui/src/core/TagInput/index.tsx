@@ -6,6 +6,7 @@ interface Props<T> extends ControlledFormValue<T[]> {
     parser: (rawString: string) => T[];
     renderTag?: (item: T) => string;
     className?: (item: T) => string;
+    style?: React.CSSProperties;
 }
 
 interface State {
@@ -61,10 +62,10 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {value, renderTag, className} = this.props;
+        const {value, renderTag, className, style} = this.props;
         const {inputText} = this.state;
         return (
-            <div className="g-tag-input">
+            <div className="g-tag-input" style={style}>
                 {value.map((tag, index) => {
                     return (
                         <div className={`g-tag-input-label ${className ? className(tag) : ""}`} key={index}>
