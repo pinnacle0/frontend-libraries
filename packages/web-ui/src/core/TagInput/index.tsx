@@ -1,39 +1,42 @@
 import React from "react";
-import {TagLabel} from "./TagLabel";
-
+import {ControlledFormValue} from "../../internal/type";
 import "./index.less";
+import {PickOptional} from "../../../../util/src/type";
 
-interface Props {
-    tags: string[];
-    onChangeTags: (tags: string[]) => void;
-    parser: (text: string) => string[];
+interface Props<T> extends ControlledFormValue<T[]> {
+    parser: (rawString: string) => T[];
+    renderTag?: (item: T) => string;
+    className?: (item: T) => string;
 }
 
 interface State {
     inputText: string;
 }
 
-export class TagInput extends React.PureComponent<Props, State> {
+export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     static displayName = "TagInput";
 
-    constructor(props: Props) {
+    static defaultProps: PickOptional<Props<string>> = {
+        renderTag: item => item,
+    };
+
+    constructor(props: Props<T>) {
         super(props);
         this.state = {inputText: ""};
     }
 
-    removeBet = (index: number) => {
-        const {onChangeTags, tags} = this.props;
-        const newTags = [...tags];
+    removeTag = (index: number) => {
+        const {onChange, value} = this.props;
+        const newTags = [...value];
         newTags.splice(index, 1);
-        onChangeTags(newTags);
+        onChange(newTags);
     };
 
-    addBetsByInput = (input: string) => {
+    addTagsByInput = (input: string) => {
         if (input) {
-            const {parser, onChangeTags, tags} = this.props;
+            const {parser, onChange, value} = this.props;
             this.setState({inputText: ""});
-            onChangeTags([...tags, ...parser(input)]);
-            console.info(this.state.inputText);
+            onChange([...value, ...parser(input)]);
         }
     };
 
@@ -43,27 +46,34 @@ export class TagInput extends React.PureComponent<Props, State> {
         if (event.keyCode === 8) {
             // Backspace
             if (!inputText.length) {
-                this.removeBet(this.props.tags.length - 1);
+                this.removeTag(this.props.value.length - 1);
             }
         } else if ([9, 13, 32, 188].includes(event.keyCode)) {
             // Tab: 9
             // Enter:13
             // Space, 32
             // Comma: 188
-            this.addBetsByInput(inputText);
+            this.addTagsByInput(inputText);
         }
     };
 
     onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({inputText: event.target.value});
 
-    onBlur = () => this.addBetsByInput(this.state.inputText);
+    onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {tags} = this.props;
+        const {value, renderTag, className} = this.props;
         const {inputText} = this.state;
         return (
             <div className="g-tag-input">
-                <TagLabel tags={tags} onRemove={this.removeBet} />
+                {value.map((tag, index) => {
+                    return (
+                        <div className={`g-tag-input-label ${className ? className(tag) : ""}`} key={index}>
+                            {renderTag!(tag)}
+                            <i onClick={() => this.removeTag(index)}>&times;</i>
+                        </div>
+                    );
+                })}
                 <textarea onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus />
             </div>
         );
