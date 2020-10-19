@@ -22,6 +22,7 @@ import {MiscellaneousDemo} from "../component/core/MiscellaneousDemo";
 import {ModalDemo} from "../component/core/ModalDemo";
 import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
+import {OverflowableTextDemo} from "test/ui-test/component/core/OverflowableTextDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -121,6 +122,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/slider",
                         title: "Slider",
                         componentType: SliderDemo,
+                    },
+                    {
+                        url: "/core/overflowable-text",
+                        title: "Overflowable Text",
+                        componentType: OverflowableTextDemo,
                     },
                 ],
             },
