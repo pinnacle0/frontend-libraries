@@ -8,6 +8,8 @@ interface Props<T extends object> {
     renderItem: (item: T, index: number) => SafeReactChild;
     itemKey: StringKey<T> | ((item: T, index?: number) => string) | "index";
     lastClickable?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
 export class Breadcrumb<T extends object> extends React.PureComponent<Props<T>> {
@@ -25,10 +27,10 @@ export class Breadcrumb<T extends object> extends React.PureComponent<Props<T>> 
     };
 
     render() {
-        const {data, onClick, renderItem, lastClickable} = this.props;
+        const {data, onClick, renderItem, lastClickable, className, style} = this.props;
 
         return (
-            <div className="g-breadcrumb">
+            <div className={`g-breadcrumb ${className || ""}`} style={style}>
                 {data.map((_, index) => (
                     <div
                         onClick={lastClickable || index !== data.length - 1 ? () => onClick(_, index) : undefined}
