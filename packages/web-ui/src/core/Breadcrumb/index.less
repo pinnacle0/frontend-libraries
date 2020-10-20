@@ -1,0 +1,54 @@
+.g-breadcrumb {
+    > div {
+        height: 40px;
+        display: inline-block;
+        position: relative;
+        color: #fff;
+        line-height: 40px;
+        text-align: center;
+        padding: 0 12px;
+        background-color: rgb(133, 210, 250);
+
+        &::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 20px 0 20px 20px;
+            border-color: transparent transparent transparent rgb(133, 210, 250);
+            position: absolute;
+            top: 0;
+            right: -20px;
+            z-index: 1;
+        }
+
+        &.clickable:hover {
+            cursor: pointer;
+            background-color: rgb(150, 217, 253);
+
+            &::after {
+                border-color: transparent transparent transparent rgb(150, 217, 253);
+            }
+        }
+
+        &:nth-child(odd) {
+            background-color: #51bff8;
+
+            &::after {
+                border-color: transparent transparent transparent #51bff8;
+            }
+
+            &.clickable:hover {
+                background-color: #6acbfc;
+
+                &::after {
+                    border-color: transparent transparent transparent #6acbfc;
+                }
+            }
+        }
+
+        &:nth-child(n + 2) {
+            padding-left: 30px;
+        }
+    }
+}

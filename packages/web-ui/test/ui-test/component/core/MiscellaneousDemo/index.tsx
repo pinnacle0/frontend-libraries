@@ -11,6 +11,7 @@ import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
 import {TabsDemo} from "./TabsDemo";
 import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
 import {TagInputDemo} from "test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
+import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -72,7 +73,7 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "PagedList",
-        components: [<PagedList dataSource={[15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]} renderItem={ListItem} itemWidth={45} pageSize={5} rowKey="index" />],
+        components: [<DemoPagedList />],
         showPropsHint: false,
     },
     {
@@ -84,10 +85,31 @@ const groups: DemoHelperGroupConfig[] = [
         title: "TagInput",
         components: [<TagInputDemo />],
     },
+    {
+        title: "Breadcrumb",
+        components: [<DemoBreadcrumb />],
+        showPropsHint: false,
+    },
 ];
 
-function ListItem({item, index}: {item: number; index: number}) {
-    return <div style={{textAlign: "center"}}>{item}</div>;
+function DemoPagedList() {
+    const ListItem = ({item, index}: {item: {a: number}; index: number}) => <div style={{textAlign: "center"}}>{item.a}</div>;
+
+    const data = new Array(15).fill(0).map((_, index) => ({
+        a: index,
+    }));
+
+    return <PagedList dataSource={data} renderItem={ListItem} itemWidth={45} pageSize={5} rowKey="index" />;
+}
+
+function DemoBreadcrumb() {
+    const renderItem = (item: {name: string}, index: number) => <div>{item.name}</div>;
+
+    const data = new Array(5).fill(0).map((_, index) => ({
+        name: "test0" + index,
+    }));
+
+    return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
 }
 
 export const MiscellaneousDemo = () => <DemoHelper groups={groups} />;
