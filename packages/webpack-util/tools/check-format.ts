@@ -10,7 +10,8 @@ export default function checkFormat() {
         prettier \
         --config prettier.config.js \
         --ignore-path .prettierignore \
-        --list-different \
+        --check \
+        --loglevel warn \
         "${projectDirectory}/**/*.ts"`
     );
 }

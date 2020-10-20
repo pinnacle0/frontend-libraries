@@ -10,7 +10,8 @@ export default function format() {
         prettier \
         --config "${workspaceRootDirectory}/prettier.config.js" \
         --ignore-path "${workspaceRootDirectory}/.prettierignore" \
-        --list-different \
+        --check \
+        --loglevel warn \
         "${projectDirectory}/**/*.{js,json,jsx,ts,tsx}"`
     );
 }

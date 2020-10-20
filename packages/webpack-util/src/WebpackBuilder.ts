@@ -70,7 +70,8 @@ export class WebpackBuilder {
         runCommand(this.workspaceRootDirectory)(
             String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
-            --list-different \
+            --check \
+            --loglevel warn \
             "${path.join(this.projectDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
         );
         const workspaceSharedDirectory = path.join(this.workspaceRootDirectory, "shared");
@@ -79,7 +80,8 @@ export class WebpackBuilder {
             runCommand(this.workspaceRootDirectory)(
                 String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
-            --list-different \
+            --check \
+            --loglevel warn \
             "${path.join(workspaceSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
             );
         }
@@ -89,7 +91,8 @@ export class WebpackBuilder {
             runCommand(this.workspaceRootDirectory)(
                 String.raw`yarn prettier \
             --config "${prettierConfigFilepath}" \
-            --list-different \
+            --check \
+            --loglevel warn \
             "${path.join(workspaceWebSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
             );
         }
