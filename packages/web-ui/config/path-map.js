@@ -15,6 +15,7 @@ module.exports.pathMap = {
     srcTsconfigFile: path.join(__dirname, "../config/tsconfig.src.json"),
     testEntryScriptFile: path.join(__dirname, "../test/ui-test/index.tsx"),
     testIndexHtmlFile: path.join(__dirname, "../test/ui-test/index.html"),
+    stylelintConfigFile: path.join(__dirname, "../../../stylelint.config.js"),
 };
 
 Object.freeze(module.exports.pathMap);

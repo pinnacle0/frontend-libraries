@@ -1,6 +1,7 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
+import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 import {pathMap} from "../config/path-map";
 import type {ImageUploadResponse} from "../src/util/UploadUtil";
 
@@ -104,6 +105,11 @@ function getWebpackConfig(): webpack.Configuration {
             new webpack.IgnorePlugin({
                 resourceRegExp: /^\.\/locale$/,
                 contextRegExp: /moment$/,
+            }),
+            new StylelintWebpackPlugin({
+                configFile: pathMap.stylelintConfigFile,
+                context: pathMap.srcDirectory,
+                files: "**/*.less",
             }),
         ],
     };
