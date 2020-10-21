@@ -149,3 +149,19 @@ test("Deep Clone (Array)", () => {
     expect(list[0].v).toEqual(10);
     expect(clonedList[0].v).toEqual(20);
 });
+
+test("Sort by keys", () => {
+    const object = {b: "5", a: {a1: ["2", "1", "5"], a2: {name: "test", id: "20200201"}}, d: 25, c: [1, 5, 4, 3]};
+    let sortedObject = ObjectUtil.sortByKeys(object, ["a", "b", "c", "d"]);
+    expect(Object.keys(sortedObject)).toEqual(["a", "b", "c", "d"]);
+    expect(sortedObject).toEqual(object);
+    sortedObject = ObjectUtil.sortByKeys(object, ["d", "b", "c", "a"]);
+    expect(Object.keys(sortedObject)).toEqual(["d", "b", "c", "a"]);
+    expect(sortedObject).toEqual(object);
+    sortedObject = ObjectUtil.sortByKeys(object, ["a", "b"]);
+    expect(Object.keys(sortedObject)).toEqual(["a", "b", "d", "c"]);
+    expect(sortedObject).toEqual(object);
+    sortedObject = ObjectUtil.sortByKeys(object, ["d", "a", "c"]);
+    expect(Object.keys(sortedObject)).toEqual(["d", "a", "c", "b"]);
+    expect(sortedObject).toEqual(object);
+});

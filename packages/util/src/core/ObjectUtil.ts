@@ -117,6 +117,28 @@ function deepClone<T extends object>(object: T): T {
     return innerDeepClone(object, false);
 }
 
+function sortByKeys<T extends object>(object: T, priorityList: ReadonlyArray<keyof T>): T {
+    const objectKeys = Object.keys(object) as Array<keyof T>;
+    objectKeys.sort((a, b) => {
+        const aIndex = priorityList.indexOf(a);
+        const bIndex = priorityList.indexOf(b);
+        if (aIndex < 0 && bIndex < 0) {
+            return 0;
+        } else if (aIndex < 0) {
+            // b should be before a
+            return 1;
+        } else if (bIndex < 0) {
+            // a should be before b
+            return -1;
+        } else {
+            return aIndex - bIndex;
+        }
+    });
+    const obj: T = {} as T;
+    objectKeys.forEach(_ => (obj[_] = object[_]));
+    return obj;
+}
+
 export const ObjectUtil = Object.freeze({
     firstKey,
     safeAssign,
@@ -126,4 +148,5 @@ export const ObjectUtil = Object.freeze({
     isEmpty,
     findKey,
     deepClone,
+    sortByKeys,
 });
