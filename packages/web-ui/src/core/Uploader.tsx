@@ -13,7 +13,7 @@ export interface Props extends Partial<UploadProps> {
      * https://www.w3schools.com/tags/att_input_accept.asp
      */
     accept: string;
-    name?: string;
+    name: string;
     beforeUpload?: (file: File) => void;
     className?: string;
     // TODO/andy: only accept height with number, discuss
