@@ -21,6 +21,10 @@ export class StorageHelper {
         this.set(key, value.toString());
     }
 
+    setObject<T extends object>(key: string, item: T): void {
+        this.set(key, JSON.stringify(item));
+    }
+
     getBool(key: string, defaultValue: boolean): boolean {
         const transformer = (_: string) => (_ === StorageHelper.trueBoolValue ? true : _ === StorageHelper.falseBoolValue ? false : null);
         return this.get(key, defaultValue, transformer);
@@ -55,6 +59,22 @@ export class StorageHelper {
         return this.get(key, defaultValue, transformer);
     }
 
+    getObject<T extends object>(key: string, defaultValue: T, validator: (item: object) => boolean): T {
+        const transformer = (_: string): T | null => {
+            try {
+                const obj: object = JSON.parse(_);
+                if (validator(obj)) {
+                    return obj as T;
+                } else {
+                    return null;
+                }
+            } catch (e) {
+                return null;
+            }
+        };
+        return this.get(key, defaultValue, transformer);
+    }
+
     getRaw(key: string): string | null {
         try {
             return this.storage.getItem(key);
@@ -71,7 +91,7 @@ export class StorageHelper {
         }
     }
 
-    private get<T extends string | number | boolean>(key: string, defaultValue: T, transformer: (value: string) => T | null) {
+    private get<T extends string | number | boolean | object>(key: string, defaultValue: T, transformer: (value: string) => T | null) {
         try {
             const data = this.storage.getItem(key);
             if (data !== null) {
@@ -86,3 +106,5 @@ export class StorageHelper {
         }
     }
 }
+
+new StorageHelper({} as any).setObject("", [{a: 43}, {a: -5}]);
