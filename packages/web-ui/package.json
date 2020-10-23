@@ -31,10 +31,10 @@
         "react-router-dom": ">=5.2.0"
     },
     "devDependencies": {
-        "@testing-library/dom": "7.26.2",
+        "@testing-library/dom": "7.26.3",
         "@testing-library/jest-dom": "5.11.4",
         "@testing-library/react": "11.1.0",
-        "@testing-library/user-event": "12.1.8",
+        "@testing-library/user-event": "12.1.10",
         "@types/draft-js": "0.10.44",
         "@types/html-webpack-plugin": "3.2.3",
         "@types/react": "16.9.53",
