@@ -15,7 +15,10 @@
         "canadyarn": "canadyarn"
     },
     "checkSingleVersionDependencies": [
-        "@types/react"
+        "@types/react",
+        "@types/react-dom",
+        "react",
+        "react-dom"
     ],
     "dependencies": {},
     "devDependencies": {

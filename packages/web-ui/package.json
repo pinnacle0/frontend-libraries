@@ -26,8 +26,8 @@
         "moment": "2.29.1"
     },
     "peerDependencies": {
-        "react": ">=16.13.0",
-        "react-dom": ">=16.13.0",
+        "react": ">=16.14.0",
+        "react-dom": ">=16.14.0",
         "react-router-dom": ">=5.2.0"
     },
     "devDependencies": {
@@ -49,8 +49,8 @@
         "image-type": "4.1.0",
         "less": "3.12.2",
         "less-loader": "7.0.1",
-        "react": "16.13.1",
-        "react-dom": "16.13.1",
+        "react": "16.14.0",
+        "react-dom": "16.14.0",
         "react-router-dom": "5.2.0",
         "ssim.js": "3.3.0",
         "style-loader": "1.2.1",
