@@ -4,6 +4,7 @@
 @dimensions: {
     width: 600;
     height: 300;
+    doge-size: 80;
 };
 
 @durations: {
@@ -11,6 +12,7 @@
     delay-line1: 0s;
     delay-line2: 0.5s;
     delay-line3: 1s;
+    delay-doge: 2.5s;
 };
 
 // ===========================================================================
@@ -130,6 +132,44 @@ text {
             .transform-origin-start(50%, 75%);
             transform+_: rotate(10deg);
             .transform-origin-end(50%, 75%);
+        }
+    }
+}
+
+// prettier-ignore
+.doge {
+    animation: doge-walker (@durations[anim-total] * 2.5) ease-in-out 0s infinite;
+    @keyframes doge-walker {
+        0%, 100% { transform: translate(80%, 70%) }
+        25%      { transform: translate(75%, 10%) }
+        50%      { transform: translate(10%, 65%) }
+        75%      { transform: translate(5%, 15%) }
+    }
+
+    
+    image {
+        width: @dimensions[doge-size] * 1px;
+        height: @dimensions[doge-size] * 1px;
+        animation: doge-shaker (@durations[anim-total] * 2) linear 0s infinite;
+        @keyframes doge-shaker {
+            0%, 25%, 50%,
+            60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
+                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                transform+_: rotate(0deg);
+                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+            }
+            12.5%,
+            62.5%, 72.5%, 82.5%, 92.5% {
+                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                transform+_: rotate(-20deg);
+                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+            }
+            32.5%,
+            67.5%, 77.5%, 87.5%, 97.5% {
+                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                transform+_: rotate(20deg);
+                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+            }
         }
     }
 }

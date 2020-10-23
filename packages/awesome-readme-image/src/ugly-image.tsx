@@ -10,7 +10,7 @@ export const UglyImage = ({style}: UglyImageProps) => (
         <style>{require("bundle-text:./ugly-image.less")}</style>
         <defs>
             <pattern id="bgImg" patternUnits="userSpaceOnUse" width={dimensions.width} height={dimensions.height}>
-                <image xlinkHref={require("data-url:./background.png")} />
+                <image href={require("data-url:./background.png")} />
             </pattern>
             <linearGradient id="gradientGold">
                 <stop offset="0" stopColor={colors.gradientGoldStart} />
@@ -32,13 +32,14 @@ export const UglyImage = ({style}: UglyImageProps) => (
         <ObnoxiousText className="line3" x={dimensions.width / 2} y={dimensions.height * 0.75}>
             Frontend
         </ObnoxiousText>
+        <Doge />
     </Svg>
 );
 
 type SvgProps = {viewBoxWidth: number; viewBoxHeight: number; children: React.ReactNode; style?: React.CSSProperties};
 
 const Svg = ({viewBoxWidth, viewBoxHeight, children, style}: SvgProps) => (
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style}>
         {children}
     </svg>
 );
@@ -57,4 +58,10 @@ const ObnoxiousText = ({className, x, y, children}: ObnoxiousTextProps) => (
             {children}
         </text>
     </>
+);
+
+const Doge = () => (
+    <g className="doge">
+        <image href={require("data-url:./doge.png")} />
+    </g>
 );
