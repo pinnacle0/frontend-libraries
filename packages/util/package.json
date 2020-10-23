@@ -15,7 +15,7 @@
     "peerDependencies": {},
     "devDependencies": {
         "@types/react": "16.9.53",
-        "react": "16.13.1"
+        "react": "16.14.0"
     },
     "files": [
         "./cjs/**",
