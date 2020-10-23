@@ -38,7 +38,7 @@ export const UglyImage = ({style}: UglyImageProps) => (
 type SvgProps = {viewBoxWidth: number; viewBoxHeight: number; children: React.ReactNode; style?: React.CSSProperties};
 
 const Svg = ({viewBoxWidth, viewBoxHeight, children, style}: SvgProps) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style}>
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style}>
         {children}
     </svg>
 );
