@@ -62,6 +62,8 @@ const ObnoxiousText = ({className, x, y, children}: ObnoxiousTextProps) => (
 
 const Doge = () => (
     <g className="doge">
-        <image href={require("data-url:./doge.png")} />
+        <g className="doge-look-dir">
+            <image href={require("data-url:./doge.png")} />
+        </g>
     </g>
 );

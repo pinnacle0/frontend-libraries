@@ -133,15 +133,30 @@ text {
 }
 
 .doge {
-    animation: doge-walker (@durations[anim-total] * 2.5) ease-in-out 0s infinite;
+    @doge-walk-around-duration: @durations[anim-total] * 2.5;
+    .doge-transform-origin-start() {
+        transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+    }
+    .doge-transform-origin-end() {
+        transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+    }
+    
+    animation: doge-walker @doge-walk-around-duration ease-in-out 0s infinite;
     @keyframes doge-walker {
         0%, 100% { transform: translate(80%, 70%) }
         25%      { transform: translate(75%, 10%) }
-        50%      { transform: translate(10%, 65%) }
-        75%      { transform: translate(5%, 15%) }
+        50%      { transform: translate(20%, 65%) }
+        75%      { transform: translate(15%, 15%) }
     }
 
-    
+    &-look-dir {
+        animation: doge-flipper @doge-walk-around-duration linear 0s infinite;
+        @keyframes doge-flipper {
+            0%, 35%, 95% { transform: rotateY(0deg) }
+            45%, 85%     { transform: rotateY(180deg) }
+        }
+    }
+
     image {
         width: @dimensions[doge-size] * 1px;
         height: @dimensions[doge-size] * 1px;
@@ -149,21 +164,21 @@ text {
         @keyframes doge-shaker {
             0%, 25%, 50%,
             60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
-                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-start();
                 transform+_: rotate(0deg);
-                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-end();
             }
             12.5%,
             62.5%, 72.5%, 82.5%, 92.5% {
-                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-start();
                 transform+_: rotate(-20deg);
-                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-end();
             }
             32.5%,
             67.5%, 77.5%, 87.5%, 97.5% {
-                transform+_: translate(@dimensions[doge-size] / 2 * 1px, @dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-start();
                 transform+_: rotate(20deg);
-                transform+_: translate(-@dimensions[doge-size] / 2 * 1px, -@dimensions[doge-size] / 2 * 1px);
+                .doge-transform-origin-end();
             }
         }
     }
