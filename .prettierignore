@@ -35,5 +35,6 @@
 # Codegen templates
 **/templates/*
 
-# Babel config
-**/.babelrc
+# Awesome Readme Image
+/packages/awesome-readme-image/**/*.less
+/packages/awesome-readme-image/.babelrc
