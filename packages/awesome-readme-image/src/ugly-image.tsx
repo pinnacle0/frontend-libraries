@@ -27,10 +27,10 @@ export const UglyImage = ({style}: UglyImageProps) => (
             Pinnacle
         </ObnoxiousText>
         <ObnoxiousText className="line2" x={dimensions.width / 2} y={dimensions.height * 0.5}>
-            Libraries
+            Frontend
         </ObnoxiousText>
         <ObnoxiousText className="line3" x={dimensions.width / 2} y={dimensions.height * 0.75}>
-            Frontend
+            Libraries
         </ObnoxiousText>
         <Doge />
     </Svg>
