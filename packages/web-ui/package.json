@@ -12,7 +12,6 @@
         "url": "https://github.com/pinnacle0/pinnacle-frontend-web-ui"
     },
     "scripts": {
-        "test-e2e": "node tools test-e2e",
         "build": "node tools build",
         "start": "node tools start",
         "lint": "node tools lint",
@@ -42,20 +41,16 @@
         "@types/react-router-dom": "5.1.6",
         "@types/webpack": "4.41.22",
         "@types/webpack-dev-server": "3.11.0",
-        "canvas": "2.6.1",
         "css-loader": "4.3.0",
         "file-loader": "6.1.0",
         "html-webpack-plugin": "4.4.1",
-        "image-type": "4.1.0",
         "less": "3.12.2",
         "less-loader": "7.0.1",
         "react": "16.14.0",
         "react-dom": "16.14.0",
         "react-router-dom": "5.2.0",
-        "ssim.js": "3.3.0",
         "style-loader": "1.2.1",
         "stylelint-webpack-plugin": "2.1.0",
-        "testcafe": "1.9.1",
         "ts-loader": "8.0.3",
         "webpack": "4.44.1",
         "webpack-dev-server": "3.11.0"
