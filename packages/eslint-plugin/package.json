@@ -37,7 +37,7 @@
     },
     "optionalDependencies": {
         "eslint-plugin-jest": "^24.1.0",
-        "eslint-plugin-jest-dom": "^3.2.3",
+        "eslint-plugin-jest-dom": "^3.2.4",
         "eslint-plugin-testing-library": "^3.9.2"
     },
     "files": [
