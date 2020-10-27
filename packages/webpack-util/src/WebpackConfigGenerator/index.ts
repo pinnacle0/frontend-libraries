@@ -13,6 +13,24 @@ import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
+declare module "webpack" {
+    /**
+     * Webpack 5 bundles its own type definition file, while the whole ecosystem
+     * relies on "@types/webpack" before version 5.
+     * The type definition of `webpack.Plugin` does not exists in "webpack@5.0.0"
+     * and DefinitelyTyped packages that depended on "@types/webpack@^4.x" breaks.
+     * This is because `import webpack from "webpack"` used to resolve to
+     * "@types/webpack@^4.x", but after upgrading to version 5, the import resolves
+     * to "webpack@5.0.0".
+     *
+     * This is a workaround to allow "@types/*-plugin" packages to work before their
+     * type definitions are properly upgraded.
+     */
+    export abstract class Plugin {
+        apply(compiler: webpack.Compiler): void;
+    }
+}
+
 /**
  * Generates a webpack config with sane defaults and guards
  * the config with additional layers of safety.
@@ -137,8 +155,8 @@ export class WebpackConfigGenerator {
                 path: outputDirectory,
                 filename: this.enableProfiling
                     ? "static/js/[name].js"
-                    : (chunkData: webpack.ChunkData): string => {
-                          return this.configChunkEntries.find(_ => _.name === chunkData.chunk.name)!.outputFilename;
+                    : (pathInfo, assetInfo) => {
+                          return this.configChunkEntries.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename;
                       },
                 chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
                 publicPath: this.outputPublicUrlSelect.production,
@@ -165,7 +183,7 @@ export class WebpackConfigGenerator {
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
                 maxAssetSize: this.maxAssetKiloByte * 1000,
-                assetFilter: fileName => Constant.mediaExtensions.every(_ => !fileName.endsWith(_)),
+                assetFilter: (fileName: string) => Constant.mediaExtensions.every(_ => !fileName.endsWith(_)),
             },
             module: {
                 rules: [

@@ -1,4 +1,5 @@
 import TerserWebpackPlugin from "terser-webpack-plugin";
+import type webpack from "webpack";
 
 interface TerserPluginOptions {
     sourceMap: boolean;
@@ -8,8 +9,10 @@ interface TerserPluginOptions {
  * Applies Terser to minimize javascript
  * after bundles/chunks are built.
  */
-export function terserPlugin({sourceMap}: TerserPluginOptions) {
+export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackPluginInstance {
     return new TerserWebpackPlugin({
-        sourceMap,
-    });
+        terserOptions: {
+            sourceMap,
+        },
+    }) as any;
 }
