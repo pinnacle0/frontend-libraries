@@ -32,7 +32,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
     goToNextStep = () => this.props.onStepChange(this.props.currentStep + 1);
 
     renderButtons = (submitButton: React.ReactElement, isValidating: boolean) => {
-        const {currentStep, onStepChange} = this.props;
+        const {currentStep} = this.props;
         const t = i18n();
 
         return (
@@ -48,7 +48,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
     };
 
     render() {
-        const {stepLabelPlacement, currentStep, steps, width, onStepChange, onFinish, className} = this.props;
+        const {stepLabelPlacement, currentStep, steps, width, onFinish, className} = this.props;
         const t = i18n();
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
