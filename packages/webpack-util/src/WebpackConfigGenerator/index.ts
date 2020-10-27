@@ -14,6 +14,9 @@ import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
 declare module "webpack" {
+    interface TapablePlugin {
+        apply(...args: any[]): void;
+    }
     /**
      * Webpack 5 bundles its own type definition file, while the whole ecosystem
      * relies on "@types/webpack" before version 5.
