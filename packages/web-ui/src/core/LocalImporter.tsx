@@ -27,7 +27,7 @@ export class LocalImporter extends React.PureComponent<Props> {
         const {type, children, onImport, ...rest} = this.props;
         const t = i18n();
         return (
-            <Uploader accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={onImport} {...rest}>
+            <Uploader name={LocalImporter.displayName} accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={onImport}>
                 {children || (
                     <React.Fragment>
                         <UploadOutlined /> {StringUtil.interpolate(t.localImporterText, type)}

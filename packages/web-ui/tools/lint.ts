@@ -12,6 +12,6 @@ export default function lint() {
         --config "${workspaceRootDirectory}/.eslintrc.js" \
         --ignore-path "${workspaceRootDirectory}/.eslintignore" \
         --ext .js,.jsx,.ts,.tsx \
-        "${projectDirectory}/{e2e,src,test,tools}"`
+        "${projectDirectory}/{src,test,tools}"`
     );
 }
