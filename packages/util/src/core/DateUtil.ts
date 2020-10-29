@@ -46,7 +46,7 @@ function parse(text: string): Date | null {
     return isNaN(date.getTime()) ? null : date;
 }
 
-function format(date: Date | null, type: "default" | "with-time" | "no-year" | "no-year-with-time" | "chinese" | "chinese-with-time" | "time" = "default"): string {
+function format(date: Date | null, type: "default" | "with-time" | "no-year" | "no-year-with-time" | "no-day" | "chinese" | "chinese-with-time" | "time" = "default"): string {
     if (date !== null) {
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -61,6 +61,8 @@ function format(date: Date | null, type: "default" | "with-time" | "no-year" | "
                 return month + "-" + day;
             case "no-year-with-time":
                 return month + "-" + day + " " + timePart;
+            case "no-day":
+                return year + "-" + month;
             case "chinese":
                 return year + "年" + month + "月" + day + "日";
             case "chinese-with-time":
