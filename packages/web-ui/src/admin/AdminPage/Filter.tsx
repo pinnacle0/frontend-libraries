@@ -7,6 +7,7 @@ import {TextWithExplanation} from "../../core/TextWithExplanation";
 import {SafeReactChildren} from "../../internal/type";
 import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
 import {i18n} from "../../internal/i18n/admin";
+import {FormErrorDisplayMode} from "../../core/Form/context";
 
 export interface ExtraButtonConfig {
     label: string;
@@ -32,6 +33,7 @@ interface State {
 export class Filter extends React.PureComponent<Props, State> {
     static displayName = "Filter";
 
+    private readonly errorDisplayMode: FormErrorDisplayMode = {type: "popover", placement: "top"};
     private readonly storageKey: string;
 
     constructor(props: Props) {
@@ -76,7 +78,7 @@ export class Filter extends React.PureComponent<Props, State> {
         const {onFinish, onReset, extraButtons, reminder, loading, children} = this.props;
         const t = i18n();
         return (
-            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline">
+            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline" errorDisplayMode={this.errorDisplayMode}>
                 {children}
                 {reminder && (
                     <Form.Item className="reminder">
