@@ -7,7 +7,6 @@ interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]
     translator: (enumValue: Enum) => string;
     disabled?: boolean;
     style?: React.CSSProperties;
-    optionFilterProp?: string;
 }
 
 export class MultipleEnumSelect<Enum extends string | number> extends React.PureComponent<Props<Enum>> {
@@ -16,8 +15,8 @@ export class MultipleEnumSelect<Enum extends string | number> extends React.Pure
     getSelectOptions = () => this.props.list.map(value => ({value, label: this.props.translator(value)}));
 
     render() {
-        const {disabled, value, onChange, style, optionFilterProp} = this.props;
+        const {disabled, value, onChange, style} = this.props;
         // antd: using options prop will get better perf than jsx definition
-        return <Select mode="multiple" value={value} onChange={onChange} disabled={disabled} style={style} options={this.getSelectOptions()} optionFilterProp={optionFilterProp} />;
+        return <Select mode="multiple" value={value} onChange={onChange} disabled={disabled} style={style} options={this.getSelectOptions()} optionFilterProp="label" />;
     }
 }
