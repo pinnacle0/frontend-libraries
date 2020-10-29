@@ -20,7 +20,9 @@ export class Link extends React.PureComponent<Props> {
         const fullClassNames: string[] = [];
         if (typeof children === "string") {
             fullClassNames.push("g-text-link");
-        } else if (className) {
+        }
+
+        if (className) {
             fullClassNames.push(className);
         }
 
