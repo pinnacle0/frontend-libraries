@@ -6,6 +6,7 @@ const workspaceRootDirectory = path.join(__dirname, "../../..");
 const projectDirectory = path.join(__dirname, "..");
 
 export default function build() {
+    // TODO: use PrettierUtil.check
     checkFormat();
     runCommand(projectDirectory)(
         String.raw`yarn \

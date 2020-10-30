@@ -8,6 +8,7 @@ export const Constant = Object.freeze({
     mediaExtensions: [".mp3", ".mp4", ".wav", ".mov", ".flv", ".avi"],
 });
 
+// TODO: remove below
 Constant.chunkExtensions.forEach(Utility.validateFileExtension);
 Object.freeze(Constant.chunkExtensions);
 

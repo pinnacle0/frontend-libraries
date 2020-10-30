@@ -15,11 +15,13 @@ export interface WebpackConfigGeneratorOptions {
      * Used to compute paths of config files, source directory, etc.
      */
     projectDirectory: string;
+    // TODO: remove below
     /**
      * Directory of monorepo workspace root.
      * Used to compute paths of config files, source directory, etc.
      */
     workspaceRootDirectory: string;
+    // TODO: extraCheckFolders?: string[]; explain (prettier, forker-ts-plugin, stylelint-plugin use)
     /**
      * Specify additional file extension postfixes from dependency requests
      * that should be take precedence before the default file extensions.

@@ -2,6 +2,7 @@
 /* eslint-env node */
 // @ts-check
 
+// TODO: remove index.js, rename tools -> script, only keep build.ts/format.ts
 const fs = require("fs");
 const path = require("path");
 

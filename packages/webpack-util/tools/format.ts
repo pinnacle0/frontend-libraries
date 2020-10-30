@@ -1,6 +1,8 @@
 import path from "path";
 import {runCommand} from "../src/util";
 
+// TODO: import PrettierUtil, then .format()
+
 const workspaceRootDirectory = path.join(__dirname, "../../..");
 const projectDirectory = path.join(__dirname, "..");
 

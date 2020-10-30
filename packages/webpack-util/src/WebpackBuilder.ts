@@ -11,7 +11,6 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {}
 
 /**
  * Build the website by webpack.
-
  *
  ***************************************
  *
@@ -61,6 +60,7 @@ export class WebpackBuilder {
     }
 
     private checkCodeStyle() {
+        // TODO: PrettierUtil.check(this.projectDirectory) + extraCheckFolders
         print.info("Checking project code styles");
         const prettierConfigFilepath = path.join(this.workspaceRootDirectory, "prettier.config.js");
         if (!(fs.existsSync(prettierConfigFilepath) && fs.statSync(prettierConfigFilepath))) {
