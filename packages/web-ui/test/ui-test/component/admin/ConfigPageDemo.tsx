@@ -2,7 +2,7 @@ import React from "react";
 import {AdminPage} from "@pinnacle0/web-ui/admin/AdminPage";
 import {Descriptions} from "@pinnacle0/web-ui/core/Descriptions";
 import {Input} from "@pinnacle0/web-ui/core/Input";
-import {TextWithExplanation} from "@pinnacle0/web-ui/core/TextWithExplanation";
+import {WithExplanation} from "@pinnacle0/web-ui/core/WithExplanation";
 import {dummyEmptyCallback} from "../../util/dummyCallback";
 
 export const ConfigPageDemo = () => {
@@ -29,7 +29,7 @@ export const ConfigPageDemo = () => {
                 <Descriptions.Item label="Test config">
                     <Input value={config} onChange={setConfig} />
                 </Descriptions.Item>
-                <Descriptions.Item label={<TextWithExplanation explanation="Explanation">Test config</TextWithExplanation>}>
+                <Descriptions.Item label={<WithExplanation explanation="Explanation">Test config</WithExplanation>}>
                     <Input value={config} onChange={setConfig} />
                 </Descriptions.Item>
             </Descriptions>

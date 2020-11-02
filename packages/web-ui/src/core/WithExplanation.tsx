@@ -14,8 +14,8 @@ interface Props {
     placement?: TooltipPlacement;
 }
 
-export class TextWithExplanation extends React.PureComponent<Props> {
-    static displayName = "TextWithExplanation";
+export class WithExplanation extends React.PureComponent<Props> {
+    static displayName = "WithExplanation";
 
     private readonly tooltipQuestionContainerStyle: React.CSSProperties = {
         display: "inline-flex",

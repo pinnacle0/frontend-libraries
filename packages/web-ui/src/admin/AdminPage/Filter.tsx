@@ -3,7 +3,7 @@ import UpOutlined from "@ant-design/icons/UpOutlined";
 import React from "react";
 import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
-import {TextWithExplanation} from "../../core/TextWithExplanation";
+import {WithExplanation} from "../../core/WithExplanation";
 import {SafeReactChildren} from "../../internal/type";
 import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
 import {i18n} from "../../internal/i18n/admin";
@@ -82,7 +82,7 @@ export class Filter extends React.PureComponent<Props, State> {
                 {children}
                 {reminder && (
                     <Form.Item className="reminder">
-                        <TextWithExplanation explanation={reminder} />
+                        <WithExplanation explanation={reminder} />
                     </Form.Item>
                 )}
                 <Button type="submit" disabled={loading}>
