@@ -71,6 +71,18 @@ function openTabAndWait(url: string): Promise<void> {
     });
 }
 
+function openQQ(qq: string) {
+    if (isMobile()) {
+        if (isIos()) {
+            window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
+        } else {
+            window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
+        }
+    } else {
+        window.open(`tencent://message/?uin=${qq}&Site=Sambow&Menu=yes`);
+    }
+}
+
 export const BrowserUtil = Object.freeze({
     isMac,
     isAndroid,
@@ -81,4 +93,5 @@ export const BrowserUtil = Object.freeze({
     removeElement,
     scrollTo,
     openTabAndWait,
+    openQQ,
 });
