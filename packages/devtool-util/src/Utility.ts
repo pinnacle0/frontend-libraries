@@ -1,7 +1,7 @@
-import chalk from "chalk";
-import childProcess from "child_process";
-import fs from "fs";
-import path from "path";
+import * as childProcess from "child_process";
+import * as fs from "fs";
+import * as path from "path";
+import chalk = require("chalk");
 
 export class Utility {
     /**
