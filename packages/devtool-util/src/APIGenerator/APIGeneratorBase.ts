@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as fs from "fs-extra";
+import * as fs from "fs";
 import {Agent} from "https";
 import * as PrettierUtil from "../PrettierUtil";
 import * as Utility from "../Utility";
@@ -60,7 +60,7 @@ export class APIGeneratorBase {
         const typeDefinitions = types.map(type => `export ${type.type} ${type.name} ${type.definition}`);
         const content = [comment, ...typeDefinitions].join("\n");
 
-        await fs.writeFile(filePath, content, "utf8");
+        await fs.promises.writeFile(filePath, content, {encoding: "utf8"});
         PrettierUtil.format(filePath);
     }
 
@@ -119,7 +119,7 @@ export class APIGeneratorBase {
                 const content = [typesImportStatement(service), platformInfo.ajaxFunctionImportStatement, comment, classDeclaration(service)].join("\n");
                 const filename = `${folderPath}/${service.name}.ts`;
 
-                await fs.writeFile(filename, content, "utf8");
+                await fs.promises.writeFile(filename, content, {encoding: "utf8"});
                 console.info(`(${++count}) ${service.name} Generated`);
             })
         );
