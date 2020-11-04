@@ -30,11 +30,10 @@ describe("ModuleGenerator class", () => {
             argv: {_: {0: "common/new-feature"}},
         }));
         jest.doMock("../../src/PrettierUtil", () => ({
-            PrettierUtil: {
-                format: () => {},
-            },
+            PrettierUtil: {format: () => {}},
         }));
 
+        // Note: inline require ModuleGenerator after `jest.doMock` calls to ensure that require hooks are registered (without relying on ts-jest or babel-jest magic)
         const {ModuleGenerator} = jest.requireActual<typeof import("../../src/ModuleGenerator")>("../../src/ModuleGenerator");
         await new ModuleGenerator({
             moduleBasePath,
