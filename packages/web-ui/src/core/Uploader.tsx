@@ -1,6 +1,6 @@
 import React from "react";
 import {SafeReactChildren} from "../internal/type";
-import AntUpload, {RcFile, UploadChangeParam} from "antd/lib/upload";
+import AntUpload, {UploadChangeParam} from "antd/lib/upload";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
 import {UploadLogInfo, UploadProps} from "../util/UploadUtil";
@@ -14,7 +14,7 @@ export interface Props extends Partial<UploadProps> {
      */
     accept: string;
     name: string;
-    beforeUpload?: (file: File) => void;
+    beforeUpload?: (file: File) => boolean | PromiseLike<void>;
     className?: string;
     // TODO/andy: only accept height with number, discuss
     style?: React.CSSProperties;
@@ -47,12 +47,6 @@ export class Uploader extends React.PureComponent<Props, State> {
     }
 
     preventDefaultDragDrop = (e: DragEvent) => e.preventDefault();
-
-    beforeUpload = (file: RcFile) => {
-        const {beforeUpload, uploadURL} = this.props;
-        beforeUpload?.(file);
-        return Boolean(uploadURL);
-    };
 
     onUpload = (info: UploadChangeParam) => {
         const file = info.file;
@@ -91,7 +85,7 @@ export class Uploader extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {children, accept, className, style, uploadURL, name, disabled} = this.props;
+        const {children, accept, beforeUpload, className, style, uploadURL, name, disabled} = this.props;
         return (
             <AntUpload.Dragger
                 name={name}
@@ -104,7 +98,7 @@ export class Uploader extends React.PureComponent<Props, State> {
                 onChange={this.onUpload}
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
-                beforeUpload={this.beforeUpload}
+                beforeUpload={beforeUpload}
                 headers={{Accept: "application/json"}}
             >
                 <Spin spinning={this.state.uploading} size="small">
