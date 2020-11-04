@@ -1,3 +1,9 @@
-export {createConsoleLogger} from "./createConsoleLogger";
-export {prepareFolder} from "./prepareFolder";
-export {runCommand} from "./runCommand";
+import {createConsoleLogger} from "./createConsoleLogger";
+import {prepareFolder} from "./prepareFolder";
+import {runCommand} from "./runCommand";
+
+export class Utility {
+    static createConsoleLogger = createConsoleLogger;
+    static prepareFolder = prepareFolder;
+    static runCommand = runCommand;
+}

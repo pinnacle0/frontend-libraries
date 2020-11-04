@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as Utility from "../Utility";
+import {Utility} from "../Utility";
 
 /**
  * Runs `prettier --write` over the provided path.

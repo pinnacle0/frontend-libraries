@@ -19,6 +19,9 @@
         "prettier": "^2.1.2"
     },
     "jest": {
-        "preset": "ts-jest"
+        "preset": "ts-jest",
+        "watchPathIgnorePatterns": [
+            "/__tmp_fixtures__/"
+        ]
     }
 }

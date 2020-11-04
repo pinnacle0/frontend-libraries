@@ -1,8 +1,8 @@
 import axios from "axios";
 import * as fs from "fs";
 import {Agent} from "https";
-import * as PrettierUtil from "../PrettierUtil";
-import * as Utility from "../Utility";
+import {PrettierUtil} from "../PrettierUtil";
+import {Utility} from "../Utility";
 import {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./types";
 
 // TODO/Lok: discuss how to organize before starting this project

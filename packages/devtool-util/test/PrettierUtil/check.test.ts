@@ -15,10 +15,10 @@ export function professor ()
 };
 `;
 
-const fixtureDirectory = path.join(__dirname, "./__check_tmp_fixtures__");
-const prettierrcFile = path.join(__dirname, "./__check_tmp_fixtures__/.prettierrc");
-const formattedFixture = path.join(__dirname, "./__check_tmp_fixtures__/formatted.ts");
-const unformattedFixture = path.join(__dirname, "./__check_tmp_fixtures__/unformatted.ts");
+const fixtureDirectory = path.join(__dirname, "./__tmp_fixtures__");
+const prettierrcFile = path.join(__dirname, "./__tmp_fixtures__/.prettierrc");
+const formattedFixture = path.join(__dirname, "./__tmp_fixtures__/formatted.ts");
+const unformattedFixture = path.join(__dirname, "./__tmp_fixtures__/unformatted.ts");
 
 describe("PrettierUtil.check", () => {
     beforeAll(async () => {

@@ -1,3 +1,3 @@
 export {APIGenerator} from "./APIGenerator";
-export * as PrettierUtil from "./PrettierUtil";
-export * as Utility from "./Utility";
+export {PrettierUtil} from "./PrettierUtil";
+export {Utility} from "./Utility";
