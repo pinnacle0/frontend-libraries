@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModuleGenerator class generate files 1`] = `
+"// This file is generated from a template, but can be modified
+import React from \\"react\\";
+
+export const Main = () => {
+    return <div />;
+};
+"
+`;
+
+exports[`ModuleGenerator class generate files 2`] = `
+"// This file is generated from a template, but can be modified
+import {RootState} from \\"app/type/state\\";
+import {useSelector} from \\"react-redux\\";
+
+export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFeature\\"]) => T): T {
+    return useSelector((state: RootState) => fn(state.app.newFeature));
+}
+"
+`;
+
+exports[`ModuleGenerator class generate files 3`] = `
+"// This file is generated from a template, but can be modified
+import {RootState} from \\"app/type/state\\";
+import {Lifecycle, Module, register, SagaIterator} from \\"core-native\\";
+import {Main} from \\"./component/Main\\";
+import {State} from \\"./type\\";
+
+class NewFeatureModule extends Module<RootState, \\"newFeature\\"> {}
+
+const module = register(new NewFeatureModule(\\"newFeature\\"), initialState);
+export const actions = module.getActions();
+export const MainComponent = module.attachLifecycle(Main);
+"
+`;
+
+exports[`ModuleGenerator class generate files 4`] = `
+"// This file is generated from a template, but can be modified
+export interface State {}
+"
+`;

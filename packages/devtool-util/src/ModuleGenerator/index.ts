@@ -91,7 +91,7 @@ export class ModuleGenerator {
             `${moduleFullName}: ${moduleStateName};\n` +
             stateFileContent.substr(lastStateDeclarationIndex);
 
-        fs.writeFileSync(this.reduxStateTypePath, newStateFileContent);
+        fs.writeFileSync(this.reduxStateTypePath, newStateFileContent, {encoding: "utf8"});
     }
 
     private formatSources() {
