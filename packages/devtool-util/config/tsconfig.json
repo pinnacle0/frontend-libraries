@@ -12,5 +12,5 @@
         "esModuleInterop": false
     },
     "include": ["../src"],
-    "exclude": ["../dist"]
+    "exclude": ["../dist", "**/__fixtures__"]
 }

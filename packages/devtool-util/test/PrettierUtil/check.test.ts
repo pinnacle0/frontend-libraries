@@ -7,17 +7,18 @@ const formattedFixturePath = path.join(tmpDirectory, "./formatted.ts");
 const unformattedFixturePath = path.join(tmpDirectory, "./unformatted.ts");
 
 describe("PrettierUtil.check", () => {
-    beforeAll(async () => {
-        if (!fs.existsSync(tmpDirectory)) await fs.promises.mkdir(tmpDirectory);
-        await Promise.all(
-            getFixtures().map(({path, data}) => {
-                return fs.promises.writeFile(path, data, {encoding: "utf8"});
-            })
-        );
+    beforeAll(() => {
+        fs.rmSync(tmpDirectory, {recursive: true, force: true});
+        getFixtures().forEach(_ => {
+            const fixtureDirectory = path.dirname(_.path);
+            if (!fs.existsSync(fixtureDirectory)) fs.mkdirSync(fixtureDirectory, {recursive: true});
+            fs.writeFileSync(_.path, _.data, {encoding: "utf8"});
+        });
     });
 
-    afterAll(async () => {
-        await fs.promises.rm(tmpDirectory, {recursive: true, force: true});
+    afterAll(() => {
+        // Comment the following line to see the temp files
+        fs.rmSync(tmpDirectory, {recursive: true, force: true});
     });
 
     test("passes when called with formatted file", () => {
