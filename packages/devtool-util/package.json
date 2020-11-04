@@ -21,7 +21,7 @@
     "jest": {
         "preset": "ts-jest",
         "watchPathIgnorePatterns": [
-            "/__tmp_fixtures__/"
+            "/__tmp__/"
         ]
     }
 }
