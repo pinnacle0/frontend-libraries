@@ -1,11 +1,62 @@
 import * as fs from "fs-extra";
-import {PrettierUtil} from "../PrettierUtil";
-import {Utility} from "../Utility";
-import {ModuleGeneratorOptions} from "./types";
+import {PrettierUtil} from "./PrettierUtil";
+import {Utility} from "./Utility";
 import yargs = require("yargs");
 
 const print = Utility.createConsoleLogger("ModuleGenerator");
 
+export interface ModuleGeneratorOptions {
+    moduleBasePath: string;
+    reduxStateTypePath: string;
+    templatePath: string;
+}
+
+/**
+ * Generates boiletplate code for a `core-fe`/`core-native` Module class.
+ *
+ * Constructor arguments:
+ * - `moduleBasePath`: a directory containing existing core-fe modules
+ * - `templatePath`: a directory containing the following template files
+ *     - `{{templatePath}}/component/Main.ts`: template for module main component
+ *     - `{{templatePath}}/index.ts`:          template for Module class
+ *     - `{{templatePath}}/hooks.ts`:          template for module specific hooks
+ *     - `{{templatePath}}/type.ts`:           template for module state types/interfaces
+ * - `reduxStateTypePath`: a ts file
+ *     - contains a single interface export named `RootState`
+ *     - interface `RootState` has an object property named `app`
+ *     - example:
+ *       ```ts
+ *       import {State} from "core-fe";
+ *       export interface RootState {
+ *           app: {};
+ *       }
+ *       ```
+ *
+ * You might extend this class for platform specific template generation:
+ * ```ts
+ * // /shared/WebModuleGenerator.ts
+ * export class WebModuleGenerator extends ModuleGenerator {
+ *   constructor(_: Omit<ModuleGeneratorOptions, "templatePath">) {
+ *     const templatePath = path.resolve(__dirname, "./module-template");
+ *     super({..._, templatePath});
+ *   }
+ * }
+ * ```
+ * Directory structure:
+ * ```text
+ * workspaceRoot/
+ * ├── script/
+ * │   └── generate-module.ts
+ * └── shared/
+ *     ├── WebModuleGenerator.ts
+ *     └── module-template/
+ *         ├── component/
+ *         │   └── Main.tsx
+ *         ├── index.ts
+ *         ├── hooks.ts
+ *         └── type.ts
+ * ```
+ */
 export class ModuleGenerator {
     private readonly moduleName: string;
     private readonly moduleBasePath: string;
