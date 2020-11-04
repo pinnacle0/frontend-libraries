@@ -25,7 +25,7 @@ export function createConsoleLogger(descriptiveTitle: string) {
         return (descriptiveTitle: string) => (text: string | Error | Array<string | Error>) => {
             const body = chalk.whiteBright.bgBlack((Array.isArray(text) ? text : [text]).map(_ => _.toString()).join(" "));
             console.info("");
-            console.info(chalk[color].bold(`${emoji}  [${descriptiveTitle}]`), body);
+            console.info(chalk[color].bold(`${emoji}  [${descriptiveTitle}]`) + body);
         };
     };
 
