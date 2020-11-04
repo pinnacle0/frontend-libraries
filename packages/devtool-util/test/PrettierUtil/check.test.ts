@@ -2,18 +2,18 @@ import * as fs from "fs";
 import * as path from "path";
 import {PrettierUtil} from "../../src";
 
-const formattedFixtureContents = `
+const formattedFixtureContents = `//
 export function professor() {
   console.info('is gae');
 }
-`.trimStart();
+`;
 
-const unformattedFixtureContents = `
+const unformattedFixtureContents = `//
 export function professor ()
 {
     console.info("is gae")
 };
-`.trimStart();
+`;
 
 const fixtureDirectory = path.join(__dirname, "./__check_tmp_fixtures__");
 const prettierrcFile = path.join(__dirname, "./__check_tmp_fixtures__/.prettierrc");
