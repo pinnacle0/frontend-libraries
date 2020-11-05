@@ -13,8 +13,11 @@ import {Utility} from "../Utility";
  * @param fileOrDirectory Path to a file or a directory.
  */
 export function check(fileOrDirectory: string): void {
+    if (fileOrDirectory.includes("*") || fileOrDirectory.includes("{")) {
+        throw new Error(`It seems like you are using a glob pattern to run PrettierUtil.check("${fileOrDirectory}"), but glob patterns are not supported.`);
+    }
     if (!fs.existsSync(fileOrDirectory)) {
-        throw new Error(`Cannot format "${fileOrDirectory}" because it does not exists.`);
+        throw new Error(`Cannot format "${fileOrDirectory}" because it is not a valid file or directory.`);
     }
     if (fs.statSync(fileOrDirectory).isDirectory()) {
         const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{cjs,css,html,js,json,jsx,less,mjs,ts,tsx}"`);
