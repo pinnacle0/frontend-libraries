@@ -31,3 +31,5 @@ export function format(fileOrDirectory: string): void {
     }
     throw new Error(`Cannot format "${fileOrDirectory}" because it is not a file or directory.`);
 }
+
+// TODO/Lok: Do not throw error when directory is empty
