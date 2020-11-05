@@ -146,7 +146,7 @@ export class ModuleGenerator {
     }
 
     private formatSources() {
-        PrettierUtil.format(`${this.moduleBasePath}/${this.moduleName}/**/*.{ts,tsx}`);
+        PrettierUtil.format(`${this.moduleBasePath}/${this.moduleName}`);
         PrettierUtil.format(this.reduxStateTypePath);
     }
 
@@ -178,4 +178,9 @@ export class ModuleGenerator {
             return camelNameWithoutPostfix + postfix;
         }
     }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace -- use `declare namespace` for declaration merging without code emitting, only export types / interface within namespace
+export declare namespace ModuleGenerator {
+    export type {ModuleGeneratorOptions};
 }
