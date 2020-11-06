@@ -5,7 +5,6 @@ export {Clipboard} from "./browser/Clipboard";
 export type {ExportColumn} from "./browser/ExportUtil";
 export {ExportUtil} from "./browser/ExportUtil";
 export {ImportUtil} from "./browser/ImportUtil";
-export {URLQueryStringUtil} from "./browser/URLQueryStringUtil";
 export {RecentUsedStorageUtil} from "./browser/storage/RecentUsedStorageUtil";
 export {LocalStorageUtil} from "./browser/storage/LocalStorageUtil";
 export {SessionStorageUtil} from "./browser/storage/SessionStorageUtil";
