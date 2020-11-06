@@ -17,11 +17,11 @@ export class WebIconFontGenerator {
     private cssContent: string = "";
     private iconClassList: string[] = [];
 
-    constructor({componentBasePath, staticPath, templatePath, cssURL}: WebIconFontGeneratorOptions) {
-        this.componentBasePath = componentBasePath;
-        this.staticPath = staticPath;
-        this.templatePath = templatePath;
-        this.cssURL = cssURL || yargs.argv._[0];
+    constructor(options: WebIconFontGeneratorOptions) {
+        this.componentBasePath = options.componentBasePath;
+        this.staticPath = options.staticPath;
+        this.templatePath = options.templatePath;
+        this.cssURL = options.cssURL || yargs.argv._[0];
     }
 
     async run() {

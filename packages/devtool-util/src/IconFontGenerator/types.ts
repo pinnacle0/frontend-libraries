@@ -4,3 +4,11 @@ export interface WebIconFontGeneratorOptions {
     templatePath: string;
     cssURL?: string;
 }
+
+export interface AppIconFontGeneratorOptions {
+    componentPath: string;
+    androidFontPath: string;
+    iosFontPath: string;
+    templatePath: string;
+    cssURL?: string;
+}
