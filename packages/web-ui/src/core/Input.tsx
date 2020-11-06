@@ -3,17 +3,19 @@ import AntInput, {InputProps, PasswordProps, SearchProps, TextAreaProps} from "a
 import {ControlledFormValue} from "../internal/type";
 import "antd/lib/input/style";
 
-export interface InputSearchProps extends Omit<SearchProps, keyof ControlledFormValue<string> | "addonBefore" | "addonAfter">, ControlledFormValue<string> {}
+type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 
-export interface InputTextAreaProps extends Omit<TextAreaProps, keyof ControlledFormValue<string> | "addonBefore" | "addonAfter">, ControlledFormValue<string> {}
+export interface InputSearchProps extends Omit<SearchProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
-export interface InputPasswordProps extends Omit<PasswordProps, keyof ControlledFormValue<string> | "addonBefore" | "addonAfter">, ControlledFormValue<string> {}
+export interface InputTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
-export interface InputNullableProps extends Omit<InputProps, keyof ControlledFormValue<string | null> | "addonBefore" | "addonAfter">, ControlledFormValue<string | null> {}
+export interface InputPasswordProps extends Omit<PasswordProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
-export interface InputNullableTextAreaProps extends Omit<TextAreaProps, keyof ControlledFormValue<string | null> | "addonBefore" | "addonAfter">, ControlledFormValue<string | null> {}
+export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
-export interface Props extends Omit<InputProps, keyof ControlledFormValue<string> | "addonBefore" | "addonAfter">, ControlledFormValue<string> {}
+export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
+
+export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
 export class Input extends React.PureComponent<Props> {
     static displayName = "Input";
