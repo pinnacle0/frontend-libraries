@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as fs from "fs-extra";
 import {Agent} from "https";
+import * as path from "path";
 import {Utility} from "../Utility";
 import {AppIconFontGeneratorOptions} from "./types";
 import yargs = require("yargs");
@@ -73,10 +74,11 @@ export class AppIconFontGenerator {
         return className.replace(/-/g, "_").toUpperCase();
     }
 
-    private async downloadFontAsset(url: string, path: string) {
+    private async downloadFontAsset(url: string, filepath: string) {
+        await Utility.prepareFolder(path.dirname(filepath));
         if (url.startsWith("//")) url = "http:" + url;
         const response = await axios({url, responseType: "stream"});
-        response.data.pipe(fs.createWriteStream(path));
+        response.data.pipe(fs.createWriteStream(filepath));
         return new Promise((resolve, reject) => {
             response.data.on("end", resolve);
             response.data.on("error", reject);

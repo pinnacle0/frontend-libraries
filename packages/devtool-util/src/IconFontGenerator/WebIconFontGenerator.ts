@@ -27,7 +27,7 @@ export class WebIconFontGenerator {
     async run() {
         try {
             await this.getContent();
-            this.prepareFolder();
+            await this.prepareFolder();
             this.parseClassList();
             this.generateReactComponent();
             this.generateCSSAndAssets();
@@ -51,14 +51,11 @@ export class WebIconFontGenerator {
         this.cssContent = response.data;
     }
 
-    private prepareFolder() {
+    private async prepareFolder() {
         print.task(["Copying template to target", this.componentBasePath]);
 
-        if (!fs.existsSync(this.componentBasePath)) {
-            fs.mkdirSync(this.componentBasePath);
-        }
+        await Utility.prepareFolder(this.componentBasePath);
 
-        fs.emptyDirSync(this.componentBasePath);
         fs.copySync(this.templatePath, this.componentBasePath);
         fs.moveSync(this.componentBasePath + "/icon.html", this.staticPath + "/icon.html", {overwrite: true});
     }

@@ -1,13 +1,11 @@
-import * as fs from "fs-extra";
-import {createConsoleLogger} from "./createConsoleLogger";
-
-const print = createConsoleLogger("prepareFolder");
+import * as fs from "fs";
+import * as fsExtra from "fs-extra";
 
 export async function prepareFolder(directory: string) {
-    print.task(directory);
-    const folderExist = await fs.pathExists(directory);
+    const folderExist = fs.existsSync(directory) && (await fs.promises.stat(directory)).isDirectory();
     if (!folderExist) {
-        await fs.mkdir(directory);
+        await fs.promises.mkdir(directory, {recursive: true});
     }
-    await fs.emptyDir(directory);
+    // TODO/Lok: Maybe refactor to use fs.rmDir later? (Don't use fs.rm because it does not work on node 12)
+    await fsExtra.emptyDir(directory);
 }
