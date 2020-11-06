@@ -12,7 +12,7 @@ export interface ModuleGeneratorOptions {
 }
 
 /**
- * Generates boiletplate code for a `core-fe`/`core-native` Module class.
+ * Generates boilerplate code for a `core-fe`/`core-native` Module class.
  *
  * Constructor arguments:
  * - `moduleBasePath`: a directory containing existing core-fe modules

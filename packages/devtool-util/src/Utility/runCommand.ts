@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 /**
- * Spanws a new shell and execute a command with arguments.
+ * Spawns a new shell and execute a command with arguments.
  *
  * Searches for .../node_modules/.bin/<command> upwards recursively
  * and falls back to running as a system command.
@@ -16,7 +16,7 @@ import * as path from "path";
  * - `runCommand("rm", "-rf", projectDirectory + "/build"); // Remove build directory, does not work on windows cmd.exe`
  *
  * @param command Name of binary to be executed.
- * @param args Arguments passed to the command, whitespaces are escaped.
+ * @param args Arguments passed to the command, whitespace are escaped.
  */
 export function runCommand(command: string, args: string[] = []) {
     const execute = (command: string) => {
