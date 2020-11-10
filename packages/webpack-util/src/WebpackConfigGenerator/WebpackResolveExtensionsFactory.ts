@@ -1,4 +1,4 @@
-import {Constant} from "./Constant";
+import {Constant} from "../Constant";
 import {Utility} from "./Utility";
 
 interface WebpackResolveExtensionsFactoryOptions {

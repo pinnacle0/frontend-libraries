@@ -1,5 +1,5 @@
 import type webpack from "webpack";
-import {Constant} from "../Constant";
+import {Constant} from "../../Constant";
 import {Utility} from "../Utility";
 import type {FileLoader} from "./loader-typedef/file-loader";
 

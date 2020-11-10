@@ -1,9 +1,9 @@
 import glob from "glob";
 import webpack from "webpack";
 import yargs from "yargs";
+import {Constant} from "../Constant";
 import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
 import {ConfigPathMap} from "./ConfigPathMap";
-import {Constant} from "./Constant";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
 import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";

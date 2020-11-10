@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import {Constant} from "../Constant";
 import {ChunkEntry} from "./type";
 import {Utility} from "./Utility";
 
@@ -33,8 +34,7 @@ export class ConfigChunkEntryFactory {
         if (!(fs.existsSync(directory) && fs.statSync(directory).isDirectory())) {
             throw this.createError(`Cannot compute entry path for "${name}" because "${directory}" is not a directory.`);
         }
-        const files = ["index.tsx", "index.ts", "index.jsx", "index.js", "index.less", "index.css"];
-        for (const file of files) {
+        for (const file of Constant.mainChunkEntryNames) {
             const chunkEntryPath = path.join(directory, file);
             if (fs.existsSync(chunkEntryPath) && fs.statSync(chunkEntryPath).isFile()) {
                 const chunkEntry: ChunkEntry = {name, chunkEntryPath};
@@ -46,6 +46,6 @@ export class ConfigChunkEntryFactory {
                 return;
             }
         }
-        throw this.createError(`Cannot find entry file for "${name}" at directory "${directory}", files checked: ${files.join("/")}`);
+        throw this.createError(`Cannot find entry file for "${name}" at directory "${directory}", files checked: ${Constant.mainChunkEntryNames.join("/")}`);
     };
 }

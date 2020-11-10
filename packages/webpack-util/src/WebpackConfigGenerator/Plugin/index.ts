@@ -12,24 +12,34 @@ class DummyPlugin implements webpack.Plugin {
     apply() {}
 }
 
-export const Plugin = Object.freeze({
-    NONE: new DummyPlugin(),
-    crossOriginScriptTag: crossOriginScriptTagPlugin,
-    moment: momentPlugin,
-    fileOutput: {
+/**
+ * Static factories to create \`webpack.config#plugins\` items.
+ */
+export class Plugin {
+    /** Does nothing, used for the "does-nothing" branch of "?:" ternary expression */
+    static readonly NONE = new DummyPlugin();
+
+    static readonly crossOriginScriptTag = crossOriginScriptTagPlugin;
+
+    static readonly moment = momentPlugin;
+
+    static readonly fileOutput = {
         html: htmlFilePlugin,
         css: cssFileOutputPlugin,
-    },
-    styleChecker: {
+    } as const;
+
+    static readonly styleChecker = {
         css: cssStyleCheckerPlugin,
         ts: tsStyleCheckerPlugin,
-    },
-    minimizer: {
+    } as const;
+
+    static readonly minimizer = {
         css: cssMinimizePlugin,
         ts: tsMinimizerPlugin,
-    },
-    webpack: {
+    } as const;
+
+    static readonly webpack = {
         hmr: webpackHmrPlugin,
         progress: webpackProgressPlugin,
-    },
-});
+    } as const;
+}

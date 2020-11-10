@@ -3,9 +3,15 @@ import {otherRule} from "./other.rule";
 import {stylesheetRule} from "./stylesheet.rule";
 import {tsRule} from "./ts.rule";
 
-export const Rule = Object.freeze({
-    image: imageRule,
-    other: otherRule,
-    ts: tsRule,
-    stylesheet: stylesheetRule,
-});
+/**
+ * Static factories to create `webpack.config#modules.rules` items.
+ */
+export class Rule {
+    static readonly image = imageRule;
+
+    static readonly other = otherRule;
+
+    static readonly ts = tsRule;
+
+    static readonly stylesheet = stylesheetRule;
+}
