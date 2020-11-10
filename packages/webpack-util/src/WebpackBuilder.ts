@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/no-dynamic-require -- using dynamic require in ts-node scripts is fine */
+import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
-import {createPrint, runCommand} from "./util";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
-const print = createPrint("WebpackBuilder");
+const print = Utility.createConsoleLogger("WebpackBuilder");
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {}
 
@@ -67,34 +67,16 @@ export class WebpackBuilder {
             print.error(`Cannot find "prettier.config.js" at options.workspaceRootDirectory ("${prettierConfigFilepath}")`);
             process.exit(1);
         }
-        runCommand(this.workspaceRootDirectory)(
-            String.raw`yarn prettier \
-            --config "${prettierConfigFilepath}" \
-            --check \
-            --loglevel warn \
-            "${path.join(this.projectDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
-        );
+        PrettierUtil.check(path.join(this.projectDirectory, "src"));
         const workspaceSharedDirectory = path.join(this.workspaceRootDirectory, "shared");
         if (fs.existsSync(workspaceSharedDirectory) && fs.statSync(workspaceSharedDirectory)) {
             print.info("Checking shared project code styles");
-            runCommand(this.workspaceRootDirectory)(
-                String.raw`yarn prettier \
-            --config "${prettierConfigFilepath}" \
-            --check \
-            --loglevel warn \
-            "${path.join(workspaceSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
-            );
+            PrettierUtil.check(path.join(workspaceSharedDirectory, "src"));
         }
         const workspaceWebSharedDirectory = path.join(this.workspaceRootDirectory, "web/shared");
         if (fs.existsSync(workspaceWebSharedDirectory) && fs.statSync(workspaceWebSharedDirectory)) {
             print.info("Checking web/shared project code styles");
-            runCommand(this.workspaceRootDirectory)(
-                String.raw`yarn prettier \
-            --config "${prettierConfigFilepath}" \
-            --check \
-            --loglevel warn \
-            "${path.join(workspaceWebSharedDirectory, "/src/**/*.{html,less,ts,tsx}")}"`
-            );
+            PrettierUtil.check(path.join(workspaceWebSharedDirectory, "src"));
         }
     }
 

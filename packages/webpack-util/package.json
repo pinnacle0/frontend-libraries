@@ -8,6 +8,7 @@
         "format": "node tools format"
     },
     "dependencies": {
+        "@pinnacle0/devtool-util": "0.0.2",
         "autoprefixer": "9.8.6",
         "chalk": "4.1.0",
         "css-loader": "4.3.0",
