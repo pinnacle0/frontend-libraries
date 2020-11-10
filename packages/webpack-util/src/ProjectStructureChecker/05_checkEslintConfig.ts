@@ -2,7 +2,14 @@ import fs from "fs";
 import path from "path";
 
 /**
+ * Checks if an eslint config can be resolved.
+ * Only supports ".eslintrc.js" configuration format.
  *
+ * (Technically `eslint` can still resolve the ".eslintrc", ".eslintrc.yml", etc,
+ * but please use the ".eslintrc.js" for the sake of consistency.)
+ *
+ * The configuration file will be used when running `ForkTsCheckerWebpackPlugin` with the `eslint` option,
+ * and resolved automatically by the internal mechanics of `eslint`.
  */
 export function checkEslintConfig() {
     try {
@@ -14,8 +21,8 @@ export function checkEslintConfig() {
     let searchDirectory = __dirname;
     let found = false;
     while (searchDirectory !== path.dirname(searchDirectory)) {
-        const eslintrcjsFilepath = path.join(searchDirectory, ".eslintrc.js");
-        if (fs.existsSync(eslintrcjsFilepath)) {
+        const eslintrcJsFilepath = path.join(searchDirectory, ".eslintrc.js");
+        if (fs.existsSync(eslintrcJsFilepath)) {
             found = true;
             break;
         }

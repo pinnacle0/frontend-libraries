@@ -6,6 +6,7 @@ import {checkSrcMainEntry} from "./02_checkSrcMainEntry";
 import {checkSrcIndexHtml} from "./03_checkSrcIndexHtml";
 import {checkPrettierConfig} from "./04_checkPrettierConfig";
 import {checkEslintConfig} from "./05_checkEslintConfig";
+import {checkStylelintConfig} from "./06_checkStylelintConfig";
 
 interface ProjectStructureCheckerOptions {
     /**
@@ -38,5 +39,6 @@ export class ProjectStructureChecker {
         checkSrcIndexHtml({filepath: this.srcIndexHtmlFilepath});
         checkPrettierConfig({packageJsonFilepath: this.packageJsonFilepath});
         checkEslintConfig();
+        checkStylelintConfig();
     }
 }
