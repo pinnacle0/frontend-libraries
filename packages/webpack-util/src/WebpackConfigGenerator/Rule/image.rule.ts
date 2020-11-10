@@ -5,12 +5,12 @@ import type {UrlLoader} from "./loader-typedef/url-loader";
 
 export function imageRule(): webpack.RuleSetRule {
     const urlLoader: UrlLoader<FileLoader> = {
-        loader: "url-loader",
+        loader: require.resolve("url-loader") as "url-loader",
         options: {
             limit: 1024,
             esModule: false,
             fallback: {
-                loader: "file-loader",
+                loader: require.resolve("file-loader") as "file-loader",
                 options: {
                     name: "static/img/[name].[hash:8].[ext]",
                     esModule: false,

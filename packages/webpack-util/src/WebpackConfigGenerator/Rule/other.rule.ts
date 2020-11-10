@@ -5,7 +5,7 @@ import type {FileLoader} from "./loader-typedef/file-loader";
 
 export function otherRule(): webpack.RuleSetRule {
     const fileLoader: FileLoader = {
-        loader: "file-loader",
+        loader: require.resolve("file-loader") as "file-loader",
         options: {
             name: "static/other/[name].[hash:8].[ext]",
             esModule: false,
