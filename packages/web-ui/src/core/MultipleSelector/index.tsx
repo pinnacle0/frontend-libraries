@@ -121,7 +121,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         if (renderSelectedItems) {
             const renderedResult = renderSelectedItems(value);
             if (Array.isArray(renderedResult)) {
-                return <Tags maxWidth={600} status="success" items={renderedResult} onClose={disabled ? undefined : this.onToggleElement} />;
+                return <Tags maxWidth={600} color="success" items={renderedResult} onClose={disabled ? undefined : this.onToggleElement} />;
             } else {
                 return renderedResult;
             }
