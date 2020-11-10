@@ -1,10 +1,10 @@
+import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import {createPrint} from "./util";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
-const print = createPrint("WebpackServerStarter");
+const print = Utility.createConsoleLogger("WebpackServerStarter");
 
 // prettier-ignore
 export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions,
