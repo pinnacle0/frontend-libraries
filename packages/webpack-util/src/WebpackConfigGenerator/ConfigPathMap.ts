@@ -28,8 +28,6 @@ export interface ConfigPathMapOptions {
  */
 export class ConfigPathMap {
     readonly tsconfigFile: string;
-    readonly stylelintConfigFile: string;
-    readonly eslintConfigFile: string;
     readonly prettierConfigFile: string;
     readonly projectSrcDirectory: string;
     readonly dynamicWebpackOutputPublicUrl: string;
@@ -39,8 +37,6 @@ export class ConfigPathMap {
     constructor(private readonly options: ConfigPathMapOptions) {
         this.validateOptions();
         this.tsconfigFile = this.findTsconfigFile();
-        this.stylelintConfigFile = this.findStylelintConfigFile();
-        this.eslintConfigFile = this.findEslintConfigFile();
         this.prettierConfigFile = this.findPrettierConfigFile();
         this.projectSrcDirectory = this.findProjectSrcDirectory();
         this.dynamicWebpackOutputPublicUrl = this.findDynamicWebpackOutputPublicUrl();
@@ -63,30 +59,6 @@ export class ConfigPathMap {
             return file;
         }
         throw this.createError(`tsconfig file cannot be found at "${file}".`);
-    }
-
-    private findStylelintConfigFile(): string {
-        const projectFile = path.join(this.options.projectDirectory, "stylelint.config.js");
-        if (fs.existsSync(projectFile) && fs.statSync(projectFile).isFile()) {
-            return projectFile;
-        }
-        const workspaceRootFile = path.join(this.options.workspaceRootDirectory, "stylelint.config.js");
-        if (fs.existsSync(workspaceRootFile) && fs.statSync(workspaceRootFile).isFile()) {
-            return workspaceRootFile;
-        }
-        throw this.createError(`stylelint config file cannot be found at "${projectFile}" or "${workspaceRootFile}".`);
-    }
-
-    private findEslintConfigFile(): string {
-        const projectFile = path.join(this.options.projectDirectory, ".eslintrc.js");
-        if (fs.existsSync(projectFile) && fs.statSync(projectFile).isFile()) {
-            return projectFile;
-        }
-        const workspaceRootFile = path.join(this.options.workspaceRootDirectory, ".eslintrc.js");
-        if (fs.existsSync(workspaceRootFile) && fs.statSync(workspaceRootFile).isFile()) {
-            return workspaceRootFile;
-        }
-        throw this.createError(`eslint config file cannot be found at "${projectFile}" or "${workspaceRootFile}".`);
     }
 
     private findPrettierConfigFile(): string {

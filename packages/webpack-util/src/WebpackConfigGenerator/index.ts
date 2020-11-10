@@ -104,24 +104,15 @@ export class WebpackConfigGenerator {
                     return Plugin.fileOutput.html({entry});
                 }),
                 Plugin.moment(),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.ts({
-                          projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          eslintConfigFilepath: this.configPaths.eslintConfigFile,
-                          tsconfigFilepath: this.configPaths.tsconfigFile,
-                      }),
                 this.isFastMode || !this.containStylesheet
                     ? Plugin.NONE
                     : Plugin.styleChecker.css({
                           projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          stylelintConfigFilepath: this.configPaths.stylelintConfigFile,
                       }),
                 this.isFastMode
                     ? Plugin.NONE
                     : Plugin.styleChecker.ts({
                           projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          eslintConfigFilepath: this.configPaths.eslintConfigFile,
                           tsconfigFilepath: this.configPaths.tsconfigFile,
                       }),
                 Plugin.webpack.hmr(),
@@ -182,25 +173,16 @@ export class WebpackConfigGenerator {
                 }),
                 Plugin.crossOriginScriptTag(),
                 Plugin.moment(),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.ts({
-                          projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          eslintConfigFilepath: this.configPaths.eslintConfigFile,
-                          tsconfigFilepath: this.configPaths.tsconfigFile,
-                      }),
                 Plugin.fileOutput.css({enableProfiling: this.enableProfiling}),
                 this.isFastMode || !this.containStylesheet
                     ? Plugin.NONE
                     : Plugin.styleChecker.css({
                           projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          stylelintConfigFilepath: this.configPaths.stylelintConfigFile,
                       }),
                 this.isFastMode
                     ? Plugin.NONE
                     : Plugin.styleChecker.ts({
                           projectSrcDirectory: this.configPaths.projectSrcDirectory,
-                          eslintConfigFilepath: this.configPaths.eslintConfigFile,
                           tsconfigFilepath: this.configPaths.tsconfigFile,
                       }),
                 Plugin.webpack.progress({enableProfiling: this.enableProfiling}),

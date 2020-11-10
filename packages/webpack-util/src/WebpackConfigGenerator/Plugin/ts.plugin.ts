@@ -8,7 +8,6 @@ interface TsMinimizerPluginDeps {
 
 interface TsStyleCheckerPluginDeps {
     projectSrcDirectory: string;
-    eslintConfigFilepath: string;
     tsconfigFilepath: string;
 }
 
@@ -26,7 +25,7 @@ export function tsMinimizerPlugin({sourceMap}: TsMinimizerPluginDeps) {
  * Type checks ts files using TS compiler,
  * and lint ts files using eslint.
  */
-export function tsStyleCheckerPlugin({tsconfigFilepath, projectSrcDirectory, eslintConfigFilepath}: TsStyleCheckerPluginDeps) {
+export function tsStyleCheckerPlugin({tsconfigFilepath, projectSrcDirectory}: TsStyleCheckerPluginDeps) {
     return new ForkTsCheckerPlugin({
         typescript: {
             configFile: tsconfigFilepath,
@@ -35,7 +34,6 @@ export function tsStyleCheckerPlugin({tsconfigFilepath, projectSrcDirectory, esl
             files: path.join(projectSrcDirectory, "**/*.{ts,tsx}"),
             options: {
                 extensions: ["ts", "tsx"],
-                configFile: eslintConfigFilepath,
             },
         },
     });

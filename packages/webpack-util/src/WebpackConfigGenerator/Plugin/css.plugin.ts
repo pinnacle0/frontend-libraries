@@ -4,7 +4,6 @@ import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 
 interface CssStyleCheckerPluginDeps {
     projectSrcDirectory: string;
-    stylelintConfigFilepath: string;
 }
 
 interface ExtractCssPluginDeps {
@@ -14,10 +13,10 @@ interface ExtractCssPluginDeps {
 /**
  * Check code style of .less stylesheets using stylelint.
  * 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️ Must not be included if there are not .less files present. 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️
+ * Config file is resolved by stylelint internally.
  */
-export function cssStyleCheckerPlugin({projectSrcDirectory, stylelintConfigFilepath}: CssStyleCheckerPluginDeps) {
+export function cssStyleCheckerPlugin({projectSrcDirectory}: CssStyleCheckerPluginDeps) {
     return new StylelintWebpackPlugin({
-        configFile: stylelintConfigFilepath,
         context: projectSrcDirectory,
         // glob pattern of files must be relative to options.context
         files: "**/*.less",
