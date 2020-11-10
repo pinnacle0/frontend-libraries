@@ -3,6 +3,7 @@ import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
+import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackBuilder");
@@ -44,6 +45,10 @@ export class WebpackBuilder {
     }
 
     run() {
+        new ProjectStructureChecker({
+            projectDirectory: this.projectDirectory,
+        }).run();
+
         try {
             if (!this.isFastMode) {
                 // this.checkPackageDeps();

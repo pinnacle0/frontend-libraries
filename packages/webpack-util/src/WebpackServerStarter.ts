@@ -2,6 +2,7 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
+import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackServerStarter");
@@ -24,12 +25,14 @@ export interface WebpackServerStarterOptions extends Pick<WebpackConfigGenerator
  * Add "--env envName" to command line, if you want to switch config folder dynamically.
  */
 export class WebpackServerStarter {
+    private readonly projectDirectory: string;
     private readonly devServerConfigContentBase: string;
     private readonly port: number;
     private readonly apiProxyServer: string;
     private readonly webpackConfig: webpack.Configuration;
 
     constructor({projectDirectory, workspaceRootDirectory, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraResolvedPostfix}: WebpackServerStarterOptions) {
+        this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
         this.apiProxyServer = apiProxyServer;
@@ -43,6 +46,10 @@ export class WebpackServerStarter {
     }
 
     run() {
+        new ProjectStructureChecker({
+            projectDirectory: this.projectDirectory,
+        }).run();
+
         try {
             print.info(["Starting dev server on port", String(this.port)]);
             const server = this.createDevServerInstance();
