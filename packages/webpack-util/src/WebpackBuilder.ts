@@ -8,7 +8,13 @@ import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackCo
 
 const print = Utility.createConsoleLogger("WebpackBuilder");
 
-export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {}
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {
+    /**
+     * A list of directories other than `<projectDirectory>/src` containing source files
+     * that should be checked with `prettier --check`.
+     */
+    extraCheckFormatDirectories?: string[];
+}
 
 /**
  * Build the website by webpack.
@@ -51,7 +57,6 @@ export class WebpackBuilder {
 
         try {
             if (!this.isFastMode) {
-                // this.checkPackageDeps();
                 this.checkCodeStyle();
             }
             this.cleanDistFolder();
@@ -67,11 +72,6 @@ export class WebpackBuilder {
     private checkCodeStyle() {
         // TODO: PrettierUtil.check(this.projectDirectory) + extraCheckFolders
         print.info("Checking project code styles");
-        const prettierConfigFilepath = path.join(this.workspaceRootDirectory, "prettier.config.js");
-        if (!(fs.existsSync(prettierConfigFilepath) && fs.statSync(prettierConfigFilepath))) {
-            print.error(`Cannot find "prettier.config.js" at options.workspaceRootDirectory ("${prettierConfigFilepath}")`);
-            process.exit(1);
-        }
         PrettierUtil.check(path.join(this.projectDirectory, "src"));
         const workspaceSharedDirectory = path.join(this.workspaceRootDirectory, "shared");
         if (fs.existsSync(workspaceSharedDirectory) && fs.statSync(workspaceSharedDirectory)) {
