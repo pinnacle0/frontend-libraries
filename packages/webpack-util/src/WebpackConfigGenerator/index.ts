@@ -10,7 +10,6 @@ import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";
 import {Utility} from "./Utility";
 import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
-import {WebpackResolveLoaderModulesFactory} from "./WebpackResolveLoaderModulesFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
 /**
@@ -35,7 +34,6 @@ export class WebpackConfigGenerator {
     private readonly resolveExtensions: string[];
     private readonly resolveModules: string[];
     private readonly resolveAliases: {[moduleAlias: string]: string};
-    private readonly resolveLoaderModules: string[];
 
     constructor(options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
@@ -57,17 +55,16 @@ export class WebpackConfigGenerator {
         this.containStylesheet = glob.sync("**/*.less", {cwd: this.configPaths.projectSrcDirectory}).length > 0;
 
         this.entry = Utility.toWebpackEntry(this.configChunkEntries);
-        this.resolveExtensions = new WebpackResolveExtensionsFactory({
+        this.resolveExtensions = WebpackResolveExtensionsFactory.generate({
             extraResolvedExtensions: options.extraResolvedPostfix,
-        }).get();
-        this.resolveModules = new WebpackResolveModulesFactory({
+        });
+        this.resolveModules = WebpackResolveModulesFactory.generate({
             projectSrcDirectory: this.configPaths.projectSrcDirectory,
-        }).get();
-        this.resolveAliases = new WebpackResolveAliasFactory({
+        });
+        this.resolveAliases = WebpackResolveAliasFactory.generate({
             env: this.env,
             dynamicConfigResolvers: options.dynamicConfigResolvers ?? [],
-        }).get();
-        this.resolveLoaderModules = new WebpackResolveLoaderModulesFactory().get();
+        });
 
         this.printInfo();
     }
@@ -84,9 +81,6 @@ export class WebpackConfigGenerator {
                 extensions: this.resolveExtensions,
                 modules: this.resolveModules,
                 alias: this.resolveAliases,
-            },
-            resolveLoader: {
-                modules: this.resolveLoaderModules,
             },
             devtool: "inline-cheap-module-source-map",
             optimization: {
@@ -159,9 +153,6 @@ export class WebpackConfigGenerator {
                 extensions: this.resolveExtensions,
                 modules: this.resolveModules,
                 alias: this.resolveAliases,
-            },
-            resolveLoader: {
-                modules: this.resolveLoaderModules,
             },
             bail: true,
             optimization: {

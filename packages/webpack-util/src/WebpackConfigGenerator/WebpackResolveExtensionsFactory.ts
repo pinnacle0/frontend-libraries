@@ -6,28 +6,21 @@ interface WebpackResolveExtensionsFactoryOptions {
 }
 
 export class WebpackResolveExtensionsFactory {
-    private readonly resolveExtensions: string[];
-
-    constructor(private readonly options: WebpackResolveExtensionsFactoryOptions) {
-        this.resolveExtensions = [];
-        this.validateOptions();
-        for (const ext of Constant.chunkExtensions) {
-            this.resolveExtensions.push(ext);
-        }
-        for (const ext of this.options.extraResolvedExtensions || []) {
-            this.resolveExtensions.push(ext);
-        }
-        Object.freeze(this);
-    }
-
-    get(): string[] {
-        Object.freeze(this.resolveExtensions);
-        return this.resolveExtensions;
-    }
-
-    private validateOptions(): void {
-        for (const ext of this.options.extraResolvedExtensions || []) {
+    static generate({extraResolvedExtensions = []}: WebpackResolveExtensionsFactoryOptions): string[] {
+        for (const ext of extraResolvedExtensions) {
             Utility.validateFileExtension(ext);
         }
+
+        const resolveExtensions = [];
+
+        for (const ext of Constant.chunkExtensions) {
+            resolveExtensions.push(ext);
+        }
+
+        for (const ext of extraResolvedExtensions) {
+            resolveExtensions.push(ext);
+        }
+
+        return resolveExtensions;
     }
 }
