@@ -1,4 +1,4 @@
-import {miniCssExtractPlugin, optimizeCSSAssetsPlugin, stylelintPlugin} from "./css.plugin";
+import {miniCssExtractPlugin, optimizeCSSAssetsPlugin} from "./css.plugin";
 import {crossOriginScriptTagPlugin, htmlPlugin} from "./html.plugin";
 import {ignoreMomentLocalePlugin} from "./moment.plugin";
 import {terserPlugin} from "./ts.plugin";
@@ -17,10 +17,6 @@ export class Plugin {
     static readonly fileOutput = {
         html: htmlPlugin,
         miniCssExtract: miniCssExtractPlugin,
-    } as const;
-
-    static readonly styleChecker = {
-        stylelint: stylelintPlugin,
     } as const;
 
     static readonly minimizer = {

@@ -1,26 +1,8 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCSSAssetsWebpackPlugin from "optimize-css-assets-webpack-plugin";
-import StylelintWebpackPlugin from "stylelint-webpack-plugin";
-
-interface StylelintPluginOptions {
-    directory: string;
-}
 
 interface ExtractCssPluginOptions {
     enableProfiling: boolean;
-}
-
-/**
- * Check code style of .less stylesheets using stylelint.
- * 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️ Must not be included if there are not .less files present. 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️
- * Config file is resolved by stylelint internally.
- */
-export function stylelintPlugin({directory}: StylelintPluginOptions) {
-    return new StylelintWebpackPlugin({
-        context: directory,
-        // glob pattern of files must be relative to options.context
-        files: "**/*.less",
-    });
 }
 
 /**
