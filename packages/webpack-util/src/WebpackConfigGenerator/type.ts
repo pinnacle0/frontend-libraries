@@ -100,6 +100,10 @@ export interface ChunkEntry {
      */
     chunkEntryPath: string;
     /**
+     * Output filename of the entry.
+     */
+    outputFilename: string;
+    /**
      * Filepath to an html template file. Omitting this will result in the output having a static filename (***not*** having contenthash).
      *
      * Example usage:

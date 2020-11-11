@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import {Constant} from "../Constant";
 import {ChunkEntry} from "./type";
-import {Utility} from "./Utility";
 
 interface ConfigChunkEntryOptions {
     indexName: string;
@@ -11,41 +10,71 @@ interface ConfigChunkEntryOptions {
 }
 
 export class ConfigChunkEntryFactory {
-    private readonly createError = Utility.taggedErrorFactory("[ConfigGenerator.ConfigChunkEntryFactory]");
-    private readonly chunkEntries: ChunkEntry[];
+    static generate({indexName, projectSrcDirectory, extraChunks}: ConfigChunkEntryOptions): ChunkEntry[] {
+        const chunkEntries: ChunkEntry[] = [];
 
-    constructor(private readonly options: ConfigChunkEntryOptions) {
-        const {indexName, projectSrcDirectory, extraChunks} = this.options;
-        this.chunkEntries = [];
-        this.validateAndPushEntry({name: indexName, directory: projectSrcDirectory});
+        const mainEntry = ConfigChunkEntryFactory.createEntry({
+            name: indexName,
+            directory: projectSrcDirectory,
+        });
+        chunkEntries.push(mainEntry);
+
         for (const [extraChunkName, extraChunkDirectory] of Object.entries(extraChunks)) {
-            this.validateAndPushEntry({name: extraChunkName, directory: extraChunkDirectory});
+            const extraEntry = ConfigChunkEntryFactory.createEntry({
+                name: extraChunkName,
+                directory: extraChunkDirectory,
+            });
+            chunkEntries.push(extraEntry);
         }
-        Object.freeze(this);
+
+        return chunkEntries;
     }
 
-    get(): Array<ChunkEntry> {
-        this.chunkEntries.forEach(entry => Object.freeze(entry));
-        Object.freeze(this.chunkEntries);
-        return this.chunkEntries;
+    private static createEntry({name, directory}: {name: string; directory: string}): ChunkEntry {
+        const chunkEntryPath = ConfigChunkEntryFactory.findEntryFilepath(directory);
+        const htmlPath = ConfigChunkEntryFactory.findEntryHtmlFilepath(directory);
+
+        if (chunkEntryPath === null) {
+            throw new Error(`Cannot find entry file for "${name}" in "${directory}", files checked: ${Constant.mainChunkEntryNames.join("/")}`);
+        }
+
+        if (htmlPath === null) {
+            // Output is a pure js chunk (without a companion `index.html` template file)
+            // Do not include a hash in the output filenames.
+            // One particular usecase for this is create a "third-party-error-handler" pure js chunk,
+            // so this static filename can be hard coded at our backend.
+            const outputFilename = "static/js/[name].js";
+            return {name, chunkEntryPath, outputFilename};
+        } else {
+            // Output is html chunk (with a companion `index.html` template file)
+            // We might want to include a hash to the output filenames
+            // (don't set the output filename to contain hash for profiling build).
+            const outputFilename = "static/js/[chunkhash:8].js";
+            return {name, chunkEntryPath, outputFilename, htmlPath};
+        }
     }
 
-    private validateAndPushEntry = ({name, directory}: {name: string; directory: string}): void => {
-        if (!(fs.existsSync(directory) && fs.statSync(directory).isDirectory())) {
-            throw this.createError(`Cannot compute entry path for "${name}" because "${directory}" is not a directory.`);
+    private static findEntryFilepath(searchDirectory: string): string | null {
+        if (!(fs.existsSync(searchDirectory) && fs.statSync(searchDirectory).isDirectory())) {
+            return null;
         }
-        for (const file of Constant.mainChunkEntryNames) {
-            const chunkEntryPath = path.join(directory, file);
-            if (fs.existsSync(chunkEntryPath) && fs.statSync(chunkEntryPath).isFile()) {
-                const chunkEntry: ChunkEntry = {name, chunkEntryPath};
-                const htmlPath = path.join(directory, "index.html");
-                if (fs.existsSync(htmlPath) && fs.statSync(htmlPath).isFile()) {
-                    chunkEntry.htmlPath = htmlPath;
-                }
-                this.chunkEntries.push(chunkEntry);
-                return;
+        for (const filename of Constant.mainChunkEntryNames) {
+            const filepath = path.join(searchDirectory, filename);
+            if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
+                return filepath;
             }
         }
-        throw this.createError(`Cannot find entry file for "${name}" at directory "${directory}", files checked: ${Constant.mainChunkEntryNames.join("/")}`);
-    };
+        return null;
+    }
+
+    private static findEntryHtmlFilepath(searchDirectory: string): string | null {
+        if (!(fs.existsSync(searchDirectory) && fs.statSync(searchDirectory).isDirectory())) {
+            return null;
+        }
+        const filepath = path.join(searchDirectory, "index.html");
+        if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
+            return filepath;
+        }
+        return null;
+    }
 }

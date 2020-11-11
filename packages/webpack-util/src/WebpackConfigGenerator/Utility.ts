@@ -1,4 +1,4 @@
-import {ChunkEntry, HTMLEntry, TaggedError} from "./type";
+import {TaggedError} from "./type";
 
 function taggedErrorFactory(tag: string) {
     return function createError(message: string): TaggedError {
@@ -11,18 +11,6 @@ function taggedErrorFactory(tag: string) {
 
 function isTaggedError(err: unknown): err is TaggedError {
     return Boolean(err && typeof err === "object" && (err as any)["@@tag"] === "ConfigGeneratorError");
-}
-
-function toWebpackEntry(chunkEntries: ChunkEntry[]): {[chunkName: string]: string} {
-    const entry: Record<string, string> = {};
-    for (const {name, chunkEntryPath} of chunkEntries) {
-        entry[name] = chunkEntryPath;
-    }
-    return entry;
-}
-
-function isHTMLEntry(chunkEntry: ChunkEntry): chunkEntry is HTMLEntry {
-    return chunkEntry.htmlPath !== undefined;
 }
 
 function validateFileExtension(ext: string): void {
@@ -56,8 +44,6 @@ function regExpForFileExtension(...extensions: [string, ...string[]]): RegExp {
 export const Utility = Object.freeze({
     taggedErrorFactory,
     isTaggedError,
-    toWebpackEntry,
-    isHTMLEntry,
     validateFileExtension,
     regExpForFileExtension,
 });

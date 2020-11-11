@@ -4,10 +4,11 @@ import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
 import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
+import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
 import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";
-import {Utility} from "./Utility";
+import {WebpackEntryFactory} from "./WebpackEntryFactory";
 import {WebpackOutputPublicUrlFactory} from "./WebpackOutputPublicUrlFactory";
 import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
@@ -25,7 +26,6 @@ export class WebpackConfigGenerator {
     readonly env: string | null;
     readonly projectSrcDirectory: string;
     readonly tsconfigFilepath: string;
-    readonly configChunkEntries: ChunkEntry[];
 
     readonly enableProfiling: boolean;
     readonly maxEntryPointKiloByte: number;
@@ -33,21 +33,18 @@ export class WebpackConfigGenerator {
     readonly isFastMode: boolean;
     readonly containStylesheet: boolean;
 
-    private readonly entry: {[chunkName: string]: string};
+    private readonly configChunkEntries: ChunkEntry[];
+    private readonly entry: NonNullable<webpack.Configuration["entry"]>;
+    private readonly htmlWebpackPluginInstances: NonNullable<webpack.Configuration["plugins"]>;
     private readonly outputPublicUrlSelect: {development: string; production: string};
-    private readonly resolveExtensions: string[];
-    private readonly resolveModules: string[];
-    private readonly resolveAliases: {[moduleAlias: string]: string};
+    private readonly resolveExtensions: NonNullable<NonNullable<webpack.Configuration["resolve"]>["extensions"]>;
+    private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
+    private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
 
     constructor(options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilepath = path.join(options.projectDirectory, "tsconfig.json");
-        this.configChunkEntries = new ConfigChunkEntryFactory({
-            indexName: options.indexName ?? "index",
-            projectSrcDirectory: this.projectSrcDirectory,
-            extraChunks: options.extraChunks ?? {},
-        }).get();
 
         this.enableProfiling = Boolean(yargs.argv.profile);
         this.maxEntryPointKiloByte = options.maxEntryPointKiloByte ?? Constant.maxEntryPointKiloByte;
@@ -55,7 +52,17 @@ export class WebpackConfigGenerator {
         this.isFastMode = yargs.argv.mode === "fast";
         this.containStylesheet = glob.sync("**/*.less", {cwd: this.projectSrcDirectory}).length > 0;
 
-        this.entry = Utility.toWebpackEntry(this.configChunkEntries);
+        this.configChunkEntries = ConfigChunkEntryFactory.generate({
+            indexName: options.indexName ?? "index",
+            projectSrcDirectory: this.projectSrcDirectory,
+            extraChunks: options.extraChunks ?? {},
+        });
+        this.entry = WebpackEntryFactory.generate({
+            configChunkEntries: this.configChunkEntries,
+        });
+        this.htmlWebpackPluginInstances = HtmlWebpackPluginsFactory.generate({
+            configChunkEntries: this.configChunkEntries,
+        });
         this.outputPublicUrlSelect = {
             development: "/",
             production: WebpackOutputPublicUrlFactory.generate({
@@ -108,9 +115,7 @@ export class WebpackConfigGenerator {
                 ],
             },
             plugins: [
-                ...this.configChunkEntries.filter(Utility.isHTMLEntry).map(entry => {
-                    return Plugin.fileOutput.html({entry});
-                }),
+                ...this.htmlWebpackPluginInstances,
                 Plugin.moment(),
                 this.isFastMode || !this.containStylesheet
                     ? Plugin.NONE
@@ -139,12 +144,8 @@ export class WebpackConfigGenerator {
                 path: outputDirectory,
                 filename: this.enableProfiling
                     ? "static/js/[name].js"
-                    : (chunkData: webpack.ChunkData) => {
-                          const currentChunkEntry = this.configChunkEntries.find(chunkEntry => chunkEntry.name === chunkData.chunk.name);
-                          const isPureJsChunk = Boolean(currentChunkEntry?.htmlPath === undefined);
-                          // Backend requires the "third-party-error-handler" chunk to have a static filename
-                          // Do not include a hash in the output filename if the chunk does not have htmlPath specified
-                          return isPureJsChunk ? "static/js/[name].js" : "static/js/[chunkhash:8].js";
+                    : (chunkData: webpack.ChunkData): string => {
+                          return this.configChunkEntries.find(_ => _.name === chunkData.chunk.name)!.outputFilename;
                       },
                 chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
                 publicPath: this.outputPublicUrlSelect.production,
@@ -178,9 +179,7 @@ export class WebpackConfigGenerator {
                 ],
             },
             plugins: [
-                ...this.configChunkEntries.filter(Utility.isHTMLEntry).map(entry => {
-                    return Plugin.fileOutput.html({entry});
-                }),
+                ...this.htmlWebpackPluginInstances,
                 Plugin.crossOriginScriptTag(),
                 Plugin.moment(),
                 Plugin.fileOutput.css({enableProfiling: this.enableProfiling}),
@@ -206,7 +205,7 @@ export class WebpackConfigGenerator {
             `-- Code Checking: ${this.isFastMode ? "Minimal Check" : "Default"}`,
             `-- Env: ${this.env || "[N/A]"}`,
             `-- Src Directory: ${this.projectSrcDirectory}`,
-            `-- HTML Entries: ${this.configChunkEntries.map(_ => _.name).join(" / ")}`,
+            `-- HTML Entries: ${Object.keys(this.entry).join(" / ")}`,
             `-- Webpack Public Url: ${this.outputPublicUrlSelect[select]}`,
             `-- Dynamic Aliases: ${JSON.stringify(this.resolveAliases, null, 4)}`,
         ]) {
