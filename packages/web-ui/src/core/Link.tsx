@@ -18,7 +18,7 @@ export class Link extends React.PureComponent<Props> {
     render() {
         const {to, children, newTab, replace, className, style} = this.props;
         const fullClassNames: string[] = [];
-        if (typeof children === "string") {
+        if (typeof children === "string" || typeof children === "number") {
             fullClassNames.push("g-text-link");
         }
 
