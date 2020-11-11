@@ -8,13 +8,7 @@ import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackCo
 
 const print = Utility.createConsoleLogger("WebpackBuilder");
 
-export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {
-    /**
-     * A list of directories other than `<projectDirectory>/src` containing source files
-     * that should be checked with `prettier --check`.
-     */
-    extraCheckFormatDirectories?: string[];
-}
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {}
 
 /**
  * Build the website by webpack.
