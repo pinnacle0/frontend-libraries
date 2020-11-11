@@ -11,7 +11,6 @@ export function tsRule({tsconfigFilepath}: Deps): webpack.RuleSetRule {
         loader: require.resolve("ts-loader") as "ts-loader",
         options: {
             configFile: tsconfigFilepath,
-            transpileOnly: true,
         },
     };
 
