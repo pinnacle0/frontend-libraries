@@ -53,6 +53,7 @@ export class WebpackBuilder {
     run() {
         new ProjectStructureChecker({
             projectDirectory: this.projectDirectory,
+            extraCheckDirectories: this.extraCheckDirectories,
         }).run();
 
         try {

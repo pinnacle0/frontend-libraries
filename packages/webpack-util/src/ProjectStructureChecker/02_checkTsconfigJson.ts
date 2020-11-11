@@ -11,7 +11,7 @@ interface Options {
 export function checkTsconfigJson({filepath}: Options) {
     if (!(fs.existsSync(filepath) && fs.statSync(filepath).isFile())) {
         throw new Error(
-            `Cannot find tsconfig.json in project directory as "${filepath}".
+            `Cannot find tsconfig.json at "${filepath}".
             \`tsconfig.json\` is required for typechecking ts code & transpilation.`
                 .split("\n")
                 .map(line => line.trim())
