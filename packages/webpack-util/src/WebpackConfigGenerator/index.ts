@@ -117,7 +117,9 @@ export class WebpackConfigGenerator {
             plugins: [
                 ...this.htmlWebpackPluginInstances,
                 Plugin.moment(),
-                this.isFastMode || !this.containStylesheet
+                this.isFastMode
+                    ? Plugin.NONE
+                    : !this.containStylesheet
                     ? Plugin.NONE
                     : Plugin.styleChecker.css({
                           projectSrcDirectory: this.projectSrcDirectory,
@@ -183,7 +185,9 @@ export class WebpackConfigGenerator {
                 Plugin.crossOriginScriptTag(),
                 Plugin.moment(),
                 Plugin.fileOutput.css({enableProfiling: this.enableProfiling}),
-                this.isFastMode || !this.containStylesheet
+                this.isFastMode
+                    ? Plugin.NONE
+                    : !this.containStylesheet
                     ? Plugin.NONE
                     : Plugin.styleChecker.css({
                           projectSrcDirectory: this.projectSrcDirectory,
