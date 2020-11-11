@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/no-dynamic-require -- using dynamic require in ts-node scripts is fine */
-import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
+import {CodeStyleChecker} from "./CodeStyleChecker";
 import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
@@ -18,6 +19,8 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {
 
 /**
  * Build the website by webpack.
+ *
+ * Runs static analysis checkers before starting the webpack build (`prettier --check`, `eslint`, `stylelint`).
  *
  ***************************************
  *
@@ -51,15 +54,18 @@ export class WebpackBuilder {
     }
 
     run() {
-        new ProjectStructureChecker({
-            projectDirectory: this.projectDirectory,
-            extraCheckDirectories: this.extraCheckDirectories,
-        }).run();
-
         try {
             if (!this.isFastMode) {
-                this.checkCodeStyle();
+                new ProjectStructureChecker({
+                    projectDirectory: this.projectDirectory,
+                    extraCheckDirectories: this.extraCheckDirectories,
+                }).run();
+                new CodeStyleChecker({
+                    projectDirectory: this.projectDirectory,
+                    extraCheckDirectories: this.extraCheckDirectories,
+                }).run();
             }
+
             this.cleanDistFolder();
             this.copyStatic();
             this.bundleByWebpack();
@@ -67,16 +73,6 @@ export class WebpackBuilder {
             print.error(e);
             console.error(e);
             process.exit(1);
-        }
-    }
-
-    private checkCodeStyle() {
-        print.info(`Checking project code styles at "${path.join(this.projectDirectory, "src")}"`);
-        PrettierUtil.check(path.join(this.projectDirectory, "src"));
-
-        for (const directory of this.extraCheckDirectories) {
-            print.info(`Checking extra directory code styles at "${path.join(directory, "src")}"`);
-            PrettierUtil.check(path.join(directory, "src"));
         }
     }
 
