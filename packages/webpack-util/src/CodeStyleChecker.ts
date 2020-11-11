@@ -41,7 +41,7 @@ export class CodeStyleChecker {
     private checkStylelint() {
         print.task(`Running \`stylelint\` on "src/"`);
         for (const srcDirectory of this.checkableSrcDirectories) {
-            Utility.runCommand("stylelint", ["--allow-empty-input", "--max-warnings=1", srcDirectory]);
+            Utility.runCommand("stylelint", ["--allow-empty-input", "--max-warnings=1", path.join(srcDirectory, "**/*.{css,less}")]);
         }
     }
 }
