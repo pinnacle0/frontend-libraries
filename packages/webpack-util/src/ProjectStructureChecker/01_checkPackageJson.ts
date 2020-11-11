@@ -23,12 +23,6 @@ export function checkPackageJson({filepath}: Options) {
             checkDependencyVersion({name, version, filepath});
         });
     }
-    if (typeof contents.peerDependencies === "object" && !Array.isArray(contents.peerDependencies)) {
-        const peerDepsCount = Object.entries(contents.peerDependencies).length;
-        if (peerDepsCount > 0) {
-            throw new Error(`There should not be any peerDependencies in package.json at ${filepath}.`);
-        }
-    }
     if (typeof contents.optionalDependencies === "object" && !Array.isArray(contents.optionalDependencies)) {
         const peerDepsCount = Object.entries(contents.optionalDependencies).length;
         if (peerDepsCount > 0) {
