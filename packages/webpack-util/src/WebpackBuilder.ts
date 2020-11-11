@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires, import/no-dynamic-require -- using dynamic require in ts-node scripts is fine */
 import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";

@@ -1,8 +1,7 @@
-import webpack from "webpack";
 import {miniCssExtractPlugin, optimizeCSSAssetsPlugin, stylelintPlugin} from "./css.plugin";
 import {crossOriginScriptTagPlugin, htmlPlugin} from "./html.plugin";
 import {ignoreMomentLocalePlugin} from "./moment.plugin";
-import {forkTsCheckerPlugin, terserPlugin} from "./ts.plugin";
+import {terserPlugin} from "./ts.plugin";
 import {webpackHmrPlugin, webpackProgressPlugin} from "./webpack.plugin";
 
 /**
@@ -22,7 +21,6 @@ export class Plugin {
 
     static readonly styleChecker = {
         stylelint: stylelintPlugin,
-        forkTsChecker: forkTsCheckerPlugin,
     } as const;
 
     static readonly minimizer = {

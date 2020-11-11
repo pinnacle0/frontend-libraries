@@ -3,11 +3,9 @@ import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
 import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
-import {ForkTsCheckerPluginsFactory} from "./ForkTsCheckerPluginsFactory";
 import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
-import {StylelintPluginsFactory} from "./StylelintPluginsFactory";
 import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
 import {WebpackOutputPublicUrlFactory} from "./WebpackOutputPublicUrlFactory";
@@ -122,18 +120,6 @@ export class WebpackConfigGenerator {
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
-                ...(this.isFastMode
-                    ? []
-                    : StylelintPluginsFactory.generate({
-                          projectDirectory: this.projectDirectory,
-                          extraCheckDirectories: this.extraCheckDirectories,
-                      })),
-                ...(this.isFastMode
-                    ? []
-                    : ForkTsCheckerPluginsFactory.generate({
-                          projectDirectory: this.projectDirectory,
-                          extraCheckDirectories: this.extraCheckDirectories,
-                      })),
                 Plugin.ignoreMomentLocale(),
                 Plugin.webpack.hmr(),
                 Plugin.webpack.progress({
@@ -197,18 +183,6 @@ export class WebpackConfigGenerator {
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
-                ...(this.isFastMode
-                    ? []
-                    : StylelintPluginsFactory.generate({
-                          projectDirectory: this.projectDirectory,
-                          extraCheckDirectories: this.extraCheckDirectories,
-                      })),
-                ...(this.isFastMode
-                    ? []
-                    : ForkTsCheckerPluginsFactory.generate({
-                          projectDirectory: this.projectDirectory,
-                          extraCheckDirectories: this.extraCheckDirectories,
-                      })),
                 Plugin.crossOriginScriptTag(),
                 Plugin.ignoreMomentLocale(),
                 Plugin.fileOutput.miniCssExtract({
