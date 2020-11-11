@@ -20,7 +20,7 @@ const Webpack5IgnorePlugin: Webpack5CompatibleIgnorePlugin = webpack.IgnorePlugi
  * To include a locale, it must be explicitly imported
  * (preferably at the entry file).
  */
-export function momentPlugin() {
+export function ignoreMomentLocalePlugin() {
     return new Webpack5IgnorePlugin({
         // check dependency-request against the provided regex,
         // and exclude resource from final bundle if matched;

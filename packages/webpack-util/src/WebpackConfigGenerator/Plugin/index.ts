@@ -1,41 +1,33 @@
 import webpack from "webpack";
-import {cssFileOutputPlugin, cssMinimizePlugin, cssStyleCheckerPlugin} from "./css.plugin";
-import {crossOriginScriptTagPlugin, htmlFilePlugin} from "./html.plugin";
-import {momentPlugin} from "./moment.plugin";
-import {tsMinimizerPlugin, tsStyleCheckerPlugin} from "./ts.plugin";
+import {miniCssExtractPlugin, optimizeCSSAssetsPlugin, stylelintPlugin} from "./css.plugin";
+import {crossOriginScriptTagPlugin, htmlPlugin} from "./html.plugin";
+import {ignoreMomentLocalePlugin} from "./moment.plugin";
+import {forkTsCheckerPlugin, terserPlugin} from "./ts.plugin";
 import {webpackHmrPlugin, webpackProgressPlugin} from "./webpack.plugin";
 
 /**
- * Does nothing. 🙂
- */
-class DummyPlugin implements webpack.Plugin {
-    apply() {}
-}
-
-/**
  * Static factories to create \`webpack.config#plugins\` items.
+ *
+ * Plugins with similar functionality are grouped under a js object (as a namespace).
  */
 export class Plugin {
-    /** Does nothing, used for the "does-nothing" branch of "?:" ternary expression */
-    static readonly NONE = new DummyPlugin();
-
     static readonly crossOriginScriptTag = crossOriginScriptTagPlugin;
 
-    static readonly moment = momentPlugin;
+    static readonly ignoreMomentLocale = ignoreMomentLocalePlugin;
 
     static readonly fileOutput = {
-        html: htmlFilePlugin,
-        css: cssFileOutputPlugin,
+        html: htmlPlugin,
+        miniCssExtract: miniCssExtractPlugin,
     } as const;
 
     static readonly styleChecker = {
-        css: cssStyleCheckerPlugin,
-        ts: tsStyleCheckerPlugin,
+        stylelint: stylelintPlugin,
+        forkTsChecker: forkTsCheckerPlugin,
     } as const;
 
     static readonly minimizer = {
-        css: cssMinimizePlugin,
-        ts: tsMinimizerPlugin,
+        optimizeCSSAssets: optimizeCSSAssetsPlugin,
+        terser: terserPlugin,
     } as const;
 
     static readonly webpack = {

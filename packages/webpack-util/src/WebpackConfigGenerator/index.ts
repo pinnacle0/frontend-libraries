@@ -1,12 +1,13 @@
-import glob from "glob";
 import path from "path";
 import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
 import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
+import {ForkTsCheckerPluginsFactory} from "./ForkTsCheckerPluginsFactory";
 import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
+import {StylelintPluginsFactory} from "./StylelintPluginsFactory";
 import {ChunkEntry, WebpackConfigGeneratorOptions} from "./type";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
 import {WebpackOutputPublicUrlFactory} from "./WebpackOutputPublicUrlFactory";
@@ -24,6 +25,8 @@ import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
  */
 export class WebpackConfigGenerator {
     readonly env: string | null;
+    readonly extraCheckDirectories: string[];
+    readonly projectDirectory: string;
     readonly projectSrcDirectory: string;
     readonly tsconfigFilepath: string;
 
@@ -31,7 +34,6 @@ export class WebpackConfigGenerator {
     readonly maxEntryPointKiloByte: number;
     readonly maxAssetKiloByte: number;
     readonly isFastMode: boolean;
-    readonly containStylesheet: boolean;
 
     private readonly configChunkEntries: ChunkEntry[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
@@ -41,8 +43,10 @@ export class WebpackConfigGenerator {
     private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
 
-    constructor(options: WebpackConfigGeneratorOptions) {
+    constructor(private readonly options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
+        this.extraCheckDirectories = options.extraCheckDirectories ?? [];
+        this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilepath = path.join(options.projectDirectory, "tsconfig.json");
 
@@ -50,7 +54,6 @@ export class WebpackConfigGenerator {
         this.maxEntryPointKiloByte = options.maxEntryPointKiloByte ?? Constant.maxEntryPointKiloByte;
         this.maxAssetKiloByte = options.maxAssetKiloByte ?? Constant.maxAssetKiloByte;
         this.isFastMode = yargs.argv.mode === "fast";
-        this.containStylesheet = glob.sync("**/*.less", {cwd: this.projectSrcDirectory}).length > 0;
 
         this.configChunkEntries = ConfigChunkEntryFactory.generate({
             indexName: options.indexName ?? "index",
@@ -106,32 +109,36 @@ export class WebpackConfigGenerator {
                 },
             },
             module: {
-                // prettier-ignore
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
-                    Rule.stylesheet({minimize: false}),
+                    Rule.ts({
+                        tsconfigFilepath: this.tsconfigFilepath,
+                    }),
+                    Rule.stylesheet({
+                        minimize: false,
+                    }),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
-                Plugin.moment(),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : !this.containStylesheet
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.css({
-                          projectSrcDirectory: this.projectSrcDirectory,
-                      }),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.ts({
-                          projectSrcDirectory: this.projectSrcDirectory,
-                          tsconfigFilepath: this.tsconfigFilepath,
-                      }),
+                ...(this.isFastMode
+                    ? []
+                    : StylelintPluginsFactory.generate({
+                          projectDirectory: this.projectDirectory,
+                          extraCheckDirectories: this.extraCheckDirectories,
+                      })),
+                ...(this.isFastMode
+                    ? []
+                    : ForkTsCheckerPluginsFactory.generate({
+                          projectDirectory: this.projectDirectory,
+                          extraCheckDirectories: this.extraCheckDirectories,
+                      })),
+                Plugin.ignoreMomentLocale(),
                 Plugin.webpack.hmr(),
-                Plugin.webpack.progress({enableProfiling: false}),
+                Plugin.webpack.progress({
+                    enableProfiling: false,
+                }),
             ],
         };
     }
@@ -164,7 +171,12 @@ export class WebpackConfigGenerator {
                     automaticNameDelimiter: "-",
                     maxAsyncRequests: 30,
                 },
-                minimizer: [Plugin.minimizer.ts({sourceMap: true}), Plugin.minimizer.css()],
+                minimizer: [
+                    Plugin.minimizer.terser({
+                        sourceMap: true,
+                    }),
+                    Plugin.minimizer.optimizeCSSAssets(),
+                ],
             },
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
@@ -172,33 +184,39 @@ export class WebpackConfigGenerator {
                 assetFilter: fileName => Constant.mediaExtensions.every(_ => !fileName.endsWith(`.${_}`)),
             },
             module: {
-                // prettier-ignore
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
-                    Rule.stylesheet({minimize: true}),
+                    Rule.ts({
+                        tsconfigFilepath: this.tsconfigFilepath,
+                    }),
+                    Rule.stylesheet({
+                        minimize: true,
+                    }),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
+                ...(this.isFastMode
+                    ? []
+                    : StylelintPluginsFactory.generate({
+                          projectDirectory: this.projectDirectory,
+                          extraCheckDirectories: this.extraCheckDirectories,
+                      })),
+                ...(this.isFastMode
+                    ? []
+                    : ForkTsCheckerPluginsFactory.generate({
+                          projectDirectory: this.projectDirectory,
+                          extraCheckDirectories: this.extraCheckDirectories,
+                      })),
                 Plugin.crossOriginScriptTag(),
-                Plugin.moment(),
-                Plugin.fileOutput.css({enableProfiling: this.enableProfiling}),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : !this.containStylesheet
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.css({
-                          projectSrcDirectory: this.projectSrcDirectory,
-                      }),
-                this.isFastMode
-                    ? Plugin.NONE
-                    : Plugin.styleChecker.ts({
-                          projectSrcDirectory: this.projectSrcDirectory,
-                          tsconfigFilepath: this.tsconfigFilepath,
-                      }),
-                Plugin.webpack.progress({enableProfiling: this.enableProfiling}),
+                Plugin.ignoreMomentLocale(),
+                Plugin.fileOutput.miniCssExtract({
+                    enableProfiling: this.enableProfiling,
+                }),
+                Plugin.webpack.progress({
+                    enableProfiling: this.enableProfiling,
+                }),
             ],
         };
     }

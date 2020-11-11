@@ -10,7 +10,7 @@ const print = Utility.createConsoleLogger("WebpackServerStarter");
 // prettier-ignore
 export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions,
     | "projectDirectory"
-    | "workspaceRootDirectory"
+    | "extraCheckDirectories"
     | "dynamicConfigResolvers"
     | "extraChunks"
     | "extraResolvedPostfix"
@@ -31,14 +31,14 @@ export class WebpackServerStarter {
     private readonly apiProxyServer: string;
     private readonly webpackConfig: webpack.Configuration;
 
-    constructor({projectDirectory, workspaceRootDirectory, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraResolvedPostfix}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, extraCheckDirectories, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraResolvedPostfix}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
         this.apiProxyServer = apiProxyServer;
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
-            workspaceRootDirectory,
+            extraCheckDirectories,
             dynamicConfigResolvers,
             extraChunks,
             extraResolvedPostfix,

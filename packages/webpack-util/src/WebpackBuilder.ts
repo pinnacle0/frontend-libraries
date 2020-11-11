@@ -29,8 +29,8 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions {
  * Add "--mode fast" to command line, if you want to skip style and lint checks.
  */
 export class WebpackBuilder {
-    private readonly workspaceRootDirectory: string;
     private readonly projectDirectory: string;
+    private readonly extraCheckDirectories: string[];
     private readonly projectStaticDirectory: string;
     private readonly projectProfilingJsonOutputPath: string;
     private readonly outputDirectory: string;
@@ -39,8 +39,8 @@ export class WebpackBuilder {
     private readonly enableProfiling: boolean;
 
     constructor(options: WebpackBuilderOptions) {
-        this.workspaceRootDirectory = options.workspaceRootDirectory;
         this.projectDirectory = options.projectDirectory;
+        this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
         this.projectProfilingJsonOutputPath = path.join(this.projectDirectory, "profile.json");
         this.outputDirectory = path.join(this.projectDirectory, "build/dist");
@@ -70,18 +70,12 @@ export class WebpackBuilder {
     }
 
     private checkCodeStyle() {
-        // TODO: PrettierUtil.check(this.projectDirectory) + extraCheckFolders
-        print.info("Checking project code styles");
+        print.info(`Checking project code styles at "${path.join(this.projectDirectory, "src")}"`);
         PrettierUtil.check(path.join(this.projectDirectory, "src"));
-        const workspaceSharedDirectory = path.join(this.workspaceRootDirectory, "shared");
-        if (fs.existsSync(workspaceSharedDirectory) && fs.statSync(workspaceSharedDirectory)) {
-            print.info("Checking shared project code styles");
-            PrettierUtil.check(path.join(workspaceSharedDirectory, "src"));
-        }
-        const workspaceWebSharedDirectory = path.join(this.workspaceRootDirectory, "web/shared");
-        if (fs.existsSync(workspaceWebSharedDirectory) && fs.statSync(workspaceWebSharedDirectory)) {
-            print.info("Checking web/shared project code styles");
-            PrettierUtil.check(path.join(workspaceWebSharedDirectory, "src"));
+
+        for (const directory of this.extraCheckDirectories) {
+            print.info(`Checking extra directory code styles at "${path.join(directory, "src")}"`);
+            PrettierUtil.check(path.join(directory, "src"));
         }
     }
 

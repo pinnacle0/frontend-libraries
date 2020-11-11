@@ -15,13 +15,14 @@ export interface WebpackConfigGeneratorOptions {
      * Used to compute paths of config files, source directory, etc.
      */
     projectDirectory: string;
-    // TODO: remove below
     /**
-     * Directory of monorepo workspace root.
-     * Used to compute paths of config files, source directory, etc.
+     * Directories to run static checking on besides `projectDirectory`.
+     * Runs `eslint` with ForkTsCheckerWebpackPlugin.
+     * Runs `tsc` with ForkTsCheckerWebpackPlugin.
+     * Runs `stylelint` with StylelintWebpackPlugin (if the directory has at least one `.less` file).
+     * Runs `prettier --check` with PrettierUtil.check from `"@pinnacle0/devtool-util"`.
      */
-    workspaceRootDirectory: string;
-    // TODO: extraCheckFolders?: string[]; explain (prettier, forker-ts-plugin, stylelint-plugin use)
+    extraCheckDirectories?: string[];
     /**
      * Specify additional file extension postfixes from dependency requests
      * that should be take precedence before the default file extensions.

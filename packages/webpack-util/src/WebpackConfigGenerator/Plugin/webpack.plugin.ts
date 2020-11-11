@@ -1,6 +1,6 @@
 import webpack from "webpack";
 
-interface WebpackProgressPluginDeps {
+interface WebpackProgressPluginOptions {
     enableProfiling: boolean;
 }
 
@@ -17,7 +17,7 @@ export function webpackHmrPlugin() {
  * Basically the same behaviour as running webpack-cli with:
  * `$ webpack --progress`
  */
-export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginDeps) {
+export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOptions) {
     return new webpack.ProgressPlugin({
         profile: enableProfiling,
     });

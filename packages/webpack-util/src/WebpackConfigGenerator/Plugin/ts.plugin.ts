@@ -1,12 +1,12 @@
-import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
-import TerserPlugin from "terser-webpack-plugin";
+import TerserWebpackPlugin from "terser-webpack-plugin";
 
-interface TsMinimizerPluginDeps {
+interface TerserPluginOptions {
     sourceMap: boolean;
 }
 
-interface TsStyleCheckerPluginDeps {
+interface ForkTsCheckerPluginOptions {
     projectSrcDirectory: string;
     tsconfigFilepath: string;
 }
@@ -15,8 +15,8 @@ interface TsStyleCheckerPluginDeps {
  * Applies Terser to minimize javascript
  * after bundles/chunks are built.
  */
-export function tsMinimizerPlugin({sourceMap}: TsMinimizerPluginDeps) {
-    return new TerserPlugin({
+export function terserPlugin({sourceMap}: TerserPluginOptions) {
+    return new TerserWebpackPlugin({
         sourceMap,
     });
 }
@@ -25,8 +25,8 @@ export function tsMinimizerPlugin({sourceMap}: TsMinimizerPluginDeps) {
  * Type checks ts files using TS compiler,
  * and lint ts files using eslint.
  */
-export function tsStyleCheckerPlugin({tsconfigFilepath, projectSrcDirectory}: TsStyleCheckerPluginDeps) {
-    return new ForkTsCheckerPlugin({
+export function forkTsCheckerPlugin({tsconfigFilepath, projectSrcDirectory}: ForkTsCheckerPluginOptions) {
+    return new ForkTsCheckerWebpackPlugin({
         typescript: {
             configFile: tsconfigFilepath,
         },

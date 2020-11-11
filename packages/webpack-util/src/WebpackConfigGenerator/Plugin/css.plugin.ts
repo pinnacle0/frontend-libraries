@@ -2,11 +2,11 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCSSAssetsWebpackPlugin from "optimize-css-assets-webpack-plugin";
 import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 
-interface CssStyleCheckerPluginDeps {
-    projectSrcDirectory: string;
+interface StylelintPluginOptions {
+    directory: string;
 }
 
-interface ExtractCssPluginDeps {
+interface ExtractCssPluginOptions {
     enableProfiling: boolean;
 }
 
@@ -15,9 +15,9 @@ interface ExtractCssPluginDeps {
  * 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️ Must not be included if there are not .less files present. 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️
  * Config file is resolved by stylelint internally.
  */
-export function cssStyleCheckerPlugin({projectSrcDirectory}: CssStyleCheckerPluginDeps) {
+export function stylelintPlugin({directory}: StylelintPluginOptions) {
     return new StylelintWebpackPlugin({
-        context: projectSrcDirectory,
+        context: directory,
         // glob pattern of files must be relative to options.context
         files: "**/*.less",
     });
@@ -27,7 +27,7 @@ export function cssStyleCheckerPlugin({projectSrcDirectory}: CssStyleCheckerPlug
  * Applies CssNano to minimize stylesheets
  * after bundles/chunks are built.
  */
-export function cssMinimizePlugin() {
+export function optimizeCSSAssetsPlugin() {
     return new OptimizeCSSAssetsWebpackPlugin();
 }
 
@@ -36,7 +36,7 @@ export function cssMinimizePlugin() {
  * Must be used with `MiniCssExtractPlugin.loader`, which is included with
  * `Rule.stylesheet({minimize: true})`.
  */
-export function cssFileOutputPlugin({enableProfiling}: ExtractCssPluginDeps) {
+export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions) {
     return new MiniCssExtractPlugin({
         filename: enableProfiling ? "static/css/[name].[contenthash:8].css" : "static/css/[contenthash:8].css",
         // order of css output depends on the order of imports in js,

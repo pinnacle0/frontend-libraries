@@ -3,7 +3,7 @@ import ScriptExtHtmlWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
 import type {HTMLEntry} from "../type";
 
-interface HtmlPluginDeps {
+interface HtmlPluginOptions {
     entry: HTMLEntry;
 }
 
@@ -11,7 +11,7 @@ interface HtmlPluginDeps {
  * Creates a html file from a template with <script> and <link> injected
  * with the respective hashed output filenames.
  */
-export function htmlFilePlugin({entry}: HtmlPluginDeps): webpack.Plugin {
+export function htmlPlugin({entry}: HtmlPluginOptions): webpack.Plugin {
     return new HTMLWebpackPlugin({
         template: entry.htmlPath,
         filename: `${entry.name}.html`,

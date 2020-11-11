@@ -5,8 +5,6 @@ import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./types";
 
-// TODO/Lok: discuss how to organize before starting this project
-
 const print = Utility.createConsoleLogger("APIGenerator");
 
 export class APIGeneratorBase {
