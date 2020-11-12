@@ -13,7 +13,7 @@ export interface WebpackServerStarterOptions extends Pick<WebpackConfigGenerator
     | "extraCheckDirectories"
     | "dynamicConfigResolvers"
     | "extraChunks"
-    | "extraResolvedPostfix"
+    | "extraPrioritizedResolvedExtensions"
 > {
     port: number;
     apiProxyServer?: string;
@@ -32,7 +32,7 @@ export class WebpackServerStarter {
     private readonly apiProxyServer: string;
     private readonly webpackConfig: webpack.Configuration;
 
-    constructor({projectDirectory, extraCheckDirectories, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraResolvedPostfix}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, extraCheckDirectories, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraPrioritizedResolvedExtensions}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.extraCheckDirectories = extraCheckDirectories ?? [];
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
@@ -43,7 +43,7 @@ export class WebpackServerStarter {
             extraCheckDirectories,
             dynamicConfigResolvers,
             extraChunks,
-            extraResolvedPostfix,
+            extraPrioritizedResolvedExtensions,
         }).development();
     }
 

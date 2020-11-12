@@ -72,7 +72,7 @@ export class WebpackConfigGenerator {
             }),
         };
         this.resolveExtensions = WebpackResolveExtensionsFactory.generate({
-            extraResolvedExtensions: options.extraResolvedPostfix,
+            extraPrioritizedResolvedExtensions: options.extraPrioritizedResolvedExtensions,
         });
         this.resolveModules = WebpackResolveModulesFactory.generate({
             projectSrcDirectory: this.projectSrcDirectory,

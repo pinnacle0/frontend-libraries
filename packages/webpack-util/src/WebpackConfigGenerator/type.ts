@@ -26,7 +26,7 @@ export interface WebpackConfigGeneratorOptions {
     /**
      * Specify additional file extension postfixes from dependency requests
      * that should be take precedence before the default file extensions.
-     * The leading "." should be omitted.
+     * The leading "." should be included.
      *
      * A particular usecase is to enable the consumer projects to
      * dynamically resolve component files from shared projects, such as
@@ -38,7 +38,7 @@ export interface WebpackConfigGeneratorOptions {
      * ```
      * [ConfigGeneratorOptions]
      * new ConfigGenerator({
-     *   extraResolvedPostfix: ["mobile.tsx", "mobile.ts", "mobile.less"],
+     *   extraResolvedPostfix: [".mobile.tsx", ".mobile.ts", ".mobile.less"],
      *   //...
      * })
      *
@@ -63,7 +63,7 @@ export interface WebpackConfigGeneratorOptions {
      * export class WrappedTableComponent extends React.PureComponent<Props, State> {}
      * ```
      */
-    extraResolvedPostfix?: string[];
+    extraPrioritizedResolvedExtensions?: string[];
     /**
      * List of module resolution aliases to dynamically compute from `env`.
      */
