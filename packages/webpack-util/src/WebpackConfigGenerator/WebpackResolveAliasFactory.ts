@@ -1,5 +1,8 @@
+import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import {DynamicConfigResolver} from "./type";
+
+const print = Utility.createConsoleLogger("WebpackResolveAliasFactory");
 
 interface WebpackResolveAliasMapOptions {
     env: string | null;
@@ -18,20 +21,36 @@ export class WebpackResolveAliasFactory {
             if (prefix in moduleAliasMap) {
                 throw new Error(`Duplicated key for dynamic resolver: ${prefix}`);
             }
-            moduleAliasMap[prefix] = WebpackResolveAliasFactory.resolveRealPath(env, {prefix, resolveByEnv});
+            const resolvedAliasPath = WebpackResolveAliasFactory.resolveRealPath(env, {prefix, resolveByEnv});
+            if (resolvedAliasPath !== null) {
+                moduleAliasMap[prefix] = resolvedAliasPath;
+            } else {
+                print.info(`Warning: dynamicConfigResolver cannot resolve for alias "${prefix}". Trying to use fallback path mapping.`);
+            }
+        }
+
+        const createdAliasCount = Object.entries(moduleAliasMap).length;
+        const dynamicConfigResolverCount = Object.entries(dynamicConfigResolvers).length;
+        if (createdAliasCount !== 0 && createdAliasCount !== dynamicConfigResolverCount) {
+            print.error(
+                `Cannot use fallback path mapping. ${createdAliasCount} out of ${dynamicConfigResolverCount} aliases are resolved,
+            but fallback path mappings can only be used when all dynamicConfigResolvers failed.
+            Sucessfully resolved aliases: ${JSON.stringify(moduleAliasMap)}`
+            );
+            throw new Error(`DynamicConfigResolvers: failed to resolve path mapping for aliases.`);
         }
 
         return moduleAliasMap;
     }
 
-    private static resolveRealPath(env: string, {prefix, resolveByEnv}: DynamicConfigResolver): string {
+    private static resolveRealPath(env: string, {prefix, resolveByEnv}: DynamicConfigResolver): string | null {
         const realPath = resolveByEnv(env);
         if (prefix.trim() === "") {
             throw new Error(`Resolver prefix cannot be empty`);
         } else if (/\s/.test(prefix)) {
             throw new Error(`Resolver prefix cannot contain whitespace, received: ${prefix}`);
         } else if (!fs.existsSync(realPath)) {
-            throw new Error(`Dynamically resolved alias does not exists, prefix: ${prefix}, resolvedPath: ${realPath}`);
+            return null;
         }
         return realPath;
     }
