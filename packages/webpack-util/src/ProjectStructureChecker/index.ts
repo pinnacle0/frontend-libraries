@@ -25,7 +25,7 @@ interface ProjectStructureCheckerOptions {
 export class ProjectStructureChecker {
     private readonly directories: [string, ...string[]];
     private readonly packageJsonFilepaths: [string, ...string[]];
-    private readonly tsconfigJsonFilepaths: [string, ...string[]];
+    private readonly tsconfigJsonFileTuples: [{srcDirectory: string; filepath: string}, ...{srcDirectory: string; filepath: string}[]];
     private readonly projectSrcDirectory: string;
     private readonly projectSrcIndexHtmlFilepath: string;
 
@@ -40,9 +40,9 @@ export class ProjectStructureChecker {
             this.packageJsonFilepaths.push(path.join(directory, "package.json"));
         }
 
-        this.tsconfigJsonFilepaths = [path.join(options.projectDirectory, "tsconfig.json")];
+        this.tsconfigJsonFileTuples = [{srcDirectory: path.join(options.projectDirectory, "src"), filepath: path.join(options.projectDirectory, "tsconfig.json")}];
         for (const directory of options.extraCheckDirectories) {
-            this.tsconfigJsonFilepaths.push(path.join(directory, "tsconfig.json"));
+            this.tsconfigJsonFileTuples.push({srcDirectory: path.join(directory, "src"), filepath: path.join(directory, "tsconfig.json")});
         }
 
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
@@ -63,8 +63,8 @@ export class ProjectStructureChecker {
         for (const packageJsonFilepath of this.packageJsonFilepaths) {
             checkPackageJson({filepath: packageJsonFilepath});
         }
-        for (const tsconfigJsonFilepath of this.tsconfigJsonFilepaths) {
-            checkTsconfigJson({filepath: tsconfigJsonFilepath});
+        for (const tsconfigJsonFileTuple of this.tsconfigJsonFileTuples) {
+            checkTsconfigJson(tsconfigJsonFileTuple);
         }
         checkSrcMainEntry({srcDirectory: this.projectSrcDirectory});
         checkSrcIndexHtml({filepath: this.projectSrcIndexHtmlFilepath});
