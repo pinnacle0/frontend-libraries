@@ -7,7 +7,7 @@ import {StringUtil} from "../internal/StringUtil";
 
 export interface Props {
     type: "txt" | "csv";
-    onImport: (file: File) => void;
+    onImport: (file: File) => boolean;
     /**
      * If not specified, default children will display an icon and some text.
      */
