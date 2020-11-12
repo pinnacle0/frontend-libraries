@@ -38,7 +38,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
         return (
             <React.Fragment>
                 {currentStep > 0 && (
-                    <Button color="wire-frame" onClick={this.goToPrevStep} disabled={isValidating} style={this.prevButtonStyle}>
+                    <Button color="wire-frame" className="g-step-form-previous-button" onClick={this.goToPrevStep} disabled={isValidating} style={this.prevButtonStyle}>
                         {t.prevStep}
                     </Button>
                 )}
