@@ -34,7 +34,7 @@ export class CodeStyleChecker {
     private checkESLint() {
         print.task(`Running \`eslint\` on "src/"`);
         for (const srcDirectory of this.checkableSrcDirectories) {
-            Utility.runCommand("eslint", ["--ext=.js,.jsx,.ts,.tsx", "--max-warnings=1", srcDirectory]);
+            Utility.runCommand("eslint", ["--no-error-on-unmatched-pattern", "--max-warnings=1", "--ext=.js,.jsx,.ts,.tsx", srcDirectory]);
         }
     }
 
