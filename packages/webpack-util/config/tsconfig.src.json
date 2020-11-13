@@ -1,0 +1,16 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo",
+
+        "module": "CommonJS",
+        "target": "ES2015",
+        "rootDir": "../src/",
+        "outDir": "../dist/",
+
+        "sourceMap": false,
+        "isolatedModules": true
+    },
+    "include": ["../src/"]
+}
