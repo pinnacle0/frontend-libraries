@@ -6,6 +6,9 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "scripts": {
+        "run-script": "ts-node --project config/tsconfig.script.json",
+        "build": "yarn run-script script/build.ts",
+        "format": "yarn run-script script/format.ts",
         "test": "jest --config config/jest.config.js"
     },
     "engines": {
