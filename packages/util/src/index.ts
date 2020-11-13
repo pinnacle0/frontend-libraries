@@ -1,14 +1,3 @@
-// TODO/Lok: Split ./browsers to a separate npm package
-export {BrowserUtil} from "./browser/BrowserUtil";
-export {CanvasUtil} from "./browser/CanvasUtil";
-export {Clipboard} from "./browser/Clipboard";
-export type {ExportColumn} from "./browser/ExportUtil";
-export {ExportUtil} from "./browser/ExportUtil";
-export {ImportUtil} from "./browser/ImportUtil";
-export {RecentUsedStorageUtil} from "./browser/storage/RecentUsedStorageUtil";
-export {LocalStorageUtil} from "./browser/storage/LocalStorageUtil";
-export {SessionStorageUtil} from "./browser/storage/SessionStorageUtil";
-
 export {ArrayUtil} from "./core/ArrayUtil";
 export {DateUtil} from "./core/DateUtil";
 export type {DayStartOrEnd} from "./core/DateUtil";
