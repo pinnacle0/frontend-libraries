@@ -3,6 +3,9 @@
     "include": [],
     "references": [
         {
+            "path": "./config/tsconfig.script.json"
+        },
+        {
             "path": "./config/tsconfig.src.cjs.json"
         },
         {

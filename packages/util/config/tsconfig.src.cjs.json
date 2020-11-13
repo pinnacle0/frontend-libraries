@@ -2,7 +2,7 @@
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "tsBuildInfoFile": "../dist/tsconfig.src.cjs.tsbuildinfo",
+        "tsBuildInfoFile": "../tmp/tsconfig.src.cjs.tsbuildinfo",
 
         "lib": ["ES2020"],
         "module": "CommonJS",
