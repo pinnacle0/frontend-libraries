@@ -12,10 +12,11 @@
         "url": "https://github.com/pinnacle0/pinnacle-frontend-web-ui"
     },
     "scripts": {
-        "build": "node tools build",
-        "start": "node tools start",
-        "lint": "node tools lint",
-        "format": "node tools format",
+        "run-script": "ts-node --project config/tsconfig.script.json",
+        "build": "yarn run-script script/build.ts",
+        "start": "yarn run-script script/start.ts",
+        "lint": "yarn run-script script/lint.ts",
+        "format": "yarn run-script script/format.ts",
         "test": "jest --config config/jest.config.js"
     },
     "dependencies": {
