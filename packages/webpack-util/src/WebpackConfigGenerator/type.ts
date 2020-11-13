@@ -16,14 +16,6 @@ export interface WebpackConfigGeneratorOptions {
      */
     projectDirectory: string;
     /**
-     * Directories to run static checking on besides `projectDirectory`.
-     * Runs `eslint` with ForkTsCheckerWebpackPlugin.
-     * Runs `tsc` with ForkTsCheckerWebpackPlugin.
-     * Runs `stylelint` with StylelintWebpackPlugin (if the directory has at least one `.less` file).
-     * Runs `prettier --check` with PrettierUtil.check from `"@pinnacle0/devtool-util"`.
-     */
-    extraCheckDirectories?: string[];
-    /**
      * Specify additional file extension postfixes from dependency requests
      * that should be take precedence before the default file extensions.
      * The leading "." should be included.

@@ -2,19 +2,20 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import {ProjectStructureChecker} from "./ProjectStructureChecker";
+import {ProjectStructureChecker, ProjectStructureCheckerOptions} from "./ProjectStructureChecker";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackServerStarter");
 
 // prettier-ignore
-export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions,
-    | "projectDirectory"
-    | "extraCheckDirectories"
-    | "dynamicConfigResolvers"
-    | "extraChunks"
-    | "extraPrioritizedResolvedExtensions"
-> {
+export interface WebpackServerStarterOptions extends
+        Pick<WebpackConfigGeneratorOptions,
+            | "projectDirectory"
+            | "dynamicConfigResolvers"
+            | "extraChunks"
+            | "extraPrioritizedResolvedExtensions"
+        >,
+        Pick<ProjectStructureCheckerOptions, "extraCheckDirectories"> {
     port: number;
     apiProxyServer?: string;
 }
@@ -40,7 +41,6 @@ export class WebpackServerStarter {
         this.apiProxyServer = apiProxyServer;
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
-            extraCheckDirectories,
             dynamicConfigResolvers,
             extraChunks,
             extraPrioritizedResolvedExtensions,

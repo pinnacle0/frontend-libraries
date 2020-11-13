@@ -8,7 +8,7 @@ import {checkPrettierConfig} from "./05_checkPrettierConfig";
 import {checkEslintConfig} from "./06_checkEslintConfig";
 import {checkStylelintConfig} from "./07_checkStylelintConfig";
 
-interface ProjectStructureCheckerOptions {
+export interface ProjectStructureCheckerOptions {
     /**
      * Directory of containing the application code.
      * Should contains `package.json`, `tsconfig.json`, `src/`, `index.html` and a main entry.

@@ -23,7 +23,6 @@ import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
  */
 export class WebpackConfigGenerator {
     readonly env: string | null;
-    readonly extraCheckDirectories: string[];
     readonly projectDirectory: string;
     readonly projectSrcDirectory: string;
     readonly tsconfigFilepath: string;
@@ -43,7 +42,6 @@ export class WebpackConfigGenerator {
 
     constructor(private readonly options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
-        this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilepath = path.join(options.projectDirectory, "tsconfig.json");
