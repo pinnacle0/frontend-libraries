@@ -1,29 +1,19 @@
+import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
-import {pathMap} from "../config/path-map";
-import codegen from "./codegen";
-import {createPrint, isKebabCase, kebabToCamelCase} from "./util";
+import {isKebabCase, kebabToCamelCase} from "./util";
 
-const {srcDirectory, testDirectory, toolsDirectory} = pathMap;
-
-export default function newRule() {
-    const newRuleName = (function () {
-        const newRuleName = yargs.argv._[1];
-        if (!(typeof newRuleName === "string" && isKebabCase(newRuleName))) {
-            throw new Error(`Rule name should be in kebab-case, but received "${newRuleName}"`);
-        }
-        return newRuleName;
-    })();
-    generateNewRule(newRuleName);
-    generateNewTest(newRuleName);
-    codegen();
-    // Should not need to run formatter
-}
+const print = Utility.createConsoleLogger("new-rule");
+const directory = {
+    src: path.join(__dirname, "../src"),
+    srcRules: path.join(__dirname, "../src/rules"),
+    templates: path.join(__dirname, "../script/templates"),
+    testRules: path.join(__dirname, "../test/rules"),
+};
 
 function generateNewRule(newRuleName: string) {
-    const print = createPrint("generateNewRule");
-    const newRuleFile = path.join(srcDirectory, `rules/${newRuleName}.ts`);
+    const newRuleFile = path.join(directory.srcRules, `${newRuleName}.ts`);
     {
         print.task(`Checking pre-conditions of "${newRuleName}"`);
         if (fs.existsSync(newRuleFile)) {
@@ -32,7 +22,7 @@ function generateNewRule(newRuleName: string) {
     }
     const output = (function () {
         print.task(`Generating rule file at "${newRuleFile}"`);
-        const templateFile = path.join(toolsDirectory, "./templates/new-rule.ts");
+        const templateFile = path.join(directory.templates, "new-rule.ts");
         return fs
             .readFileSync(templateFile, {
                 encoding: "utf8",
@@ -44,8 +34,7 @@ function generateNewRule(newRuleName: string) {
 }
 
 function generateNewTest(newRuleName: string) {
-    const print = createPrint("generateNewTest");
-    const newTestFile = path.join(testDirectory, `rules/${newRuleName}.ts`);
+    const newTestFile = path.join(directory.testRules, `${newRuleName}.ts`);
     {
         print.task(`Checking pre-conditions of "${newRuleName}"`);
         if (fs.existsSync(newTestFile)) {
@@ -54,7 +43,7 @@ function generateNewTest(newRuleName: string) {
     }
     const output = (function () {
         print.task(`Generating test file at "${newTestFile}"`);
-        const templateFile = path.join(toolsDirectory, "./templates/new-test.ts");
+        const templateFile = path.join(directory.templates, "new-test.ts");
         return fs
             .readFileSync(templateFile, {
                 encoding: "utf8",
@@ -64,3 +53,23 @@ function generateNewTest(newRuleName: string) {
     })();
     fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
 }
+
+function newRule() {
+    const newRuleName = (function () {
+        const newRuleName = yargs.argv._[0];
+        if (typeof newRuleName !== "string") {
+            throw new Error("Missing positional cli argument (new rule name), usage: yarn new-rule custom-new-eslint-rule-name");
+        }
+        if (!isKebabCase(newRuleName)) {
+            throw new Error(`Rule name should be in kebab-case, but received "${newRuleName}"`);
+        }
+        return newRuleName;
+    })();
+    generateNewRule(newRuleName);
+    generateNewTest(newRuleName);
+
+    // Inline require because codegen.ts runs with side effect
+    require("./codegen");
+}
+
+newRule();

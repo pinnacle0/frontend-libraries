@@ -11,12 +11,12 @@
         }
     },
     "scripts": {
-        "build": "node tools build",
-        "check-format": "node tools check-format",
-        "codegen": "node tools codegen",
-        "format": "node tools format",
-        "lint": "node tools lint",
-        "new-rule": "node tools new-rule",
+        "run-script": "ts-node --project config/tsconfig.script.json",
+        "build": "yarn run-script script/build.ts",
+        "codegen": "yarn run-script script/codegen.ts",
+        "format": "yarn run-script script/format.ts",
+        "lint": "yarn run-script script/lint.ts",
+        "new-rule": "yarn run-script script/new-rule.ts",
         "test": "jest --config config/jest.config.js"
     },
     "dependencies": {

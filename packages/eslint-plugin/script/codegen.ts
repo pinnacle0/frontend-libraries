@@ -1,21 +1,19 @@
+import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
-import {pathMap} from "../config/path-map";
-import {createPrint, kebabToCamelCase} from "./util";
+import {kebabToCamelCase} from "./util";
 
-const {srcDirectory, toolsDirectory} = pathMap;
-const print = createPrint("codegen");
-
-export default function codegen() {
-    codegenRulesIndex();
-    codegenESLintConfig();
-}
+const print = Utility.createConsoleLogger("codegen");
+const directory = {
+    src: path.join(__dirname, "../src"),
+    srcRules: path.join(__dirname, "../src/rules"),
+    templates: path.join(__dirname, "../script/templates"),
+};
 
 function scanCustomRules() {
     print.task("Scanning rule definitions at src/rules/");
-    const rulesDirectory = path.join(srcDirectory, "rules/");
     return fs
-        .readdirSync(rulesDirectory)
+        .readdirSync(directory.srcRules)
         .map(file => {
             const fileBasename = path.basename(file, ".ts");
             console.info(`- ${fileBasename}`);
@@ -26,7 +24,7 @@ function scanCustomRules() {
 }
 
 function codegenRulesIndex() {
-    const rulesIndexFile = path.join(srcDirectory, "rules/index.ts");
+    const rulesIndexFile = path.join(directory.srcRules, "index.ts");
     if (fs.existsSync(rulesIndexFile) && fs.statSync(rulesIndexFile).isFile()) {
         print.task("Removing src/rules/index.ts");
         fs.unlinkSync(rulesIndexFile);
@@ -46,7 +44,7 @@ function codegenRulesIndex() {
                 return `"${_.kebab}": ${_.camel},`;
             })
             .join("\n    ");
-        const templateFile = path.join(toolsDirectory, "./templates/rules-index.ts");
+        const templateFile = path.join(directory.templates, "rules-index.ts");
         return fs
             .readFileSync(templateFile, {
                 encoding: "utf8",
@@ -60,14 +58,14 @@ function codegenRulesIndex() {
 
 function codegenESLintConfig() {
     const templateFiles = {
-        baseline: path.join(toolsDirectory, "./templates/config-baseline.ts"),
-        jest: path.join(toolsDirectory, "./templates/config-jest.ts"),
+        baseline: path.join(directory.templates, "config-baseline.ts"),
+        jest: path.join(directory.templates, "config-jest.ts"),
     };
 
     const allRules = scanCustomRules();
 
     for (const configName of ["baseline", "jest"] as const) {
-        const configFile = path.join(srcDirectory, `config/${configName}.ts`);
+        const configFile = path.join(directory.src, `config/${configName}.ts`);
         if (fs.existsSync(configFile) && fs.statSync(configFile).isFile()) {
             print.task(`Removing config/${configName}.ts`);
             fs.unlinkSync(configFile);
@@ -90,3 +88,10 @@ function codegenESLintConfig() {
         fs.writeFileSync(configFile, output, {encoding: "utf8"});
     }
 }
+
+function codegen() {
+    codegenRulesIndex();
+    codegenESLintConfig();
+}
+
+codegen();
