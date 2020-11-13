@@ -1,0 +1,15 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+
+        "lib": ["DOM", "ES2020"],
+        "module": "ESNext",
+        "outDir": "../dist/",
+        "rootDir": "../src/",
+        "target": "ES2015",
+
+        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo"
+    },
+    "include": ["../src/"]
+}
