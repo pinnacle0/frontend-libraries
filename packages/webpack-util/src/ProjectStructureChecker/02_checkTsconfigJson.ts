@@ -26,6 +26,4 @@ export function checkTsconfigJson({srcDirectory, filepath}: Options) {
                 .join("\n")
         );
     }
-    // TODO: Check resolved tsconfig.json has module: "ESNext"?
-    // TODO: Check resolved tsconfig.json has target: "ES5"?
 }
