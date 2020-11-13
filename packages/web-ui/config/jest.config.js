@@ -18,7 +18,7 @@ const config = {
     // A set of global variables that need to be available in all test environments
     globals: {
         "ts-jest": {
-            tsconfig: "<rootDir>/test/tsconfig.json",
+            tsconfig: "<rootDir>/config/tsconfig.test.json",
         },
     },
 

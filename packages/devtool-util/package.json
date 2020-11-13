@@ -5,8 +5,8 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "scripts": {
-        "build": "tsc",
-        "test": "jest"
+        "build": "tsc --project config/tsconfig.src.json",
+        "test": "jest --config config/jest.config.js"
     },
     "dependencies": {
         "axios": "0.21.0",

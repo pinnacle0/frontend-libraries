@@ -2,16 +2,16 @@
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo",
+        "tsBuildInfoFile": "../tmp/tsconfig.src.json",
 
-        "lib": ["DOM", "ES2020"],
-        "module": "ESNext",
+        "lib": ["ES2020"],
+        "module": "CommonJS",
         "target": "ES2015",
         "outDir": "../dist/",
         "rootDir": "../src/",
 
-        "importHelpers": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "removeComments": true
     },
     "include": ["../src/"]
 }

@@ -1,11 +1,13 @@
 {
     "extends": "../../config/tsconfig.base.json",
     "compilerOptions": {
-        "importHelpers": false,
-        "sourceMap": false,
         "module": "CommonJS",
         "target": "ES2015",
-        "outDir": "./dist/"
+        "rootDir": "./src/",
+        "outDir": "./dist/",
+
+        "sourceMap": false,
+        "isolatedModules": true
     },
     "include": ["./src/"]
 }

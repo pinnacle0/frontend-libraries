@@ -2,16 +2,17 @@
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "tsBuildInfoFile": "../tmp/tsconfig.test.tsbuildinfo",
+        "tsBuildInfoFile": "../dist/tsconfig.src.cjs.tsbuildinfo",
 
-        "lib": ["DOM", "ES2020"],
+        "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
-        "noEmit": true,
-        "rootDir": "../",
+        "outDir": "../dist/cjs/",
+        "rootDir": "../src/",
 
+        "isolatedModules": true,
         "jsx": "react",
         "suppressImplicitAnyIndexErrors": true
     },
-    "include": ["../config", "../src/", "../test/"]
+    "include": ["../src/"]
 }

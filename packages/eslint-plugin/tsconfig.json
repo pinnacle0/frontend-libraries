@@ -1,11 +1,12 @@
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "declaration": false,
-        "lib": ["ES2020"],
-        "module": "CommonJS",
-        "outDir": "./dist/",
-        "target": "ES2015"
-    },
-    "include": ["./src/"]
+    "files": [],
+    "include": [],
+    "references": [
+        {
+            "path": "./config/tsconfig.src.json"
+        },
+        {
+            "path": "./config/tsconfig.test.json"
+        }
+    ]
 }

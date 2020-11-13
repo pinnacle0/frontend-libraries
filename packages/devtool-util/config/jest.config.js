@@ -2,9 +2,6 @@
 
 /** @type {import("@jest/types/build/Config").InitialOptionsWithRootDir} */
 const config = {
-    // Stop running tests after `n` failures
-    bail: 1,
-
     // A preset that is used as a base for Jest's configuration
     preset: "ts-jest",
 

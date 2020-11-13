@@ -2,12 +2,8 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
         "allowJs": true,
-        "checkJs": true,
         "declaration": true,
         "downlevelIteration": true,
-        "importHelpers": true,
-        "isolatedModules": true,
-        "removeComments": true,
         "sourceMap": true,
         "strict": true,
         "allowSyntheticDefaultImports": true,

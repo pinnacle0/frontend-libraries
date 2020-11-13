@@ -1,0 +1,20 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo",
+
+        "lib": ["ES2019"],
+        "module": "CommonJS",
+        "target": "ES5",
+        "outDir": "../dist/",
+        "rootDir": "../src/",
+
+        "allowSyntheticDefaultImports": false,
+        "esModuleInterop": false,
+        "isolatedModules": true,
+        "removeComments": false
+    },
+    "include": ["../src/"],
+    "exclude": ["../dist/", "**/__fixtures__/"]
+}

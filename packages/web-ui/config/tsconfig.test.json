@@ -4,11 +4,19 @@
         "composite": true,
         "tsBuildInfoFile": "../tmp/tsconfig.test.tsbuildinfo",
 
-        "lib": ["DOM", "ES2020"],
+        "lib": ["DOM", "ESNext"],
         "module": "ESNext",
-        "target": "ES2015",
+        "rootDir": "../",
         "noEmit": true,
-        "rootDir": "../"
+        "target": "ES2018",
+
+        "baseUrl": "../",
+        "paths": {
+            "@pinnacle0/web-ui/*": ["src/*"],
+            "test/*": ["test/*"]
+        },
+
+        "jsx": "react"
     },
     "include": ["../src/", "../test/"]
 }

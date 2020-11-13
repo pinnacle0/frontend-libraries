@@ -2,16 +2,17 @@
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo",
+        "tsBuildInfoFile": "../dist/tsconfig.src.esm.tsbuildinfo",
 
-        "lib": ["DOM", "ESNext"],
+        "lib": ["ES2020"],
         "module": "ESNext",
+        "target": "ES2015",
+        "outDir": "../dist/esm/",
         "rootDir": "../src/",
-        "outDir": "../dist/",
-        "target": "ES5",
 
         "isolatedModules": true,
-        "jsx": "react"
+        "jsx": "react",
+        "suppressImplicitAnyIndexErrors": true
     },
     "include": ["../src/"]
 }
