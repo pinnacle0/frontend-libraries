@@ -1,9 +1,6 @@
 {
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
-        "composite": true,
-        "tsBuildInfoFile": "../tmp/tsconfig.src.tsbuildinfo",
-
         "lib": ["DOM", "ES2020"],
         "module": "ESNext",
         "target": "ES2015",

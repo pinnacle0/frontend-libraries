@@ -1,9 +1,6 @@
 {
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
-        "composite": true,
-        "tsBuildInfoFile": "../tmp/tsconfig.test.json",
-
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
