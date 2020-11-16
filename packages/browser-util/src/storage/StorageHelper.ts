@@ -106,5 +106,3 @@ export class StorageHelper {
         }
     }
 }
-
-new StorageHelper({} as any).setObject("", [{a: 43}, {a: -5}]);
