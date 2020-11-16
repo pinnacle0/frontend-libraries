@@ -40,7 +40,12 @@ fs.mkdirSync(directory.dist, {recursive: true});
 print.task("Compiling...");
 Utility.runCommand("tsc", ["--build", path.join(directory.project, "tsconfig.json")]);
 
-print.task("Copying package.json, markdown files to dist folder");
+print.task("Writing package.json to dist folder");
+const packageJsonContents = JSON.parse(fs.readFileSync(path.join(directory.project, "package.json"), {encoding: "utf8"}));
+delete packageJsonContents.private; // Make `dist/package.json` publishable
+fs.writeFileSync(path.join(directory.dist, "package.json"), JSON.stringify(packageJsonContents, null, 4), {encoding: "utf8"});
+
+print.task("Copying markdown files to dist folder");
 fs.copyFileSync(path.join(directory.project, "package.json"), path.join(directory.dist, "package.json"));
 fs.copyFileSync(path.join(directory.project, "README.md"), path.join(directory.dist, "README.md"));
 fs.copyFileSync(path.join(directory.project, "LICENSE.md"), path.join(directory.dist, "LICENSE.md"));
