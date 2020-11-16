@@ -5,7 +5,9 @@
         "module": "CommonJS",
         "target": "ES2015",
         "noEmit": true,
-        "rootDir": "../"
+        "rootDir": "../",
+
+        "jsx": "react"
     },
     "include": ["../script/", "../src/"]
 }
