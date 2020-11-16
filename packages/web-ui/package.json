@@ -3,13 +3,15 @@
     "version": "0.1.82",
     "author": "Pinnacle",
     "license": "MIT",
+    "private": true,
     "sideEffects": [
         "*.less",
         "*.css"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/pinnacle0/pinnacle-frontend-web-ui"
+        "url": "https://github.com/pinnacle0/frontend-libraries.git",
+        "directory": "packages/web-ui"
     },
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
