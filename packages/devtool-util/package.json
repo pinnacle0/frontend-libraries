@@ -2,8 +2,8 @@
     "name": "@pinnacle0/devtool-util",
     "version": "0.0.2",
     "license": "MIT",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc --project config/tsconfig.src.json",
         "test": "jest --config config/jest.config.js"

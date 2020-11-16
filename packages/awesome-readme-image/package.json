@@ -3,7 +3,7 @@
     "description": "This is a useless project to test out new react jsx transform with babel and parcel.",
     "version": "0.0.1",
     "private": true,
-    "main": "./dist/build.js",
+    "main": "dist/build.js",
     "targets": {
         "main": {
             "context": "node",
