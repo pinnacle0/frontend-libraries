@@ -1,5 +1,5 @@
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 import yargs from "yargs";
 
@@ -33,16 +33,17 @@ if (isFastMode) {
 
 print.task("Cleaning dist directory");
 if (fs.existsSync(directory.dist) && fs.statSync(directory.dist).isDirectory()) {
-    fs.removeSync(directory.dist);
+    fs.rmdirSync(directory.dist, {recursive: true});
 }
+fs.mkdirSync(directory.dist, {recursive: true});
 
 print.task("Compiling...");
-Utility.runCommand("tsc", ["--project", path.join(directory.project, "tsconfig.json")]);
+Utility.runCommand("tsc", ["--build", path.join(directory.project, "tsconfig.json")]);
 
 print.task("Copying package.json, markdown files to dist folder");
-fs.copySync(path.join(directory.project, "package.json"), path.join(directory.dist, "package.json"), {dereference: true});
-fs.copySync(path.join(directory.project, "README.md"), path.join(directory.dist, "README.md"), {dereference: true});
-fs.copySync(path.join(directory.project, "LICENSE.md"), path.join(directory.dist, "LICENSE.md"), {dereference: true});
+fs.copyFileSync(path.join(directory.project, "package.json"), path.join(directory.dist, "package.json"));
+fs.copyFileSync(path.join(directory.project, "README.md"), path.join(directory.dist, "README.md"));
+fs.copyFileSync(path.join(directory.project, "LICENSE.md"), path.join(directory.dist, "LICENSE.md"));
 
 print.info("Build successful");
 print.info(["To publish, run the following command:", "\n", `$ cd ${directory.dist}`, "\n", `$ yarn publish`]);
