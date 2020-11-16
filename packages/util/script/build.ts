@@ -1,4 +1,4 @@
-import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
+import {PrettierUtil, Utility} from "@pinnacle0/devtool-util/src";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";

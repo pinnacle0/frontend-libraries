@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
 
 Utility.runCommand("eslint", ["--ext=.js,.jsx,.ts,.tsx", path.join(__dirname, "../src")]);

@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
 
 const directory = {
