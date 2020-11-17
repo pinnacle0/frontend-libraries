@@ -6,6 +6,7 @@ const print = Utility.createConsoleLogger("build");
 
 const directory = {
     project: path.join(__dirname, ".."),
+    config: path.join(__dirname, "../config"),
     dist: path.join(__dirname, "../dist"),
     script: path.join(__dirname, "../script"),
     src: path.join(__dirname, "../src"),
@@ -24,6 +25,6 @@ if (fs.existsSync(directory.dist)) {
 }
 
 print.task("Compiling...");
-Utility.runCommand("tsc", ["--project", path.join(directory.project, "tsconfig.json")]);
+Utility.runCommand("tsc", ["--project", path.join(directory.config, "tsconfig.src.json")]);
 
 print.info("Build successful");
