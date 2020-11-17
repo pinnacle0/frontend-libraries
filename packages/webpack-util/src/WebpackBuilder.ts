@@ -1,3 +1,5 @@
+// Note: typescript server may report error if build artifacts of @pinnacle0/devtool-util is absent inside the frontend-libraries monorepo.
+// Run `yarn workspace @pinnacle0/devtool-util run build` to make intellisense work.
 import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";

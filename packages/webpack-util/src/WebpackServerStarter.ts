@@ -1,8 +1,10 @@
+// Note: typescript server may report error if build artifacts of @pinnacle0/devtool-util is absent inside the frontend-libraries monorepo.
+// Run `yarn workspace @pinnacle0/devtool-util run build` to make intellisense work.
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import {ProjectStructureChecker, ProjectStructureCheckerOptions} from "./ProjectStructureChecker";
+import {ProjectStructureCheckerOptions} from "./ProjectStructureChecker";
 import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackServerStarter");
@@ -48,11 +50,6 @@ export class WebpackServerStarter {
     }
 
     run() {
-        new ProjectStructureChecker({
-            projectDirectory: this.projectDirectory,
-            extraCheckDirectories: this.extraCheckDirectories,
-        }).run();
-
         try {
             print.info(["Starting dev server on port", String(this.port)]);
             const server = this.createDevServerInstance();

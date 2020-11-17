@@ -1,3 +1,5 @@
+# `@pinnacle0/webpack-util`
+
 This project is to provide two helpers, based on `webpack`:
 
 -   WebpackServerStarter: start a frontend project in localhost
@@ -85,6 +87,8 @@ projectRootDirectory/
 Creates a webpack compiler instance and runs it inside webpack-dev-server
 
 `WebpackBuilder`:  
+Checks if the project structure complies to convention described above.  
+Checks if source files complies with formatter and linters settings.  
 Creates a webpack compiler instance and performs a production build.
 
 High level overview webpack transformations:
