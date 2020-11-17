@@ -8,13 +8,53 @@ const ruleTester = new TSESLint.RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [
-        `TODO__VALID_CODE`,
-        // prettier-format-preserve
+        `import React from "react";
+        import AntButton from "antd/lib/Button";
+        import {SomethingUtil} from "../util/SomethingUtil";`,
+
+        `import {Button} from "@pinnacle0/web-ui/core/Button";
+        import {actions} from "../index";
+        import React from "react";
+        import "./index.less";`,
+
+        `import React from "react";
+        import {Input} from "../form-components/Input";
+        import "./index.less";`,
+
+        `import React from "react";
+        import AntButton from "antd/lib/Button";
+        import "./index.less";
+        import "antd/lib/Button/index.less";`,
     ],
     invalid: [
         {
-            code: `TODO__INVALID_CODE`,
-            errors: [{line: 1, messageId}],
+            code: `
+import "../index.less";
+import {Filter} from "./Filter";
+import React from "react";
+`,
+            errors: [{line: 3, messageId}],
+            output: `
+import {Filter} from "./Filter";
+import React from "react";
+import "../index.less";
+`,
+        },
+
+        {
+            code: `
+import React from "react";
+import "./index.less";
+import AntButton from "antd/lib/Button";
+import "antd/lib/Button/index.less";
+`,
+            errors: [{line: 3, messageId}],
+            output: `
+import React from "react";
+import AntButton from "antd/lib/Button";
+import "antd/lib/Button/index.less";
+import "./index.less";
+`,
         },
     ],
 });
