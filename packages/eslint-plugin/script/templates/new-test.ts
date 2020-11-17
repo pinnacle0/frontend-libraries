@@ -1,8 +1,8 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/{2}";
+import {MessageIds, name, rule} from "../../src/rules/// {{KEBAB_CASE_RULE_NAME}}";
 import {createConfig} from "../create-config";
 
-const messageId: MessageIds = "{1}";
+const messageId: MessageIds = "// {{CAMEL_CASE_RULE_NAME}}";
 
 const ruleTester = new TSESLint.RuleTester(createConfig());
 

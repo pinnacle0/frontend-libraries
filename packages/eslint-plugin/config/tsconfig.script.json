@@ -1,7 +1,7 @@
 {
     "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
-        "lib": ["ES2020"],
+        "lib": ["ES2020", "ESNext.String"],
         "module": "CommonJS",
         "target": "ES2015",
         "noEmit": true,

@@ -27,14 +27,14 @@ function generateNewRule(newRuleName: string) {
             .readFileSync(templateFile, {
                 encoding: "utf8",
             })
-            .replace("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            .replace("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+            .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+            .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
     })();
     fs.writeFileSync(newRuleFile, output, {encoding: "utf8"});
 }
 
 function generateNewTest(newRuleName: string) {
-    const newTestFile = path.join(directory.testRules, `${newRuleName}.ts`);
+    const newTestFile = path.join(directory.testRules, `${newRuleName}.test.ts`);
     {
         print.task(`Checking pre-conditions of "${newRuleName}"`);
         if (fs.existsSync(newTestFile)) {
@@ -48,8 +48,8 @@ function generateNewTest(newRuleName: string) {
             .readFileSync(templateFile, {
                 encoding: "utf8",
             })
-            .replace("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            .replace("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+            .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+            .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
     })();
     fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
 }
