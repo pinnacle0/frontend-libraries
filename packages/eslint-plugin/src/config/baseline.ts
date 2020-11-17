@@ -113,6 +113,7 @@ export const configBaseline: ESLint.Linter.Config = {
         "import/no-useless-path-segments": ["error", {noUselessIndex: false}],
         "import/prefer-default-export": "off",
 
+        eqeqeq: ["error", "always", {null: "ignore"}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
         "no-useless-computed-key": ["error"],
