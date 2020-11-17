@@ -8,6 +8,7 @@ import {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/di
 import {rule as deepNestedRelativeImports} from "./deep-nested-relative-imports";
 import {rule as moduleClassMethodDecorators} from "./module-class-method-decorators";
 import {rule as noNamedImports} from "./no-named-imports";
+import {rule as orderStylesheetImportStatementLast} from "./order-stylesheet-import-statement-last";
 import {rule as reactComponentDefaultPropsTyping} from "./react-component-default-props-typing";
 import {rule as reactComponentDisplayName} from "./react-component-display-name";
 import {rule as reactComponentEventHandlerNaming} from "./react-component-event-handler-naming";
@@ -23,6 +24,7 @@ export const allRules: Record<string, RuleModule<string, any[], RuleListener>> =
     "deep-nested-relative-imports": deepNestedRelativeImports,
     "module-class-method-decorators": moduleClassMethodDecorators,
     "no-named-imports": noNamedImports,
+    "order-stylesheet-import-statement-last": orderStylesheetImportStatementLast,
     "react-component-default-props-typing": reactComponentDefaultPropsTyping,
     "react-component-display-name": reactComponentDisplayName,
     "react-component-event-handler-naming": reactComponentEventHandlerNaming,
