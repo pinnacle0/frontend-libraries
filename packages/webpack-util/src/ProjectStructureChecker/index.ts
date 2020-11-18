@@ -8,6 +8,7 @@ import {checkPrettierConfig} from "./05_checkPrettierConfig";
 import {checkEslintConfig} from "./06_checkEslintConfig";
 import {checkStylelintConfig} from "./07_checkStylelintConfig";
 
+// TODO: change this to a file, not folder
 export interface ProjectStructureCheckerOptions {
     /**
      * Directory of containing the application code.
@@ -24,9 +25,13 @@ export interface ProjectStructureCheckerOptions {
 
 export class ProjectStructureChecker {
     private readonly directories: [string, ...string[]];
+    // TODO: packageJSONPath: string
     private readonly packageJsonFilepaths: [string, ...string[]];
+    // TODO: tsconfigPath: string
     private readonly tsconfigJsonFileTuples: [{srcDirectory: string; filepath: string}, ...{srcDirectory: string; filepath: string}[]];
+    // TODO: remove
     private readonly projectSrcDirectory: string;
+    // TODO: remove
     private readonly projectSrcIndexHtmlFilepath: string;
 
     constructor(private readonly options: ProjectStructureCheckerOptions) {
@@ -72,4 +77,33 @@ export class ProjectStructureChecker {
         checkEslintConfig();
         checkStylelintConfig();
     }
+
+    private checkMainProjectDirectory() {
+        // TODO: exist, isDir, check src folder, static folder
+    }
+
+    private checkExtraDirectories() {
+        // TODO: exist, isDir
+    }
+
+    private checkPackageJSON() {
+        // TODO: exist, dep & devDeps each entry exact version
+    }
+
+    private checkTSConfig() {
+        // TODO: if project include ts/tsx, then check tsconfig exist
+    }
+
+    private checkMainProjectSrcDirectory() {
+        const mainProjectSrcDirectory = path.join(this.directories[0], "src");
+        // TODO: include index.html, include entry (js/ts/css/...)
+    }
+
+    private checkPrettierInstallation() {
+        // TODO: only check node_modules package exist
+    }
+
+    private checkESLintInstallation() {}
+
+    private checkStyleLintInstallation() {}
 }

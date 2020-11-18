@@ -19,6 +19,7 @@ export function checkTsconfigJson({srcDirectory, filepath}: Options) {
     }
     if (!(fs.existsSync(filepath) && fs.statSync(filepath).isFile())) {
         throw new Error(
+            // TODO: only keep 1 file
             `Cannot find tsconfig.json at "${filepath}".
             \`tsconfig.json\` is required for typechecking ts code & transpilation.`
                 .split("\n")

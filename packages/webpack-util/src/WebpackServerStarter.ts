@@ -1,5 +1,3 @@
-// Note: typescript server may report error if build artifacts of @pinnacle0/devtool-util is absent inside the frontend-libraries monorepo.
-// Run `yarn workspace @pinnacle0/devtool-util run build` to make intellisense work.
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
@@ -17,8 +15,10 @@ export interface WebpackServerStarterOptions extends
             | "extraChunks"
             | "extraPrioritizedResolvedExtensions"
         >,
+    // TODO: remove this
         Pick<ProjectStructureCheckerOptions, "extraCheckDirectories"> {
     port: number;
+    // TODO: rename: apiProxy?: {target, context}
     apiProxyServer?: string;
 }
 
@@ -89,6 +89,7 @@ export class WebpackServerStarter {
             },
             proxy: [
                 {
+                    // TODO: put to options, then in UB/pgaming/PED, each project manages its own
                     context: ["/ajax", "/qr", "/file", "/third-party-game/game", "/version"],
                     target: this.apiProxyServer,
                     secure: false,

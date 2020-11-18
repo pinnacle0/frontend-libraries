@@ -14,6 +14,7 @@ export class Plugin {
 
     static readonly ignoreMomentLocale = ignoreMomentLocalePlugin;
 
+    // TODO: try remove as const
     static readonly fileOutput = {
         html: htmlPlugin,
         miniCssExtract: miniCssExtractPlugin,

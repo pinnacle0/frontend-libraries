@@ -15,7 +15,7 @@ import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
 /**
  * Generates a webpack config with sane defaults and guards
- * theconfig with additional layers of safety.
+ * the config with additional layers of safety.
  *
  * Most errors thrown by webpack are 💩 and confusing,
  * so ConfigGenerator tries to validate as much as possible

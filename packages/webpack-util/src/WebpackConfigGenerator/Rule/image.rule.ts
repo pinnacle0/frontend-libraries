@@ -3,6 +3,7 @@ import {Utility} from "../Utility";
 import type {FileLoader} from "./loader-typedef/file-loader";
 import type {UrlLoader} from "./loader-typedef/url-loader";
 
+// TODO: ref xxxx URL
 export function imageRule(): webpack.RuleSetRule {
     const urlLoader: UrlLoader<FileLoader> = {
         loader: require.resolve("url-loader") as "url-loader",

@@ -1,3 +1,4 @@
+// TODO: remove this folder
 import webpack from "webpack";
 
 export declare interface CssLoader extends webpack.RuleSetLoader {

@@ -7,12 +7,12 @@ interface WebpackResolveExtensionsFactoryOptions {
 
 export class WebpackResolveExtensionsFactory {
     static generate({extraPrioritizedResolvedExtensions = []}: WebpackResolveExtensionsFactoryOptions): string[] {
+        // TODO: remove
         for (const ext of extraPrioritizedResolvedExtensions) {
             Utility.validateFileExtension(ext);
         }
 
         const resolveExtensions = [];
-
         for (const ext of Constant.chunkExtensions) {
             resolveExtensions.push(ext);
         }

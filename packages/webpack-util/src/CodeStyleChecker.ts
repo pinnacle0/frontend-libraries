@@ -5,6 +5,7 @@ const print = Utility.createConsoleLogger("CodeStyleChecker");
 
 interface CodeStyleCheckerOptions {
     projectDirectory: string;
+    // TODO: optional ?
     extraCheckDirectories: string[];
 }
 

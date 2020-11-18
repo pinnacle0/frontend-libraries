@@ -1,5 +1,6 @@
 import {TaggedError} from "./type";
 
+// TODO: remove tagged error usage
 function taggedErrorFactory(tag: string) {
     return function createError(message: string): TaggedError {
         const error = new Error(message) as TaggedError;
@@ -13,6 +14,7 @@ function isTaggedError(err: unknown): err is TaggedError {
     return Boolean(err && typeof err === "object" && (err as any)["@@tag"] === "ConfigGeneratorError");
 }
 
+// TODO: remove
 function validateFileExtension(ext: string): void {
     const createError = taggedErrorFactory("[ConfigGenerator.Utility.validateFileExtension]");
     if (ext.trim() === "") {
@@ -24,6 +26,7 @@ function validateFileExtension(ext: string): void {
     }
 }
 
+// TODO: move to /Rule folder, as regExpForFileExtension.ts
 function regExpForFileExtension(...extensions: [string, ...string[]]): RegExp {
     const createError = taggedErrorFactory("[ConfigGenerator.Utility.regExpForFileExtension]");
     const escapedExtensions: string[] = [];
