@@ -18,6 +18,10 @@
     "devDependencies": {
         "prettier": "^2.1.2"
     },
+    "files": [
+        "./dist/**",
+        "./LICENSE.md"
+    ],
     "jest": {
         "preset": "ts-jest",
         "watchPathIgnorePatterns": [
