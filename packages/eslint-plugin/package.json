@@ -41,7 +41,7 @@
         "eslint-plugin-testing-library": "^3.10.0"
     },
     "files": [
-        "./dist/*",
+        "./dist/**",
         "./README.md",
         "./LICENSE.md"
     ],
