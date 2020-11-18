@@ -2,11 +2,42 @@
 
 This project is to provide two helpers, based on `webpack`:
 
--   WebpackServerStarter: start a frontend project in localhost
--   WebpackBuilder: bundle a frontend project
+WebpackUtil favours convention Over configuration.  
+And many tools are intentionally made not configurable.
 
-We follow the rule: `Convention Over Configuration`.
-Therefore, the only required option is **the project path**, with following content.
+## `WebpackServerStarter`
+
+Starts a frontend project in localhost.
+
+```ts
+// projectDirectory/script/start.ts
+import {WebpackServerStarter} from "@pinnacle0/webpack-util";
+import * as path from "path";
+new WebpackServerStarter({
+    projectDirectory: path.join(__dirname, ".."),
+    port: 1234,
+});
+```
+
+-   Creates a `webpack` compiler instance and runs it with `webpack-dev-server`.
+-   Does not check project structure, code formatting, linting.
+
+## `WebpackBuilder`
+
+Bundles a frontend project.
+
+```ts
+// projectDirectory/script/build.ts
+import {WebpackBuilder} from "@pinnacle0/webpack-util";
+import * as path from "path";
+new WebpackBuilder({
+    projectDirectory: path.join(__dirname, ".."),
+});
+```
+
+-   Checks if the project structure complies to convention described below.
+-   Checks if source files complies with formatter and linters settings.
+-   Creates a `webpack` compiler instance and performs a production build.
 
 ## Project Tech Stack Requirement
 
@@ -81,25 +112,7 @@ projectRootDirectory/
             (https://classic.yarnpkg.com/en/docs/workspaces/)
 ```
 
-## Functions
-
-`WebpackServerStarter`:  
-Creates a webpack compiler instance and runs it inside webpack-dev-server
-
-`WebpackBuilder`:  
-Checks if the project structure complies to convention described above.  
-Checks if source files complies with formatter and linters settings.  
-Creates a webpack compiler instance and performs a production build.
-
-High level overview webpack transformations:
-
--   Scripts `.ts`, `.tsx`:  
-    @dev: compiled by `tsc` -> ?  
-    @prod: compiled by `tsc` -> minified by `terser`
--   Styles `.css`, `.less`:  
-    @dev: compiled by `less` -> injected to browser as style tag  
-    @prod: compiled by `less` -> autoprefixed by `postcss` -> extract as stylesheet -> minified by `cssnano`
-
+<!--
 ## Webpack dependency versions status
 
 -   `webpack` # Lock at 4.44.2 (wait for loaders & plugins patches)
@@ -111,3 +124,4 @@ High level overview webpack transformations:
 -   `script-ext-html-webpack-plugin` # No changelog
 -   `style-loader` # Lock at 1.3.0 (default esModule=true)
 -   `terser-webpack-plugin` # Lock at 4.2.3 (5.0.0 drops webpack4 support)
+-->
