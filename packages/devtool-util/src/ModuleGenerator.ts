@@ -3,6 +3,7 @@ import {PrettierUtil} from "./PrettierUtil";
 import {Utility} from "./Utility";
 import yargs = require("yargs");
 
+// TODO: make it a folder, with folders: core-fe-boilerplate, core-native-boilerplate
 const print = Utility.createConsoleLogger("ModuleGenerator");
 
 export interface ModuleGeneratorOptions {
