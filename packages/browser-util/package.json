@@ -13,5 +13,9 @@
     },
     "engines": {
         "node": ">=12.19.x"
-    }
+    },
+    "files": [
+        "./dist/**",
+        "./LICENSE.md"
+    ]
 }
