@@ -16,7 +16,6 @@ export interface Props extends Partial<UploadProps> {
     name: string;
     beforeUpload?: (file: File) => boolean | PromiseLike<void>;
     className?: string;
-    // TODO/andy: only accept height with number, discuss
     style?: React.CSSProperties;
     disabled?: boolean;
 }

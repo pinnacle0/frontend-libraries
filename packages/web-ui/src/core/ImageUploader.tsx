@@ -11,6 +11,9 @@ import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} fro
 export interface Props extends ControlledFormValue<ImageUploadResponse | null>, UploadProps {
     className?: string;
     style?: React.CSSProperties;
+    removable?: boolean;
+    disabled?: boolean;
+    displayImageImageURL?: boolean;
 }
 
 export class ImageUploader extends React.PureComponent<Props> {
@@ -52,9 +55,8 @@ export class ImageUploader extends React.PureComponent<Props> {
     };
 
     render() {
-        const {value, uploadURL, onUploadFailure, className, style} = this.props;
+        const {value, uploadURL, onUploadFailure, className, style, removable, disabled} = this.props;
         const t = i18n();
-        // TODO/any: why disabled={!!value}
         return (
             <Uploader
                 name="image"
@@ -64,11 +66,11 @@ export class ImageUploader extends React.PureComponent<Props> {
                 onUploadSuccess={this.onUploadSuccess}
                 style={style}
                 className={className}
-                disabled={!!value}
+                disabled={disabled}
             >
                 {value ? (
                     <React.Fragment>
-                        <img src={value.imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />
+                        <img src={value.imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
