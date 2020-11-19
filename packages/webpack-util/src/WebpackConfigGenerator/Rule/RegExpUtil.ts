@@ -3,7 +3,7 @@ export class RegExpUtil {
         const escapedExtensions: string[] = [];
         for (const ext of extensions) {
             RegExpUtil.validateFileExtension(ext);
-            escapedExtensions.push(ext.replaceAll(".", String.raw`\.`));
+            escapedExtensions.push(ext.replace(/\./g, String.raw`\.`));
         }
         return new RegExp(escapedExtensions.join("|") + "$");
     }
