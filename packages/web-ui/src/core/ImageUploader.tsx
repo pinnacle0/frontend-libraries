@@ -3,12 +3,13 @@ import CloudUploadOutlined from "@ant-design/icons/CloudUploadOutlined";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import {ModalUtil} from "../util/ModalUtil";
 import {MediaUtil} from "../util/MediaUtil";
-import {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 import {Uploader} from "./Uploader";
 import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../util/UploadUtil";
 
-export interface Props extends ControlledFormValue<ImageUploadResponse | null>, UploadProps {
+export interface Props extends UploadProps {
+    imageURL: string | null;
+    onChange: (value: ImageUploadResponse | null) => void;
     className?: string;
     style?: React.CSSProperties;
     removable?: boolean;
@@ -24,9 +25,9 @@ export class ImageUploader extends React.PureComponent<Props> {
 
     openPreviewModal = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        const {value} = this.props;
-        if (value) {
-            await MediaUtil.open(value.imageURL, "image");
+        const {imageURL} = this.props;
+        if (imageURL) {
+            await MediaUtil.open(imageURL, "image");
         }
     };
 
@@ -55,7 +56,7 @@ export class ImageUploader extends React.PureComponent<Props> {
     };
 
     render() {
-        const {value, uploadURL, onUploadFailure, className, style, removable, disabled} = this.props;
+        const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled} = this.props;
         const t = i18n();
         return (
             <Uploader
@@ -68,9 +69,9 @@ export class ImageUploader extends React.PureComponent<Props> {
                 className={className}
                 disabled={disabled}
             >
-                {value ? (
+                {imageURL ? (
                     <React.Fragment>
-                        <img src={value.imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
+                        <img src={imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
