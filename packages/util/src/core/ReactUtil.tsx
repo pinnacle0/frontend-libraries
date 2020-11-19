@@ -45,8 +45,28 @@ function memo<T extends (props: any) => React.ReactElement | null>(displayName: 
     return (React.memo as <T>(c: T) => T)(Object.assign(functionComponent, {displayName}));
 }
 
+/**
+ * To group some components into a static-method like usage, without creating dummy class.
+ *
+ * Example usage:
+ *    const Left = ReactUtil.memo("Left", () => {...});
+ *    const Right = ReactUtil.memo("Left", () => {...});
+ *    const SomeContainer = ReactUtil.statics("SomeContainer", {Left, Right})
+ *
+ * Then you can use <SomeContainer.Left> or <SomeContainer.Right> with proper displayName set.
+ */
+function statics<T extends {[key: string]: React.ComponentType<any>}>(displayName: string, componentMap: T): T {
+    const namedComponentMap: {[key: string]: React.ComponentType<any>} = {};
+    Object.keys(componentMap).forEach(key => {
+        const OriginalComponent = componentMap[key];
+        namedComponentMap[key] = memo(displayName, (...props: any) => <OriginalComponent {...props} />);
+    });
+    return namedComponentMap as T;
+}
+
 export const ReactUtil = Object.freeze({
     joinNodes,
     interpolateNode,
     memo,
+    statics,
 });
