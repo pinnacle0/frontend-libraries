@@ -14,6 +14,7 @@ Starts a frontend project in localhost.
 import {WebpackServerStarter} from "@pinnacle0/webpack-util";
 import * as path from "path";
 new WebpackServerStarter({
+    apiProxy: null,
     projectDirectory: path.join(__dirname, ".."),
     port: 1234,
 });
