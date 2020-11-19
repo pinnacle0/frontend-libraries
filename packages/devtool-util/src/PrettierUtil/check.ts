@@ -20,8 +20,7 @@ export function check(fileOrDirectory: string): void {
         throw new Error(`Cannot format "${fileOrDirectory}" because it is not a valid file or directory.`);
     }
     if (fs.statSync(fileOrDirectory).isDirectory()) {
-        // TODO/Lok: either remove cjs/mjs, either make webpack loader supports this
-        const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{cjs,css,html,js,json,jsx,less,mjs,ts,tsx}"`);
+        const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{css,html,js,json,jsx,less,ts,tsx}"`);
         Utility.runCommand("prettier", ["--check", quotedGlobPattern]);
         return;
     }
