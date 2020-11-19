@@ -40,6 +40,7 @@ fs.mkdirSync(directory.dist, {recursive: true});
 print.task("Compiling...");
 Utility.runCommand("tsc", ["--build", path.join(directory.project, "tsconfig.json")]);
 
+// TODO: remove this
 print.task("Writing package.json to dist folder");
 const packageJsonContents = JSON.parse(fs.readFileSync(path.join(directory.project, "package.json"), {encoding: "utf8"}));
 delete packageJsonContents.private; // Make `dist/package.json` publishable
@@ -51,4 +52,3 @@ fs.copyFileSync(path.join(directory.project, "README.md"), path.join(directory.d
 fs.copyFileSync(path.join(directory.project, "LICENSE.md"), path.join(directory.dist, "LICENSE.md"));
 
 print.info("Build successful");
-print.info(["To publish, run the following command:", "\n", `$ cd ${directory.dist}`, "\n", `$ yarn publish`]);
