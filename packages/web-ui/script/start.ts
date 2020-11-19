@@ -3,7 +3,11 @@ import path from "path";
 import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-import type {ImageUploadResponse} from "../src/util/UploadUtil";
+
+export interface ImageUploadResponse {
+    imageURL: string;
+    imageKey: string;
+}
 
 const PORT = 4455;
 
