@@ -1,5 +1,5 @@
 import type webpack from "webpack";
-import {ChunkEntry} from "./type";
+import type {ChunkEntry} from "../type";
 
 /**
  * Use the object syntax to specify the output filename of each entry.

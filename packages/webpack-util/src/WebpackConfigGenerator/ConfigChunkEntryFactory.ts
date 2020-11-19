@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {Constant} from "../Constant";
-import {ChunkEntry} from "./type";
+import type {ChunkEntry} from "../type";
 
 interface ConfigChunkEntryOptions {
     indexName: string;

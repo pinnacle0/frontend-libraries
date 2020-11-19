@@ -3,15 +3,14 @@ import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
 import {CodeStyleChecker} from "./CodeStyleChecker";
-import {ProjectStructureChecker, ProjectStructureCheckerOptions} from "./ProjectStructureChecker";
-import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import {ProjectStructureChecker} from "./ProjectStructureChecker";
+import type {InternalCheckerOptions} from "./type";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackBuilder");
 
-// prettier-ignore
-export interface WebpackBuilderOptions extends
-    WebpackConfigGeneratorOptions,
-    Pick<ProjectStructureCheckerOptions, "extraCheckDirectories"> {}
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {}
 
 /**
  * Build the website by webpack.

@@ -1,6 +1,6 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
-import {DynamicConfigResolver} from "./type";
+import type {DynamicConfigResolver} from "../type";
 
 const print = Utility.createConsoleLogger("WebpackResolveAliasFactory");
 

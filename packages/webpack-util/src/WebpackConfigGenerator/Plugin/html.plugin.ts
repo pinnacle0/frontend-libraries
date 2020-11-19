@@ -1,7 +1,7 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import ScriptExtHtmlWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
-import type {HTMLEntry} from "../type";
+import type {HTMLEntry} from "../../type";
 
 interface HtmlPluginOptions {
     entry: HTMLEntry;

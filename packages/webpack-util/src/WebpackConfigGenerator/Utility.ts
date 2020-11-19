@@ -1,52 +1,25 @@
-import {TaggedError} from "./type";
-
-// TODO: remove tagged error usage
-function taggedErrorFactory(tag: string) {
-    return function createError(message: string): TaggedError {
-        const error = new Error(message) as TaggedError;
-        error["@@tag"] = "ConfigGeneratorError";
-        error.raw = {tag, message};
-        return error;
-    };
-}
-
-function isTaggedError(err: unknown): err is TaggedError {
-    return Boolean(err && typeof err === "object" && (err as any)["@@tag"] === "ConfigGeneratorError");
-}
-
 // TODO: remove
 function validateFileExtension(ext: string): void {
-    const createError = taggedErrorFactory("[ConfigGenerator.Utility.validateFileExtension]");
     if (ext.trim() === "") {
-        throw createError("Extension cannot be empty");
+        throw new Error("Extension cannot be empty");
     } else if (/\s/.test(ext)) {
-        throw createError(`Extension cannot contain whitespace, received: "${ext}"`);
+        throw new Error(`Extension cannot contain whitespace, received: "${ext}"`);
     } else if (!/^(\.[a-z0-9]+)+$/.test(ext)) {
-        throw createError(`Extension should begin with dot, and contains lowercase letters and numbers, received: "${ext}"`);
+        throw new Error(`Extension should begin with dot, and contains lowercase letters and numbers, received: "${ext}"`);
     }
 }
 
 // TODO: move to /Rule folder, as regExpForFileExtension.ts
 function regExpForFileExtension(...extensions: [string, ...string[]]): RegExp {
-    const createError = taggedErrorFactory("[ConfigGenerator.Utility.regExpForFileExtension]");
     const escapedExtensions: string[] = [];
     for (const ext of extensions) {
-        try {
-            validateFileExtension(ext);
-            escapedExtensions.push(ext.replace(/\./, String.raw`\.`));
-        } catch (error) {
-            if (isTaggedError(error)) {
-                throw createError(error.raw.message);
-            }
-            throw error;
-        }
+        validateFileExtension(ext);
+        escapedExtensions.push(ext.replace(/\./, String.raw`\.`));
     }
     return new RegExp(escapedExtensions.join("|") + String.raw`$`);
 }
 
 export const Utility = Object.freeze({
-    taggedErrorFactory,
-    isTaggedError,
     validateFileExtension,
     regExpForFileExtension,
 });

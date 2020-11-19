@@ -2,8 +2,8 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import {ProjectStructureCheckerOptions} from "./ProjectStructureChecker";
-import {WebpackConfigGenerator, WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
 const print = Utility.createConsoleLogger("WebpackServerStarter");
 
@@ -14,33 +14,36 @@ export interface WebpackServerStarterOptions extends
             | "dynamicConfigResolvers"
             | "extraChunks"
             | "extraPrioritizedResolvedExtensions"
-        >,
-    // TODO: remove this
-        Pick<ProjectStructureCheckerOptions, "extraCheckDirectories"> {
+        > {
+    apiProxy: {
+        target: string;
+        context: string[];
+    } | null;
     port: number;
-    // TODO: rename: apiProxy?: {target, context}
-    apiProxyServer?: string;
 }
 
 /**
  * Start webpack dev server, by creating WebpackServerStarter instance and then run.
  *
+ ***************************************
+ *
  * Add "--env envName" to command line, if you want to switch config folder dynamically.
  */
 export class WebpackServerStarter {
     private readonly projectDirectory: string;
-    private readonly extraCheckDirectories: string[];
     private readonly devServerConfigContentBase: string;
     private readonly port: number;
-    private readonly apiProxyServer: string;
+    private readonly apiProxy: {
+        target: string;
+        context: string[];
+    } | null;
     private readonly webpackConfig: webpack.Configuration;
 
-    constructor({projectDirectory, extraCheckDirectories, port, apiProxyServer = "", dynamicConfigResolvers, extraChunks, extraPrioritizedResolvedExtensions}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraChunks, extraPrioritizedResolvedExtensions}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
-        this.extraCheckDirectories = extraCheckDirectories ?? [];
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
-        this.apiProxyServer = apiProxyServer;
+        this.apiProxy = apiProxy;
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
             dynamicConfigResolvers,
@@ -87,15 +90,16 @@ export class WebpackServerStarter {
             stats: {
                 colors: true,
             },
-            proxy: [
-                {
-                    // TODO: put to options, then in UB/pgaming/PED, each project manages its own
-                    context: ["/ajax", "/qr", "/file", "/third-party-game/game", "/version"],
-                    target: this.apiProxyServer,
-                    secure: false,
-                    changeOrigin: true,
-                },
-            ],
+            proxy: this.apiProxy
+                ? [
+                      {
+                          context: this.apiProxy.context,
+                          target: this.apiProxy.target,
+                          secure: false,
+                          changeOrigin: true,
+                      },
+                  ]
+                : undefined,
         });
     }
 }

@@ -1,6 +1,6 @@
 import webpack from "webpack";
+import type {ChunkEntry} from "../type";
 import {Plugin} from "./Plugin";
-import {ChunkEntry} from "./type";
 
 interface HtmlWebpackPluginsFactoryOptions {
     configChunkEntries: ChunkEntry[];
