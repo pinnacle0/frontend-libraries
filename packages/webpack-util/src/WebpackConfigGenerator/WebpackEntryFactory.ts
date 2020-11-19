@@ -4,7 +4,7 @@ import type {ChunkEntry} from "../type";
 /**
  * Use the object syntax to specify the output filename of each entry.
  *
- * See: https://webpack.js.org/configuration/entry-context/#output-filename
+ * @see https://webpack.js.org/configuration/entry-context/#output-filename
  */
 interface StrictWebpackEntry {
     [entryName: string]: [string, ...string[]];

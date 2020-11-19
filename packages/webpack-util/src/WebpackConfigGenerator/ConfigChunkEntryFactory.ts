@@ -41,7 +41,7 @@ export class ConfigChunkEntryFactory {
         if (htmlPath === null) {
             // Output is a pure js chunk (without a companion `index.html` template file)
             // Do not include a hash in the output filenames.
-            // One particular usecase for this is create a "third-party-error-handler" pure js chunk,
+            // One particular use case for this is create a "third-party-error-handler" pure js chunk,
             // so this static filename can be hard coded at our backend.
             const outputFilename = "static/js/[name].js";
             return {name, chunkEntryPath, outputFilename};

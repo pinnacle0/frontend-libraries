@@ -14,7 +14,7 @@ export function webpackHmrPlugin() {
 
 /**
  * Reports progress during compilation.
- * Basically the same behaviour as running webpack-cli with:
+ * Basically the same behavior as running webpack-cli with:
  * `$ webpack --progress`
  */
 export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOptions) {

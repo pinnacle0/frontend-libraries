@@ -1,11 +1,22 @@
 import type webpack from "webpack";
-import {Utility} from "../Utility";
+import {RegExpUtil} from "./RegExpUtil";
 import {StylesheetLoader as Loader} from "./stylesheet.loader";
 
 interface StylesheetRuleDeps {
     minimize: boolean;
 }
 
+/**
+ * Handles dependency requests to stylesheet assets (".css", ".less")
+ * with `minimize: true` by `lessc` -> transform to js module -> inject to DOM as <style> tag,
+ * or with `minimize: false` by `lessc` -> `autoprefixer` with `postcss` -> transform to js module -> extract to stylesheet
+ *
+ * @see https://webpack.js.org/loaders/css-loader/
+ * @see https://webpack.js.org/loaders/less-loader/
+ * @see https://webpack.js.org/plugins/mini-css-extract-plugin/
+ * @see https://webpack.js.org/loaders/postcss-loader/
+ * @see https://webpack.js.org/loaders/style-loader/
+ */
 export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
     const use: webpack.RuleSetLoader[] = minimize
         ? [
@@ -23,7 +34,7 @@ export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetR
           ];
 
     return {
-        test: Utility.regExpForFileExtension(".css", ".less"),
+        test: RegExpUtil.fileExtension(".css", ".less"),
         use,
         // Declare all css/less imports as side effects (not to be considered
         // as dead code), regardless of the containing package claims to be

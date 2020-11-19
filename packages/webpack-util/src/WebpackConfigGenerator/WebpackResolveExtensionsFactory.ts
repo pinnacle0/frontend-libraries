@@ -1,5 +1,4 @@
 import {Constant} from "../Constant";
-import {Utility} from "./Utility";
 
 interface WebpackResolveExtensionsFactoryOptions {
     extraPrioritizedResolvedExtensions?: string[] | undefined;
@@ -7,12 +6,12 @@ interface WebpackResolveExtensionsFactoryOptions {
 
 export class WebpackResolveExtensionsFactory {
     static generate({extraPrioritizedResolvedExtensions = []}: WebpackResolveExtensionsFactoryOptions): string[] {
-        // TODO: remove
+        const resolveExtensions = [];
+
         for (const ext of extraPrioritizedResolvedExtensions) {
-            Utility.validateFileExtension(ext);
+            resolveExtensions.push(ext);
         }
 
-        const resolveExtensions = [];
         for (const ext of Constant.chunkExtensions) {
             resolveExtensions.push(ext);
         }

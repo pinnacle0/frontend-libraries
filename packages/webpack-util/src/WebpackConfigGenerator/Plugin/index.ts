@@ -14,19 +14,18 @@ export class Plugin {
 
     static readonly ignoreMomentLocale = ignoreMomentLocalePlugin;
 
-    // TODO: try remove as const
     static readonly fileOutput = {
         html: htmlPlugin,
         miniCssExtract: miniCssExtractPlugin,
-    } as const;
+    };
 
     static readonly minimizer = {
         optimizeCSSAssets: optimizeCSSAssetsPlugin,
         terser: terserPlugin,
-    } as const;
+    };
 
     static readonly webpack = {
         hmr: webpackHmrPlugin,
         progress: webpackProgressPlugin,
-    } as const;
+    };
 }

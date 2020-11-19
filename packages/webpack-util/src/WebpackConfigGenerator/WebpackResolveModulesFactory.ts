@@ -28,7 +28,7 @@ export class WebpackResolveModulesFactory {
         resolveModules.push(projectSrcDirectory);
 
         /**
-         * The default behaviour to resolve non-relative paths is by looking inside `node_modules` folder.
+         * The default behavior to resolve non-relative paths is by looking inside `node_modules` folder.
          * Put at the end so this has the lowest precedence.
          */
         resolveModules.push("node_modules");

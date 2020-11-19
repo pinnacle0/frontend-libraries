@@ -1,21 +1,26 @@
 import type webpack from "webpack";
-import {Utility} from "../Utility";
-import {TsLoader} from "./loader-typedef/ts-loader";
+import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
     tsconfigFilepath: string;
 }
 
+/**
+ * Handles dependency requests to typescript files
+ * by compiling with `tsc`.
+ *
+ * @see https://github.com/TypeStrong/ts-loader
+ */
 export function tsRule({tsconfigFilepath}: Deps): webpack.RuleSetRule {
-    const tsLoader: TsLoader = {
-        loader: require.resolve("ts-loader") as "ts-loader",
-        options: {
-            configFile: tsconfigFilepath,
-        },
-    };
-
     return {
-        test: Utility.regExpForFileExtension(".ts", ".tsx"),
-        use: [tsLoader],
+        test: RegExpUtil.fileExtension(".ts", ".tsx"),
+        use: [
+            {
+                loader: require.resolve("ts-loader"),
+                options: {
+                    configFile: tsconfigFilepath,
+                },
+            },
+        ],
     };
 }
