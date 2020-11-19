@@ -1,18 +1,13 @@
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
 import path from "path";
+import {InternalCheckerOptions} from "./type";
 
 const print = Utility.createConsoleLogger("CodeStyleChecker");
-
-interface CodeStyleCheckerOptions {
-    projectDirectory: string;
-    // TODO: optional ?
-    extraCheckDirectories: string[];
-}
 
 export class CodeStyleChecker {
     private readonly checkableSrcDirectories: [string, ...string[]];
 
-    constructor({projectDirectory, extraCheckDirectories}: CodeStyleCheckerOptions) {
+    constructor({projectDirectory, extraCheckDirectories = []}: InternalCheckerOptions) {
         this.checkableSrcDirectories = [path.join(projectDirectory, "src")];
         for (const directory of extraCheckDirectories) {
             this.checkableSrcDirectories.push(path.join(directory, "src"));

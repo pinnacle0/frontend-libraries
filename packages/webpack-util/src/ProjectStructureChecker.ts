@@ -2,20 +2,7 @@ import fs from "fs";
 import glob from "glob";
 import path from "path";
 import {Constant} from "./Constant";
-
-export interface ProjectStructureCheckerOptions {
-    /**
-     * Directory of containing the application code.
-     * Should contains `package.json`, `tsconfig.json`, `src/`, `index.html` and a main entry.
-     */
-    projectDirectory: string;
-    /**
-     * Directories that are transitively depended on by the application,
-     * and should be also checked by static analysis tools along the application project folder.
-     * Should contains `package.json`, `tsconfig.json`, `src/`.
-     */
-    extraCheckDirectories: string[];
-}
+import {InternalCheckerOptions} from "./type";
 
 export class ProjectStructureChecker {
     private readonly projectDirectory: string;
@@ -23,9 +10,9 @@ export class ProjectStructureChecker {
     private readonly packageJSONPath: string;
     private readonly tsconfigPath: string;
 
-    constructor(private readonly options: ProjectStructureCheckerOptions) {
+    constructor(private readonly options: InternalCheckerOptions) {
         this.projectDirectory = options.projectDirectory;
-        this.extraCheckDirectories = Array.from(options.extraCheckDirectories);
+        this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.packageJSONPath = path.join(options.projectDirectory, "package.json");
         this.tsconfigPath = path.join(options.projectDirectory, "tsconfig.json");
     }
