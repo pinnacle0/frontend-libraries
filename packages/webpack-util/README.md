@@ -17,7 +17,7 @@ new WebpackServerStarter({
     apiProxy: null,
     projectDirectory: path.join(__dirname, ".."),
     port: 1234,
-});
+}).run();
 ```
 
 -   Creates a `webpack` compiler instance and runs it with `webpack-dev-server`.
@@ -33,7 +33,7 @@ import {WebpackBuilder} from "@pinnacle0/webpack-util";
 import * as path from "path";
 new WebpackBuilder({
     projectDirectory: path.join(__dirname, ".."),
-});
+}).run();
 ```
 
 -   Checks if the project structure complies to convention described below.
