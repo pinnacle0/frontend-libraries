@@ -54,7 +54,7 @@ export class WebIconFontGenerator {
     private async prepareFolder() {
         print.task(["Copying template to target", this.componentBasePath]);
 
-        await Utility.prepareFolder(this.componentBasePath);
+        Utility.prepareEmptyDirectory(this.componentBasePath);
 
         fs.copySync(this.templatePath, this.componentBasePath);
         fs.moveSync(this.componentBasePath + "/icon.html", this.staticPath + "/icon.html", {overwrite: true});

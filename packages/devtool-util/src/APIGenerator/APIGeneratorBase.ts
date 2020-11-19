@@ -65,7 +65,7 @@ export class APIGeneratorBase {
     private async generateServiceFolder(services: ServiceDefinition[], folderPath: string, platformInfo: PlatformConfig) {
         if (!services.length) return;
 
-        await Utility.prepareFolder(folderPath);
+        Utility.prepareEmptyDirectory(folderPath);
 
         print.task(["Generating API Service Files", folderPath]);
 
