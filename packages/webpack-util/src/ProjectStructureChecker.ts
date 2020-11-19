@@ -19,6 +19,7 @@ export class ProjectStructureChecker {
 
     run() {
         this.checkMainProjectDirectory();
+        this.checkMainProjectSrcDirectory();
         this.checkExtraDirectories();
         this.checkPackageJSON();
         this.checkTSConfig();
@@ -37,8 +38,6 @@ export class ProjectStructureChecker {
         if (!(fs.existsSync(mainProjectStaticDirectory) && fs.statSync(mainProjectStaticDirectory).isDirectory())) {
             throw new Error(`Cannot find "static" directory in project at "${this.projectDirectory}"`);
         }
-
-        this.checkMainProjectSrcDirectory();
     }
 
     private checkMainProjectSrcDirectory() {
