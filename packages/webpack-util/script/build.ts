@@ -24,12 +24,13 @@ if (isFastMode) {
     Utility.runCommand("eslint", ["--ext=.js,.jsx,.ts,.tsx", FilePath.src]);
 }
 
-// TODO: Utility.prepareEmptyDir
+// TODO/Lok: Utility.prepareEmptyDir
 if (fs.existsSync(FilePath.dist)) {
     print.task("Preparing dist directory");
     fs.rmdirSync(FilePath.dist, {recursive: true});
 }
 
+// TODO/Lok: Compiling no dot dot dot
 print.task("Compiling");
 Utility.runCommand("tsc", ["--project", FilePath.tsConfigForSrc]);
 
