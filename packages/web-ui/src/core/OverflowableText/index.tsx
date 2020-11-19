@@ -4,6 +4,7 @@ import "./index.less";
 
 interface Props {
     text: React.ReactNode;
+    // TODO: 1, maxWidth 2, style?:  React.CSSProperties; 3, if not overflow, do not add Tooltip
     width: number | React.CSSProperties;
     className?: string;
 }
