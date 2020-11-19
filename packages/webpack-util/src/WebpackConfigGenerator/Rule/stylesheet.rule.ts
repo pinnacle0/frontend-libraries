@@ -1,8 +1,9 @@
 import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
-import {StylesheetLoader as Loader} from "./stylesheet.loader";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import autoprefixer from "autoprefixer";
 
-interface StylesheetRuleDeps {
+interface Deps {
     minimize: boolean;
 }
 
@@ -17,20 +18,63 @@ interface StylesheetRuleDeps {
  * @see https://webpack.js.org/loaders/postcss-loader/
  * @see https://webpack.js.org/loaders/style-loader/
  */
-export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
+function cssLoader(importLoaders: number): webpack.RuleSetLoader {
+    return {
+        loader: require.resolve("css-loader"),
+        options: {
+            importLoaders,
+        },
+    };
+}
+
+function lessLoader(): webpack.RuleSetLoader {
+    return {
+        loader: require.resolve("less-loader"),
+        options: {
+            lessOptions: {
+                javascriptEnabled: true,
+            },
+        },
+    };
+}
+
+function miniCssExtractPluginLoader(): webpack.RuleSetLoader {
+    return {
+        loader: require.resolve(MiniCssExtractPlugin.loader),
+    };
+}
+
+function postcssLoader(): webpack.RuleSetLoader {
+    return {
+        loader: require.resolve("postcss-loader"),
+        options: {
+            postcssOptions: {
+                plugins: [autoprefixer],
+            },
+        },
+    };
+}
+
+function styleLoader(): webpack.RuleSetLoader {
+    return {
+        loader: require.resolve("style-loader"),
+    };
+}
+
+export function stylesheetRule({minimize}: Deps): webpack.RuleSetRule {
     const use: webpack.RuleSetLoader[] = minimize
         ? [
-              Loader.miniCssExtractPluginLoader(),
-              Loader.cssLoader(2),
-              Loader.postcssLoader(),
-              Loader.lessLoader(),
-              //
+              // prettier-ignore
+              miniCssExtractPluginLoader(),
+              cssLoader(2),
+              postcssLoader(),
+              lessLoader(),
           ]
         : [
-              Loader.styleLoader(),
-              Loader.cssLoader(1),
-              Loader.lessLoader(),
-              //
+              // prettier-ignore
+              styleLoader(),
+              cssLoader(1),
+              lessLoader(),
           ];
 
     return {
