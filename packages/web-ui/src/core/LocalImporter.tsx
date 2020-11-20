@@ -7,7 +7,7 @@ import {StringUtil} from "../internal/StringUtil";
 
 export interface Props {
     type: "txt" | "csv";
-    onImport: (file: File) => boolean;
+    onImport: (file: File) => void;
     /**
      * If not specified, default children will display an icon and some text.
      */
@@ -23,11 +23,16 @@ export interface Props {
 export class LocalImporter extends React.PureComponent<Props> {
     static displayName = "LocalImporter";
 
+    beforeUpload = (file: File) => {
+        this.props.onImport(file);
+        return false;
+    };
+
     render() {
         const {type, children, onImport, ...rest} = this.props;
         const t = i18n();
         return (
-            <Uploader name={LocalImporter.displayName} accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={onImport}>
+            <Uploader name={LocalImporter.displayName} accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={this.beforeUpload}>
                 {children || (
                     <React.Fragment>
                         <UploadOutlined /> {StringUtil.interpolate(t.localImporterText, type)}
