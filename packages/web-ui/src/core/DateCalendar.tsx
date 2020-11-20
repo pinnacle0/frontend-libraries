@@ -15,6 +15,8 @@ interface Props extends ControlledFormValue<string> {}
 export class DateCalendar extends React.PureComponent<Props> {
     static displayName = "DateCalendar";
 
+    private readonly headerStyle: React.CSSProperties = {padding: 8};
+
     isDateDisabled = (current: moment.Moment | null): boolean => {
         /**
          * This is for compatibility of MySQL.
@@ -44,7 +46,7 @@ export class DateCalendar extends React.PureComponent<Props> {
 
         for (let index = start; index < end; index++) {
             monthOptions.push(
-                <Select.Option value={1} key={`${index}`}>
+                <Select.Option value={months[index]} key={`${index}`}>
                     {months[index]}
                 </Select.Option>
             );
@@ -62,21 +64,21 @@ export class DateCalendar extends React.PureComponent<Props> {
         }
 
         return (
-            <div style={{padding: 8}}>
+            <div style={this.headerStyle}>
                 <Row gutter={8}>
                     <Col>
                         <Select
                             size="small"
                             dropdownMatchSelectWidth={false}
                             onChange={newYear => {
-                                const now = value.clone().year(Number(newYear));
+                                const now = value.clone().year(newYear);
                                 onChange(now);
                             }}
-                            value={String(year)}
-                            suffixIcon={<React.Fragment>年</React.Fragment>}
+                            value={year}
                         >
                             {options}
                         </Select>
+                        <span> 年</span>
                     </Col>
                     <Col>
                         <Select
@@ -88,10 +90,10 @@ export class DateCalendar extends React.PureComponent<Props> {
                                 newValue.month(parseInt(selectedMonth, 10));
                                 onChange(newValue);
                             }}
-                            suffixIcon={<React.Fragment>月</React.Fragment>}
                         >
                             {monthOptions}
                         </Select>
+                        <span> 月</span>
                     </Col>
                 </Row>
             </div>
@@ -99,6 +101,6 @@ export class DateCalendar extends React.PureComponent<Props> {
     };
 
     render() {
-        return <AntCalendar disabledDate={this.isDateDisabled} headerRender={this.renderHeader} value={moment(this.props.value, "YYYY-MM-DD")} fullscreen={false} />;
+        return <AntCalendar disabledDate={this.isDateDisabled} headerRender={this.renderHeader} value={moment(this.props.value, "YYYY-MM-DD")} fullscreen={false} onChange={this.onChange} />;
     }
 }
