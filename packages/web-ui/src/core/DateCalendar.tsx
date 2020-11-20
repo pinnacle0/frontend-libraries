@@ -3,7 +3,7 @@ import AntCalendar from "antd/lib/calendar";
 import {HeaderRender} from "antd/lib/calendar/generateCalendar";
 import moment, {Moment} from "moment";
 import {ControlledFormValue} from "../internal/type";
-import Select from "antd/lib/select";
+import {Select} from "./Select";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import "antd/lib/calendar/style/css";
@@ -16,6 +16,8 @@ export class DateCalendar extends React.PureComponent<Props> {
     static displayName = "DateCalendar";
 
     private readonly headerStyle: React.CSSProperties = {padding: 8};
+
+    private readonly now = moment();
 
     isDateDisabled = (current: moment.Moment | null): boolean => {
         /**
@@ -37,7 +39,7 @@ export class DateCalendar extends React.PureComponent<Props> {
         const monthOptions = [];
 
         const current = value.clone();
-        const localeData = value.localeData();
+        const localeData = this.now.localeData();
         const months = [];
         for (let i = 0; i < 12; i++) {
             current.month(i);
@@ -46,16 +48,18 @@ export class DateCalendar extends React.PureComponent<Props> {
 
         for (let index = start; index < end; index++) {
             monthOptions.push(
-                <Select.Option value={months[index]} key={`${index}`}>
+                <Select.Option value={index} key={`${index}`}>
                     {months[index]}
                 </Select.Option>
             );
         }
-        const month = value.month();
 
+        const month = value.month();
         const year = value.year();
+        const yearOfNow = this.now.year();
         const options = [];
-        for (let i = year - 10; i < year + 10; i += 1) {
+
+        for (let i = yearOfNow - 100; i <= yearOfNow; i++) {
             options.push(
                 <Select.Option key={i} value={i}>
                     {i}
@@ -84,10 +88,10 @@ export class DateCalendar extends React.PureComponent<Props> {
                         <Select
                             size="small"
                             dropdownMatchSelectWidth={false}
-                            value={String(month)}
+                            value={month}
                             onChange={selectedMonth => {
                                 const newValue = value.clone();
-                                newValue.month(parseInt(selectedMonth, 10));
+                                newValue.month(selectedMonth);
                                 onChange(newValue);
                             }}
                         >
