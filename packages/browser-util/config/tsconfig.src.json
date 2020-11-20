@@ -4,8 +4,8 @@
         "lib": ["DOM", "ES2020"],
         "module": "ESNext",
         "target": "ES2015",
-        "outDir": "../dist/",
-        "rootDir": "../src/",
+        "outDir": "../build/",
+        "rootDir": "../",
 
         "importHelpers": true,
         "isolatedModules": true

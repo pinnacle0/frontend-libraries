@@ -3,8 +3,8 @@
     "version": "0.0.4",
     "license": "MIT",
     "sideEffects": false,
-    "main": "dist/index.js",
-    "module": "dist/index.js",
+    "main": "src/index.js",
+    "module": "src/index.js",
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
         "build": "yarn run-script script/build.ts",
@@ -13,9 +13,5 @@
     },
     "engines": {
         "node": ">=12.19.x"
-    },
-    "files": [
-        "./dist/**",
-        "./LICENSE.md"
-    ]
+    }
 }
