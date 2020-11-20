@@ -25,6 +25,9 @@ const config = {
     transform: {
         [String.raw`\.(ts|tsx)$`]: "ts-jest",
     },
+
+    // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
+    watchPathIgnorePatterns: ["<rootDir>/dist/"],
 };
 
 module.exports = config;

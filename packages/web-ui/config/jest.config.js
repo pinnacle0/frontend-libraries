@@ -52,6 +52,9 @@ const config = {
 
     // Automatically clear mock calls and instances between every test
     clearMocks: true,
+
+    // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
+    watchPathIgnorePatterns: ["<rootDir>/dist/"],
 };
 
 module.exports = config;

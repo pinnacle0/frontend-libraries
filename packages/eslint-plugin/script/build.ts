@@ -1,50 +1,43 @@
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util/src";
-import fs from "fs-extra";
 import path from "path";
 import yargs from "yargs";
 
 const print = Utility.createConsoleLogger("build");
 const isFastMode = yargs.argv.mode === "fast";
-const directory = {
-    workspaceRoot: path.join(__dirname, "../../.."),
+const FilePath = {
     project: path.join(__dirname, ".."),
     config: path.join(__dirname, "../config"),
     dist: path.join(__dirname, "../dist"),
     script: path.join(__dirname, "../script"),
     src: path.join(__dirname, "../src"),
     test: path.join(__dirname, "../test"),
+
+    projectESLintRc: path.join(__dirname, "../.eslintrc.js"),
+    workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
+    jestConfig: path.join(__dirname, "../config/jest.config.js"),
+    srcIndexTs: path.join(__dirname, "../src/index.ts"),
 };
 
 if (isFastMode) {
     print.info("Fast mode enabled, skipping format checking and testing");
 } else {
     print.task("Checking code styles");
-    PrettierUtil.check(directory.config);
-    PrettierUtil.check(directory.script);
-    PrettierUtil.check(directory.src);
-    PrettierUtil.check(directory.test);
+    PrettierUtil.check(FilePath.config);
+    PrettierUtil.check(FilePath.script);
+    PrettierUtil.check(FilePath.src);
+    PrettierUtil.check(FilePath.test);
 
     print.task("Checking lint");
-    Utility.runCommand("eslint", [
-        "--ext",
-        ".js,.jsx,.ts,.tsx",
-        "--config",
-        path.join(directory.project, ".eslintrc.js"),
-        "--ignore-path",
-        path.join(directory.workspaceRoot, ".eslintignore"),
-        directory.project,
-    ]);
+    Utility.runCommand("eslint", ["--ext", ".js,.jsx,.ts,.tsx", "--config", FilePath.projectESLintRc, "--ignore-path", FilePath.workspaceRootESLintIgnore, FilePath.project]);
 
     print.task("Running tests");
-    Utility.runCommand("jest", ["--config", path.join(directory.config, "jest.config.js"), "--bail"]);
+    Utility.runCommand("jest", ["--config", FilePath.jestConfig, "--bail"]);
 }
 
-print.task("Cleaning dist directory");
-if (fs.existsSync(directory.dist) && fs.statSync(directory.dist).isDirectory()) {
-    fs.removeSync(directory.dist);
-}
+print.task("Preparing dist directory");
+Utility.prepareEmptyDirectory(FilePath.dist);
 
-print.task("Compiling...");
-Utility.runCommand("parcel", ["build", path.join(directory.src, "index.ts"), "--no-autoinstall"]);
+print.task("Compiling");
+Utility.runCommand("parcel", ["build", FilePath.srcIndexTs, "--no-autoinstall"]);
 
 print.info("Build successful");
