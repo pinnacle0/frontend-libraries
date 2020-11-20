@@ -16,7 +16,7 @@ const config = {
     rootDir: "../",
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    testPathIgnorePatterns: ["/node_modules/", "<rootDir>/dist/"],
+    testPathIgnorePatterns: ["/node_modules/", "<rootDir>/build/"],
 
     // A map from regular expressions to paths to transformers
     transform: {
@@ -24,7 +24,7 @@ const config = {
     },
 
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
-    watchPathIgnorePatterns: ["<rootDir>/dist/"],
+    watchPathIgnorePatterns: ["<rootDir>/build/"],
 };
 
 module.exports = config;

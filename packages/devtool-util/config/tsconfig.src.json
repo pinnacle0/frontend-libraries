@@ -4,8 +4,8 @@
         "lib": ["ES2019"],
         "module": "CommonJS",
         "target": "ES5",
-        "outDir": "../dist/",
-        "rootDir": "../src/",
+        "outDir": "../build/",
+        "rootDir": "../",
 
         "allowSyntheticDefaultImports": false,
         "esModuleInterop": false,
@@ -13,5 +13,5 @@
         "removeComments": false
     },
     "include": ["../src/"],
-    "exclude": ["../dist/", "**/__fixtures__/"]
+    "exclude": ["**/__fixtures__/"]
 }
