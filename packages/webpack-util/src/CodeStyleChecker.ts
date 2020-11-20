@@ -1,3 +1,4 @@
+// @ts-ignore -- devtool-util/src/index.d.ts is not found inside the monorepo, so typescript reports an error.
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import {InternalCheckerOptions} from "./type";
