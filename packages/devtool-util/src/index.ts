@@ -3,3 +3,4 @@ export {IconFontGenerator} from "./IconFontGenerator";
 export {ModuleGenerator} from "./ModuleGenerator";
 export {PrettierUtil} from "./PrettierUtil";
 export {Utility} from "./Utility";
+export {TaskRunner} from "./TaskRunner";
