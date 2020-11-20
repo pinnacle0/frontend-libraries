@@ -7,17 +7,17 @@ import {i18n} from "../internal/i18n/core";
 import {Uploader} from "./Uploader";
 import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../util/UploadUtil";
 
-export interface Props extends UploadProps {
-    imageURL: string | null;
-    onChange: (value: ImageUploadResponse | null) => void;
+export interface Props<Removable extends boolean> extends UploadProps {
+    imageURL: Removable extends true ? string | null : string;
+    onChange: (value: Removable extends true ? ImageUploadResponse | null : ImageUploadResponse) => void;
+    removable: Removable;
+    fileSizeLimit?: number; // TODO/Jamyth: ask JW
     className?: string;
     style?: React.CSSProperties;
-    removable?: boolean;
     disabled?: boolean;
-    displayImageImageURL?: boolean;
 }
 
-export class ImageUploader extends React.PureComponent<Props> {
+export class ImageUploader<Removable extends boolean> extends React.PureComponent<Props<Removable>> {
     static displayName = "ImageUploader";
 
     private readonly thumbStyle: React.CSSProperties = {width: 150, cursor: "pointer", marginLeft: 16};
@@ -27,7 +27,7 @@ export class ImageUploader extends React.PureComponent<Props> {
         e.stopPropagation();
         const {imageURL} = this.props;
         if (imageURL) {
-            await MediaUtil.open(imageURL, "image");
+            await MediaUtil.open(imageURL as string, "image");
         }
     };
 
@@ -36,7 +36,7 @@ export class ImageUploader extends React.PureComponent<Props> {
         const {onChange} = this.props;
         const t = i18n();
         if (await ModalUtil.confirm(t.confirmImageRemoval)) {
-            onChange(null);
+            onChange(null as any);
         }
     };
 
@@ -44,7 +44,7 @@ export class ImageUploader extends React.PureComponent<Props> {
         const {onChange, onUploadSuccess, onUploadFailure} = this.props;
         try {
             const imageResponse = UploadUtil.castImageUploadResponse(response);
-            onChange(imageResponse);
+            onChange(imageResponse as any);
             onUploadSuccess(imageResponse, logEntry);
         } catch (e) {
             onUploadFailure(response, {
@@ -71,7 +71,8 @@ export class ImageUploader extends React.PureComponent<Props> {
             >
                 {imageURL ? (
                     <React.Fragment>
-                        <img src={imageURL} style={this.thumbStyle} onClick={this.openPreviewModal} /> {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
+                        <img src={imageURL as string} style={this.thumbStyle} onClick={this.openPreviewModal} />{" "}
+                        {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
