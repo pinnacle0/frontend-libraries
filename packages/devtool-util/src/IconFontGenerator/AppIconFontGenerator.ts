@@ -75,7 +75,6 @@ export class AppIconFontGenerator {
     }
 
     private async downloadFontAsset(url: string, filepath: string) {
-        Utility.prepareEmptyDirectory(path.dirname(filepath));
         if (url.startsWith("//")) url = "http:" + url;
         const response = await axios({url, responseType: "stream"});
         response.data.pipe(fs.createWriteStream(filepath));
