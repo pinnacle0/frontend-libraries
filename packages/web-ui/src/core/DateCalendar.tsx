@@ -5,7 +5,7 @@ import moment, {Moment} from "moment";
 import {ControlledFormValue} from "../internal/type";
 import {Select} from "./Select";
 import {Space} from "./Space";
-import "antd/lib/calendar/style/css";
+import "antd/lib/calendar/style";
 
 interface Props extends ControlledFormValue<string> {}
 
