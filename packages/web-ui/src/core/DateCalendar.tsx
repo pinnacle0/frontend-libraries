@@ -79,7 +79,6 @@ export class DateCalendar extends React.PureComponent<Props> {
                         >
                             {options}
                         </Select>
-                        <span> 年</span>
                     </div>
                     <div>
                         <Select
@@ -94,7 +93,6 @@ export class DateCalendar extends React.PureComponent<Props> {
                         >
                             {monthOptions}
                         </Select>
-                        <span> 月</span>
                     </div>
                 </Space>
             </div>
