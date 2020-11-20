@@ -1,9 +1,13 @@
 import * as fs from "fs";
 
 export function prepareEmptyDirectory(directory: string) {
-    const folderExist = fs.existsSync(directory) && fs.statSync(directory).isDirectory();
+    const folderExist = fs.existsSync(directory);
     if (folderExist) {
-        fs.rmdirSync(directory, {recursive: true});
+        if (fs.statSync(directory).isDirectory()) {
+            fs.rmdirSync(directory, {recursive: true});
+        } else {
+            throw new Error(`Path ${directory} is not a directory`);
+        }
     }
     fs.mkdirSync(directory, {recursive: true});
 }

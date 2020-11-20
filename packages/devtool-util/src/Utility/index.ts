@@ -8,5 +8,4 @@ export class Utility {
     static prepareEmptyDirectory = prepareEmptyDirectory;
     static replaceTemplate = replaceTemplate;
     static runCommand = runCommand;
-    // TODO: prepareEmptyDir(): if exist, remove, then mkdir
 }
