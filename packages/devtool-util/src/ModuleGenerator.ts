@@ -180,8 +180,3 @@ export class ModuleGenerator {
         }
     }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-namespace -- use `declare namespace` for declaration merging without code emitting, only export types / interface within namespace
-export declare namespace ModuleGenerator {
-    export type {ModuleGeneratorOptions};
-}

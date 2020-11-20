@@ -16,10 +16,4 @@ export class APIGenerator extends APIGeneratorBase {
     static Web = WebAPIGenerator;
 }
 
-// // eslint-disable-next-line @typescript-eslint/no-namespace -- use `declare namespace` for declaration merging without code emitting, only export types / interface within namespace
-// export declare namespace APIGenerator {
-//     export type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, PlatformSpecificAPIGeneratorOptions, ServiceDefinition, TypeDefinition};
-// }
-
-// TODO: try this usage
 export type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, PlatformSpecificAPIGeneratorOptions, ServiceDefinition, TypeDefinition} from "./types";

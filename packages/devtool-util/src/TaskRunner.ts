@@ -1,5 +1,5 @@
-import {Utility} from "@pinnacle0/devtool-util";
 import * as yargs from "yargs";
+import {Utility} from "./Utility";
 
 export interface Task {
     name: string;

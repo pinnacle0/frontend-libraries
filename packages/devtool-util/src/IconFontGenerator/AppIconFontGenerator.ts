@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as fs from "fs-extra";
 import {Agent} from "https";
-import * as path from "path";
 import {Utility} from "../Utility";
 import {AppIconFontGeneratorOptions} from "./types";
 import yargs = require("yargs");
