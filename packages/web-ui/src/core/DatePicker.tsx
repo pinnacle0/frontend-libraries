@@ -9,7 +9,6 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabled?: boolean;
     placeholder?: string;
     className?: string;
-    open?: boolean;
 }
 
 export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -36,7 +35,7 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
     };
 
     render() {
-        const {value, allowNull, placeholder, disabled, className, open} = this.props;
+        const {value, allowNull, placeholder, disabled, className} = this.props;
         return (
             <AntDatePicker
                 className={className}
@@ -47,7 +46,6 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
-                open={open}
             />
         );
     }

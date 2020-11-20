@@ -9,9 +9,9 @@ import {Markdown} from "@pinnacle0/web-ui/core/Markdown";
 import {PagedList} from "@pinnacle0/web-ui/core/PagedList";
 import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
 import {TabsDemo} from "./TabsDemo";
-import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
 import {TagInputDemo} from "test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
+import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -90,6 +90,11 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<DemoBreadcrumb />],
         showPropsHint: false,
     },
+    {
+        title: "Calendar",
+        components: [<DateCalendarDemo />],
+        showPropsHint: false,
+    },
 ];
 
 function DemoPagedList() {
@@ -110,6 +115,16 @@ function DemoBreadcrumb() {
     }));
 
     return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
+}
+
+function DateCalendarDemo() {
+    const [date, setDate] = React.useState(new Date().toISOString());
+
+    return (
+        <div style={{width: 400}}>
+            <DateCalendar value={date} onChange={setDate} />
+        </div>
+    );
 }
 
 export const MiscellaneousDemo = () => <DemoHelper groups={groups} />;
