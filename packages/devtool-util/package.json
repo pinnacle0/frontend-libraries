@@ -10,7 +10,8 @@
     },
     "dependencies": {
         "axios": "0.21.0",
-        "fs-extra": "9.0.1"
+        "fs-extra": "9.0.1",
+        "yargs": "16.1.1"
     },
     "peerDependencies": {
         "prettier": "^2.1.2"
