@@ -4,11 +4,8 @@ import {HeaderRender} from "antd/lib/calendar/generateCalendar";
 import moment, {Moment} from "moment";
 import {ControlledFormValue} from "../internal/type";
 import {Select} from "./Select";
-import Row from "antd/lib/row";
-import Col from "antd/lib/col";
+import {Space} from "./Space";
 import "antd/lib/calendar/style/css";
-import "antd/lib/row/style/css";
-import "antd/lib/col/style/css";
 
 interface Props extends ControlledFormValue<string> {}
 
@@ -69,8 +66,8 @@ export class DateCalendar extends React.PureComponent<Props> {
 
         return (
             <div style={this.headerStyle}>
-                <Row gutter={8}>
-                    <Col>
+                <Space>
+                    <div>
                         <Select
                             size="small"
                             dropdownMatchSelectWidth={false}
@@ -83,8 +80,8 @@ export class DateCalendar extends React.PureComponent<Props> {
                             {options}
                         </Select>
                         <span> 年</span>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div>
                         <Select
                             size="small"
                             dropdownMatchSelectWidth={false}
@@ -98,8 +95,8 @@ export class DateCalendar extends React.PureComponent<Props> {
                             {monthOptions}
                         </Select>
                         <span> 月</span>
-                    </Col>
-                </Row>
+                    </div>
+                </Space>
             </div>
         );
     };
