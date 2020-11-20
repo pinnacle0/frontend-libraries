@@ -27,13 +27,18 @@ export function runCommand(command: string, args: string[] = []) {
         });
         if (result.error) {
             console.error(`Process executing command "${command}" failed or timeout.\n`);
+            (result.error as any).childProcessResult = result;
             throw result.error;
         }
         if (result.signal !== null) {
-            throw new Error(`Command "${command}" terminated with ${result.signal}`);
+            const error = new Error(`Command "${command}" terminated with ${result.signal}`);
+            (error as any).childProcessResult = result;
+            throw error;
         }
         if (result.status !== 0) {
-            throw new Error(`Command "${command}" returns non-zero exit code`);
+            const error = new Error(`Command "${command}" returns non-zero exit code`);
+            (error as any).childProcessResult = result;
+            throw error;
         }
         return result;
     };

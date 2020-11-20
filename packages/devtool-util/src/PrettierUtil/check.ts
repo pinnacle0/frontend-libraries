@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import {Utility} from "../Utility";
 
+const PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND = 2; // https://prettier.io/docs/en/cli.html#exit-codes
+
 /**
  * Runs `prettier --check` over the provided path. Throws an error if failed.
  *
@@ -19,17 +21,25 @@ export function check(fileOrDirectory: string): void {
     if (!fs.existsSync(fileOrDirectory)) {
         throw new Error(`Cannot format "${fileOrDirectory}" because it is not a valid file or directory.`);
     }
+
     if (fs.statSync(fileOrDirectory).isDirectory()) {
         const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{css,html,js,json,jsx,less,ts,tsx}"`);
-        Utility.runCommand("prettier", ["--check", quotedGlobPattern]);
-        return;
+        try {
+            Utility.runCommand("prettier", ["--check", quotedGlobPattern]);
+            return;
+        } catch (error) {
+            if (typeof error === "object" && error !== null && error?.childProcessResult?.status === PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND) {
+                return;
+            }
+            throw error;
+        }
     }
+
     if (fs.statSync(fileOrDirectory).isFile()) {
         const file = fileOrDirectory;
         Utility.runCommand("prettier", ["--check", file]);
         return;
     }
+
     throw new Error(`Cannot format "${fileOrDirectory}" because it is not a file or directory.`);
 }
-
-// TODO/Lok: Do not throw error when directory is empty
