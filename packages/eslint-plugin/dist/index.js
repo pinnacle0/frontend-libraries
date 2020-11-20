@@ -90,6 +90,9 @@ const $b048fbd8fffa8a8cca119ee8df06474$export$configBaseline = {
       noUselessIndex: false
     }],
     "import/prefer-default-export": "off",
+    eqeqeq: ["error", "always", {
+      null: "ignore"
+    }],
     "no-console": ["error", {
       allow: ["info", "warn", "error"]
     }],
@@ -401,6 +404,35 @@ const $d93c668a9c3f8ae02c79262f76a38b38$export$rule = ESLintUtils.RuleCreator(na
       }
 
     };
+  }
+});
+const $bfb22437012ad9108852dba6cbb0b$export$name = "order-stylesheet-import-statement-last"; // TODO/Jamyth: Implement rule "order-stylesheet-import-statement-last"
+// 1) Add a descriptive message to `meta.messages.orderStylesheetImportStatementLast`
+// 2) Report error by calling `context.report` in visitor function
+// 3) Add fixer when calling `context.report` (Remove the incorrectly ordered import statement, append it after the last import statement)
+//    Note that you can "mutate" the source code multiple times by returning an array of `fixer` calls.
+//    See "module-class-method-decorators" for reference.
+// 4) Make sure the test case passes (Or update the test cases if necessary); see `order-stylesheet-import-statement-last.test.ts`
+// 5) Remove these comments
+
+const $bfb22437012ad9108852dba6cbb0b$export$rule = ESLintUtils.RuleCreator(name => name)({
+  name: $bfb22437012ad9108852dba6cbb0b$export$name,
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "",
+      category: "Best Practices",
+      recommended: "error"
+    },
+    fixable: "code",
+    messages: {
+      orderStylesheetImportStatementLast: ""
+    },
+    schema: []
+  },
+  defaultOptions: [],
+  create: context => {
+    return {};
   }
 });
 
@@ -1174,6 +1206,7 @@ const $ddb946df26ed3e2e757e80f2b4242de$export$allRules = {
   "deep-nested-relative-imports": $b9beafa9e1b7dcef71c78bdd94f576a$export$rule,
   "module-class-method-decorators": $c569e2933c85b439b06058bdfe$export$rule,
   "no-named-imports": $d93c668a9c3f8ae02c79262f76a38b38$export$rule,
+  "order-stylesheet-import-statement-last": $bfb22437012ad9108852dba6cbb0b$export$rule,
   "react-component-default-props-typing": $c77648ff827b842e41da38404e0b5c6$export$rule,
   "react-component-display-name": $b16cdf2f4ad9034198589b5f8365b90f$export$rule,
   "react-component-event-handler-naming": $e265d50e76a3dd7bee8f1bf7b3cc47ca$export$rule,

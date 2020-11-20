@@ -4,8 +4,8 @@
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
-        "outDir": "../dist/",
-        "rootDir": "../src/",
+        "outDir": "../build/",
+        "rootDir": "../",
 
         "isolatedModules": true,
         "removeComments": true

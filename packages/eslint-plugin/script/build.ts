@@ -1,9 +1,6 @@
-import {PrettierUtil, Utility} from "@pinnacle0/devtool-util/src";
+import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
-import yargs from "yargs";
 
-const print = Utility.createConsoleLogger("build");
-const isFastMode = yargs.argv.mode === "fast";
 const FilePath = {
     project: path.join(__dirname, ".."),
     config: path.join(__dirname, "../config"),
@@ -18,26 +15,42 @@ const FilePath = {
     srcIndexTs: path.join(__dirname, "../src/index.ts"),
 };
 
-if (isFastMode) {
-    print.info("Fast mode enabled, skipping format checking and testing");
-} else {
-    print.task("Checking code styles");
-    PrettierUtil.check(FilePath.config);
-    PrettierUtil.check(FilePath.script);
-    PrettierUtil.check(FilePath.src);
-    PrettierUtil.check(FilePath.test);
-
-    print.task("Checking lint");
-    Utility.runCommand("eslint", ["--ext", ".js,.jsx,.ts,.tsx", "--config", FilePath.projectESLintRc, "--ignore-path", FilePath.workspaceRootESLintIgnore, FilePath.project]);
-
-    print.task("Running tests");
-    Utility.runCommand("jest", ["--config", FilePath.jestConfig, "--bail"]);
-}
-
-print.task("Preparing dist directory");
-Utility.prepareEmptyDirectory(FilePath.dist);
-
-print.task("Compiling");
-Utility.runCommand("parcel", ["build", FilePath.srcIndexTs, "--no-autoinstall"]);
-
-print.info("Build successful");
+new TaskRunner("build").execute([
+    {
+        name: "check code styles",
+        skipInFastMode: true,
+        execute: () => {
+            PrettierUtil.check(FilePath.config);
+            PrettierUtil.check(FilePath.script);
+            PrettierUtil.check(FilePath.src);
+            PrettierUtil.check(FilePath.test);
+        },
+    },
+    {
+        name: "lint",
+        skipInFastMode: true,
+        execute: () => {
+            Utility.runCommand("eslint", ["--ext", ".js,.jsx,.ts,.tsx", "--config", FilePath.projectESLintRc, "--ignore-path", FilePath.workspaceRootESLintIgnore, FilePath.project]);
+        },
+    },
+    {
+        name: "test",
+        skipInFastMode: true,
+        execute: () => {
+            // TODO/Lok: Add this back
+            // Utility.runCommand("jest", ["--config", "config/jest.config.js"]);
+        },
+    },
+    {
+        name: "prepare dist directory",
+        execute: () => {
+            Utility.prepareEmptyDirectory(FilePath.dist);
+        },
+    },
+    {
+        name: "compile with parcel",
+        execute: () => {
+            Utility.runCommand("parcel", ["build", FilePath.srcIndexTs, "--no-autoinstall"]);
+        },
+    },
+]);
