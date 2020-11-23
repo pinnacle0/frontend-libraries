@@ -1,12 +1,20 @@
+import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util/src";
+import fs from "fs";
 import path from "path";
-import {PrettierUtil, Utility, TaskRunner} from "@pinnacle0/devtool-util/src";
 
 const FilePath = {
     config: path.join(__dirname, "../config"),
-    dist: path.join(__dirname, "../dist"),
+    build: path.join(__dirname, "../build"),
     script: path.join(__dirname, "../script"),
     src: path.join(__dirname, "../src"),
+
     tsConfigForSrc: path.join(__dirname, "../config/tsconfig.src.json"),
+    projectPackageJSON: path.join(__dirname, "../package.json"),
+    projectReadMe: path.join(__dirname, "../README.md"),
+    projectLicense: path.join(__dirname, "../LICENSE.md"),
+    buildPackageJSON: path.join(__dirname, "../build/package.json"),
+    buildReadMe: path.join(__dirname, "../build/README.md"),
+    buildLicense: path.join(__dirname, "../build/LICENSE.md"),
 };
 
 new TaskRunner("build").execute([
@@ -27,15 +35,23 @@ new TaskRunner("build").execute([
         },
     },
     {
-        name: "prepare /dist folder",
+        name: "prepare build folder",
         execute: () => {
-            Utility.prepareEmptyDirectory(FilePath.dist);
+            Utility.prepareEmptyDirectory(FilePath.build);
         },
     },
     {
         name: "tsc compile",
         execute: () => {
             Utility.runCommand("tsc", ["--project", FilePath.tsConfigForSrc]);
+        },
+    },
+    {
+        name: "copy package.json, markdown files",
+        execute: () => {
+            fs.copyFileSync(FilePath.projectPackageJSON, FilePath.buildPackageJSON);
+            fs.copyFileSync(FilePath.projectReadMe, FilePath.buildReadMe);
+            fs.copyFileSync(FilePath.projectLicense, FilePath.buildLicense);
         },
     },
 ]);

@@ -2,7 +2,7 @@
     "name": "@pinnacle0/webpack-util",
     "version": "0.0.15-beta.1",
     "license": "MIT",
-    "main": "dist/index.js",
+    "main": "src/index.js",
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
         "build": "yarn run-script script/build.ts",
@@ -43,10 +43,6 @@
         "@types/terser-webpack-plugin": "5.0.0",
         "@types/webpack-dev-server": "3.11.1"
     },
-    "files": [
-        "./dist/**",
-        "./LICENSE.md"
-    ],
     "engines": {
         "node": ">=12.19.x"
     }
