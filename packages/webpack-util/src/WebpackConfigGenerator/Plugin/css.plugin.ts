@@ -26,5 +26,5 @@ export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions)
         // unless all imports in js are sorted (e.g. by alphabetical order),
         // this flag must be set to true to avoid error
         ignoreOrder: true,
-    }) as any;
+    });
 }

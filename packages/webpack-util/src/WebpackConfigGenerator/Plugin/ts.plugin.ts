@@ -14,5 +14,5 @@ export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackP
         terserOptions: {
             sourceMap,
         },
-    }) as any;
+    });
 }

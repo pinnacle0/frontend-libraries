@@ -48,5 +48,5 @@ export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
             attribute: "crossorigin",
             value: "anonymous",
         },
-    }) as any;
+    });
 }
