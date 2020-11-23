@@ -25,7 +25,7 @@ const LocalImporterDemo = () => <LocalImporter type="txt" style={{width: 300, bo
 
 const ImageUploaderDemo = () => {
     const [value, setValue] = React.useState<ImageUploadResponse | null>(null);
-    return <ImageUploader value={value} onChange={setValue} uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} />;
+    return <ImageUploader imageURL={value?.imageURL || null} onChange={setValue} uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} removable />;
 };
 
 const MultipleSelectorDemo = (props: {disabled?: "button" | "table"}) => {

@@ -15,13 +15,14 @@ export interface Props<Removable extends boolean> extends UploadProps {
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
+    thumbStyle?: React.CSSProperties;
 }
 
 export class ImageUploader<Removable extends boolean> extends React.PureComponent<Props<Removable>> {
     static displayName = "ImageUploader";
 
-    private readonly thumbStyle: React.CSSProperties = {width: 150, cursor: "pointer", marginLeft: 16};
-    private readonly closeButtonStyle: React.CSSProperties = {marginRight: 10};
+    private readonly defaultThumbStyle: React.CSSProperties = {width: 150, cursor: "pointer", marginLeft: 16};
+    private readonly closeButtonStyle: React.CSSProperties = {margin: 20, fontSize: 20};
 
     openPreviewModal = async (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -55,8 +56,9 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
         }
     };
 
+    // TODO: tune UI
     render() {
-        const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled} = this.props;
+        const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled, thumbStyle} = this.props;
         const t = i18n();
         return (
             <Uploader
@@ -69,16 +71,15 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
                 className={className}
                 disabled={disabled}
             >
-                {imageURL ? (
-                    <React.Fragment>
-                        <img src={imageURL as string} style={this.thumbStyle} onClick={this.openPreviewModal} />{" "}
+                {imageURL && (
+                    <div>
+                        <img src={imageURL as string} style={{...this.defaultThumbStyle, ...thumbStyle}} onClick={this.openPreviewModal} />
                         {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <CloudUploadOutlined /> {t.select}
-                    </React.Fragment>
+                    </div>
                 )}
+                <div>
+                    <CloudUploadOutlined /> {imageURL ? t.reUpload : t.upload}
+                </div>
             </Uploader>
         );
     }

@@ -35,4 +35,6 @@ export default {
     maximum: "Maximum",
     action: "Action",
     sequence: "Sequence",
+    upload: "click or drag to upload",
+    reUpload: "click or drag to re-upload",
 };

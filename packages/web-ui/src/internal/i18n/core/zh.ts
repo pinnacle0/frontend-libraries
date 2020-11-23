@@ -35,4 +35,6 @@ export default {
     maximum: "最大值",
     action: "操作",
     sequence: "序列",
+    upload: "按下或拖曳上传",
+    reUpload: "按下或拖曳重新上传",
 };
