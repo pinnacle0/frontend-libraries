@@ -12648,7 +12648,7 @@ webpack@5.2.0:
     watchpack "^2.0.0"
     webpack-sources "^2.0.1"
 
-webpack@^5.1.0:
+webpack@5.6.0, webpack@^5.1.0:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.6.0.tgz#282d10434c403b070ed91d459b385e873b51a07d"
   integrity sha512-SIeFuBhuheKElRbd84O35UhKc0nxlgSwtzm2ksZ0BVhRJqxVJxEguT/pYhfiR0le/pxTa1VsCp7EOYyTsa6XOA==
