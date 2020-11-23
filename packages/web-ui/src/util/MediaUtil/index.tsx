@@ -4,7 +4,7 @@ import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import "./index.less";
 
 function open(url: string, type: "image" | "video") {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
         const bodyElement = document.body;
         const divElement = document.createElement("div");
         const closeModal = () => {

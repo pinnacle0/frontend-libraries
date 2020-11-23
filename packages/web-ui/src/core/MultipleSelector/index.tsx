@@ -93,7 +93,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
                     <Checkbox
                         onChange={this.onSelectAll}
                         value={dataSource.length === value.length}
-                        indeterminate={this.props.value.length > 0 && this.props.value.length != this.props.dataSource.length}
+                        indeterminate={this.props.value.length > 0 && this.props.value.length !== this.props.dataSource.length}
                         style={this.selectAllStyle}
                     >
                         {t.selectAll}

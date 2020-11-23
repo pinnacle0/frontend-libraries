@@ -24,7 +24,7 @@ function createAsync(config: PromptConfig): Promise<PromptResult> {
             body: <PromptBody {...config} ref={ref} />,
             okText: config.okText,
             onOk: () =>
-                new Promise((closeModal, keepModal) => {
+                new Promise<void>((closeModal, keepModal) => {
                     if (ref.current) {
                         ref.current.validateForm().then(result => {
                             if (result) {
