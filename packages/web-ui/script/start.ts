@@ -76,7 +76,7 @@ const config: webpack.Configuration = {
     plugins: [
         new HtmlWebpackPlugin({template: file.indexHtml}),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.ProgressPlugin(),
+        new webpack.ProgressPlugin({}),
         // Very important for moment locale tree-shaking test
         new webpack.IgnorePlugin({
             resourceRegExp: /^\.\/locale$/,

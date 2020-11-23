@@ -1,5 +1,5 @@
 // @ts-ignore -- devtool-util/src/index.d.ts is not found inside the monorepo, so typescript reports an error.
-import {Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";

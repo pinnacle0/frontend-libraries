@@ -3,7 +3,7 @@ import {RegExpUtil} from "./RegExpUtil";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import autoprefixer from "autoprefixer";
 
-interface Deps {
+interface StylesheetRuleDeps {
     minimize: boolean;
 }
 
@@ -18,7 +18,7 @@ interface Deps {
  * @see https://webpack.js.org/loaders/postcss-loader/
  * @see https://webpack.js.org/loaders/style-loader/
  */
-function cssLoader(importLoaders: number): webpack.RuleSetLoader {
+function cssLoader(importLoaders: number): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("css-loader"),
         options: {
@@ -27,7 +27,7 @@ function cssLoader(importLoaders: number): webpack.RuleSetLoader {
     };
 }
 
-function lessLoader(): webpack.RuleSetLoader {
+function lessLoader(): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("less-loader"),
         options: {
@@ -38,13 +38,13 @@ function lessLoader(): webpack.RuleSetLoader {
     };
 }
 
-function miniCssExtractPluginLoader(): webpack.RuleSetLoader {
+function miniCssExtractPluginLoader(): webpack.RuleSetUseItem {
     return {
         loader: require.resolve(MiniCssExtractPlugin.loader),
     };
 }
 
-function postcssLoader(): webpack.RuleSetLoader {
+function postcssLoader(): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("postcss-loader"),
         options: {
@@ -55,14 +55,14 @@ function postcssLoader(): webpack.RuleSetLoader {
     };
 }
 
-function styleLoader(): webpack.RuleSetLoader {
+function styleLoader(): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("style-loader"),
     };
 }
 
-export function stylesheetRule({minimize}: Deps): webpack.RuleSetRule {
-    const use: webpack.RuleSetLoader[] = minimize
+export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
+    const use: webpack.RuleSetUseItem[] = minimize
         ? [
               // prettier-ignore
               miniCssExtractPluginLoader(),
