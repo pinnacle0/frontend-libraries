@@ -25,7 +25,7 @@
         "script-ext-html-webpack-plugin": "2.1.5",
         "style-loader": "2.0.0",
         "stylelint-webpack-plugin": "2.1.1",
-        "terser-webpack-plugin": "5.0.1",
+        "terser-webpack-plugin": "5.0.3",
         "ts-loader": "8.0.11",
         "url-loader": "4.1.1",
         "webpack": "5.2.0",
@@ -39,7 +39,7 @@
         "@types/mini-css-extract-plugin": "1.2.1",
         "@types/script-ext-html-webpack-plugin": "2.1.1",
         "@types/stylelint-webpack-plugin": "2.1.0",
-        "@types/terser-webpack-plugin": "5.0.0",
+        "@types/terser-webpack-plugin": "5.0.2",
         "@types/webpack-dev-server": "3.11.1"
     },
     "engines": {

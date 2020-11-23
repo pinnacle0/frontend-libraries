@@ -2634,13 +2634,13 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.6.tgz#a9ca4b70a18b270ccb2bc0aaafefd1d486b7ea74"
   integrity sha512-W+bw9ds02rAQaMvaLYxAbJ6cvguW/iJXNT6lTssS1ps6QdrMKttqEAMEG/b5CR8TZl3/L7/lH0ZV5nNR1LXikA==
 
-"@types/terser-webpack-plugin@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/terser-webpack-plugin/-/terser-webpack-plugin-5.0.0.tgz#7615b46b141b738f27d87b8972f14e9a65b2cf8d"
-  integrity sha512-9dCbRwnCN8go/WbUEPMMtoVvFqMWQc5E5iP5rzoKLU2qvlUgu3dfrr0/nc23J6iyGqzIDExCFGzZslm3ECydFA==
+"@types/terser-webpack-plugin@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/terser-webpack-plugin/-/terser-webpack-plugin-5.0.2.tgz#ebc935cfb9a0cc5ef33934ab63202e16cdf6a961"
+  integrity sha512-YcAT1D4gjho1jqc/gjn1ojHFtQtrGHaHPqz5nDMiN5Jj9BeigjDkS2w010PvUnPkdVY3GerDFbY62TArtDBuDQ==
   dependencies:
-    "@types/webpack" "*"
-    terser "^5.3.5"
+    terser "^5.3.8"
+    webpack "^5.1.0"
 
 "@types/testing-library__jest-dom@^5.9.1":
   version "5.9.4"
@@ -5252,7 +5252,7 @@ enhanced-resolve@^4.0.0:
     memory-fs "^0.5.0"
     tapable "^1.0.0"
 
-enhanced-resolve@^5.3.0:
+enhanced-resolve@^5.3.0, enhanced-resolve@^5.3.1:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.3.2.tgz#142295dda51aaaff049cf256459dc9a82a0b67f3"
   integrity sha512-G28GCrglCAH6+EqMN2D+Q2wCUS1O1vVQJBn8ME2I/Api41YBe4vLWWRBOUbwDH7vwzSZdljxwTRVqnf+sm6XqQ==
@@ -11825,19 +11825,7 @@ terminal-link@^2.0.0:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terser-webpack-plugin@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.0.1.tgz#b1f02e43d93ca61a0bdd9e870f4e3489e12a6c9b"
-  integrity sha512-EwUe+XDTFf/2cAlmAlZZ7vRpNKMZUAypX2kIRm0Fmjlz4l7SqbI/VabmgiesNZW2nq/LR0N7ku/wlTQ6ygen0w==
-  dependencies:
-    jest-worker "^26.6.1"
-    p-limit "^3.0.2"
-    schema-utils "^3.0.0"
-    serialize-javascript "^5.0.1"
-    source-map "^0.6.1"
-    terser "^5.3.8"
-
-terser-webpack-plugin@^5.0.0:
+terser-webpack-plugin@5.0.3, terser-webpack-plugin@^5.0.0, terser-webpack-plugin@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.0.3.tgz#ec60542db2421f45735c719d2e17dabfbb2e3e42"
   integrity sha512-zFdGk8Lh9ZJGPxxPE6jwysOlATWB8GMW8HcfGULWA/nPal+3VdATflQvSBSLQJRCmYZnfFJl6vkRTiwJGNgPiQ==
@@ -11867,7 +11855,7 @@ terser@^4.3.0, terser@^4.6.3, terser@^4.8.0:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
-terser@^5.3.5, terser@^5.3.8:
+terser@^5.3.8:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.5.0.tgz#1406fcb4d4bc517add3b22a9694284c040e33448"
   integrity sha512-eopt1Gf7/AQyPhpygdKePTzaet31TvQxXvrf7xYUvD/d8qkCJm4SKPDzu+GHK5ZaYTn8rvttfqaZc3swK21e5g==
@@ -12622,7 +12610,7 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.3:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-sources@^2.0.1:
+webpack-sources@^2.0.1, webpack-sources@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-2.2.0.tgz#058926f39e3d443193b6c31547229806ffd02bac"
   integrity sha512-bQsA24JLwcnWGArOKUxYKhX3Mz/nK1Xf6hxullKERyktjNMC4x8koOeaDNTA2fEJ09BdWLbM/iTW0ithREUP0w==
@@ -12659,6 +12647,36 @@ webpack@5.2.0:
     terser-webpack-plugin "^5.0.0"
     watchpack "^2.0.0"
     webpack-sources "^2.0.1"
+
+webpack@^5.1.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.6.0.tgz#282d10434c403b070ed91d459b385e873b51a07d"
+  integrity sha512-SIeFuBhuheKElRbd84O35UhKc0nxlgSwtzm2ksZ0BVhRJqxVJxEguT/pYhfiR0le/pxTa1VsCp7EOYyTsa6XOA==
+  dependencies:
+    "@types/eslint-scope" "^3.7.0"
+    "@types/estree" "^0.0.45"
+    "@webassemblyjs/ast" "1.9.0"
+    "@webassemblyjs/helper-module-context" "1.9.0"
+    "@webassemblyjs/wasm-edit" "1.9.0"
+    "@webassemblyjs/wasm-parser" "1.9.0"
+    acorn "^8.0.4"
+    browserslist "^4.14.5"
+    chrome-trace-event "^1.0.2"
+    enhanced-resolve "^5.3.1"
+    eslint-scope "^5.1.1"
+    events "^3.2.0"
+    glob-to-regexp "^0.4.1"
+    graceful-fs "^4.2.4"
+    json-parse-better-errors "^1.0.2"
+    loader-runner "^4.1.0"
+    mime-types "^2.1.27"
+    neo-async "^2.6.2"
+    pkg-dir "^4.2.0"
+    schema-utils "^3.0.0"
+    tapable "^2.0.0"
+    terser-webpack-plugin "^5.0.3"
+    watchpack "^2.0.0"
+    webpack-sources "^2.1.1"
 
 websocket-driver@0.6.5:
   version "0.6.5"
