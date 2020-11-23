@@ -3,24 +3,26 @@ import {Tooltip} from "../Tooltip";
 import "./index.less";
 
 interface Props {
-    text: React.ReactNode;
-    // TODO: 1, maxWidth 2, style?:  React.CSSProperties; 3, if not overflow, do not add Tooltip
-    width: number | React.CSSProperties;
+    text: string;
     className?: string;
+    maxWidth: number;
+    style?: React.CSSProperties;
 }
 
 export class OverflowableText extends React.PureComponent<Props> {
     static displayName = "OverflowableText";
 
     render() {
-        const {text, width, className = ""} = this.props;
+        const {text, style, maxWidth, className = ""} = this.props;
 
-        return (
+        return text.length > maxWidth ? (
             <Tooltip className={`g-overflowable-text ${className}`} overlay={text}>
-                <div className="wrap-text" style={typeof width === "number" ? {width} : width}>
+                <div className="wrap-text" style={{...style, width: maxWidth}}>
                     {text}
                 </div>
             </Tooltip>
+        ) : (
+            text
         );
     }
 }
