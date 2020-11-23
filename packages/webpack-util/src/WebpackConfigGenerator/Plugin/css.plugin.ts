@@ -1,5 +1,5 @@
+import CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import OptimizeCSSAssetsWebpackPlugin from "optimize-css-assets-webpack-plugin";
 import type webpack from "webpack";
 
 interface ExtractCssPluginOptions {
@@ -10,8 +10,8 @@ interface ExtractCssPluginOptions {
  * Applies CssNano to minimize stylesheets
  * after bundles/chunks are built.
  */
-export function optimizeCSSAssetsPlugin(): webpack.WebpackPluginInstance {
-    return new OptimizeCSSAssetsWebpackPlugin() as any;
+export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
+    return new CssMinimizerWebpackPlugin();
 }
 
 /**

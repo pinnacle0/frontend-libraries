@@ -180,7 +180,7 @@ export class WebpackConfigGenerator {
                     Plugin.minimizer.terser({
                         sourceMap: true,
                     }),
-                    Plugin.minimizer.optimizeCSSAssets(),
+                    Plugin.minimizer.cssMinimizer(),
                 ],
             },
             performance: {
