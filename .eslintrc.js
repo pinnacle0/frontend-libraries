@@ -2,7 +2,7 @@
 
 /** @type {import("eslint").Linter.Config} */
 const config = {
-    extends: ["plugin:@pinnacle0/baseline"],
+    extends: [require.resolve("./packages/eslint-plugin/dogfood/baseline")],
     overrides: [
         {
             files: ["**/.*rc.js", "**/*.config.js"],

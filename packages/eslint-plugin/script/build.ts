@@ -1,10 +1,11 @@
 import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util/src";
+import fs from "fs";
 import path from "path";
 
 const FilePath = {
     project: path.join(__dirname, ".."),
     config: path.join(__dirname, "../config"),
-    dist: path.join(__dirname, "../dist"),
+    build: path.join(__dirname, "../build"),
     script: path.join(__dirname, "../script"),
     src: path.join(__dirname, "../src"),
     test: path.join(__dirname, "../test"),
@@ -12,7 +13,13 @@ const FilePath = {
     projectESLintRc: path.join(__dirname, "../.eslintrc.js"),
     workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
     jestConfig: path.join(__dirname, "../config/jest.config.js"),
-    srcIndexTs: path.join(__dirname, "../src/index.ts"),
+    rollupConfig: path.join(__dirname, "../config/rollup.config.js"),
+    projectPackageJSON: path.join(__dirname, "../package.json"),
+    projectReadMe: path.join(__dirname, "../README.md"),
+    projectLicense: path.join(__dirname, "../LICENSE.md"),
+    buildPackageJSON: path.join(__dirname, "../build/package.json"),
+    buildReadMe: path.join(__dirname, "../build/README.md"),
+    buildLicense: path.join(__dirname, "../build/LICENSE.md"),
 };
 
 new TaskRunner("build").execute([
@@ -42,15 +49,23 @@ new TaskRunner("build").execute([
         },
     },
     {
-        name: "prepare dist directory",
+        name: "prepare build directory",
         execute: () => {
-            Utility.prepareEmptyDirectory(FilePath.dist);
+            Utility.prepareEmptyDirectory(FilePath.build);
         },
     },
     {
-        name: "compile with parcel",
+        name: "compile with rollup",
         execute: () => {
-            Utility.runCommand("parcel", ["build", FilePath.srcIndexTs, "--no-autoinstall"]);
+            Utility.runCommand("rollup", ["--config", FilePath.rollupConfig]);
+        },
+    },
+    {
+        name: "copy package.json, markdown files",
+        execute: () => {
+            fs.copyFileSync(FilePath.projectPackageJSON, FilePath.buildPackageJSON);
+            fs.copyFileSync(FilePath.projectReadMe, FilePath.buildReadMe);
+            fs.copyFileSync(FilePath.projectLicense, FilePath.buildLicense);
         },
     },
 ]);
