@@ -154,6 +154,7 @@ export class WebpackConfigGenerator {
         return {
             mode: "production",
             entry: this.entry,
+            target: ["web", "es5"],
             output: {
                 path: outputDirectory,
                 filename: this.enableProfiling
