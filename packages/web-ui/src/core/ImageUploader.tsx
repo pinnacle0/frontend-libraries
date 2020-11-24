@@ -1,6 +1,7 @@
 import React from "react";
 import CloudUploadOutlined from "@ant-design/icons/CloudUploadOutlined";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import EyeOutlined from "@ant-design/icons/EyeOutlined";
 import {ModalUtil} from "../util/ModalUtil";
 import {MediaUtil} from "../util/MediaUtil";
 import {i18n} from "../internal/i18n/core";
@@ -22,7 +23,8 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
     static displayName = "ImageUploader";
 
     private readonly defaultThumbStyle: React.CSSProperties = {width: 150, cursor: "pointer", marginLeft: 16};
-    private readonly closeButtonStyle: React.CSSProperties = {margin: 20, fontSize: 20};
+    private readonly flexContainerStyle: React.CSSProperties = {display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10};
+    private readonly buttonStyle: React.CSSProperties = {margin: 10, fontSize: 15};
 
     openPreviewModal = async (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -64,7 +66,6 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
         }
     };
 
-    // TODO: tune UI
     render() {
         const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled, thumbStyle} = this.props;
         const t = i18n();
@@ -80,15 +81,13 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
                 disabled={disabled}
                 beforeUpload={this.beforeUpload}
             >
-                {imageURL && (
-                    <div>
-                        <img src={imageURL as string} style={{...this.defaultThumbStyle, ...thumbStyle}} onClick={this.openPreviewModal} />
-                        {removable && <CloseOutlined onClick={this.removeImage} style={this.closeButtonStyle} />}
-                    </div>
-                )}
-                <div>
-                    <CloudUploadOutlined /> {imageURL ? t.reUpload : t.upload}
+                <div style={this.flexContainerStyle}>
+                    {imageURL && <img src={imageURL as string} style={{...this.defaultThumbStyle, ...thumbStyle}} onClick={this.openPreviewModal} />}
+                    {imageURL && <EyeOutlined onClick={this.openPreviewModal} style={this.buttonStyle} />}
+                    <CloudUploadOutlined />
+                    {imageURL && removable && <CloseOutlined onClick={this.removeImage} style={this.buttonStyle} />}
                 </div>
+                {imageURL ? t.reUpload : t.upload}
             </Uploader>
         );
     }
