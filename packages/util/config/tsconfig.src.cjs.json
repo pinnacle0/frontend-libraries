@@ -4,7 +4,7 @@
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
-        "outDir": "../dist/cjs/",
+        "outDir": "../build/cjs/",
         "rootDir": "../src/",
 
         "isolatedModules": true,
