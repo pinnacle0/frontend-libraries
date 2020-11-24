@@ -10,7 +10,7 @@ const config = {
     testRegex: [String.raw`.*/.+\.test\.(ts|tsx)$`],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    testPathIgnorePatterns: ["/node_modules/"],
+    testPathIgnorePatterns: ["/node_modules/", "<rootDir>/build/"],
 
     // A preset that is used as a base for Jest's configuration
     preset: "ts-jest",
@@ -54,7 +54,7 @@ const config = {
     clearMocks: true,
 
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
-    watchPathIgnorePatterns: ["<rootDir>/dist/"],
+    watchPathIgnorePatterns: ["<rootDir>/build/"],
 };
 
 module.exports = config;
