@@ -1,17 +1,9 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils, TSESTree} from "@typescript-eslint/experimental-utils";
 
 export type MessageIds = "orderStylesheetImportStatementLast";
 
 export const name = "order-stylesheet-import-statement-last";
 
-// TODO/Jamyth: Implement rule "order-stylesheet-import-statement-last"
-// 1) Add a descriptive message to `meta.messages.orderStylesheetImportStatementLast`
-// 2) Report error by calling `context.report` in visitor function
-// 3) Add fixer when calling `context.report` (Remove the incorrectly ordered import statement, append it after the last import statement)
-//    Note that you can "mutate" the source code multiple times by returning an array of `fixer` calls.
-//    See "module-class-method-decorators" for reference.
-// 4) Make sure the test case passes (Or update the test cases if necessary); see `order-stylesheet-import-statement-last.test.ts`
-// 5) Remove these comments
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
     meta: {
@@ -23,12 +15,36 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         },
         fixable: "code",
         messages: {
-            orderStylesheetImportStatementLast: "",
+            orderStylesheetImportStatementLast: "style sheet imports should always at the bottom of all import statements.",
         },
         schema: [],
     },
     defaultOptions: [],
     create: context => {
-        return {};
+        return {
+            Program(node) {
+                const importDeclarations = node.body.filter(_ => _.type === AST_NODE_TYPES.ImportDeclaration) as TSESTree.ImportDeclaration[];
+                const importSource = importDeclarations.map(_ => _.source.raw);
+                const stylesheetExtensionRegex = /\.(css|scss|sass|less)['"]$/;
+                const firstStyleSheetImport = importSource.find(_ => stylesheetExtensionRegex.test(_));
+                if (!firstStyleSheetImport) {
+                    return;
+                }
+                const indexOfStyleSheet = importSource.indexOf(firstStyleSheetImport);
+                let itr = indexOfStyleSheet + 1;
+                while (itr < importSource.length) {
+                    if (!stylesheetExtensionRegex.test(importSource[itr])) {
+                        const importCode = "\n" + context.getSourceCode().getText(importDeclarations[indexOfStyleSheet]);
+                        context.report({
+                            node: importDeclarations[indexOfStyleSheet],
+                            messageId: "orderStylesheetImportStatementLast",
+                            fix: fixer => [fixer.removeRange(importDeclarations[indexOfStyleSheet].range), fixer.insertTextAfter(importDeclarations[importDeclarations.length - 1], importCode)],
+                        });
+                        break;
+                    }
+                    itr++;
+                }
+            },
+        };
     },
 });
