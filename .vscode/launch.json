@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        // https://jestjs.io/docs/en/troubleshooting#debugging-in-vs-code
+        // https://github.com/microsoft/vscode-recipes/tree/master/debugging-jest-tests
+        {
+            "name": "ESLintPlugin - Jest: single test (watch)",
+            "request": "launch",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "args": [
+                "${relativeFileDirname}/${fileBasenameNoExtension}",
+                "--config",
+                "config/jest.config.js",
+                "--watchAll",
+                "--runInBand",
+            ],
+            "cwd": "${workspaceFolder}/packages/eslint-plugin",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+        },
+    ],
+}

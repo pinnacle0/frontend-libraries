@@ -34,3 +34,4 @@
 
 # VS Code
 !.vscode/extensions.json
+!.vscode/launch.json
