@@ -19,6 +19,10 @@ export function tsRule({tsconfigFilepath}: Deps): webpack.RuleSetRule {
                 loader: require.resolve("ts-loader"),
                 options: {
                     configFile: tsconfigFilepath,
+                    compilerOptions: {
+                        module: "esnext",
+                        target: "es5",
+                    },
                 },
             },
         ],
