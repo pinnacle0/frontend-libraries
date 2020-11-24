@@ -7,7 +7,6 @@
         "build": "yarn run-script script/build.ts",
         "codegen": "yarn run-script script/codegen.ts",
         "format": "yarn run-script script/format.ts",
-        "lint": "yarn run-script script/lint.ts",
         "new-rule": "yarn run-script script/new-rule.ts",
         "test": "jest --config config/jest.config.js"
     },
