@@ -11,7 +11,7 @@ export interface Props<Removable extends boolean> extends UploadProps {
     imageURL: Removable extends true ? string | null : string;
     onChange: (value: Removable extends true ? ImageUploadResponse | null : ImageUploadResponse) => void;
     removable: Removable;
-    fileSizeLimit?: number; // TODO/Jamyth: ask JW
+    fileSizeLimitMB?: number;
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
@@ -40,6 +40,17 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
             onChange(null as any);
         }
     };
+
+    beforeUpload(file: File): boolean {
+        const {fileSizeLimitMB} = this.props;
+        if (!fileSizeLimitMB) {
+            return true;
+        }
+        if (file.size > fileSizeLimitMB * 1024 * 1024) {
+            return false;
+        }
+        return true;
+    }
 
     onUploadSuccess = (response: any, logEntry: UploadSuccessLogEntry) => {
         const {onChange, onUploadSuccess, onUploadFailure} = this.props;
@@ -70,6 +81,7 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
                 style={style}
                 className={className}
                 disabled={disabled}
+                beforeUpload={this.beforeUpload}
             >
                 {imageURL && (
                     <div>
