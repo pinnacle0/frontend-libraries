@@ -11,8 +11,28 @@ function kernel(): BrowserKernel {
     return "other";
 }
 
+/** @deprecated */
+function isMac() {
+    return navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+}
+
+/** @deprecated */
+function isWebkit() {
+    return "WebkitAppearance" in document.documentElement.style;
+}
+
 function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+/** @deprecated */
+function isIos() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+/** @deprecated */
+function isAndroid() {
+    return /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
 function isWechat() {
@@ -70,7 +90,8 @@ function openTabAndWait(url: string): Promise<void> {
 
 function openQQ(qq: string) {
     if (isMobile()) {
-        if (os() === "iOS") {
+        // TODO: use `os() === "iOS"`
+        if (isIos()) {
             window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
         } else {
             window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
@@ -81,9 +102,11 @@ function openQQ(qq: string) {
 }
 
 export const BrowserUtil = Object.freeze({
-    os,
-    kernel,
+    isMac,
+    isAndroid,
+    isIos,
     isMobile,
+    isWebkit,
     isWechat,
     removeElement,
     scrollTo,
