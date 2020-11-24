@@ -44,8 +44,7 @@ new TaskRunner("build").execute([
         name: "test",
         skipInFastMode: true,
         execute: () => {
-            // TODO/Lok: Add this back
-            // Utility.runCommand("jest", ["--config", "config/jest.config.js"]);
+            Utility.runCommand("jest", ["--config", "config/jest.config.js"]);
         },
     },
     {
