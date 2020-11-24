@@ -38,7 +38,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                         context.report({
                             node: importDeclarations[indexOfStyleSheet],
                             messageId: "orderStylesheetImportStatementLast",
-                            fix: fixer => [fixer.removeRange(importDeclarations[indexOfStyleSheet].range), fixer.insertTextAfter(importDeclarations[importDeclarations.length - 1], importCode)],
+                            fix: fixer => [fixer.remove(importDeclarations[indexOfStyleSheet]), fixer.insertTextAfter(importDeclarations[importDeclarations.length - 1], importCode)],
                         });
                         break;
                     }

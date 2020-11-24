@@ -28,12 +28,14 @@ ruleTester.run(name, rule, {
     ],
     invalid: [
         {
-            code: `import "../index.less";
+            code: `
+import "../index.less";
 import {Filter} from "./Filter";
 import React from "react";
 `,
-            errors: [{line: 1, messageId}],
+            errors: [{line: 2, messageId}],
             output: `
+
 import {Filter} from "./Filter";
 import React from "react";
 import "../index.less";
@@ -41,17 +43,33 @@ import "../index.less";
         },
 
         {
-            code: `import React from "react";
+            code: `
+import React from "react";
 import "./index.less";
 import AntButton from "antd/lib/Button";
 import "antd/lib/Button/index.less";
 `,
-            errors: [{line: 2, messageId}],
-            output: `import React from "react";
+            errors: [{line: 3, messageId}],
+            output: `
+import React from "react";
 
 import AntButton from "antd/lib/Button";
 import "antd/lib/Button/index.less";
 import "./index.less";
+`,
+        },
+        {
+            code: `
+import "./one.less";
+import "./two.less";
+import React from "react";
+`,
+            errors: [{line: 2, messageId}],
+            output: `
+
+import "./two.less";
+import React from "react";
+import "./one.less";
 `,
         },
     ],
