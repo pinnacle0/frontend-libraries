@@ -12,8 +12,6 @@ import {TabsDemo} from "./TabsDemo";
 import {TagInputDemo} from "test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
 import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
-import {ImageUploader} from "@pinnacle0/web-ui/src/core/ImageUploader";
-import {ImageUploadResponse} from "packages/web-ui/src/util/UploadUtil";
 
 const groups: DemoHelperGroupConfig[] = [
     {
