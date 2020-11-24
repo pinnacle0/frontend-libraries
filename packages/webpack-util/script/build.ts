@@ -35,13 +35,13 @@ new TaskRunner("build").execute([
         },
     },
     {
-        name: "prepare build folder",
+        name: "prepare build directory",
         execute: () => {
             Utility.prepareEmptyDirectory(FilePath.build);
         },
     },
     {
-        name: "tsc compile",
+        name: "compile with tsc",
         execute: () => {
             Utility.runCommand("tsc", ["--project", FilePath.tsConfigForSrc]);
         },
