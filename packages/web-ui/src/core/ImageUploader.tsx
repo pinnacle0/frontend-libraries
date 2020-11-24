@@ -43,13 +43,13 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
         }
     };
 
-    beforeUpload(file: File): boolean {
+    beforeUpload = (file: File): boolean => {
         const {fileSizeLimitMB} = this.props;
         if (fileSizeLimitMB && file.size > 1024 * 1024 * fileSizeLimitMB) {
             return false;
         }
         return true;
-    }
+    };
 
     onUploadSuccess = (response: any, logEntry: UploadSuccessLogEntry) => {
         const {onChange, onUploadSuccess, onUploadFailure} = this.props;
