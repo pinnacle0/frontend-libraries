@@ -1,7 +1,7 @@
 import React from "react";
 import {SafeReactChild, SafeReactChildren} from "../../internal/type";
-import "./index.less";
 import {i18n} from "../../internal/i18n/core";
+import "./index.less";
 
 export interface Props {
     title: SafeReactChild;

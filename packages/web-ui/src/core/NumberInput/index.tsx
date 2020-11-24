@@ -1,10 +1,10 @@
 import React from "react";
 import {ControlledFormValue} from "../../internal/type";
 import {Input} from "../Input";
-import "./index.less";
 import {NumberInputDollar} from "./NumberInputDollar";
 import {NumberInputPercentage} from "./NumberInputPercentage";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
+import "./index.less";
 
 // NOTE: Use `this.typeSafeProps` instead of `this.props` inside this component for better type-safety.
 // The type argument on `Props<AllowNull extends boolean>` allows better type-inference for consumers of this component.

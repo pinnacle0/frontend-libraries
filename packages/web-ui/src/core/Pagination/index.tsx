@@ -1,9 +1,9 @@
 import React from "react";
 import AntPagination from "antd/lib/pagination";
-import "antd/lib/pagination/style";
 import {i18n} from "../../internal/i18n/core";
-import "./index.less";
 import {StringUtil} from "../../internal/StringUtil";
+import "antd/lib/pagination/style";
+import "./index.less";
 
 export interface Props {
     onChange: (pageIndex: number) => void;

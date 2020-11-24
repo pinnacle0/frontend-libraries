@@ -1,8 +1,8 @@
 import React from "react";
 import {Table, TableColumns} from "../Table";
 import {PickOptional} from "../../internal/type";
-import "./index.less";
 import {i18n} from "../../internal/i18n/core";
+import "./index.less";
 
 /**
  * A MutableTable is a table supporting add/minus rows.
