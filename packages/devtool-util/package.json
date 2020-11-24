@@ -5,12 +5,12 @@
     "main": "src/index.js",
     "types": "src/index.d.ts",
     "scripts": {
-        "code-style-check": "prettier --check \"{config,src,test}/**/*.{js,ts}\"",
+        "check-code-style": "prettier --check \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore",
         "compile": "tsc --project config/tsconfig.src.json",
         "test": "jest --config config/jest.config.js",
         "copy-static-files": "node script/copyStaticFiles.js",
-        "build": "yarn run code-style-check && yarn run lint && yarn run test && yarn run compile && yarn run copy-static-files"
+        "build": "yarn run check-code-style && yarn run lint && yarn run test && yarn run compile && yarn run copy-static-files"
     },
     "dependencies": {
         "axios": "0.21.0",
