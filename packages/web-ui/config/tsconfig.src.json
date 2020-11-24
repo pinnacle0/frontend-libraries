@@ -3,9 +3,9 @@
     "compilerOptions": {
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
+        "target": "ES5",
         "rootDir": "../src/",
         "outDir": "../dist/",
-        "target": "ES5",
 
         "isolatedModules": true,
         "jsx": "react"
