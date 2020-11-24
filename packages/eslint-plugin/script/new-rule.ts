@@ -1,10 +1,9 @@
-import {Utility} from "@pinnacle0/devtool-util/src";
+import {TaskRunner} from "@pinnacle0/devtool-util/src";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
 import {isKebabCase, kebabToCamelCase} from "./util";
 
-const print = Utility.createConsoleLogger("new-rule");
 const directory = {
     src: path.join(__dirname, "../src"),
     srcRules: path.join(__dirname, "../src/rules"),
@@ -12,64 +11,59 @@ const directory = {
     testRules: path.join(__dirname, "../test/rules"),
 };
 
-function generateNewRule(newRuleName: string) {
-    const newRuleFile = path.join(directory.srcRules, `${newRuleName}.ts`);
+const newRuleName = yargs.argv._[0];
+if (typeof newRuleName !== "string") {
+    throw new Error("Missing positional cli argument (new rule name), usage: yarn new-rule custom-new-eslint-rule-name");
+}
+const newRuleFile = path.join(directory.srcRules, `${newRuleName}.ts`);
+const newTestFile = path.join(directory.testRules, `${newRuleName}.test.ts`);
+
+new TaskRunner("new-rule").execute([
     {
-        print.task(`Checking pre-conditions of "${newRuleName}"`);
-        if (fs.existsSync(newRuleFile)) {
-            throw new Error(`Rule "${newRuleName}" already exists`);
-        }
-    }
-    const output = (function () {
-        print.task(`Generating rule file at "${newRuleFile}"`);
-        const templateFile = path.join(directory.templates, "new-rule.ts");
-        return fs
-            .readFileSync(templateFile, {
-                encoding: "utf8",
-            })
-            .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
-    })();
-    fs.writeFileSync(newRuleFile, output, {encoding: "utf8"});
-}
-
-function generateNewTest(newRuleName: string) {
-    const newTestFile = path.join(directory.testRules, `${newRuleName}.test.ts`);
+        name: "check pre-conditions",
+        execute: () => {
+            if (!isKebabCase(newRuleName)) {
+                throw new Error(`Rule name should be in kebab-case, but received "${newRuleName}".`);
+            }
+            if (fs.existsSync(newRuleFile)) {
+                throw new Error(`Rule "${newRuleName}" already exists at "${newRuleFile}".`);
+            }
+            if (fs.existsSync(newTestFile)) {
+                throw new Error(`Rule "${newRuleName}" already exists`);
+            }
+        },
+    },
     {
-        print.task(`Checking pre-conditions of "${newRuleName}"`);
-        if (fs.existsSync(newTestFile)) {
-            throw new Error(`Rule "${newRuleName}" already exists`);
-        }
-    }
-    const output = (function () {
-        print.task(`Generating test file at "${newTestFile}"`);
-        const templateFile = path.join(directory.templates, "new-test.ts");
-        return fs
-            .readFileSync(templateFile, {
-                encoding: "utf8",
-            })
-            .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
-    })();
-    fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
-}
-
-function newRule() {
-    const newRuleName = (function () {
-        const newRuleName = yargs.argv._[0];
-        if (typeof newRuleName !== "string") {
-            throw new Error("Missing positional cli argument (new rule name), usage: yarn new-rule custom-new-eslint-rule-name");
-        }
-        if (!isKebabCase(newRuleName)) {
-            throw new Error(`Rule name should be in kebab-case, but received "${newRuleName}"`);
-        }
-        return newRuleName;
-    })();
-    generateNewRule(newRuleName);
-    generateNewTest(newRuleName);
-
-    // Inline require because codegen.ts runs with side effect
-    require("./codegen");
-}
-
-newRule();
+        name: "generate src file",
+        execute: () => {
+            const templateFile = path.join(directory.templates, "new-rule.ts");
+            const output = fs
+                .readFileSync(templateFile, {
+                    encoding: "utf8",
+                })
+                .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+            fs.writeFileSync(newRuleFile, output, {encoding: "utf8"});
+        },
+    },
+    {
+        name: "generate test file",
+        execute: () => {
+            const templateFile = path.join(directory.templates, "new-test.ts");
+            const output = fs
+                .readFileSync(templateFile, {
+                    encoding: "utf8",
+                })
+                .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+            fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
+        },
+    },
+    {
+        name: "codegen",
+        execute: () => {
+            // Inline require because codegen.ts runs with side effect
+            require("./codegen");
+        },
+    },
+]);
