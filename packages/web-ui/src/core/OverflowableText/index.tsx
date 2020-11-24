@@ -3,26 +3,47 @@ import {Tooltip} from "../Tooltip";
 import "./index.less";
 
 interface Props {
-    text: string;
+    text: React.ReactNode;
     className?: string;
     maxWidth: number;
     style?: React.CSSProperties;
 }
 
-export class OverflowableText extends React.PureComponent<Props> {
+interface States {
+    overflow: boolean;
+}
+
+export class OverflowableText extends React.PureComponent<Props, States> {
     static displayName = "OverflowableText";
+
+    private readonly textRef = React.createRef<HTMLDivElement>();
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            overflow: false,
+        };
+    }
+
+    componentDidMount() {
+        const {current} = this.textRef;
+        this.setState({overflow: (current && current.clientWidth > this.props.maxWidth) || false});
+    }
 
     render() {
         const {text, style, maxWidth, className = ""} = this.props;
 
-        return text.length > maxWidth ? (
+        return this.state.overflow ? (
             <Tooltip className={`g-overflowable-text ${className}`} overlay={text}>
                 <div className="wrap-text" style={{...style, width: maxWidth}}>
                     {text}
                 </div>
             </Tooltip>
         ) : (
-            text
+            <div ref={this.textRef} style={{display: "inline-block", ...style}}>
+                {text}
+            </div>
         );
     }
 }

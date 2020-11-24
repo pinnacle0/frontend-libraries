@@ -17,7 +17,7 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "Overflow with custom style",
-        components: [<OverflowableText text="Should be red" maxWidth={100} style={{color: "red"}} />, <OverflowableText text="Should be red" maxWidth={50} style={{color: "red"}} />],
+        components: [<OverflowableText text="Should be red" maxWidth={100} style={{color: "red"}} />, "-", <OverflowableText text="Should be red" maxWidth={50} style={{color: "red"}} />],
     },
 ];
 

@@ -20,8 +20,8 @@
         "test": "jest --config config/jest.config.js"
     },
     "dependencies": {
-        "@ant-design/icons": "4.2.2",
-        "antd": "4.7.3",
+        "@ant-design/icons": "4.3.0",
+        "antd": "4.8.5",
         "braft-editor": "2.3.9",
         "moment": "2.29.1"
     },
