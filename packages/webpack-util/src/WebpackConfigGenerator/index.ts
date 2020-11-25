@@ -128,7 +128,6 @@ export class WebpackConfigGenerator {
             module: {
                 rules: [
                     Rule.ts({
-                        enableColors: !this.enableProfiling,
                         tsconfigFilepath: this.tsconfigFilepath,
                     }),
                     Rule.stylesheet({
@@ -193,7 +192,6 @@ export class WebpackConfigGenerator {
             module: {
                 rules: [
                     Rule.ts({
-                        enableColors: !this.enableProfiling,
                         tsconfigFilepath: this.tsconfigFilepath,
                     }),
                     Rule.stylesheet({

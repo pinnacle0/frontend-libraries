@@ -82,7 +82,7 @@ export class WebpackBuilder {
             if (error) {
                 throw error;
             } else if (stats) {
-                const statsJSON = stats.toJson() as Record<string, any>; // No types :(
+                const statsJSON = stats.toJson();
 
                 if (this.enableProfiling) {
                     fs.writeFileSync(this.projectProfilingJsonOutputPath, JSON.stringify(statsJSON, null, 2));
@@ -90,9 +90,13 @@ export class WebpackBuilder {
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {
-                    this.logger.error("Webpack compiled with the following warning/errors:");
-                    // Use the preset that includes only errors and warnings (https://webpack.js.org/configuration/stats/#stats-presets)
-                    console.error(stats.toString("errors-warnings"));
+                    const {warnings, errors} = this.getWarningsAndErrors(statsJSON);
+                    this.logger.error("Webpack compiled with the following warnings:");
+                    console.error(JSON.stringify(warnings, null, 2));
+                    console.error();
+                    this.logger.error("Webpack compiled with the following errors:");
+                    console.error(JSON.stringify(errors, null, 2));
+                    console.error();
                     process.exit(1);
                 }
 
@@ -102,5 +106,26 @@ export class WebpackBuilder {
                 process.exit(1);
             }
         });
+    }
+
+    private getWarningsAndErrors(info: any): {warnings: any[]; errors: any[]} {
+        const warnings: any[] = [];
+        const errors: any[] = [];
+        if (typeof info === "object" && info !== null) {
+            if (Array.isArray(info.warnings)) {
+                warnings.push(...info.warnings);
+            }
+            if (Array.isArray(info.errors)) {
+                info.errors.push(...errors);
+            }
+            if (Array.isArray(info.children)) {
+                info.children.forEach((_: any) => {
+                    const childInfo = this.getWarningsAndErrors(_);
+                    warnings.push(...childInfo.warnings);
+                    errors.push(...childInfo.errors);
+                });
+            }
+        }
+        return {warnings, errors};
     }
 }
