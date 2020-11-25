@@ -50,26 +50,19 @@ export class WebpackBuilder {
     }
 
     run() {
-        try {
-            if (!this.isFastMode) {
-                new ProjectStructureChecker({
-                    projectDirectory: this.projectDirectory,
-                    extraCheckDirectories: this.extraCheckDirectories,
-                }).run();
-                new CodeStyleChecker({
-                    projectDirectory: this.projectDirectory,
-                    extraCheckDirectories: this.extraCheckDirectories,
-                }).run();
-            }
-
-            this.cleanDistFolder();
-            this.copyStatic();
-            this.bundleByWebpack();
-        } catch (e) {
-            print.error(e);
-            console.error(e);
-            process.exit(1);
+        if (!this.isFastMode) {
+            new ProjectStructureChecker({
+                projectDirectory: this.projectDirectory,
+                extraCheckDirectories: this.extraCheckDirectories,
+            }).run();
+            new CodeStyleChecker({
+                projectDirectory: this.projectDirectory,
+                extraCheckDirectories: this.extraCheckDirectories,
+            }).run();
         }
+        this.cleanDistFolder();
+        this.copyStatic();
+        this.bundleByWebpack();
     }
 
     private cleanDistFolder() {
@@ -87,192 +80,27 @@ export class WebpackBuilder {
 
         webpack(this.webpackConfig).run((error?: Error, stats?: webpack.Stats) => {
             if (error) {
-                print.error(error);
-                console.error(error);
-                process.exit(1);
+                throw error;
             } else if (stats) {
-                const statsJSON = stats.toJson() as ToJsonOutput;
+                const statsJSON = stats.toJson() as Record<string, any>; // No types :(
 
                 if (this.enableProfiling) {
                     fs.writeFileSync(this.projectProfilingJsonOutputPath, JSON.stringify(statsJSON, null, 2));
                     print.info(["Generate profile for analysis", this.projectProfilingJsonOutputPath]);
                 }
 
-                if (statsJSON.errors.length) {
-                    statsJSON.errors.forEach(error => {
-                        print.error(error);
-                        console.error(error);
-                    });
-                    process.exit(1);
-                } else if (statsJSON.warnings.length) {
-                    statsJSON.warnings.forEach(error => {
-                        print.error(error);
-                        console.error(error);
-                    });
+                if (stats.hasErrors() || stats.hasWarnings()) {
+                    print.error("Webpack compiled with the following warning/errors:");
+                    // Use the preset that includes only errors and warnings (https://webpack.js.org/configuration/stats/#stats-presets)
+                    console.error(stats.toString("errors-warnings"));
                     process.exit(1);
                 }
 
                 print.info("Build successfully");
             } else {
+                print.error("Webpack compiler `run()` returns no `error` and no `stats`, this is unexpected.");
                 process.exit(1);
             }
         });
     }
-}
-
-// Copied and pasted from @types/webpack@4.41.23
-interface ChunkGroup {
-    assets: string[];
-    chunks: Array<number | string>;
-    children: Record<
-        string,
-        {
-            assets: string[];
-            chunks: Array<number | string>;
-            name: string;
-        }
-    >;
-    childAssets: Record<string, string[]>;
-    isOverSizeLimit?: boolean;
-}
-type ReasonType =
-    | "amd define"
-    | "amd require array"
-    | "amd require context"
-    | "amd require"
-    | "cjs require context"
-    | "cjs require"
-    | "context element"
-    | "delegated exports"
-    | "delegated source"
-    | "dll entry"
-    | "accepted harmony modules"
-    | "harmony accept"
-    | "harmony export expression"
-    | "harmony export header"
-    | "harmony export imported specifier"
-    | "harmony export specifier"
-    | "harmony import specifier"
-    | "harmony side effect evaluation"
-    | "harmony init"
-    | "import() context development"
-    | "import() context production"
-    | "import() eager"
-    | "import() weak"
-    | "import()"
-    | "json exports"
-    | "loader"
-    | "module.hot.accept"
-    | "module.hot.decline"
-    | "multi entry"
-    | "null"
-    | "prefetch"
-    | "require.context"
-    | "require.ensure"
-    | "require.ensure item"
-    | "require.include"
-    | "require.resolve"
-    | "single entry"
-    | "wasm export import"
-    | "wasm import";
-interface Reason {
-    moduleId: number | string | null;
-    moduleIdentifier: string | null;
-    module: string | null;
-    moduleName: string | null;
-    type: ReasonType;
-    explanation?: string;
-    userRequest: string;
-    loc: string;
-}
-interface FnModules {
-    assets?: string[];
-    built: boolean;
-    cacheable: boolean;
-    chunks: Array<number | string>;
-    depth?: number;
-    errors: number;
-    failed: boolean;
-    filteredModules?: boolean;
-    id: number | string;
-    identifier: string;
-    index: number;
-    index2: number;
-    issuer: string | undefined;
-    issuerId: number | string | undefined;
-    issuerName: string | undefined;
-    issuerPath: Array<{
-        id: number | string;
-        identifier: string;
-        name: string;
-        profile: any; // TODO
-    }>;
-    modules: FnModules[];
-    name: string;
-    optimizationBailout?: string;
-    optional: boolean;
-    prefetched: boolean;
-    profile: any; // TODO
-    providedExports?: any; // TODO
-    reasons: Reason[];
-    size: number;
-    source?: string;
-    usedExports?: boolean;
-    warnings: number;
-}
-interface ToJsonOutput {
-    _showErrors: boolean;
-    _showWarnings: boolean;
-    assets?: Array<{
-        chunks: Array<number | string>;
-        chunkNames: string[];
-        emitted: boolean;
-        isOverSizeLimit?: boolean;
-        name: string;
-        size: number;
-    }>;
-    assetsByChunkName?: Record<string, string | string[]>;
-    builtAt?: number;
-    children?: Array<ToJsonOutput & {name?: string}>;
-    chunks?: Array<{
-        children: number[];
-        childrenByOrder: Record<string, number[]>;
-        entry: boolean;
-        files: string[];
-        filteredModules?: number;
-        hash?: string;
-        id: number | string;
-        initial: boolean;
-        modules?: FnModules[];
-        names: string[];
-        origins?: Array<{
-            moduleId?: string | number;
-            module: string;
-            moduleIdentifier: string;
-            moduleName: string;
-            loc: string;
-            request: string;
-            reasons: string[];
-        }>;
-        parents: number[];
-        reason?: string;
-        recorded?: boolean;
-        rendered: boolean;
-        size: number;
-        siblings: number[];
-    }>;
-    entrypoints?: Record<string, ChunkGroup>;
-    errors: string[];
-    env?: Record<string, any>;
-    filteredAssets?: number;
-    filteredModules?: boolean;
-    hash?: string;
-    modules?: FnModules[];
-    namedChunkGroups?: Record<string, ChunkGroup>;
-    needAdditionalPass?: boolean;
-    outputPath?: string;
-    publicPath?: string;
-    time?: number;
-    version?: string;
-    warnings: string[];
 }
