@@ -5,7 +5,7 @@
         "module": "ESNext",
         "target": "ES5",
         "rootDir": "../src/",
-        "outDir": "../dist/",
+        "outDir": "../build/",
 
         "isolatedModules": true,
         "jsx": "react"
