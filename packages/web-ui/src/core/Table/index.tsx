@@ -115,7 +115,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             </div>
         );
 
-        const filteredColumns = columns.filter(_ => _.display === "hidden");
+        const filteredColumns = columns.filter(_ => _.display !== "hidden");
         let tableColumns: Array<AntColumnsProps<RowType>>;
         if (sortConfig) {
             const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
