@@ -90,11 +90,6 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<DemoBreadcrumb />],
         showPropsHint: false,
     },
-    {
-        title: "Calendar",
-        components: [<DateCalendarDemo />],
-        showPropsHint: false,
-    },
 ];
 
 function DemoPagedList() {
@@ -115,16 +110,6 @@ function DemoBreadcrumb() {
     }));
 
     return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
-}
-
-function DateCalendarDemo() {
-    const [date, setDate] = React.useState(new Date().toISOString());
-
-    return (
-        <div style={{width: 400}}>
-            <DateCalendar value={date} onChange={setDate} />
-        </div>
-    );
 }
 
 export const MiscellaneousDemo = () => <DemoHelper groups={groups} />;

@@ -3,23 +3,30 @@
     user-select: none;
     display: inline-block;
 
+    .ant-input-affix-wrapper,
     .ant-input-group-wrapper {
         width: initial;
         vertical-align: middle;
+        padding: 0 10px;
+
+        > input {
+            height: 30px;
+        }
     }
 
     input {
         vertical-align: middle;
         display: inline-block;
-        height: 32px;
         border-radius: 0;
+        height: 32px;
         background-color: transparent;
         outline: none;
         text-align: center;
         font-size: 14px;
         width: 90px;
-        border: 1px solid #ccc;
         padding: 4px 11px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
 
         &[disabled] {
             cursor: not-allowed;

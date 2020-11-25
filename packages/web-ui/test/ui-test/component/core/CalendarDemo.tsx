@@ -6,6 +6,7 @@ import {TimeRangePicker, Props as TimeRangePickerProps} from "@pinnacle0/web-ui/
 import {TimePicker, Props as TimePickerProps} from "@pinnacle0/web-ui/core/TimePicker";
 import {DateTimeRangePicker, Props as DateTimeRangePickerProps} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
 import {DateTimePicker, Props as DateTimePickerProps} from "@pinnacle0/web-ui/core/DateTimePicker";
+import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
 
 const UncontrolledDatePicker = (props: Omit<DatePickerProps<any>, "value" | "onChange">) => {
     const [value, onChange] = React.useState<any>(null);
@@ -62,6 +63,21 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Date Time Range Picker",
         components: [<UncontrolledDateTimeRangePicker allowNull={false} />, <UncontrolledDateTimeRangePicker allowNull />],
     },
+    {
+        title: "Date Calendar",
+        components: [<DateCalendarDemo />],
+        showPropsHint: false,
+    },
 ];
+
+function DateCalendarDemo() {
+    const [date, setDate] = React.useState(new Date().toISOString());
+
+    return (
+        <div style={{width: 400}}>
+            <DateCalendar value={date} onChange={setDate} />
+        </div>
+    );
+}
 
 export const CalendarDemo = () => <DemoHelper groups={groups.map(_ => ({..._, showPropsHint: false}))} />;

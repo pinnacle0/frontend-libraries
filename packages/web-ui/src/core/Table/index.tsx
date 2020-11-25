@@ -24,8 +24,7 @@ export interface TableColumn<RowType extends object, OrderByFieldType = undefine
     fixed?: "left" | "right";
     sortField?: OrderByFieldType | true; // True is used for only 1 columns sorting
     onHeaderClick?: () => void;
-    // TODO/yuen: display?: "default" | "hidden"
-    hideIf?: boolean;
+    display?: "default" | "hidden";
 }
 
 export type TableColumns<RowType extends object, OrderByFieldType = undefined> = Array<TableColumn<RowType, OrderByFieldType>>;
@@ -116,7 +115,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             </div>
         );
 
-        const filteredColumns = columns.filter(_ => _.hideIf !== true);
+        const filteredColumns = columns.filter(_ => _.display === "hidden");
         let tableColumns: Array<AntColumnsProps<RowType>>;
         if (sortConfig) {
             const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
