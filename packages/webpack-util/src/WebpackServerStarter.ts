@@ -11,6 +11,7 @@ export interface WebpackServerStarterOptions extends
         Pick<WebpackConfigGeneratorOptions,
             | "projectDirectory"
             | "dynamicConfigResolvers"
+            // TODO: extraEntries
             | "extraChunks"
             | "extraPrioritizedResolvedExtensions"
         > {

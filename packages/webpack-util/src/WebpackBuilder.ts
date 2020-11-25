@@ -116,7 +116,7 @@ export class WebpackBuilder {
                 warnings.push(...info.warnings);
             }
             if (Array.isArray(info.errors)) {
-                info.errors.push(...errors);
+                errors.push(...errors);
             }
             if (Array.isArray(info.children)) {
                 info.children.forEach((_: any) => {

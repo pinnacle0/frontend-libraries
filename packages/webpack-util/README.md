@@ -37,69 +37,32 @@ new WebpackBuilder({
 -   stylelint
 -   prettier
 
+Note: CSS/LESS only website also supported, without any JavaScript. 
+
 ## Project Folder Structure
 
-The most basic setup should looks like this:
-
 ```text
-projectDirectory/
+<projectDirectory>
 ├── build/
 │   └── dist/
-│           (Output directory for build artifacts, will be overwritten)
+│           (Output directory for build artifacts, content will be overwritten by each build, should be ignored by git)
 ├── src/
 │   ├── index.html
-│   │       (Template file used by HtmlWebpackPlugin)
+│   │       (HTML entry)
 │   └── index.{ts,tsx,js,jsx,less,css}
-│           (Entry file to produce the main webpack chunk)
+│           (Main chunk entry)
 ├── static/
-│           (Directory to serve static files)
+│           (Directory to serve static files, e.g: robots.txt)
 ├── tsconfig.json
-│           (Typescript config file)
+│           (TypeScript config)
 ├── .eslintrc.js
-│           (ESLint config file, can be moved to upper directories)
+│           (ESLint config, can be moved to upper directories)
 ├── prettier.config.js
-│           (Prettier config file, can be moved to upper directories)
+│           (Prettier config, can be moved to upper directories)
 ├── stylelint.config.js
-│           (Stylelint config file, can be moved to upper directories)
+│           (Stylelint config, can be moved to upper directories)
 └── package.json
             (Project manifest file)
-```
-
-For a monorepo setup using yarn workspaces, the directory structure could be:
-
-```text
-projectRootDirectory/
-├── web-shared/
-│   └── src/
-│       ├── tsconfig.json
-│       └── package.json
-│           (Project manifest file for web-shared)
-├── web-project1/
-│   ├── build/
-│   │   └── dist/
-│   ├── src/
-│   │   ├── index.html
-│   │   └── index.{ts,tsx,js,jsx,less,css}
-│   ├── static/
-│   ├── tsconfig.json
-│   └── package.json
-│           (Project manifest file for web-project1)
-├── web-project2/
-│   ├── build/
-│   │   └── dist/
-│   ├── src/
-│   │   ├── index.html
-│   │   └── index.{ts,tsx,js,jsx,less,css}
-│   ├── static/
-│   ├── tsconfig.json
-│   └── package.json
-│           (Project manifest file for web-project2)
-├── .eslintrc.js
-├── prettier.config.js
-├── stylelint.config.js
-└── package.json
-            (Workspace manifest file)
-            (https://classic.yarnpkg.com/en/docs/workspaces/)
 ```
 
 <!--

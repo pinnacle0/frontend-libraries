@@ -11,7 +11,7 @@ export interface WebpackOutputPublicUrlFactoryOptions {
 
 export class WebpackOutputPublicUrlFactory {
     static generate({env, dynamicWebpackConfigResolver}: WebpackOutputPublicUrlFactoryOptions): string {
-        if (!(env && dynamicWebpackConfigResolver)) {
+        if (!env || !dynamicWebpackConfigResolver) {
             return "/";
         }
 

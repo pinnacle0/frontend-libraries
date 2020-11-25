@@ -35,10 +35,10 @@ export class WebpackConfigGenerator {
     private readonly configChunkEntries: ChunkEntry[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
     private readonly htmlWebpackPluginInstances: NonNullable<webpack.Configuration["plugins"]>;
-    private readonly outputPublicUrlSelect: {development: string; production: string};
     private readonly resolveExtensions: NonNullable<NonNullable<webpack.Configuration["resolve"]>["extensions"]>;
     private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
+    private readonly outputPublicPath: string;
 
     constructor(private readonly options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
@@ -62,13 +62,10 @@ export class WebpackConfigGenerator {
         this.htmlWebpackPluginInstances = HtmlWebpackPluginsFactory.generate({
             configChunkEntries: this.configChunkEntries,
         });
-        this.outputPublicUrlSelect = {
-            development: "/",
-            production: WebpackOutputPublicUrlFactory.generate({
-                env: this.env,
-                dynamicWebpackConfigResolver: options.dynamicWebpackConfigResolver,
-            }),
-        };
+        this.outputPublicPath = WebpackOutputPublicUrlFactory.generate({
+            env: this.env,
+            dynamicWebpackConfigResolver: options.dynamicWebpackConfigResolver,
+        });
         this.resolveExtensions = WebpackResolveExtensionsFactory.generate({
             extraPrioritizedResolvedExtensions: options.extraPrioritizedResolvedExtensions,
         });
@@ -79,17 +76,27 @@ export class WebpackConfigGenerator {
             env: this.env,
             dynamicConfigResolvers: options.dynamicConfigResolvers ?? [],
         });
+
+        for (const info of [
+            `Webpack Config Constructed:`,
+            `-- Code Checking: ${this.isFastMode ? "Minimal Check" : "Default"}`,
+            `-- Env: ${this.env || "[N/A]"}`,
+            `-- Src Directory: ${this.projectSrcDirectory}`,
+            `-- HTML Entries: ${Object.keys(this.entry).join(" / ")}`,
+            `-- Webpack Public URL: ${this.outputPublicPath}`,
+            `-- Dynamic Aliases: ${JSON.stringify(this.resolveAliases, null, 4)}`,
+        ]) {
+            console.info(info);
+        }
     }
 
     development(): webpack.Configuration {
-        this.printInfo("development");
-
         return {
             mode: "development",
             entry: this.entry,
             output: {
                 filename: "static/js/[name].js",
-                publicPath: this.outputPublicUrlSelect.development,
+                publicPath: "/",
             },
             resolve: {
                 extensions: this.resolveExtensions,
@@ -106,30 +113,25 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({
-                        tsconfigFilepath: this.tsconfigFilepath,
-                    }),
-                    Rule.stylesheet({
-                        minimize: false,
-                    }),
+                    // prettier-ignore
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
+                    Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
+                // prettier-ignore
                 ...this.htmlWebpackPluginInstances,
                 Plugin.ignoreMomentLocale(),
                 Plugin.webpack.hmr(),
-                Plugin.webpack.progress({
-                    enableProfiling: false,
-                }),
+                Plugin.webpack.progress({enableProfiling: false}),
             ],
         };
     }
 
     production(outputDirectory: string): webpack.Configuration {
-        this.printInfo("production");
-
+        // TODO: console log complete config
         return {
             mode: "production",
             entry: this.entry,
@@ -138,7 +140,7 @@ export class WebpackConfigGenerator {
                 path: outputDirectory,
                 filename: this.enableProfiling ? "static/js/[name].js" : pathInfo => this.configChunkEntries.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename,
                 chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
-                publicPath: this.outputPublicUrlSelect.production,
+                publicPath: this.outputPublicPath,
                 crossOriginLoading: "anonymous",
             },
             resolve: {
@@ -153,9 +155,8 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
                 minimizer: [
-                    Plugin.minimizer.terser({
-                        sourceMap: true,
-                    }),
+                    // prettier-ignore
+                    Plugin.minimizer.terser({sourceMap: true}),
                     Plugin.minimizer.cssMinimizer(),
                 ],
             },
@@ -166,42 +167,22 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({
-                        tsconfigFilepath: this.tsconfigFilepath,
-                    }),
-                    Rule.stylesheet({
-                        minimize: true,
-                    }),
+                    // prettier-ignore
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
+                    Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
+                // prettier-ignore
                 ...this.htmlWebpackPluginInstances,
                 Plugin.crossOriginScriptTag(),
                 Plugin.ignoreMomentLocale(),
-                Plugin.fileOutput.miniCssExtract({
-                    enableProfiling: this.enableProfiling,
-                }),
-                Plugin.webpack.progress({
-                    enableProfiling: this.enableProfiling,
-                }),
+                Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
+                Plugin.webpack.progress({enableProfiling: this.enableProfiling}),
             ],
         };
-    }
-
-    private printInfo(select: "development" | "production"): void {
-        for (const info of [
-            `Webpack Config Constructed:`,
-            `-- Code Checking: ${this.isFastMode ? "Minimal Check" : "Default"}`,
-            `-- Env: ${this.env || "[N/A]"}`,
-            `-- Src Directory: ${this.projectSrcDirectory}`,
-            `-- HTML Entries: ${Object.keys(this.entry).join(" / ")}`,
-            `-- Webpack Public Url: ${this.outputPublicUrlSelect[select]}`,
-            `-- Dynamic Aliases: ${JSON.stringify(this.resolveAliases, null, 4)}`,
-        ]) {
-            console.info(info);
-        }
     }
 }
 
