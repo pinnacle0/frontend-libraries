@@ -1,3 +1,5 @@
+import webpack from "webpack";
+
 export interface WebpackConfigGeneratorOptions {
     /**
      * Directory of containing the application code.
@@ -139,4 +141,25 @@ export interface InternalCheckerOptions {
      * Should contains `package.json`, `tsconfig.json`, `src/`.
      */
     extraCheckDirectories?: string[];
+}
+
+declare module "webpack" {
+    interface TapablePlugin {
+        apply(...args: any[]): void;
+    }
+    /**
+     * Webpack 5 bundles its own type definition file, while the whole ecosystem
+     * relies on "@types/webpack" before version 5.
+     * The type definition of `webpack.Plugin` does not exists in "webpack@5.0.0"
+     * and DefinitelyTyped packages that depended on "@types/webpack@^4.x" breaks.
+     * This is because `import webpack from "webpack"` used to resolve to
+     * "@types/webpack@^4.x", but after upgrading to version 5, the import resolves
+     * to "webpack@5.0.0".
+     *
+     * This is a workaround to allow "@types/*-plugin" packages to work before their
+     * type definitions are properly upgraded.
+     */
+    export abstract class Plugin {
+        apply(compiler: webpack.Compiler): void;
+    }
 }

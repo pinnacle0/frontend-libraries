@@ -29,7 +29,7 @@ export class WebpackBuilder {
     private readonly projectDirectory: string;
     private readonly extraCheckDirectories: string[];
     private readonly projectStaticDirectory: string;
-    private readonly projectProfilingJsonOutputPath: string;
+    private readonly projectProfilingJSONOutputPath: string;
     private readonly outputDirectory: string;
     private readonly webpackConfig: webpack.Configuration;
     private readonly isFastMode: boolean;
@@ -41,7 +41,7 @@ export class WebpackBuilder {
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
-        this.projectProfilingJsonOutputPath = path.join(this.projectDirectory, "profile.json");
+        this.projectProfilingJSONOutputPath = path.join(this.projectDirectory, "profile.json");
         this.outputDirectory = path.join(this.projectDirectory, "build/dist");
         const webpackConfigGenerator = new WebpackConfigGenerator(options);
         this.webpackConfig = webpackConfigGenerator.production(this.outputDirectory);
@@ -85,8 +85,8 @@ export class WebpackBuilder {
                 const statsJSON = stats.toJson();
 
                 if (this.enableProfiling) {
-                    fs.writeFileSync(this.projectProfilingJsonOutputPath, JSON.stringify(statsJSON, null, 2));
-                    this.logger.info(["Generate profile for analysis", this.projectProfilingJsonOutputPath]);
+                    fs.writeFileSync(this.projectProfilingJSONOutputPath, JSON.stringify(statsJSON, null, 2));
+                    this.logger.info(["Generate profile for analysis", this.projectProfilingJSONOutputPath]);
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {

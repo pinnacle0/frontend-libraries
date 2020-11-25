@@ -13,27 +13,6 @@ import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
-declare module "webpack" {
-    interface TapablePlugin {
-        apply(...args: any[]): void;
-    }
-    /**
-     * Webpack 5 bundles its own type definition file, while the whole ecosystem
-     * relies on "@types/webpack" before version 5.
-     * The type definition of `webpack.Plugin` does not exists in "webpack@5.0.0"
-     * and DefinitelyTyped packages that depended on "@types/webpack@^4.x" breaks.
-     * This is because `import webpack from "webpack"` used to resolve to
-     * "@types/webpack@^4.x", but after upgrading to version 5, the import resolves
-     * to "webpack@5.0.0".
-     *
-     * This is a workaround to allow "@types/*-plugin" packages to work before their
-     * type definitions are properly upgraded.
-     */
-    export abstract class Plugin {
-        apply(compiler: webpack.Compiler): void;
-    }
-}
-
 /**
  * Generates a webpack config with sane defaults and guards
  * the config with additional layers of safety.
@@ -73,9 +52,9 @@ export class WebpackConfigGenerator {
         this.isFastMode = yargs.argv.mode === "fast";
 
         this.configChunkEntries = ConfigChunkEntryFactory.generate({
-            indexName: options.indexName ?? "index",
+            indexName: options.indexName || "index",
             projectSrcDirectory: this.projectSrcDirectory,
-            extraChunks: options.extraChunks ?? {},
+            extraChunks: options.extraChunks || {},
         });
         this.entry = WebpackEntryFactory.generate({
             configChunkEntries: this.configChunkEntries,
@@ -157,11 +136,7 @@ export class WebpackConfigGenerator {
             target: ["web", "es5"],
             output: {
                 path: outputDirectory,
-                filename: this.enableProfiling
-                    ? "static/js/[name].js"
-                    : (pathInfo, assetInfo) => {
-                          return this.configChunkEntries.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename;
-                      },
+                filename: this.enableProfiling ? "static/js/[name].js" : pathInfo => this.configChunkEntries.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename,
                 chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
                 publicPath: this.outputPublicUrlSelect.production,
                 crossOriginLoading: "anonymous",
