@@ -9,8 +9,6 @@ import type {InternalCheckerOptions} from "./type";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-const print = Utility.createConsoleLogger("WebpackBuilder");
-
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {}
 
 /**
@@ -36,6 +34,8 @@ export class WebpackBuilder {
     private readonly webpackConfig: webpack.Configuration;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
+
+    private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
     constructor(options: WebpackBuilderOptions) {
         this.projectDirectory = options.projectDirectory;
@@ -66,17 +66,17 @@ export class WebpackBuilder {
     }
 
     private cleanDistFolder() {
-        print.info("Cleaning build dist folder");
+        this.logger.info("Cleaning build dist folder");
         fs.emptyDirSync(this.outputDirectory);
     }
 
     private copyStatic() {
-        print.info("Copying static assets to build dist folder");
+        this.logger.info("Copying static assets to build dist folder");
         fs.copySync(this.projectStaticDirectory, this.outputDirectory, {dereference: true});
     }
 
     private bundleByWebpack() {
-        print.info("Starting webpack");
+        this.logger.info("Starting webpack");
 
         webpack(this.webpackConfig).run((error?: Error, stats?: webpack.Stats) => {
             if (error) {
@@ -86,19 +86,19 @@ export class WebpackBuilder {
 
                 if (this.enableProfiling) {
                     fs.writeFileSync(this.projectProfilingJsonOutputPath, JSON.stringify(statsJSON, null, 2));
-                    print.info(["Generate profile for analysis", this.projectProfilingJsonOutputPath]);
+                    this.logger.info(["Generate profile for analysis", this.projectProfilingJsonOutputPath]);
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {
-                    print.error("Webpack compiled with the following warning/errors:");
+                    this.logger.error("Webpack compiled with the following warning/errors:");
                     // Use the preset that includes only errors and warnings (https://webpack.js.org/configuration/stats/#stats-presets)
                     console.error(stats.toString("errors-warnings"));
                     process.exit(1);
                 }
 
-                print.info("Build successfully");
+                this.logger.info("Build successfully");
             } else {
-                print.error("Webpack compiler `run()` returns no `error` and no `stats`, this is unexpected.");
+                this.logger.error("Webpack compiler `run()` returns no `error` and no `stats`, this is unexpected.");
                 process.exit(1);
             }
         });
