@@ -2,43 +2,32 @@
 
 This project is to provide two helpers, based on `webpack`:
 
-WebpackUtil favours convention Over configuration.  
-And many tools are intentionally made not configurable.
+Following `Convention Over Configuration`, 
+we provide two all-in-one tools for webpack development and build.
 
 ## `WebpackServerStarter`
 
-Starts a frontend project in localhost.
-
 ```ts
-// projectDirectory/script/start.ts
-import {WebpackServerStarter} from "@pinnacle0/webpack-util";
-import * as path from "path";
 new WebpackServerStarter({
-    apiProxy: null,
     projectDirectory: path.join(__dirname, ".."),
     port: 1234,
 }).run();
 ```
 
--   Creates a `webpack` compiler instance and runs it with `webpack-dev-server`.
--   Does not check project structure, code formatting, linting.
+- Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
+- Starts a `localhost` https server in `1234` port.
 
 ## `WebpackBuilder`
 
-Bundles a frontend project.
-
 ```ts
-// projectDirectory/script/build.ts
-import {WebpackBuilder} from "@pinnacle0/webpack-util";
-import * as path from "path";
 new WebpackBuilder({
     projectDirectory: path.join(__dirname, ".."),
 }).run();
 ```
 
--   Checks if the project structure complies to convention described below.
--   Checks if source files complies with formatter and linters settings.
--   Creates a `webpack` compiler instance and performs a production build.
+- Checks if the project structure complies to convention described below.
+- Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+- Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 

@@ -6,8 +6,6 @@ import DevServer from "webpack-dev-server";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-const print = Utility.createConsoleLogger("WebpackServerStarter");
-
 // prettier-ignore
 export interface WebpackServerStarterOptions extends
         Pick<WebpackConfigGeneratorOptions,
@@ -16,11 +14,11 @@ export interface WebpackServerStarterOptions extends
             | "extraChunks"
             | "extraPrioritizedResolvedExtensions"
         > {
-    apiProxy: {
+    port: number;
+    apiProxy?: {
         target: string;
         context: string[];
-    } | null;
-    port: number;
+    };
 }
 
 /**
@@ -34,11 +32,14 @@ export class WebpackServerStarter {
     private readonly projectDirectory: string;
     private readonly devServerConfigContentBase: string;
     private readonly port: number;
-    private readonly apiProxy: {
-        target: string;
-        context: string[];
-    } | null;
+    private readonly apiProxy:
+        | {
+              target: string;
+              context: string[];
+          }
+        | undefined;
     private readonly webpackConfig: webpack.Configuration;
+    private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
 
     constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraChunks, extraPrioritizedResolvedExtensions}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
@@ -55,11 +56,11 @@ export class WebpackServerStarter {
 
     run() {
         try {
-            print.info(["Starting dev server on port", String(this.port)]);
+            this.logger.info(["Starting dev server on port", String(this.port)]);
             const server = this.createDevServerInstance();
             server.listen(this.port, "0.0.0.0", error => {
                 if (error) {
-                    print.error(error);
+                    this.logger.error(error);
                     console.error(error);
                     process.exit(1);
                 }
@@ -72,7 +73,7 @@ export class WebpackServerStarter {
                 });
             }
         } catch (e) {
-            print.error(e);
+            this.logger.error(e);
             console.error(e);
             process.exit(1);
         }
