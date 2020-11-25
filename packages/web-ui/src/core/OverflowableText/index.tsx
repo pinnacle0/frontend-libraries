@@ -26,23 +26,38 @@ export class OverflowableText extends React.PureComponent<Props, States> {
         };
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.text !== prevProps.text) {
+            this.updateTextOverflow();
+        }
+    }
+
     componentDidMount() {
+        this.updateTextOverflow();
+    }
+
+    updateTextOverflow = () => {
         const {current} = this.textRef;
         this.setState({overflow: (current && current.clientWidth > this.props.maxWidth) || false});
-    }
+    };
 
     render() {
         const {text, style, maxWidth, className = ""} = this.props;
 
-        return this.state.overflow ? (
-            <Tooltip className={`g-overflowable-text ${className}`} overlay={text}>
-                <div className="wrap-text" style={{...style, width: maxWidth}}>
+        return (
+            <div className={`g-overflowable-text ${className}`}>
+                {this.state.overflow ? (
+                    <Tooltip overlay={text}>
+                        <div className="wrap-text" style={{...style, width: maxWidth}}>
+                            {text}
+                        </div>
+                    </Tooltip>
+                ) : (
+                    <div style={{display: "inline-block", ...style}}>{text}</div>
+                )}
+                <div ref={this.textRef} className="shadow-text">
                     {text}
                 </div>
-            </Tooltip>
-        ) : (
-            <div ref={this.textRef} style={{display: "inline-block", ...style}}>
-                {text}
             </div>
         );
     }

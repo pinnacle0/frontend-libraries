@@ -1,12 +1,21 @@
 .g-overflowable-text {
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    overflow-wrap: normal;
-    white-space: nowrap;
+    position: relative;
 
-    .wrap-text {
-        display: inline-block;
+    > .wrap-text {
+        &,
+        & > * {
+            max-width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+            overflow-wrap: normal;
+            white-space: nowrap;
+        }
+    }
+
+    > .shadow-text {
+        position: absolute;
+        visibility: hidden;
+        z-index: -10000;
     }
 }
