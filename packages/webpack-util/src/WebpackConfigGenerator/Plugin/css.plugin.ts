@@ -1,6 +1,7 @@
 import CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type webpack from "webpack";
+import {WebpackConfigGeneratorSerializableType} from "../../type";
 
 interface ExtractCssPluginOptions {
     enableProfiling: boolean;
@@ -13,7 +14,7 @@ interface ExtractCssPluginOptions {
 export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
     const plugin = new CssMinimizerWebpackPlugin();
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: `CssMinimizerWebpackPlugin`,
             pluginOptions: undefined,
@@ -37,7 +38,7 @@ export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions)
     };
     const plugin = new MiniCssExtractPlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: `MiniCssExtractPlugin`,
             pluginOptions: options,

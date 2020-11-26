@@ -1,7 +1,7 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import ScriptExtHtmlWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
-import type {HTMLEntry} from "../../type";
+import type {HTMLEntry, WebpackConfigGeneratorSerializableType} from "../../type";
 
 interface HtmlPluginOptions {
     entry: HTMLEntry;
@@ -37,7 +37,7 @@ export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginIns
     };
     const plugin = new HTMLWebpackPlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "HTMLWebpackPlugin",
             pluginOptions: options,
@@ -59,7 +59,7 @@ export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
     };
     const plugin = new ScriptExtHtmlWebpackPlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "ScriptExtHtmlWebpackPlugin",
             pluginOptions: options,

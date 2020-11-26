@@ -143,6 +143,17 @@ export interface InternalCheckerOptions {
     extraCheckDirectories?: string[];
 }
 
+export type WebpackConfigGeneratorSerializableType =
+    | {
+          "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall";
+          pluginName: string;
+          pluginOptions: any;
+      }
+    | {
+          "@@WP_CONFIG_GEN_TYPE": "Implementation";
+          implementation: string;
+      };
+
 declare module "webpack" {
     interface TapablePlugin {
         apply(...args: any[]): void;

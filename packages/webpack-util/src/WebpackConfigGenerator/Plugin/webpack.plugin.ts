@@ -1,4 +1,5 @@
 import webpack from "webpack";
+import {WebpackConfigGeneratorSerializableType} from "../../type";
 
 interface WebpackProgressPluginOptions {
     enableProfiling: boolean;
@@ -11,7 +12,7 @@ interface WebpackProgressPluginOptions {
 export function webpackHmrPlugin(): webpack.WebpackPluginInstance {
     const plugin = new webpack.HotModuleReplacementPlugin();
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.HotModuleReplacementPlugin",
             pluginOptions: undefined,
@@ -31,7 +32,7 @@ export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOp
     };
     const plugin = new webpack.ProgressPlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.ProgressPlugin",
             pluginOptions: options,

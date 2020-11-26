@@ -4,7 +4,7 @@ import prettyFormat from "pretty-format";
 import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
-import type {ChunkEntry, WebpackConfigGeneratorOptions} from "../type";
+import type {ChunkEntry, WebpackConfigGeneratorOptions, WebpackConfigGeneratorSerializableType} from "../type";
 import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
 import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
@@ -202,8 +202,8 @@ export class WebpackConfigGenerator {
                                 return false;
                             }
                         },
-                        serialize(val, config, indentation, depth, refs, printer) {
-                            const _ = (val as any).toWebpackConfigGeneratorSerializableType();
+                        serialize(val: any, config, indentation, depth, refs, printer) {
+                            const _ = val.toWebpackConfigGeneratorSerializableType() as WebpackConfigGeneratorSerializableType;
                             switch (_["@@WP_CONFIG_GEN_TYPE"]) {
                                 case "WebpackPluginConstructorCall":
                                     return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;

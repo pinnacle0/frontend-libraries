@@ -1,4 +1,5 @@
 import webpack from "webpack";
+import {WebpackConfigGeneratorSerializableType} from "../../type";
 
 /**
  * Prevents moment locales from being bundled by importing moment
@@ -21,7 +22,7 @@ export function ignoreMomentLocalePlugin(): webpack.WebpackPluginInstance {
     };
     const plugin = new webpack.IgnorePlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.IgnorePlugin",
             pluginOptions: options,

@@ -1,5 +1,6 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type webpack from "webpack";
+import {WebpackConfigGeneratorSerializableType} from "../../type";
 import {RegExpUtil} from "./RegExpUtil";
 
 interface StylesheetRuleDeps {
@@ -36,7 +37,7 @@ function postcssLoader(): webpack.RuleSetUseItem {
     // eslint-disable-next-line @typescript-eslint/no-var-requires -- Need to inject `toWebpackConfigGeneratorSerializableType` implementation
     const autoprefixer = require("autoprefixer");
     Object.defineProperty(autoprefixer, "toWebpackConfigGeneratorSerializableType", {
-        value: () => ({
+        value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "Implementation",
             implementation: `require("autoprefixer")`,
         }),
