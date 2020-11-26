@@ -3,6 +3,8 @@ import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
     tsconfigFilepath: string;
+    transpileOnly: boolean;
+    experimentalWatchApi?: boolean;
 }
 
 /**
@@ -11,7 +13,7 @@ interface Deps {
  *
  * @see https://github.com/TypeStrong/ts-loader
  */
-export function tsRule({tsconfigFilepath}: Deps): webpack.RuleSetRule {
+export function tsRule({tsconfigFilepath, transpileOnly, experimentalWatchApi = false}: Deps): webpack.RuleSetRule {
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
         use: [
@@ -24,6 +26,8 @@ export function tsRule({tsconfigFilepath}: Deps): webpack.RuleSetRule {
                         module: "esnext",
                         target: "es5",
                     },
+                    transpileOnly,
+                    experimentalWatchApi,
                 },
             },
         ],

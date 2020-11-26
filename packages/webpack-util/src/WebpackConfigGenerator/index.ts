@@ -14,12 +14,7 @@ import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
 
 /**
- * Generates a webpack config with sane defaults and guards
- * the config with additional layers of safety.
- *
- * Most errors thrown by webpack are 💩 and confusing,
- * so ConfigGenerator tries to validate as much as possible
- * and throw descriptive error messages.
+ * Generates a webpack config with sane defaults.
  */
 export class WebpackConfigGenerator {
     readonly env: string | null;
@@ -94,6 +89,7 @@ export class WebpackConfigGenerator {
         return {
             mode: "development",
             entry: this.entry,
+            target: ["web", "es5"],
             output: {
                 filename: "static/js/[name].js",
                 publicPath: "/",
@@ -113,16 +109,14 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    // prettier-ignore
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, experimentalWatchApi: true}), //
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
-                // prettier-ignore
-                ...this.htmlWebpackPluginInstances,
+                ...this.htmlWebpackPluginInstances, //
                 Plugin.ignoreMomentLocale(),
                 Plugin.webpack.hmr(),
                 Plugin.webpack.progress({enableProfiling: false}),
@@ -155,8 +149,7 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
                 minimizer: [
-                    // prettier-ignore
-                    Plugin.minimizer.terser({sourceMap: true}),
+                    Plugin.minimizer.terser({sourceMap: true}), //
                     Plugin.minimizer.cssMinimizer(),
                 ],
             },
@@ -167,16 +160,14 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    // prettier-ignore
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: this.isFastMode}), //
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),
                 ],
             },
             plugins: [
-                // prettier-ignore
-                ...this.htmlWebpackPluginInstances,
+                ...this.htmlWebpackPluginInstances, //
                 Plugin.crossOriginScriptTag(),
                 Plugin.ignoreMomentLocale(),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
