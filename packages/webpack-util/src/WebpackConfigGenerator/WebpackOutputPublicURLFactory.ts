@@ -1,7 +1,6 @@
 import fs from "fs";
 
-// TODO: naming URL
-export interface WebpackOutputPublicUrlFactoryOptions {
+export interface WebpackOutputPublicURLFactoryOptions {
     env: string | null;
     /**
      * Function to dynamically compute additional webpack config from `env`.
@@ -10,8 +9,8 @@ export interface WebpackOutputPublicUrlFactoryOptions {
     dynamicWebpackConfigResolver: ((env: string) => string) | undefined;
 }
 
-export class WebpackOutputPublicUrlFactory {
-    static generate({env, dynamicWebpackConfigResolver}: WebpackOutputPublicUrlFactoryOptions): string {
+export class WebpackOutputPublicURLFactory {
+    static generate({env, dynamicWebpackConfigResolver}: WebpackOutputPublicURLFactoryOptions): string {
         if (!env || !dynamicWebpackConfigResolver) {
             return "/";
         }

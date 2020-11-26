@@ -8,7 +8,7 @@ import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
-import {WebpackOutputPublicUrlFactory} from "./WebpackOutputPublicUrlFactory";
+import {WebpackOutputPublicURLFactory} from "./WebpackOutputPublicURLFactory";
 import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
@@ -57,7 +57,7 @@ export class WebpackConfigGenerator {
         this.htmlWebpackPluginInstances = HtmlWebpackPluginsFactory.generate({
             configChunkEntries: this.configChunkEntries,
         });
-        this.outputPublicPath = WebpackOutputPublicUrlFactory.generate({
+        this.outputPublicPath = WebpackOutputPublicURLFactory.generate({
             env: this.env,
             dynamicWebpackConfigResolver: options.dynamicWebpackConfigResolver,
         });
