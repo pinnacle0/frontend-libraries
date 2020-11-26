@@ -6,6 +6,7 @@ interface HtmlWebpackPluginsFactoryOptions {
     configChunkEntries: ChunkEntry[];
 }
 
+// TODO: rename to HTMLWebpackPluginsFactory (more than once, pls rename ALL)
 export class HtmlWebpackPluginsFactory {
     static generate({configChunkEntries}: HtmlWebpackPluginsFactoryOptions): webpack.Plugin[] {
         const htmlPlugins: webpack.Plugin[] = [];

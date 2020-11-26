@@ -1,5 +1,6 @@
 import fs from "fs";
 
+// TODO: naming URL
 export interface WebpackOutputPublicUrlFactoryOptions {
     env: string | null;
     /**
@@ -23,25 +24,12 @@ export class WebpackOutputPublicUrlFactory {
 
         // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- file checked to exists in file system
         const dynamicWebpackConfig = require(dynamicWebpackConfigJsonFilepath);
+        const publicPath: unknown = dynamicWebpackConfig.publicPath;
 
-        if (!("publicPath" in dynamicWebpackConfig)) {
-            throw new Error(`Cannot find key "publicPath" in dynamicWebpackConfigJson. (env: ${env}; dynamicWebpackConfigJsonFilepath: ${dynamicWebpackConfigJsonFilepath})`);
+        if (typeof publicPath !== "string") {
+            throw new Error(`"publicPath" from ${dynamicWebpackConfigJsonFilepath} is not string`);
         }
 
-        const publicPath: any = dynamicWebpackConfig.publicPath;
-
-        if (!(typeof publicPath === "string" && /^\/\/[\w-]+(\.[\w-]+)+\/$/.test(publicPath))) {
-            throw new Error(
-                [
-                    `Invalid key "publicPath" in dynamicWebpackConfigJson.`,
-                    `PublicPath must be type string and have pattern "//some.domain-name.com/",`,
-                    `but received type (${typeof publicPath}) and value (${JSON.stringify(publicPath)}).`,
-                    `env: "${env}"`,
-                    `dynamicWebpackConfigJsonFilepath: "${dynamicWebpackConfigJsonFilepath}"`,
-                ].join("\n")
-            );
-        }
-
-        return publicPath as string;
+        return publicPath;
     }
 }
