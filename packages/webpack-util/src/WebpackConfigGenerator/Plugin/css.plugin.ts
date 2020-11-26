@@ -29,7 +29,7 @@ export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
  */
 export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions): webpack.WebpackPluginInstance {
     const options: MiniCssExtractPlugin.PluginOptions = {
-        // TODO: try [hash]
+        // TODO/Lok: try [hash]
         filename: enableProfiling ? "static/css/[name].[contenthash:8].css" : "static/css/[contenthash:8].css",
         // order of css output depends on the order of imports in js,
         // unless all imports in js are sorted (e.g. by alphabetical order),
