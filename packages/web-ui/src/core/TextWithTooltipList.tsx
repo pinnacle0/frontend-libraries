@@ -11,7 +11,6 @@ export interface Props {
     list: Array<TooltipListProps | "-">;
     label?: string | React.ReactElement; // If undefined, it will use the first list item as label
     onClick?: () => void;
-    onVisibleChange?: (visible: boolean) => void;
 }
 
 export class TextWithTooltipList extends React.PureComponent<Props> {
@@ -39,7 +38,7 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
     };
 
     render() {
-        const {list, label: propLabel, onClick, onVisibleChange} = this.props;
+        const {list, label: propLabel, onClick} = this.props;
         if (list.length === 0) {
             return propLabel || "-";
         }
@@ -57,7 +56,7 @@ export class TextWithTooltipList extends React.PureComponent<Props> {
         );
 
         return (
-            <Tooltip placement="bottom" title={this.renderTooltip()} onVisibleChange={onVisibleChange}>
+            <Tooltip placement="bottom" title={this.renderTooltip()}>
                 {/* Must wrap with a <div> since the child node of <Tooltip> must accept certain methods. */}
                 {/* See https://ant.design/components/tooltip/#Note */}
                 <div>
