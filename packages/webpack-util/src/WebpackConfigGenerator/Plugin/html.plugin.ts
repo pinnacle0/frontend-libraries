@@ -36,9 +36,9 @@ export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginIns
         },
     };
     const plugin = new HTMLWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "HTMLWebpackPlugin",
             pluginOptions: options,
         }),
@@ -58,9 +58,9 @@ export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
         },
     };
     const plugin = new ScriptExtHtmlWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "ScriptExtHtmlWebpackPlugin",
             pluginOptions: options,
         }),

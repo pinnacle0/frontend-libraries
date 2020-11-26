@@ -16,9 +16,9 @@ export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackP
         },
     };
     const plugin = new TerserWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "TerserWebpackPlugin",
             pluginOptions: options,
         }),

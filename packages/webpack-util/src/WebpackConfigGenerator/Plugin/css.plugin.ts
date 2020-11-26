@@ -12,14 +12,10 @@ interface ExtractCssPluginOptions {
  */
 export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
     const plugin = new CssMinimizerWebpackPlugin();
-    Object.defineProperty(plugin, "toJSON", {
-        enumerable: false,
-        value: () => "(constructor call) `new CssMinimizerWebpackPlugin()`",
-    });
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
-            pluginName: "CssMinimizerWebpackPlugin",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
+            pluginName: `CssMinimizerWebpackPlugin`,
             pluginOptions: undefined,
         }),
     });
@@ -40,10 +36,10 @@ export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions)
         ignoreOrder: true,
     };
     const plugin = new MiniCssExtractPlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
-            pluginName: "MiniCssExtractPlugin",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
+            pluginName: `MiniCssExtractPlugin`,
             pluginOptions: options,
         }),
     });

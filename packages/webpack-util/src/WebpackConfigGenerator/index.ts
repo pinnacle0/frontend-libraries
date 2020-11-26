@@ -11,6 +11,7 @@ import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
 import {WebpackOutputPublicURLFactory} from "./WebpackOutputPublicURLFactory";
+import {WebpackPerformanceAssetFilterFactory} from "./WebpackPerformanceAssetFilterFactory";
 import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
 import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
 import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
@@ -161,7 +162,7 @@ export class WebpackConfigGenerator {
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
                 maxAssetSize: this.maxAssetKiloByte * 1000,
-                assetFilter: (fileName: string) => Constant.mediaExtensions.every(_ => !fileName.endsWith(_)),
+                assetFilter: WebpackPerformanceAssetFilterFactory.generate(),
             },
             module: {
                 rules: [
@@ -192,6 +193,28 @@ export class WebpackConfigGenerator {
                 escapeString: false,
                 min: true,
                 printFunctionName: false,
+                plugins: [
+                    {
+                        test(val: any) {
+                            try {
+                                return typeof val["toWebpackConfigGeneratorSerializableType"] === "function";
+                            } catch {
+                                return false;
+                            }
+                        },
+                        serialize(val, config, indentation, depth, refs, printer) {
+                            const _ = (val as any).toWebpackConfigGeneratorSerializableType();
+                            switch (_["@@WP_CONFIG_GEN_TYPE"]) {
+                                case "WebpackPluginConstructorCall":
+                                    return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;
+                                case "Implementation":
+                                    return _.implementation;
+                                default:
+                                    throw new Error(`Cannot serialize WebpackConfigGenerator type for printing to console. This is a bug in "@pinnacle0/webpack-util".`);
+                            }
+                        },
+                    },
+                ],
             })
         );
     }

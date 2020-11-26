@@ -10,9 +10,9 @@ interface WebpackProgressPluginOptions {
  */
 export function webpackHmrPlugin(): webpack.WebpackPluginInstance {
     const plugin = new webpack.HotModuleReplacementPlugin();
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.HotModuleReplacementPlugin",
             pluginOptions: undefined,
         }),
@@ -30,9 +30,9 @@ export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOp
         profile: enableProfiling,
     };
     const plugin = new webpack.ProgressPlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.ProgressPlugin",
             pluginOptions: options,
         }),

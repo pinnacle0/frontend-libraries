@@ -20,9 +20,9 @@ export function ignoreMomentLocalePlugin(): webpack.WebpackPluginInstance {
         contextRegExp: /moment$/,
     };
     const plugin = new webpack.IgnorePlugin(options);
-    return Object.defineProperty(plugin, "toJSON", {
+    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: () => ({
-            type: "WebpackPluginConstructorCall",
+            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
             pluginName: "webpack.IgnorePlugin",
             pluginOptions: options,
         }),

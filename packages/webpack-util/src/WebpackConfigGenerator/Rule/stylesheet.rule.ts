@@ -1,23 +1,11 @@
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import autoprefixer from "autoprefixer";
 
 interface StylesheetRuleDeps {
     minimize: boolean;
 }
 
-/**
- * Handles dependency requests to stylesheet assets (".css", ".less")
- * with `minimize: true` by `lessc` -> transform to js module -> inject to DOM as <style> tag,
- * or with `minimize: false` by `lessc` -> `autoprefixer` with `postcss` -> transform to js module -> extract to stylesheet
- *
- * @see https://webpack.js.org/loaders/css-loader/
- * @see https://webpack.js.org/loaders/less-loader/
- * @see https://webpack.js.org/plugins/mini-css-extract-plugin/
- * @see https://webpack.js.org/loaders/postcss-loader/
- * @see https://webpack.js.org/loaders/style-loader/
- */
 function cssLoader(importLoaders: number): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("css-loader"),
@@ -45,6 +33,14 @@ function miniCssExtractPluginLoader(): webpack.RuleSetUseItem {
 }
 
 function postcssLoader(): webpack.RuleSetUseItem {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires -- Need to inject `toWebpackConfigGeneratorSerializableType` implementation
+    const autoprefixer = require("autoprefixer");
+    Object.defineProperty(autoprefixer, "toWebpackConfigGeneratorSerializableType", {
+        value: () => ({
+            "@@WP_CONFIG_GEN_TYPE": "Implementation",
+            implementation: `require("autoprefixer")`,
+        }),
+    });
     return {
         loader: require.resolve("postcss-loader"),
         options: {
@@ -61,6 +57,17 @@ function styleLoader(): webpack.RuleSetUseItem {
     };
 }
 
+/**
+ * Handles dependency requests to stylesheet assets (".css", ".less")
+ * with `minimize: true` by `lessc` -> transform to js module -> inject to DOM as <style> tag,
+ * or with `minimize: false` by `lessc` -> `autoprefixer` with `postcss` -> transform to js module -> extract to stylesheet
+ *
+ * @see https://webpack.js.org/loaders/css-loader/
+ * @see https://webpack.js.org/loaders/less-loader/
+ * @see https://webpack.js.org/plugins/mini-css-extract-plugin/
+ * @see https://webpack.js.org/loaders/postcss-loader/
+ * @see https://webpack.js.org/loaders/style-loader/
+ */
 export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
     const use: webpack.RuleSetUseItem[] = minimize
         ? [
