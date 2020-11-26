@@ -94,7 +94,8 @@ export class WebpackConfigGenerator {
         const config: webpack.Configuration = {
             mode: "development",
             entry: this.entry,
-            target: ["web", "es5"],
+            // https://github.com/webpack/webpack-dev-server/issues/2758 Hot-reload will break if we provide list to target
+            target: "web",
             output: {
                 filename: "static/js/[name].js",
                 publicPath: "/",
