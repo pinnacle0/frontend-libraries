@@ -1,4 +1,6 @@
+import {Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
+import prettyFormat from "pretty-format";
 import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
@@ -34,6 +36,8 @@ export class WebpackConfigGenerator {
     private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
     private readonly outputPublicPath: string;
+
+    private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
     constructor(private readonly options: WebpackConfigGeneratorOptions) {
         this.env = (yargs.argv.env as string) ?? null;
@@ -72,8 +76,8 @@ export class WebpackConfigGenerator {
             dynamicConfigResolvers: options.dynamicConfigResolvers ?? [],
         });
 
+        this.logger.info("Config constructed:");
         for (const info of [
-            `Webpack Config Constructed:`,
             `-- Code Checking: ${this.isFastMode ? "Minimal Check" : "Default"}`,
             `-- Env: ${this.env || "[N/A]"}`,
             `-- Src Directory: ${this.projectSrcDirectory}`,
@@ -86,7 +90,7 @@ export class WebpackConfigGenerator {
     }
 
     development(): webpack.Configuration {
-        return {
+        const config: webpack.Configuration = {
             mode: "development",
             entry: this.entry,
             target: ["web", "es5"],
@@ -122,11 +126,12 @@ export class WebpackConfigGenerator {
                 Plugin.webpack.progress({enableProfiling: false}),
             ],
         };
+        this.printConfig(config);
+        return config;
     }
 
     production(outputDirectory: string): webpack.Configuration {
-        // TODO: console log complete config
-        return {
+        const config: webpack.Configuration = {
             mode: "production",
             entry: this.entry,
             target: ["web", "es5"],
@@ -174,6 +179,21 @@ export class WebpackConfigGenerator {
                 Plugin.webpack.progress({enableProfiling: this.enableProfiling}),
             ],
         };
+        this.printConfig(config);
+        return config;
+    }
+
+    private printConfig(config: webpack.Configuration) {
+        this.logger.info("Full webpack config:");
+        console.info(
+            prettyFormat(config, {
+                callToJSON: true,
+                escapeRegex: false,
+                escapeString: false,
+                min: true,
+                printFunctionName: false,
+            })
+        );
     }
 }
 

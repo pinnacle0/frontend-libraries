@@ -12,7 +12,7 @@ interface HtmlPluginOptions {
  * with the respective hashed output filenames.
  */
 export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginInstance {
-    return new HTMLWebpackPlugin({
+    const options: HTMLWebpackPlugin.Options = {
         template: entry.htmlPath,
         filename: `${entry.name}.html`,
         chunks: [entry.name],
@@ -34,6 +34,14 @@ export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginIns
             removeTagWhitespace: true,
             useShortDoctype: true,
         },
+    };
+    const plugin = new HTMLWebpackPlugin(options);
+    return Object.defineProperty(plugin, "toJSON", {
+        value: () => ({
+            type: "WebpackPluginConstructorCall",
+            pluginName: "HTMLWebpackPlugin",
+            pluginOptions: options,
+        }),
     });
 }
 
@@ -42,11 +50,19 @@ export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginIns
  * HTMLWebpackPlugin. Used to add `crossorigin="anonymous"`.
  */
 export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
-    return new ScriptExtHtmlWebpackPlugin({
+    const options: ScriptExtHtmlWebpackPlugin.Options = {
         custom: {
             test: /\.js$/,
             attribute: "crossorigin",
             value: "anonymous",
         },
+    };
+    const plugin = new ScriptExtHtmlWebpackPlugin(options);
+    return Object.defineProperty(plugin, "toJSON", {
+        value: () => ({
+            type: "WebpackPluginConstructorCall",
+            pluginName: "ScriptExtHtmlWebpackPlugin",
+            pluginOptions: options,
+        }),
     });
 }

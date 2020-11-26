@@ -9,7 +9,14 @@ interface WebpackProgressPluginOptions {
  * 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️ Must not be used in production. 🙅🏼‍♀️ 🙅🏼‍♀️ 🙅🏼‍♀️
  */
 export function webpackHmrPlugin(): webpack.WebpackPluginInstance {
-    return new webpack.HotModuleReplacementPlugin();
+    const plugin = new webpack.HotModuleReplacementPlugin();
+    return Object.defineProperty(plugin, "toJSON", {
+        value: () => ({
+            type: "WebpackPluginConstructorCall",
+            pluginName: "webpack.HotModuleReplacementPlugin",
+            pluginOptions: undefined,
+        }),
+    });
 }
 
 /**
@@ -18,7 +25,16 @@ export function webpackHmrPlugin(): webpack.WebpackPluginInstance {
  * `$ webpack --progress`
  */
 export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOptions): webpack.WebpackPluginInstance {
-    return new webpack.ProgressPlugin({
+    type ProgressPluginOptions = ConstructorParameters<typeof webpack.ProgressPlugin>[0];
+    const options: ProgressPluginOptions = {
         profile: enableProfiling,
+    };
+    const plugin = new webpack.ProgressPlugin(options);
+    return Object.defineProperty(plugin, "toJSON", {
+        value: () => ({
+            type: "WebpackPluginConstructorCall",
+            pluginName: "webpack.ProgressPlugin",
+            pluginOptions: options,
+        }),
     });
 }
