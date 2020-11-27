@@ -198,7 +198,7 @@ export class WebpackConfigGenerator {
                     {
                         test(val: any) {
                             try {
-                                return typeof val["toWebpackConfigGeneratorSerializableType"] === "function";
+                                return typeof val.toWebpackConfigGeneratorSerializableType === "function";
                             } catch {
                                 return false;
                             }
