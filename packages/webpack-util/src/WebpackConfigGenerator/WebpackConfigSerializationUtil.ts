@@ -7,13 +7,6 @@ export interface SerialiableWebpackPluginDescriptor {
     pluginOptions: any;
 }
 
-export interface SerializableImplementationDescriptor {
-    "@@WP_CONFIG_GEN_TYPE": "Implementation";
-    implementation: string;
-}
-
-export type SerializableType = SerialiableWebpackPluginDescriptor | SerializableImplementationDescriptor;
-
 export class WebpackConfigSerializationUtil {
     static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginCtor: new () => T): webpack.WebpackPluginInstance;
     static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginCtor: new (_: OptType) => T, options: OptType): webpack.WebpackPluginInstance;
@@ -25,17 +18,6 @@ export class WebpackConfigSerializationUtil {
                     "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
                     pluginName: name,
                     pluginOptions: options,
-                };
-            },
-        });
-    }
-
-    static implementation<T>(implDescription: string, expression: T): T {
-        return Object.defineProperty(expression, "toWebpackConfigSerializableType", {
-            value(): SerializableImplementationDescriptor {
-                return {
-                    "@@WP_CONFIG_GEN_TYPE": "Implementation",
-                    implementation: implDescription,
                 };
             },
         });
@@ -58,15 +40,8 @@ export class WebpackConfigSerializationUtil {
                         }
                     },
                     serialize(val: any, config, indentation, depth, refs, printer) {
-                        const _ = val.toWebpackConfigSerializableType() as SerializableType;
-                        switch (_["@@WP_CONFIG_GEN_TYPE"]) {
-                            case "WebpackPluginConstructorCall":
-                                return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;
-                            case "Implementation":
-                                return _.implementation;
-                            default:
-                                throw new Error(`Cannot serialize WebpackConfigGenerator type for printing to console. This is a bug in "@pinnacle0/webpack-util".`);
-                        }
+                        const _ = val.toWebpackConfigSerializableType() as SerialiableWebpackPluginDescriptor;
+                        return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;
                     },
                 },
             ],
