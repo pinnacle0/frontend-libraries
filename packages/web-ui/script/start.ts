@@ -4,6 +4,7 @@ import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 
+// TODO/Lok: is it possible to use webpack-util here? discuss
 export interface ImageUploadResponse {
     imageURL: string;
     imageKey: string;
