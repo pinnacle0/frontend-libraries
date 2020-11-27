@@ -150,6 +150,7 @@ export type WebpackConfigGeneratorSerializableType =
           pluginOptions: any;
       }
     | {
+          // TODO: remove this case
           "@@WP_CONFIG_GEN_TYPE": "Implementation";
           implementation: string;
       };
