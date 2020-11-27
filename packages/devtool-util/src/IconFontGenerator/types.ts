@@ -3,6 +3,7 @@ export interface WebIconFontGeneratorOptions {
     staticPath: string;
     templatePath: string;
     cssURL?: string;
+    fontFamily?: string; // TODO: Review should we extract fontFamily from generated css
 }
 
 export interface AppIconFontGeneratorOptions {

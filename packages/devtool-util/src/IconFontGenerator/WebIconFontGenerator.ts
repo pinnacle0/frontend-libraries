@@ -13,6 +13,7 @@ export class WebIconFontGenerator {
     private readonly staticPath: string;
     private readonly templatePath: string;
     private readonly cssURL: string;
+    private readonly fontFamily: string;
 
     private cssContent: string = "";
     private iconClassList: string[] = [];
@@ -22,6 +23,7 @@ export class WebIconFontGenerator {
         this.staticPath = options.staticPath;
         this.templatePath = options.templatePath;
         this.cssURL = options.cssURL || yargs.argv._[0];
+        this.fontFamily = options.fontFamily || "iconfont";
     }
 
     async run() {
@@ -84,6 +86,7 @@ export class WebIconFontGenerator {
                 .filter(_ => _)
                 .join(","),
             this.cssContent.match(/\.icon-(.|\n)*?\}/g)!.join("\n"),
+            this.fontFamily,
         ]);
     }
 
