@@ -6,7 +6,7 @@ interface Props {
 }
 
 interface State {
-    currentActiveIndex: number; // Range: [-1, children.length], 1st & last are cloned
+    current: number; // Range: [-1, children.length], 1st & last are cloned
 }
 
 export class Carousel3D extends React.PureComponent<Props, State> {
@@ -20,7 +20,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            currentActiveIndex: 0,
+            current: 0,
         };
     }
 
@@ -29,7 +29,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate() {
-        if (this.state.currentActiveIndex === React.Children.count(this.props.children)) {
+        if (this.state.current === React.Children.count(this.props.children)) {
             this.isChildTransition = false;
         } else {
             this.isChildTransition = true;
@@ -41,19 +41,31 @@ export class Carousel3D extends React.PureComponent<Props, State> {
         clearTimeout(this.timer);
     }
 
+    jumpToPrevSlide = () => {
+        clearTimeout(this.timer);
+        this.setState(prev => ({current: prev.current === 0 ? React.Children.count(this.props.children) - 1 : prev.current - 1}));
+        this.isTimerComplete = true;
+    };
+
+    jumpToNextSlide = () => {
+        clearTimeout(this.timer);
+        this.setState(prev => ({current: prev.current === React.Children.count(this.props.children) ? 0 : prev.current + 1}));
+        this.isTimerComplete = true;
+    };
+
     jumpToSlide = (index: number) => {
         clearTimeout(this.timer);
+        this.setState({current: index});
         this.isTimerComplete = true;
-        this.setState({currentActiveIndex: index});
     };
 
     startAnimation = () => {
         if (!this.isTimerComplete) {
             this.isTimerComplete = true;
-            if (this.state.currentActiveIndex === React.Children.count(this.props.children)) {
-                this.setState({currentActiveIndex: 0});
+            if (this.state.current === React.Children.count(this.props.children)) {
+                this.setState({current: 0});
             } else {
-                this.timer = window.setTimeout(() => this.setState({currentActiveIndex: this.state.currentActiveIndex + 1}), this.autoPlayInterval);
+                this.timer = window.setTimeout(() => this.setState({current: this.state.current + 1}), this.autoPlayInterval);
             }
         }
     };
@@ -71,7 +83,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
 
     render() {
         const {children} = this.props;
-        const {currentActiveIndex} = this.state;
+        const {current} = this.state;
         const childrenLength = React.Children.count(children);
         if (childrenLength <= 1) {
             return (
@@ -82,45 +94,33 @@ export class Carousel3D extends React.PureComponent<Props, State> {
         } else {
             return (
                 <div className={`g-carousel-3d ${this.isChildTransition ? "has-transition" : ""}`} onTransitionEnd={this.startAnimation}>
-                    <div className={`child-slide child-clone ${currentActiveIndex === -1 ? "pre" : ""}`}>{children[childrenLength - 2]}</div>
-                    <div className={`child-slide child-clone ${currentActiveIndex === -1 ? "active" : ""} ${currentActiveIndex === 0 ? "pre" : ""} `}>{children[childrenLength - 1]}</div>
+                    <div className={`child-slide child-clone ${current === -1 ? "pre" : ""}`}>{children[childrenLength - 2]}</div>
+                    <div className={`child-slide child-clone ${current === -1 ? "active" : ""} ${current === 0 ? "pre" : ""} `}>{children[childrenLength - 1]}</div>
                     {React.Children.map(children, (child, key) => (
                         <div
-                            className={`child-slide ${currentActiveIndex === key - 1 ? "next" : currentActiveIndex === key ? "active" : currentActiveIndex === key + 1 ? "pre" : ""}`}
                             key={key}
-                            onMouseEnter={() => {
-                                if (currentActiveIndex === key) {
-                                    this.handleMouseEnter();
-                                }
-                            }}
-                            onMouseLeave={() => {
-                                if (currentActiveIndex === key) {
-                                    this.handleMouseLeave();
-                                }
-                            }}
+                            className={`child-slide ${current === key - 1 ? "next" : current === key ? "active" : current === key + 1 ? "pre" : ""}`}
+                            onMouseEnter={() => current === key && this.handleMouseEnter()}
+                            onMouseLeave={() => current === key && this.handleMouseLeave()}
                         >
                             {child}
-                            <div className="arrow arrow-left" onClick={() => this.jumpToSlide(currentActiveIndex - 1 === -1 ? children.length - 1 : currentActiveIndex - 1)}>
+                            <div className="arrow arrow-left" onClick={this.jumpToPrevSlide}>
                                 &#x3c;
                             </div>
-                            <div className="arrow arrow-right" onClick={() => this.jumpToSlide(currentActiveIndex + 1 === children.length ? 0 : currentActiveIndex + 1)}>
+                            <div className="arrow arrow-right" onClick={this.jumpToNextSlide}>
                                 &#x3e;
                             </div>
                         </div>
                     ))}
-                    <div className={`child-slide child-clone ${currentActiveIndex === childrenLength ? "active" : ""} ${currentActiveIndex === childrenLength - 1 ? "next" : ""}`}>{children[0]}</div>
-                    <div className={`child-slide child-clone ${currentActiveIndex === childrenLength ? "next" : ""}`}>{children[1]}</div>
+                    <div className={`child-slide child-clone ${current === childrenLength ? "active" : ""} ${current === childrenLength - 1 ? "next" : ""}`}>{children[0]}</div>
+                    <div className={`child-slide child-clone ${current === childrenLength ? "next" : ""}`}>{children[1]}</div>
                     <div className="pagination">
-                        {React.Children.map(children, (child, key) => (
+                        {React.Children.map(children, (_, key) => (
                             <div
-                                className={currentActiveIndex % childrenLength === key ? "active" : ""}
                                 key={key}
+                                className={current % childrenLength === key ? "active" : ""}
                                 onClick={() => this.jumpToSlide(key)}
-                                onMouseEnter={() => {
-                                    if (currentActiveIndex === key) {
-                                        this.handleMouseEnter();
-                                    }
-                                }}
+                                onMouseEnter={() => current === key && this.handleMouseEnter()}
                             />
                         ))}
                     </div>
