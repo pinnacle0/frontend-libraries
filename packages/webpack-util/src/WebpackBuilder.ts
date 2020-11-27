@@ -82,8 +82,8 @@ export class WebpackBuilder {
                 throw error;
             } else if (stats) {
                 const statsJSON = stats.toJson();
-                fs.writeFileSync("error.json", stats.toJson());
                 if (this.enableProfiling) {
+                    fs.writeFileSync(this.projectProfilingJSONOutputPath, JSON.stringify(statsJSON, null, 2));
                     this.logger.info(["Generate profile for analysis", this.projectProfilingJSONOutputPath]);
                 }
 
