@@ -6,7 +6,7 @@ import yargs from "yargs";
 import {Constant} from "../Constant";
 import type {EntryDescriptor, WebpackConfigGeneratorOptions, WebpackConfigGeneratorSerializableType} from "../type";
 import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
-import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
+import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
@@ -59,7 +59,7 @@ export class WebpackConfigGenerator {
         this.entry = WebpackEntryFactory.generate({
             configEntryDescriptors: this.configEntryDescriptors,
         });
-        this.htmlWebpackPluginInstances = HtmlWebpackPluginsFactory.generate({
+        this.htmlWebpackPluginInstances = HTMLWebpackPluginsFactory.generate({
             configEntryDescriptors: this.configEntryDescriptors,
         });
         this.outputPublicPath = WebpackOutputPublicURLFactory.generate({

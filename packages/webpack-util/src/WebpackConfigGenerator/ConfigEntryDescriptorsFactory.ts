@@ -32,7 +32,7 @@ export class ConfigEntryDescriptorsFactory {
 
     private static createEntryDescriptor({name, directory}: {name: string; directory: string}): EntryDescriptor {
         const entryPath = ConfigEntryDescriptorsFactory.findEntryFilepath(directory);
-        const htmlPath = ConfigEntryDescriptorsFactory.findEntryHtmlFilepath(directory);
+        const htmlPath = ConfigEntryDescriptorsFactory.findEntryHTMLFilepath(directory);
 
         if (entryPath === null) {
             throw new Error(`Cannot find entry file for "${name}" in "${directory}", files checked: ${Constant.mainEntryFilenames.join("/")}`);
@@ -67,7 +67,7 @@ export class ConfigEntryDescriptorsFactory {
         return null;
     }
 
-    private static findEntryHtmlFilepath(searchDirectory: string): string | null {
+    private static findEntryHTMLFilepath(searchDirectory: string): string | null {
         if (!(fs.existsSync(searchDirectory) && fs.statSync(searchDirectory).isDirectory())) {
             return null;
         }

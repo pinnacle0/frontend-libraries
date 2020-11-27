@@ -2,13 +2,12 @@ import webpack from "webpack";
 import type {EntryDescriptor} from "../type";
 import {Plugin} from "./Plugin";
 
-interface HtmlWebpackPluginsFactoryOptions {
+interface HTMLWebpackPluginsFactoryOptions {
     configEntryDescriptors: EntryDescriptor[];
 }
 
-// TODO: rename to HTMLWebpackPluginsFactory (more than once, pls rename ALL)
-export class HtmlWebpackPluginsFactory {
-    static generate({configEntryDescriptors}: HtmlWebpackPluginsFactoryOptions): webpack.Plugin[] {
+export class HTMLWebpackPluginsFactory {
+    static generate({configEntryDescriptors}: HTMLWebpackPluginsFactoryOptions): webpack.Plugin[] {
         const htmlPlugins: webpack.Plugin[] = [];
 
         for (const {name, entryPath, htmlPath} of configEntryDescriptors) {

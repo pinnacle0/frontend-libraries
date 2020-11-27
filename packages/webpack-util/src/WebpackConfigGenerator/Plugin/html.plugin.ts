@@ -1,9 +1,9 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
-import ScriptExtHtmlWebpackPlugin from "script-ext-html-webpack-plugin";
+import ScriptExtHTMLWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
 import type {HTMLEntryDescriptor, WebpackConfigGeneratorSerializableType} from "../../type";
 
-interface HtmlPluginOptions {
+interface HTMLPluginOptions {
     entry: HTMLEntryDescriptor;
 }
 
@@ -11,7 +11,7 @@ interface HtmlPluginOptions {
  * Creates a html file from a template with <script> and <link> injected
  * with the respective hashed output filenames.
  */
-export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginInstance {
+export function htmlPlugin({entry}: HTMLPluginOptions): webpack.WebpackPluginInstance {
     const options: HTMLWebpackPlugin.Options = {
         template: entry.htmlPath,
         filename: `${entry.name}.html`,
@@ -50,18 +50,18 @@ export function htmlPlugin({entry}: HtmlPluginOptions): webpack.WebpackPluginIns
  * HTMLWebpackPlugin. Used to add `crossorigin="anonymous"`.
  */
 export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
-    const options: ScriptExtHtmlWebpackPlugin.Options = {
+    const options: ScriptExtHTMLWebpackPlugin.Options = {
         custom: {
             test: /\.js$/,
             attribute: "crossorigin",
             value: "anonymous",
         },
     };
-    const plugin = new ScriptExtHtmlWebpackPlugin(options);
+    const plugin = new ScriptExtHTMLWebpackPlugin(options);
     return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
         value: (): WebpackConfigGeneratorSerializableType => ({
             "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: "ScriptExtHtmlWebpackPlugin",
+            pluginName: "ScriptExtHTMLWebpackPlugin",
             pluginOptions: options,
         }),
     });
