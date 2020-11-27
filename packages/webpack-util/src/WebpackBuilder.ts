@@ -89,12 +89,14 @@ export class WebpackBuilder {
 
                 if (stats.hasErrors() || stats.hasWarnings()) {
                     const {warnings, errors} = this.getWarningsAndErrors(statsJSON);
-                    this.logger.error("Webpack compiled with the following warnings:");
-                    console.error(JSON.stringify(warnings, null, 2));
-                    console.error();
-                    this.logger.error("Webpack compiled with the following errors:");
-                    console.error(JSON.stringify(errors, null, 2));
-                    console.error();
+                    if (warnings.length > 0) {
+                        this.logger.error("Webpack compiled with the following warnings:");
+                        console.error(JSON.stringify(warnings, null, 2));
+                    }
+                    if (errors.length > 0) {
+                        this.logger.error("Webpack compiled with the following errors:");
+                        console.error(JSON.stringify(errors, null, 2));
+                    }
                     process.exit(1);
                 }
 
