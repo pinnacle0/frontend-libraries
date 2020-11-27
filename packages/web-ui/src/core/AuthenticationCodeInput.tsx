@@ -6,7 +6,7 @@ import {i18n} from "../internal/i18n/core";
 import {StringUtil} from "../internal/StringUtil";
 
 export interface Props extends Omit<InputProps, "suffix"> {
-    onSend: () => Promise<boolean>;
+    onSend: () => Promise<void>;
     nextSendInterval?: number; // In second
     autoSendOnMount?: boolean;
     sendButtonText?: string;
@@ -55,13 +55,15 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
 
     onSend = async () => {
         const {nextSendInterval, onSend} = this.props;
-        this.setState({isSending: true});
-        const isSuccess = await onSend();
-        this.setState({isSending: false});
-        if (isSuccess) {
+
+        try {
+            this.setState({isSending: true});
+            await onSend();
             this.setState({nextSendRemainingSecond: nextSendInterval!}, () => {
                 this.timer = window.setInterval(this.updateNextSendRemainingSecond, 1000);
             });
+        } finally {
+            this.setState({isSending: false});
         }
     };
 
