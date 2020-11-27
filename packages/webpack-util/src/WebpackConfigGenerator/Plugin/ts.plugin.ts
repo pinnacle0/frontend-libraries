@@ -1,6 +1,6 @@
 import TerserWebpackPlugin from "terser-webpack-plugin";
 import type webpack from "webpack";
-import {WebpackConfigGeneratorSerializableType} from "../../type";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 interface TerserPluginOptions {
     sourceMap: boolean;
@@ -11,17 +11,9 @@ interface TerserPluginOptions {
  * after bundles/chunks are built.
  */
 export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackPluginInstance {
-    const options: TerserWebpackPlugin.TerserPluginOptions = {
+    return WebpackConfigSerializationUtil.serializablePlugin("TerserWebpackPlugin", TerserWebpackPlugin, {
         terserOptions: {
             sourceMap,
         },
-    };
-    const plugin = new TerserWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: "TerserWebpackPlugin",
-            pluginOptions: options,
-        }),
     });
 }

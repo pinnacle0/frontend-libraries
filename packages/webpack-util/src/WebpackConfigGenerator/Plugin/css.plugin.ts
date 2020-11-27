@@ -1,7 +1,7 @@
 import CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type webpack from "webpack";
-import {WebpackConfigGeneratorSerializableType} from "../../type";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 interface ExtractCssPluginOptions {
     enableProfiling: boolean;
@@ -12,14 +12,7 @@ interface ExtractCssPluginOptions {
  * after bundles/chunks are built.
  */
 export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
-    const plugin = new CssMinimizerWebpackPlugin();
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: `CssMinimizerWebpackPlugin`,
-            pluginOptions: undefined,
-        }),
-    });
+    return WebpackConfigSerializationUtil.serializablePlugin("CssMinimizerWebpackPlugin", CssMinimizerWebpackPlugin);
 }
 
 /**
@@ -28,20 +21,12 @@ export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
  * `Rule.stylesheet({minimize: true})`.
  */
 export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions): webpack.WebpackPluginInstance {
-    const options: MiniCssExtractPlugin.PluginOptions = {
+    return WebpackConfigSerializationUtil.serializablePlugin("MiniCssExtractPlugin", MiniCssExtractPlugin, {
         // TODO/Lok: try [hash]
         filename: enableProfiling ? "static/css/[name].[contenthash:8].css" : "static/css/[contenthash:8].css",
         // order of css output depends on the order of imports in js,
         // unless all imports in js are sorted (e.g. by alphabetical order),
         // this flag must be set to true to avoid error
         ignoreOrder: true,
-    };
-    const plugin = new MiniCssExtractPlugin(options);
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: `MiniCssExtractPlugin`,
-            pluginOptions: options,
-        }),
     });
 }

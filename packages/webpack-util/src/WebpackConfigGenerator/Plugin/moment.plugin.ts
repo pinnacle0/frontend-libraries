@@ -1,5 +1,5 @@
 import webpack from "webpack";
-import {WebpackConfigGeneratorSerializableType} from "../../type";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 /**
  * Prevents moment locales from being bundled by importing moment
@@ -10,8 +10,7 @@ import {WebpackConfigGeneratorSerializableType} from "../../type";
  * (preferably at the entry file).
  */
 export function ignoreMomentLocalePlugin(): webpack.WebpackPluginInstance {
-    type IgnorePluginOptions = ConstructorParameters<typeof webpack.IgnorePlugin>[0];
-    const options: IgnorePluginOptions = {
+    return WebpackConfigSerializationUtil.serializablePlugin("webpack.IgnorePlugin", webpack.IgnorePlugin, {
         // check dependency-request against the provided regex,
         // and exclude resource from final bundle if matched;
         // e.g. `/^\.\/locale$/` matches the dependency-request `require("./locale/" + name)`
@@ -19,13 +18,5 @@ export function ignoreMomentLocalePlugin(): webpack.WebpackPluginInstance {
         // context where the dependency-request originated from;
         // e.g. `/moment$/` matches any directory ending in "moment", such as "<PROJECT_PATH>/node_modules/moment"
         contextRegExp: /moment$/,
-    };
-    const plugin = new webpack.IgnorePlugin(options);
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: "webpack.IgnorePlugin",
-            pluginOptions: options,
-        }),
     });
 }

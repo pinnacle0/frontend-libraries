@@ -1,7 +1,8 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import ScriptExtHTMLWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
-import type {HTMLEntryDescriptor, WebpackConfigGeneratorSerializableType} from "../../type";
+import type {HTMLEntryDescriptor} from "../../type";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 interface HTMLPluginOptions {
     entry: HTMLEntryDescriptor;
@@ -12,7 +13,7 @@ interface HTMLPluginOptions {
  * with the respective hashed output filenames.
  */
 export function htmlPlugin({entry}: HTMLPluginOptions): webpack.WebpackPluginInstance {
-    const options: HTMLWebpackPlugin.Options = {
+    return WebpackConfigSerializationUtil.serializablePlugin("HTMLWebpackPlugin", HTMLWebpackPlugin, {
         template: entry.htmlPath,
         filename: `${entry.name}.html`,
         chunks: [entry.name],
@@ -34,14 +35,6 @@ export function htmlPlugin({entry}: HTMLPluginOptions): webpack.WebpackPluginIns
             removeTagWhitespace: true,
             useShortDoctype: true,
         },
-    };
-    const plugin = new HTMLWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: "HTMLWebpackPlugin",
-            pluginOptions: options,
-        }),
     });
 }
 
@@ -50,19 +43,11 @@ export function htmlPlugin({entry}: HTMLPluginOptions): webpack.WebpackPluginIns
  * HTMLWebpackPlugin. Used to add `crossorigin="anonymous"`.
  */
 export function crossOriginScriptTagPlugin(): webpack.WebpackPluginInstance {
-    const options: ScriptExtHTMLWebpackPlugin.Options = {
+    return WebpackConfigSerializationUtil.serializablePlugin("ScriptExtHTMLWebpackPlugin", ScriptExtHTMLWebpackPlugin, {
         custom: {
             test: /\.js$/,
             attribute: "crossorigin",
             value: "anonymous",
         },
-    };
-    const plugin = new ScriptExtHTMLWebpackPlugin(options);
-    return Object.defineProperty(plugin, "toWebpackConfigGeneratorSerializableType", {
-        value: (): WebpackConfigGeneratorSerializableType => ({
-            "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
-            pluginName: "ScriptExtHTMLWebpackPlugin",
-            pluginOptions: options,
-        }),
     });
 }

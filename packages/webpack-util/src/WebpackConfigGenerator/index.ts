@@ -1,14 +1,14 @@
 import {Utility} from "@pinnacle0/devtool-util/src";
 import path from "path";
-import prettyFormat from "pretty-format";
 import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
-import type {EntryDescriptor, WebpackConfigGeneratorOptions, WebpackConfigGeneratorSerializableType} from "../type";
+import type {EntryDescriptor, WebpackConfigGeneratorOptions} from "../type";
 import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
 import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
+import {WebpackConfigSerializationUtil} from "./WebpackConfigSerializationUtil";
 import {WebpackEntryFactory} from "./WebpackEntryFactory";
 import {WebpackOutputPublicURLFactory} from "./WebpackOutputPublicURLFactory";
 import {WebpackPerformanceAssetFilterFactory} from "./WebpackPerformanceAssetFilterFactory";
@@ -129,7 +129,8 @@ export class WebpackConfigGenerator {
                 // prettier-format-preserve
             ],
         };
-        this.printConfig(config);
+        this.logger.info("Full webpack config:");
+        console.info(WebpackConfigSerializationUtil.configToString(config));
         return config;
     }
 
@@ -185,43 +186,9 @@ export class WebpackConfigGenerator {
                 // prettier-format-preserve
             ],
         };
-        this.printConfig(config);
-        return config;
-    }
-
-    private printConfig(config: webpack.Configuration) {
         this.logger.info("Full webpack config:");
-        console.info(
-            prettyFormat(config, {
-                callToJSON: true,
-                escapeRegex: false,
-                escapeString: false,
-                min: true,
-                printFunctionName: false,
-                plugins: [
-                    {
-                        test(val: any) {
-                            try {
-                                return typeof val.toWebpackConfigGeneratorSerializableType === "function";
-                            } catch {
-                                return false;
-                            }
-                        },
-                        serialize(val: any, config, indentation, depth, refs, printer) {
-                            const _ = val.toWebpackConfigGeneratorSerializableType() as WebpackConfigGeneratorSerializableType;
-                            switch (_["@@WP_CONFIG_GEN_TYPE"]) {
-                                case "WebpackPluginConstructorCall":
-                                    return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;
-                                case "Implementation":
-                                    return _.implementation;
-                                default:
-                                    throw new Error(`Cannot serialize WebpackConfigGenerator type for printing to console. This is a bug in "@pinnacle0/webpack-util".`);
-                            }
-                        },
-                    },
-                ],
-            })
-        );
+        console.info(WebpackConfigSerializationUtil.configToString(config));
+        return config;
     }
 }
 
