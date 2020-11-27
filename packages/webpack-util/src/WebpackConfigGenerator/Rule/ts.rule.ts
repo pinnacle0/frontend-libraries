@@ -11,6 +11,7 @@ interface Deps {
  * Handles dependency requests to typescript files
  * by compiling with `tsc`.
  *
+ * @param experimentalWatchApi For incremental build
  * @see https://github.com/TypeStrong/ts-loader
  */
 export function tsRule({tsconfigFilepath, transpileOnly, experimentalWatchApi = false}: Deps): webpack.RuleSetRule {
@@ -27,7 +28,7 @@ export function tsRule({tsconfigFilepath, transpileOnly, experimentalWatchApi = 
                         target: "es5",
                     },
                     transpileOnly,
-                    experimentalWatchApi,
+                    experimentalWatchApi, // TODO: Review usage, seems like experienmtalWatchApi is always false if transpileOnly is true
                 },
             },
         ],
