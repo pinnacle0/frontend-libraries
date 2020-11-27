@@ -1,20 +1,20 @@
 import webpack from "webpack";
-import type {ChunkEntry} from "../type";
+import type {EntryDescriptor} from "../type";
 import {Plugin} from "./Plugin";
 
 interface HtmlWebpackPluginsFactoryOptions {
-    configChunkEntries: ChunkEntry[];
+    configEntryDescriptors: EntryDescriptor[];
 }
 
 // TODO: rename to HTMLWebpackPluginsFactory (more than once, pls rename ALL)
 export class HtmlWebpackPluginsFactory {
-    static generate({configChunkEntries}: HtmlWebpackPluginsFactoryOptions): webpack.Plugin[] {
+    static generate({configEntryDescriptors}: HtmlWebpackPluginsFactoryOptions): webpack.Plugin[] {
         const htmlPlugins: webpack.Plugin[] = [];
 
-        for (const {name, chunkEntryPath, htmlPath} of configChunkEntries) {
+        for (const {name, entryPath, htmlPath} of configEntryDescriptors) {
             if (htmlPath !== undefined) {
                 const plugin = Plugin.fileOutput.html({
-                    entry: {name, chunkEntryPath, htmlPath},
+                    entry: {name, entryPath, htmlPath},
                 });
                 htmlPlugins.push(plugin);
             }

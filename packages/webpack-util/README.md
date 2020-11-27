@@ -2,7 +2,7 @@
 
 This project is to provide two helpers, based on `webpack`:
 
-Following `Convention Over Configuration`, 
+Following `Convention Over Configuration`,
 we provide two all-in-one tools for webpack development and build.
 
 ## `WebpackServerStarter`
@@ -14,8 +14,8 @@ new WebpackServerStarter({
 }).run();
 ```
 
-- Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
-- Starts a `localhost` https server in `1234` port.
+-   Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
+-   Starts a `localhost` https server in `1234` port.
 
 ## `WebpackBuilder`
 
@@ -25,9 +25,9 @@ new WebpackBuilder({
 }).run();
 ```
 
-- Checks if the project structure complies to convention described below.
-- Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
-- Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
+-   Checks if the project structure complies to convention described below.
+-   Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+-   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 
@@ -37,7 +37,7 @@ new WebpackBuilder({
 -   stylelint
 -   prettier
 
-Note: CSS/LESS only website also supported, without any JavaScript. 
+Note: CSS/LESS only website also supported, without any JavaScript.
 
 ## Project Folder Structure
 
@@ -50,7 +50,7 @@ Note: CSS/LESS only website also supported, without any JavaScript.
 │   ├── index.html
 │   │       (HTML entry)
 │   └── index.{ts,tsx,js,jsx,less,css}
-│           (Main chunk entry)
+│           (Main entry)
 ├── static/
 │           (Directory to serve static files, e.g: robots.txt)
 ├── tsconfig.json
@@ -69,7 +69,6 @@ Note: CSS/LESS only website also supported, without any JavaScript.
 ## Webpack dependency versions status
 -   `autoprefixer` # Lock at 9.8.6 (autoprefixer 10.0.0 uses postcss8)
 -   `css-loader` # Lock at 4.3.0 (5.0.0 uses postcss8)
--   `mini-css-extract-plugin` # Lock at 0.12.0 (default esModule=true)
 -   `postcss` # Lock at 7.0.35 (stylelint uses <8.0.0)
 -   `script-ext-html-webpack-plugin` # No changelog
 -->

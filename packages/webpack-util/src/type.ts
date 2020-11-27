@@ -64,7 +64,7 @@ export interface WebpackConfigGeneratorOptions {
     /**
      * Extra entries to be bundled separately.
      */
-    extraChunks?: Record<string, string>;
+    extraEntries?: Record<string, string>;
     /**
      * Maximum file size (in KB) allowed by an entry bundle.
      * Entry bundles exceeding the specified file size (KB) will be warned.
@@ -77,12 +77,12 @@ export interface WebpackConfigGeneratorOptions {
     maxAssetKiloByte?: number;
 }
 
-export interface ChunkEntry {
+export interface EntryDescriptor {
     name: string;
     /**
      * Filepath to a file of type html/js/css.
      */
-    chunkEntryPath: string;
+    entryPath: string;
     /**
      * Output filename of the entry.
      */
@@ -91,20 +91,20 @@ export interface ChunkEntry {
      * Filepath to an html template file. Omitting this will result in the output having a static filename (***not*** having contenthash).
      *
      * Example usage:
-     * Backend requires the "third-party-error-handler" chunk to have a static filename.
-     * Content hash should not be included in the output filename if the ChunkEntry does not have htmlPath specified.
+     * Backend requires the "third-party-error-handler" entry to have a static filename.
+     * Content hash should not be included in the output filename if the EntryDescriptor does not have htmlPath specified.
      */
-    htmlPath?: string; // If undefined, a separate JS chunk with name `"<ChunkEntry.name>.js"` will be generated.
+    htmlPath?: string; // If undefined, a separate JS entry with name `"<EntryDescriptor.name>.js"` will be generated.
 }
 
 /**
- * Same as ChunkEntry, but guaranteed to have an htmlPath.
+ * Same as EntryDescriptor, but guaranteed to have an htmlPath.
  * Used for creating HTMLWebpackPlugin instances.
- * @see {ChunkEntry}
+ * @see {EntryDescriptor}
  */
-export interface HTMLEntry {
+export interface HTMLEntryDescriptor {
     name: string;
-    chunkEntryPath: string;
+    entryPath: string;
     htmlPath: string;
 }
 

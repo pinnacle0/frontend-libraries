@@ -4,8 +4,8 @@ import prettyFormat from "pretty-format";
 import webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
-import type {ChunkEntry, WebpackConfigGeneratorOptions, WebpackConfigGeneratorSerializableType} from "../type";
-import {ConfigChunkEntryFactory} from "./ConfigChunkEntryFactory";
+import type {EntryDescriptor, WebpackConfigGeneratorOptions, WebpackConfigGeneratorSerializableType} from "../type";
+import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
 import {HtmlWebpackPluginsFactory} from "./HtmlWebpackPluginsFactory";
 import {Plugin} from "./Plugin";
 import {Rule} from "./Rule";
@@ -30,7 +30,7 @@ export class WebpackConfigGenerator {
     readonly maxAssetKiloByte: number;
     readonly isFastMode: boolean;
 
-    private readonly configChunkEntries: ChunkEntry[];
+    private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
     private readonly htmlWebpackPluginInstances: NonNullable<webpack.Configuration["plugins"]>;
     private readonly resolveExtensions: NonNullable<NonNullable<webpack.Configuration["resolve"]>["extensions"]>;
@@ -51,16 +51,16 @@ export class WebpackConfigGenerator {
         this.maxAssetKiloByte = options.maxAssetKiloByte ?? Constant.maxAssetKiloByte;
         this.isFastMode = yargs.argv.mode === "fast";
 
-        this.configChunkEntries = ConfigChunkEntryFactory.generate({
+        this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
             projectSrcDirectory: this.projectSrcDirectory,
-            extraChunks: options.extraChunks || {},
+            extraEntries: options.extraEntries || {},
         });
         this.entry = WebpackEntryFactory.generate({
-            configChunkEntries: this.configChunkEntries,
+            configEntryDescriptors: this.configEntryDescriptors,
         });
         this.htmlWebpackPluginInstances = HtmlWebpackPluginsFactory.generate({
-            configChunkEntries: this.configChunkEntries,
+            configEntryDescriptors: this.configEntryDescriptors,
         });
         this.outputPublicPath = WebpackOutputPublicURLFactory.generate({
             env: this.env,
@@ -139,7 +139,7 @@ export class WebpackConfigGenerator {
             target: ["web", "es5"],
             output: {
                 path: outputDirectory,
-                filename: this.enableProfiling ? "static/js/[name].js" : pathInfo => this.configChunkEntries.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename,
+                filename: this.enableProfiling ? "static/js/[name].js" : pathInfo => this.configEntryDescriptors.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename,
                 chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
                 publicPath: this.outputPublicPath,
                 crossOriginLoading: "anonymous",

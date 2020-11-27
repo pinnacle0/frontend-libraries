@@ -12,7 +12,7 @@ export class WebpackResolveExtensionsFactory {
             resolveExtensions.push(ext);
         }
 
-        for (const ext of Constant.chunkExtensions) {
+        for (const ext of Constant.resolveExtensions) {
             resolveExtensions.push(ext);
         }
 

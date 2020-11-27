@@ -47,7 +47,7 @@ export class ProjectStructureChecker {
         }
 
         let isMainEntryFound = false;
-        Constant.mainChunkEntryNames
+        Constant.mainEntryFilenames
             .map(entryName => path.join(mainProjectSrcDirectory, entryName))
             .forEach(entryPath => {
                 if (fs.existsSync(entryPath) && fs.statSync(entryPath).isFile()) {
@@ -55,7 +55,7 @@ export class ProjectStructureChecker {
                 }
             });
         if (!isMainEntryFound) {
-            throw new Error(`Cannot find main entry file in src/ at "${mainProjectSrcDirectory}"; checked: ${Constant.mainChunkEntryNames.map(_ => `"${_}"`).join(" / ")}.`);
+            throw new Error(`Cannot find main entry file in src/ at "${mainProjectSrcDirectory}"; checked: ${Constant.mainEntryFilenames.map(_ => `"${_}"`).join(" / ")}.`);
         }
     }
 

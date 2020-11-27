@@ -1,10 +1,10 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import ScriptExtHtmlWebpackPlugin from "script-ext-html-webpack-plugin";
 import type webpack from "webpack";
-import type {HTMLEntry, WebpackConfigGeneratorSerializableType} from "../../type";
+import type {HTMLEntryDescriptor, WebpackConfigGeneratorSerializableType} from "../../type";
 
 interface HtmlPluginOptions {
-    entry: HTMLEntry;
+    entry: HTMLEntryDescriptor;
 }
 
 /**
