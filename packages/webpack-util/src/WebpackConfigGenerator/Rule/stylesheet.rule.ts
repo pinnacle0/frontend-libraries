@@ -34,13 +34,14 @@ function miniCssExtractPluginLoader(): webpack.RuleSetUseItem {
 }
 
 function postcssLoader(): webpack.RuleSetUseItem {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires -- Need to inject `toWebpackConfigGeneratorSerializableType` implementation
-    const autoprefixer = WebpackConfigSerializationUtil.implementation(`require("autoprefixer")`, require("autoprefixer"));
     return {
         loader: require.resolve("postcss-loader"),
         options: {
             postcssOptions: {
-                plugins: [autoprefixer],
+                plugins: [
+                    [require.resolve("autoprefixer")],
+                    // prettier-format-preserve
+                ],
             },
         },
     };
