@@ -5,14 +5,7 @@ import DevServer from "webpack-dev-server";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-// prettier-ignore
-export interface WebpackServerStarterOptions extends
-        Pick<WebpackConfigGeneratorOptions,
-            | "projectDirectory"
-            | "dynamicConfigResolvers"
-            | "extraEntries"
-            | "extraPrioritizedResolvedExtensions"
-        > {
+export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicConfigResolvers" | "extraEntries" | "extraPrioritizedResolvedExtensions"> {
     port: number;
     apiProxy?: {
         target: string;

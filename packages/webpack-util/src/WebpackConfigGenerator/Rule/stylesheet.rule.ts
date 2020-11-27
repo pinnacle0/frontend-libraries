@@ -72,17 +72,17 @@ function styleLoader(): webpack.RuleSetUseItem {
 export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
     const use: webpack.RuleSetUseItem[] = minimize
         ? [
-              // prettier-ignore
               miniCssExtractPluginLoader(),
               cssLoader(2),
               postcssLoader(),
               lessLoader(),
+              // prettier-format-preserve
           ]
         : [
-              // prettier-ignore
               styleLoader(),
               cssLoader(1),
               lessLoader(),
+              // prettier-format-preserve
           ];
 
     return {

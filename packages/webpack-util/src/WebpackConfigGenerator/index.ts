@@ -94,8 +94,7 @@ export class WebpackConfigGenerator {
         const config: webpack.Configuration = {
             mode: "development",
             entry: this.entry,
-            // https://github.com/webpack/webpack-dev-server/issues/2758 Hot-reload will break if we provide list to target
-            target: "web",
+            target: "web", // https://github.com/webpack/webpack-dev-server/issues/2758 Hot-reload will break if we provide list to target
             output: {
                 filename: "static/js/[name].js",
                 publicPath: "/",
@@ -115,17 +114,19 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, experimentalWatchApi: true}), //
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, experimentalWatchApi: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other(),
+                    // prettier-format-preserve
                 ],
             },
             plugins: [
-                ...this.htmlWebpackPluginInstances, //
+                ...this.htmlWebpackPluginInstances,
                 Plugin.ignoreMomentLocale(),
                 Plugin.webpack.hmr(),
                 Plugin.webpack.progress({enableProfiling: false}),
+                // prettier-format-preserve
             ],
         };
         this.printConfig(config);
@@ -156,8 +157,9 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
                 minimizer: [
-                    Plugin.minimizer.terser({sourceMap: true}), //
+                    Plugin.minimizer.terser({sourceMap: true}),
                     Plugin.minimizer.cssMinimizer(),
+                    // prettier-format-preserve
                 ],
             },
             performance: {
@@ -167,18 +169,20 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: this.isFastMode}), //
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: this.isFastMode}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),
+                    // prettier-format-preserve
                 ],
             },
             plugins: [
-                ...this.htmlWebpackPluginInstances, //
+                ...this.htmlWebpackPluginInstances,
                 Plugin.crossOriginScriptTag(),
                 Plugin.ignoreMomentLocale(),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 Plugin.webpack.progress({enableProfiling: this.enableProfiling}),
+                // prettier-format-preserve
             ],
         };
         this.printConfig(config);
