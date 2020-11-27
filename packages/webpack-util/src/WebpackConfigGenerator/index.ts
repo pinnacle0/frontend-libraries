@@ -182,7 +182,7 @@ export class WebpackConfigGenerator {
                 Plugin.crossOriginScriptTag(),
                 Plugin.ignoreMomentLocale(),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
-                Plugin.webpack.progress({enableProfiling: this.enableProfiling}),
+                ...(this.enableProfiling ? [Plugin.webpack.progress({enableProfiling: true})] : []), // disable to not bloat up CI logs
                 // prettier-format-preserve
             ],
         };

@@ -83,6 +83,13 @@ export class WebpackServerStarter {
             },
             stats: {
                 colors: true,
+                // https://github.com/webpack/webpack/blob/b65d060040a26255cbf6f50350fef4d4ffcce4d7/lib/stats/DefaultStatsPresetPlugin.js#L96-L103
+                all: false,
+                errors: true,
+                errorsCount: true,
+                warnings: true,
+                warningsCount: true,
+                logging: "warn",
             },
             proxy: this.apiProxy
                 ? [
