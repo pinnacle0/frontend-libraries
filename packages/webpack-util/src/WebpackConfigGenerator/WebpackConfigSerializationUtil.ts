@@ -1,19 +1,19 @@
 import prettyFormat from "pretty-format";
 import webpack from "webpack";
 
-export interface SerialiableWebpackPluginDescriptor {
+interface SerializableWebpackPluginDescriptor {
     "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall";
     pluginName: string;
     pluginOptions: any;
 }
 
 export class WebpackConfigSerializationUtil {
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginCtor: new () => T): webpack.WebpackPluginInstance;
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginCtor: new (_: OptType) => T, options: OptType): webpack.WebpackPluginInstance;
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginCtor: new (_?: OptType) => T, options?: OptType): webpack.WebpackPluginInstance {
-        const plugin = new PluginCtor(options);
+    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new () => T): webpack.WebpackPluginInstance;
+    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_: OptType) => T, options: OptType): webpack.WebpackPluginInstance;
+    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_?: OptType) => T, options?: OptType): webpack.WebpackPluginInstance {
+        const plugin = new PluginConstructor(options);
         return Object.defineProperty(plugin, "toWebpackConfigSerializableType", {
-            value(): SerialiableWebpackPluginDescriptor {
+            value(): SerializableWebpackPluginDescriptor {
                 return {
                     "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall",
                     pluginName: name,
@@ -24,7 +24,7 @@ export class WebpackConfigSerializationUtil {
     }
 
     static configToString(config: webpack.Configuration): string {
-        const strigifiedConfig = prettyFormat(config, {
+        const configString = prettyFormat(config, {
             callToJSON: true,
             escapeRegex: false,
             escapeString: false,
@@ -40,7 +40,7 @@ export class WebpackConfigSerializationUtil {
                         }
                     },
                     serialize(val: any, config, indentation, depth, refs, printer) {
-                        const _ = val.toWebpackConfigSerializableType() as SerialiableWebpackPluginDescriptor;
+                        const _ = val.toWebpackConfigSerializableType() as SerializableWebpackPluginDescriptor;
                         return `new ${_.pluginName}(${printer(_.pluginOptions, config, indentation, depth, refs)})`;
                     },
                 },
@@ -49,7 +49,7 @@ export class WebpackConfigSerializationUtil {
         try {
             // eslint-disable-next-line @typescript-eslint/no-var-requires -- prettier might not be installed (no peerDeps constraint)
             const {format} = require("prettier") as typeof import("prettier");
-            const formattedConfig = format("module.exports = " + strigifiedConfig, {
+            return format("module.exports = " + configString, {
                 arrowParens: "avoid",
                 bracketSpacing: false,
                 printWidth: 120,
@@ -57,10 +57,9 @@ export class WebpackConfigSerializationUtil {
                 useTabs: false,
                 filepath: "webpack.config.js",
             });
-            return formattedConfig;
         } catch {
             // Either prettier cannot be loaded, or formatting failed, return the unformatted config as a fallback.
-            return strigifiedConfig;
+            return configString;
         }
     }
 }
