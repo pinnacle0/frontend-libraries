@@ -10,7 +10,7 @@ describe("ModuleGenerator class", () => {
     const fixtures = getFixtures();
 
     beforeAll(() => {
-        fs.rmSync(tmpDirectory, {recursive: true, force: true});
+        fs.rmdirSync(tmpDirectory, {recursive: true});
         fixtures.forEach(_ => {
             const fixtureDirectory = path.dirname(_.path);
             if (!fs.existsSync(fixtureDirectory)) fs.mkdirSync(fixtureDirectory, {recursive: true});
@@ -20,7 +20,7 @@ describe("ModuleGenerator class", () => {
 
     afterAll(() => {
         // Comment the following line to see the temp files
-        fs.rmSync(tmpDirectory, {recursive: true, force: true});
+        fs.rmdirSync(tmpDirectory, {recursive: true});
     });
 
     test("generate files", async () => {
