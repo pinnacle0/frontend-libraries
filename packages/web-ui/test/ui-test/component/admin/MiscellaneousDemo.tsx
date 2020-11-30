@@ -7,12 +7,11 @@ import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
 import {dummyTableColumns, generateDummyTableData, MockTableData} from "../../util/dummyTableData";
 import {dummyImportCallback, dummyUploadCallback, dummyUploadURL} from "../../util/dummyUpload";
-import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
 import {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
+import {Pagination} from "../../../../src/core/Pagination";
 
-const tableData = generateDummyTableData(8);
 const onNumberRangeChange = (_: [number, number]) => {};
 
 const FileUploaderDemo = () => (
@@ -28,44 +27,45 @@ const ImageUploaderDemo = () => {
     return <ImageUploader imageURL={value?.imageURL || null} onChange={setValue} uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} removable />;
 };
 
-const MultipleSelectorDemo = (props: {disabled?: "button" | "table"}) => {
+const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "button" | "table"}) => {
+    const pageSize = 5;
     const [data, setData] = React.useState<MockTableData[]>([]);
-    const buttonText = props.disabled ? `Disabled (${props.disabled})` : "Click Me";
-    return (
-        <MultipleSelector
-            tableColumns={dummyTableColumns}
-            onChange={setData}
-            value={data}
-            rowKeyExtractor={_ => _.id.toString()}
-            dataSource={tableData}
-            renderSelectedItems={items => items.map(_ => _.name)}
-            showSelectAll
-            buttonText={buttonText}
-            disabled={props.disabled}
-        />
-    );
-};
+    const [page, setPage] = React.useState(1); // Start from 1
+    const dataSource = React.useMemo(() => generateDummyTableData(pageSize, (page - 1) * 10 + 1), [page]);
 
-const MultipleSelectorDemoWithMaxSelect = () => {
-    const [data, setData] = React.useState<MockTableData[]>([]);
-    return (
-        <MultipleSelector
-            tableColumns={dummyTableColumns}
-            onChange={setData}
-            value={data}
-            rowKeyExtractor={_ => _.id.toString()}
-            dataSource={tableData}
-            onPopoverMounted={() => MessageUtil.success("First Time Opened")}
-            renderSelectedItems={items => items.map(_ => _.id + ": " + _.name)}
-            renderPopover={table => (
-                <div>
-                    {table}
-                    <b>You can select up to 3 items</b>
-                </div>
-            )}
-            maxSelectedCount={3}
-        />
-    );
+    if (props.withPagination) {
+        return (
+            <MultipleSelector
+                tableColumns={dummyTableColumns}
+                onChange={setData}
+                value={data}
+                rowKeyExtractor={_ => _.id.toString()}
+                dataSource={dataSource}
+                buttonText="Paged Selector"
+                renderTags="name"
+                renderPopover={table => (
+                    <div>
+                        {table}
+                        <Pagination onChange={setPage} totalCount={50 * pageSize} totalPage={50} pageIndex={page} />
+                    </div>
+                )}
+            />
+        );
+    } else {
+        const buttonText = props.disabled ? `Disabled (${props.disabled})` : "Simple Selector";
+        return (
+            <MultipleSelector
+                tableColumns={dummyTableColumns}
+                onChange={setData}
+                value={data}
+                rowKeyExtractor={_ => _.id.toString()}
+                dataSource={dataSource}
+                renderTags="name"
+                buttonText={buttonText}
+                disabled={props.disabled}
+            />
+        );
+    }
 };
 
 const groups: DemoHelperGroupConfig[] = [
@@ -100,7 +100,7 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Multiple Selector",
         showPropsHint: false,
-        components: [<MultipleSelectorDemo />, "-", <MultipleSelectorDemo disabled="table" />, "-", <MultipleSelectorDemo disabled="button" />, "-", <MultipleSelectorDemoWithMaxSelect />],
+        components: [<MultipleSelectorDemo />, "-", <MultipleSelectorDemo withPagination />, "-", <MultipleSelectorDemo disabled="table" />, "-", <MultipleSelectorDemo disabled="button" />],
     },
 ];
 

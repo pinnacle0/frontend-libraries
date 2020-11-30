@@ -15,8 +15,6 @@ export default {
     select: "请选择",
     pleaseSelect: "请选择",
     edit: "修改 ({1} 个)",
-    selectAll: "全选",
-    selectReachMax: "最多只可以选择 {1} 项",
     paginationSummary: "共 {1} 条记录, 第 {2}/{3} 页",
     sendAuthCode: "发送验证码",
     waitResendAuthCode: "{1}秒后重发",

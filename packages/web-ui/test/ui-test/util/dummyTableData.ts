@@ -6,9 +6,9 @@ export interface MockTableData {
     time: Date;
 }
 
-export function generateDummyTableData(length: number): MockTableData[] {
+export function generateDummyTableData(length: number, base: number = 1): MockTableData[] {
     const data: MockTableData[] = [];
-    for (let i = 1; i <= length; i++) {
+    for (let i = base; i <= base + length - 1; i++) {
         data.push({
             id: i,
             name: "Name - " + i,
@@ -21,7 +21,7 @@ export function generateDummyTableData(length: number): MockTableData[] {
 export const dummyTableColumns: TableColumns<MockTableData> = [
     {
         title: "ID",
-        width: 100,
+        width: 99,
         renderData: _ => _.id,
     },
     {

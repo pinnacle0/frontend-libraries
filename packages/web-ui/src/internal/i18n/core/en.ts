@@ -15,8 +15,6 @@ export default {
     select: "Select",
     pleaseSelect: "Please select...",
     edit: "Edit ({1})",
-    selectAll: "Select All",
-    selectReachMax: "You can select at most {1} items",
     paginationSummary: "Total {1} Records, Page {2} Out Of {3}",
     sendAuthCode: "Send",
     waitResendAuthCode: "Resend in {1}s",
