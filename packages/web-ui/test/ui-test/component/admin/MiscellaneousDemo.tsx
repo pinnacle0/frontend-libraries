@@ -11,6 +11,7 @@ import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
 import {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
 import {Pagination} from "../../../../src/core/Pagination";
+import {MessageUtil} from "../../../../src/util/MessageUtil";
 
 const onNumberRangeChange = (_: [number, number]) => {};
 
@@ -60,9 +61,10 @@ const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "butt
                 value={data}
                 rowKeyExtractor={_ => _.id.toString()}
                 dataSource={dataSource}
-                renderTags="name"
                 buttonText={buttonText}
                 disabled={props.disabled}
+                renderTags="name"
+                onPopoverFirstRender={() => MessageUtil.success("First opened")}
             />
         );
     }
