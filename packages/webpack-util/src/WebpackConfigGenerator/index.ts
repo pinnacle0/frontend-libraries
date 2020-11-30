@@ -127,6 +127,10 @@ export class WebpackConfigGenerator {
                 Plugin.webpack.progress({enableProfiling: false}),
                 // prettier-format-preserve
             ],
+            cache: {
+                type: "filesystem",
+                cacheDirectory: path.join(this.projectDirectory, ".webpack-cache"),
+            },
         };
         this.logger.info("Full webpack config:");
         console.info(WebpackConfigSerializationUtil.configToString(config));
