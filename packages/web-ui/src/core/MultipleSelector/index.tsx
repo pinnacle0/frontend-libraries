@@ -24,15 +24,28 @@ export interface Props<RowType extends object> extends ControlledFormValue<RowTy
      */
     renderTags?: StringKey<RowType> | ((values: RowType[]) => React.ReactElement | string[]);
     renderPopover?: (table: React.ReactElement) => React.ReactElement;
+    renderButtonText?: string | ((selectedCount: number) => string);
     popoverPlacement?: TooltipPlacement;
+    popoverClassName?: string;
+    popoverStyle?: React.CSSProperties;
     onPopoverFirstRender?: () => void;
     disabled?: "button" | "table";
-    buttonText?: string;
     scrollY?: number;
 }
 
 export class MultipleSelector<RowType extends object> extends React.PureComponent<Props<RowType>> {
     static displayName = "MultipleSelector";
+
+    buttonText = (): string => {
+        const {value, renderButtonText} = this.props;
+        const t = i18n();
+        const length = value.length;
+        if (renderButtonText) {
+            return typeof renderButtonText === "string" ? renderButtonText : renderButtonText(length);
+        } else {
+            return value.length === 0 ? t.select : StringUtil.interpolate(t.edit, value.length.toString());
+        }
+    };
 
     onClose = (index: number) => {
         const {value, onChange} = this.props;
@@ -81,14 +94,13 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
     };
 
     render() {
-        const {value, popoverPlacement, buttonText, disabled} = this.props;
-        const t = i18n();
+        const {popoverPlacement, disabled, popoverClassName, popoverStyle} = this.props;
         return (
             <div className="g-multiple-selector">
                 {this.renderSelectedItems()}
-                <Popover placement={popoverPlacement || "bottomLeft"} trigger="click" content={this.renderPopover}>
+                <Popover placement={popoverPlacement || "bottomLeft"} trigger="click" content={this.renderPopover()} overlayClassName={popoverClassName} overlayStyle={popoverStyle}>
                     <Button color="wire-frame" disabled={disabled === "button"}>
-                        {value.length === 0 ? buttonText || t.select : StringUtil.interpolate(t.edit, value.length.toString())}
+                        {this.buttonText()}
                     </Button>
                 </Popover>
             </div>
