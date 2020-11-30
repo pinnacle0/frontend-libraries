@@ -11,7 +11,7 @@ import {RegExpUtil} from "./RegExpUtil";
  */
 export function imageRule(): webpack.RuleSetRule {
     return {
-        test: RegExpUtil.fileExtension(".png", ".jpeg", ".jpg", ".gif"),
+        test: RegExpUtil.fileExtension(".png", ".jpeg", ".jpg", ".gif", ".svg"),
         use: [
             {
                 loader: require.resolve("url-loader"),
