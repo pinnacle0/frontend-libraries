@@ -79,6 +79,7 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
         return (
             <AntCascader
                 className="g-cascader"
+                popupClassName="g-cascader-popup"
                 style={style}
                 changeOnSelect={canSelectAnyLevel}
                 value={this.getAntValue()}
