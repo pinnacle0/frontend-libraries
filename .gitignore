@@ -23,6 +23,7 @@
 
 # Cache
 .parcel-cache/**
+**/.webpack-cache/**
 
 # Temp
 **/tmp/**
