@@ -5,6 +5,8 @@ import {Input, Props as InputProps} from "@pinnacle0/web-ui/core/Input";
 import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
 import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
 import {Button} from "@pinnacle0/web-ui/core/Button";
+import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
+import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 
 const UncontrolledInput = (props: Omit<InputProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
@@ -16,6 +18,8 @@ const PasswordInput = (props: Omit<InputProps, "value" | "onChange">) => {
     return <Input.Password {...props} value={value} onChange={onChange} />;
 };
 
+const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
+
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Pure Form (Vertical Layout)",
@@ -26,6 +30,15 @@ const groups: DemoHelperGroupConfig[] = [
                     <UncontrolledInput />
                 </Form.Item>
                 <Form.Item label="Password">
+                    <PasswordInput />
+                </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
+                </Form.Item>
+            </Form>,
+            <Form layout="vertical">
+                <Form.Item label="Multi-children form item">
+                    <UncontrolledInput />
                     <PasswordInput />
                 </Form.Item>
                 <Form.Item>
@@ -49,6 +62,16 @@ const groups: DemoHelperGroupConfig[] = [
                     <Button>Submit</Button>
                 </Form.Item>
             </Form>,
+            "-",
+            <Form layout="horizontal">
+                <Form.Item label="Username">
+                    <UncontrolledInput />
+                    <PasswordInput />
+                </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
+                </Form.Item>
+            </Form>,
         ],
     },
     {
@@ -61,6 +84,16 @@ const groups: DemoHelperGroupConfig[] = [
                 </Form.Item>
                 <Form.Item label="Password">
                     <PasswordInput />
+                </Form.Item>
+                <Form.Item>
+                    <Button>Submit</Button>
+                </Form.Item>
+            </Form>,
+            "-",
+            <Form layout="inline">
+                <Form.Item label="Username">
+                    <UncontrolledEnumSelect list={["+", "_"]} translator={_ => _.toString()} initialValue="+" />
+                    <UncontrolledInput />
                 </Form.Item>
                 <Form.Item>
                     <Button>Submit</Button>

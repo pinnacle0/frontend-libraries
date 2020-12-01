@@ -1,12 +1,12 @@
 import React from "react";
 import {FormValidationContext} from "./context";
-import {SafeReactChild} from "../../internal/type";
+import {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import {Tooltip} from "../Tooltip";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
-    children: SafeReactChild;
+    children: SafeReactChildren;
     label?: string;
     required?: boolean;
     extra?: SafeReactChild;
@@ -54,6 +54,8 @@ export class FormItem extends React.PureComponent<Props, State> {
         const {label, children, className, required, extra, labelStyle} = this.props;
         const {errorMessage} = this.state;
         const errorDisplayMode = this.context.errorDisplayMode();
+        const childrenWrapper = <span className="g-form-item-children-inputs">{children}</span>;
+
         return (
             <div className={`g-form-item ${className || ""}`}>
                 <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
@@ -62,14 +64,14 @@ export class FormItem extends React.PureComponent<Props, State> {
                 <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`}>
                     {errorDisplayMode.type === "extra" ? (
                         <React.Fragment>
-                            {children}
+                            {childrenWrapper}
                             {extra && <div className="message">{extra}</div>}
                             {errorMessage && <div className="message error">{errorMessage}</div>}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <Tooltip title={errorMessage} visible={errorMessage !== null} placement={errorDisplayMode.placement || "right"} color="white" overlayInnerStyle={this.overlayStyle}>
-                                {children as React.ReactElement}
+                                {childrenWrapper}
                             </Tooltip>
                             {extra && <div className="message">{extra}</div>}
                         </React.Fragment>
