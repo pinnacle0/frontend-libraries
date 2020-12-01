@@ -34,7 +34,7 @@ export class WebpackServerStarter {
     private readonly webpackConfig: webpack.Configuration;
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
 
-    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraEntries, extraPrioritizedResolvedExtensions}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraEntries, extraPrioritizedResolvedExtensions, tsConfigPath}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -44,6 +44,7 @@ export class WebpackServerStarter {
             dynamicConfigResolvers,
             extraEntries,
             extraPrioritizedResolvedExtensions,
+            tsConfigPath,
         }).development();
     }
 
