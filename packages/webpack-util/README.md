@@ -41,11 +41,14 @@ Note: CSS/LESS only website also supported, without any JavaScript.
 
 ## Project Folder Structure
 
+The following structure can be used for a basic project setup.
+
 ```text
 <projectDirectory>
 ├── build/
 │   └── dist/
-│           (Output directory for build artifacts, content will be overwritten by each build, should be ignored by git)
+│           (Output directory for build artifacts, content will be
+│            overwritten by each build, should be ignored by git)
 ├── src/
 │   ├── index.html
 │   │       (HTML entry)
@@ -63,6 +66,50 @@ Note: CSS/LESS only website also supported, without any JavaScript.
 │           (Stylelint config, can be moved to upper directories)
 └── package.json
             (Project manifest file)
+```
+
+## Monorepo Folder Structure
+
+The following structure can be used for a yarn workspace monorepo setup.
+
+```text
+<workspaceRootDirectory>
+├── packages/
+│   ├── project1/
+│   │   ├── build/dist/
+│   │   ├── config/
+│   │   │   ├── tsconfig.script.json (extends: "../../../tsconfig.base.json", ...)
+│   │   │   ├── tsconfig.src.json    (extends: "../../../tsconfig.base.json", ...)
+│   │   │   └── tsconfig.test.json   (extends: "../../../tsconfig.base.json", ...)
+│   │   ├── script/
+│   │   │   ├── build.ts
+│   │   │   └── start.ts
+│   │   ├── src/
+│   │   │   ├── index.html
+│   │   │   └── index.{ts,tsx,js,jsx,less,css}
+│   │   ├── static/
+│   │   ├── tsconfig.json (files: [], references: [{path: "config/tsconfig.src.json"}, ...])
+│   │   └── package.json
+│   └── project2/
+│       ├── build/dist/
+│       ├── config/
+│       │   ├── tsconfig.script.json (extends: "../../../tsconfig.base.json", ...)
+│       │   ├── tsconfig.src.json    (extends: "../../../tsconfig.base.json", ...)
+│       │   └── tsconfig.test.json   (extends: "../../../tsconfig.base.json", ...)
+│       ├── script/
+│       │   ├── build.ts
+│       │   └── start.ts
+│       ├── src/
+│       │   ├── index.html
+│       │   └── index.{ts,tsx,js,jsx,less,css}
+│       ├── static/
+│       ├── tsconfig.json (files: [], references: [{path: "config/tsconfig.src.json"}, ...])
+│       └── package.json
+├── tsconfig.base.json    (Define common options to be extended by other tsconfig files)
+├── .eslintrc.js
+├── prettier.config.js
+├── stylelint.config.js
+└── package.json          (Yarn workspace manifest file)
 ```
 
 <!--

@@ -75,6 +75,15 @@ export interface WebpackConfigGeneratorOptions {
      * Assets exceeding the specified file size (KB) will be warned.
      */
     maxAssetKiloByte?: number;
+    /**
+     * Path to tsconfig.json for consumption by "ts-loader". Defaults to "<projectDirectory>/tsconfig.json".
+     * This option can be ignored since **the defaults should work in most cases**.
+     *
+     * One particular use case is when "<projectDirectory>/tsconfig.json" is not the tsconfig.json
+     * that defines options for the source files (e.g. when "<projectDirectory>/tsconfig.json" references
+     * "<projectDirectory>/config/tsconfig.src.json" using project references so the ide infers options).
+     */
+    tsConfigPath?: string;
 }
 
 export interface EntryDescriptor {
