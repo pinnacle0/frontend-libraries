@@ -42,7 +42,7 @@ const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "butt
                 value={data}
                 rowKeyExtractor={_ => _.id.toString()}
                 dataSource={dataSource}
-                buttonText="Paged Selector"
+                renderButtonText="Paged Selector"
                 renderTags="name"
                 renderPopover={table => (
                     <div>
@@ -61,7 +61,7 @@ const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "butt
                 value={data}
                 rowKeyExtractor={_ => _.id.toString()}
                 dataSource={dataSource}
-                buttonText={buttonText}
+                renderButtonText={buttonText}
                 disabled={props.disabled}
                 renderTags="name"
                 onPopoverFirstRender={() => MessageUtil.success("First opened")}

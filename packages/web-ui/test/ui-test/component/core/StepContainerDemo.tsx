@@ -27,12 +27,12 @@ export const StepContainerDemo = () => {
         {
             title: "Step Container",
             showPropsHint: false,
-            components: [<StepFormContainer currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} width={700} onFinish={() => alert("Done")} />],
+            components: [<StepFormContainer currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} onFinish={() => alert("Done")} />],
         },
         {
             title: "Step Container (Vertical Label)",
             showPropsHint: false,
-            components: [<StepFormContainer stepLabelPlacement="vertical" currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} width={700} onFinish={() => alert("Done")} />],
+            components: [<StepFormContainer stepLabelPlacement="vertical" currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} onFinish={() => alert("Done")} />],
         },
     ];
 

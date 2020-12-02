@@ -99,7 +99,7 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "Authentication Code Input",
-        components: [<AuthenticationCodeInput onSend={() => new Promise<boolean>(resolve => setTimeout(() => resolve(true), 500))} value="" onChange={dummyEmptyCallback} nextSendInterval={5} />],
+        components: [<AuthenticationCodeInput onSend={() => new Promise<void>(resolve => setTimeout(() => resolve(), 500))} value="" onChange={dummyEmptyCallback} nextSendInterval={5} />],
     },
 ];
 

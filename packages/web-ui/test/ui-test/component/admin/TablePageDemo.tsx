@@ -45,7 +45,7 @@ export const TablePageDemo = () => {
             <AdminPage.Summary>
                 Total amount: <Amount scale={2} value={98432} />
             </AdminPage.Summary>
-            <Table columns={dummyTableColumns} dataSource={tableData} rowKey="id" loading={loading} />
+            <Table columns={dummyTableColumns} dataSource={tableData} rowKey="index" loading={loading} />
             <Pagination totalCount={300} totalPage={20} onChange={dummyEmptyCallback} onShowSizeChange={dummyEmptyCallback} pageIndex={1} />
         </AdminPage>
     );

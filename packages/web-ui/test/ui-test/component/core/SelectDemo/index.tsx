@@ -52,8 +52,6 @@ const groups: DemoHelperGroupConfig[] = [
                 list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
                 initialValue={null}
                 translator={_ => String(_).toUpperCase()}
-                // TODO: placeholder?
-                useWeakColorForNullValue
                 style={{
                     width: 200,
                 }}
@@ -78,7 +76,6 @@ const groups: DemoHelperGroupConfig[] = [
                 initialValue={null}
                 translator={_ => String(_).toUpperCase()}
                 allowNull="Pick your food"
-                useWeakColorForNullValue
                 prefix={<PrefixComponent />}
                 style={{
                     width: 200,
