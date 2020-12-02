@@ -55,8 +55,6 @@ export class VerticalMarquee extends React.PureComponent<Props, State> {
             if (distToBeScrolled > 0) {
                 if (!this.state.paused) {
                     if (marquee.scrollTop < marquee.scrollHeight / 2) {
-                        // to fix marquee stop infinitely scrolling when browser zoom out
-                        // worked as browser's zoom ratio is lager than 33%
                         marquee.scrollTo(0, marquee.scrollTop + distToBeScrolled);
                     } else {
                         marquee.scroll(0, 0);
