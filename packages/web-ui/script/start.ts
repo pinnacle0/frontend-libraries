@@ -38,7 +38,7 @@ const config: webpack.Configuration = {
             test: directory.test,
         },
     },
-    devtool: "inline-cheap-module-source-map",
+    devtool: "source-map",
     optimization: {usedExports: true},
     module: {
         rules: [

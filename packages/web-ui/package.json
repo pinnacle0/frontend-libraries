@@ -23,7 +23,10 @@
         "@ant-design/icons": "4.3.0",
         "antd": "4.8.5",
         "braft-editor": "2.3.9",
-        "moment": "2.29.1"
+        "katex": "0.12.0",
+        "moment": "2.29.1",
+        "suneditor": "2.34.3",
+        "suneditor-react": "2.14.6"
     },
     "peerDependencies": {
         "@babel/runtime": ">=7.12.1",
@@ -39,6 +42,7 @@
         "@testing-library/user-event": "12.3.0",
         "@types/draft-js": "0.10.44",
         "@types/html-webpack-plugin": "3.2.4",
+        "@types/katex": "0.11.0",
         "@types/react": "17.0.0",
         "@types/react-dom": "17.0.0",
         "@types/react-router-dom": "5.1.6",

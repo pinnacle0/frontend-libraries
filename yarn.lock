@@ -2528,6 +2528,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/katex@0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.11.0.tgz#b16c54ee670925ffef0616beae9e90c557e17334"
+  integrity sha512-27BfE8zASRLYfSBNMk5/+KIjr2CBBrH0i5lhsO04fca4TGirIIMay73v3zNkzqmsaeIa/Mi5kejWDcxPLAmkvA==
+
 "@types/mdast@^3.0.0":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.3.tgz#2d7d671b1cd1ea3deb306ea75036c2a0407d2deb"
@@ -7961,6 +7966,13 @@ jsprim@^1.2.2:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
 
+katex@0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.12.0.tgz#2fb1c665dbd2b043edcf8a1f5c555f46beaa0cb9"
+  integrity sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==
+  dependencies:
+    commander "^2.19.0"
+
 killable@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -11822,6 +11834,19 @@ sugarss@^2.0.0:
   integrity sha512-WfxjozUk0UVA4jm+U1d736AUpzSrNsQcIbyOkoE364GrtWmIrFdk5lksEupgWMD4VaT/0kVx1dobpiDumSgmJQ==
   dependencies:
     postcss "^7.0.2"
+
+suneditor-react@2.14.6:
+  version "2.14.6"
+  resolved "https://registry.yarnpkg.com/suneditor-react/-/suneditor-react-2.14.6.tgz#4f04fd3f8234daeae40a22f490b8bd64f398f308"
+  integrity sha512-m+jgspwKwTYsuHE2MONTThCrVHyAQ1cApmRHfUC/AS3zo3R/G8iUFL3h93HnfTl5+8TpPOpE/o3qtaEFeIkpPg==
+  dependencies:
+    prop-types "^15.7.2"
+    suneditor "^2.34.3"
+
+suneditor@2.34.3, suneditor@^2.34.3:
+  version "2.34.3"
+  resolved "https://registry.yarnpkg.com/suneditor/-/suneditor-2.34.3.tgz#a8349f7372a73304f19ae18c14b0018b95771403"
+  integrity sha512-SyM8cu5oSZ01E8eXW5kb283Vkpf7nVzAIWYMvPOjmUebXHfawxlhakEo+FeUldlBlFE6EORLUJSJhislnHGZKw==
 
 supports-color@^2.0.0:
   version "2.0.0"
