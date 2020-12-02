@@ -30,6 +30,10 @@ const config: webpack.Configuration = {
         filename: "static/js/[name].js",
         publicPath: "/",
     },
+    cache: {
+        type: "filesystem",
+        cacheDirectory: path.join(__dirname, "../.webpack-cache"),
+    },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
         modules: ["node_modules"],
@@ -44,7 +48,6 @@ const config: webpack.Configuration = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                include: [directory.src, directory.test],
                 use: [
                     {
                         loader: "ts-loader",
