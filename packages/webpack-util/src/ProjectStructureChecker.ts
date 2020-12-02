@@ -8,13 +8,13 @@ export class ProjectStructureChecker {
     private readonly projectDirectory: string;
     private readonly extraCheckDirectories: string[];
     private readonly packageJSONPath: string;
-    private readonly tsconfigPath: string;
+    private readonly tsConfigPath: string;
 
     constructor(private readonly options: InternalCheckerOptions) {
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.packageJSONPath = path.join(options.projectDirectory, "package.json");
-        this.tsconfigPath = path.join(options.projectDirectory, "tsconfig.json");
+        this.tsConfigPath = path.join(options.projectDirectory, "tsconfig.json");
     }
 
     run() {
@@ -87,9 +87,9 @@ export class ProjectStructureChecker {
     private checkTSConfig() {
         const mainProjectSrcDirectory = path.join(this.projectDirectory, "src");
         const hasTypescriptFiles = glob.sync("**/*.{ts,tsx}", {cwd: mainProjectSrcDirectory}).length > 0;
-        const hasTSConfigFile = fs.existsSync(this.tsconfigPath) && fs.statSync(this.tsconfigPath).isFile();
+        const hasTSConfigFile = fs.existsSync(this.tsConfigPath) && fs.statSync(this.tsConfigPath).isFile();
         if (hasTypescriptFiles && !hasTSConfigFile) {
-            throw new Error(`Cannot find tsconfig.json at "${this.tsconfigPath}".`);
+            throw new Error(`Cannot find tsconfig.json at "${this.tsConfigPath}".`);
         }
     }
 
