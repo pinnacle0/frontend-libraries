@@ -24,9 +24,9 @@
         "eslint-plugin-react-hooks": "^4.2.0"
     },
     "devDependencies": {
-        "@rollup/plugin-commonjs": "16.0.0",
+        "@rollup/plugin-commonjs": "17.0.0",
         "@rollup/plugin-json": "4.1.0",
-        "@rollup/plugin-node-resolve": "10.0.0",
+        "@rollup/plugin-node-resolve": "11.0.0",
         "@typescript-eslint/eslint-plugin": "4.8.2",
         "@typescript-eslint/parser": "4.8.2",
         "rollup": "2.34.0",
