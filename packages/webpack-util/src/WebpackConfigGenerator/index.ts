@@ -173,7 +173,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: this.isFastMode}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false}), // TODO/Lok: `transpileOnly: this.isFastMode`
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),
