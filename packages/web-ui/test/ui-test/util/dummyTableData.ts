@@ -22,10 +22,12 @@ export const dummyTableColumns: TableColumns<MockTableData> = [
     {
         title: "ID",
         width: 99,
+        customizedKey: "id",
         renderData: _ => _.id,
     },
     {
         title: "Name",
+        customizedKey: "name",
         renderData: _ => _.name,
     },
     {
