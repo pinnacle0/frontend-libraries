@@ -138,7 +138,7 @@ export class ModuleGenerator {
         const moduleFullName = this.getModuleNameInFormat("camel");
         const moduleStateName = this.getModuleNameInFormat("pascal", "State");
         const newStateFileContent =
-            `import {State as ${moduleStateName}} from "module/${this.moduleName}/type";\n` +
+            `import type {State as ${moduleStateName}} from "module/${this.moduleName}/type";\n` +
             stateFileContent.substr(0, lastStateDeclarationIndex) +
             `${moduleFullName}: ${moduleStateName};\n` +
             stateFileContent.substr(lastStateDeclarationIndex);
