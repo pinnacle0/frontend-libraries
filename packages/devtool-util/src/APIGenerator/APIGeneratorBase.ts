@@ -86,7 +86,7 @@ export class APIGeneratorBase {
             const requireTypes = service.operations.flatMap(extractTypes).filter(Boolean);
             const customTypes = [...differenceSet(requireTypes, primitiveTypes)];
 
-            return customTypes.length ? `import { ${customTypes.join(",")} } from "${platformInfo.typeFileImportPath}";` : "";
+            return customTypes.length ? `import type { ${customTypes.join(",")} } from "${platformInfo.typeFileImportPath}";` : "";
         };
 
         const methodDeclaration = (operation: Operation) => {
