@@ -8,10 +8,11 @@ import SettingOutlined from "@ant-design/icons/SettingOutlined";
 import {PickOptional, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import {RenderedCell} from "rc-table/lib/interface";
-import {ArrayUtil, ObjectUtil} from "@pinnacle0/util/src";
 import {SessionStorageUtil} from "@pinnacle0/browser-util/src";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
+import {ArrayUtil} from "../../internal/ArrayUtil";
+import {ObjectUtil} from "../../internal/ObjectUtil";
 import "./index.less";
 
 enum SortOrder {
