@@ -112,7 +112,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
     onCustomizationConfigChange = (value: boolean, key: string) => {
         const newConfig = {...this.state.customizationConfig, [key]: value};
         this.setState({customizationConfig: newConfig});
-        SessionStorageUtil.setObject(this.storageKey, this.state.customizationConfig);
+        SessionStorageUtil.setObject(this.storageKey, newConfig);
     };
 
     onSortChange = (_1: any, _2: any, sorter: {} | {order: "descend" | "ascend"; column: TableColumn<RowType, OrderByFieldType>}) => {
