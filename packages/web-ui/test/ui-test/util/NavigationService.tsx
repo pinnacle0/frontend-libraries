@@ -10,7 +10,6 @@ import {MiscellaneousDemo as AdminMiscellaneousDemo} from "../component/admin/Mi
 import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
 import {ResultPageDemo} from "../component/admin/ResultPageDemo";
 import {RichEditorDemo} from "../component/admin/RichEditorDemo";
-import {SunEditorDemo} from "../component/admin/SunEditorDemo";
 import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {AmountDemo} from "../component/core/AmountDemo";
 import {ButtonDemo} from "../component/core/ButtonDemo";
@@ -158,11 +157,6 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/admin/rich-editor",
                         title: "Rich Editor",
                         componentType: RichEditorDemo,
-                    },
-                    {
-                        url: "/admin/sun-editor",
-                        title: "Sun Editor",
-                        componentType: SunEditorDemo,
                     },
                     {
                         url: "/admin/miscellaneous",

@@ -23,10 +23,7 @@
         "@ant-design/icons": "4.3.0",
         "antd": "4.8.5",
         "braft-editor": "2.3.9",
-        "katex": "0.12.0",
-        "moment": "2.29.1",
-        "suneditor": "2.34.3",
-        "suneditor-react": "2.14.6"
+        "moment": "2.29.1"
     },
     "peerDependencies": {
         "@babel/runtime": ">=7.12.1",
