@@ -40,6 +40,18 @@ export default class Slider extends React.PureComponent<Props> {
         return marks;
     };
 
+    onChange = (newValue: number) => {
+        const {min, max, onChange} = this.props;
+
+        if (max && newValue > max) {
+            onChange(max);
+        } else if (min && newValue < min) {
+            onChange(min);
+        } else {
+            onChange(newValue);
+        }
+    };
+
     render() {
         const {showButton, onChange, value, min, max, step = 1, marks, ...rest} = this.props;
 
@@ -47,16 +59,16 @@ export default class Slider extends React.PureComponent<Props> {
             <span className={`g-slider ${showButton ? "show-button" : ""}`}>
                 {showButton && (
                     <div className="slider-button-wrapper">
-                        <Button onClick={() => onChange(value - step!)}>
+                        <Button onClick={() => this.onChange(value - step!)}>
                             <span className="squeeze">{"<"}</span>
                         </Button>
                         {marks?.[min!] && <span>{marks?.[min!]}</span>}
                     </div>
                 )}
-                <AntSlider range={false} {...rest} className="slider" value={value} onChange={onChange} marks={this.getMarks()} min={min} max={max} />
+                <AntSlider range={false} {...rest} className="slider" value={value} onChange={this.onChange} marks={this.getMarks()} min={min} max={max} />
                 {showButton && (
                     <div className="slider-button-wrapper">
-                        <Button onClick={() => onChange(value + step!)}>
+                        <Button onClick={() => this.onChange(value + step!)}>
                             <span className="squeeze"> {">"}</span>
                         </Button>
                         {marks?.[max!] && <span>{marks?.[max!]}</span>}
