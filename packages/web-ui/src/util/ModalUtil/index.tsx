@@ -122,7 +122,7 @@ function confirm(body: SafeReactChildren, title?: string): Promise<boolean> {
         title: title || t.defaultTitle,
         body,
         width: 480,
-        okText: t.defaultOk,
+        okText: t.defaultConfirm,
         cancelText: t.defaultCancel,
     });
 }
