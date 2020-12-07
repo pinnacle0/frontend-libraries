@@ -26,20 +26,41 @@ export default class Slider extends React.PureComponent<Props> {
 
     static Range = RangeSlider;
 
+    /**
+     * If showButton, put max/min marker under our button instead of passing to antd min/max slider position
+     */
+    getMarks = () => {
+        const {showButton, marks, max, min} = this.props;
+        if (this.props.showButton) {
+            const removeMinMaxMark = {...this.props.marks};
+            delete removeMinMaxMark[min!];
+            delete removeMinMaxMark[max!];
+            return removeMinMaxMark;
+        }
+        return marks;
+    };
+
     render() {
-        const {showButton, onChange, value, step = 1, ...rest} = this.props;
+        const {showButton, onChange, value, min, max, step = 1, marks, ...rest} = this.props;
+
         return (
-            <span className="g-slider">
+            <span className={`g-slider ${showButton ? "show-button" : ""}`}>
                 {showButton && (
-                    <Button onClick={() => onChange(value - step!)}>
-                        <span className="squeeze">{"<"}</span>
-                    </Button>
+                    <div className="slider-button-wrapper">
+                        <Button onClick={() => onChange(value - step!)}>
+                            <span className="squeeze">{"<"}</span>
+                        </Button>
+                        {marks?.[min!] && <span>{marks?.[min!]}</span>}
+                    </div>
                 )}
-                <AntSlider range={false} {...rest} className="slider" value={value} onChange={onChange} />
+                <AntSlider range={false} {...rest} className="slider" value={value} onChange={onChange} marks={this.getMarks()} min={min} max={max} />
                 {showButton && (
-                    <Button onClick={() => onChange(value + step!)}>
-                        <span className="squeeze"> {">"}</span>
-                    </Button>
+                    <div className="slider-button-wrapper">
+                        <Button onClick={() => onChange(value + step!)}>
+                            <span className="squeeze"> {">"}</span>
+                        </Button>
+                        {marks?.[max!] && <span>{marks?.[max!]}</span>}
+                    </div>
                 )}
             </span>
         );
