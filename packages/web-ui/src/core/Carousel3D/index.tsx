@@ -106,7 +106,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
                             {child}
                             <div className="arrow arrow-left" onClick={this.jumpToPrevSlide}>
                                 <svg width="40px" height="44px" viewBox="0 0 40 44" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.300000012">
+                                    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.300000012">
                                         <g transform="translate(-80.000000, -133.000000)" fill="#000000">
                                             <g transform="translate(80.000000, 133.000000)">
                                                 <path d="M38,-1.42108547e-14 C39.1045695,-1.44137608e-14 40,0.8954305 40,2 L40,41.1428571 C40,42.2474266 39.1045695,43.1428571 38,43.1428571 L2,43.1428571 C0.8954305,43.1428571 1.3527075e-16,42.2474266 0,41.1428571 L0,2 C-1.3527075e-16,0.8954305 0.8954305,-1.40079486e-14 2,-1.42108547e-14 L38,-1.42108547e-14 Z M22.2974465,7.582202 L11.3775647,19.7056672 C10.5306088,20.6475229 10.5306088,22.1746071 11.3775647,23.1145987 L22.2974465,35.2376129 C23.146744,36.1794687 24.5218276,36.1794687 25.3693131,35.2376129 C26.2181367,34.2971102 26.2181367,32.7703567 25.3693131,31.8282905 L15.984835,21.4100879 L25.3693131,10.9930879 C26.2181088,10.0512322 26.2181088,8.52441857 25.3693131,7.58208173 C24.5219391,6.64203 23.1469112,6.64203 22.2974465,7.582202 Z" />
@@ -117,7 +117,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
                             </div>
                             <div className="arrow arrow-right" onClick={this.jumpToNextSlide}>
                                 <svg width="40px" height="44px" viewBox="0 0 40 44" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.300000012">
+                                    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.300000012">
                                         <g transform="translate(-1240.000000, -133.000000)" fill="#000000">
                                             <g transform="translate(1240.000000, 133.000000)">
                                                 <path
