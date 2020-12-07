@@ -9,7 +9,7 @@ describe("RandomUtil.fromArray", () => {
     test("item is in array", () => {
         const array = [1, 2, "a", "b"];
         Array.from({length: 300}).forEach(() => {
-            const randomItem = RandomUtil.fromArray(array);
+            const randomItem = RandomUtil.fromArray(array)!;
             expect(array).toContain(randomItem);
         });
     });

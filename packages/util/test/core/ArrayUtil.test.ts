@@ -225,7 +225,7 @@ describe("ArrayUtil.generate", () => {
     });
 });
 
-describe("Array.mapToObject", () => {
+describe("ArrayUtil.toObject", () => {
     type MapperCallback = (item: any, index: number) => [string, any];
     type TestEachRowSchema = {array: any[]; mapperCallback: MapperCallback; expected: object};
     test.each`
@@ -234,72 +234,15 @@ describe("Array.mapToObject", () => {
         ${1} | ${[1, 2, "a", "b"]} | ${((item, index) => [index.toString(), item]) as MapperCallback}     | ${{0: 1, 1: 2, 2: "a", 3: "b"}}
         ${2} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), index]) as MapperCallback}     | ${{1: 0, 2: 1, a: 2, b: 3}}
         ${3} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), {a: item}]) as MapperCallback} | ${{1: {a: 1}, 2: {a: 2}, a: {a: "a"}, b: {a: "b"}}}
-    `("returns expected array from mapToObject() @testid:$_id", ({array, mapperCallback, expected}: TestEachRowSchema) => {
-        expect(ArrayUtil.mapToObject(array, mapperCallback)).toStrictEqual(expected);
+    `("returns expected array from toObject() @testid:$_id", ({array, mapperCallback, expected}: TestEachRowSchema) => {
+        expect(ArrayUtil.toObject(array, mapperCallback)).toStrictEqual(expected);
     });
 
-    test("returns expected array from mapToObject() with mapperCallback referencing array", () => {
+    test("returns expected array from toObject() with mapperCallback referencing array", () => {
         const array = [1, 2, "a", "b"];
         const expected = {b: 1, a: 2, 2: "a", 1: "b"};
-        const result = ArrayUtil.mapToObject(array, (item, index) => [array[array.length - index - 1].toString(), item]);
+        const result = ArrayUtil.toObject(array, (item, index) => [array[array.length - index - 1].toString(), item]);
         expect(result).toStrictEqual(expected);
-    });
-});
-
-describe("Array.fromStringEnum", () => {
-    test("empty enum", () => {
-        enum Enum1 {}
-        expect(ArrayUtil.fromStringEnum(Enum1)).toStrictEqual([]);
-    });
-
-    test("enum with symmetric key/value pairs", () => {
-        enum Enum2 {
-            A = "A",
-            B = "B",
-            C = "C",
-        }
-        expect(ArrayUtil.fromStringEnum(Enum2)).toStrictEqual([Enum2.A, Enum2.B, Enum2.C]);
-    });
-    test("enum with asymmetric key/value pairs", () => {
-        enum Enum3 {
-            AA = "A",
-            BB = "B",
-            CC = "C",
-        }
-        expect(ArrayUtil.fromStringEnum(Enum3)).toStrictEqual([Enum3.AA, Enum3.BB, Enum3.CC]);
-    });
-});
-
-describe("Array.enumByValue", () => {
-    test("empty enum", () => {
-        enum Enum1 {}
-        expect(ArrayUtil.enumByValue(Enum1, "any")).toBeNull();
-    });
-
-    test("enum with symmetric key/value pairs", () => {
-        enum Enum2 {
-            A = "A",
-            B = "B",
-            C = "C",
-        }
-        expect(ArrayUtil.enumByValue(Enum2, "A")).toStrictEqual(Enum2.A);
-        expect(ArrayUtil.enumByValue(Enum2, "B")).toStrictEqual(Enum2.B);
-        expect(ArrayUtil.enumByValue(Enum2, "D")).toBeNull();
-        expect(ArrayUtil.enumByValue(Enum2, "")).toBeNull();
-    });
-
-    test("enum with asymmetric key/value pairs", () => {
-        enum Enum3 {
-            AA = "A",
-            BB = "B",
-            CC = "C",
-        }
-        expect(ArrayUtil.enumByValue(Enum3, "A")).toStrictEqual(Enum3.AA);
-        expect(ArrayUtil.enumByValue(Enum3, "AA")).toBeNull();
-        expect(ArrayUtil.enumByValue(Enum3, "B")).toStrictEqual(Enum3.BB);
-        expect(ArrayUtil.enumByValue(Enum3, "BB")).toBeNull();
-        expect(ArrayUtil.enumByValue(Enum3, "C")).toStrictEqual(Enum3.CC);
-        expect(ArrayUtil.enumByValue(Enum3, "CC")).toBeNull();
     });
 });
 

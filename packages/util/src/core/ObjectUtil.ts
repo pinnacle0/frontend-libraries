@@ -23,7 +23,7 @@ function safeAssign<T extends object | undefined | null>(object: T, updatedField
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
-function mapToObject<T extends object, V>(object: T, mapperCallback: (key: keyof T, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): Record<keyof T, WithoutUndefined<V>> {
+function toObject<T extends object, V>(object: T, mapperCallback: (key: keyof T, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): Record<keyof T, WithoutUndefined<V>> {
     const newObject = {};
     Object.keys(object).forEach((key, index) => {
         if (object[key] !== undefined) {
@@ -40,7 +40,7 @@ function mapToObject<T extends object, V>(object: T, mapperCallback: (key: keyof
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
-function mapToArray<T extends object, V>(object: T, mapperCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): WithoutUndefined<V>[] {
+function toArray<T extends object, V>(object: T, mapperCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): WithoutUndefined<V>[] {
     const result: WithoutUndefined<V>[] = [];
     Object.keys(object).forEach((key, index) => object[key] !== undefined && result.push(mapperCallback(key as keyof T & string, object[key], index)));
     return result;
@@ -142,8 +142,8 @@ function sortByKeys<T extends object>(object: T, priorityList: ReadonlyArray<key
 export const ObjectUtil = Object.freeze({
     firstKey,
     safeAssign,
-    mapToObject,
-    mapToArray,
+    toObject,
+    toArray,
     forEach,
     isEmpty,
     findKey,

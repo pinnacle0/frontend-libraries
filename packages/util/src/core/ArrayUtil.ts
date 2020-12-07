@@ -101,17 +101,13 @@ function generate<T>(length: number, generator: T | ((index: number) => T)): T[]
     return result;
 }
 
-function mapToObject<T, V>(array: ReadonlyArray<T>, mapperCallback: (item: T, index: number) => [string, V]): {[key: string]: V} {
+function toObject<T, V>(array: ReadonlyArray<T>, mapperCallback: (item: T, index: number) => [string, V]): {[key: string]: V} {
     const result: {[key: string]: V} = {};
     array.forEach((item, index) => {
         const mappedKV = mapperCallback(item, index);
         result[mappedKV[0]] = mappedKV[1];
     });
     return result;
-}
-
-function fromStringEnum<EnumType extends {[P in keyof EnumType]: EnumType[P] & string}>(enumMap: EnumType): Array<EnumType[keyof EnumType]> {
-    return Object.values(enumMap);
 }
 
 function hasIntersection<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>): boolean {
@@ -130,24 +126,15 @@ function compactMap<T, V>(array: ReadonlyArray<T>, callback: (item: T, index: nu
     return array.map(callback).filter(_ => _ !== null && _ !== undefined && (typeof _ !== "number" || !Number.isNaN(_))) as Array<NonNullable<V>>;
 }
 
-function enumByValue<EnumType extends {[P in keyof EnumType]: EnumType[P] & string}>(enumMap: EnumType, value: string): EnumType[keyof EnumType] | null {
-    if (Object.values(enumMap).includes(value as any)) {
-        return value as any;
-    }
-    return null;
-}
-
 export const ArrayUtil = Object.freeze({
     sum,
     sumByKey,
     toggleElement,
     areSame,
     generate,
-    fromStringEnum,
-    enumByValue,
     chunk,
     hasIntersection,
     compactMap,
-    mapToObject,
+    toObject,
     sortBy,
 });
