@@ -11,8 +11,8 @@ function toArray<EnumType extends string>(enumMap: KVIdenticalEnumMap<EnumType>)
 }
 
 function fromValue<EnumType extends string>(enumMap: KVIdenticalEnumMap<EnumType>, value: string): EnumType | null {
-    if (Object.values(enumMap).includes(value as any)) {
-        return value as any;
+    if (Object.values(enumMap).includes(value)) {
+        return value as EnumType;
     }
     return null;
 }
