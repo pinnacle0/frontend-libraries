@@ -1,6 +1,5 @@
 .g-overflowable-text {
     position: relative;
-    white-space: nowrap;
 
     > .wrap-text {
         &,
@@ -10,12 +9,26 @@
             overflow: hidden;
             overflow-wrap: normal;
             white-space: nowrap;
+
+            &,
+            > * {
+                display: inline-block;
+            }
         }
     }
 
     > .shadow-text {
-        position: absolute;
+        position: fixed;
         visibility: hidden;
         z-index: -10000;
+        min-width: 0;
+
+        &,
+        > * {
+            &,
+            > * {
+                display: inline-block;
+            }
+        }
     }
 }

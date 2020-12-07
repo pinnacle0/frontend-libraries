@@ -4,6 +4,7 @@ import {OverflowableText} from "@pinnacle0/web-ui/core/OverflowableText";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import {Amount} from "@pinnacle0/web-ui/core/Amount";
+import {HTMLContent} from "@pinnacle0/web-ui/core/HTMLContent";
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -49,6 +50,10 @@ function OverflowableTextWithChangeableText() {
                 <h3>Amount</h3>
                 <OverflowableText text={<Amount scale={0} value={amount} />} maxWidth={100} />
                 <NumberInput max={1000000000000000000000000000} allowNull onChange={setAmount} value={amount} />
+            </div>
+            <div>
+                <h3>HTMLContent</h3>
+                <OverflowableText text={<HTMLContent html="<p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p>" />} maxWidth={100} />
             </div>
         </div>
     );
