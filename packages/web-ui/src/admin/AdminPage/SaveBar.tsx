@@ -12,18 +12,15 @@ export class SaveBar extends React.PureComponent<Props> {
     // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "AdminPage.SaveBar";
 
-    private readonly containerStyle: React.CSSProperties = {marginTop: 10, display: "flex", justifyContent: "space-between", alignItems: "center"};
-    private readonly resetButtonStyle: React.CSSProperties = {marginRight: 20};
-
     render() {
         const {leftNode, onReset, onSave} = this.props;
         const t = i18n();
         return (
-            <div style={this.containerStyle}>
-                <div>{leftNode}</div>
-                <div>
+            <div className="g-admin-page-save-bar">
+                <div className="left">{leftNode}</div>
+                <div className="right">
                     {onReset && (
-                        <Button size="large" color="wire-frame" style={this.resetButtonStyle} onClick={onReset}>
+                        <Button size="large" color="wire-frame" onClick={onReset}>
                             {t.reset}
                         </Button>
                     )}
