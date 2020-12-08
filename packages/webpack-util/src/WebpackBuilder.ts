@@ -33,6 +33,7 @@ export class WebpackBuilder {
     private readonly webpackConfig: webpack.Configuration;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
+    private readonly verbose: boolean;
 
     private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
@@ -46,6 +47,7 @@ export class WebpackBuilder {
         this.webpackConfig = webpackConfigGenerator.production(this.outputDirectory);
         this.isFastMode = webpackConfigGenerator.isFastMode;
         this.enableProfiling = webpackConfigGenerator.enableProfiling;
+        this.verbose = webpackConfigGenerator.verbose;
     }
 
     run() {
@@ -88,7 +90,13 @@ export class WebpackBuilder {
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {
-                    const {warnings, errors} = this.getWarningsAndErrors(statsJSON);
+                    if (!this.verbose) {
+                        this.logger.error("Webpack compiled with the following errors/warnings:");
+                        console.error(stats.toString("errors-warnings"));
+                        process.exit(1);
+                    }
+
+                    const {warnings, errors} = this.getRawWarningsAndErrors(statsJSON);
                     if (warnings.length > 0) {
                         this.logger.error("Webpack compiled with the following warnings:");
                         console.error(JSON.stringify(warnings, null, 2));
@@ -108,7 +116,7 @@ export class WebpackBuilder {
         });
     }
 
-    private getWarningsAndErrors(info: any): {warnings: any[]; errors: any[]} {
+    private getRawWarningsAndErrors(info: any): {warnings: any[]; errors: any[]} {
         const warnings: any[] = [];
         const errors: any[] = [];
         if (typeof info === "object" && info !== null) {
@@ -120,7 +128,7 @@ export class WebpackBuilder {
             }
             if (Array.isArray(info.children)) {
                 info.children.forEach((_: any) => {
-                    const childInfo = this.getWarningsAndErrors(_);
+                    const childInfo = this.getRawWarningsAndErrors(_);
                     warnings.push(...childInfo.warnings);
                     errors.push(...childInfo.errors);
                 });

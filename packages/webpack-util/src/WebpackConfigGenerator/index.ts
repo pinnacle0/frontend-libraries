@@ -28,6 +28,7 @@ export class WebpackConfigGenerator {
     readonly maxEntryPointKiloByte: number;
     readonly maxAssetKiloByte: number;
     readonly isFastMode: boolean;
+    readonly verbose: boolean;
 
     private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
@@ -49,6 +50,7 @@ export class WebpackConfigGenerator {
         this.maxEntryPointKiloByte = options.maxEntryPointKiloByte ?? Constant.maxEntryPointKiloByte;
         this.maxAssetKiloByte = options.maxAssetKiloByte ?? Constant.maxAssetKiloByte;
         this.isFastMode = yargs.argv.mode === "fast";
+        this.verbose = options.verbose || false;
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -132,8 +134,10 @@ export class WebpackConfigGenerator {
                 cacheDirectory: path.join(this.projectDirectory, ".webpack-cache"),
             },
         };
-        this.logger.info("Full webpack config:");
-        console.info(WebpackConfigSerializationUtil.configToString(config));
+        if (this.verbose) {
+            this.logger.info("Full webpack config:");
+            console.info(WebpackConfigSerializationUtil.configToString(config));
+        }
         return config;
     }
 
@@ -189,8 +193,10 @@ export class WebpackConfigGenerator {
                 // prettier-format-preserve
             ],
         };
-        this.logger.info("Full webpack config:");
-        console.info(WebpackConfigSerializationUtil.configToString(config));
+        if (this.verbose) {
+            this.logger.info("Full webpack config:");
+            console.info(WebpackConfigSerializationUtil.configToString(config));
+        }
         return config;
     }
 }

@@ -75,6 +75,14 @@ export interface WebpackConfigGeneratorOptions {
      * Assets exceeding the specified file size (KB) will be warned.
      */
     maxAssetKiloByte?: number;
+    /**
+     * Print the entire webpack config to console (e.g. for debugging).
+     * Non-serializable functions will be replaced by the token `[Function]`.
+     *
+     * Also dumps errors and warnings as raw json from WebpackBuilder.
+     * Since webpack#stats.toString() might exclude messages from webpack child compilations.
+     */
+    verbose?: boolean;
 }
 
 export interface EntryDescriptor {
