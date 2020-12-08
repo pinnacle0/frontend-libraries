@@ -5,6 +5,10 @@ import "antd/lib/input/style";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 
+export interface InputReadonlyProps extends Omit<InputProps, ExcludedAntInputKeys | "readonly" | "disabled" | "allowClear"> {
+    value: string;
+}
+
 export interface InputSearchProps extends Omit<SearchProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
 export interface InputTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
@@ -21,6 +25,8 @@ export class Input extends React.PureComponent<Props> {
     static displayName = "Input";
 
     static Group = AntInput.Group;
+
+    static Readonly = (props: InputReadonlyProps) => <AntInput onChange={() => {}} readOnly disabled {...props} />;
 
     static Search = ({onChange, ...rest}: InputSearchProps) => <AntInput.Search onChange={e => Input.onChange(e, onChange)} {...rest} />;
 
