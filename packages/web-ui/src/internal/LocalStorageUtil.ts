@@ -66,7 +66,11 @@ function getObject<T extends object>(key: string, defaultValue: T, validator: (i
 }
 
 function setObject<T extends object>(key: string, item: T): void {
-    localStorage.setItem(key, JSON.stringify(item));
+    try {
+        localStorage.setItem(key, JSON.stringify(item));
+    } catch (e) {
+        // Do nothing
+    }
 }
 
 export const LocalStorageUtil = Object.freeze({
