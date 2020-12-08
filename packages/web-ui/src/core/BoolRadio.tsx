@@ -1,10 +1,10 @@
 import React from "react";
 import {EnumRadio} from "./EnumRadio";
+import type {Props as BaseProps} from "./EnumRadio/InitialNullable";
 import {ControlledFormValue, PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
-export interface Props<Text extends string | false> extends ControlledFormValue<Text extends false ? boolean : boolean | null> {
-    allowNull: Text;
+export interface Props extends Omit<BaseProps<boolean>, "list" | "translator"> {
     trueText?: string;
     falseText?: string;
     trueOptionFirst?: boolean;
@@ -13,9 +13,9 @@ export interface Props<Text extends string | false> extends ControlledFormValue<
     useButtonMode?: boolean;
 }
 
-export class BoolRadio<T extends string | false> extends React.PureComponent<Props<T>> {
+export class BoolRadio extends React.PureComponent<Props> {
     static displayName = "BoolRadio";
-    static defaultProps: PickOptional<Props<any>> = {
+    static defaultProps: PickOptional<Props> = {
         trueOptionFirst: true,
     };
 
@@ -30,6 +30,6 @@ export class BoolRadio<T extends string | false> extends React.PureComponent<Pro
     render() {
         const {trueOptionFirst, ...restProps} = this.props;
         const list = trueOptionFirst ? this.trueOptionFirstList : this.falseOptionFirstList;
-        return <EnumRadio list={list} translator={this.translator} {...restProps} />;
+        return <EnumRadio.InitialNullable list={list} translator={this.translator} {...restProps} />;
     }
 }

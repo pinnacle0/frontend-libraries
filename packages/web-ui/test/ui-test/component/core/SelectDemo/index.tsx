@@ -7,8 +7,12 @@ import {DemoHelper, DemoHelperGroupConfig} from "test/ui-test/component/DemoHelp
 import {withUncontrolledInitialValue} from "test/ui-test/util/withUncontrolledInitialValue";
 
 const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);
+const UncontrolledEnumRadioNullable = withUncontrolledInitialValue(EnumRadio.Nullable);
+const UncontrolledEnumRadioInitialNullable = withUncontrolledInitialValue(EnumRadio.InitialNullable);
 const UncontrolledMultipleSelect = withUncontrolledInitialValue(MultipleEnumSelect);
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
+const UncontrolledEnumSelectNullable = withUncontrolledInitialValue(EnumSelect.Nullable);
+const UncontrolledEnumSelectInitialNullable = withUncontrolledInitialValue(EnumSelect.InitialNullable);
 const UncontrolledCascader = withUncontrolledInitialValue(Cascader);
 
 const PrefixComponent = () => <div style={{width: 20, height: 20, background: "red"}} />;
@@ -23,18 +27,27 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Enum Radio Demo",
         showPropsHint: true,
-        components: [<UncontrolledEnumRadio list={[1, 2, 3]} translator={_ => _ + ""} initialValue={1} allowNull={false} />],
+        components: [<UncontrolledEnumRadio list={[1, 2, 3]} translator={_ => _ + ""} initialValue={1} />],
+    },
+    {
+        title: "Nullable Enum Radio Demo",
+        showPropsHint: true,
+        components: [<UncontrolledEnumRadioNullable list={[1, 2, 3]} translator={_ => _ + ""} initialValue={1} />],
+    },
+    {
+        title: "Initial Nullable Enum Radio Demo",
+        showPropsHint: true,
+        components: [<UncontrolledEnumRadioInitialNullable list={[1, 2, 3]} translator={_ => _ + ""} initialValue={null} />],
     },
     {
         title: "Enum Radio Button Demo",
         showPropsHint: true,
         components: [
-            <UncontrolledEnumRadio list={[1, 2, 3]} translator={_ => _ + ""} initialValue={1} allowNull={false} useButtonMode />,
+            <UncontrolledEnumRadio list={[1, 2, 3]} translator={_ => _ + ""} initialValue={1} useButtonMode />,
             <UncontrolledEnumRadio
                 list={[TestEnum.ONE, TestEnum.TWO, TestEnum.THREE]}
                 translator={_ => (_ === TestEnum.ONE ? "One" : _ === TestEnum.TWO ? "Two" : "Three")}
                 initialValue={TestEnum.ONE}
-                allowNull={false}
                 useButtonMode
             />,
         ],
@@ -50,7 +63,7 @@ const groups: DemoHelperGroupConfig[] = [
         components: [
             <UncontrolledEnumSelect
                 list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
-                initialValue={null}
+                initialValue="apple"
                 translator={_ => String(_).toUpperCase()}
                 style={{
                     width: 200,
@@ -58,9 +71,8 @@ const groups: DemoHelperGroupConfig[] = [
             />,
             <UncontrolledEnumSelect
                 list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
-                initialValue={null}
+                initialValue="banana"
                 translator={_ => String(_).toUpperCase()}
-                allowNull={false}
                 style={{
                     width: 200,
                 }}
@@ -68,25 +80,36 @@ const groups: DemoHelperGroupConfig[] = [
         ],
     },
     {
-        title: "Enum Dropdown Demo (with Prefix)",
+        title: "Nullable Enum Dropdown Demo (with Prefix)",
         showPropsHint: true,
         components: [
-            <UncontrolledEnumSelect
+            <UncontrolledEnumSelectNullable
                 list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
                 initialValue={null}
                 translator={_ => String(_).toUpperCase()}
-                allowNull="Pick your food"
-                prefix={<PrefixComponent />}
+                nullText="Pick your food"
                 style={{
                     width: 200,
                 }}
             />,
-            <UncontrolledEnumSelect
+            <UncontrolledEnumSelectNullable
+                list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
+                initialValue="apple"
+                translator={_ => String(_).toUpperCase()}
+                style={{
+                    width: 200,
+                }}
+            />,
+        ],
+    },
+    {
+        title: "Initial Nullable Enum Dropdown Demo (with Prefix)",
+        showPropsHint: true,
+        components: [
+            <UncontrolledEnumSelectInitialNullable
                 list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
                 initialValue={null}
                 translator={_ => String(_).toUpperCase()}
-                allowNull={false}
-                prefix={<div style={{width: 20, height: 20, background: "red"}} />}
                 style={{
                     width: 200,
                 }}

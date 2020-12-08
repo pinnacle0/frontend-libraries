@@ -51,7 +51,7 @@ export class AmountConditionInput extends React.PureComponent<Props> {
         const {scale, value} = this.props;
         return (
             <Input.Group compact>
-                <EnumSelect allowNull={false} value={value.condition} onChange={this.onConditionChange} translator={this.operatorTranslator} list={this.operators} style={this.selectStyle} />
+                <EnumSelect value={value.condition} onChange={this.onConditionChange} translator={this.operatorTranslator} list={this.operators} style={this.selectStyle} />
                 <NumberInput allowNull scale={scale} value={value.amount} onChange={this.onAmountChange} inputStyle={this.inputStyle} />
             </Input.Group>
         );

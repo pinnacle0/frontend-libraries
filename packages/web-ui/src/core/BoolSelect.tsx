@@ -1,10 +1,10 @@
 import React from "react";
 import {EnumSelect} from "./EnumSelect";
-import {ControlledFormValue, PickOptional} from "../internal/type";
+import type {Props as BaseProps} from "./EnumSelect/InitialNullable";
+import {PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
-export interface Props<Text extends string | false> extends ControlledFormValue<Text extends false ? boolean : boolean | null> {
-    allowNull: Text;
+export interface Props extends Omit<BaseProps<boolean>, "list" | "translator"> {
     trueText?: string;
     falseText?: string;
     trueOptionFirst?: boolean;
@@ -12,9 +12,9 @@ export interface Props<Text extends string | false> extends ControlledFormValue<
     style?: React.CSSProperties;
 }
 
-export class BoolSelect<T extends string | false> extends React.PureComponent<Props<T>> {
+export class BoolSelect extends React.PureComponent<Props> {
     static displayName = "BoolSelect";
-    static defaultProps: PickOptional<Props<any>> = {
+    static defaultProps: PickOptional<Props> = {
         trueOptionFirst: true,
     };
 
@@ -29,6 +29,6 @@ export class BoolSelect<T extends string | false> extends React.PureComponent<Pr
     render() {
         const {trueOptionFirst, ...restProps} = this.props;
         const list = trueOptionFirst ? this.trueOptionFirstList : this.falseOptionFirstList;
-        return <EnumSelect list={list} translator={this.translator} {...restProps} />;
+        return <EnumSelect.InitialNullable list={list} translator={this.translator} {...restProps} />;
     }
 }

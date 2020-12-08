@@ -22,7 +22,6 @@ export class LocaleSelect extends React.PureComponent<Props> {
         const currentLocale = LocaleUtil.current();
         return (
             <EnumSelect
-                allowNull={false}
                 list={this.allLocales}
                 translator={this.translator}
                 value={currentLocale}
