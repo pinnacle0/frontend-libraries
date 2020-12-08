@@ -1,7 +1,7 @@
 import React from "react";
 import {PickOptional} from "../../internal/type";
 import {FormErrorDisplayMode, FormValidationContext, FormValidationContextType} from "./context";
-import {FormItem} from "./FormItem";
+import {Item} from "./Item";
 import "./index.less";
 
 export interface Props {
@@ -20,7 +20,7 @@ export class Form extends React.PureComponent<Props> {
         layout: "horizontal",
         errorDisplayMode: {type: "extra"},
     };
-    static Item = FormItem;
+    static Item = Item;
 
     private readonly validationContext: FormValidationContextType;
     private validators: Array<() => Promise<boolean>> = [];
