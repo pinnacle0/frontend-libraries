@@ -9,7 +9,8 @@ export interface Props {
 }
 
 export class SaveBar extends React.PureComponent<Props> {
-    static displayName = "SaveBar";
+    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
+    static displayName = "AdminPage.SaveBar";
 
     private readonly containerStyle: React.CSSProperties = {marginTop: 10, display: "flex", justifyContent: "space-between", alignItems: "center"};
     private readonly resetButtonStyle: React.CSSProperties = {marginRight: 20};

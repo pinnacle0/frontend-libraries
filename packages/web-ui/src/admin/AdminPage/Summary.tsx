@@ -6,7 +6,8 @@ export interface Props {
 }
 
 export class Summary extends React.PureComponent<Props> {
-    static displayName = "Summary";
+    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
+    static displayName = "AdminPage.Summary";
 
     render() {
         const {children} = this.props;

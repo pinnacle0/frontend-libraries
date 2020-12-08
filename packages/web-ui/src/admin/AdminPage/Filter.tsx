@@ -31,7 +31,8 @@ interface State {
 }
 
 export class Filter extends React.PureComponent<Props, State> {
-    static displayName = "Filter";
+    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
+    static displayName = "AdminPage.Filter";
 
     private readonly errorDisplayMode: FormErrorDisplayMode = {type: "popover", placement: "top"};
     private readonly storageKey: string;

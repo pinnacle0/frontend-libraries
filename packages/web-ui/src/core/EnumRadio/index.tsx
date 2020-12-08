@@ -1,0 +1,41 @@
+import React from "react";
+import {Radio, RadioChangeEvent} from "../Radio";
+import {ControlledFormValue} from "../../internal/type";
+import {Nullable} from "./Nullable";
+import {InitialNullable} from "./InitialNullable";
+
+export interface BaseProps<Enum extends string | boolean | number> {
+    list: readonly Enum[];
+    translator: (enumValue: Enum) => React.ReactChild;
+    useButtonMode?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
+}
+
+export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
+
+export class EnumRadio<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
+    static displayName = "EnumRadio";
+    static Nullable = Nullable;
+    static InitialNullable = InitialNullable;
+
+    onChange = (event: RadioChangeEvent) => {
+        const enumValue: Enum = event.target.value;
+        this.props.onChange(enumValue);
+    };
+
+    render() {
+        const {list, translator, value, useButtonMode, className, style} = this.props;
+        const RadioItem = useButtonMode ? Radio.Button : Radio;
+        return (
+            <Radio.Group value={value} onChange={this.onChange} className={className} style={style} optionType={useButtonMode ? "button" : undefined}>
+                {list.map(_ => (
+                    // RadioItem can accept any type as value, and emit the exact type while onChange
+                    <RadioItem key={_.toString()} value={_}>
+                        {translator(_)}
+                    </RadioItem>
+                ))}
+            </Radio.Group>
+        );
+    }
+}
