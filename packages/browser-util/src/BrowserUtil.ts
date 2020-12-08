@@ -1,16 +1,23 @@
 export type BrowserOS = "Windows" | "Mac" | "iOS" | "Android" | "other";
 export type BrowserKernel = "webkit" | "firefox" | "ie" | "other";
+export interface BrowserNewTabSizeOptions {
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+}
 
 function os(): BrowserOS {
-    // TODO
+    // TODO/Lok
     return "other";
 }
 
 function kernel(): BrowserKernel {
-    // TODO
+    // TODO/Lok
     return "other";
 }
 
+// TODO: just remove following after finish above
 /** @deprecated */
 function isMac() {
     return navigator.platform.toUpperCase().indexOf("MAC") >= 0;
@@ -75,9 +82,14 @@ function scrollTo(position: number, container: Element | null = null) {
  * Resolve when new tab is loaded, only applicable to same domain.
  * Ref: https://stackoverflow.com/questions/3030859/detecting-the-onload-event-of-a-window-opened-with-window-open
  */
-function openTabAndWait(url: string): Promise<void> {
+function newTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}): Promise<void> {
     return new Promise<void>(resolve => {
-        const newWindow = window.open(url, "_blank");
+        let features: string | undefined;
+        if (Object.keys(sizeOptions).length > 0) {
+            features = "toolbar=no,location=no,status=no,menubar=no,resizable=no" + Object.entries(sizeOptions).map(([key, value]) => `,${key}=${value}`);
+        }
+
+        const newWindow = window.open(url, "newTab", features);
         if (newWindow) {
             newWindow.addEventListener("load", () => resolve(), true);
             newWindow.addEventListener("error", () => resolve(), true);
@@ -110,6 +122,6 @@ export const BrowserUtil = Object.freeze({
     isWechat,
     removeElement,
     scrollTo,
-    openTabAndWait,
+    newTab,
     openQQ,
 });
