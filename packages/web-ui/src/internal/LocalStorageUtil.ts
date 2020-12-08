@@ -50,9 +50,30 @@ function getString<T extends string = string>(key: string, validValues: T[], def
     }
 }
 
+function getObject<T extends object>(key: string, defaultValue: T, validator: (item: object) => boolean): T {
+    try {
+        const savedData = localStorage.getItem(key);
+        if (savedData) {
+            const data: object = JSON.parse(savedData);
+            if (validator(data)) {
+                return data as T;
+            }
+        }
+        return defaultValue;
+    } catch (e) {
+        return defaultValue;
+    }
+}
+
+function setObject<T extends object>(key: string, item: T): void {
+    localStorage.setItem(key, JSON.stringify(item));
+}
+
 export const LocalStorageUtil = Object.freeze({
     setBool,
     setString,
+    setObject,
     getBool,
     getString,
+    getObject,
 });

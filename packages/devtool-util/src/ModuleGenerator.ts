@@ -65,7 +65,7 @@ export class ModuleGenerator {
     private readonly templatePath: string;
 
     constructor({moduleBasePath, reduxStateTypePath, templatePath}: ModuleGeneratorOptions) {
-        this.moduleName = yargs.argv._[0];
+        this.moduleName = String(yargs.argv._[0]);
         this.moduleBasePath = moduleBasePath;
         this.reduxStateTypePath = reduxStateTypePath;
         this.templatePath = templatePath;

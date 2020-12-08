@@ -19,7 +19,7 @@ export class AppIconFontGenerator {
         this.componentPath = options.componentPath;
         this.androidFontPath = options.androidFontPath;
         this.iosFontPath = options.iosFontPath;
-        this.cssURL = options.cssURL || yargs.argv._[0];
+        this.cssURL = options.cssURL || String(yargs.argv._[0]);
     }
 
     async generate() {

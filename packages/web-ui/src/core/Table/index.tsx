@@ -8,11 +8,11 @@ import SettingOutlined from "@ant-design/icons/SettingOutlined";
 import {PickOptional, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import {RenderedCell} from "rc-table/lib/interface";
-import {SessionStorageUtil} from "@pinnacle0/browser-util/src";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {ObjectUtil} from "../../internal/ObjectUtil";
+import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
 import "./index.less";
 
 enum SortOrder {
@@ -79,7 +79,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
 
     private readonly emptyPlaceHolderContainerStyle: React.CSSProperties = {padding: "50px 0"};
     private readonly emptyPlaceHolderIconStyle: React.CSSProperties = {display: "block", fontSize: 50, marginBottom: 20};
-    private readonly settingIconContainerStyle: React.CSSProperties = {display: "flex", justifyContent: "flex-end", marginBottom: "7px", marginRight: "5px", marginTop: "-10px"};
+    private readonly settingIconContainerStyle: React.CSSProperties = {display: "flex", justifyContent: "flex-end", marginBottom: "7px", marginRight: "5px"};
     private readonly settingIconStyle: React.CSSProperties = {fontSize: "20px"};
     private readonly storageKey = `table-customization-config:${this.props.customizedStorageKey || location.pathname}`;
     private readonly canCustomized: boolean;
@@ -89,8 +89,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
         const defaultConfig = ArrayUtil.mapToObject(columnsCustomizedKeyList, key => [key, true]);
         this.canCustomized = !ObjectUtil.isEmpty(defaultConfig);
-        // TODO: need validate?
-        const savedConfig = SessionStorageUtil.getObject(this.storageKey, defaultConfig, () => true);
+        const savedConfig = LocalStorageUtil.getObject(this.storageKey, defaultConfig, item => columnsCustomizedKeyList.some(_ => item[_] !== undefined));
         this.state = {customizationConfig: savedConfig};
     }
 
@@ -112,7 +111,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
     onCustomizationConfigChange = (value: boolean, key: string) => {
         const newConfig = {...this.state.customizationConfig, [key]: value};
         this.setState({customizationConfig: newConfig});
-        SessionStorageUtil.setObject(this.storageKey, newConfig);
+        LocalStorageUtil.setObject(this.storageKey, newConfig);
     };
 
     onSortChange = (_1: any, _2: any, sorter: {} | {order: "descend" | "ascend"; column: TableColumn<RowType, OrderByFieldType>}) => {

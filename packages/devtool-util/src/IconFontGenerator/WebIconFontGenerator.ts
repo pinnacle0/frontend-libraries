@@ -22,7 +22,7 @@ export class WebIconFontGenerator {
         this.componentBasePath = options.componentBasePath;
         this.staticPath = options.staticPath;
         this.templatePath = options.templatePath;
-        this.cssURL = options.cssURL || yargs.argv._[0];
+        this.cssURL = options.cssURL || String(yargs.argv._[0]);
         this.fontFamily = options.fontFamily || "iconfont";
     }
 
