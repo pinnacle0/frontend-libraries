@@ -14,7 +14,7 @@ export interface BaseProps<Enum extends string | boolean | number> {
     className?: string;
     style?: React.CSSProperties;
     showSearch?: true;
-    optionFilterProp?: string;
+    optionFilterProp?: "children" | "label";
 }
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
