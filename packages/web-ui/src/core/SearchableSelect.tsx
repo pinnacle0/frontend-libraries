@@ -1,10 +1,8 @@
 import {Select, Props as SelectProps, SelectValue, SelectOptionProps} from "./Select";
 import React from "react";
 
-export type LabeledValue = {value: string; label: string};
-
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionFilterProp" | "showSearch" | "optionLabelProp" | "options"> {
-    options?: Array<LabeledValue>;
+    options?: Array<{value: string; label: string}>;
 }
 
 export class SearchableSelect<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {

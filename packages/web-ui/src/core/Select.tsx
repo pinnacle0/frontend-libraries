@@ -3,7 +3,9 @@ import {OptionProps as SelectOptionProps} from "rc-select/lib/Option";
 import React from "react";
 import "antd/lib/select/style";
 
-export interface Props<ValueType extends SelectValue> extends SelectProps<ValueType> {}
+export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionLabelProp" | "options"> {
+    options?: Array<{value: string; label: string}>;
+}
 
 export class Select<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
     static displayName = "Select";
