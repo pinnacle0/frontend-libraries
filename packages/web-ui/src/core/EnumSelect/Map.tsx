@@ -8,7 +8,7 @@ export interface Props<T extends string> extends Omit<BaseProps<any>, "list" | "
 
 export class Map<T extends string> extends React.PureComponent<Props<T>> {
     // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
-    static displayName = "EnumRadio.Map";
+    static displayName = "EnumSelect.Map";
 
     render() {
         const {map, ...restProps} = this.props;
