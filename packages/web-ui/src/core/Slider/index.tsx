@@ -65,7 +65,7 @@ export default class Slider extends React.PureComponent<Props> {
                         {marks?.[min!] && <span>{marks?.[min!]}</span>}
                     </div>
                 )}
-                <AntSlider range={false} {...rest} className="slider" value={value} onChange={this.onChange} marks={this.getMarks()} min={min} max={max} />
+                <AntSlider range={false} {...rest} className="slider" value={value} onChange={this.onChange} marks={this.getMarks()} min={min} max={max} step={step} />
                 {showButton && (
                     <div className="slider-button-wrapper">
                         <Button onClick={() => this.onChange(value + step!)}>
