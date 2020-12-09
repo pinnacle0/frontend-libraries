@@ -2141,6 +2141,15 @@
     chrome-trace-event "^1.0.2"
     nullthrows "^1.1.1"
 
+"@pinnacle0/devtool-util@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@pinnacle0/devtool-util/-/devtool-util-0.0.3.tgz#29b88cf65672ee01f168627316267e3bfcb47435"
+  integrity sha512-VWfKCAaMrICKFtk80C0T2/USzYnJxdPngnqUCybqlc/WEtdWBN8Eld8gOggXHpuXoU6Vre04tfuYA9Z7tgxVRQ==
+  dependencies:
+    axios "0.21.0"
+    fs-extra "9.0.1"
+    yargs "16.1.1"
+
 "@rollup/plugin-commonjs@17.0.0":
   version "17.0.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-17.0.0.tgz#2ae2228354cf0fbba6cf9f06f30b2c66a974324c"
@@ -13044,6 +13053,19 @@ yargs-parser@^18.1.2:
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
+
+yargs@16.1.1:
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.1.1.tgz#5a4a095bd1ca806b0a50d0c03611d38034d219a1"
+  integrity sha512-hAD1RcFP/wfgfxgMVswPE+z3tlPFtxG8/yWUrG2i17sTWGCGqWnxKcLTF4cUKDUK8fzokwsmO9H0TDkRbMHy8w==
+  dependencies:
+    cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.0"
+    y18n "^5.0.5"
+    yargs-parser "^20.2.2"
 
 yargs@16.2.0:
   version "16.2.0"
