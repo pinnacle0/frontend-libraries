@@ -3,7 +3,7 @@ import React from "react";
 
 export type LabeledValue = {value: string; label: string};
 
-export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionFilterProp" | "showSearch" | "options"> {
+export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionFilterProp" | "showSearch" | "optionLabelProp" | "options"> {
     options?: Array<LabeledValue>;
 }
 
