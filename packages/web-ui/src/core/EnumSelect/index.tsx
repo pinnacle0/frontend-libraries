@@ -4,6 +4,7 @@ import {ControlledFormValue, SafeReactChild} from "../../internal/type";
 import {Select} from "../Select";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
+import {Map} from "./Map";
 import "./index.less";
 
 export interface BaseProps<Enum extends string | boolean | number> {
@@ -23,6 +24,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
 
     static Nullable = Nullable;
     static InitialNullable = InitialNullable;
+    static Map = Map;
 
     getAntSelectValue = (): LabeledValue | undefined => {
         const value = this.props.value as Enum;

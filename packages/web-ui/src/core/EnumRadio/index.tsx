@@ -3,6 +3,7 @@ import {Radio, RadioChangeEvent} from "../Radio";
 import {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
+import {Map} from "./Map";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
@@ -18,6 +19,7 @@ export class EnumRadio<Enum extends string | boolean | number> extends React.Pur
     static displayName = "EnumRadio";
     static Nullable = Nullable;
     static InitialNullable = InitialNullable;
+    static Map = Map;
 
     onChange = (event: RadioChangeEvent) => {
         const enumValue: Enum = event.target.value;
