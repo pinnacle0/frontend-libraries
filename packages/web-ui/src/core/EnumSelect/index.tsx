@@ -14,7 +14,6 @@ export interface BaseProps<Enum extends string | boolean | number> {
     className?: string;
     style?: React.CSSProperties;
     showSearch?: true;
-    optionFilterProp?: "children" | "label";
 }
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
@@ -43,7 +42,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className, style, showSearch, optionFilterProp} = this.props;
+        const {list, translator, disabled, className, style, showSearch} = this.props;
         return (
             <Select<LabeledValue>
                 disabled={disabled}
@@ -53,7 +52,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 className={className}
                 style={style}
                 showSearch={showSearch}
-                optionFilterProp={optionFilterProp}
+                optionFilterProp="children"
             >
                 {list.map(_ => (
                     <Select.Option key={_.toString()} value={_.toString()}>
