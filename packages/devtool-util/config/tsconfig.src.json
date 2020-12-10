@@ -12,6 +12,6 @@
         "isolatedModules": true,
         "removeComments": false
     },
-    "include": ["../src/"],
+    "include": ["../index.ts", "../src/"],
     "exclude": ["**/__fixtures__/"]
 }

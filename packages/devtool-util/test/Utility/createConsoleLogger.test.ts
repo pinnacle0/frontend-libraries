@@ -1,4 +1,4 @@
-import {Utility} from "../../src";
+import {Utility} from "../../src/Utility";
 
 describe("Utility.createConsoleLogger (smoke tests)", () => {
     test("can create a logger instance", () => {

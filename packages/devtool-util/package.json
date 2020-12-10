@@ -2,8 +2,6 @@
     "name": "@pinnacle0/devtool-util",
     "version": "0.0.4",
     "license": "MIT",
-    "main": "src/index.js",
-    "types": "src/index.d.ts",
     "scripts": {
         "check-code-style": "prettier --check \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore",

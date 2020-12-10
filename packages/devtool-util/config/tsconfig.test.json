@@ -10,6 +10,6 @@
         "allowSyntheticDefaultImports": false,
         "esModuleInterop": false
     },
-    "include": ["../src/", "../test/"],
-    "exclude": ["../dist/", "**/__fixtures__/"]
+    "include": ["../index.ts", "../src/", "../test/"],
+    "exclude": ["**/__fixtures__/"]
 }

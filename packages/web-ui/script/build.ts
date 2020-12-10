@@ -1,4 +1,4 @@
-import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util/src";
+import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import {copySync as fsExtraCopySync} from "fs-extra";
 import path from "path";

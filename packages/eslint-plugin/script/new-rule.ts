@@ -1,4 +1,4 @@
-import {TaskRunner} from "@pinnacle0/devtool-util/src";
+import {TaskRunner} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";

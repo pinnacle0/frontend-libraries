@@ -1,4 +1,4 @@
-import {TaskRunner, Utility} from "@pinnacle0/devtool-util/src";
+import {TaskRunner, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
 import {kebabToCamelCase} from "./util";

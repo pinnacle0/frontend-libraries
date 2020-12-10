@@ -1,5 +1,4 @@
-// @ts-ignore -- devtool-util/src/index.d.ts is not found inside the monorepo, so typescript reports an error.
-import {Utility} from "@pinnacle0/devtool-util/src";
+import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import type {DynamicConfigResolver} from "../type";
 

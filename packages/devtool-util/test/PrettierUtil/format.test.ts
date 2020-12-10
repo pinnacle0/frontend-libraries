@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {PrettierUtil} from "../../src";
+import {PrettierUtil} from "../../src/PrettierUtil";
 
 const tmpDirectory = path.join(__dirname, "./__tmp__/format");
 
