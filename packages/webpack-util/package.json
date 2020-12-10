@@ -9,7 +9,7 @@
         "format": "yarn run-script script/format.ts"
     },
     "dependencies": {
-        "@pinnacle0/devtool-util": "0.0.4",
+        "@pinnacle0/devtool-util": "0.0.5",
         "autoprefixer": "9.8.6",
         "chalk": "4.1.0",
         "css-loader": "4.3.0",
