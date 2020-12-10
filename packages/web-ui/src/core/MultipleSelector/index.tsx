@@ -11,10 +11,7 @@ import {TablePopover} from "./TablePopover";
 
 export interface Props<RowType extends object> extends ControlledFormValue<RowType[]> {
     dataSource: RowType[];
-    /**
-     * Should not use "index" here, please provide a unique key based on record.
-     */
-    rowKeyExtractor: (record: RowType) => string;
+    rowKey: StringKey<RowType> | ((record: RowType, index?: number) => string);
     tableColumns: TableColumns<RowType>;
     /**
      * If string key, it will render each value as a closable tag with key as label.
@@ -76,12 +73,12 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
     };
 
     renderPopover = () => {
-        const {renderPopover, value, onChange, disabled, onPopoverFirstRender, dataSource, tableColumns, rowKeyExtractor, scrollY} = this.props;
+        const {renderPopover, value, onChange, disabled, onPopoverFirstRender, dataSource, tableColumns, rowKey, scrollY} = this.props;
         return (
             <TablePopover
                 dataSource={dataSource}
                 columns={tableColumns}
-                rowKeyExtractor={rowKeyExtractor}
+                rowKey={rowKey}
                 value={value}
                 onChange={onChange}
                 onFirstRender={onPopoverFirstRender}
