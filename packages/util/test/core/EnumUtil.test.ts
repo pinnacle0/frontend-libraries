@@ -22,18 +22,24 @@ describe("EnumUtil.toRecord", () => {
         expect(EnumUtil.toRecord(EmptyEnum, _ => 0)).toStrictEqual({});
     });
     test("enum with identical key/value pairs", () => {
-        const record: Record<KVIdenticalStringEnum, string> = EnumUtil.toRecord(KVIdenticalStringEnum, _ => _.toLowerCase());
+        const record = EnumUtil.toRecord(KVIdenticalStringEnum, _ => _.toLowerCase());
         expect(record).toStrictEqual({
             [KVIdenticalStringEnum.A]: "a",
             [KVIdenticalStringEnum.B]: "b",
             [KVIdenticalStringEnum.C]: "c",
         });
     });
-    test("enum with non-same key/value pairs", () => {
+    test("enum with different key/value pairs", () => {
+        const record = EnumUtil.toRecord(KVDifferentStringEnum, _ => _.toLowerCase());
+        expect(record).toStrictEqual({
+            [KVDifferentStringEnum.AA]: "a",
+            [KVDifferentStringEnum.BB]: "b",
+            [KVDifferentStringEnum.CC]: "c",
+        });
+    });
+    test("enum with numeric key/value pairs", () => {
         // @ts-expect-error
         EnumUtil.toRecord(NumEnum, _ => 0);
-        // @ts-expect-error
-        EnumUtil.toRecord(KVDifferentStringEnum, _ => 0);
     });
 });
 
@@ -42,13 +48,18 @@ describe("EnumUtil.toArray", () => {
         expect(EnumUtil.toArray(EmptyEnum)).toStrictEqual([]);
     });
     test("enum with identical key/value pairs", () => {
-        expect(EnumUtil.toArray(KVIdenticalStringEnum)).toStrictEqual([KVIdenticalStringEnum.A, KVIdenticalStringEnum.B, KVIdenticalStringEnum.C]);
+        // Important: list's type should be inferred as KVIdenticalStringEnum[], not ("A" | "B" | "C")[]
+        const list = EnumUtil.toArray(KVIdenticalStringEnum);
+        expect(list).toStrictEqual([KVIdenticalStringEnum.A, KVIdenticalStringEnum.B, KVIdenticalStringEnum.C]);
     });
-    test("enum with non-same key/value pairs", () => {
+    test("enum with different key/value pairs", () => {
+        const list = EnumUtil.toArray(KVDifferentStringEnum);
+        expect(list).toStrictEqual([KVDifferentStringEnum.AA, KVDifferentStringEnum.BB, KVDifferentStringEnum.CC]);
+        expect(list).toStrictEqual(["A", "B", "C"] as KVDifferentStringEnum[]);
+    });
+    test("enum with numeric key/value pairs", () => {
         // @ts-expect-error
         EnumUtil.toArray(NumEnum);
-        // @ts-expect-error
-        EnumUtil.toArray(KVDifferentStringEnum);
     });
 });
 
@@ -56,18 +67,23 @@ describe("EnumUtil.fromValue", () => {
     test("empty enum", () => {
         expect(EnumUtil.fromValue(EmptyEnum, "any")).toBeNull();
     });
-
     test("enum with identical key/value pairs", () => {
         expect(EnumUtil.fromValue(KVIdenticalStringEnum, "A")).toStrictEqual(KVIdenticalStringEnum.A);
         expect(EnumUtil.fromValue(KVIdenticalStringEnum, "B")).toStrictEqual(KVIdenticalStringEnum.B);
         expect(EnumUtil.fromValue(KVIdenticalStringEnum, "D")).toBeNull();
+        expect(EnumUtil.fromValue(KVIdenticalStringEnum, " ")).toBeNull();
         expect(EnumUtil.fromValue(KVIdenticalStringEnum, "")).toBeNull();
     });
-
-    test("enum with non-same key/value pairs", () => {
+    test("enum with different key/value pairs", () => {
+        expect(EnumUtil.fromValue(KVDifferentStringEnum, "A")).toStrictEqual(KVDifferentStringEnum.AA);
+        expect(EnumUtil.fromValue(KVDifferentStringEnum, "B")).toStrictEqual(KVDifferentStringEnum.BB);
+        expect(EnumUtil.fromValue(KVIdenticalStringEnum, "AA")).toBeNull();
+        expect(EnumUtil.fromValue(KVIdenticalStringEnum, "BB")).toBeNull();
+        expect(EnumUtil.fromValue(KVIdenticalStringEnum, "a")).toBeNull();
+        expect(EnumUtil.fromValue(KVIdenticalStringEnum, "")).toBeNull();
+    });
+    test("enum with numeric key/value pairs", () => {
         // @ts-expect-error
         EnumUtil.fromValue(NumEnum);
-        // @ts-expect-error
-        EnumUtil.fromValue(KVDifferentStringEnum);
     });
 });
