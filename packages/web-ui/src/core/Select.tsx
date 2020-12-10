@@ -3,7 +3,7 @@ import {OptionProps as SelectOptionProps} from "rc-select/lib/Option";
 import React from "react";
 import "antd/lib/select/style";
 
-export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionLabelProp" | "options"> {
+export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
     options?: Array<{value: string | number; label: string}>;
 }
 
