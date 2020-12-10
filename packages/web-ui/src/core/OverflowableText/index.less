@@ -3,17 +3,14 @@
 
     > .wrap-text {
         &,
-        & > * {
+        * {
             max-width: 100%;
             text-overflow: ellipsis;
             overflow: hidden;
             overflow-wrap: normal;
             white-space: nowrap;
-
-            &,
-            > * {
-                display: inline-block;
-            }
+            display: inline-block;
+            line-height: 10px;
         }
     }
 
@@ -23,12 +20,9 @@
         z-index: -10000;
         min-width: 0;
 
-        &,
-        > * {
-            &,
-            > * {
-                display: inline-block;
-            }
+        * {
+            white-space: nowrap;
+            display: inline-block;
         }
     }
 }
