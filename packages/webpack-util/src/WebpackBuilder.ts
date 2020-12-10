@@ -67,17 +67,17 @@ export class WebpackBuilder {
     }
 
     private cleanDistFolder() {
-        this.logger.info("Cleaning build dist folder");
+        this.logger.task("Cleaning build dist folder");
         fs.emptyDirSync(this.outputDirectory);
     }
 
     private copyStatic() {
-        this.logger.info("Copying static assets to build dist folder");
+        this.logger.task("Copying static assets to build dist folder");
         fs.copySync(this.projectStaticDirectory, this.outputDirectory, {dereference: true});
     }
 
     private bundleByWebpack() {
-        this.logger.info("Starting webpack");
+        this.logger.task("Starting webpack");
 
         webpack(this.webpackConfig).run((error?: Error, stats?: webpack.Stats) => {
             if (error) {
@@ -85,8 +85,8 @@ export class WebpackBuilder {
             } else if (stats) {
                 const statsJSON = stats.toJson();
                 if (this.enableProfiling) {
+                    this.logger.task(["Generating profile for analysis", this.projectProfilingJSONOutputPath]);
                     fs.writeFileSync(this.projectProfilingJSONOutputPath, JSON.stringify(statsJSON, null, 2), {encoding: "utf8"});
-                    this.logger.info(["Generate profile for analysis", this.projectProfilingJSONOutputPath]);
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {

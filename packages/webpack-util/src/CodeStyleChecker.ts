@@ -21,21 +21,21 @@ export class CodeStyleChecker {
     }
 
     private checkPrettier() {
-        this.logger.task(`Running \`prettier --check\` on "src/"`);
+        this.logger.task("Checking Prettier");
         for (const srcDirectory of this.checkableSrcDirectories) {
             PrettierUtil.check(srcDirectory);
         }
     }
 
     private checkESLint() {
-        this.logger.task(`Running \`eslint\` on "src/"`);
+        this.logger.task("Checking ESLint");
         for (const srcDirectory of this.checkableSrcDirectories) {
             Utility.runCommand("eslint", ["--no-error-on-unmatched-pattern", "--max-warnings=1", "--ext=.js,.jsx,.ts,.tsx", srcDirectory]);
         }
     }
 
     private checkStylelint() {
-        this.logger.task(`Running \`stylelint\` on "src/"`);
+        this.logger.task("Checking Stylelint");
         for (const srcDirectory of this.checkableSrcDirectories) {
             Utility.runCommand("stylelint", ["--allow-empty-input", "--max-warnings=1", path.join(srcDirectory, "**/*.{css,less}")]);
         }
