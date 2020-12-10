@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "license": "MIT",
     "scripts": {
         "check-code-style": "prettier --check \"{config,src,test}/**/*.{js,ts}\"",
