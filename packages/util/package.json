@@ -23,12 +23,6 @@
         "@types/react": "17.0.0",
         "react": "17.0.1"
     },
-    "files": [
-        "cjs/**",
-        "esm/**",
-        "README.md",
-        "LICENSE.md"
-    ],
     "engines": {
         "node": ">=12.19.x"
     }
