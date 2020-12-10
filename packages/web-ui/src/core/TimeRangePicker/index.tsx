@@ -1,14 +1,15 @@
 import React from "react";
-import AntTimePicker from "antd/lib/time-picker";
-import "antd/lib/time-picker/style";
 import moment from "moment";
+import AntTimePicker from "antd/lib/time-picker";
 import {ControlledFormValue} from "../../internal/type";
+import "antd/lib/time-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [string, string] : [string | null, string | null]> {
     allowNull: T;
     disabled?: boolean;
     className?: string;
+    order?: boolean;
 }
 
 export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -26,17 +27,16 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
     };
 
     render() {
-        const {value, disabled, className, allowNull} = this.props;
+        const {value, disabled, className, allowNull, order} = this.props;
         return (
-            <div className={className}>
-                <AntTimePicker.RangePicker
-                    className={className}
-                    value={value[0] && value[1] ? [moment(value[0], this.timeFormatter), moment(value[1], this.timeFormatter)] : [null, null]}
-                    onChange={this.onChange}
-                    disabled={disabled}
-                    allowClear={allowNull}
-                />
-            </div>
+            <AntTimePicker.RangePicker
+                className={className}
+                value={value[0] && value[1] ? [moment(value[0], this.timeFormatter), moment(value[1], this.timeFormatter)] : [null, null]}
+                onChange={this.onChange}
+                disabled={disabled}
+                allowClear={allowNull}
+                order={order}
+            />
         );
     }
 }
