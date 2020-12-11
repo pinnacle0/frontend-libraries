@@ -50,7 +50,18 @@ export class VerticalMarquee extends React.PureComponent<Props, State> {
                 this.monitorFPS = 1000 / (timestamp - this.startTime);
             }
 
-            const distToBeScrolled = Math.ceil((speed / this.monitorFPS) * this.frame - this.distScrolledThisSec);
+            /**
+             * Caveat: Browser requires minimum of 1px to be scrolled, and it does not accept decimal number.
+             * When zoomed, the requirement will change - e.g. when zoomed 90%, the required pixel to be zoomed will be 1/0.9 = 1.11px.
+             * This means a minimum of Math.ceil(1.11) = 2px to be scrolled.
+             * Ref: https://css-tricks.com/can-javascript-detect-the-browsers-zoom-level/
+             * Ref: https://www.geeksforgeeks.org/how-to-detect-page-zoom-level-in-all-modern-browsers-using-javascript/
+             * Note: there is a known bug, so the following does not work on FireFox. Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=435275
+             */
+            const zoomRatio = window.outerWidth / window.innerWidth;
+            const minScrollPixel = Math.ceil(1 / zoomRatio);
+            let distToBeScrolled = Math.ceil((speed / this.monitorFPS) * this.frame - this.distScrolledThisSec);
+            distToBeScrolled = distToBeScrolled >= minScrollPixel ? distToBeScrolled : 0; // make sure the dist scrolled is larger than minimum required pixels
 
             if (distToBeScrolled > 0) {
                 if (!this.state.paused) {
