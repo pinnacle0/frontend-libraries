@@ -38,7 +38,6 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         overflow: "hidden",
     };
 
-    // TODO: split
     triggerChangeEvent = (changedPermissions: Array<Feature | Field>, isChecked: boolean, isFieldPermission: boolean) => {
         const {onFeatureChange, onFieldChange, fieldValue, featureValue, editable} = this.props;
         if (editable) {
@@ -232,10 +231,10 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     render() {
         const {navigationGroups, extraPermissions} = this.props;
         return (
-            <React.Fragment>
+            <div>
                 {navigationGroups.map(this.renderNavigationGroup)}
                 {extraPermissions && this.renderExtraPermission(extraPermissions)}
-            </React.Fragment>
+            </div>
         );
     }
 }
