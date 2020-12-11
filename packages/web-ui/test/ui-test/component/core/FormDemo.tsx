@@ -1,12 +1,17 @@
 import React from "react";
 import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
 import {Form} from "@pinnacle0/web-ui/core/Form";
-import {Input, Props as InputProps} from "@pinnacle0/web-ui/core/Input";
+import {Input, Props as InputProps, InputTextAreaProps} from "@pinnacle0/web-ui/core/Input";
 import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
 import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
+
+const UncontrolledTextarea = (props: Omit<InputTextAreaProps, "value" | "onChange">) => {
+    const [value, onChange] = React.useState<string>("");
+    return <Input.TextArea {...props} value={value} onChange={onChange} />;
+};
 
 const UncontrolledInput = (props: Omit<InputProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
@@ -111,6 +116,9 @@ const groups: DemoHelperGroupConfig[] = [
                 </Form.Item>
                 <Form.Item label="Password" validator={() => "Password Incorrect!"} extra="You can put extra element here">
                     <PasswordInput />
+                </Form.Item>
+                <Form.Item label="Content" validator={() => "Content is Empty!"}>
+                    <UncontrolledTextarea />
                 </Form.Item>
             </FormContainer>,
         ],
