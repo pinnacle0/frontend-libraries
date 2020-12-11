@@ -4,7 +4,7 @@ import React from "react";
 import "antd/lib/select/style";
 
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
-    options?: Array<{value: string | number; label: string}>;
+    options?: Array<{value: string | number; label?: string}>;
 }
 
 export class Select<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
