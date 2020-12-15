@@ -17,7 +17,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         messages: {
             // Webpack React Refresh Plugin (https://github.com/pmmmwh/react-refresh-webpack-plugin) hard codes registering react component modules with `module.id`
             // If the identifier module is shadowed by user code, then module.id is no longer a valid property access and will break at runtime in development mode (when react refresh is active).
-            variableDeclarationModuleIdentifierShadowing: "Do not declare variables with identifiers `module`. This may breaks webpack hot reloading and react fast refresh.",
+            variableDeclarationModuleIdentifierShadowing: "Do not declare variables with identifiers `module`. This may break webpack hot reloading and react fast refresh.",
         },
         schema: [],
     },
