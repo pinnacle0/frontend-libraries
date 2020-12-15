@@ -30,7 +30,7 @@ export class StorageHelper {
         return this.get(key, defaultValue, transformer);
     }
 
-    getString<T extends string = string>(key: string, defaultValue: T, validValues?: T[]): T {
+    getString<T extends string = string>(key: string, defaultValue: T, validValues?: readonly T[]): T {
         const transformer = (_: string): T | null => {
             const typedValue = _ as T;
             return validValues ? (validValues.includes(typedValue) ? typedValue : null) : typedValue;
