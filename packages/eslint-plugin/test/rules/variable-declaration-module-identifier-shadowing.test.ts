@@ -11,6 +11,14 @@ ruleTester.run(name, rule, {
         `var foo, bar, baz;
         let moodle = 'a', poodle = 'b';
         const modules = {};`,
+        `// TypeScript declarations should not error
+        declare var module: any;
+        `,
+        `// TypeScript declarations should not error
+        declare var module: any;
+        declare let module: any;
+        declare const module: Record<string, any>;
+        `,
     ],
     invalid: [
         {
@@ -31,6 +39,14 @@ ruleTester.run(name, rule, {
                 module = {};
             `,
             errors: [{line: 2, messageId}],
+        },
+        {
+            code: `
+                declare var module: any;
+                var module = "error on line 3 only";
+                module = {};
+            `,
+            errors: [{line: 3, messageId}],
         },
     ],
 });
