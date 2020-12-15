@@ -18,7 +18,7 @@ export interface ExtraButtonConfig {
 
 export interface Props {
     onFinish: () => void;
-    onReset: () => void;
+    onReset?: () => void;
     children: SafeReactChildren;
     extraButtons?: ExtraButtonConfig | ExtraButtonConfig[];
     expandedArea?: React.ReactElement; // If undefined, the Filter cannot be expanded
