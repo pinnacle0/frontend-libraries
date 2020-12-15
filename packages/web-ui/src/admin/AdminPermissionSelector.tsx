@@ -41,9 +41,11 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     triggerChangeEvent = (changedPermissions: Array<Feature | Field>, isChecked: boolean, isFieldPermission: boolean) => {
         const {onFeatureChange, onFieldChange, fieldValue, featureValue, editable} = this.props;
         if (editable) {
-            if (isFieldPermission && fieldValue && onFieldChange) {
-                const newPermissions = isChecked ? [...new Set([...fieldValue, ...(changedPermissions as Field[])])] : fieldValue.filter(_ => !(changedPermissions as Field[]).includes(_));
-                onFieldChange(newPermissions);
+            if (isFieldPermission) {
+                if (fieldValue && onFieldChange) {
+                    const newPermissions = isChecked ? [...new Set([...fieldValue, ...(changedPermissions as Field[])])] : fieldValue.filter(_ => !(changedPermissions as Field[]).includes(_));
+                    onFieldChange(newPermissions);
+                }
             } else {
                 const newPermissions = isChecked ? [...new Set([...featureValue, ...(changedPermissions as Feature[])])] : featureValue.filter(_ => !(changedPermissions as Feature[]).includes(_));
                 onFeatureChange(newPermissions);
