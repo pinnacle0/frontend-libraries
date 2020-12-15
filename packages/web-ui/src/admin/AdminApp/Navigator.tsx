@@ -47,13 +47,13 @@ export const Navigator = withRouter(
             // Create initial tab, unless homepage or 404
             const {location, navigationService} = this.props;
             const url = location.pathname;
-            const module = navigationService.moduleByURL(url);
-            if (module) {
+            const targetModule = navigationService.moduleByURL(url);
+            if (targetModule) {
                 this.setState({
                     tabs: [
                         {
                             url,
-                            module,
+                            module: targetModule,
                             historyState: location.state,
                         },
                     ],
@@ -87,12 +87,12 @@ export const Navigator = withRouter(
                 } else {
                     // If module exists, create a new tab
                     // Else, it means, the user goes to the homepage tab, so just do nothing
-                    const module = navigationService.moduleByURL(newURL);
-                    if (module) {
+                    const targetModule = navigationService.moduleByURL(newURL);
+                    if (targetModule) {
                         newTabs.push({
                             url: newURL,
                             historyState: newHistoryState,
-                            module,
+                            module: targetModule,
                         });
                     }
                 }
