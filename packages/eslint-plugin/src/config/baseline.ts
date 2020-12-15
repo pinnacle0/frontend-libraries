@@ -33,6 +33,7 @@ export const configBaseline: ESLint.Linter.Config = {
         "@pinnacle0/style-properties-type": ["error"],
         "@pinnacle0/ugly-relative-path": ["error"],
         "@pinnacle0/unnecessary-ending-index": ["error"],
+        "@pinnacle0/variable-declaration-module-identifier-shadowing": ["error"],
 
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/ban-ts-comment": "off",

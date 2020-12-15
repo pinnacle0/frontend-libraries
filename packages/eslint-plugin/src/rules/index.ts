@@ -19,6 +19,7 @@ import {rule as restrictedImports} from "./restricted-imports";
 import {rule as stylePropertiesType} from "./style-properties-type";
 import {rule as uglyRelativePath} from "./ugly-relative-path";
 import {rule as unnecessaryEndingIndex} from "./unnecessary-ending-index";
+import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
 
 export const allRules: Record<string, RuleModule<string, any[], RuleListener>> = {
     "deep-nested-relative-imports": deepNestedRelativeImports,
@@ -35,4 +36,5 @@ export const allRules: Record<string, RuleModule<string, any[], RuleListener>> =
     "style-properties-type": stylePropertiesType,
     "ugly-relative-path": uglyRelativePath,
     "unnecessary-ending-index": unnecessaryEndingIndex,
+    "variable-declaration-module-identifier-shadowing": variableDeclarationModuleIdentifierShadowing,
 };
