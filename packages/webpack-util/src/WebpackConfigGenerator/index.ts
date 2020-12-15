@@ -115,7 +115,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, experimentalWatchApi: true}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, withReactFastRefreshBabelPlugin: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other(),
@@ -125,6 +125,7 @@ export class WebpackConfigGenerator {
             plugins: [
                 ...this.htmlWebpackPluginInstances,
                 Plugin.ignoreMomentLocale(),
+                Plugin.reactRefresh(),
                 Plugin.webpack.hmr(),
                 Plugin.webpack.progress({enableProfiling: false}),
                 // prettier-format-preserve
@@ -177,7 +178,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false}), // TODO/Lok: `transpileOnly: this.isFastMode`
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false, withReactFastRefreshBabelPlugin: false}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),

@@ -1,7 +1,7 @@
 import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin";
 import {crossOriginScriptTagPlugin, htmlPlugin} from "./html.plugin";
 import {ignoreMomentLocalePlugin} from "./moment.plugin";
-import {terserPlugin} from "./ts.plugin";
+import {reactRefreshPlugin, terserPlugin} from "./ts.plugin";
 import {webpackHmrPlugin, webpackProgressPlugin} from "./webpack.plugin";
 
 /**
@@ -13,6 +13,8 @@ export class Plugin {
     static readonly crossOriginScriptTag = crossOriginScriptTagPlugin;
 
     static readonly ignoreMomentLocale = ignoreMomentLocalePlugin;
+
+    static readonly reactRefresh = reactRefreshPlugin;
 
     static readonly fileOutput = {
         html: htmlPlugin,
