@@ -59,6 +59,7 @@
                 display: inline-flex;
                 align-content: flex-start;
                 vertical-align: top;
+                flex-wrap: wrap;
             }
 
             &.has-error {
@@ -138,6 +139,10 @@
                 width: auto;
                 max-width: unset;
 
+                .g-form-item-children-inputs {
+                    flex-wrap: nowrap;
+                }
+
                 .ant-select {
                     width: 120px;
                 }
@@ -171,6 +176,7 @@
             .g-form-item-children-inputs {
                 flex-direction: column;
                 align-items: flex-start;
+                flex-wrap: nowrap;
             }
         }
     }
