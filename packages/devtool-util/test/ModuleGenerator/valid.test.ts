@@ -2,9 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 const tmpDirectory = path.join(__dirname, "./__tmp__/valid");
-const templatePath = path.join(__dirname, "./__tmp__/valid/module-template");
-const moduleBasePath = path.join(__dirname, "./__tmp__/valid/modules");
-const reduxStateTypePath = path.join(__dirname, "./__tmp__/valid/state.ts");
+const tmpReduxStatePath = path.join(tmpDirectory, "type/state.ts");
+const tmpCommonOldFeatureTypePath = path.join(tmpDirectory, "module/common/old-feature/type.ts");
 
 describe("ModuleGenerator class", () => {
     const fixtures = getFixtures();
@@ -35,17 +34,15 @@ describe("ModuleGenerator class", () => {
 
         // Note: inline require ModuleGenerator after `jest.doMock` calls to ensure that require hooks are registered (without relying on ts-jest or babel-jest magic)
         const {ModuleGenerator} = jest.requireActual<typeof import("../../src/ModuleGenerator")>("../../src/ModuleGenerator");
-        await new ModuleGenerator({
-            moduleBasePath,
-            reduxStateTypePath,
-            templatePath,
+        await new ModuleGenerator.Web({
+            srcDirectory: tmpDirectory,
         }).run();
 
         const expectedNewFiles = [
-            path.join(moduleBasePath, "common/new-feature/component/Main.tsx"),
-            path.join(moduleBasePath, "common/new-feature/hooks.ts"),
-            path.join(moduleBasePath, "common/new-feature/index.ts"),
-            path.join(moduleBasePath, "common/new-feature/type.ts"),
+            path.join(tmpDirectory, "module/common/new-feature/component/Main.tsx"),
+            path.join(tmpDirectory, "module/common/new-feature/hooks.ts"),
+            path.join(tmpDirectory, "module/common/new-feature/index.ts"),
+            path.join(tmpDirectory, "module/common/new-feature/type.ts"),
         ];
         // Check if each expected new file exists
         expectedNewFiles.forEach(path => {
@@ -53,7 +50,7 @@ describe("ModuleGenerator class", () => {
             expect(`${exists}: ${path}`).toBe(`exists: ${path}`);
         });
         // Create a snapshot for each new file
-        expectedNewFiles.forEach(path => {
+        expectedNewFiles.concat([tmpReduxStatePath, tmpCommonOldFeatureTypePath]).forEach(path => {
             expect(fs.readFileSync(path, {encoding: "utf8"})).toMatchSnapshot();
         });
     });
@@ -61,56 +58,11 @@ describe("ModuleGenerator class", () => {
 
 function getFixtures(): {path: string; data: string}[] {
     return [
-        /* Template fixtures ------------------------------------------------ */
         {
-            path: path.join(templatePath, "component/Main.tsx"),
-            data: `// This file is generated from a template, but can be modified
-import React from "react";
-
-export const Main = () => {
-    return <div />;
-};
-`,
-        },
-        {
-            path: path.join(templatePath, "hooks.ts"),
-            data: `// This file is generated from a template, but can be modified
-import {RootState} from "app/type/state";
-import {useSelector} from "react-redux";
-
-export function use{1}<T>(fn: (state: RootState["app"]["{2}"]) => T): T {
-    return useSelector((state: RootState) => fn(state.app.{2}));
-}
-`,
-        },
-        {
-            path: path.join(templatePath, "index.ts"),
-            data: `// This file is generated from a template, but can be modified
-import {RootState} from "app/type/state";
-import {Lifecycle, Module, register, SagaIterator} from "core-native";
-import {Main} from "./component/Main";
-import {State} from "./type";
-
-class {1} extends Module<RootState, "{2}"> {}
-
-const module = register(new {1}("{2}"), initialState);
-export const actions = module.getActions();
-export const MainComponent = module.attachLifecycle(Main);
-`,
-        },
-        {
-            path: path.join(templatePath, "type.ts"),
-            data: `// This file is generated from a template, but can be modified
-export interface State {}
-`,
-        },
-
-        /* Source fixtures -------------------------------------------------- */
-        {
-            path: reduxStateTypePath,
+            path: tmpReduxStatePath,
             data: `//
-import {State as OldFeatureState} from "./modules/common/old-feature";
-import {State} from "core-fe";
+import type {State as OldFeatureState} from "./modules/common/old-feature";
+import type {State} from "core-fe";
 
 export interface RootState extends State {
     app: {
@@ -120,7 +72,7 @@ export interface RootState extends State {
 `,
         },
         {
-            path: path.join(moduleBasePath, "common/old-feature/types.ts"),
+            path: tmpCommonOldFeatureTypePath,
             data: `//
 export interface State {}
 `,

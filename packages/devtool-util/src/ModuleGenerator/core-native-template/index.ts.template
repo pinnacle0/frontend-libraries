@@ -1,0 +1,18 @@
+import type {RootState} from "app/type/state";
+import type {SagaIterator} from "core-native";
+import {Lifecycle, Module, register} from "core-native";
+import {Main} from "./component/Main";
+import type {State} from "./type";
+
+const initialState: State = {};
+
+class {1}Module extends Module<RootState, "{2}"> {
+    @Lifecycle()
+    *onEnter(): SagaIterator {
+        // TODO
+    }
+}
+
+const {2}Module = register(new {1}Module("{2}", initialState));
+export const actions = {2}Module.getActions();
+export const MainComponent = {2}Module.attachLifecycle(Main);

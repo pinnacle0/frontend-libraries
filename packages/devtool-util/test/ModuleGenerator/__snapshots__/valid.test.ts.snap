@@ -1,18 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModuleGenerator class generate files 1`] = `
-"// This file is generated from a template, but can be modified
+"import {ReactUtil} from \\"@pinnacle0/util\\";
 import React from \\"react\\";
 
-export const Main = () => {
+export const Main = ReactUtil.memo(\\"Main\\", () => {
     return <div />;
-};
+});
 "
 `;
 
 exports[`ModuleGenerator class generate files 2`] = `
-"// This file is generated from a template, but can be modified
-import {RootState} from \\"app/type/state\\";
+"import type {RootState} from \\"type/state\\";
 import {useSelector} from \\"react-redux\\";
 
 export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFeature\\"]) => T): T {
@@ -22,22 +21,49 @@ export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFea
 `;
 
 exports[`ModuleGenerator class generate files 3`] = `
-"// This file is generated from a template, but can be modified
-import {RootState} from \\"app/type/state\\";
-import {Lifecycle, Module, register, SagaIterator} from \\"core-native\\";
+"import {Lifecycle, Module, register} from \\"core-fe\\";
+import type {SagaIterator} from \\"core-fe\\";
 import {Main} from \\"./component/Main\\";
-import {State} from \\"./type\\";
+import type {State} from \\"./type\\";
+import type {RootState} from \\"type/state\\";
 
-class NewFeatureModule extends Module<RootState, \\"newFeature\\"> {}
+const initialState: State = {};
 
-const module = register(new NewFeatureModule(\\"newFeature\\"), initialState);
-export const actions = module.getActions();
-export const MainComponent = module.attachLifecycle(Main);
+class NewFeatureModule extends Module<RootState, \\"newFeature\\"> {
+    @Lifecycle()
+    *onEnter(): SagaIterator {
+        // TODO
+    }
+}
+
+const newFeatureModule = register(new NewFeatureModule(\\"newFeature\\", initialState));
+export const actions = newFeatureModule.getActions();
+export const MainComponent = newFeatureModule.attachLifecycle(Main);
 "
 `;
 
 exports[`ModuleGenerator class generate files 4`] = `
-"// This file is generated from a template, but can be modified
+"export interface State {}
+"
+`;
+
+exports[`ModuleGenerator class generate files 5`] = `
+"import type {State as NewFeatureState} from \\"module/common/new-feature/type\\";
+//
+import type {State as OldFeatureState} from \\"./modules/common/old-feature\\";
+import type {State} from \\"core-fe\\";
+
+export interface RootState extends State {
+    app: {
+        oldFeature: OldFeatureState;
+    newFeature: NewFeatureState;
+};
+}
+"
+`;
+
+exports[`ModuleGenerator class generate files 6`] = `
+"//
 export interface State {}
 "
 `;

@@ -1,0 +1,19 @@
+import {ReactUtil} from "@pinnacle0/util";
+import React from "react";
+import {StyleSheet, View} from "react-native";
+
+export const Main = ReactUtil.memo("Main", () => {
+    return (
+        <View style={styles.container}>
+            <View />
+        </View>
+    );
+});
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+});

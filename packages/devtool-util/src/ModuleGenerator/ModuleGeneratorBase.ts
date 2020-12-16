@@ -1,74 +1,52 @@
-import * as fs from "fs-extra";
-import {PrettierUtil} from "./PrettierUtil";
-import {Utility} from "./Utility";
+import * as fs from "fs";
+import * as path from "path";
+import {PrettierUtil} from "../PrettierUtil";
+import {Utility} from "../Utility";
+import type {ModuleGeneratorOptions} from "./type";
 import yargs = require("yargs");
 
-// TODO: make it a folder, with folders: core-fe-boilerplate, core-native-boilerplate
 const print = Utility.createConsoleLogger("ModuleGenerator");
-
-export interface ModuleGeneratorOptions {
-    moduleBasePath: string;
-    reduxStateTypePath: string;
-    templatePath: string;
-}
 
 /**
  * Generates boilerplate code for a `core-fe`/`core-native` Module class.
  *
  * Constructor arguments:
- * - `moduleBasePath`: a directory containing existing core-fe modules
- * - `templatePath`: a directory containing the following template files
- *     - `{{templatePath}}/component/Main.ts`: template for module main component
- *     - `{{templatePath}}/index.ts`:          template for Module class
- *     - `{{templatePath}}/hooks.ts`:          template for module specific hooks
- *     - `{{templatePath}}/type.ts`:           template for module state types/interfaces
- * - `reduxStateTypePath`: a ts file
- *     - contains a single interface export named `RootState`
- *     - interface `RootState` has an object property named `app`
- *     - example:
- *       ```ts
- *       import {State} from "core-fe";
- *       export interface RootState {
- *           app: {};
- *       }
- *       ```
+ * - `srcDirectory`: directory with the following structure
+ *   ```
+ *   src/
+ *   ├── module/
+ *   │       (contains `core-fe` or `core-native` modules)
+ *   └── type/
+ *       └── state.ts
+ *           (redux root state definition file)
+ *   ```
  *
- * You might extend this class for platform specific template generation:
- * ```ts
- * // /shared/WebModuleGenerator.ts
- * export class WebModuleGenerator extends ModuleGenerator {
- *   constructor(_: Omit<ModuleGeneratorOptions, "templatePath">) {
- *     const templatePath = path.resolve(__dirname, "./module-template");
- *     super({..._, templatePath});
+ * The redux root state definition file should:
+ * - contains a single interface export named `RootState`
+ * - interface `rootState` has an object property named `app`
+ * - example:
+ *   ```ts
+ *   import {State} from "core-fe";
+ *   export interface RootState {
+ *       app: {};
  *   }
- * }
- * ```
- * Directory structure:
- * ```text
- * workspaceRoot/
- * ├── script/
- * │   └── generate-module.ts
- * └── shared/
- *     ├── WebModuleGenerator.ts
- *     └── module-template/
- *         ├── component/
- *         │   └── Main.tsx
- *         ├── index.ts
- *         ├── hooks.ts
- *         └── type.ts
- * ```
+ *   ```
  */
-export class ModuleGenerator {
+export class ModuleGeneratorBase {
     private readonly moduleName: string;
-    private readonly moduleBasePath: string;
+    private readonly moduleBaseDirectory: string;
+    private readonly newModuleDirectory: string;
     private readonly reduxStateTypePath: string;
-    private readonly templatePath: string;
+    private readonly templateDirectory: string;
+    private readonly generateImportStatementForNewModuleState: (_: {moduleStateName: string; partialModulePath: string}) => string;
 
-    constructor({moduleBasePath, reduxStateTypePath, templatePath}: ModuleGeneratorOptions) {
+    constructor(options: ModuleGeneratorOptions) {
         this.moduleName = String(yargs.argv._[0]);
-        this.moduleBasePath = moduleBasePath;
-        this.reduxStateTypePath = reduxStateTypePath;
-        this.templatePath = templatePath;
+        this.moduleBaseDirectory = path.join(options.srcDirectory, "module");
+        this.newModuleDirectory = path.join(this.moduleBaseDirectory, this.moduleName);
+        this.reduxStateTypePath = path.join(options.srcDirectory, "type/state.ts");
+        this.templateDirectory = options.templateDirectory;
+        this.generateImportStatementForNewModuleState = options.generateImportStatementForNewModuleState;
     }
 
     async run() {
@@ -80,7 +58,7 @@ export class ModuleGenerator {
             this.formatSources();
         } catch (e) {
             try {
-                fs.removeSync(this.moduleBasePath + "/" + this.moduleName);
+                fs.rmdirSync(this.newModuleDirectory, {recursive: true});
             } catch (e) {
                 // Do nothing
             }
@@ -94,7 +72,7 @@ export class ModuleGenerator {
 
         const splitModuleNames = this.moduleName.split("/");
         const availableTopLevelModuleNames = fs
-            .readdirSync(this.moduleBasePath, {withFileTypes: true})
+            .readdirSync(this.moduleBaseDirectory, {withFileTypes: true})
             .filter(dirent => dirent.isDirectory() && dirent.name !== "main")
             .map(dirent => dirent.name);
 
@@ -103,27 +81,30 @@ export class ModuleGenerator {
         if (splitModuleNames.length !== 2) throw new Error("Module name must be of parent/child format");
         if (!availableTopLevelModuleNames.includes(splitModuleNames[0])) throw new Error(`Module [${splitModuleNames[0]}] must be one of ${availableTopLevelModuleNames.join("/")}`);
         if (!/^[a-z]+?((-[a-z]+?)|(-v[0-9]+?))*$/.test(splitModuleNames[1])) throw new Error(`Module name [${splitModuleNames[1]}] does not conform to naming convention`);
-        if (fs.existsSync(this.moduleBasePath + "/" + this.moduleName)) throw new Error(`Module [${this.moduleName}] already exists`);
+        if (fs.existsSync(this.newModuleDirectory)) throw new Error(`Module [${this.moduleName}] already exists`);
     }
 
     private copyTemplate() {
-        const path = this.moduleBasePath + "/" + this.moduleName;
-        print.task(["Copying template to target", path]);
-        fs.copySync(this.templatePath, path);
+        print.task(["Copying template to target", this.newModuleDirectory]);
+        fs.mkdirSync(`${this.newModuleDirectory}/component`, {recursive: true});
+        const files = ["component/Main.tsx", "hooks.ts", "index.ts", "type.ts"];
+        for (const file of files) {
+            fs.copyFileSync(`${this.templateDirectory}/${file}.template`, `${this.newModuleDirectory}/${file}`);
+        }
     }
 
     private updateTemplateContent() {
-        const indexPath = this.moduleBasePath + "/" + this.moduleName + "/index.ts";
+        const indexPath = `${this.newModuleDirectory}/index.ts`;
         print.task(["Updating index.ts", indexPath]);
         Utility.replaceTemplate(indexPath, [
-            this.getModuleNameInFormat("pascal", "Module"), // {1}
+            this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
         ]);
 
-        const hooksPath = this.moduleBasePath + "/" + this.moduleName + "/hooks.ts";
+        const hooksPath = `${this.newModuleDirectory}/hooks.ts`;
         print.task(["Updating hooks.ts", hooksPath]);
         Utility.replaceTemplate(hooksPath, [
-            this.getModuleNameInFormat("pascal", "State"), // {1}
+            this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
         ]);
     }
@@ -136,9 +117,10 @@ export class ModuleGenerator {
         if (lastStateDeclarationIndex === -1) throw new Error("Cannot find state declaration");
 
         const moduleFullName = this.getModuleNameInFormat("camel");
-        const moduleStateName = this.getModuleNameInFormat("pascal", "State");
+        const moduleStateName = this.getModuleNameInFormat("pascal") + "State";
         const newStateFileContent =
-            `import type {State as ${moduleStateName}} from "module/${this.moduleName}/type";\n` +
+            this.generateImportStatementForNewModuleState({moduleStateName, partialModulePath: this.moduleName}) +
+            "\n" +
             stateFileContent.substr(0, lastStateDeclarationIndex) +
             `${moduleFullName}: ${moduleStateName};\n` +
             stateFileContent.substr(lastStateDeclarationIndex);
@@ -147,7 +129,7 @@ export class ModuleGenerator {
     }
 
     private formatSources() {
-        PrettierUtil.format(`${this.moduleBasePath}/${this.moduleName}`);
+        PrettierUtil.format(`${this.moduleBaseDirectory}/${this.moduleName}`);
         PrettierUtil.format(this.reduxStateTypePath);
     }
 
@@ -157,12 +139,12 @@ export class ModuleGenerator {
      * @param format: can be "pascal" or "camel" (default).
      *
      * For example: this.moduleName is "account/order-detail"
-     * (format = "pascal", postfix = "State") => AccountOrderDetailState
-     * (format = "camel", postfix = "Foo") => accountOrderDetailFoo
+     * (format = "pascal") => AccountOrderDetail
+     * (format = "camel") => accountOrderDetail
      *
      * Special case: for common/some-name module, common will be omitted.
      */
-    private getModuleNameInFormat(format: "pascal" | "camel", postfix = "") {
+    private getModuleNameInFormat(format: "pascal" | "camel") {
         const replaceHyphen = (name: string, alwaysPascal: boolean) => {
             return name
                 .split("-")
@@ -174,9 +156,9 @@ export class ModuleGenerator {
         const camelNameWithoutPostfix = moduleName === "common" ? replaceHyphen(subModuleName, false) : replaceHyphen(moduleName, false) + replaceHyphen(subModuleName, true);
 
         if (format === "pascal") {
-            return camelNameWithoutPostfix.charAt(0).toUpperCase() + camelNameWithoutPostfix.slice(1) + postfix;
+            return camelNameWithoutPostfix.charAt(0).toUpperCase() + camelNameWithoutPostfix.slice(1);
         } else {
-            return camelNameWithoutPostfix + postfix;
+            return camelNameWithoutPostfix;
         }
     }
 }

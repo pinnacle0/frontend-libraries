@@ -1,0 +1,18 @@
+import {Lifecycle, Module, register} from "core-fe";
+import type {SagaIterator} from "core-fe";
+import {Main} from "./component/Main";
+import type {State} from "./type";
+import type {RootState} from "type/state";
+
+const initialState: State = {};
+
+class {1}Module extends Module<RootState, "{2}"> {
+    @Lifecycle()
+    *onEnter(): SagaIterator {
+        // TODO
+    }
+}
+
+const {2}Module = register(new {1}Module("{2}", initialState));
+export const actions = {2}Module.getActions();
+export const MainComponent = {2}Module.attachLifecycle(Main);
