@@ -33,4 +33,4 @@
 !.vscode/extensions.json
 
 # Codegen templates
-**/templates/*
+**/template/*

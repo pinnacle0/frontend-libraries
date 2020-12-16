@@ -7,7 +7,7 @@ const print = Utility.createConsoleLogger("codegen");
 const directory = {
     src: path.join(__dirname, "../src"),
     srcRules: path.join(__dirname, "../src/rules"),
-    templates: path.join(__dirname, "../script/templates"),
+    template: path.join(__dirname, "../script/template"),
 };
 
 function scanCustomRules() {
@@ -46,7 +46,7 @@ new TaskRunner("codegen").execute([
                         return `"${_.kebab}": ${_.camel},`;
                     })
                     .join("\n    ");
-                const templateFile = path.join(directory.templates, "rules-index.ts");
+                const templateFile = path.join(directory.template, "rules-index.ts");
                 return fs
                     .readFileSync(templateFile, {
                         encoding: "utf8",
@@ -62,8 +62,8 @@ new TaskRunner("codegen").execute([
         name: "generate src/config/*.ts",
         execute: () => {
             const templateFiles = {
-                baseline: path.join(directory.templates, "config-baseline.ts"),
-                jest: path.join(directory.templates, "config-jest.ts"),
+                baseline: path.join(directory.template, "config-baseline.ts"),
+                jest: path.join(directory.template, "config-jest.ts"),
             };
 
             const allRules = scanCustomRules();

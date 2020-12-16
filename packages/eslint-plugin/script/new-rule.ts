@@ -7,7 +7,7 @@ import {isKebabCase, kebabToCamelCase} from "./util";
 const directory = {
     src: path.join(__dirname, "../src"),
     srcRules: path.join(__dirname, "../src/rules"),
-    templates: path.join(__dirname, "../script/templates"),
+    template: path.join(__dirname, "../script/template"),
     testRules: path.join(__dirname, "../test/rules"),
 };
 
@@ -36,7 +36,7 @@ new TaskRunner("new-rule").execute([
     {
         name: "generate src file",
         execute: () => {
-            const templateFile = path.join(directory.templates, "new-rule.ts");
+            const templateFile = path.join(directory.template, "new-rule.ts");
             const output = fs
                 .readFileSync(templateFile, {
                     encoding: "utf8",
@@ -49,7 +49,7 @@ new TaskRunner("new-rule").execute([
     {
         name: "generate test file",
         execute: () => {
-            const templateFile = path.join(directory.templates, "new-test.ts");
+            const templateFile = path.join(directory.template, "new-test.ts");
             const output = fs
                 .readFileSync(templateFile, {
                     encoding: "utf8",

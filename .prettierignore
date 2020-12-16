@@ -33,7 +33,7 @@
 !.vscode/extensions.json
 
 # Codegen templates
-**/templates/*
+**/template/*
 
 # Awesome Readme Image
 /packages/awesome-readme-image/**/*.less
