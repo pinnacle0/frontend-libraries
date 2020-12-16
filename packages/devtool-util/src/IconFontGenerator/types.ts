@@ -1,15 +1,15 @@
 export interface WebIconFontGeneratorOptions {
-    componentBasePath: string;
-    staticPath: string;
-    templatePath: string;
+    iconComponentDirectory: string;
+    staticDirectory: string;
+    templateDirectory: string;
     cssURL?: string;
     fontFamily?: string; // TODO: Review should we extract fontFamily from generated css
 }
 
 export interface AppIconFontGeneratorOptions {
-    componentPath: string;
+    iconComponentDirectory: string;
+    templateDirectory: string;
     androidFontPath: string;
     iosFontPath: string;
-    templatePath: string;
     cssURL?: string;
 }

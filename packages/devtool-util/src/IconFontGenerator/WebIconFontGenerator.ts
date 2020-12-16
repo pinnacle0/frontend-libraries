@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as fs from "fs-extra";
+import * as fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
@@ -9,9 +9,9 @@ import yargs = require("yargs");
 const print = Utility.createConsoleLogger("IconFontGenerator");
 
 export class WebIconFontGenerator {
-    private readonly componentBasePath: string;
-    private readonly staticPath: string;
-    private readonly templatePath: string;
+    private readonly iconComponentDirectory: string;
+    private readonly staticDirectory: string;
+    private readonly templateDirectory: string;
     private readonly cssURL: string;
     private readonly fontFamily: string;
 
@@ -19,9 +19,9 @@ export class WebIconFontGenerator {
     private iconClassList: string[] = [];
 
     constructor(options: WebIconFontGeneratorOptions) {
-        this.componentBasePath = options.componentBasePath;
-        this.staticPath = options.staticPath;
-        this.templatePath = options.templatePath;
+        this.iconComponentDirectory = options.iconComponentDirectory;
+        this.staticDirectory = options.staticDirectory;
+        this.templateDirectory = options.templateDirectory;
         this.cssURL = options.cssURL || String(yargs.argv._[0]);
         this.fontFamily = options.fontFamily || "iconfont";
     }
@@ -54,12 +54,13 @@ export class WebIconFontGenerator {
     }
 
     private async prepareFolder() {
-        print.task(["Copying template to target", this.componentBasePath]);
+        print.task(["Copying template to target", this.iconComponentDirectory]);
+        Utility.prepareEmptyDirectory(this.iconComponentDirectory);
 
-        Utility.prepareEmptyDirectory(this.componentBasePath);
-
-        fs.copySync(this.templatePath, this.componentBasePath);
-        fs.moveSync(this.componentBasePath + "/icon.html", this.staticPath + "/icon.html", {overwrite: true});
+        for (const file of fs.readdirSync(this.templateDirectory, {encoding: "utf8"})) {
+            fs.copyFileSync(`${this.templateDirectory}/${file}`, `${this.iconComponentDirectory}/${file}`);
+        }
+        fs.renameSync(`${this.iconComponentDirectory}/icon.html`, `${this.staticDirectory}/icon.html`);
     }
 
     private parseClassList() {
@@ -69,14 +70,14 @@ export class WebIconFontGenerator {
     }
 
     private generateReactComponent() {
-        const path = this.componentBasePath + "/index.tsx";
+        const path = `${this.iconComponentDirectory}/index.tsx`;
         print.task(["Generating React Component", path]);
 
         Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n")]);
     }
 
     private generateCSSAndAssets() {
-        const path = this.componentBasePath + "/iconfont.less";
+        const path = `${this.iconComponentDirectory}/iconfont.less`;
         print.task(["Generating LESS", path]);
 
         const assetURLs = this.cssContent.match(/url\('(.|\n)*?'\)/g)!.map(_ => _.substring(5, _.length - 2));
@@ -91,7 +92,7 @@ export class WebIconFontGenerator {
     }
 
     private generatePreviewHTML() {
-        const path = this.staticPath + "/icon.html";
+        const path = `${this.staticDirectory}/icon.html`;
         print.task(["Generating static HTML for icon preview", path]);
 
         const icons = this.iconClassList.map(_ => `<div class="item"><i class="iconfont ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
@@ -100,15 +101,15 @@ export class WebIconFontGenerator {
 
     private formatSources() {
         print.task("Format generated sources");
-        PrettierUtil.format(this.componentBasePath);
+        PrettierUtil.format(this.iconComponentDirectory);
     }
 
     private transformToLocalURL(url: string) {
         const downloadFontAsset = async (fileName: string) => {
-            const path = this.componentBasePath + "/" + fileName;
+            const path = `${this.iconComponentDirectory}/${fileName}`;
             if (url.startsWith("//")) url = "http:" + url;
             const response = await axios({url, responseType: "stream"});
-            response.data.pipe(fs.createWriteStream(path));
+            response.data.pipe(fs.createWriteStream(path, {encoding: "utf8"}));
             response.data.on("error", (error: Error) => {
                 print.error(error);
                 process.exit(1);

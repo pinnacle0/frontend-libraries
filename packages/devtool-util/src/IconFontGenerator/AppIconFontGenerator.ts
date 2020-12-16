@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as fs from "fs-extra";
+import * as fs from "fs";
 import {Agent} from "https";
 import {Utility} from "../Utility";
 import {AppIconFontGeneratorOptions} from "./types";
@@ -8,15 +8,15 @@ import yargs = require("yargs");
 const print = Utility.createConsoleLogger("IconFontGenerator");
 
 export class AppIconFontGenerator {
-    private readonly componentTemplatePath: string;
-    private readonly componentPath: string;
+    private readonly templateDirectory: string;
+    private readonly iconComponentDirectory: string;
     private readonly androidFontPath: string;
     private readonly iosFontPath: string;
     private readonly cssURL: string;
 
     constructor(options: AppIconFontGeneratorOptions) {
-        this.componentTemplatePath = options.templatePath;
-        this.componentPath = options.componentPath;
+        this.templateDirectory = options.templateDirectory;
+        this.iconComponentDirectory = options.iconComponentDirectory;
         this.androidFontPath = options.androidFontPath;
         this.iosFontPath = options.iosFontPath;
         this.cssURL = options.cssURL || String(yargs.argv._[0]);
@@ -56,11 +56,10 @@ export class AppIconFontGenerator {
 
         // Copy template to target
         const componentContent = fs
-            .readFileSync(this.componentTemplatePath)
-            .toString()
+            .readFileSync(this.templateDirectory, {encoding: "utf8"})
             .replace("{1}", cssURL)
             .replace("// {2}", iconClassList.map(_ => `    ${_},`).join("\n"));
-        fs.writeFileSync(this.componentPath, componentContent);
+        fs.writeFileSync(this.iconComponentDirectory, componentContent, {encoding: "utf8"});
 
         print.info(`😍 Generated ${iconClassList.length} icons`);
     }
@@ -76,7 +75,7 @@ export class AppIconFontGenerator {
     private async downloadFontAsset(url: string, filepath: string) {
         if (url.startsWith("//")) url = "http:" + url;
         const response = await axios({url, responseType: "stream"});
-        response.data.pipe(fs.createWriteStream(filepath));
+        response.data.pipe(fs.createWriteStream(filepath, {encoding: "utf8"}));
         return new Promise((resolve, reject) => {
             response.data.on("end", resolve);
             response.data.on("error", reject);
