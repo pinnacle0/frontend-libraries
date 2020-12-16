@@ -8,38 +8,37 @@ export interface BrowserNewTabSizeOptions {
 }
 
 function os(): BrowserOS {
-    // TODO/Lok
-    return "other";
+    if (navigator.userAgent.toUpperCase().indexOf("WINDOWS") >= 0) {
+        // https://stackoverflow.com/a/19176790
+        return "Windows";
+    } else if (navigator.platform.toUpperCase().indexOf("MAC") >= 0) {
+        return "Mac";
+    } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        return "iOS";
+    } else if (/Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return "Android";
+    } else {
+        return "other";
+    }
 }
 
 function kernel(): BrowserKernel {
-    // TODO/Lok
-    return "other";
-}
-
-// TODO: just remove following after finish above
-/** @deprecated */
-function isMac() {
-    return navigator.platform.toUpperCase().indexOf("MAC") >= 0;
-}
-
-/** @deprecated */
-function isWebkit() {
-    return "WebkitAppearance" in document.documentElement.style;
+    const userAgentUpperCase = navigator.userAgent.toUpperCase();
+    if ("WebkitAppearance" in document.documentElement.style) {
+        return "webkit";
+    } else if (userAgentUpperCase.indexOf("FIREFOX") >= 0 && userAgentUpperCase.indexOf("SEAMONKEY") === -1) {
+        // https://github.com/keithws/browser-report/blob/6fa7a2bb33ce8b8621b2c4538a1ebefac38af57f/index.js#L64
+        return "firefox";
+    } else if (userAgentUpperCase.indexOf("MSIE") >= 0) {
+        // https://github.com/keithws/browser-report/blob/6fa7a2bb33ce8b8621b2c4538a1ebefac38af57f/index.js#L56
+        return "ie";
+    } else {
+        return "other";
+    }
 }
 
 function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-/** @deprecated */
-function isIos() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-/** @deprecated */
-function isAndroid() {
-    return /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
 function isWechat() {
@@ -102,8 +101,7 @@ function newTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}
 
 function openQQ(qq: string) {
     if (isMobile()) {
-        // TODO: use `os() === "iOS"`
-        if (isIos()) {
+        if (os() === "iOS") {
             window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
         } else {
             window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
@@ -114,11 +112,9 @@ function openQQ(qq: string) {
 }
 
 export const BrowserUtil = Object.freeze({
-    isMac,
-    isAndroid,
-    isIos,
+    os,
+    kernel,
     isMobile,
-    isWebkit,
     isWechat,
     removeElement,
     scrollTo,
