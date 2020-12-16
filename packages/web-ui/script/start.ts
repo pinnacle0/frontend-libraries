@@ -1,6 +1,5 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
-import StylelintWebpackPlugin from "stylelint-webpack-plugin";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 
@@ -85,10 +84,6 @@ const config: webpack.Configuration = {
         new webpack.IgnorePlugin({
             resourceRegExp: /^\.\/locale$/,
             contextRegExp: /moment$/,
-        }),
-        new StylelintWebpackPlugin({
-            context: directory.src,
-            files: "**/*.less",
         }),
     ],
 };
