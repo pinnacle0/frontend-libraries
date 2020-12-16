@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.0.31",
+    "version": "0.0.32",
     "license": "MIT",
     "main": "src/index.js",
     "scripts": {
