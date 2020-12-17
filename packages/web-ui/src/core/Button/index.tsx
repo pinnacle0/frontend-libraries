@@ -29,18 +29,24 @@ export interface Props<Color extends string, Size extends string = ButtonSize> e
     linkInNewTab?: boolean;
     color?: ExtendableColor<Color>;
     size?: ExtendableSize<Size>;
+    visible?: boolean;
 }
 
 export class Button<Color extends string, Size extends string = ButtonSize> extends React.PureComponent<Props<Color, Size>> {
     static displayName = "Button";
 
     render() {
-        const {children, link, linkInNewTab, color = "primary", size = "medium", className = "", type = "button", ...restProps} = this.props;
+        const {children, link, linkInNewTab, color = "primary", size = "medium", className = "", type = "button", visible = true, ...restProps} = this.props;
         const buttonNode = (
             <button className={`g-button ${color} ${size} ${className}`} type={type} {...restProps}>
                 {children}
             </button>
         );
+
+        if (!visible) {
+            return null;
+        }
+
         if (link) {
             return (
                 <Link to={link} newTab={linkInNewTab}>

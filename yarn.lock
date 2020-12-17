@@ -2124,15 +2124,6 @@
     chrome-trace-event "^1.0.2"
     nullthrows "^1.1.1"
 
-"@pinnacle0/devtool-util@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@pinnacle0/devtool-util/-/devtool-util-0.0.5.tgz#4f3fce25d01b07de41944b016e83ef20e7e05414"
-  integrity sha512-fwPT7KUjqGkLhSFkq8lEBIaHCapZeJILL3c9CWQqwn9b3fiVUHvuLTLyGpeKSgA4nxenSYgAQKTmt36MRrYm/w==
-  dependencies:
-    axios "0.21.0"
-    fs-extra "9.0.1"
-    yargs "16.2.0"
-
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz#1eec460596d200c0236bf195b078a5d1df89b766"

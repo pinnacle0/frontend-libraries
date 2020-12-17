@@ -14,6 +14,7 @@ export interface ExtraButtonConfig {
     onClick: () => void;
     icon?: React.ReactElement;
     disabled?: boolean;
+    visible?: boolean;
 }
 
 export interface Props {
@@ -67,9 +68,9 @@ export class Filter extends React.PureComponent<Props, State> {
     };
 
     renderExtraButton = (config: ExtraButtonConfig) => {
-        const {label, onClick, icon, disabled} = config;
+        const {label, onClick, icon, disabled, visible} = config;
         return (
-            <Button color="wire-frame" onClick={onClick} disabled={disabled} key={label}>
+            <Button color="wire-frame" onClick={onClick} disabled={disabled} key={label} visible={visible}>
                 {icon} {label}
             </Button>
         );

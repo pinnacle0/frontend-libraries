@@ -21,7 +21,18 @@ const coloredButtons = (size: ButtonSize): React.ReactElement[] => {
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Button",
-        components: [...coloredButtons("small"), "-", ...coloredButtons("medium"), "-", ...coloredButtons("large"), "-", ...coloredButtons("x-large"), "-"],
+        components: [
+            ...coloredButtons("small"),
+            "-",
+            ...coloredButtons("medium"),
+            "-",
+            ...coloredButtons("large"),
+            "-",
+            ...coloredButtons("x-large"),
+            "-",
+            <Button visible={false}>Should not show</Button>,
+            <Button visible>Should show</Button>,
+        ],
     },
 ];
 
