@@ -1,4 +1,4 @@
-export type BrowserOS = "Windows" | "Mac" | "iOS" | "Android" | "other";
+export type BrowserOS = "windows" | "mac" | "ios" | "android" | "other";
 export type BrowserKernel = "webkit" | "firefox" | "ie" | "other";
 export interface BrowserNewTabSizeOptions {
     width: number;
@@ -10,13 +10,13 @@ export interface BrowserNewTabSizeOptions {
 function os(): BrowserOS {
     if (navigator.userAgent.toUpperCase().indexOf("WINDOWS") >= 0) {
         // https://stackoverflow.com/a/19176790
-        return "Windows";
+        return "windows";
     } else if (navigator.platform.toUpperCase().indexOf("MAC") >= 0) {
-        return "Mac";
+        return "mac";
     } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        return "iOS";
+        return "ios";
     } else if (/Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        return "Android";
+        return "android";
     } else {
         return "other";
     }
@@ -38,7 +38,8 @@ function kernel(): BrowserKernel {
 }
 
 function isMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const system = os();
+    return system === "ios" || system === "android";
 }
 
 function isWechat() {
@@ -100,12 +101,11 @@ function newTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}
 }
 
 function openQQ(qq: string) {
-    if (isMobile()) {
-        if (os() === "iOS") {
-            window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
-        } else {
-            window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
-        }
+    const system = os();
+    if (system === "ios") {
+        window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
+    } else if (system === "android") {
+        window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
     } else {
         window.open(`tencent://message/?uin=${qq}&Site=Sambow&Menu=yes`);
     }
