@@ -115,7 +115,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, withReactFastRefreshBabelPlugin: true}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, fastRefresh: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other(),
@@ -178,7 +178,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false, withReactFastRefreshBabelPlugin: false}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false, fastRefresh: false}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other(),

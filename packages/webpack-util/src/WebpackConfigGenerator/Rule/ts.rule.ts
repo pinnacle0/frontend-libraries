@@ -4,7 +4,7 @@ import {RegExpUtil} from "./RegExpUtil";
 interface Deps {
     tsconfigFilepath: string;
     transpileOnly: boolean;
-    withReactFastRefreshBabelPlugin: boolean;
+    fastRefresh: boolean;
 }
 
 /**
@@ -18,7 +18,7 @@ interface Deps {
  * @see https://github.com/TypeStrong/ts-loader
  * @see https://github.com/pmmmwh/react-refresh-webpack-plugin
  */
-export function tsRule({tsconfigFilepath, transpileOnly, withReactFastRefreshBabelPlugin}: Deps): webpack.RuleSetRule {
+export function tsRule({tsconfigFilepath, transpileOnly, fastRefresh}: Deps): webpack.RuleSetRule {
     const babelLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("babel-loader"),
         options: {
@@ -42,6 +42,6 @@ export function tsRule({tsconfigFilepath, transpileOnly, withReactFastRefreshBab
 
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
-        use: withReactFastRefreshBabelPlugin ? [babelLoader, tsLoader] : [tsLoader],
+        use: fastRefresh ? [babelLoader, tsLoader] : [tsLoader],
     };
 }
