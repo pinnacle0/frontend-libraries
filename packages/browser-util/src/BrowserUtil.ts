@@ -1,5 +1,5 @@
 export type BrowserOS = "windows" | "mac" | "ios" | "android" | "other";
-export type BrowserKernel = "webkit" | "firefox" | "ie" | "other";
+export type BrowserKernel = "wechat" | "webkit" | "firefox" | "ie" | "other"; // WeChat is a special webkit, some features restricted
 export interface BrowserNewTabSizeOptions {
     width: number;
     height: number;
@@ -8,10 +8,10 @@ export interface BrowserNewTabSizeOptions {
 }
 
 function os(): BrowserOS {
-    if (navigator.userAgent.toUpperCase().indexOf("WINDOWS") >= 0) {
+    if (navigator.userAgent.toUpperCase().includes("WINDOWS")) {
         // https://stackoverflow.com/a/19176790
         return "windows";
-    } else if (navigator.platform.toUpperCase().indexOf("MAC") >= 0) {
+    } else if (navigator.platform.toUpperCase().includes("MAC")) {
         return "mac";
     } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         return "ios";
@@ -24,12 +24,14 @@ function os(): BrowserOS {
 
 function kernel(): BrowserKernel {
     const userAgentUpperCase = navigator.userAgent.toUpperCase();
-    if ("WebkitAppearance" in document.documentElement.style) {
+    if (userAgentUpperCase.includes("MICROMESSENGER")) {
+        return "wechat";
+    } else if ("WebkitAppearance" in document.documentElement.style) {
         return "webkit";
-    } else if (userAgentUpperCase.indexOf("FIREFOX") >= 0 && userAgentUpperCase.indexOf("SEAMONKEY") === -1) {
+    } else if (userAgentUpperCase.includes("FIREFOX") && !userAgentUpperCase.includes("SEAMONKEY")) {
         // https://github.com/keithws/browser-report/blob/6fa7a2bb33ce8b8621b2c4538a1ebefac38af57f/index.js#L64
         return "firefox";
-    } else if (userAgentUpperCase.indexOf("MSIE") >= 0) {
+    } else if (userAgentUpperCase.includes("MSIE")) {
         // https://github.com/keithws/browser-report/blob/6fa7a2bb33ce8b8621b2c4538a1ebefac38af57f/index.js#L56
         return "ie";
     } else {
@@ -40,10 +42,6 @@ function kernel(): BrowserKernel {
 function isMobile() {
     const system = os();
     return system === "ios" || system === "android";
-}
-
-function isWechat() {
-    return /MicroMessenger/i.test(navigator.userAgent);
 }
 
 function removeElement(element: HTMLElement | null) {
@@ -115,7 +113,6 @@ export const BrowserUtil = Object.freeze({
     os,
     kernel,
     isMobile,
-    isWechat,
     removeElement,
     scrollTo,
     newTab,
