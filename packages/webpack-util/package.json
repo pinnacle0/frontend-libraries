@@ -6,7 +6,8 @@
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
         "build": "yarn run-script script/build.ts",
-        "format": "yarn run-script script/format.ts"
+        "format": "yarn run-script script/format.ts",
+        "test": "jest"
     },
     "dependencies": {
         "@babel/core": "7.12.10",
@@ -49,5 +50,8 @@
     },
     "engines": {
         "node": ">=12.19.x"
+    },
+    "jest": {
+        "preset": "ts-jest"
     }
 }

@@ -35,6 +35,13 @@ new TaskRunner("build").execute([
         },
     },
     {
+        name: "test",
+        skipInFastMode: true,
+        execute: () => {
+            Utility.runCommand("jest", ["--bail"]);
+        },
+    },
+    {
         name: "prepare build directory",
         execute: () => {
             Utility.prepareEmptyDirectory(FilePath.build);
