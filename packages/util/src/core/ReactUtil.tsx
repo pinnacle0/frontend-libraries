@@ -59,7 +59,7 @@ function statics<T extends {[key: string]: React.ComponentType<any>}>(displayNam
     const namedComponentMap: {[key: string]: React.ComponentType<any>} = {};
     Object.keys(componentMap).forEach(key => {
         const OriginalComponent = componentMap[key];
-        namedComponentMap[key] = memo(displayName, (...props: any) => <OriginalComponent {...props} />);
+        namedComponentMap[key] = memo(displayName, (props: any) => <OriginalComponent {...props} />);
     });
     return namedComponentMap as T;
 }
