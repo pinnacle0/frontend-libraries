@@ -1,7 +1,7 @@
 import React from "react";
 import {EnumRadio} from "./EnumRadio";
 import type {Props as BaseProps} from "./EnumRadio/InitialNullable";
-import {ControlledFormValue, PickOptional} from "../internal/type";
+import {PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
 export interface Props extends Omit<BaseProps<boolean>, "list" | "translator"> {

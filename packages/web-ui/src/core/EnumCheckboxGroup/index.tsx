@@ -1,10 +1,10 @@
 import React from "react";
-import {Checkbox} from "./Checkbox";
-import {ControlledFormValue} from "../internal/type";
+import {Checkbox} from "../Checkbox";
+import {ControlledFormValue} from "../../internal/type";
 
 interface Props<Enum extends string | boolean | number> extends ControlledFormValue<Enum[]> {
     list: readonly Enum[];
-    translator: (enumValue: Enum) => string;
+    translator: (enumValue: Enum) => React.ReactChild;
     disabledItems?: Enum[] | "all";
 }
 
