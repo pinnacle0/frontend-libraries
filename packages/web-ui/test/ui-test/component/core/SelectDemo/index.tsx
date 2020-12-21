@@ -5,8 +5,10 @@ import {MultipleEnumSelect} from "@pinnacle0/web-ui/core/MultipleEnumSelect";
 import React from "react";
 import {DemoHelper, DemoHelperGroupConfig} from "test/ui-test/component/DemoHelper";
 import {withUncontrolledInitialValue} from "test/ui-test/util/withUncontrolledInitialValue";
+import {BoolRadio} from "@pinnacle0/web-ui/core/BoolRadio";
 
 const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);
+const UncontrolledBoolRadio = withUncontrolledInitialValue(BoolRadio);
 const UncontrolledEnumRadioNullable = withUncontrolledInitialValue(EnumRadio.Nullable);
 const UncontrolledEnumRadioInitialNullable = withUncontrolledInitialValue(EnumRadio.InitialNullable);
 const UncontrolledMultipleSelect = withUncontrolledInitialValue(MultipleEnumSelect);
@@ -51,6 +53,16 @@ const groups: DemoHelperGroupConfig[] = [
                 useButtonMode
             />,
         ],
+    },
+    {
+        title: "Boolean Radio Nullable",
+        showPropsHint: true,
+        components: [<UncontrolledBoolRadio nullable initialValue={null} />],
+    },
+    {
+        title: "Boolean Radio Initial Nullable",
+        showPropsHint: true,
+        components: [<UncontrolledBoolRadio initialValue />],
     },
     {
         title: "MultipleEnumSelect",
