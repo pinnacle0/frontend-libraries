@@ -168,6 +168,7 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/admin/permission-selector",
                         title: "Permission Selector",
                         componentType: PermissionSelectorDemo,
+                        permissions: {features: []},
                     },
                     {
                         url: "/admin/navigation-history",

@@ -166,7 +166,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     };
 
     renderNavigationModule = (module: NavigationModuleItem<Feature, Field>) => {
-        if (module.permissions) {
+        if (module.permissions && (module.permissions.features.length > 0 || (module.permissions.fields?.length || 0) > 0)) {
             const {featureValue, fieldValue} = this.props;
             const moduleFeaturePermissions = this.getNavigationModuleFeaturePermissions(module);
             const moduleFieldPermissions = this.getNavigationModuleFieldPermission(module);
@@ -174,7 +174,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
             const popover = (
                 <Descriptions column={1}>
                     {this.renderPermissionGroup(module.permissions.features, false)}
-                    {module.permissions.fields ? this.renderPermissionGroup(module.permissions.fields, true) : null}
+                    {this.props.fieldValue && module.permissions.fields ? this.renderPermissionGroup(module.permissioxns.fields, true) : null}
                 </Descriptions>
             );
             return (
