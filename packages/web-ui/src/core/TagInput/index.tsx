@@ -7,6 +7,7 @@ interface Props<T> extends ControlledFormValue<T[]> {
     renderTag?: (item: T) => string;
     className?: (item: T) => string;
     style?: React.CSSProperties;
+    disabled?: boolean;
 }
 
 interface State {
@@ -26,13 +27,19 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     }
 
     removeTag = (index: number) => {
-        const {onChange, value} = this.props;
+        const {onChange, value, disabled} = this.props;
+        if (disabled) {
+            return;
+        }
         const newTags = [...value];
         newTags.splice(index, 1);
         onChange(newTags);
     };
 
     addTagsByInput = (input: string) => {
+        if (this.props.disabled) {
+            return;
+        }
         if (input) {
             const {parser, onChange, value} = this.props;
             this.setState({inputText: ""});
@@ -62,10 +69,10 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {value, renderTag, className, style} = this.props;
+        const {value, renderTag, className, style, disabled} = this.props;
         const {inputText} = this.state;
         return (
-            <div className="g-tag-input" style={style}>
+            <div className={`g-tag-input ${disabled ? "ant-input-disabled" : ""}`} style={style}>
                 {value.map((tag, index) => {
                     return (
                         <div className={`g-tag-input-label ${className ? className(tag) : ""}`} key={index}>
@@ -74,7 +81,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
                         </div>
                     );
                 })}
-                <textarea onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus />
+                <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus />
             </div>
         );
     }

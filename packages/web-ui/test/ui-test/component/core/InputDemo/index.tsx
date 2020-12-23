@@ -7,6 +7,13 @@ import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
 import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCodeInput";
 import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
 import {withUncontrolledInitialValue} from "test/ui-test/util/withUncontrolledInitialValue";
+import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
+
+const UncontrolledTagInput = () => {
+    const parser = (text: string) => text.split(/[\n ,;]/g).filter(Boolean);
+    const [input, setInput] = React.useState<string[]>([]);
+    return <TagInput parser={parser} value={input} onChange={setInput} disabled />;
+};
 
 const NullableNumberInput = (props: Omit<NumberInputProps<true>, "value" | "onChange" | "allowNull">) => {
     const [value, onChange] = React.useState<number | null>(null);
@@ -95,11 +102,15 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "Text Area",
-        components: [<TextArea initialValue="Text Area Content" />, <NullableTextArea initialValue={null} />],
+        components: [<TextArea initialValue="Text Area Content" disabled />, <NullableTextArea initialValue={null} />],
     },
     {
         title: "Authentication Code Input",
         components: [<AuthenticationCodeInput onSend={() => new Promise<void>(resolve => setTimeout(() => resolve(), 500))} value="" onChange={dummyEmptyCallback} nextSendInterval={5} />],
+    },
+    {
+        title: "Tags Input",
+        components: [<UncontrolledTagInput />],
     },
 ];
 
