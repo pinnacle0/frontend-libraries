@@ -12,6 +12,7 @@ export interface Props<Removable extends boolean> extends UploadProps {
     imageURL: Removable extends true ? string | null : string;
     onChange: (value: Removable extends true ? ImageUploadResponse | null : ImageUploadResponse) => void;
     removable: Removable;
+    headerKey: string;
     fileSizeLimitMB?: number;
     className?: string;
     style?: React.CSSProperties;
@@ -67,11 +68,11 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
     };
 
     render() {
-        const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled, thumbStyle} = this.props;
+        const {imageURL, uploadURL, onUploadFailure, className, style, removable, disabled, thumbStyle, headerKey} = this.props;
         const t = i18n();
         return (
             <Uploader
-                name="image"
+                name={headerKey}
                 accept="image/*"
                 uploadURL={uploadURL}
                 onUploadFailure={onUploadFailure}
