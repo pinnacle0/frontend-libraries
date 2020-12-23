@@ -1,5 +1,5 @@
 import {Lifecycle, Module, register} from "core-fe";
-import type {SagaIterator} from "core-fe";
+import type {SagaGenerator} from "core-fe";
 import {Main} from "./component/Main";
 import type {State} from "./type";
 import type {RootState} from "type/state";
@@ -8,7 +8,7 @@ const initialState: State = {};
 
 class {1}Module extends Module<RootState, "{2}"> {
     @Lifecycle()
-    *onEnter(): SagaIterator {
+    *onEnter(): SagaGenerator {
         // TODO
     }
 }
