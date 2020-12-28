@@ -9,6 +9,7 @@ export type PickOptional<T> = Pick<T, {[K in keyof T]-?: {} extends {[P in K]: T
 export type PickNonNullable<T> = Pick<T, NonNullableKeys<T>>;
 export type NullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? never : K}[keyof T];
 export type NonNullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? K : never}[keyof T];
+export type MarkAsOptional<T, K extends keyof T> = {[P in K]+?: T[P]} & {[P in Exclude<keyof T, K>]: T[P]};
 
 export type SafeReactChild = React.ReactChild | boolean | null;
 export type SafeReactChildren = SafeReactChild | SafeReactChild[];
