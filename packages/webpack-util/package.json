@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.0.34",
+    "version": "0.0.35",
     "license": "MIT",
     "main": "src/index.js",
     "scripts": {
@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@babel/core": "7.12.10",
-        "@pinnacle0/devtool-util": "0.0.7",
+        "@pinnacle0/devtool-util": "0.0.8",
         "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
         "autoprefixer": "9.8.6",
         "babel-loader": "8.2.2",
