@@ -23,6 +23,13 @@ export const configBaseline: ESLint.Linter.Config = {
 
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/consistent-type-assertions": [
+            "error",
+            {
+                assertionStyle: "as",
+                objectLiteralTypeAssertions: "allow",
+            },
+        ],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-member-accessibility": ["error", {accessibility: "no-public"}],
         "@typescript-eslint/explicit-module-boundary-types": "off",
