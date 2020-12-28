@@ -6,7 +6,7 @@ export interface Props {
     date: Date;
 }
 
-export interface State {
+interface State {
     elapsedText: string;
 }
 

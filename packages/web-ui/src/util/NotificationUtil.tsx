@@ -4,12 +4,6 @@ import "antd/lib/notification/style";
 
 let notificationInstance: NotificationInstance | null = null;
 
-function useNotification(): React.ReactElement {
-    const [apiInstance, contextHolder] = notification.useNotification();
-    notificationInstance = apiInstance;
-    return contextHolder;
-}
-
 function create(options: NotificationOptions) {
     if (notificationInstance) {
         notificationInstance.open(options);
@@ -22,8 +16,27 @@ function destroy() {
     notification.destroy();
 }
 
+function Root(): React.ReactElement {
+    // TODO/tim: try this, and add <ModalUtil.Root>
+    const [apiInstance, contextHolder] = notification.useNotification();
+    React.useEffect(
+        () => {
+            if (notificationInstance) {
+                throw new Error("[web-ui] NotificationUtil.Root cannot be mounted more than once");
+            }
+            notificationInstance = apiInstance;
+            return () => {
+                notificationInstance = null;
+            };
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- for didMount/willUnmount lifecycle
+        []
+    );
+    return contextHolder;
+}
+
 export const NotificationUtil = Object.freeze({
     create,
     destroy,
-    useNotification,
+    Root,
 });
