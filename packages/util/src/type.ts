@@ -9,8 +9,9 @@ export type KeysOfType<T, ExpectedValueType> = {[P in keyof T]: T[P] extends Exp
 export type NullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? never : K}[keyof T];
 export type NonNullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? K : never}[keyof T];
 
+// TODO/Jamyth: MarkAsRequired
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
-// TODO/Jamyth: OptionalFields, and add some test cases
+// TODO/Jamyth: add some test cases
 export type MarkAsOptional<T, K extends keyof T> = {[P in K]+?: T[P]} & {[P in Exclude<keyof T, K>]: T[P]};
 
 export type SafeReactChild = React.ReactChild | boolean | null;
