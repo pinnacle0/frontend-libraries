@@ -3,7 +3,7 @@ import * as fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
-import {WebIconFontGeneratorOptions} from "./types";
+import {WebIconFontGeneratorOptions} from "./type";
 import yargs = require("yargs");
 
 const print = Utility.createConsoleLogger("IconFontGenerator");

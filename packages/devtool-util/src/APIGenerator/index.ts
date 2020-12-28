@@ -16,4 +16,4 @@ export class APIGenerator extends APIGeneratorBase {
     static Web = WebAPIGenerator;
 }
 
-export type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, PlatformSpecificAPIGeneratorOptions, ServiceDefinition, TypeDefinition} from "./types";
+export type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, PlatformSpecificAPIGeneratorOptions, ServiceDefinition, TypeDefinition} from "./type";

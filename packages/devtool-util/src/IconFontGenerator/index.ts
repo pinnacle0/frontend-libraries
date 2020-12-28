@@ -6,4 +6,4 @@ export class IconFontGenerator {
     static App = AppIconFontGenerator;
 }
 
-export type {AppIconFontGeneratorOptions, WebIconFontGeneratorOptions} from "./types";
+export type {AppIconFontGeneratorOptions, WebIconFontGeneratorOptions} from "./type";

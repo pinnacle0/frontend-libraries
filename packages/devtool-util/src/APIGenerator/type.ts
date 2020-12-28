@@ -1,4 +1,3 @@
-// TODO: type.ts
 export interface APIDefinition {
     services: ServiceDefinition[];
     types: TypeDefinition[];

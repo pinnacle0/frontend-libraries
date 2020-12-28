@@ -2,7 +2,7 @@ import axios from "axios";
 import * as fs from "fs";
 import {Agent} from "https";
 import {Utility} from "../Utility";
-import {AppIconFontGeneratorOptions} from "./types";
+import {AppIconFontGeneratorOptions} from "./type";
 import yargs = require("yargs");
 
 const print = Utility.createConsoleLogger("IconFontGenerator");
