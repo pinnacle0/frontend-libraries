@@ -1,5 +1,5 @@
 import React from "react";
-import {ArrayElement, KeysOfType, NonNullableKeys, NullableKeys, PickNonNullable, PickOptional, RequireFields, SafeReactChild, SafeReactChildren} from "../src/type";
+import {ArrayElement, KeysOfType, NonNullableKeys, NullableKeys, PickNonNullable, PickOptional, MarkAsRequired, SafeReactChild, SafeReactChildren, MarkAsOptional, MarkAsNullable} from "../src/type";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
     type T = {
@@ -161,7 +161,7 @@ describe("ArrayElement<ArrayType extends readonly unknown[]>", () => {
     });
 });
 
-describe("RequireFields", () => {
+describe("MarkAsRequired", () => {
     type TestType = {
         zoo: number;
         cow: string;
@@ -170,7 +170,7 @@ describe("RequireFields", () => {
     };
 
     test("foo and bar are required", () => {
-        let x: RequireFields<TestType, "foo" | "bar">;
+        let x: MarkAsRequired<TestType, "foo" | "bar">;
 
         x = {zoo: 10, cow: "st", foo: "21", bar: 5};
         // @ts-expect-error
@@ -184,7 +184,7 @@ describe("RequireFields", () => {
     });
 
     test("foo and cow are required", () => {
-        let x: RequireFields<TestType, "foo" | "cow">;
+        let x: MarkAsRequired<TestType, "foo" | "cow">;
 
         x = {zoo: 10, cow: "st", foo: "21", bar: 5};
         x = {zoo: 10, cow: "st", foo: "21"};
@@ -346,6 +346,81 @@ describe("NonNullableKeys<T>", () => {
         t1 = "optionalCanBeNull";
         // @ts-expect-error
         t1 = "optionalCanBeNullAndUndefined";
+    });
+});
+
+describe("MarkAsOptional<T>", () => {
+    type TestType = {
+        zoo: number;
+        cow: string;
+        cat?: string;
+        foo: string;
+    };
+
+    test("zoo and cow are optional", () => {
+        let x: MarkAsOptional<TestType, "zoo" | "cow">;
+
+        x = {foo: "foo"};
+        // @ts-expect-error
+        x = {foo: "foo", zoo: 100, cow: 100};
+
+        x = {foo: "foo", cat: "cat", zoo: 10};
+        // @ts-expect-error
+        x = {zoo: 10};
+        // @ts-expect-error
+        x = {};
+    });
+
+    test("cat is optional", () => {
+        let x: MarkAsOptional<TestType, "cat">;
+
+        x = {zoo: 10, cow: "cow", foo: "foo"};
+        // @ts-expect-error
+        x = {zoo: 10, cow: "cow", foo: "foo", cat: 100};
+        // @ts-expect-error
+        x = {zoo: "zoo"};
+        // @ts-expect-error
+        x = {foo: "foo"};
+    });
+});
+
+describe("MarkAsNullable<T>", () => {
+    type TestType = {
+        zoo: number;
+        cow: string;
+        cat: string | null;
+        foo: string;
+    };
+
+    test("zoo and cow are Nullable", () => {
+        let x: MarkAsNullable<TestType, "zoo" | "cow">;
+
+        x = {foo: "foo", zoo: null, cow: "cow", cat: null};
+
+        x = {foo: "foo", zoo: null, cow: null, cat: "cat"};
+        // @ts-expect-error
+        x = {foo: "foo", zoo: 100, cow: 10};
+
+        // @ts-expect-error
+        x = {foo: "foo", cat: "cat", zoo: 10};
+        // @ts-expect-error
+        x = {zoo: 10};
+        // @ts-expect-error
+        x = {};
+    });
+
+    test("cat is Nullable", () => {
+        let x: MarkAsNullable<TestType, "cat">;
+
+        x = {zoo: 10, cow: "cow", foo: "foo", cat: null};
+        // @ts-expect-error
+        x = {zoo: 10, cow: "cow", foo: "foo"};
+        // @ts-expect-error
+        x = {zoo: 10, cow: "cow", foo: "foo", cat: 100};
+        // @ts-expect-error
+        x = {zoo: "zoo"};
+        // @ts-expect-error
+        x = {foo: "foo"};
     });
 });
 
