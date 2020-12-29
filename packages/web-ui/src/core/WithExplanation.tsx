@@ -40,7 +40,7 @@ export class WithExplanation extends React.PureComponent<Props> {
         const {children, explanation} = this.props;
         if (explanation) {
             return (
-                <div style={this.tooltipQuestionContainerStyle}>
+                <div className="g-with-explanation" style={this.tooltipQuestionContainerStyle}>
                     {children}
                     <Tooltip title={Array.isArray(explanation) ? explanation.map((_, index) => <p key={index}>{_}</p>) : explanation} overlayStyle={this.tooltipOverlayStyle}>
                         <div style={this.tooltipQuestionStyle}>?</div>
