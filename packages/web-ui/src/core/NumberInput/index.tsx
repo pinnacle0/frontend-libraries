@@ -31,6 +31,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     className?: string;
     inputStyle?: React.CSSProperties;
     suffix?: React.ReactChild;
+    prefix?: React.ReactChild;
 }
 
 interface State {
@@ -134,7 +135,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         // TODO/Lok: refactor canMinus, canAdd so they don't look so ugly
@@ -155,6 +156,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     onChange={this.onInputChange}
                     onKeyPress={this.onInputPress}
                     suffix={suffix}
+                    prefix={prefix}
                     className="count-input"
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
