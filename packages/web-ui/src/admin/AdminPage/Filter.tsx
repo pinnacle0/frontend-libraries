@@ -90,9 +90,11 @@ export class Filter extends React.PureComponent<Props, State> {
                 <Button type="submit" disabled={loading}>
                     {t.search}
                 </Button>
-                <Button color="wire-frame" onClick={onReset} disabled={loading}>
-                    {t.reset}
-                </Button>
+                {onReset && (
+                    <Button color="wire-frame" onClick={onReset} disabled={loading}>
+                        {t.reset}
+                    </Button>
+                )}
                 {extraButtons && (Array.isArray(extraButtons) ? extraButtons.map(this.renderExtraButton) : this.renderExtraButton(extraButtons))}
                 {this.renderExpansion()}
             </Form>
