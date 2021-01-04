@@ -73,7 +73,7 @@ export class WebIconFontGenerator {
         const path = `${this.iconComponentDirectory}/index.tsx`;
         print.task(["Generating React Component", path]);
 
-        Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n")]);
+        Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n"), this.fontFamily]);
     }
 
     private generateCSSAndAssets() {
@@ -86,8 +86,8 @@ export class WebIconFontGenerator {
                 .map(url => this.transformToLocalURL(url))
                 .filter(_ => _)
                 .join(","),
-            this.cssContent.match(/\.icon-(.|\n)*?\}/g)!.join("\n"),
             this.fontFamily,
+            this.cssContent.match(/\.icon-(.|\n)*?\}/g)!.join("\n"),
         ]);
     }
 
@@ -95,8 +95,8 @@ export class WebIconFontGenerator {
         const path = `${this.staticDirectory}/icon.html`;
         print.task(["Generating static HTML for icon preview", path]);
 
-        const icons = this.iconClassList.map(_ => `<div class="item"><i class="iconfont ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
-        Utility.replaceTemplate(path, [this.cssURL, icons.join(""), new Date().toLocaleString()]);
+        const icons = this.iconClassList.map(_ => `<div class="item"><i class="g-${this.fontFamily}-icon ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
+        Utility.replaceTemplate(path, [this.cssURL, this.fontFamily, icons.join(""), new Date().toLocaleString()]);
     }
 
     private formatSources() {

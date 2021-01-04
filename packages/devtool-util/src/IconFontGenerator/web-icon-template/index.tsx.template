@@ -26,21 +26,21 @@ export class Icon extends React.PureComponent<Props> {
         if (children) {
             if (iconPosition === "right") {
                 return (
-                    <span className={`iconfont-with-text-on-left ${className ? className : ""}`} {...restProps}>
+                    <span className={`g-{2}-icon-with-text-on-left ${className ? className : ""}`} {...restProps}>
                         <span>{children}</span>
-                        <i className={`iconfont ${type}`} />
+                        <i className={`g-{2}-icon ${type}`} />
                     </span>
                 );
             } else {
                 return (
-                    <span className={`iconfont-with-text-on-right ${className ? className : ""}`} {...restProps}>
-                        <i className={`iconfont ${type}`} />
+                    <span className={`g-{2}-icon-with-text-on-right ${className ? className : ""}`} {...restProps}>
+                        <i className={`g-{2}-icon ${type}`} />
                         <span>{children}</span>
                     </span>
                 );
             }
         } else {
-            return <i className={`iconfont ${type} ${className ? className : ""}`} {...restProps} />;
+            return <i className={`g-{2}-icon ${type} ${className ? className : ""}`} {...restProps} />;
         }
     }
 }

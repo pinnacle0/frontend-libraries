@@ -27,7 +27,7 @@
                 color: dodgerblue;
             }
 
-            .container .item .iconfont {
+            .container .item .g-{2}-icon {
                 font-size: 42px;
                 display: block;
                 margin-bottom: 8px;
@@ -43,8 +43,8 @@
         </style>
     </head>
     <body>
-        <p>Generated Time: <i>{3}</i></p>
+        <p>Generated Time: <i>{4}</i></p>
         <p>Generated From: <a href="{1}">{1}</a></p>
-        <div class="container">{2}</div>
+        <div class="container">{3}</div>
     </body>
 </html>
