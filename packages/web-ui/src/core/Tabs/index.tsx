@@ -14,13 +14,20 @@ export interface Props extends Omit<TabsProps, "type" | "tabBarExtraContent" | "
     renderTabBar?: (props: Omit<RcTabNavListProps, "ref" | "extra" | "onTabScroll">, DefaultTabBar: typeof RcTabNavList) => React.ReactElement;
 }
 
+export interface SingleProps extends Omit<Props, "activeKey" | "onChange" | "defaultActiveKey"> {
+    title: string;
+    children: SafeReactChildren;
+}
+
 interface State {
     showArrows?: boolean;
 }
 
 export class Tabs extends React.PureComponent<Props, State> {
-    static displayName = "Tabs";
     static TabPane = AntTabs.TabPane;
+    // TODO/yuen: static Single
+
+    static displayName = "Tabs";
     static defaultProps: PickOptional<Props> = {
         type: "card",
     };
