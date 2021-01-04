@@ -2,6 +2,7 @@ import React from "react";
 import AntModal, {ModalProps} from "antd/lib/modal";
 import {Spin} from "../Spin";
 import {PickOptional} from "../../internal/type";
+import type {SafeReactChildren} from "../../internal/type";
 import "antd/lib/modal/style";
 import "./index.less";
 
@@ -10,6 +11,7 @@ export interface Props extends ModalProps {
     loading?: boolean;
     extraTitle?: string;
     addInnerPadding?: boolean;
+    children: SafeReactChildren;
 }
 
 export class Modal extends React.PureComponent<Props> {
