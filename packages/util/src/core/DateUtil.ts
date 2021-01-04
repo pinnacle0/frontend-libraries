@@ -58,7 +58,7 @@ function format(date: Date | null, type: "default" | "with-time" | "no-year" | "
             case "with-time":
                 return year + "-" + month + "-" + day + " " + timePart;
             case "no-year":
-                return month + "-" + day;
+                return month + "/" + day;
             case "no-year-with-time":
                 return month + "-" + day + " " + timePart;
             case "no-day":
