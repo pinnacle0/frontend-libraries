@@ -1,15 +1,19 @@
 export interface WebIconFontGeneratorOptions {
     iconComponentDirectory: string;
     staticDirectory: string;
+    // TODO: provide default template (ref UB/web/shared), then remove
     templateDirectory: string;
+    // TODO: below really useful?
     cssURL?: string;
-    fontFamily?: string; // TODO: Review should we extract fontFamily from generated css
+    fontFamily?: string;
 }
 
 export interface AppIconFontGeneratorOptions {
     iconComponentDirectory: string;
-    templateDirectory: string;
     androidFontPath: string;
     iosFontPath: string;
+    // TODO: can provide default template?
+    templateDirectory: string;
+    // TODO: below really useful?
     cssURL?: string;
 }

@@ -3,9 +3,9 @@ import {prepareEmptyDirectory} from "./prepareEmptyDirectory";
 import {replaceTemplate} from "./replaceTemplate";
 import {runCommand} from "./runCommand";
 
-export class Utility {
-    static createConsoleLogger = createConsoleLogger;
-    static prepareEmptyDirectory = prepareEmptyDirectory;
-    static replaceTemplate = replaceTemplate;
-    static runCommand = runCommand;
-}
+export const Utility = Object.freeze({
+    createConsoleLogger,
+    prepareEmptyDirectory,
+    replaceTemplate,
+    runCommand,
+});

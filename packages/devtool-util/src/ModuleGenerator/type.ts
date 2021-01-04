@@ -4,4 +4,6 @@ export interface ModuleGeneratorOptions {
     generateImportStatementForNewModuleState: (_: {moduleStateName: string; partialModulePath: string}) => string;
 }
 
-export type PlatformSpecificModuleGeneratorOptions = Omit<ModuleGeneratorOptions, "templateDirectory" | "generateImportStatementForNewModuleState">;
+export interface PlatformSpecificModuleGeneratorOptions {
+    srcDirectory: string;
+}
