@@ -12,14 +12,14 @@ export class AppIconFontGenerator {
     private readonly iconComponentDirectory: string;
     private readonly androidFontPath: string;
     private readonly iosFontPath: string;
-    private readonly cssURL: string;
+
+    private readonly cssURL = String(yargs.argv._[0]);
 
     constructor(options: AppIconFontGeneratorOptions) {
         this.templateDirectory = options.templateDirectory;
         this.iconComponentDirectory = options.iconComponentDirectory;
         this.androidFontPath = options.androidFontPath;
         this.iosFontPath = options.iosFontPath;
-        this.cssURL = options.cssURL || String(yargs.argv._[0]);
     }
 
     async generate() {
@@ -83,7 +83,7 @@ export class AppIconFontGenerator {
     }
 
     private async getContent(url: string) {
-        if (url.startsWith("//")) url = "http:" + url;
+        if (url.startsWith("//")) url = `http:${url}`;
         const response = await axios.get(url, {httpsAgent: new Agent({rejectUnauthorized: false})});
         return response.data;
     }

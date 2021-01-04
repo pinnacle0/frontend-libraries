@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as fs from "fs";
 import {Agent} from "https";
+import * as path from "path";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import {WebIconFontGeneratorOptions} from "./type";
@@ -11,9 +12,10 @@ const print = Utility.createConsoleLogger("IconFontGenerator");
 export class WebIconFontGenerator {
     private readonly iconComponentDirectory: string;
     private readonly staticDirectory: string;
-    private readonly templateDirectory: string;
-    private readonly cssURL: string;
     private readonly fontFamily: string;
+
+    private readonly templateDirectory = path.join(__dirname, "./web-icon-template");
+    private readonly cssURL = String(yargs.argv._[0]);
 
     private cssContent: string = "";
     private iconClassList: string[] = [];
@@ -21,8 +23,6 @@ export class WebIconFontGenerator {
     constructor(options: WebIconFontGeneratorOptions) {
         this.iconComponentDirectory = options.iconComponentDirectory;
         this.staticDirectory = options.staticDirectory;
-        this.templateDirectory = options.templateDirectory;
-        this.cssURL = options.cssURL || String(yargs.argv._[0]);
         this.fontFamily = options.fontFamily || "iconfont";
     }
 
@@ -46,7 +46,7 @@ export class WebIconFontGenerator {
             throw new Error("CSS URL must be specified (via command line, or constructor)");
         }
 
-        const fullCSSURL = this.cssURL.startsWith("//") ? "http:" + this.cssURL : this.cssURL;
+        const fullCSSURL = this.cssURL.startsWith("//") ? `http:${this.cssURL}` : this.cssURL;
         print.task(["Fetching CSS content", fullCSSURL]);
 
         const response = await axios.get(fullCSSURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
@@ -58,7 +58,7 @@ export class WebIconFontGenerator {
         Utility.prepareEmptyDirectory(this.iconComponentDirectory);
 
         for (const file of fs.readdirSync(this.templateDirectory, {encoding: "utf8"})) {
-            fs.copyFileSync(`${this.templateDirectory}/${file}`, `${this.iconComponentDirectory}/${file}`);
+            fs.copyFileSync(`${this.templateDirectory}/${file}`, `${this.iconComponentDirectory}/${path.basename(file, ".template")}`);
         }
         fs.renameSync(`${this.iconComponentDirectory}/icon.html`, `${this.staticDirectory}/icon.html`);
     }
