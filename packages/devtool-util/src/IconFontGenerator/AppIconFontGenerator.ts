@@ -22,7 +22,7 @@ export class AppIconFontGenerator {
         this.iosFontPath = options.iosFontPath;
     }
 
-    async generate() {
+    async run() {
         try {
             if (!this.cssURL) throw new Error("Missing CSS URL in command line");
             print.info(`usage: yarn icon ${this.cssURL}`);
