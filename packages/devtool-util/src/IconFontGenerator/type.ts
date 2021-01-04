@@ -5,6 +5,7 @@ export interface WebIconFontGeneratorOptions {
     templateDirectory: string;
     // TODO: below really useful?
     cssURL?: string;
+    // TODO/dion: do not remove this now, i will check again
     fontFamily?: string;
 }
 
