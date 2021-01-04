@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as fs from "fs";
 import {Agent} from "https";
+import * as path from "path";
 import {Utility} from "../Utility";
 import {AppIconFontGeneratorOptions} from "./type";
 import yargs = require("yargs");
@@ -8,16 +9,15 @@ import yargs = require("yargs");
 const print = Utility.createConsoleLogger("IconFontGenerator");
 
 export class AppIconFontGenerator {
-    private readonly templateDirectory: string;
-    private readonly iconComponentDirectory: string;
+    private readonly iconComponentFile: string;
     private readonly androidFontPath: string;
     private readonly iosFontPath: string;
 
+    private readonly templateFile = path.join(__dirname, "./app-icon-template/Icon.tsx.template");
     private readonly cssURL = String(yargs.argv._[0]);
 
     constructor(options: AppIconFontGeneratorOptions) {
-        this.templateDirectory = options.templateDirectory;
-        this.iconComponentDirectory = options.iconComponentDirectory;
+        this.iconComponentFile = options.iconComponentFile;
         this.androidFontPath = options.androidFontPath;
         this.iosFontPath = options.iosFontPath;
     }
@@ -56,10 +56,10 @@ export class AppIconFontGenerator {
 
         // Copy template to target
         const componentContent = fs
-            .readFileSync(this.templateDirectory, {encoding: "utf8"})
+            .readFileSync(this.templateFile, {encoding: "utf8"})
             .replace("{1}", cssURL)
             .replace("// {2}", iconClassList.map(_ => `    ${_},`).join("\n"));
-        fs.writeFileSync(this.iconComponentDirectory, componentContent, {encoding: "utf8"});
+        fs.writeFileSync(this.iconComponentFile, componentContent, {encoding: "utf8"});
 
         print.info(`😍 Generated ${iconClassList.length} icons`);
     }

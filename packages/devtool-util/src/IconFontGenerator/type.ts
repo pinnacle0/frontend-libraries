@@ -6,9 +6,7 @@ export interface WebIconFontGeneratorOptions {
 }
 
 export interface AppIconFontGeneratorOptions {
-    iconComponentDirectory: string;
+    iconComponentFile: string;
     androidFontPath: string;
     iosFontPath: string;
-    // TODO: can provide default template?
-    templateDirectory: string;
 }
