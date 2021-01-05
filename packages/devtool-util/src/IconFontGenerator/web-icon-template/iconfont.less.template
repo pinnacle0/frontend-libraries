@@ -29,4 +29,6 @@
     margin-right: 5px;
 }
 
-{3}
+.g-{2}-icon {
+    {3}
+}

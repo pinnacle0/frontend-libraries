@@ -87,7 +87,10 @@ export class WebIconFontGenerator {
                 .filter(_ => _)
                 .join(","),
             this.fontFamily,
-            this.cssContent.match(/\.icon-(.|\n)*?\}/g)!.join("\n"),
+            this.cssContent
+                .match(/\.icon-(.|\n)*?\}/g)!
+                .map(_ => "&".concat(_))
+                .join("\n"),
         ]);
     }
 
