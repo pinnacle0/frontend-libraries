@@ -1,6 +1,6 @@
 import React from "react";
 import Modal, {ModalFuncProps} from "antd/lib/modal";
-import {ModalFunc} from "antd/lib/modal/confirm";
+import {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
 import "antd/lib/modal/style";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import {PickOptional, SafeReactChild, SafeReactChildren} from "../../internal/type";
@@ -30,6 +30,8 @@ export interface ModalConfig {
     // TODO/James: complete this logic, for 單挑 UI
     footerExtra?: SafeReactChild;
 }
+
+let modalInstance: Omit<ModalStaticFunctions, "warn"> | null = null;
 
 function createSync(config: ModalConfig): CreateModalReturnType {
     const t = i18n();
@@ -84,7 +86,9 @@ function createSync(config: ModalConfig): CreateModalReturnType {
         icon: null,
     };
 
-    const ref = mergedConfig.cancelText ? Modal.confirm(antModalConfig) : Modal.info(antModalConfig);
+    const instance = modalInstance || Modal;
+
+    const ref = mergedConfig.cancelText ? instance.confirm(antModalConfig) : instance.info(antModalConfig);
 
     function destroy(byClose: boolean) {
         ref.destroy();
@@ -127,6 +131,27 @@ function confirm(body: SafeReactChildren, title?: string): Promise<boolean> {
     });
 }
 
+function Root(): React.ReactElement {
+    const [apiInstance, contextHolder] = Modal.useModal();
+    React.useEffect(
+        () => {
+            if (modalInstance) {
+                throw new Error("[web-ui] ModalUtil.Root cannot be mounted more than once");
+            }
+            modalInstance = apiInstance;
+            return () => {
+                modalInstance = null;
+            };
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- for didMount/willUnmount lifecycle
+        []
+    );
+    return contextHolder;
+}
+
+/**
+ * If using <ModalUtil.Root />, this function will not work
+ */
 function destroyAll() {
     Modal.destroyAll();
 }
@@ -136,4 +161,5 @@ export const ModalUtil = Object.freeze({
     createAsync,
     confirm,
     destroyAll,
+    Root,
 });

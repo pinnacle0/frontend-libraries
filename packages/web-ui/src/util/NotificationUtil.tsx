@@ -17,7 +17,6 @@ function destroy() {
 }
 
 function Root(): React.ReactElement {
-    // TODO/tim: try this, and add <ModalUtil.Root>
     const [apiInstance, contextHolder] = notification.useNotification();
     React.useEffect(
         () => {
