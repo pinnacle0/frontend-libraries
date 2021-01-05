@@ -73,7 +73,7 @@ export class WebIconFontGenerator {
         const path = `${this.iconComponentDirectory}/index.tsx`;
         print.task(["Generating React Component", path]);
 
-        Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n"), this.fontFamily]);
+        Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n"), this.fontFamily, this.cssURL]);
     }
 
     private generateCSSAndAssets() {
