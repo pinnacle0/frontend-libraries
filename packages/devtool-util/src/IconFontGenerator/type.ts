@@ -1,7 +1,7 @@
 export interface WebIconFontGeneratorOptions {
     iconComponentDirectory: string;
     staticDirectory: string;
-    fontFamily: string;
+    fontFamily?: string;
 }
 
 export interface AppIconFontGeneratorOptions {
