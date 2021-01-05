@@ -15,8 +15,6 @@ export class RelativeTime extends React.PureComponent<Props, State> {
 
     private repaintTimeout: number | undefined;
 
-    private timeoutDuration!: number;
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -28,41 +26,34 @@ export class RelativeTime extends React.PureComponent<Props, State> {
         this.repaint();
     }
 
-    componentWillUnmount() {
-        if (this.repaintTimeout) {
-            clearTimeout(this.repaintTimeout);
+    componentDidUpdate(prevProps: Readonly<Props>) {
+        if (prevProps.date !== this.props.date) {
+            this.repaint();
         }
     }
 
-    getCurrentMoment = () => moment();
+    componentWillUnmount() {
+        clearTimeout(this.repaintTimeout);
+    }
 
     repaint = () => {
-        if (this.repaintTimeout) {
-            clearTimeout(this.repaintTimeout);
-        }
-        const momentLocale = LocaleUtil.current() === "zh" ? "zh-cn" : "en";
-        const propsMoment: moment.Moment = moment(this.props.date).locale(momentLocale);
-        const currentMoment: moment.Moment = this.getCurrentMoment();
-        const elapsedText: string = propsMoment.from(currentMoment);
-        this.setState({elapsedText});
+        clearTimeout(this.repaintTimeout);
 
-        const isAnHourAgo = Math.abs(propsMoment.diff(currentMoment, "m")) > moment.relativeTimeThreshold("m");
+        const momentLocale = LocaleUtil.current() === "zh" ? "zh-cn" : "en";
+        const propsMoment = moment(this.props.date).locale(momentLocale);
+        const currentMoment = moment();
+        const elapsedText = propsMoment.from(currentMoment);
+        this.setState({elapsedText});
 
         // Moment threshold uses 45 minutes for "an hour ago" and 45 seconds for "a minute ago".
         // Repaint after 15 minutes / seconds interval should be good enough for now.
-        // Refactor this later.
         // See: https://momentjs.com/docs/#/displaying/fromnow/
-        if (isAnHourAgo) {
-            const duration15MinutesInMilliseconds = moment(0).add(15, "m").valueOf();
-            this.timeoutDuration = duration15MinutesInMilliseconds;
-        } else {
-            const duration15SecondsInMilliseconds = moment(0).add(15, "s").valueOf();
-            this.timeoutDuration = duration15SecondsInMilliseconds;
-        }
-        this.repaintTimeout = setTimeout(this.repaint as Function, this.timeoutDuration);
+        const isAnHourAgo = Date.now() - this.props.date.getTime() > 3600 * 1000;
+        const timeoutDuration = isAnHourAgo ? 15 * 1000 * 60 : 15 * 1000;
+        this.repaintTimeout = window.setTimeout(this.repaint, timeoutDuration);
     };
 
     render() {
-        return <div>{this.state.elapsedText}</div>;
+        return this.state.elapsedText;
     }
 }
