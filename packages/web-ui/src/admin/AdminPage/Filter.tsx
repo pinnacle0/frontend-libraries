@@ -70,9 +70,11 @@ export class Filter extends React.PureComponent<Props, State> {
     renderExtraButton = (config: ExtraButtonConfig) => {
         const {label, onClick, icon, disabled, visible} = config;
         return (
-            <Button color="wire-frame" onClick={onClick} disabled={disabled} key={label} visible={visible}>
-                {icon} {label}
-            </Button>
+            visible && (
+                <Button color="wire-frame" onClick={onClick} disabled={disabled} key={label}>
+                    {icon} {label}
+                </Button>
+            )
         );
     };
 
