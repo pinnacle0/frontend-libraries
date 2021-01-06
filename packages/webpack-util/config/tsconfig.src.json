@@ -7,7 +7,6 @@
         "rootDir": "../",
         "outDir": "../build/",
 
-        "sourceMap": false,
         "isolatedModules": true
     },
     "include": ["../src/"]

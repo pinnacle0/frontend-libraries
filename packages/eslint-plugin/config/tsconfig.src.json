@@ -7,8 +7,7 @@
         "outDir": "../build/",
         "rootDir": "../",
 
-        "isolatedModules": true,
-        "removeComments": true
+        "isolatedModules": true
     },
     "include": ["../src/"]
 }

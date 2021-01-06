@@ -4,6 +4,7 @@
         "allowJs": true,
         "declaration": true,
         "downlevelIteration": true,
+        "removeComments": false,
         "sourceMap": true,
         "strict": true,
         "allowSyntheticDefaultImports": true,
