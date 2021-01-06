@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import {PrettierUtil} from "./PrettierUtil";
 import {TaskRunner} from "./TaskRunner";
 import {Utility} from "./Utility";
@@ -45,38 +46,44 @@ export class ReactNativeChecker {
                 name: "check package.json",
                 skipInFastMode: true,
                 execute: () => {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- package.json special case
-                    const localDeps = require(`${this.projectDirectory}/package.json`).dependencies;
-                    if (Object.values(localDeps).some(version => !/^\d/.test(String(version)))) {
-                        throw new Error("Project dependency must be a valid npm version");
-                    }
+                    [this.projectDirectory, ...this.extraCheckDirectories].forEach(directory => {
+                        const packageJSONPath = path.join(directory, "package.json");
+                        if (fs.existsSync(packageJSONPath)) {
+                            // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- package.json special case
+                            const packageJSON = require(packageJSONPath);
+                            if (Object.values(packageJSON.dependencies || {}).some(version => !/^\d/.test(String(version)))) {
+                                throw new Error("Project dependency must be a valid npm version");
+                            }
+                        }
+                    });
                 },
             },
             {
                 name: "prettier",
                 skipInFastMode: true,
                 execute: () => {
-                    PrettierUtil.check(`${this.projectDirectory}/app`);
                     PrettierUtil.check(`${this.projectDirectory}/index.js`);
-                    this.extraCheckDirectories.forEach(directory => PrettierUtil.check(directory));
+                    [path.join(this.projectDirectory, "app"), ...this.extraCheckDirectories].forEach(directory => {
+                        PrettierUtil.check(directory);
+                    });
                 },
             },
             {
                 name: "lint",
                 skipInFastMode: true,
                 execute: () => {
-                    Utility.runCommand("eslint", ["--ext", ".ts,.tsx", `${this.projectDirectory}/app`]);
                     Utility.runCommand("eslint", [`${this.projectDirectory}/index.js`]);
-                    this.extraCheckDirectories.forEach(directory => Utility.runCommand("eslint", ["--ext", ".ts,.tsx", directory]));
+                    [path.join(this.projectDirectory, "app"), ...this.extraCheckDirectories].forEach(directory => {
+                        Utility.runCommand("eslint", ["--ext", ".ts,.tsx", directory]);
+                    });
                 },
             },
             {
                 name: "tsc compile",
                 execute: () => {
-                    Utility.runCommand("tsc", ["--project", `${this.projectDirectory}/tsconfig.json`, "--noEmit"]);
-                    this.extraCheckDirectories.forEach(directory => {
+                    [this.projectDirectory, ...this.extraCheckDirectories].forEach(directory => {
                         if (fs.existsSync(`${directory}/tsconfig.json`)) {
-                            Utility.runCommand("tsc", ["--project", `${directory}/tsconfig.json`, "--noEmit"]);
+                            Utility.runCommand("tsc", ["--project", path.join(directory, "tsconfig.json"), "--noEmit"]);
                         }
                     });
                 },
