@@ -1,6 +1,12 @@
+import fs from "fs";
 import {PrettierUtil} from "./PrettierUtil";
 import {TaskRunner} from "./TaskRunner";
 import {Utility} from "./Utility";
+
+interface ReactNativeCheckerOptions {
+    projectDirectory: string;
+    extraCheckDirectories?: string[];
+}
 
 /**
  * Runs static checkers in a react-native project.
@@ -18,15 +24,19 @@ import {Utility} from "./Utility";
  *   ├── tsconfig.json
  *   └── package.json
  *   ```
+ * - `extraCheckDirectories`: extra directories that should be checked by
+ *   prettier, eslint; and also tsc if `tsconfig.json` is found.
  *
  * A prettier and eslint config should be resolvable from `projectDirectory`.
  * The `app` directory should contain typescript files.
  */
 export class ReactNativeChecker {
     private readonly projectDirectory: string;
+    private readonly extraCheckDirectories: string[];
 
-    constructor({projectDirectory}: {projectDirectory: string}) {
+    constructor({projectDirectory, extraCheckDirectories}: ReactNativeCheckerOptions) {
         this.projectDirectory = projectDirectory;
+        this.extraCheckDirectories = extraCheckDirectories ?? [];
     }
 
     run() {
@@ -48,6 +58,7 @@ export class ReactNativeChecker {
                 execute: () => {
                     PrettierUtil.check(`${this.projectDirectory}/app`);
                     PrettierUtil.check(`${this.projectDirectory}/index.js`);
+                    this.extraCheckDirectories.forEach(directory => PrettierUtil.check(directory));
                 },
             },
             {
@@ -56,12 +67,18 @@ export class ReactNativeChecker {
                 execute: () => {
                     Utility.runCommand("eslint", ["--ext", ".ts,.tsx", `${this.projectDirectory}/app`]);
                     Utility.runCommand("eslint", [`${this.projectDirectory}/index.js`]);
+                    this.extraCheckDirectories.forEach(directory => Utility.runCommand("eslint", ["--ext", ".ts,.tsx", directory]));
                 },
             },
             {
                 name: "tsc compile",
                 execute: () => {
                     Utility.runCommand("tsc", ["--project", `${this.projectDirectory}/tsconfig.json`, "--noEmit"]);
+                    this.extraCheckDirectories.forEach(directory => {
+                        if (fs.existsSync(`${directory}/tsconfig.json`)) {
+                            Utility.runCommand("tsc", ["--project", `${directory}/tsconfig.json`, "--noEmit"]);
+                        }
+                    });
                 },
             },
         ]);
