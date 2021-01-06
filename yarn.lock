@@ -2124,6 +2124,14 @@
     chrome-trace-event "^1.0.2"
     nullthrows "^1.1.1"
 
+"@pinnacle0/devtool-util@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@pinnacle0/devtool-util/-/devtool-util-0.1.0.tgz#6125356942b5cf9acfb26d008702345d2c9c0a73"
+  integrity sha512-i2+ONqzZbixDowlYyGaab6bi+X6CSwztBD9zovDEGyEedlFNVG1qMvfUya1pWTjQYXgMgJ9VOwbc7ssOESp8xg==
+  dependencies:
+    axios "0.21.0"
+    yargs "16.2.0"
+
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz#1eec460596d200c0236bf195b078a5d1df89b766"
@@ -3477,6 +3485,13 @@ axios@0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
   integrity sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
+  dependencies:
+    follow-redirects "^1.10.0"
+
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
 
