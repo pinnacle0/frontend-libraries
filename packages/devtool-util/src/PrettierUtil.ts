@@ -25,9 +25,7 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
             throw error;
         }
     } else if (fileStats.isFile()) {
-        const file = fileOrDirectory;
-        Utility.runCommand("prettier", [flag, file]);
-        return;
+        Utility.runCommand("prettier", [flag, fileOrDirectory]);
     } else {
         throw new Error(`Path is not a file/directory: ${fileOrDirectory}`);
     }
