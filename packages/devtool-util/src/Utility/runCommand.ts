@@ -1,6 +1,6 @@
-import * as childProcess from "child_process";
-import * as fs from "fs";
-import * as path from "path";
+import childProcess from "child_process";
+import fs from "fs";
+import path from "path";
 
 /**
  * Spawns a new shell and execute a command with arguments.

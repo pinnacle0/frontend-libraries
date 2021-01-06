@@ -5,10 +5,7 @@
         "module": "CommonJS",
         "target": "ES5",
         "noEmit": true,
-        "rootDir": "../",
-
-        "allowSyntheticDefaultImports": false,
-        "esModuleInterop": false
+        "rootDir": "../"
     },
     "include": ["../index.ts", "../src/", "../test/"],
     "exclude": ["**/__fixtures__/"]

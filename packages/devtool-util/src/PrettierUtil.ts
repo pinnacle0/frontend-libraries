@@ -1,6 +1,5 @@
-// TODO/Lok: unify tsconfig usage across different projects? then unify following usage
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import {Utility} from "./Utility";
 
 // https://prettier.io/docs/en/cli.html#exit-codes

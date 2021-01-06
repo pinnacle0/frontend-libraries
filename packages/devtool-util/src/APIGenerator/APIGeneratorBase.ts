@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as fs from "fs";
+import fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";

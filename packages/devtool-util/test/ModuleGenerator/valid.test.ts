@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 
 const tmpDirectory = path.join(__dirname, "./__tmp__/valid");
 const tmpReduxStatePath = path.join(tmpDirectory, "type/state.ts");

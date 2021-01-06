@@ -1,11 +1,11 @@
 import axios from "axios";
-import * as fs from "fs";
+import fs from "fs";
 import {Agent} from "https";
-import * as path from "path";
+import path from "path";
+import yargs from "yargs";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import {WebIconFontGeneratorOptions} from "./type";
-import yargs = require("yargs");
 
 const print = Utility.createConsoleLogger("IconFontGenerator");
 

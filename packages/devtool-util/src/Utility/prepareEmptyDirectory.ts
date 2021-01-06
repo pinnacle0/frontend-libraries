@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fs from "fs";
 
 export function prepareEmptyDirectory(directory: string) {
     const folderExist = fs.existsSync(directory);

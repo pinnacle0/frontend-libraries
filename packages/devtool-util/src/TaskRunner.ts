@@ -1,4 +1,4 @@
-import * as yargs from "yargs";
+import yargs from "yargs";
 import {Utility} from "./Utility";
 
 export interface Task {

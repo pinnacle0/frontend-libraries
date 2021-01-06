@@ -1,4 +1,4 @@
-import chalk = require("chalk");
+import chalk from "chalk";
 
 /**
  * Creates a logger instance to `console.log` fancy messages with emojis to the terminal.

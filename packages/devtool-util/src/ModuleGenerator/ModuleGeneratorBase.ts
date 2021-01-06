@@ -1,9 +1,9 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
+import yargs from "yargs";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {ModuleGeneratorOptions} from "./type";
-import yargs = require("yargs");
 
 const print = Utility.createConsoleLogger("ModuleGenerator");
 
