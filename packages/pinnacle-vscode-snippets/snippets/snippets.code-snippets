@@ -1,0 +1,10 @@
+{
+    "React.useState": {
+        "prefix": "useState",
+        "body": [
+            "const [${1:state}, set${1/^(.)(.*)/${1:/upcase}${2}/}] = React.useState($2);",
+            "$0"
+            //
+        ]
+    }
+}

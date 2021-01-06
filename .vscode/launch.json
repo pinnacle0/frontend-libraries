@@ -18,5 +18,14 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
         },
+        // Generated from `generator-code`
+        {
+            "name": "VSCode Snippet",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/packages/pinnacle-vscode-snippets"
+            ]
+        }
     ],
 }
