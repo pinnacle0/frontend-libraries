@@ -7,8 +7,6 @@
         "outDir": "../build/",
         "rootDir": "../",
 
-        "allowSyntheticDefaultImports": false,
-        "esModuleInterop": false,
         "isolatedModules": true,
         "removeComments": false
     },

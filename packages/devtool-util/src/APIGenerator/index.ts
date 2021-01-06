@@ -1,5 +1,6 @@
 import {APIGeneratorBase} from "./APIGeneratorBase";
 import {WebAPIGenerator} from "./WebAPIGenerator";
+
 /**
  * APIGenerator is to generate API sources according to backend definition (_sys/api).
  *
@@ -15,5 +16,3 @@ export class APIGenerator extends APIGeneratorBase {
      */
     static Web = WebAPIGenerator;
 }
-
-export type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, PlatformSpecificAPIGeneratorOptions, ServiceDefinition, TypeDefinition} from "./type";
