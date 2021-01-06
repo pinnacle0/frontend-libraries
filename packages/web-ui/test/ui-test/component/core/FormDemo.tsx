@@ -3,7 +3,7 @@ import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
 import {Form} from "@pinnacle0/web-ui/core/Form";
 import {Input, Props as InputProps, InputTextAreaProps} from "@pinnacle0/web-ui/core/Input";
 import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
-import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
+import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallback";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";

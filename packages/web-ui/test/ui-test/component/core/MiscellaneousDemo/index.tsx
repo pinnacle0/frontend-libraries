@@ -4,12 +4,12 @@ import {Countdown} from "@pinnacle0/web-ui/core/Countdown";
 import {Link} from "@pinnacle0/web-ui/core/Link";
 import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 import {VerticalMarquee} from "@pinnacle0/web-ui/core/VerticalMarquee";
-import {generateDummyStrings} from "test/ui-test/util/dummyList";
+import {generateDummyStrings} from "@pinnacle0/web-ui-test/ui-test/util/dummyList";
 import {Markdown} from "@pinnacle0/web-ui/core/Markdown";
 import {PagedList} from "@pinnacle0/web-ui/core/PagedList";
 import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
 import {TabsDemo} from "./TabsDemo";
-import {TagInputDemo} from "test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
+import {TagInputDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
 import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
 

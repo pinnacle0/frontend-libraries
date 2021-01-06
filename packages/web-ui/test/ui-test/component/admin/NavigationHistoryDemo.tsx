@@ -1,7 +1,7 @@
 import React from "react";
 import {RouteComponentProps, useLocation} from "react-router-dom";
 import {Link} from "@pinnacle0/web-ui/core/Link";
-import {DemoHelper, DemoHelperGroupConfig} from "test/ui-test/component/DemoHelper";
+import {DemoHelper, DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
 
 export const NavigationHistoryDemo = (props: RouteComponentProps<{tab?: string}>) => {
     const tab = props.match.params.tab || "default";

@@ -1,7 +1,7 @@
 import {VerticalMarquee} from "@pinnacle0/web-ui/core/VerticalMarquee";
 import {render} from "@testing-library/react";
 import React from "react";
-import {generateDummyStrings} from "test/ui-test/util/dummyList";
+import {generateDummyStrings} from "@pinnacle0/web-ui-test/ui-test/util/dummyList";
 
 const dummyStrings = generateDummyStrings(10);
 

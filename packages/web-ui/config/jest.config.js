@@ -34,10 +34,10 @@ const config = {
     roots: ["<rootDir>/src", "<rootDir>/test"],
 
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-    // Note: pathsToModuleNameMapper does NOT automatically pick up folder mapping from baseUrl, add "test/*" to tsconfig.json
+    // Note: pathsToModuleNameMapper does NOT automatically pick up folder mapping from baseUrl, add "@pinnacle0/web-ui-test/*" to tsconfig.json
     moduleNameMapper: {
         [String.raw`^@pinnacle0/web-ui/(.*)$`]: "<rootDir>/src/$1",
-        [String.raw`^test/(.*)$`]: "<rootDir>/test/$1",
+        [String.raw`^@pinnacle0/web-ui-test/(.*)$`]: "<rootDir>/test/$1",
         [String.raw`\.(css|less)$`]: "<rootDir>/config/jest-stubs/style-stub.js",
     },
 

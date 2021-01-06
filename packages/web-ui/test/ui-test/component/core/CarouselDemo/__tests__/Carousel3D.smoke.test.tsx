@@ -2,7 +2,7 @@ import {Carousel3D} from "@pinnacle0/web-ui/core/Carousel3D";
 import {render} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import {generateDummyURLs} from "test/ui-test/util/dummyList";
+import {generateDummyURLs} from "@pinnacle0/web-ui-test/ui-test/util/dummyList";
 
 describe("Carousel3D", () => {
     beforeAll(() => {

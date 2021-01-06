@@ -1,6 +1,6 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "test/ui-test/component/DemoHelper";
-import {withUncontrolledInitialValue} from "test/ui-test/util/withUncontrolledInitialValue";
+import {DemoHelper, DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
+import {withUncontrolledInitialValue} from "@pinnacle0/web-ui-test/ui-test/util/withUncontrolledInitialValue";
 import Slider from "@pinnacle0/web-ui/core/Slider";
 import {SafeReactChildren} from "@pinnacle0/web-ui/internal/type";
 

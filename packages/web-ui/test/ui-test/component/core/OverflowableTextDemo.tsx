@@ -1,5 +1,5 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "test/ui-test/component/DemoHelper";
+import {DemoHelper, DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
 import {OverflowableText} from "@pinnacle0/web-ui/core/OverflowableText";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";

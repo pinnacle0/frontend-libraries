@@ -7,10 +7,9 @@
         "outDir": "../build/tsc-out/",
         "target": "ES2018",
 
-        "baseUrl": "../",
         "paths": {
-            "@pinnacle0/web-ui/*": ["src/*"],
-            "test/*": ["test/*"]
+            "@pinnacle0/web-ui/*": ["../src/*"],
+            "@pinnacle0/web-ui-test/*": ["../test/*"]
         },
 
         "jsx": "react",

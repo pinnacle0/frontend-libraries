@@ -5,8 +5,8 @@ import {NumberInput, Props as NumberInputProps} from "@pinnacle0/web-ui/core/Num
 import {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
 import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
 import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCodeInput";
-import {dummyEmptyCallback} from "test/ui-test/util/dummyCallback";
-import {withUncontrolledInitialValue} from "test/ui-test/util/withUncontrolledInitialValue";
+import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallback";
+import {withUncontrolledInitialValue} from "@pinnacle0/web-ui-test/ui-test/util/withUncontrolledInitialValue";
 import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
 
 const UncontrolledTagInput = () => {

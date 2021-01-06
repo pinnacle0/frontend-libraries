@@ -1,10 +1,10 @@
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import {AdminNavigatorBase, NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 import React from "react";
-import {NavigationHistoryDemo} from "test/ui-test/component/admin/NavigationHistoryDemo";
-import {SeparateTabDetailDemo} from "test/ui-test/component/admin/SeparateTabDetailDemo";
-import {SelectDemo} from "test/ui-test/component/core/SelectDemo";
-import {SliderDemo} from "test/ui-test/component/core/SliderDemo";
+import {NavigationHistoryDemo} from "@pinnacle0/web-ui-test/ui-test/component/admin/NavigationHistoryDemo";
+import {SeparateTabDetailDemo} from "@pinnacle0/web-ui-test/ui-test/component/admin/SeparateTabDetailDemo";
+import {SelectDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/SelectDemo";
+import {SliderDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/SliderDemo";
 import {ConfigPageDemo} from "../component/admin/ConfigPageDemo";
 import {MiscellaneousDemo as AdminMiscellaneousDemo} from "../component/admin/MiscellaneousDemo";
 import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
@@ -22,7 +22,7 @@ import {MiscellaneousDemo} from "../component/core/MiscellaneousDemo";
 import {ModalDemo} from "../component/core/ModalDemo";
 import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
-import {OverflowableTextDemo} from "test/ui-test/component/core/OverflowableTextDemo";
+import {OverflowableTextDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/OverflowableTextDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
