@@ -18,6 +18,7 @@ export interface Props<T> extends ControlledFormValue<T> {
     placeholder?: string;
     style?: React.CSSProperties;
     prefix?: SafeReactChild;
+    disabled?: boolean;
 }
 
 export class Cascader<T extends string | null> extends React.PureComponent<Props<T>> {
@@ -75,7 +76,7 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
     };
 
     render() {
-        const {canSelectAnyLevel, placeholder, style} = this.props;
+        const {canSelectAnyLevel, disabled, style} = this.props;
         return (
             <AntCascader
                 className="g-cascader"
@@ -89,6 +90,7 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
                 expandTrigger="hover"
                 displayRender={this.displayRender}
                 placeholder="" // Note: the actual placeholder is inside displayRender
+                disabled={disabled}
             />
         );
     }
