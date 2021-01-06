@@ -37,7 +37,7 @@ export class PromptBody extends React.PureComponent<Props, State> {
         const {body, warning, inputPlaceholder, inputType, inputValidator} = this.props;
         const {textValue} = this.state;
         return (
-            <div className="g-modal-prompt-body">
+            <div className={`g-modal-prompt-body ${inputType === "multi-line" ? "multi-linw" : ""}`}>
                 <Markdown>{body}</Markdown>
                 <p style={this.warningStyle}>{warning}</p>
                 <Form ref={this.formRef} style={this.formStyle}>
