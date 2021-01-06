@@ -1,15 +1,32 @@
+import {PrettierUtil} from "./PrettierUtil";
 import {TaskRunner} from "./TaskRunner";
 import {Utility} from "./Utility";
-import {PrettierUtil} from "./PrettierUtil";
 
-// TODO/Lok: add simple description about React-Native project requirement (e.g: /app folder, index.js, typescript-based ...)
-//  then review this part of code, apply to pgaming/ub app project
-
+/**
+ * Runs static checkers in a react-native project.
+ * Checks version of packages should be exact version.
+ * Checks code styles with prettier.
+ * Lints .ts,.tsx with eslint.
+ * Type checks with tsc.
+ *
+ * Constructor arguments:
+ * - `projectDirectory`: directory with the following structure
+ *   ```
+ *   projectDirectory/
+ *   ├── app/
+ *   ├── index.js
+ *   ├── tsconfig.json
+ *   └── package.json
+ *   ```
+ *
+ * A prettier and eslint config should be resolvable from `projectDirectory`.
+ * The `app` directory should contain typescript files.
+ */
 export class ReactNativeChecker {
-    private readonly projectPath: string;
+    private readonly projectDirectory: string;
 
-    constructor({projectPath}: {projectPath: string}) {
-        this.projectPath = projectPath;
+    constructor({projectDirectory}: {projectDirectory: string}) {
+        this.projectDirectory = projectDirectory;
     }
 
     run() {
@@ -19,7 +36,7 @@ export class ReactNativeChecker {
                 skipInFastMode: true,
                 execute: () => {
                     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- package.json special case
-                    const localDeps = require(`${this.projectPath}/package.json`).dependencies;
+                    const localDeps = require(`${this.projectDirectory}/package.json`).dependencies;
                     if (Object.values(localDeps).some(version => !/^\d/.test(String(version)))) {
                         throw new Error("Project dependency must be a valid npm version");
                     }
@@ -29,22 +46,22 @@ export class ReactNativeChecker {
                 name: "prettier",
                 skipInFastMode: true,
                 execute: () => {
-                    PrettierUtil.check(`${this.projectPath}/app`);
-                    PrettierUtil.check(`${this.projectPath}/index.js`);
+                    PrettierUtil.check(`${this.projectDirectory}/app`);
+                    PrettierUtil.check(`${this.projectDirectory}/index.js`);
                 },
             },
             {
                 name: "lint",
                 skipInFastMode: true,
                 execute: () => {
-                    Utility.runCommand("eslint", ["--ext", ".ts,.tsx", `${this.projectPath}/app`]);
-                    Utility.runCommand("eslint", [`${this.projectPath}/index.js`]);
+                    Utility.runCommand("eslint", ["--ext", ".ts,.tsx", `${this.projectDirectory}/app`]);
+                    Utility.runCommand("eslint", [`${this.projectDirectory}/index.js`]);
                 },
             },
             {
                 name: "tsc compile",
                 execute: () => {
-                    Utility.runCommand("tsc", ["--project", `${this.projectPath}/tsconfig.json`]);
+                    Utility.runCommand("tsc", ["--project", `${this.projectDirectory}/tsconfig.json`, "--noEmit"]);
                 },
             },
         ]);
