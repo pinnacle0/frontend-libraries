@@ -1,9 +1,116 @@
 {
+    // Import Related Snippet
+    "Import React": {
+        "prefix": "imr",
+        "body": [
+            "import React from 'react';"
+            //
+        ]
+    },
+    "Import useDispatch": {
+        "prefix": "imdispatch",
+        "body": [
+            "import {useDispatch} from 'react-redux';"
+            //
+        ]
+    },
+    "Import de-structure": {
+        "prefix": "imd",
+        "body": [
+            "import {$2} from '${1:module}';"
+            //
+        ]
+    },
+    "Import Star": {
+        "prefix": "imstar",
+        "body": [
+            "import * as ${2:Module} from '${1:module}';"
+            //
+        ]
+    },
+    "Import As": {
+        "prefix": "imas",
+        "body": [
+            "import {${2:module} as ${$3:alias}} from '${1:module}';"
+            //
+        ]
+    },
+    "Import less": {
+        "prefix": "imless",
+        "body": [
+            "import '${1:index}.less';"
+            //
+        ]
+    },
+
+    // React Related Snippets
     "React.useState": {
         "prefix": "useState",
         "body": [
             "const [${1:state}, set${1/^(.)(.*)/${1:/upcase}${2}/}] = React.useState($2);",
             "$0"
+            //
+        ]
+    },
+    "React.useEffect": {
+        "prefix": "useEffect",
+        "body": [
+            "React.useEffect(() => {",
+            "\t$1",
+            "} ,[$2]);"
+            //
+        ]
+    },
+    "React.Fragment": {
+        "prefix": "fragment",
+        "body": [
+            "<React.Fragment>",
+            "\t$0",
+            "</React.Fragment>"
+            //
+        ]
+    },
+
+    // Pinnacle Package Related Snippets
+    "ReactUtil.memo": {
+        "prefix": "rumemo",
+        "body": [
+            "import React from 'react';",
+            "import {ReactUtil} from '@pinnacle0/util';",
+            "",
+            "export const ${1:$TM_FILENAME_BASE} = ReactUtil.memo('$1', () => {",
+            "    ",
+            "\t$0",
+            "\t",
+            "\treturn (",
+            "\t\t<div />",
+            "\t);",
+            "});",
+            ""
+        ]
+    },
+    "Saga Generator": {
+        "prefix": "saga",
+        "body": [
+            "*$1($2): SagaGenerator {",
+            "\t$3",
+            "}"
+            //
+        ]
+    },
+    "Private Saga Generator": {
+        "prefix": "sagap",
+        "body": [
+            "private *$1($2): SagaGenerator {",
+            "\t$3",
+            "}"
+            //
+        ]
+    },
+    "useObjectKeyAction": {
+        "prefix": "useObjectKeyAction",
+        "body": [
+            "const update${1/^(.)(.*)/${1:/upcase}${2}/} = useObjectKeyAction(actions.${2:updateAction}, '${1:key}');"
             //
         ]
     }
