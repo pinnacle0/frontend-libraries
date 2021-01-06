@@ -24,7 +24,7 @@ const FilePath = {
 
 new TaskRunner("build").execute([
     {
-        name: "check code styles",
+        name: "prettier",
         skipInFastMode: true,
         execute: () => {
             PrettierUtil.check(FilePath.config);
