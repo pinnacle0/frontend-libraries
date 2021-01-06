@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@babel/core": "7.12.10",
-        "@pinnacle0/devtool-util": "0.1.0",
+        "@pinnacle0/devtool-util": "0.1.2",
         "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
         "autoprefixer": "9.8.6",
         "babel-loader": "8.2.2",
@@ -32,7 +32,7 @@
         "script-ext-html-webpack-plugin": "2.1.5",
         "style-loader": "2.0.0",
         "terser-webpack-plugin": "5.0.3",
-        "ts-loader": "8.0.11",
+        "ts-loader": "8.0.14",
         "url-loader": "4.1.1",
         "webpack": "5.8.0",
         "webpack-dev-server": "3.11.0",
