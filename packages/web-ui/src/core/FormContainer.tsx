@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from "./Button";
 import {Form, Props as FormProps} from "./Form";
 import {i18n} from "../internal/i18n/core";
-import {PickOptional} from "../internal/type";
+import {PickOptional, SafeReactChildren} from "../internal/type";
 
 export interface Props extends FormProps {
     onFinish: () => void;
@@ -10,6 +10,7 @@ export interface Props extends FormProps {
     buttonDisabled?: boolean;
     buttonStyle?: React.CSSProperties;
     buttonRenderer?: (submitButton: React.ReactElement, isValidating: boolean) => React.ReactElement;
+    children: SafeReactChildren;
 }
 
 interface State {
