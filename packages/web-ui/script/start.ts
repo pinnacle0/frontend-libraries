@@ -3,6 +3,8 @@ import path from "path";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 
+// TODO/Lok: Use relative paths
+
 // TODO/Lok: is it possible to use webpack-util here? discuss
 export interface ImageUploadResponse {
     imageURL: string;
@@ -38,7 +40,7 @@ const config: webpack.Configuration = {
         modules: ["node_modules"],
         alias: {
             "@pinnacle0/web-ui": directory.src,
-            test: directory.test,
+            "@pinnacle0/web-ui-test": directory.test,
         },
     },
     devtool: "source-map",
