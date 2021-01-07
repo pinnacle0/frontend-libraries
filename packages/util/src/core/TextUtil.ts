@@ -33,7 +33,7 @@ function interpolate(text: string, ...parameters: string[]): string {
     return result;
 }
 
-function stripHTML(html: string) {
+function stripHTML(html: string): string {
     return html.replace(/(<([^>]+)>)/gi, "");
 }
 

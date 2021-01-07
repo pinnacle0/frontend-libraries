@@ -67,7 +67,7 @@ describe("ReactUtil.statics", () => {
         const A2 = ReactUtil.memo("A2", () => <div />);
 
         const A = ReactUtil.statics("A", {A1, A2});
-        // Test case passes as well, even if `const A = {A1, A2}` here
+        // Passes too, even if `const A = {A1, A2}` here
         const B = ReactUtil.memo("B", () => <div />);
         const C = ReactUtil.memo("C", () => <div />);
         const NotAComponent = () => 4;
@@ -79,7 +79,7 @@ describe("ReactUtil.statics", () => {
         expect((Wrapped.B as any).type.displayName).toBe("B");
         expect((Wrapped.C as any).type.displayName).toBe("C");
 
-        // @ts-expect-error2
+        // @ts-expect-error
         ReactUtil.statics("Wrapped", {A, B, C, NotAComponent});
     });
 });
