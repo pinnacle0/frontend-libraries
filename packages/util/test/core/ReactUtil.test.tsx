@@ -2,9 +2,9 @@ import React from "react";
 import {ReactUtil} from "../../src/core/ReactUtil";
 import {SafeReactChildren} from "../../src/type";
 
-const someNullable = {apiData: ""} as {apiData: string} | null;
-
 describe("ReactUtil.memo", () => {
+    const someNullable = {apiData: ""} as {apiData: string} | null;
+
     test("test1", () => {
         type TabProps = {title: string};
         const Tab = ReactUtil.memo("Tab", (props: TabProps) => {
@@ -58,5 +58,28 @@ describe("ReactUtil.memo", () => {
         <TypedTab<Enum> title="title" generic={Enum.A} />;
         // @ts-expect-error
         <TypedTab<"a" | "b"> title="title" generic="c" />;
+    });
+});
+
+describe("ReactUtil.statics", () => {
+    test("test", () => {
+        const A1 = ReactUtil.memo("A1", () => <div />);
+        const A2 = ReactUtil.memo("A2", () => <div />);
+
+        const A = ReactUtil.statics("A", {A1, A2});
+        // Test case passes as well, even if `const A = {A1, A2}` here
+        const B = ReactUtil.memo("B", () => <div />);
+        const C = ReactUtil.memo("C", () => <div />);
+        const NotAComponent = () => 4;
+
+        const Wrapped = ReactUtil.statics("Wrapped", {A, B, C});
+        expect(Object.keys(Wrapped.A)).toEqual(["A1", "A2"]);
+        expect((Wrapped.A.A1 as any).type.displayName).toBe("A1");
+        expect((Wrapped.A.A2 as any).type.displayName).toBe("A2");
+        expect((Wrapped.B as any).type.displayName).toBe("B");
+        expect((Wrapped.C as any).type.displayName).toBe("C");
+
+        // @ts-expect-error2
+        ReactUtil.statics("Wrapped", {A, B, C, NotAComponent});
     });
 });

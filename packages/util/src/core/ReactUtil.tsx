@@ -55,10 +55,19 @@ function memo<T extends (props: any) => React.ReactElement | null>(displayName: 
  *
  * Then you can use <SomeContainer.Left> or <SomeContainer.Right> with proper displayName set.
  */
-function statics<T extends {[key: string]: React.ComponentType<any>}>(displayName: string, componentMap: T): T {
-    const namedComponentMap: {[key: string]: React.ComponentType<any>} = {};
-    Object.entries(componentMap).forEach(([key, OriginalComponent]) => {
-        namedComponentMap[key] = memo(displayName, (props: any) => <OriginalComponent {...props} />);
+function statics<T extends {[key: string]: React.ComponentType<any> | {[key: string]: React.ComponentType<any>}}>(displayName: string, componentMap: T): T {
+    const namedComponentMap: {[key: string]: React.ComponentType<any> | {[key: string]: React.ComponentType<any>}} = {};
+    Object.entries(componentMap).forEach(([key, componentOrMap]) => {
+        if (typeof componentOrMap === "function") {
+            const Component = componentOrMap;
+            namedComponentMap[key] = memo(displayName, (props: any) => <Component {...props} />);
+        } else {
+            const nestedComponentMap: {[key: string]: React.ComponentType<any>} = {};
+            Object.entries(componentOrMap).forEach(([key, Component]) => {
+                nestedComponentMap[key] = Component;
+            });
+            namedComponentMap[key] = nestedComponentMap;
+        }
     });
     return namedComponentMap as T;
 }
