@@ -60,7 +60,7 @@ function format(date: Date | null, type: "default" | "with-time" | "no-year" | "
             case "no-year":
                 return month + "/" + day;
             case "no-year-with-time":
-                return month + "-" + day + " " + timePart;
+                return month + "/" + day + " " + timePart;
             case "no-day":
                 return year + "-" + month;
             case "chinese":

@@ -127,16 +127,16 @@ describe("DateUtil.format", () => {
         const date1 = new Date("2018-02-12 12:12:12");
         expect(DateUtil.format(date1)).toBe("2018-02-12");
         expect(DateUtil.format(date1, "with-time")).toBe("2018-02-12 12:12:12");
-        expect(DateUtil.format(date1, "no-year")).toBe("02-12");
-        expect(DateUtil.format(date1, "no-year-with-time")).toBe("02-12 12:12:12");
+        expect(DateUtil.format(date1, "no-year")).toBe("02/12");
+        expect(DateUtil.format(date1, "no-year-with-time")).toBe("02/12 12:12:12");
         expect(DateUtil.format(date1, "no-day")).toBe("2018-02");
         expect(DateUtil.format(date1, "chinese")).toBe("2018年02月12日");
 
         const date2 = new Date("2018-2-2 1:1:1");
         expect(DateUtil.format(date2)).toBe("2018-02-02");
         expect(DateUtil.format(date2, "with-time")).toBe("2018-02-02 01:01:01");
-        expect(DateUtil.format(date2, "no-year")).toBe("02-02");
-        expect(DateUtil.format(date2, "no-year-with-time")).toBe("02-02 01:01:01");
+        expect(DateUtil.format(date2, "no-year")).toBe("02/02");
+        expect(DateUtil.format(date2, "no-year-with-time")).toBe("02/02 01:01:01");
         expect(DateUtil.format(date2, "chinese-with-time")).toBe("2018年02月02日 01:01:01");
     });
 });

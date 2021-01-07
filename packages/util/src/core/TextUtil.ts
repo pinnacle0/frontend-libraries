@@ -33,8 +33,13 @@ function interpolate(text: string, ...parameters: string[]): string {
     return result;
 }
 
+function stripHTML(html: string) {
+    return html.replace(/(<([^>]+)>)/gi, "");
+}
+
 export const TextUtil = Object.freeze({
     truncate,
     interpolate,
     splitByLength,
+    stripHTML,
 });

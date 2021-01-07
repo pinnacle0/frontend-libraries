@@ -37,3 +37,22 @@ test("Interpolate", () => {
     expect(TextUtil.interpolate("{2} {3} {1}", "jest", "This", "is")).toBe("This is jest");
     expect(TextUtil.interpolate("{3} {2} {1}", "a", "b", "c")).toBe("c b a");
 });
+
+test("stripHTML", () => {
+    expect(TextUtil.stripHTML("123")).toBe("123");
+    expect(TextUtil.stripHTML(`<html><p>123</p></html>`)).toBe("123");
+    expect(TextUtil.stripHTML(`<html><p class="a">123</p></html>`)).toBe("123");
+    expect(
+        TextUtil.stripHTML(`
+        <html>
+            <p>321,
+                <a>123</a>
+            </p>
+        </html>`)
+    ).toBe(`
+        
+            321,
+                123
+            
+        `);
+});
