@@ -6,7 +6,7 @@ import {Utility} from "./Utility";
 const PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND = 2;
 
 // https://github.com/prettier/prettier/pull/6203#issuecomment-702319765
-function findFirstPrettierIgnoreFile(searchPath: string): string | null {
+function closestPrettierIgnoreFile(searchPath: string): string | null {
     const prettierIgnorePath = path.join(searchPath, ".prettierignore");
     if (fs.existsSync(prettierIgnorePath) && fs.statSync(prettierIgnorePath).isFile()) {
         return prettierIgnorePath;
@@ -17,7 +17,7 @@ function findFirstPrettierIgnoreFile(searchPath: string): string | null {
         return null;
     }
 
-    return findFirstPrettierIgnoreFile(parentDirectory);
+    return closestPrettierIgnoreFile(parentDirectory);
 }
 
 function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write") {
@@ -28,7 +28,7 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
         throw new Error(`Path not exist: ${fileOrDirectory}`);
     }
 
-    const prettierIgnorePath = findFirstPrettierIgnoreFile(fileOrDirectory);
+    const prettierIgnorePath = closestPrettierIgnoreFile(fileOrDirectory);
     const prettierIgnoreFlags = prettierIgnorePath ? ["--ignore-path", prettierIgnorePath] : [];
 
     const fileStats = fs.statSync(fileOrDirectory);
