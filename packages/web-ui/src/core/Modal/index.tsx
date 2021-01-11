@@ -26,10 +26,6 @@ export class Modal extends React.PureComponent<Props> {
         addInnerPadding: true,
     };
 
-    constructor(props: Props) {
-        super(props);
-    }
-
     renderTitleWithExtraInfo = () => {
         const {title, extraTitle} = this.props;
         return (
