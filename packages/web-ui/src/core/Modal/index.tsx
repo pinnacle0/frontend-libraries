@@ -26,8 +26,6 @@ export class Modal extends React.PureComponent<Props> {
         addInnerPadding: true,
     };
 
-    private readonly extraTitleStyle: React.CSSProperties = {fontSize: 13, fontWeight: "lighter", marginLeft: 15};
-
     constructor(props: Props) {
         super(props);
     }
@@ -37,7 +35,7 @@ export class Modal extends React.PureComponent<Props> {
         return (
             <React.Fragment>
                 {title}
-                <span style={this.extraTitleStyle}>{extraTitle}</span>
+                <span className="extra-title">{extraTitle}</span>
             </React.Fragment>
         );
     };
