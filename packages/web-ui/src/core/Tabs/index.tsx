@@ -5,6 +5,7 @@ import RcTabNavList, {TabNavListProps as RcTabNavListProps} from "rc-tabs/lib/Ta
 import {BrowserUtil} from "../../internal/BrowserUtil";
 import {PickOptional, SafeReactChildren} from "../../internal/type";
 import {Button} from "../Button";
+import {Single} from "./Single";
 import "./index.less";
 
 export interface Props extends Omit<TabsProps, "type" | "tabBarExtraContent" | "renderTabBar"> {
@@ -24,10 +25,12 @@ interface State {
 }
 
 export class Tabs extends React.PureComponent<Props, State> {
-    static TabPane = AntTabs.TabPane;
-    // TODO/yuen: static Single
-
     static displayName = "Tabs";
+
+    static Single = Single;
+
+    static TabPane = AntTabs.TabPane;
+
     static defaultProps: PickOptional<Props> = {
         type: "card",
     };
