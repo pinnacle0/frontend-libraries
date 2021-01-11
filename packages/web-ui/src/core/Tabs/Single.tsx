@@ -12,8 +12,9 @@ export class Single extends React.PureComponent<Props> {
 
     render() {
         const {children, title, ...rest} = this.props;
+
         return (
-            <Tabs type="line" {...rest}>
+            <Tabs {...rest}>
                 <Tabs.TabPane tab={title} key={title}>
                     {children}
                 </Tabs.TabPane>
