@@ -28,20 +28,6 @@
             //
         ]
     },
-    "Import As": {
-        "prefix": "imas",
-        "body": [
-            "import {${2:module} as ${$3:alias}} from '${1:module}';"
-            //
-        ]
-    },
-    "Import less": {
-        "prefix": "imless",
-        "body": [
-            "import '${1:index}.less';"
-            //
-        ]
-    },
 
     // React Related Snippets
     "React.useState": {
@@ -61,15 +47,6 @@
             //
         ]
     },
-    "React.Fragment": {
-        "prefix": "fragment",
-        "body": [
-            "<React.Fragment>",
-            "\t$0",
-            "</React.Fragment>"
-            //
-        ]
-    },
 
     // Pinnacle Package Related Snippets
     "ReactUtil.memo": {
@@ -79,7 +56,7 @@
             "import {ReactUtil} from '@pinnacle0/util';",
             "",
             "export const ${1:$TM_FILENAME_BASE} = ReactUtil.memo('$1', () => {",
-            "    ",
+            "\t",
             "\t$0",
             "\t",
             "\treturn (",
