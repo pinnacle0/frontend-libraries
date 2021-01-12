@@ -11,7 +11,7 @@
         }
     },
     "scripts": {
-        "dev": "parcel serve src/index.html",
+        "start": "parcel serve src/index.html",
         "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
     },
     "devDependencies": {

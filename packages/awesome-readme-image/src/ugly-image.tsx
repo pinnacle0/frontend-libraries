@@ -1,7 +1,6 @@
-import {colors, dimensions, durations} from "./values";
+/* eslint-disable @typescript-eslint/no-use-before-define, react/jsx-fragments, react/jsx-uses-react, react/react-in-jsx-scope -- new jsx transform */
 
-/* eslint-disable @typescript-eslint/no-use-before-define, react/jsx-fragments, react/jsx-uses-react, react/react-in-jsx-scope -- React 16.14.0 */
-declare const React: null;
+import {colors, dimensions, durations} from "./values";
 
 type UglyImageProps = {style?: React.CSSProperties};
 

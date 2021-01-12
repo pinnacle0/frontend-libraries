@@ -1,7 +1,7 @@
 {
     "extends": "../../config/tsconfig.base.json",
     "compilerOptions": {
-        "jsx": "react",
+        "jsx": "react-jsx",
         "module": "ESNext",
         "noEmit": true
     },
