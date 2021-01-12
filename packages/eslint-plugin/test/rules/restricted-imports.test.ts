@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/restricted-imports";
+import type {MessageIds} from "../../src/rules/restricted-imports";
+import {name, rule} from "../../src/rules/restricted-imports";
 import {createConfig} from "../create-config";
 import {testFilePath} from "../test-file-path";
 

@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/react-component-display-name";
+import type {MessageIds} from "../../src/rules/react-component-display-name";
+import {name, rule} from "../../src/rules/react-component-display-name";
 import {createConfig} from "../create-config";
 
 const noDisplayNameId: MessageIds = "noDisplayName";

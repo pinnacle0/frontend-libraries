@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/react-component-default-props-typing";
+import type {MessageIds} from "../../src/rules/react-component-default-props-typing";
+import {name, rule} from "../../src/rules/react-component-default-props-typing";
 import {createConfig} from "../create-config";
 
 const incorrectDefaultPropsTypeAnnotationId: MessageIds = "incorrectDefaultPropsTypeAnnotation";

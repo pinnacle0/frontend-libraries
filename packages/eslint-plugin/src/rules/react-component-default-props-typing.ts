@@ -1,5 +1,6 @@
-import {AST_NODE_TYPES, ESLintUtils, TSESTree} from "@typescript-eslint/experimental-utils";
-import {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {isReactComponent} from "../util/isReactComponent";
 
 export type Options = [];

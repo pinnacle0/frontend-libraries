@@ -1,5 +1,6 @@
-import {ESLintUtils, TSESTree} from "@typescript-eslint/experimental-utils";
-import {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
 import {isReactComponent} from "../util/isReactComponent";
 

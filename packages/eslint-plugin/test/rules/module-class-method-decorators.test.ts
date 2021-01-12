@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/module-class-method-decorators";
+import type {MessageIds} from "../../src/rules/module-class-method-decorators";
+import {name, rule} from "../../src/rules/module-class-method-decorators";
 import {createConfig} from "../create-config";
 
 const onPrefixedMethodNotLifecycleId: MessageIds = "onPrefixedMethodNotLifecycle";

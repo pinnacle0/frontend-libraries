@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/react-component-state-member";
+import type {MessageIds} from "../../src/rules/react-component-state-member";
+import {name, rule} from "../../src/rules/react-component-state-member";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "reactComponentStateMember";

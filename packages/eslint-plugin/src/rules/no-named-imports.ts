@@ -1,4 +1,5 @@
-import {AST_NODE_TYPES, ESLintUtils, TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
 
 export type MessageIds = "noNamedImports";
 

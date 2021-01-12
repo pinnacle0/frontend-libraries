@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/ugly-relative-path";
+import type {MessageIds} from "../../src/rules/ugly-relative-path";
+import {name, rule} from "../../src/rules/ugly-relative-path";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "uglyRelativePath";

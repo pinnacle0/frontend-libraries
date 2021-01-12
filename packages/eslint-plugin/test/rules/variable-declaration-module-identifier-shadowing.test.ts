@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/variable-declaration-module-identifier-shadowing";
+import type {MessageIds} from "../../src/rules/variable-declaration-module-identifier-shadowing";
+import {name, rule} from "../../src/rules/variable-declaration-module-identifier-shadowing";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "variableDeclarationModuleIdentifierShadowing";

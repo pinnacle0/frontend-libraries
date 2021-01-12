@@ -1,5 +1,5 @@
-import {TSESTree} from "@typescript-eslint/experimental-utils";
-import {SourceCode} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {SourceCode} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
 
 export function getRawGenericsOfSuperClass(
     context: {getSourceCode: () => Readonly<SourceCode>},

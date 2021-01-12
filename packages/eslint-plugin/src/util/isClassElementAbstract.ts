@@ -1,4 +1,5 @@
-import {AST_NODE_TYPES, TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES} from "@typescript-eslint/experimental-utils";
 
 export function isClassElementAbstract(classElement: TSESTree.ClassElement): boolean {
     switch (classElement.type) {

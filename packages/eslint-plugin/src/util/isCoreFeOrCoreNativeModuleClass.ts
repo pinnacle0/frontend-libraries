@@ -1,5 +1,6 @@
-import {ASTUtils, AST_NODE_TYPES, TSESTree} from "@typescript-eslint/experimental-utils";
-import {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {ASTUtils, AST_NODE_TYPES} from "@typescript-eslint/experimental-utils";
+import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 
 export function isCoreFeOrCoreNativeModuleClass<MessageIds extends string, Options extends readonly unknown[]>(
     context: Readonly<RuleContext<MessageIds, Options>>,

@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/style-properties-type";
+import type {MessageIds} from "../../src/rules/style-properties-type";
+import {name, rule} from "../../src/rules/style-properties-type";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "stylePropertiesType";

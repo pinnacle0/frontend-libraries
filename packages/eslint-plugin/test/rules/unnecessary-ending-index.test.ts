@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule} from "../../src/rules/unnecessary-ending-index";
+import type {MessageIds} from "../../src/rules/unnecessary-ending-index";
+import {name, rule} from "../../src/rules/unnecessary-ending-index";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "unnecessaryEndingIndex";

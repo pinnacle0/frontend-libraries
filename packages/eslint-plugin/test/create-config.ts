@@ -1,4 +1,4 @@
-import {RuleTesterConfig} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {RuleTesterConfig} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
 
 export function createConfig({parserOptions}: Omit<RuleTesterConfig, "parser"> = {}): RuleTesterConfig {
     return {

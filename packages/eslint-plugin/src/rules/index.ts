@@ -4,7 +4,7 @@
 //              Run "yarn export-rules" to regenerate this file
 // -----------------------------------------------------------------------------
 
-import {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
 import {rule as deepNestedRelativeImports} from "./deep-nested-relative-imports";
 import {rule as moduleClassMethodDecorators} from "./module-class-method-decorators";
 import {rule as noNamedImports} from "./no-named-imports";

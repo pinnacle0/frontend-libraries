@@ -1,4 +1,5 @@
-import {AST_NODE_TYPES, TSESTree} from "@typescript-eslint/typescript-estree";
+import type {TSESTree} from "@typescript-eslint/typescript-estree";
+import {AST_NODE_TYPES} from "@typescript-eslint/typescript-estree";
 
 export function isReactComponent({superClass}: TSESTree.ClassDeclaration | TSESTree.ClassExpression): boolean {
     return (

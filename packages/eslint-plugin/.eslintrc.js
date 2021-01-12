@@ -22,7 +22,6 @@ const config = {
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["error", {args: "none"}],
-        "no-duplicate-imports": ["error"],
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
         "no-var": ["error"],

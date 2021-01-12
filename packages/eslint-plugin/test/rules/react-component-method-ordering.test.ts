@@ -1,5 +1,6 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import {MessageIds, name, rule, methodOrderCheckers, MethodOrderChecker} from "../../src/rules/react-component-method-ordering";
+import type {MessageIds, MethodOrderChecker} from "../../src/rules/react-component-method-ordering";
+import {name, rule, methodOrderCheckers} from "../../src/rules/react-component-method-ordering";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "reactComponentMethodOrdering";
