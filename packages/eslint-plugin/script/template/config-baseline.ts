@@ -116,6 +116,18 @@ export const configBaseline: ESLint.Linter.Config = {
         "no-var": ["error"],
         "object-shorthand": ["error"],
         "prefer-const": ["error"],
+        "spaced-comment": [
+            "error",
+            "always",
+            {
+                line: {
+                    markers: ["/"],
+                },
+                block: {
+                    balanced: true,
+                },
+            },
+        ],
 
         "react/display-name": "off",
         "react/jsx-boolean-value": ["error", "never"],
