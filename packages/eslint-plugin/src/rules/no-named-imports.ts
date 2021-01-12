@@ -37,7 +37,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<string[], MessageIds>(
             uniqueItems: true,
         },
     },
-    defaultOptions: [],
+    defaultOptions: ["react", "react-dom"],
     create: context => {
         const blacklist = new Set(context.options);
         const reportedNodes = new Set();
