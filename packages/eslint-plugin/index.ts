@@ -1,10 +1,9 @@
-import {configBaseline} from "./src/config/baseline";
-import {configJest} from "./src/config/jest";
-import {allRules} from "./src/rules";
-
-export const rules = allRules;
+import {baseline} from "./src/config/baseline";
+import {jest} from "./src/config/jest";
 
 export const configs = {
-    baseline: configBaseline,
-    jest: configJest,
+    baseline,
+    jest,
 };
+
+export {rules} from "./src/rules";

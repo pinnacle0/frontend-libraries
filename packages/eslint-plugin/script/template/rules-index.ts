@@ -7,6 +7,6 @@
 import {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
 // {{TEMPLATE_IMPORT_STATEMENTS}}
 
-export const allRules: Record<string, RuleModule<string, any[], RuleListener>> = {
+export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
     // {{TEMPLATE_RULE_DEFINITIONS}}
 };

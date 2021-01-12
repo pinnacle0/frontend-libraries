@@ -5,4 +5,4 @@ require("ts-node").register({
     transpileOnly: true,
 });
 
-module.exports = {...require("../src/config/jest").configJest};
+module.exports = {...require("../src/config/jest").jest};

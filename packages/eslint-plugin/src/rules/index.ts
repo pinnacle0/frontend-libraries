@@ -21,7 +21,7 @@ import {rule as uglyRelativePath} from "./ugly-relative-path";
 import {rule as unnecessaryEndingIndex} from "./unnecessary-ending-index";
 import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
 
-export const allRules: Record<string, RuleModule<string, any[], RuleListener>> = {
+export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
     "deep-nested-relative-imports": deepNestedRelativeImports,
     "module-class-method-decorators": moduleClassMethodDecorators,
     "no-named-imports": noNamedImports,

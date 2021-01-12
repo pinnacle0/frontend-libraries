@@ -5,4 +5,4 @@ require("ts-node").register({
     transpileOnly: true,
 });
 
-module.exports = {...require("../src/config/baseline").configBaseline};
+module.exports = {...require("../src/config/baseline").baseline};
