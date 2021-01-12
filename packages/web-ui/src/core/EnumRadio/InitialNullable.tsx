@@ -1,5 +1,6 @@
 import React from "react";
-import {EnumRadio, BaseProps} from "./index";
+import type {BaseProps} from "./index";
+import {EnumRadio} from "./index";
 
 type NullType = "@@NULL";
 

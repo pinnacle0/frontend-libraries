@@ -1,5 +1,6 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
+import type {DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
+import {DemoHelper} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
 import {Carousel3D} from "@pinnacle0/web-ui/core/Carousel3D";
 import {Carousel} from "@pinnacle0/web-ui/core/Carousel";
 import {generateDummyURLs} from "@pinnacle0/web-ui-test/ui-test/util/dummyList";

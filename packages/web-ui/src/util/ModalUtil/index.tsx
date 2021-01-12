@@ -1,9 +1,10 @@
 import React from "react";
-import Modal, {ModalFuncProps} from "antd/lib/modal";
-import {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
+import type {ModalFuncProps} from "antd/lib/modal";
+import Modal from "antd/lib/modal";
+import type {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
 import "antd/lib/modal/style";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
-import {PickOptional, SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {PickOptional, SafeReactChild, SafeReactChildren} from "../../internal/type";
 import {StringUtil} from "../../internal/StringUtil";
 import {i18n} from "../../internal/i18n/util";
 import "./index.less";

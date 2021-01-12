@@ -1,6 +1,6 @@
 import React from "react";
 import {i18n} from "../../internal/i18n/core";
-import {StringKey} from "../../internal/type";
+import type {StringKey} from "../../internal/type";
 import "./index.less";
 
 export interface Props<T extends object> {

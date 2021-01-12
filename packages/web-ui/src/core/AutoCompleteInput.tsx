@@ -1,4 +1,5 @@
-import AntAutoComplete, {AutoCompleteProps} from "antd/lib/auto-complete";
+import type {AutoCompleteProps} from "antd/lib/auto-complete";
+import AntAutoComplete from "antd/lib/auto-complete";
 import "antd/lib/auto-complete/style";
 import React from "react";
 

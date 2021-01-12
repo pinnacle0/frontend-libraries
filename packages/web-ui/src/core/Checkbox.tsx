@@ -1,8 +1,9 @@
 import React from "react";
-import AntCheckbox, {CheckboxChangeEvent, CheckboxOptionType, CheckboxProps} from "antd/lib/checkbox";
-import {CheckboxValueType} from "antd/lib/checkbox/Group";
+import type {CheckboxChangeEvent, CheckboxOptionType, CheckboxProps} from "antd/lib/checkbox";
+import AntCheckbox from "antd/lib/checkbox";
+import type {CheckboxValueType} from "antd/lib/checkbox/Group";
 import "antd/lib/checkbox/style";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 
 export interface Props extends Omit<CheckboxProps, "value" | "onChange" | "checked">, ControlledFormValue<boolean> {}
 

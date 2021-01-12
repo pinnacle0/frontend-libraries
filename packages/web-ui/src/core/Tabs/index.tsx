@@ -1,9 +1,13 @@
 import React from "react";
-import AntTabs, {TabsProps, TabsType} from "antd/lib/tabs";
+import type {TabsProps, TabsType} from "antd/lib/tabs";
+import AntTabs from "antd/lib/tabs";
 import "antd/lib/tabs/style";
-import RcTabNavList, {TabNavListProps as RcTabNavListProps} from "rc-tabs/lib/TabNavList";
+// eslint-disable-next-line import/no-duplicates -- false positive
+import type RcTabNavList from "rc-tabs/lib/TabNavList";
+// eslint-disable-next-line import/no-duplicates -- false positive
+import type {TabNavListProps as RcTabNavListProps} from "rc-tabs/lib/TabNavList";
 import {BrowserUtil} from "../../internal/BrowserUtil";
-import {PickOptional, SafeReactChildren} from "../../internal/type";
+import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import {Button} from "../Button";
 import {Single} from "./Single";
 import "./index.less";

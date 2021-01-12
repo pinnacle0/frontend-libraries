@@ -1,13 +1,14 @@
-import AntTable, {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
+import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
+import AntTable from "antd/lib/table";
 import "antd/lib/table/style";
-import {TableRowSelection} from "antd/lib/table/interface";
+import type {TableRowSelection} from "antd/lib/table/interface";
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
-import {PickOptional, StringKey} from "../../internal/type";
+import type {PickOptional, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
-import {RenderedCell} from "rc-table/lib/interface";
+import type {RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";

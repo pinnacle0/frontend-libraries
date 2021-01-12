@@ -1,6 +1,7 @@
 import React from "react";
-import {Tabs, Props as TabsProps} from "./index";
-import {SafeReactChildren} from "../../internal/type";
+import type {Props as TabsProps} from "./index";
+import {Tabs} from "./index";
+import type {SafeReactChildren} from "../../internal/type";
 
 export interface Props extends Omit<TabsProps, "activeKey" | "onChange" | "defaultActiveKey"> {
     title: string;

@@ -1,6 +1,7 @@
 import React from "react";
 import {EnumSelect} from "./EnumSelect";
-import {Locale, LocaleUtil} from "../util/LocaleUtil";
+import type {Locale} from "../util/LocaleUtil";
+import {LocaleUtil} from "../util/LocaleUtil";
 
 export interface Props {}
 

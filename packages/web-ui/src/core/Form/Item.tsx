@@ -1,6 +1,6 @@
 import React from "react";
 import {FormValidationContext} from "./context";
-import {SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import {Tooltip} from "../Tooltip";
 
 export type FormValidator = () => string | null | Promise<string | null>;

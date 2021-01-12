@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom"; // For extending types
 import "@testing-library/jest-dom/extend-expect";
 
-import {NumberInputPercentage, Props} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
+import type {Props} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
+import {NumberInputPercentage} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
 import {render, screen} from "@testing-library/react";
 import React from "react";
 

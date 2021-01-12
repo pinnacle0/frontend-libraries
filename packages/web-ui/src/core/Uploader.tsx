@@ -1,9 +1,10 @@
 import React from "react";
-import {SafeReactChildren} from "../internal/type";
-import AntUpload, {UploadChangeParam} from "antd/lib/upload";
+import type {SafeReactChildren} from "../internal/type";
+import type {UploadChangeParam} from "antd/lib/upload";
+import AntUpload from "antd/lib/upload";
 import "antd/lib/upload/style";
 import {Spin} from "./Spin";
-import {UploadLogInfo, UploadProps} from "../util/UploadUtil";
+import type {UploadLogInfo, UploadProps} from "../util/UploadUtil";
 
 export interface Props extends Partial<UploadProps> {
     children: SafeReactChildren;

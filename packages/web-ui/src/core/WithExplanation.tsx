@@ -1,6 +1,7 @@
 import React from "react";
-import {Tooltip, TooltipPlacement} from "./Tooltip";
-import {SafeReactChildren} from "../internal/type";
+import type {TooltipPlacement} from "./Tooltip";
+import {Tooltip} from "./Tooltip";
+import type {SafeReactChildren} from "../internal/type";
 
 interface Props {
     /**

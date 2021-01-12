@@ -1,6 +1,7 @@
 import React from "react";
 import {FoldableContainer} from "@pinnacle0/web-ui/core/FoldableContainer";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
 
 const groups: DemoHelperGroupConfig[] = [
     {

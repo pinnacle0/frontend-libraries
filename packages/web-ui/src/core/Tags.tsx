@@ -1,5 +1,6 @@
 import React from "react";
-import {Tag, TagColor} from "./Tag";
+import type {TagColor} from "./Tag";
+import {Tag} from "./Tag";
 
 export interface Props {
     items: React.ReactChild[];

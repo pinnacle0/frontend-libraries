@@ -1,5 +1,6 @@
 import React from "react";
-import AntRadio, {RadioChangeEvent, RadioProps} from "antd/lib/radio";
+import type {RadioChangeEvent, RadioProps} from "antd/lib/radio";
+import AntRadio from "antd/lib/radio";
 import "antd/lib/radio/style";
 
 export interface Props extends RadioProps {}

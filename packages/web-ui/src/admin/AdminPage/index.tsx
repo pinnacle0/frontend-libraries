@@ -1,5 +1,5 @@
 import React from "react";
-import {SafeReactChildren} from "../../internal/type";
+import type {SafeReactChildren} from "../../internal/type";
 import {Filter} from "./Filter";
 import {Summary} from "./Summary";
 import {SaveBar} from "./SaveBar";

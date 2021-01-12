@@ -2,8 +2,9 @@ import AntMenu from "antd/lib/menu";
 import "antd/lib/menu/style";
 import React from "react";
 import {Badge} from "../../core/Badge";
-import {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
-import {RouteComponentProps, withRouter, Link} from "react-router-dom";
+import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
+import type {RouteComponentProps} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 
 interface Props extends RouteComponentProps {
     siteLogo: string;
@@ -144,7 +145,7 @@ export const Menu = withRouter(
                             <h1>{siteName}</h1>
                         </div>
                     </Link>
-                    {/*TODO: correct the typing*/}
+                    {/* TODO: correct the typing */}
                     <AntMenu
                         theme="dark"
                         mode="inline"

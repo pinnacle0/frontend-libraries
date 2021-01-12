@@ -2,7 +2,7 @@ import React from "react";
 import {EnumRadio} from "./EnumRadio";
 import type {Props as InitialNullableBaseProps} from "./EnumRadio/InitialNullable";
 import type {Props as NullableBaseProps} from "./EnumRadio/Nullable";
-import {PickOptional} from "../internal/type";
+import type {PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
 type ExtractKey<Props> = Omit<Props, "list" | "translator">;

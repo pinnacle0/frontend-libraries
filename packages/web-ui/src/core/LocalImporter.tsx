@@ -1,5 +1,5 @@
 import React from "react";
-import {SafeReactChildren} from "../internal/type";
+import type {SafeReactChildren} from "../internal/type";
 import {Uploader} from "./Uploader";
 import UploadOutlined from "@ant-design/icons/UploadOutlined";
 import {i18n} from "../internal/i18n/core";

@@ -1,7 +1,9 @@
-import {Props as RelativeTimeProps, RelativeTime} from "@pinnacle0/web-ui/core/RelativeTime";
+import type {Props as RelativeTimeProps} from "@pinnacle0/web-ui/core/RelativeTime";
+import {RelativeTime} from "@pinnacle0/web-ui/core/RelativeTime";
 import moment from "moment";
 import React, {useEffect} from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
 
 const RelativeTimeDisplay = (props: RelativeTimeProps) => {
     const [initialRepaintTimeout, setInitialRepaintTimeout] = React.useState("-");

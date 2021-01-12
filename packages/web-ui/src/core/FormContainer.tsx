@@ -1,8 +1,9 @@
 import React from "react";
 import {Button} from "./Button";
-import {Form, Props as FormProps} from "./Form";
+import type {Props as FormProps} from "./Form";
+import {Form} from "./Form";
 import {i18n} from "../internal/i18n/core";
-import {PickOptional, SafeReactChildren} from "../internal/type";
+import type {PickOptional, SafeReactChildren} from "../internal/type";
 
 export interface Props extends FormProps {
     onFinish: () => void;

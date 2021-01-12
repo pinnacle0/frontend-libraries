@@ -3,7 +3,8 @@ import {EnumRadio} from "@pinnacle0/web-ui/core/EnumRadio";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {MultipleEnumSelect} from "@pinnacle0/web-ui/core/MultipleEnumSelect";
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
+import type {DemoHelperGroupConfig} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
+import {DemoHelper} from "@pinnacle0/web-ui-test/ui-test/component/DemoHelper";
 import {withUncontrolledInitialValue} from "@pinnacle0/web-ui-test/ui-test/util/withUncontrolledInitialValue";
 import {BoolRadio} from "@pinnacle0/web-ui/core/BoolRadio";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {NavLink as ReactRouterLink} from "react-router-dom";
-import {LocationDescriptorObject} from "history";
-import {SafeReactChild} from "../internal/type";
+import type {LocationDescriptorObject} from "history";
+import type {SafeReactChild} from "../internal/type";
 
 export interface Props {
     to: string | (() => void) | LocationDescriptorObject<any>;

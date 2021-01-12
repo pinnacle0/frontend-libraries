@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom"; // For extending types
 import "@testing-library/jest-dom/extend-expect";
 
-import {NumberInput, Props} from "@pinnacle0/web-ui/core/NumberInput";
+import type {Props} from "@pinnacle0/web-ui/core/NumberInput";
+import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";

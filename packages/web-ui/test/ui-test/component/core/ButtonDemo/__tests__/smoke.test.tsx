@@ -1,4 +1,5 @@
-import {Button, ButtonColor, ButtonSize, Props} from "@pinnacle0/web-ui/core/Button";
+import type {ButtonColor, ButtonSize, Props} from "@pinnacle0/web-ui/core/Button";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";

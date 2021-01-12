@@ -1,6 +1,6 @@
 import React from "react";
 import {Checkbox} from "../Checkbox";
-import {ControlledFormValue} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 
 interface Props<Enum extends string | boolean | number> extends ControlledFormValue<Enum[]> {
     list: readonly Enum[];

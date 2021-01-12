@@ -6,7 +6,8 @@ import {ModalUtil} from "../util/ModalUtil";
 import {MediaUtil} from "../util/MediaUtil";
 import {i18n} from "../internal/i18n/core";
 import {Uploader} from "./Uploader";
-import {ImageUploadResponse, UploadProps, UploadSuccessLogEntry, UploadUtil} from "../util/UploadUtil";
+import type {ImageUploadResponse, UploadProps, UploadSuccessLogEntry} from "../util/UploadUtil";
+import {UploadUtil} from "../util/UploadUtil";
 
 export interface Props<Removable extends boolean> extends UploadProps {
     imageURL: Removable extends true ? string | null : string;

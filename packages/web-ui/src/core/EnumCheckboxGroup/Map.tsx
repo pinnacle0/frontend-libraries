@@ -1,6 +1,6 @@
 import React from "react";
 import {EnumCheckboxGroup} from "./index";
-import {ControlledFormValue} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 
 export interface Props<Enum extends string> extends ControlledFormValue<Enum[]> {
     map: Record<Enum, React.ReactChild>;

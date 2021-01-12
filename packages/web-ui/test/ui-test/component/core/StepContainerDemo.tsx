@@ -1,7 +1,9 @@
 import React from "react";
-import {StepFormContainer, StepItem} from "@pinnacle0/web-ui/core/StepFormContainer";
+import type {StepItem} from "@pinnacle0/web-ui/core/StepFormContainer";
+import {StepFormContainer} from "@pinnacle0/web-ui/core/StepFormContainer";
 import {Form} from "@pinnacle0/web-ui/core/Form";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 
 const FormItem = () => {

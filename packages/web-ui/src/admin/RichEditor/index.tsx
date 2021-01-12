@@ -1,8 +1,10 @@
 import React from "react";
-import BraftEditor, {ControlType, EditorState, ImageControlType, MediaType} from "braft-editor";
+import type {ControlType, EditorState, ImageControlType, MediaType} from "braft-editor";
+import BraftEditor from "braft-editor";
 import {LocaleUtil} from "../../util/LocaleUtil";
-import {ControlledFormValue} from "../../internal/type";
-import {UploadUtil, UploadProps, UploadLogInfo} from "../../util/UploadUtil";
+import type {ControlledFormValue} from "../../internal/type";
+import type {UploadProps, UploadLogInfo} from "../../util/UploadUtil";
+import {UploadUtil} from "../../util/UploadUtil";
 import "braft-editor/dist/index.css";
 import "./index.less";
 

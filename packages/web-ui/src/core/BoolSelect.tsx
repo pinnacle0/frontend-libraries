@@ -1,7 +1,7 @@
 import React from "react";
 import {EnumSelect} from "./EnumSelect";
 import type {Props as BaseProps} from "./EnumSelect/InitialNullable";
-import {PickOptional} from "../internal/type";
+import type {PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
 export interface Props extends Omit<BaseProps<boolean>, "list" | "translator"> {

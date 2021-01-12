@@ -1,8 +1,9 @@
 import React from "react";
 import {Tabs} from "../../core/Tabs";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import type {RouteComponentProps} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {AdminAppContext} from "./context";
-import {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
+import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import {i18n} from "../../internal/i18n/admin";
 import {Spin} from "../../core/Spin";
 

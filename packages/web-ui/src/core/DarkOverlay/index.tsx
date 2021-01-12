@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {SafeReactChildren} from "../../internal/type";
+import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {

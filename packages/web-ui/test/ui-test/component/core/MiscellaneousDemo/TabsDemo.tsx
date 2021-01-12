@@ -1,5 +1,6 @@
 import React from "react";
-import {TypedTabs, TypedTabMap, TypedTabList, TabData} from "@pinnacle0/web-ui/core/TypedTabs";
+import type {TypedTabMap, TypedTabList, TabData} from "@pinnacle0/web-ui/core/TypedTabs";
+import {TypedTabs} from "@pinnacle0/web-ui/core/TypedTabs";
 
 type TabsDemoKey = "1" | "2";
 

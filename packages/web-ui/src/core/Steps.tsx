@@ -1,4 +1,5 @@
-import AntSteps, {StepsProps} from "antd/lib/steps";
+import type {StepsProps} from "antd/lib/steps";
+import AntSteps from "antd/lib/steps";
 import React from "react";
 import "antd/lib/steps/style";
 

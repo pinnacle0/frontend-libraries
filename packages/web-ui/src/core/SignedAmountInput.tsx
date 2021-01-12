@@ -2,7 +2,7 @@ import React from "react";
 import {NumberInput} from "./NumberInput";
 import {Input} from "./Input";
 import {Select} from "./Select";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
 export interface SignedAmountInputData {

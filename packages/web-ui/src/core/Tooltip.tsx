@@ -1,4 +1,5 @@
-import AntTooltip, {TooltipPlacement, TooltipProps} from "antd/lib/tooltip";
+import type {TooltipPlacement, TooltipProps} from "antd/lib/tooltip";
+import AntTooltip from "antd/lib/tooltip";
 import "antd/lib/tooltip/style";
 import React from "react";
 

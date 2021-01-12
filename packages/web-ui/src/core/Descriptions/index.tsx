@@ -1,7 +1,7 @@
 import React from "react";
 import AntDescriptions from "antd/lib/descriptions";
 import "antd/lib/descriptions/style";
-import {SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {

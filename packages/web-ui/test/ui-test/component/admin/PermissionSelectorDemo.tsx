@@ -1,5 +1,6 @@
 import React from "react";
-import {NavigationService, TestFeaturePermission, TestFieldPermission} from "../../util/NavigationService";
+import type {TestFieldPermission} from "../../util/NavigationService";
+import {NavigationService, TestFeaturePermission} from "../../util/NavigationService";
 import {AdminPermissionSelector} from "@pinnacle0/web-ui/admin/AdminPermissionSelector";
 import {DemoHelper} from "../DemoHelper";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import "./index.less";
 

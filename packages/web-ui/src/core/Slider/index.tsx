@@ -1,6 +1,7 @@
 import React from "react";
-import AntSlider, {SliderSingleProps, SliderRangeProps} from "antd/lib/slider";
-import {ControlledFormValue} from "../../internal/type";
+import type {SliderSingleProps, SliderRangeProps} from "antd/lib/slider";
+import AntSlider from "antd/lib/slider";
+import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/slider/style";
 import {Button} from "../Button";
 import "./index.less";

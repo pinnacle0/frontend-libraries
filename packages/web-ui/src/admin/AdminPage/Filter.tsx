@@ -4,10 +4,10 @@ import React from "react";
 import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
 import {WithExplanation} from "../../core/WithExplanation";
-import {SafeReactChildren} from "../../internal/type";
+import type {SafeReactChildren} from "../../internal/type";
 import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
 import {i18n} from "../../internal/i18n/admin";
-import {FormErrorDisplayMode} from "../../core/Form/context";
+import type {FormErrorDisplayMode} from "../../core/Form/context";
 
 export interface ExtraButtonConfig {
     label: string;

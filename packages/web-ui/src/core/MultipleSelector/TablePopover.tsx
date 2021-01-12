@@ -1,6 +1,7 @@
 import React from "react";
-import {ControlledFormValue, StringKey} from "../../internal/type";
-import {Table, TableColumns, TableRowSelection} from "../Table";
+import type {ControlledFormValue, StringKey} from "../../internal/type";
+import type {TableColumns, TableRowSelection} from "../Table";
+import {Table} from "../Table";
 
 interface Props<RowType extends object> extends ControlledFormValue<RowType[]> {
     dataSource: RowType[];

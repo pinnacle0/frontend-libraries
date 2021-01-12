@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import {matchPath} from "react-router-dom";
 import {Memo} from "../internal/Memo";
 

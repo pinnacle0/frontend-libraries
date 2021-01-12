@@ -1,5 +1,6 @@
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
-import {AdminNavigatorBase, NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
+import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
+import {AdminNavigatorBase} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 import React from "react";
 import {NavigationHistoryDemo} from "@pinnacle0/web-ui-test/ui-test/component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "@pinnacle0/web-ui-test/ui-test/component/admin/SeparateTabDetailDemo";

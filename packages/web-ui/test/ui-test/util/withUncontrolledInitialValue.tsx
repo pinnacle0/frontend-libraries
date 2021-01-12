@@ -1,5 +1,5 @@
 import React from "react";
-import {ControlledFormValue} from "@pinnacle0/web-ui/internal/type";
+import type {ControlledFormValue} from "@pinnacle0/web-ui/internal/type";
 
 type ExtractValueType<F extends ControlledFormValue<any>> = F["value"] extends infer V ? V : never;
 

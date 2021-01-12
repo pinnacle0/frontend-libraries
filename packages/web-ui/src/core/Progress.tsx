@@ -1,4 +1,5 @@
-import AntProgress, {ProgressProps} from "antd/lib/progress";
+import type {ProgressProps} from "antd/lib/progress";
+import AntProgress from "antd/lib/progress";
 import React from "react";
 import "antd/lib/progress/style";
 

@@ -1,7 +1,8 @@
 import React from "react";
 import {Button} from "./Button";
-import {Input, Props as InputProps} from "./Input";
-import {PickOptional} from "../internal/type";
+import type {Props as InputProps} from "./Input";
+import {Input} from "./Input";
+import type {PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 import {StringUtil} from "../internal/StringUtil";
 

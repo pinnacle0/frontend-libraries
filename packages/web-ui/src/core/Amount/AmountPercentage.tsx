@@ -1,5 +1,6 @@
 import React from "react";
-import {Amount, Props as AmountProps} from "./index";
+import type {Props as AmountProps} from "./index";
+import {Amount} from "./index";
 
 type OmitPropsKeys = "postfix" | "scale" | "value";
 

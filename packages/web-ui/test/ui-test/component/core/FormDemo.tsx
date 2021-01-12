@@ -1,7 +1,9 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
 import {Form} from "@pinnacle0/web-ui/core/Form";
-import {Input, Props as InputProps, InputTextAreaProps} from "@pinnacle0/web-ui/core/Input";
+import type {Props as InputProps, InputTextAreaProps} from "@pinnacle0/web-ui/core/Input";
+import {Input} from "@pinnacle0/web-ui/core/Input";
 import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
 import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallback";
 import {Button} from "@pinnacle0/web-ui/core/Button";

@@ -1,8 +1,9 @@
 import React from "react";
 import AntCalendar from "antd/lib/calendar";
-import {HeaderRender} from "antd/lib/calendar/generateCalendar";
-import moment, {Moment} from "moment";
-import {ControlledFormValue} from "../internal/type";
+import type {HeaderRender} from "antd/lib/calendar/generateCalendar";
+import type {Moment} from "moment";
+import moment from "moment";
+import type {ControlledFormValue} from "../internal/type";
 import {Select} from "./Select";
 import {Space} from "./Space";
 import "antd/lib/calendar/style";

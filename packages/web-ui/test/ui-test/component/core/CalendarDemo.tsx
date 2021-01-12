@@ -1,11 +1,18 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
-import {DatePicker, Props as DatePickerProps} from "@pinnacle0/web-ui/core/DatePicker";
-import {DateRangePicker, Props as DateRangePickerProps} from "@pinnacle0/web-ui/core/DateRangePicker";
-import {TimeRangePicker, Props as TimeRangePickerProps} from "@pinnacle0/web-ui/core/TimeRangePicker";
-import {TimePicker, Props as TimePickerProps} from "@pinnacle0/web-ui/core/TimePicker";
-import {DateTimeRangePicker, Props as DateTimeRangePickerProps} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
-import {DateTimePicker, Props as DateTimePickerProps} from "@pinnacle0/web-ui/core/DateTimePicker";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
+import type {Props as DatePickerProps} from "@pinnacle0/web-ui/core/DatePicker";
+import {DatePicker} from "@pinnacle0/web-ui/core/DatePicker";
+import type {Props as DateRangePickerProps} from "@pinnacle0/web-ui/core/DateRangePicker";
+import {DateRangePicker} from "@pinnacle0/web-ui/core/DateRangePicker";
+import type {Props as TimeRangePickerProps} from "@pinnacle0/web-ui/core/TimeRangePicker";
+import {TimeRangePicker} from "@pinnacle0/web-ui/core/TimeRangePicker";
+import type {Props as TimePickerProps} from "@pinnacle0/web-ui/core/TimePicker";
+import {TimePicker} from "@pinnacle0/web-ui/core/TimePicker";
+import type {Props as DateTimeRangePickerProps} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
+import {DateTimeRangePicker} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
+import type {Props as DateTimePickerProps} from "@pinnacle0/web-ui/core/DateTimePicker";
+import {DateTimePicker} from "@pinnacle0/web-ui/core/DateTimePicker";
 import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
 
 const UncontrolledDatePicker = (props: Omit<DatePickerProps<any>, "value" | "onChange">) => {

@@ -6,7 +6,7 @@ import {Input} from "@pinnacle0/web-ui/core/Input";
 import {Amount} from "@pinnacle0/web-ui/core/Amount";
 import {Table} from "@pinnacle0/web-ui/core/Table";
 import {Pagination} from "@pinnacle0/web-ui/core/Pagination";
-import {ExtraButtonConfig} from "@pinnacle0/web-ui/admin/AdminPage/Filter";
+import type {ExtraButtonConfig} from "@pinnacle0/web-ui/admin/AdminPage/Filter";
 import {dummyEmptyCallback} from "../../util/dummyCallback";
 import {generateDummyTableData, dummyTableColumns} from "../../util/dummyTableData";
 

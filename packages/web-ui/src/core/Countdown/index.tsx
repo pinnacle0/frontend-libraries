@@ -1,6 +1,6 @@
 import React from "react";
 import {SlidingDigit} from "./SlidingDigit";
-import {PickOptional} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import "./index.less";
 
 export interface Props {

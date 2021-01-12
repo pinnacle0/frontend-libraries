@@ -1,5 +1,5 @@
 import React from "react";
-import {PickOptional} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import {StringUtil} from "../../internal/StringUtil";
 import {AmountPercentage} from "./AmountPercentage";
 

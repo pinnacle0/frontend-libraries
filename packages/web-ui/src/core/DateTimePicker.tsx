@@ -1,7 +1,7 @@
 import AntDatePicker from "antd/lib/date-picker";
 import moment from "moment";
 import React from "react";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 import "antd/lib/date-picker/style";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? Date : Date | null> {

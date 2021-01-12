@@ -17,8 +17,9 @@ import {LocaleSelect} from "../../core/LocaleSelect";
 import {i18n} from "../../internal/i18n/admin";
 import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
 import {StringUtil} from "../../internal/StringUtil";
-import {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
-import {AdminAppContext, AdminAppContextType} from "./context";
+import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
+import type {AdminAppContextType} from "./context";
+import {AdminAppContext} from "./context";
 import "./index.less";
 
 type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};

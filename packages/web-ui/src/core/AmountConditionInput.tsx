@@ -2,7 +2,7 @@ import React from "react";
 import {NumberInput} from "./NumberInput";
 import {Input} from "./Input";
 import {EnumSelect} from "./EnumSelect";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 
 export enum Operator {
     GREATER_THAN = "GREATER_THAN",

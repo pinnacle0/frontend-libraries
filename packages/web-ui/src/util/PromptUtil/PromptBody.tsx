@@ -2,7 +2,7 @@ import React from "react";
 import {Input} from "../../core/Input";
 import {Form} from "../../core/Form";
 import {Markdown} from "../../core/Markdown";
-import {PromptConfig, PromptResult} from "./index";
+import type {PromptConfig, PromptResult} from "./index";
 import "./index.less";
 
 export interface Props extends PromptConfig {}

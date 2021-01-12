@@ -1,5 +1,6 @@
 import React from "react";
-import {Tabs, Props as TabsProps} from "./Tabs";
+import type {Props as TabsProps} from "./Tabs";
+import {Tabs} from "./Tabs";
 
 export interface TabData {
     title: React.ReactElement | string;

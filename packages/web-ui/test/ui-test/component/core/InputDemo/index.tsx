@@ -1,9 +1,11 @@
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import {Input} from "@pinnacle0/web-ui/core/Input";
-import {NumberInput, Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
-import {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
-import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
+import type {Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
+import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
+import type {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {DemoHelper} from "../../DemoHelper";
 import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCodeInput";
 import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallback";
 import {withUncontrolledInitialValue} from "@pinnacle0/web-ui-test/ui-test/util/withUncontrolledInitialValue";

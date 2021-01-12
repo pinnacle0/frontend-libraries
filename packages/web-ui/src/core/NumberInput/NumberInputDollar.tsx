@@ -1,7 +1,8 @@
 import React from "react";
 import {i18n} from "../../internal/i18n/core";
 import {StringUtil} from "../../internal/StringUtil";
-import {NumberInput, Props as NumberInputProps} from "./index";
+import type {Props as NumberInputProps} from "./index";
+import {NumberInput} from "./index";
 
 export interface Props<AllowNull extends boolean> extends Omit<NumberInputProps<AllowNull>, "displayRenderer"> {}
 

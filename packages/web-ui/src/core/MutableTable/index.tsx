@@ -1,6 +1,7 @@
 import React from "react";
-import {Table, TableColumns} from "../Table";
-import {PickOptional} from "../../internal/type";
+import type {TableColumns} from "../Table";
+import {Table} from "../Table";
+import type {PickOptional} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import "./index.less";
 

@@ -1,4 +1,5 @@
-import {Select, Props as SelectProps, SelectValue, SelectOptionProps} from "./Select";
+import type {Props as SelectProps, SelectValue, SelectOptionProps} from "./Select";
+import {Select} from "./Select";
 import React from "react";
 
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "optionFilterProp" | "showSearch" | "optionLabelProp" | "options"> {

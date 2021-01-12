@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import AntTimePicker from "antd/lib/time-picker";
-import {ControlledFormValue} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/time-picker/style";
 import "./index.less";
 

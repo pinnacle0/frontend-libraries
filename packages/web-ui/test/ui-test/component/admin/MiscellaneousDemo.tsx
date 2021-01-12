@@ -1,15 +1,17 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../DemoHelper";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
 import {dummyEmptyCallback} from "../../util/dummyCallback";
 import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
-import {dummyTableColumns, generateDummyTableData, MockTableData} from "../../util/dummyTableData";
+import type {MockTableData} from "../../util/dummyTableData";
+import {dummyTableColumns, generateDummyTableData} from "../../util/dummyTableData";
 import {dummyImportCallback, dummyUploadCallback, dummyUploadURL} from "../../util/dummyUpload";
 import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
-import {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
+import type {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
 import {Pagination} from "../../../../src/core/Pagination";
 import {MessageUtil} from "../../../../src/util/MessageUtil";
 

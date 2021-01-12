@@ -1,6 +1,7 @@
 import React from "react";
-import {EnumSelect, BaseProps} from "./index";
-import {ControlledFormValue} from "../../internal/type";
+import type {BaseProps} from "./index";
+import {EnumSelect} from "./index";
+import type {ControlledFormValue} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 
 type NullType = "@@NULL";

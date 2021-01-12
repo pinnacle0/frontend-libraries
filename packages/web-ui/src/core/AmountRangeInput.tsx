@@ -1,7 +1,7 @@
 import React from "react";
 import {NumberInput} from "./NumberInput";
 import {Input} from "./Input";
-import {ControlledFormValue, PickOptional} from "../internal/type";
+import type {ControlledFormValue, PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
 export type AmountRangeValue<T extends boolean> = T extends true ? [number | null, number | null] : [number, number];

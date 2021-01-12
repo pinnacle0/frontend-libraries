@@ -1,5 +1,6 @@
-import React from "react";
-import message, {ArgsProps} from "antd/lib/message";
+import type React from "react";
+import type {ArgsProps} from "antd/lib/message";
+import message from "antd/lib/message";
 import "antd/lib/message/style";
 
 function success(content: string | React.ReactElement) {

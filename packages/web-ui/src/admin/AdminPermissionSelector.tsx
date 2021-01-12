@@ -3,7 +3,7 @@ import {Popover} from "../core/Popover";
 import {Checkbox} from "../core/Checkbox";
 import {Progress} from "../core/Progress";
 import {Descriptions} from "../core/Descriptions";
-import {NavigationGroupItem, NavigationModuleItem} from "../util/AdminNavigatorBase";
+import type {NavigationGroupItem, NavigationModuleItem} from "../util/AdminNavigatorBase";
 import {ArrayUtil} from "../internal/ArrayUtil";
 import {i18n} from "../internal/i18n/admin";
 

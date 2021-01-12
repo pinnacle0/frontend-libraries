@@ -1,5 +1,6 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {DemoHelper} from "../../DemoHelper";
 import {Countdown} from "@pinnacle0/web-ui/core/Countdown";
 import {Link} from "@pinnacle0/web-ui/core/Link";
 import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";

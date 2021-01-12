@@ -1,5 +1,5 @@
 import React from "react";
-import {RouteComponentProps} from "react-router-dom";
+import type {RouteComponentProps} from "react-router-dom";
 import {AdminPage} from "@pinnacle0/web-ui/admin/AdminPage";
 import {AdminAppContext} from "@pinnacle0/web-ui/admin/AdminApp/context";
 import {Link} from "@pinnacle0/web-ui/core/Link";

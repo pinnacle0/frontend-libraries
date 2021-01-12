@@ -1,6 +1,7 @@
 import React from "react";
-import {PickOptional} from "../../internal/type";
-import {NumberInput, Props as NumberInputProps} from "./index";
+import type {PickOptional} from "../../internal/type";
+import type {Props as NumberInputProps} from "./index";
+import {NumberInput} from "./index";
 import {truncate} from "./util";
 
 type OmitPropsKeys = "displayRenderer" | "scale" | "step" | "min" | "max" | "value" | "onChange";

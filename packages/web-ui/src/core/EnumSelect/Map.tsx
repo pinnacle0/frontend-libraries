@@ -1,6 +1,7 @@
 import React from "react";
-import {EnumSelect, BaseProps} from "./index";
-import {ControlledFormValue} from "../../internal/type";
+import type {BaseProps} from "./index";
+import {EnumSelect} from "./index";
+import type {ControlledFormValue} from "../../internal/type";
 
 export interface Props<T extends string> extends Omit<BaseProps<any>, "list" | "translator">, ControlledFormValue<T> {
     map: Record<T, React.ReactChild>;

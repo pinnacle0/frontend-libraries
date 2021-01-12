@@ -1,8 +1,9 @@
-import AntCascader, {CascaderOptionType} from "antd/lib/cascader";
+import type {CascaderOptionType} from "antd/lib/cascader";
+import AntCascader from "antd/lib/cascader";
 import "antd/lib/cascader/style";
 import React from "react";
 import {i18n} from "../../internal/i18n/core";
-import {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
+import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
 import "./index.less";
 
 export interface CascaderDataNode<T> {

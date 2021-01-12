@@ -1,6 +1,7 @@
 import React from "react";
-import {PickOptional} from "../../internal/type";
-import {FormErrorDisplayMode, FormValidationContext, FormValidationContextType} from "./context";
+import type {PickOptional} from "../../internal/type";
+import type {FormErrorDisplayMode, FormValidationContextType} from "./context";
+import {FormValidationContext} from "./context";
 import {Item} from "./Item";
 import "./index.less";
 

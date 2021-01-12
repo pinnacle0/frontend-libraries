@@ -1,5 +1,5 @@
 import React from "react";
-import {TooltipPlacement} from "../Tooltip";
+import type {TooltipPlacement} from "../Tooltip";
 
 export type FormErrorDisplayMode = {type: "popover"; placement?: TooltipPlacement} | {type: "extra"};
 

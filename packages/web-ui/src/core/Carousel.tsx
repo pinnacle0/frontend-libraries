@@ -1,4 +1,5 @@
-import AntCarousel, {CarouselProps as AntCarouselProps} from "antd/lib/carousel";
+import type {CarouselProps as AntCarouselProps} from "antd/lib/carousel";
+import AntCarousel from "antd/lib/carousel";
 import React from "react";
 import "antd/lib/carousel/style";
 

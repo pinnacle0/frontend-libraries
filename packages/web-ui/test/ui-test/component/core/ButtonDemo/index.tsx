@@ -1,6 +1,8 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
-import {Button, ButtonColor, ButtonSize} from "@pinnacle0/web-ui/core/Button";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {DemoHelper} from "../../DemoHelper";
+import type {ButtonColor, ButtonSize} from "@pinnacle0/web-ui/core/Button";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 
 const colors: ButtonColor[] = ["primary", "wire-frame", "green", "red"];
 

@@ -1,6 +1,7 @@
 import en from "./en";
 import zh from "./zh";
-import {Locale, LocaleUtil} from "../../../util/LocaleUtil";
+import type {Locale} from "../../../util/LocaleUtil";
+import {LocaleUtil} from "../../../util/LocaleUtil";
 
 const i18nMap: Record<Locale, typeof en> = {
     en,

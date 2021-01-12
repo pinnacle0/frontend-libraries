@@ -1,4 +1,5 @@
-import AntCard, {CardProps} from "antd/lib/card";
+import type {CardProps} from "antd/lib/card";
+import AntCard from "antd/lib/card";
 import React from "react";
 import "antd/lib/card/style";
 

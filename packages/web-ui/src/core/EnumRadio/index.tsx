@@ -1,6 +1,7 @@
 import React from "react";
-import {Radio, RadioChangeEvent} from "../Radio";
-import {ControlledFormValue} from "../../internal/type";
+import type {RadioChangeEvent} from "../Radio";
+import {Radio} from "../Radio";
+import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import {Map} from "./Map";

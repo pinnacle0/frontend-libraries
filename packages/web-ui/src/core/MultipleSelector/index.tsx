@@ -1,11 +1,11 @@
 import React from "react";
-import {TableColumns} from "../Table";
+import type {TableColumns} from "../Table";
 import {Popover} from "../Popover";
 import {Button} from "../Button";
 import {Tags} from "../Tags";
-import {TooltipPlacement} from "../Tooltip";
+import type {TooltipPlacement} from "../Tooltip";
 import {i18n} from "../../internal/i18n/core";
-import {ControlledFormValue, StringKey} from "../../internal/type";
+import type {ControlledFormValue, StringKey} from "../../internal/type";
 import {StringUtil} from "../../internal/StringUtil";
 import {TablePopover} from "./TablePopover";
 

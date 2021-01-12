@@ -1,8 +1,10 @@
 import React from "react";
-import {DemoHelper, DemoHelperGroupConfig} from "../../DemoHelper";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {DemoHelper} from "../../DemoHelper";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {ModalUtil} from "@pinnacle0/web-ui/util/ModalUtil";
-import {Modal, Props as ModalProps} from "@pinnacle0/web-ui/core/Modal";
+import type {Props as ModalProps} from "@pinnacle0/web-ui/core/Modal";
+import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import {PromptUtil} from "@pinnacle0/web-ui/util/PromptUtil";
 
 const DeclarativeModal = ({buttonClassName, title, ...modalProps}: Omit<ModalProps, "visible" | "onCancel" | "width"> & {buttonClassName?: string}) => {

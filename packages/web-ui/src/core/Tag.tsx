@@ -1,7 +1,8 @@
 import React from "react";
-import AntTag, {TagProps} from "antd/lib/tag";
+import type {TagProps} from "antd/lib/tag";
+import AntTag from "antd/lib/tag";
 import "antd/lib/tag/style";
-import {PresetColorType, PresetStatusColorType} from "antd/lib/_util/colors";
+import type {PresetColorType, PresetStatusColorType} from "antd/lib/_util/colors";
 
 export interface Props extends TagProps {}
 

@@ -1,5 +1,6 @@
 import React from "react";
-import {EnumSelect, BaseProps} from "./index";
+import type {BaseProps} from "./index";
+import {EnumSelect} from "./index";
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum> {
     value: Enum | null;

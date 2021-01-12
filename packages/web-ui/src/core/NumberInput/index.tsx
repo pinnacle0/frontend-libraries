@@ -1,5 +1,5 @@
 import React from "react";
-import {ControlledFormValue} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import {Input} from "../Input";
 import {NumberInputDollar} from "./NumberInputDollar";
 import {NumberInputPercentage} from "./NumberInputPercentage";

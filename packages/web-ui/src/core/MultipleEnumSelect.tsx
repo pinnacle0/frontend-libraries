@@ -1,6 +1,6 @@
 import React from "react";
 import {Select} from "./Select";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 
 interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]> {
     list: Enum[];

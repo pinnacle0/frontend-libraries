@@ -1,5 +1,5 @@
 import React from "react";
-import {SafeReactChild, StringKey} from "../../internal/type";
+import type {SafeReactChild, StringKey} from "../../internal/type";
 import "./index.less";
 
 interface Props<T extends object> {

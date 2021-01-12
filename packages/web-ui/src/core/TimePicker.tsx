@@ -1,7 +1,8 @@
 import AntTimePicker from "antd/lib/time-picker";
-import moment, {Moment} from "moment";
+import type {Moment} from "moment";
+import moment from "moment";
 import React from "react";
-import {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../internal/type";
 import "antd/lib/time-picker/style";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {

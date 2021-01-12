@@ -1,6 +1,6 @@
-import {LabeledValue} from "antd/lib/select";
+import type {LabeledValue} from "antd/lib/select";
 import React from "react";
-import {ControlledFormValue} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import {Select} from "../Select";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";

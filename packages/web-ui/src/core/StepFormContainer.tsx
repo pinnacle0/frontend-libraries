@@ -2,7 +2,7 @@ import React from "react";
 import {Steps} from "./Steps";
 import {Button} from "./Button";
 import {i18n} from "../internal/i18n/core";
-import {SafeReactChild} from "../internal/type";
+import type {SafeReactChild} from "../internal/type";
 import {FormContainer} from "./FormContainer";
 
 export interface StepItem {
