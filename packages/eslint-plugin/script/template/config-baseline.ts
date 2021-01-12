@@ -30,6 +30,13 @@ export const configBaseline: ESLint.Linter.Config = {
                 objectLiteralTypeAssertions: "allow",
             },
         ],
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                prefer: "type-imports",
+                disallowTypeAnnotations: false,
+            },
+        ],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-member-accessibility": ["error", {accessibility: "no-public"}],
         "@typescript-eslint/explicit-module-boundary-types": "off",
