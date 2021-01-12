@@ -77,16 +77,7 @@ export const configBaseline: ESLint.Linter.Config = {
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-use-before-define": [
-            "error",
-            {
-                functions: false,
-                classes: true,
-                variables: true,
-                typedefs: false,
-                ignoreTypeReferences: false,
-            },
-        ],
+        "@typescript-eslint/no-use-before-define": "off",
 
         "eslint-comments/no-unlimited-disable": ["error"],
         "eslint-comments/require-description": [
