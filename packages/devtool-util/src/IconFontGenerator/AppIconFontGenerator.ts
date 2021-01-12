@@ -4,7 +4,7 @@ import {Agent} from "https";
 import path from "path";
 import yargs from "yargs";
 import {Utility} from "../Utility";
-import {AppIconFontGeneratorOptions} from "./type";
+import type {AppIconFontGeneratorOptions} from "./type";
 
 const print = Utility.createConsoleLogger("IconFontGenerator");
 

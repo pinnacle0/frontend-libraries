@@ -3,7 +3,7 @@ import fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
-import {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
+import type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
 
 const print = Utility.createConsoleLogger("APIGenerator");
 

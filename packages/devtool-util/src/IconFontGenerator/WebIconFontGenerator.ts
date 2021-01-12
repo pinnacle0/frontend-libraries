@@ -5,7 +5,7 @@ import path from "path";
 import yargs from "yargs";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
-import {WebIconFontGeneratorOptions} from "./type";
+import type {WebIconFontGeneratorOptions} from "./type";
 
 const print = Utility.createConsoleLogger("IconFontGenerator");
 
