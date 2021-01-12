@@ -25,6 +25,7 @@ ruleTester.run(name, rule, {
             }
         }`,
         `export const Component = ReactUtil.memo("Component", () => {})`,
+        `export const Namespace = ReactUtil.statics("Namespace", {Component1, Component2})`,
     ],
     invalid: [
         {
@@ -81,6 +82,11 @@ static displayName = "Button";
         {
             code: `const Component = ReactUtil.memo("WrongName", () => {})`,
             output: `const Component = ReactUtil.memo("Component", () => {})`,
+            errors: [{line: 1, messageId: displayNameMismatchId}],
+        },
+        {
+            code: `const Namespace = ReactUtil.memo("WrongName", {})`,
+            output: `const Namespace = ReactUtil.memo("Namespace", {})`,
             errors: [{line: 1, messageId: displayNameMismatchId}],
         },
     ],

@@ -9,7 +9,6 @@ export type MessageIds = "noDisplayName" | "displayNameMismatch" | "staticDispla
 
 export const name = "react-component-display-name";
 
-// TODO: Add config option to decouple hardcoding of ReactUtil.memo
 export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     name,
     meta: {
@@ -57,7 +56,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
                     node.init.callee.object.type === AST_NODE_TYPES.Identifier &&
                     node.init.callee.object.name === "ReactUtil" &&
                     node.init.callee.property.type === AST_NODE_TYPES.Identifier &&
-                    node.init.callee.property.name === "memo"
+                    (node.init.callee.property.name === "memo" || node.init.callee.property.name === "statics")
                 ) {
                     const exportedName = node.id.name;
                     if (!(node.init.arguments[0].type === AST_NODE_TYPES.Literal && node.init.arguments[0].value === exportedName)) {
