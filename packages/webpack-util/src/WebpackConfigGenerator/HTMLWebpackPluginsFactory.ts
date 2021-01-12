@@ -1,4 +1,4 @@
-import webpack from "webpack";
+import type webpack from "webpack";
 import type {EntryDescriptor} from "../type";
 import {Plugin} from "./Plugin";
 

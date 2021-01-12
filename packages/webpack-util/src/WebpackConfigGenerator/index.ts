@@ -1,6 +1,6 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
-import webpack from "webpack";
+import type webpack from "webpack";
 import yargs from "yargs";
 import {Constant} from "../Constant";
 import type {EntryDescriptor, WebpackConfigGeneratorOptions} from "../type";

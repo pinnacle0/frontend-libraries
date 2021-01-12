@@ -1,5 +1,5 @@
 import prettyFormat from "pretty-format";
-import webpack from "webpack";
+import type webpack from "webpack";
 
 interface SerializableWebpackPluginDescriptor {
     "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall";

@@ -1,6 +1,6 @@
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
 import path from "path";
-import {InternalCheckerOptions} from "./type";
+import type {InternalCheckerOptions} from "./type";
 
 export class CodeStyleChecker {
     private readonly checkableSrcDirectories: [string, ...string[]];

@@ -2,7 +2,7 @@ import fs from "fs";
 import glob from "glob";
 import path from "path";
 import {Constant} from "./Constant";
-import {InternalCheckerOptions} from "./type";
+import type {InternalCheckerOptions} from "./type";
 
 export class ProjectStructureChecker {
     private readonly projectDirectory: string;
