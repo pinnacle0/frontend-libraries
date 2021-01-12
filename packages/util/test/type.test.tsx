@@ -1,5 +1,17 @@
 import React from "react";
-import {ArrayElement, KeysOfType, NonNullableKeys, NullableKeys, PickNonNullable, PickOptional, MarkAsRequired, SafeReactChild, SafeReactChildren, MarkAsOptional, MarkAsNullable} from "../src/type";
+import type {
+    ArrayElement,
+    KeysOfType,
+    NonNullableKeys,
+    NullableKeys,
+    PickNonNullable,
+    PickOptional,
+    MarkAsRequired,
+    SafeReactChild,
+    SafeReactChildren,
+    MarkAsOptional,
+    MarkAsNullable,
+} from "../src/type";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
     type T = {

@@ -1,4 +1,4 @@
-import {AnyFunctionDecorator} from "./type";
+import type {AnyFunctionDecorator} from "./type";
 
 /**
  * For pure functions:

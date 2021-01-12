@@ -1,4 +1,4 @@
-import {VoidFunctionDecorator} from "./type";
+import type {VoidFunctionDecorator} from "./type";
 
 /**
  * For void functions:

@@ -1,6 +1,6 @@
 import React from "react";
 import {ReactUtil} from "../../src/core/ReactUtil";
-import {SafeReactChildren} from "../../src/type";
+import type {SafeReactChildren} from "../../src/type";
 
 describe("ReactUtil.memo", () => {
     const someNullable = {apiData: ""} as {apiData: string} | null;
