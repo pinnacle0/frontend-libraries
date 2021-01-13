@@ -11,6 +11,7 @@ export interface Props {
     column?: number; // If undefined, column length will be same as children's length
     className?: string;
     style?: React.CSSProperties;
+    bordered?: boolean;
 }
 
 export interface DescriptionsItemProps {
@@ -29,10 +30,10 @@ export class Descriptions extends React.PureComponent<Props> {
     private readonly containerStyle: React.CSSProperties = {marginBottom: 15};
 
     render() {
-        const {horizontal, column, title, children, className, style} = this.props;
+        const {horizontal, column, title, children, className, style, bordered = true} = this.props;
         const columnCount = column || React.Children.count(children);
         return (
-            <AntDescriptions style={{...this.containerStyle, ...style}} className={className} layout={horizontal ? "horizontal" : "vertical"} bordered title={title} column={columnCount}>
+            <AntDescriptions style={{...this.containerStyle, ...style}} className={className} layout={horizontal ? "horizontal" : "vertical"} bordered={bordered} title={title} column={columnCount}>
                 {children}
             </AntDescriptions>
         );
