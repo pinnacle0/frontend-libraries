@@ -1,3 +1,5 @@
+// TODO/Lok: remove this file, put to devtool-util/NamingUtil, and can also be reused by `ModuleGenerator`
+
 export function isKebabCase(string: string) {
     return /^[a-z-]+$/.test(string);
 }
