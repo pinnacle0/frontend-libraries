@@ -1,7 +1,7 @@
 import React from "react";
 import AntDescriptions from "antd/lib/descriptions";
 import "antd/lib/descriptions/style";
-import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {SafeReactChild, SafeReactChildren, PickOptional} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
@@ -23,6 +23,10 @@ export interface DescriptionsItemProps {
 }
 
 export class Descriptions extends React.PureComponent<Props> {
+    static defaultProps: PickOptional<Props> = {
+        bordered: true,
+    };
+
     static displayName = "Descriptions";
 
     static Item = (props: DescriptionsItemProps) => <AntDescriptions.Item {...props} />;
@@ -30,7 +34,7 @@ export class Descriptions extends React.PureComponent<Props> {
     private readonly containerStyle: React.CSSProperties = {marginBottom: 15};
 
     render() {
-        const {horizontal, column, title, children, className, style, bordered = true} = this.props;
+        const {horizontal, column, title, children, className, style, bordered} = this.props;
         const columnCount = column || React.Children.count(children);
         return (
             <AntDescriptions style={{...this.containerStyle, ...style}} className={className} layout={horizontal ? "horizontal" : "vertical"} bordered={bordered} title={title} column={columnCount}>
