@@ -1,5 +1,6 @@
 // @ts-check
 
+// TODO/Lok: remove /dogfood, use built-in rules here, do not let this project depend on our eslint-plugin
 /** @type {import("eslint").Linter.Config} */
 const config = {
     extends: [require.resolve("./packages/eslint-plugin/dogfood/baseline")],

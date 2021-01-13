@@ -58,7 +58,6 @@ new TaskRunner("codegen").execute([
             fs.writeFileSync(rulesIndexFile, output, {encoding: "utf8"});
         },
     },
-    // TODO/Lok: generate as js (with @jsdoc), so that no need dogfood?
     {
         name: "generate src/config/*.ts",
         execute: () => {
