@@ -1,4 +1,10 @@
-// TODO/Lok: why not put into /src
+// Note: Do not put this file inside `/packages/devtool-util/src/`
+// This package could not be resolved by node resolution algorithm inside this monorepo
+// if specified "package.json#main" as "src/index.js" due to the file extension.
+// So the workaround is to put "index.ts" at the package root directory, so "@pinnacle0/devtool-util"
+// resolves to "index.ts" inside this monorepo, and resolves to "index.js" if this package is
+// downloaded from NPM registry as a node_module.
+
 export * from "./src/APIGenerator";
 export * from "./src/IconFontGenerator";
 export * from "./src/ModuleGenerator";
