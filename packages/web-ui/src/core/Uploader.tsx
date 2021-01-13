@@ -2,9 +2,9 @@ import React from "react";
 import type {SafeReactChildren} from "../internal/type";
 import type {UploadChangeParam} from "antd/lib/upload";
 import AntUpload from "antd/lib/upload";
-import "antd/lib/upload/style";
 import {Spin} from "./Spin";
 import type {UploadLogInfo, UploadProps} from "../util/UploadUtil";
+import "antd/lib/upload/style";
 
 export interface Props extends Partial<UploadProps> {
     children: SafeReactChildren;
@@ -29,7 +29,7 @@ export class Uploader extends React.PureComponent<Props, State> {
     static displayName = "Uploader";
 
     private uploadStartTime: number | undefined;
-    private defaultStyle: React.CSSProperties = {minWidth: 150};
+    private defaultStyle: React.CSSProperties = {minWidth: 250};
 
     constructor(props: Props) {
         super(props);
