@@ -1,11 +1,12 @@
 import React from "react";
 import {Tooltip} from "../Tooltip";
+import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 interface Props {
-    text: React.ReactNode;
-    className?: string;
+    text: SafeReactChildren;
     maxWidth: number;
+    className?: string;
     style?: React.CSSProperties;
 }
 
