@@ -5,17 +5,17 @@ import chalk from "chalk";
  *
  * Example usage:
  * ```ts
- * const print = Utility.createConsoleLogger("BuildScript");
- * print.info("Build starting");
- * print.task("Running lint");
+ * const logger = Utility.createConsoleLogger("BuildScript");
+ * logger.info("Build starting");
+ * logger.task("Running lint");
  * try {
  *     // Run eslint
  * } catch (error) {
- *     print.error("Lint failed, please fix!");
+ *     logger.error("Lint failed, please fix!");
  *     process.exit(1);
  * }
  * // ...
- * print.info("Build successful");
+ * logger.info("Build successful");
  * ```
  *
  * @param descriptiveTitle A title to be included in every log message created by this logger.

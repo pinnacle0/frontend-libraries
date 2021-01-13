@@ -30,8 +30,7 @@ export interface PlatformConfig {
 }
 
 export interface APIGeneratorOptions {
-    // TODO/Lok: rename to metadataEndpointURL
-    apiURL: string;
+    metadataEndpointURL: string;
     typeFilePath: string;
     serviceFolderPath: string;
     platformConfig: PlatformConfig;

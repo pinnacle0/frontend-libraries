@@ -5,16 +5,17 @@ import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
 
+// TODO/Lok: refactor all following usage into class: private readonly logger = Utility.createConsoleLogger("APIGenerator");
 const print = Utility.createConsoleLogger("APIGenerator");
 
 export class APIGeneratorBase {
-    private readonly apiURL: string;
+    private readonly metadataEndpointURL: string;
     private readonly typeFilePath: string;
     private readonly serviceFolderPath: string;
     private readonly platformConfig: PlatformConfig;
 
-    constructor({apiURL, typeFilePath, serviceFolderPath, platformConfig}: APIGeneratorOptions) {
-        this.apiURL = apiURL;
+    constructor({metadataEndpointURL, typeFilePath, serviceFolderPath, platformConfig}: APIGeneratorOptions) {
+        this.metadataEndpointURL = metadataEndpointURL;
         this.typeFilePath = typeFilePath;
         this.serviceFolderPath = serviceFolderPath;
         this.platformConfig = platformConfig;
@@ -31,9 +32,9 @@ export class APIGeneratorBase {
     }
 
     private async fetchAPIDefinition() {
-        print.task(["Fetching API meta data", this.apiURL]);
+        print.task(["Fetching API meta data", this.metadataEndpointURL]);
 
-        const response = await axios.get<APIDefinition>(this.apiURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
+        const response = await axios.get<APIDefinition>(this.metadataEndpointURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
         const contentType = response.headers["content-type"];
         let api: APIDefinition;
 
