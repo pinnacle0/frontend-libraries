@@ -12,7 +12,6 @@ import type {RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
-import {ObjectUtil} from "../../internal/ObjectUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import "./index.less";
 
@@ -89,8 +88,9 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         super(props);
         const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
         const defaultConfig = ArrayUtil.mapToObject(columnsCustomizedKeyList, key => [key, true]);
-        this.canCustomized = !ObjectUtil.isEmpty(defaultConfig);
         const savedConfig = LocalStorageUtil.getObject(this.storageKey, defaultConfig, item => columnsCustomizedKeyList.some(_ => item[_] !== undefined));
+
+        this.canCustomized = Object.keys(defaultConfig).length > 0;
         this.state = {customizationConfig: savedConfig};
     }
 
