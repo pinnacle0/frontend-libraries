@@ -4,7 +4,7 @@ import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 interface Props {
-    text: SafeReactChildren;
+    children: SafeReactChildren;
     maxWidth: number;
     className?: string;
     style?: React.CSSProperties;
@@ -28,7 +28,7 @@ export class OverflowableText extends React.PureComponent<Props, States> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.text !== prevProps.text) {
+        if (this.props.children !== prevProps.children) {
             this.updateTextOverflow();
         }
     }
@@ -43,21 +43,21 @@ export class OverflowableText extends React.PureComponent<Props, States> {
     };
 
     render() {
-        const {text, style, maxWidth, className = ""} = this.props;
+        const {children, style, maxWidth, className = ""} = this.props;
 
         return (
             <div className={`g-overflowable-text ${className}`}>
                 {this.state.overflow ? (
-                    <Tooltip overlay={text}>
+                    <Tooltip overlay={children}>
                         <div className="wrap-text" style={{...style, width: maxWidth}}>
-                            {text}
+                            {children}
                         </div>
                     </Tooltip>
                 ) : (
-                    <div style={{display: "inline-block", ...style}}>{text}</div>
+                    <div style={{display: "inline-block", ...style}}>{children}</div>
                 )}
                 <div ref={this.textRef} className="shadow-text">
-                    {text}
+                    {children}
                 </div>
             </div>
         );

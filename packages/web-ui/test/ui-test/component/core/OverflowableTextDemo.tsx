@@ -11,18 +11,27 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Overflow",
         components: [
-            <OverflowableText text="Not very long" maxWidth={200} />,
+            <OverflowableText maxWidth={200}>Not very long</OverflowableText>,
             "-",
-            <OverflowableText
-                maxWidth={200}
-                text="Very Very Long, Very Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very Long"
-            />,
+            <OverflowableText maxWidth={200}>
+                Very Very Long, Very Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very
+                LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very LongVery Very
+                LongVery Very Long
+            </OverflowableText>,
         ],
         showPropsHint: false,
     },
     {
         title: "Overflow with custom style",
-        components: [<OverflowableText text="Should be red" maxWidth={100} style={{color: "red"}} />, "-", <OverflowableText text="Should be red" maxWidth={50} style={{color: "red"}} />],
+        components: [
+            <OverflowableText maxWidth={100} style={{color: "red"}}>
+                Should be red
+            </OverflowableText>,
+            "-",
+            <OverflowableText maxWidth={50} style={{color: "red"}}>
+                Should be red
+            </OverflowableText>,
+        ],
     },
     {
         title: "Overflow with changeable text",
@@ -39,22 +48,24 @@ function OverflowableTextWithChangeableText() {
         <div>
             <div>
                 <h3>Pure Text</h3>
-                <OverflowableText text={text} maxWidth={100} />
+                <OverflowableText maxWidth={100}>{text}</OverflowableText>
                 <Input onChange={setText} value={text} />
             </div>
             <div>
                 <h3>React Node</h3>
-                <OverflowableText text={<div>{nodeText}</div>} maxWidth={100} />
+                <OverflowableText maxWidth={100}>{<div>{nodeText}</div>}</OverflowableText>
                 <Input onChange={setNodeText} value={nodeText} />
             </div>
             <div>
                 <h3>Amount</h3>
-                <OverflowableText text={<Amount scale={0} value={amount} />} maxWidth={100} />
+                <OverflowableText maxWidth={100}>{<Amount scale={0} value={amount} />}</OverflowableText>
                 <NumberInput max={1000000000000000000000000000} allowNull onChange={setAmount} value={amount} />
             </div>
             <div>
                 <h3>HTMLContent</h3>
-                <OverflowableText text={<HTMLContent html="<p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p>" />} maxWidth={100} />
+                <OverflowableText maxWidth={100}>
+                    <HTMLContent html="<p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p><p>Test</p>" />
+                </OverflowableText>
             </div>
         </div>
     );
