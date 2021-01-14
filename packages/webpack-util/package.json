@@ -17,7 +17,7 @@
         "babel-loader": "8.2.2",
         "chalk": "4.1.0",
         "css-loader": "4.3.0",
-        "css-minimizer-webpack-plugin": "1.1.5",
+        "css-minimizer-webpack-plugin": "1.2.0",
         "file-loader": "6.2.0",
         "fs-extra": "9.0.1",
         "glob": "7.1.6",
