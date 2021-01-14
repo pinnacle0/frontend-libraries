@@ -33,9 +33,9 @@
     },
     "devDependencies": {
         "@babel/runtime": "7.12.5",
-        "@testing-library/dom": "7.29.1",
-        "@testing-library/jest-dom": "5.11.8",
-        "@testing-library/react": "11.2.2",
+        "@testing-library/dom": "7.29.4",
+        "@testing-library/jest-dom": "5.11.9",
+        "@testing-library/react": "11.2.3",
         "@testing-library/user-event": "12.6.0",
         "@types/draft-js": "0.10.44",
         "@types/html-webpack-plugin": "3.2.4",
