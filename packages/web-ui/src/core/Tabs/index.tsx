@@ -6,7 +6,7 @@ import "antd/lib/tabs/style";
 import type RcTabNavList from "rc-tabs/lib/TabNavList";
 // eslint-disable-next-line import/no-duplicates -- false positive
 import type {TabNavListProps as RcTabNavListProps} from "rc-tabs/lib/TabNavList";
-import {BrowserUtil} from "../../internal/BrowserUtil";
+import {BrowserUtil} from "../../util/BrowserUtil";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import {Button} from "../Button";
 import {Single} from "./Single";
