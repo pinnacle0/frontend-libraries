@@ -13,7 +13,7 @@ import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {ObjectUtil} from "../../internal/ObjectUtil";
-import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
+import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import "./index.less";
 
 enum SortOrder {

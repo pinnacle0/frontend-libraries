@@ -5,7 +5,7 @@ import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
 import {WithExplanation} from "../../core/WithExplanation";
 import type {SafeReactChildren} from "../../internal/type";
-import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
+import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {i18n} from "../../internal/i18n/admin";
 import type {FormErrorDisplayMode} from "../../core/Form/context";
 

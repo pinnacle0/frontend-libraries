@@ -1,5 +1,5 @@
 import React from "react";
-import {LocalStorageUtil} from "../internal/LocalStorageUtil";
+import {LocalStorageUtil} from "./LocalStorageUtil";
 
 /**
  * Only "zh" (Simplified Chinese) / "en" (English) are supported now.
@@ -40,7 +40,7 @@ class LocaleManager {
         } else {
             navigatorLocale = "en";
         }
-        return LocalStorageUtil.getString<Locale>(this.storageKey, ["zh", "en"], navigatorLocale);
+        return LocalStorageUtil.getString<Locale>(this.storageKey, navigatorLocale, ["zh", "en"]);
     }
 }
 

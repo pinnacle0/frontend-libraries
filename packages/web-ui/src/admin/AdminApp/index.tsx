@@ -15,7 +15,7 @@ import {BoolSwitch} from "../../core/BoolSwitch";
 import {Button} from "../../core/Button";
 import {LocaleSelect} from "../../core/LocaleSelect";
 import {i18n} from "../../internal/i18n/admin";
-import {LocalStorageUtil} from "../../internal/LocalStorageUtil";
+import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {StringUtil} from "../../internal/StringUtil";
 import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import type {AdminAppContextType} from "./context";
