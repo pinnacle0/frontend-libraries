@@ -43,10 +43,10 @@ function openVideo(url: string) {
     });
 }
 
-function playAudio(src: string, amplitude: number = 1) {
+function playAudio(url: string, amplitude: number = 1) {
     try {
         // eslint-disable-next-line import/no-dynamic-require -- special use case
-        const elementSource = new Audio(require(src));
+        const elementSource = new Audio(require(url));
         elementSource.crossOrigin = "anonymous";
         const audioCtx = new AudioContext();
         const source = audioCtx.createMediaElementSource(elementSource);
