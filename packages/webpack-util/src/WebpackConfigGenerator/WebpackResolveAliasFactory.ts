@@ -2,14 +2,14 @@ import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import type {DynamicConfigResolver} from "../type";
 
-const print = Utility.createConsoleLogger("WebpackResolveAliasFactory");
-
 interface WebpackResolveAliasMapOptions {
     env: string | null;
     dynamicConfigResolvers: DynamicConfigResolver[];
 }
 
 export class WebpackResolveAliasFactory {
+    private static readonly logger = Utility.createConsoleLogger("WebpackResolveAliasFactory");
+
     static generate({env, dynamicConfigResolvers}: WebpackResolveAliasMapOptions): {[moduleAlias: string]: string} {
         if (env === null) {
             return {};
@@ -25,14 +25,14 @@ export class WebpackResolveAliasFactory {
             if (resolvedAliasPath !== null) {
                 moduleAliasMap[prefix] = resolvedAliasPath;
             } else {
-                print.info(`Warning: dynamicConfigResolver cannot resolve for alias "${prefix}". Trying to use fallback path mapping.`);
+                WebpackResolveAliasFactory.logger.info(`Warning: dynamicConfigResolver cannot resolve for alias "${prefix}". Trying to use fallback path mapping.`);
             }
         }
 
         const createdAliasCount = Object.entries(moduleAliasMap).length;
         const dynamicConfigResolverCount = Object.entries(dynamicConfigResolvers).length;
         if (createdAliasCount !== 0 && createdAliasCount !== dynamicConfigResolverCount) {
-            print.error(
+            WebpackResolveAliasFactory.logger.error(
                 `Cannot use fallback path mapping. ${createdAliasCount} out of ${dynamicConfigResolverCount} aliases are resolved,
             but fallback path mappings can only be used when all dynamicConfigResolvers failed.
             Sucessfully resolved aliases: ${JSON.stringify(moduleAliasMap)}`
