@@ -138,7 +138,6 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
-        // TODO/Lok: refactor canMinus, canAdd so they don't look so ugly
         return (
             <div className={`g-number-input stepper-${stepperMode} ${disabled ? "disabled" : ""} ${className || ""}`} onClick={this.stopPropagation}>
                 <button type="button" className="minus" disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})} onClick={this.onMinusClick}>
