@@ -4,6 +4,7 @@ import {Button} from "./Button";
 import {i18n} from "../internal/i18n/core";
 import type {SafeReactChild} from "../internal/type";
 import {FormContainer} from "./FormContainer";
+import {Space} from "./Space";
 
 export interface StepItem {
     title: string;
@@ -16,16 +17,17 @@ export interface Props {
     steps: StepItem[];
     onStepChange: (step: number) => void;
     onFinish: () => void;
-    /** Defaults to "horizontal" */
-    stepLabelPlacement?: "horizontal" | "vertical";
+    stepLabelPlacement?: "horizontal" | "vertical"; // Default: horizontal
     className?: string;
     style?: React.CSSProperties;
+    // TODO/Lok: formLayout?: "horizontal" | "vertical";
+    // TODO/Lok: buttonRenderer?: (prevButton, nextButton, isValidating) => ReactElement
 }
 
 export class StepFormContainer extends React.PureComponent<Props> {
     static displayName = "StepFormContainer";
 
-    private readonly prevButtonStyle: React.CSSProperties = {marginRight: 20};
+    private readonly stepBarStyle: React.CSSProperties = {marginBottom: 20};
 
     goToPrevStep = () => this.props.onStepChange(this.props.currentStep - 1);
 
@@ -35,15 +37,16 @@ export class StepFormContainer extends React.PureComponent<Props> {
         const {currentStep} = this.props;
         const t = i18n();
 
+        // TODO/Lok: remove className here
         return (
-            <React.Fragment>
+            <Space>
                 {currentStep > 0 && (
-                    <Button color="wire-frame" className="g-step-form-previous-button" onClick={this.goToPrevStep} disabled={isValidating} style={this.prevButtonStyle}>
+                    <Button color="wire-frame" className="g-step-form-previous-button" onClick={this.goToPrevStep} disabled={isValidating}>
                         {t.prevStep}
                     </Button>
                 )}
                 {submitButton}
-            </React.Fragment>
+            </Space>
         );
     };
 
@@ -52,9 +55,10 @@ export class StepFormContainer extends React.PureComponent<Props> {
         const t = i18n();
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
+        // TODO/Lok: rename g-step-form-container, and then refactor project
         return (
             <div className={`g-step-container ${className || ""}`} style={style}>
-                <Steps current={currentStep} labelPlacement={stepLabelPlacement}>
+                <Steps current={currentStep} labelPlacement={stepLabelPlacement} style={this.stepBarStyle}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />
                     ))}
