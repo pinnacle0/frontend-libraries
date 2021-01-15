@@ -43,9 +43,25 @@ function openVideo(url: string) {
     });
 }
 
-// TODO/kelvin: playAudio(url, amplitude=1)
+function playAudio(src: string, amplitude: number = 1) {
+    try {
+        // eslint-disable-next-line import/no-dynamic-require -- special use case
+        const elementSource = new Audio(require(src));
+        elementSource.crossOrigin = "anonymous";
+        const audioCtx = new AudioContext();
+        const source = audioCtx.createMediaElementSource(elementSource);
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = amplitude;
+        source.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        elementSource.play().catch(() => {});
+    } catch (e) {
+        // Do nothing
+    }
+}
 
 export const MediaUtil = Object.freeze({
     openImage,
     openVideo,
+    playAudio,
 });
