@@ -32,7 +32,7 @@ export class ImageUploader<Removable extends boolean> extends React.PureComponen
         e.stopPropagation();
         const {imageURL} = this.props;
         if (imageURL) {
-            await MediaUtil.open(imageURL as string, "image");
+            await MediaUtil.openImage(imageURL as string);
         }
     };
 
