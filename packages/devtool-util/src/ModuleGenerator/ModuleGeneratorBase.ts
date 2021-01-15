@@ -5,8 +5,6 @@ import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {ModuleGeneratorOptions} from "./type";
 
-const print = Utility.createConsoleLogger("ModuleGenerator");
-
 /**
  * Generates boilerplate code for a `core-fe`/`core-native` Module class.
  *
@@ -40,6 +38,8 @@ export class ModuleGeneratorBase {
     private readonly templateDirectory: string;
     private readonly generateImportStatementForNewModuleState: (_: {moduleStateName: string; partialModulePath: string}) => string;
 
+    private readonly logger = Utility.createConsoleLogger("ModuleGenerator");
+
     constructor(options: ModuleGeneratorOptions) {
         this.moduleName = String(yargs.argv._[0]);
         this.moduleBaseDirectory = path.join(options.srcDirectory, "module");
@@ -62,13 +62,13 @@ export class ModuleGeneratorBase {
             } catch (e) {
                 // Do nothing
             }
-            print.error(e);
+            this.logger.error(e);
             process.exit(1);
         }
     }
 
     private checkPreCondition() {
-        print.info("Checking pre-conditions");
+        this.logger.info("Checking pre-conditions");
 
         const splitModuleNames = this.moduleName.split("/");
         const availableTopLevelModuleNames = fs
@@ -85,7 +85,7 @@ export class ModuleGeneratorBase {
     }
 
     private copyTemplate() {
-        print.task(["Copying template to target", this.newModuleDirectory]);
+        this.logger.task(["Copying template to target", this.newModuleDirectory]);
         fs.mkdirSync(`${this.newModuleDirectory}/component`, {recursive: true});
         const files = ["component/Main.tsx", "hooks.ts", "index.ts", "type.ts"];
         for (const file of files) {
@@ -95,14 +95,14 @@ export class ModuleGeneratorBase {
 
     private updateTemplateContent() {
         const indexPath = `${this.newModuleDirectory}/index.ts`;
-        print.task(["Updating index.ts", indexPath]);
+        this.logger.task(["Updating index.ts", indexPath]);
         Utility.replaceTemplate(indexPath, [
             this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
         ]);
 
         const hooksPath = `${this.newModuleDirectory}/hooks.ts`;
-        print.task(["Updating hooks.ts", hooksPath]);
+        this.logger.task(["Updating hooks.ts", hooksPath]);
         Utility.replaceTemplate(hooksPath, [
             this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
@@ -110,7 +110,7 @@ export class ModuleGeneratorBase {
     }
 
     private updateReduxState() {
-        print.task(["Updating redux state definition", this.reduxStateTypePath]);
+        this.logger.task(["Updating redux state definition", this.reduxStateTypePath]);
 
         const stateFileContent = fs.readFileSync(this.reduxStateTypePath).toString();
         const lastStateDeclarationIndex = stateFileContent.lastIndexOf("};");

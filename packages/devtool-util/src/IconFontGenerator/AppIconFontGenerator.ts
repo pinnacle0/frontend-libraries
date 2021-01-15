@@ -6,8 +6,6 @@ import yargs from "yargs";
 import {Utility} from "../Utility";
 import type {AppIconFontGeneratorOptions} from "./type";
 
-const print = Utility.createConsoleLogger("IconFontGenerator");
-
 export class AppIconFontGenerator {
     private readonly iconComponentFile: string;
     private readonly androidFontPath: string;
@@ -15,6 +13,8 @@ export class AppIconFontGenerator {
 
     private readonly templateFile = path.join(__dirname, "./app-icon-template/Icon.tsx.template");
     private readonly cssURL = String(yargs.argv._[0]);
+
+    private readonly logger = Utility.createConsoleLogger("IconFontGenerator");
 
     constructor(options: AppIconFontGeneratorOptions) {
         this.iconComponentFile = options.iconComponentFile;
@@ -25,11 +25,11 @@ export class AppIconFontGenerator {
     async run() {
         try {
             if (!this.cssURL) throw new Error("Missing CSS URL in command line");
-            print.info(`usage: yarn icon ${this.cssURL}`);
+            this.logger.info(`usage: yarn icon ${this.cssURL}`);
             const cssContent = await this.getContent(this.cssURL);
             await this.parseCSS(cssContent, this.cssURL);
         } catch (e) {
-            print.error(e.message);
+            this.logger.error(e.message);
             process.exit(1);
         }
     }
@@ -48,7 +48,7 @@ export class AppIconFontGenerator {
         const matchedURL = /url\('(.*?\.ttf).*?'\)/.exec(content);
         if (!matchedURL) throw new Error("Cannot find TTF Path");
         const ttfURL = matchedURL[1]; // Captured URL part
-        print.info(["😍 Downloading TTF:", ttfURL]);
+        this.logger.info(["😍 Downloading TTF:", ttfURL]);
 
         // Download TTF to iOS/Android folder
         await this.downloadFontAsset(ttfURL, this.androidFontPath);
@@ -61,7 +61,7 @@ export class AppIconFontGenerator {
             .replace("// {2}", iconClassList.map(_ => `    ${_},`).join("\n"));
         fs.writeFileSync(this.iconComponentFile, componentContent, {encoding: "utf8"});
 
-        print.info(`😍 Generated ${iconClassList.length} icons`);
+        this.logger.info(`😍 Generated ${iconClassList.length} icons`);
     }
 
     private classNameToEnum(className: string) {
