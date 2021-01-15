@@ -7,7 +7,6 @@ import {SeparateTabDetailDemo} from "@pinnacle0/web-ui-test/ui-test/component/ad
 import {SelectDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/SelectDemo";
 import {SliderDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/SliderDemo";
 import {ConfigPageDemo} from "../component/admin/ConfigPageDemo";
-import {MiscellaneousDemo as AdminMiscellaneousDemo} from "../component/admin/MiscellaneousDemo";
 import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
 import {ResultPageDemo} from "../component/admin/ResultPageDemo";
 import {RichEditorDemo} from "../component/admin/RichEditorDemo";
@@ -158,12 +157,6 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/admin/rich-editor",
                         title: "Rich Editor",
                         componentType: RichEditorDemo,
-                    },
-                    {
-                        url: "/admin/miscellaneous",
-                        title: "Miscellaneous",
-                        // TODO/Lok: remove this, move these to core group (split if needed)
-                        componentType: AdminMiscellaneousDemo,
                     },
                     {
                         url: "/admin/permission-selector",
