@@ -12,7 +12,26 @@ import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
 import {TabsDemo} from "./TabsDemo";
 import {TagInputDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
-import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
+
+const DemoPagedList = () => {
+    const ListItem = ({item, index}: {item: {a: number}; index: number}) => <div style={{textAlign: "center"}}>{item.a}</div>;
+
+    const data = new Array(15).fill(0).map((_, index) => ({
+        a: index,
+    }));
+
+    return <PagedList dataSource={data} renderItem={ListItem} itemWidth={45} pageSize={5} rowKey="index" />;
+};
+
+const DemoBreadcrumb = () => {
+    const renderItem = (item: {name: string}, index: number) => <div>{item.name}</div>;
+
+    const data = new Array(5).fill(0).map((_, index) => ({
+        name: "test0" + index,
+    }));
+
+    return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
+};
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -92,25 +111,5 @@ const groups: DemoHelperGroupConfig[] = [
         showPropsHint: false,
     },
 ];
-
-function DemoPagedList() {
-    const ListItem = ({item, index}: {item: {a: number}; index: number}) => <div style={{textAlign: "center"}}>{item.a}</div>;
-
-    const data = new Array(15).fill(0).map((_, index) => ({
-        a: index,
-    }));
-
-    return <PagedList dataSource={data} renderItem={ListItem} itemWidth={45} pageSize={5} rowKey="index" />;
-}
-
-function DemoBreadcrumb() {
-    const renderItem = (item: {name: string}, index: number) => <div>{item.name}</div>;
-
-    const data = new Array(5).fill(0).map((_, index) => ({
-        name: "test0" + index,
-    }));
-
-    return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
-}
 
 export const MiscellaneousDemo = () => <DemoHelper groups={groups} />;
