@@ -1,9 +1,6 @@
 import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
-import {dummyEmptyCallback} from "../../util/dummyCallback";
-import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
-import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
 import type {MockTableData} from "../../util/dummyTableData";
@@ -14,8 +11,6 @@ import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
 import type {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
 import {Pagination} from "../../../../src/core/Pagination";
 import {MessageUtil} from "../../../../src/util/MessageUtil";
-
-const onNumberRangeChange = (_: [number, number]) => {};
 
 const FileUploaderDemo = () => (
     <Uploader name="file" accept=".csv" uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} style={{width: 300}}>
@@ -73,24 +68,6 @@ const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "butt
 };
 
 const groups: DemoHelperGroupConfig[] = [
-    {
-        title: "Amount Condition Input",
-        showPropsHint: false,
-        components: [<AmountConditionInput value={{condition: Operator.GREATER_EQUAL, amount: 43}} onChange={dummyEmptyCallback} scale={2} />],
-    },
-    {
-        title: "Amount Range Input",
-        showPropsHint: false,
-        components: [
-            <AmountRangeInput allowNull={false} value={[3, 5]} onChange={onNumberRangeChange} />,
-            <AmountRangeInput
-                allowNull
-                value={[3, 5]}
-                // @ts-expect-error
-                onChange={onNumberRangeChange}
-            />,
-        ],
-    },
     {
         title: "Uploader",
         showPropsHint: false,

@@ -10,6 +10,8 @@ import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCode
 import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallback";
 import {withUncontrolledInitialValue} from "@pinnacle0/web-ui-test/ui-test/util/withUncontrolledInitialValue";
 import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
+import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
+import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 
 const UncontrolledTagInput = () => {
     const parser = (text: string) => text.split(/[\n ,;]/g).filter(Boolean);
@@ -43,6 +45,10 @@ const TextArea = withUncontrolledInitialValue(Input.TextArea);
 const NullableTextArea = withUncontrolledInitialValue(Input.NullableTextArea);
 
 const onNumberChange = (_: number) => {};
+
+const onNumberRangeChange = (_: [number, number]) => {};
+
+const onNullableNumberRangeChange = (_: [number | null, number | null]) => {};
 
 const groups: DemoHelperGroupConfig[] = [
     {
@@ -113,6 +119,16 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Tags Input",
         components: [<UncontrolledTagInput />],
+    },
+    {
+        title: "Amount Condition Input",
+        showPropsHint: false,
+        components: [<AmountConditionInput value={{condition: Operator.GREATER_EQUAL, amount: 43}} onChange={dummyEmptyCallback} scale={2} />],
+    },
+    {
+        title: "Amount Range Input",
+        showPropsHint: false,
+        components: [<AmountRangeInput allowNull={false} value={[3, 5]} onChange={onNumberRangeChange} />, <AmountRangeInput allowNull value={[3, 5]} onChange={onNullableNumberRangeChange} />],
     },
 ];
 
