@@ -49,7 +49,6 @@ export class ReactNativeChecker {
                     [this.projectDirectory, ...this.extraCheckDirectories].forEach(directory => {
                         const packageJSONPath = path.join(directory, "package.json");
                         if (fs.existsSync(packageJSONPath)) {
-                            // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- package.json special case
                             const packageJSON = require(packageJSONPath);
                             if (Object.values(packageJSON.dependencies || {}).some(version => !/^\d/.test(String(version)))) {
                                 throw new Error("Project dependency must be a valid npm version");

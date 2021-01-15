@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-use-before-define, react/jsx-fragments, react/jsx-uses-react, react/react-in-jsx-scope -- new jsx transform */
+/* eslint-disable react/jsx-fragments -- new jsx transform */
 
 import {colors, dimensions, durations} from "./values";
 

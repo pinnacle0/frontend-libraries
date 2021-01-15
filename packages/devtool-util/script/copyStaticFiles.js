@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable @typescript-eslint/no-var-requires -- env node */
-
 const fs = require("fs");
 const {copySync: fsExtraCopySync} = require("fs-extra");
 const path = require("path");

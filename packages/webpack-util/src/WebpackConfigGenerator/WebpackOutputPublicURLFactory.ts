@@ -21,7 +21,6 @@ export class WebpackOutputPublicURLFactory {
             throw new Error(`Cannot load dynamicWebpackConfigJson. (env: ${env}; dynamicWebpackConfigJsonFilepath: ${dynamicWebpackConfigJsonFilepath})`);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require -- file checked to exists in file system
         const dynamicWebpackConfig = require(dynamicWebpackConfigJsonFilepath);
         const publicPath: unknown = dynamicWebpackConfig.publicPath;
 

@@ -45,7 +45,6 @@ function openVideo(url: string) {
 
 function playAudio(url: string, amplitude: number = 1) {
     try {
-        // eslint-disable-next-line import/no-dynamic-require -- special use case
         const elementSource = new Audio(require(url));
         elementSource.crossOrigin = "anonymous";
         const audioCtx = new AudioContext();

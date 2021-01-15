@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-fragments, react/jsx-uses-react, react/react-in-jsx-scope -- new jsx transform */
+/* eslint-disable react/jsx-fragments -- new jsx transform */
 
 import "core-js";
 import * as ReactDOM from "react-dom";

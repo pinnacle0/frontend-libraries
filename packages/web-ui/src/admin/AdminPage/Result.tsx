@@ -13,7 +13,6 @@ interface Props {
 }
 
 export class Result extends React.PureComponent<Props> {
-    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "AdminPage.Result";
 
     private readonly buttonContainerStyle: React.CSSProperties = {display: "flex", width: 300, justifyContent: "space-around", margin: "0 auto"};

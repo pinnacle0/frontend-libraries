@@ -12,7 +12,6 @@ export interface Props<Enum extends string | boolean | number> extends BaseProps
 }
 
 export class Nullable<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
-    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "EnumRadio.Nullable";
 
     private readonly nullValue: NullType = "@@NULL";

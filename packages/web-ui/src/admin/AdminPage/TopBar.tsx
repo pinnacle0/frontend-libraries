@@ -6,7 +6,6 @@ export interface Props {
 }
 
 export class TopBar extends React.PureComponent<Props> {
-    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "AdminPage.TopBar";
 
     render() {

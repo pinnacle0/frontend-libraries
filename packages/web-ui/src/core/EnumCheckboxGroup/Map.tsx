@@ -8,7 +8,6 @@ export interface Props<Enum extends string> extends ControlledFormValue<Enum[]> 
 }
 
 export class Map<Enum extends string> extends React.PureComponent<Props<Enum>> {
-    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "EnumCheckboxGroup.Map";
 
     render() {

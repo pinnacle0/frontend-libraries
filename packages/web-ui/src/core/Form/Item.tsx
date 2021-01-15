@@ -20,7 +20,6 @@ interface State {
 }
 
 export class Item extends React.PureComponent<Props, State> {
-    // eslint-disable-next-line @pinnacle0/react-component-display-name -- inner static component
     static displayName = "Form.Item";
     static contextType = FormValidationContext;
     declare context: React.ContextType<typeof FormValidationContext>;

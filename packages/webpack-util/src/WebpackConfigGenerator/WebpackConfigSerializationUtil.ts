@@ -47,7 +47,6 @@ export class WebpackConfigSerializationUtil {
             ],
         });
         try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires -- prettier might not be installed (no peerDeps constraint)
             const {format} = require("prettier") as typeof import("prettier");
             return format("module.exports = " + configString, {
                 arrowParens: "avoid",
