@@ -44,7 +44,7 @@ jobs:
 
             # TODO/Lok: Use --immutable instead of --frozen-lockfile for yarn v2
             - name: Install node_modules
-              run: yarn install --frozen-lockfile
+              run: yarn install --frozen-lockfile --prefer-offline
 
             - name: Run build script
               run: yarn workspace @pinnacle0/util run build
