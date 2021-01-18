@@ -19,6 +19,7 @@ export interface Props<Feature, Field = never> {
     editable: boolean;
     extraPermissions?: Feature[]; // Used for special permissions not in NavigationGroup
     moduleNameWidth?: number;
+    alwaysExpand?: boolean;
 }
 
 export class AdminPermissionSelector<Feature extends string, Field extends string = never> extends React.PureComponent<Props<Feature, Field>> {
@@ -177,7 +178,25 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
                     {this.props.fieldValue && module.permissions.fields ? this.renderPermissionGroup(module.permissions.fields, true) : null}
                 </Descriptions>
             );
-            return (
+            return this.props.alwaysExpand ? (
+                <div>
+                    <div style={this.navigationModuleItemContainerStyle}>
+                        <Checkbox
+                            value={enabledPercentage > 0}
+                            indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
+                            onChange={value => {
+                                this.triggerChangeEvent([...moduleFieldPermissions], value, true);
+                                this.triggerChangeEvent([...moduleFeaturePermissions], value, false);
+                            }}
+                            style={this.checkboxStyle}
+                        >
+                            {module.title}
+                        </Checkbox>
+                        <Progress style={this.progressStyle} percent={enabledPercentage} size="small" showInfo={false} />
+                    </div>
+                    {popover}
+                </div>
+            ) : (
                 <Popover overlayClassName="permission-group" placement="left" overlayStyle={this.popoverStyle} autoAdjustOverflow key={module.title} content={popover}>
                     <div style={this.navigationModuleItemContainerStyle}>
                         <Checkbox

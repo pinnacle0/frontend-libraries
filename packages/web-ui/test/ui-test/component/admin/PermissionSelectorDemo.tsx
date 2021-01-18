@@ -45,6 +45,20 @@ export const PermissionSelectorDemo = () => {
                         />,
                     ],
                 },
+                {
+                    title: "Permission Selector(Feature only, always expand)",
+                    components: [
+                        <AdminPermissionSelector
+                            navigationGroups={navigationGroups}
+                            featureValue={feature}
+                            onFeatureChange={setFeature}
+                            featurePermissionTranslator={_ => _}
+                            moduleNameWidth={150}
+                            editable
+                            alwaysExpand
+                        />,
+                    ],
+                },
             ]}
         />
     );
