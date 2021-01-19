@@ -22,7 +22,7 @@ export interface Props<RowType extends object> {
     nextRow?: RowType | true; // If true, onRowCountChange will be triggered when + is clicked, instead of onChange
     fixedRowCount?: number;
     shouldRenderIfUpdate?: any;
-    sequenceColumn?: {title: string; renderer: (index: number) => string};
+    sequenceColumn?: {title: string; renderer: (index: number) => string} | "default";
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
 }
@@ -31,11 +31,11 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     static displayName = "MutableTable";
 
     static defaultProps: PickOptional<Props<any>> = {
-        sequenceColumn: {title: i18n().sequence, renderer: index => (index + 1).toString()},
         scrollX: "none",
     };
 
     private readonly ref: React.RefObject<HTMLDivElement>;
+    private readonly defaultSequenceColumn = {title: i18n().sequence, renderer: (index: number) => (index + 1).toString()};
 
     constructor(props: Props<RowType>) {
         super(props);
@@ -55,12 +55,14 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
         const {columns, dataSource, nextRow, fixedRowCount, sequenceColumn} = this.props;
         const newColumns = [...columns];
         const t = i18n();
-        newColumns.unshift({
-            title: sequenceColumn!.title,
-            width: 90,
-            align: "center",
-            renderData: (_, index) => sequenceColumn!.renderer(index),
-        });
+        if (sequenceColumn) {
+            newColumns.unshift({
+                title: sequenceColumn === "default" ? this.defaultSequenceColumn.title : sequenceColumn.title,
+                width: 90,
+                align: "center",
+                renderData: (_, index) => (sequenceColumn === "default" ? this.defaultSequenceColumn.renderer(index) : sequenceColumn.renderer(index)),
+            });
+        }
         newColumns.push({
             title: t.action,
             width: 100,
