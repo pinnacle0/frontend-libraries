@@ -55,9 +55,8 @@ export class StepFormContainer extends React.PureComponent<Props> {
         const t = i18n();
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
-        // TODO/Lok: rename g-step-form-container, and then refactor project
         return (
-            <div className={`g-step-container ${className || ""}`} style={style}>
+            <div className={`g-step-form-container ${className || ""}`} style={style}>
                 <Steps current={currentStep} labelPlacement={stepLabelPlacement} style={this.stepBarStyle}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />
