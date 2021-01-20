@@ -110,7 +110,7 @@ function openQQ(qq: string) {
 
 function addToBookmark() {
     const crossBrowserWindowObject: any = window;
-    if (crossBrowserWindowObject.sidebar && typeof crossBrowserWindowObject.addPanel === "function") {
+    if (crossBrowserWindowObject.sidebar && typeof crossBrowserWindowObject.sidebar.addPanel === "function") {
         // Old Firefox
         crossBrowserWindowObject.sidebar.addPanel(location.href, document.title, "");
     } else if (crossBrowserWindowObject.external && typeof crossBrowserWindowObject.external.AddFavorite === "function") {
