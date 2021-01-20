@@ -1,5 +1,5 @@
 {
-    "extends": "../../../config/tsconfig.base.json",
+    "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["ES2020", "ESNext.String"],
         "module": "CommonJS",
