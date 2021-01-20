@@ -1,6 +1,6 @@
 import React from "react";
 import type {PickOptional} from "../../internal/type";
-import {StringUtil} from "../../internal/StringUtil";
+import {TextUtil} from "../../internal/TextUtil";
 import {AmountPercentage} from "./AmountPercentage";
 
 export interface Props {
@@ -75,7 +75,7 @@ export class Amount extends React.PureComponent<Props> {
     render() {
         const {value, scale, floorRounding, withThousandSplitter, withPlusSignForPositive, nullText} = this.props;
         if (value !== null && value !== undefined && Number.isFinite(value)) {
-            const rounded = floorRounding ? StringUtil.numberToFloorFixed(value, scale) : value.toFixed(scale);
+            const rounded = floorRounding ? TextUtil.numberToFloorFixed(value, scale) : value.toFixed(scale);
             const parts = rounded.split(".");
             if (withThousandSplitter) {
                 parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");

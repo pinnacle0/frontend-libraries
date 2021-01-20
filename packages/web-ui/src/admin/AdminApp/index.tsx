@@ -16,7 +16,7 @@ import {Button} from "../../core/Button";
 import {LocaleSelect} from "../../core/LocaleSelect";
 import {i18n} from "../../internal/i18n/admin";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import {StringUtil} from "../../internal/StringUtil";
+import {TextUtil} from "../../internal/TextUtil";
 import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import type {AdminAppContextType} from "./context";
 import {AdminAppContext} from "./context";
@@ -125,7 +125,7 @@ export class AdminApp extends React.PureComponent<Props, State> {
         const t = i18n();
         return (
             <AdminPage>
-                <AdminPage.Result type="success" title={StringUtil.interpolate(t.welcome, name)} subtitle={t.homePageSubtitle} hideButton />
+                <AdminPage.Result type="success" title={TextUtil.interpolate(t.welcome, name)} subtitle={t.homePageSubtitle} hideButton />
             </AdminPage>
         );
     };

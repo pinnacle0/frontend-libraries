@@ -1,7 +1,7 @@
 import React from "react";
 import AntPagination from "antd/lib/pagination";
 import {i18n} from "../../internal/i18n/core";
-import {StringUtil} from "../../internal/StringUtil";
+import {TextUtil} from "../../internal/TextUtil";
 import "antd/lib/pagination/style";
 import "./index.less";
 
@@ -30,7 +30,7 @@ export class Pagination extends React.PureComponent<Props> {
 
     renderSummary = (totalCount: number, pageIndex: number, totalPage: number) => {
         const t = i18n();
-        return <div>{StringUtil.interpolate(t.paginationSummary, totalCount.toString(), pageIndex.toString(), totalPage.toString())}</div>;
+        return <div>{TextUtil.interpolate(t.paginationSummary, totalCount.toString(), pageIndex.toString(), totalPage.toString())}</div>;
     };
 
     render() {

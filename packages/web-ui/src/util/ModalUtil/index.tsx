@@ -5,7 +5,7 @@ import type {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
 import "antd/lib/modal/style";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import type {PickOptional, SafeReactChild, SafeReactChildren} from "../../internal/type";
-import {StringUtil} from "../../internal/StringUtil";
+import {TextUtil} from "../../internal/TextUtil";
 import {i18n} from "../../internal/i18n/util";
 import "./index.less";
 
@@ -53,7 +53,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
     const getTitle = (remainingSecond?: number) => {
         const titleNode: SafeReactChildren = [mergedConfig.title!];
         if (remainingSecond) {
-            titleNode.push(` (${StringUtil.interpolate(t.autoClose, remainingSecond.toString())})`);
+            titleNode.push(` (${TextUtil.interpolate(t.autoClose, remainingSecond.toString())})`);
         }
 
         return mergedConfig.closable ? (

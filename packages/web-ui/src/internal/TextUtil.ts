@@ -34,7 +34,7 @@ function numberToFloorFixed(value: number, scale: number): string {
     }
 }
 
-export const StringUtil = Object.freeze({
+export const TextUtil = Object.freeze({
     interpolate,
     numberToFloorFixed,
 });

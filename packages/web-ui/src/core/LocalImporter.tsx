@@ -3,7 +3,7 @@ import type {SafeReactChildren} from "../internal/type";
 import {Uploader} from "./Uploader";
 import UploadOutlined from "@ant-design/icons/UploadOutlined";
 import {i18n} from "../internal/i18n/core";
-import {StringUtil} from "../internal/StringUtil";
+import {TextUtil} from "../internal/TextUtil";
 
 export interface Props {
     type: "txt" | "csv";
@@ -35,7 +35,7 @@ export class LocalImporter extends React.PureComponent<Props> {
             <Uploader name={LocalImporter.displayName} accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={this.beforeUpload}>
                 {children || (
                     <React.Fragment>
-                        <UploadOutlined /> {StringUtil.interpolate(t.localImporterText, type)}
+                        <UploadOutlined /> {TextUtil.interpolate(t.localImporterText, type)}
                     </React.Fragment>
                 )}
             </Uploader>

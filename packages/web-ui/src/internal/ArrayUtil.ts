@@ -9,7 +9,7 @@ function intersectionPercentage<T>(a: T[], b: T[]): number {
     return (a.filter(_ => b.includes(_)).length / a.length) * 100;
 }
 
-function mapToObject<T, V>(array: ReadonlyArray<T>, mapperCallback: (item: T, index: number) => [string, V]): {[key: string]: V} {
+function toObject<T, V>(array: ReadonlyArray<T>, mapperCallback: (item: T, index: number) => [string, V]): {[key: string]: V} {
     const result: {[key: string]: V} = {};
     array.forEach((item, index) => {
         const mappedKV = mapperCallback(item, index);
@@ -32,6 +32,6 @@ function compactMap<T, V>(array: ReadonlyArray<T>, callback: (item: T, index: nu
 
 export const ArrayUtil = Object.freeze({
     intersectionPercentage,
-    mapToObject,
+    toObject,
     compactMap,
 });

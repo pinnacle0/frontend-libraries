@@ -6,7 +6,7 @@ import {Tags} from "../Tags";
 import type {TooltipPlacement} from "../Tooltip";
 import {i18n} from "../../internal/i18n/core";
 import type {ControlledFormValue, StringKey} from "../../internal/type";
-import {StringUtil} from "../../internal/StringUtil";
+import {TextUtil} from "../../internal/TextUtil";
 import {TablePopover} from "./TablePopover";
 
 export interface Props<RowType extends object> extends ControlledFormValue<RowType[]> {
@@ -40,7 +40,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         if (renderButtonText) {
             return typeof renderButtonText === "string" ? renderButtonText : renderButtonText(length);
         } else {
-            return value.length === 0 ? t.select : StringUtil.interpolate(t.edit, value.length.toString());
+            return value.length === 0 ? t.select : TextUtil.interpolate(t.edit, value.length.toString());
         }
     };
 
