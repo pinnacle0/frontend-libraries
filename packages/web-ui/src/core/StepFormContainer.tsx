@@ -18,6 +18,7 @@ export interface Props {
     onStepChange: (step: number) => void;
     onFinish: () => void;
     stepLabelPlacement?: "horizontal" | "vertical"; // Default: horizontal
+    id?: string;
     className?: string;
     style?: React.CSSProperties;
     formLayout?: "horizontal" | "vertical";
@@ -45,12 +46,12 @@ export class StepFormContainer extends React.PureComponent<Props> {
     };
 
     render() {
-        const {stepLabelPlacement, formLayout, currentStep, steps, onFinish, style, className} = this.props;
+        const {stepLabelPlacement, formLayout, currentStep, steps, onFinish, style, className, id} = this.props;
         const t = i18n();
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
         return (
-            <div className={`g-step-form-container ${className || ""}`} style={style}>
+            <div className={`g-step-form-container ${className || ""}`} id={id} style={style}>
                 <Steps current={currentStep} labelPlacement={stepLabelPlacement} style={this.stepBarStyle}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />
