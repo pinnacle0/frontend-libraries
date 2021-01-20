@@ -7,7 +7,7 @@ import rollupPluginTypescript2 from "rollup-plugin-typescript2";
 const FilePath = {
     project: path.join(__dirname, ".."),
 
-    rollupInputFile: path.join(__dirname, "../index.ts"),
+    rollupInputFile: path.join(__dirname, "../src/index.ts"),
     rollupOutputFile: path.join(__dirname, "../build/index.js"),
     tsConfigForSrc: path.join(__dirname, "../config/tsconfig.src.json"),
 };
