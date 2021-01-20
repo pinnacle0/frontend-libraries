@@ -1,10 +1,11 @@
 import React from "react";
-import {Steps} from "./Steps";
-import {Button} from "./Button";
-import {i18n} from "../internal/i18n/core";
-import type {SafeReactChild} from "../internal/type";
-import {FormContainer} from "./FormContainer";
-import {Space} from "./Space";
+import {i18n} from "../../internal/i18n/core";
+import type {SafeReactChild} from "../../internal/type";
+import {Button} from "../Button";
+import {FormContainer} from "../FormContainer";
+import {Space} from "../Space";
+import {Steps} from "../Steps";
+import "./index.less";
 
 export interface StepItem {
     title: string;
