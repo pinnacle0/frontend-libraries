@@ -21,7 +21,7 @@ export interface Props {
     className?: string;
     style?: React.CSSProperties;
     formLayout?: "horizontal" | "vertical";
-    // TODO/Lok: buttonRenderer?: (prevButton, nextButton, isValidating) => ReactElement
+    buttonRenderer?: (prevButton: React.ReactElement, nextButton: React.ReactElement) => React.ReactElement;
 }
 
 export class StepFormContainer extends React.PureComponent<Props> {
@@ -34,20 +34,14 @@ export class StepFormContainer extends React.PureComponent<Props> {
     goToNextStep = () => this.props.onStepChange(this.props.currentStep + 1);
 
     renderButtons = (submitButton: React.ReactElement, isValidating: boolean) => {
-        const {currentStep} = this.props;
+        const {currentStep, buttonRenderer = (prevButton, nextButton) => (currentStep > 0 ? [prevButton, nextButton] : nextButton)} = this.props;
         const t = i18n();
-
-        // TODO/Lok: remove className here
-        return (
-            <Space>
-                {currentStep > 0 && (
-                    <Button color="wire-frame" className="g-step-form-previous-button" onClick={this.goToPrevStep} disabled={isValidating}>
-                        {t.prevStep}
-                    </Button>
-                )}
-                {submitButton}
-            </Space>
+        const prevButton = (
+            <Button color="wire-frame" onClick={this.goToPrevStep} disabled={isValidating} key="prevButton">
+                {t.prevStep}
+            </Button>
         );
+        return <Space>{buttonRenderer(prevButton, submitButton)}</Space>;
     };
 
     render() {
