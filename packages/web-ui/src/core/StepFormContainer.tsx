@@ -20,7 +20,7 @@ export interface Props {
     stepLabelPlacement?: "horizontal" | "vertical"; // Default: horizontal
     className?: string;
     style?: React.CSSProperties;
-    // TODO/Lok: formLayout?: "horizontal" | "vertical";
+    formLayout?: "horizontal" | "vertical";
     // TODO/Lok: buttonRenderer?: (prevButton, nextButton, isValidating) => ReactElement
 }
 
@@ -51,7 +51,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
     };
 
     render() {
-        const {stepLabelPlacement, currentStep, steps, onFinish, style, className} = this.props;
+        const {stepLabelPlacement, formLayout, currentStep, steps, onFinish, style, className} = this.props;
         const t = i18n();
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
@@ -62,7 +62,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
                         <Steps.Step key={key} title={_.title} description={_.description} />
                     ))}
                 </Steps>
-                <FormContainer onFinish={currentStep < steps.length - 1 ? this.goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={this.renderButtons}>
+                <FormContainer layout={formLayout} onFinish={currentStep < steps.length - 1 ? this.goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={this.renderButtons}>
                     {steps[currentStep].content}
                 </FormContainer>
             </div>
