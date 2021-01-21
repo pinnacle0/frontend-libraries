@@ -15,7 +15,7 @@ import {AmountDemo} from "../component/core/AmountDemo";
 import {ButtonDemo} from "../component/core/ButtonDemo";
 import {CalendarDemo} from "../component/core/CalendarDemo";
 import {CarouselDemo} from "../component/core/CarouselDemo";
-import {FoldableContainerDemo} from "../component/core/FoldableContainerDemo";
+import {FoldableDemo} from "../component/core/FoldableDemo";
 import {FormDemo} from "../component/core/FormDemo";
 import {InputDemo} from "../component/core/InputDemo";
 import {MiscellaneousDemo} from "../component/core/MiscellaneousDemo";
@@ -109,9 +109,9 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         componentType: StepContainerDemo,
                     },
                     {
-                        url: "/core/foldable-container",
-                        title: "Foldable Container",
-                        componentType: FoldableContainerDemo,
+                        url: "/core/foldable",
+                        title: "Foldable",
+                        componentType: FoldableDemo,
                     },
                     {
                         url: "/core/relative-time",
