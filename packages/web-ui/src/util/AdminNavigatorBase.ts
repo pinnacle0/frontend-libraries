@@ -18,7 +18,7 @@ export interface NavigationModuleItem<Feature, Field = never> {
      * If given, this module can be accessed by any user, with at least 1 of the provided Feature permissions.
      * If the user is entitled with some super Feature permission (like "ALL"), this module can be accessed as well.
      */
-    permissions?: Field extends never ? Feature[] : {features: Feature[]; fields?: Field[]};
+    permissions?: Feature[] | {features: Feature[]; fields?: Field[]};
     /**
      * To define route parameter for React Router.
      * Example: "/:direction(asc|desc)"

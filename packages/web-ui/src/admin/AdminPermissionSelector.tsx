@@ -7,7 +7,7 @@ import type {NavigationGroupItem, NavigationModuleItem} from "../util/AdminNavig
 import {ArrayUtil} from "../internal/ArrayUtil";
 import {i18n} from "../internal/i18n/admin";
 
-export interface Props<Feature, Field> {
+export interface Props<Feature, Field = undefined> {
     navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
     boundPermissionsCalculator?: (permissions: Feature) => Feature[];
     featureValue: Feature[];
