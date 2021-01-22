@@ -18,6 +18,7 @@ function addToBookmark() {
         ModalUtil.createSync({body: shortcutKey ? TextUtil.interpolate(t.addBookmarkWithShortcut, shortcutKey) : t.addBookmarkManually});
     }
 }
+
 export const BrowserBookmarkUtil = Object.freeze({
     addToBookmark,
 });
