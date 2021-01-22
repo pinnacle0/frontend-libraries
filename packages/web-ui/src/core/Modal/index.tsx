@@ -10,7 +10,6 @@ import "./index.less";
 export interface Props extends ModalProps {
     width: number | string; // Do not use "auto"
     loading?: boolean;
-    extraTitle?: string;
     addInnerPadding?: boolean;
     children: SafeReactChildren;
 }
@@ -27,20 +26,10 @@ export class Modal extends React.PureComponent<Props> {
         addInnerPadding: true,
     };
 
-    renderTitleWithExtraInfo = () => {
-        const {title, extraTitle} = this.props;
-        return (
-            <React.Fragment>
-                {title}
-                <span className="extra-title">{extraTitle}</span>
-            </React.Fragment>
-        );
-    };
-
     render() {
-        const {children, loading, title, extraTitle, className, addInnerPadding, ...restProps} = this.props;
+        const {children, loading, title, className, addInnerPadding, ...restProps} = this.props;
         return (
-            <AntModal title={extraTitle ? this.renderTitleWithExtraInfo() : title} className={`${className || ""} ${addInnerPadding ? "" : "no-padding"}`} {...restProps}>
+            <AntModal title={title} className={`${className || ""} ${addInnerPadding ? "" : "no-padding"}`} {...restProps}>
                 <Spin spinning={loading || false}>{children}</Spin>
             </AntModal>
         );
