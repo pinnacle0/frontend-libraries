@@ -55,17 +55,18 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     };
 
     getNavigationModuleFeaturePermissions = (module: NavigationModuleItem<Feature, Field>): Feature[] => {
-        const permissions = module.permissions;
+        const permissions = module.featurePermissions;
         if (permissions) {
-            return Array.isArray(permissions) ? [...permissions] : [...permissions.features];
+            return [...permissions];
         } else {
             return [];
         }
     };
 
     getNavigationModuleFieldPermission = (module: NavigationModuleItem<Feature, Field>): Field[] => {
-        if (!Array.isArray(module.permissions) && module.permissions?.fields) {
-            return [...(module.permissions.fields as Field[])];
+        const permissions = module.fieldPermissions;
+        if (permissions) {
+            return [...permissions];
         } else {
             return [];
         }
@@ -167,20 +168,21 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     };
 
     renderNavigationModule = (module: NavigationModuleItem<Feature, Field>) => {
-        const permissions = module.permissions;
-        if (permissions && (Array.isArray(permissions) ? permissions.length : permissions.features.length || permissions.fields?.length)) {
+        const featurePermissions = module.featurePermissions;
+        const fieldPermission = module.fieldPermissions;
+        if (featurePermissions?.length || fieldPermission?.length) {
             const {featureValue, fieldValue} = this.props;
             const moduleFeaturePermissions = this.getNavigationModuleFeaturePermissions(module);
             const moduleFieldPermissions = this.getNavigationModuleFieldPermission(module);
             const enabledPercentage = ArrayUtil.intersectionPercentage([...moduleFeaturePermissions, ...moduleFieldPermissions], [...featureValue, ...(fieldValue || [])]);
             const popover = (
                 <Descriptions column={1}>
-                    {Array.isArray(permissions) ? this.renderPermissionGroup(permissions, false) : this.renderPermissionGroup(permissions.features, false)}
-                    {this.props.fieldValue && !Array.isArray(permissions) && permissions.fields ? this.renderPermissionGroup(permissions.fields as Field[], true) : null}
+                    {featurePermissions ? this.renderPermissionGroup(featurePermissions, false) : null}
+                    {this.props.fieldValue && fieldPermission ? this.renderPermissionGroup(fieldPermission, true) : null}
                 </Descriptions>
             );
             return this.props.alwaysExpand ? (
-                <div>
+                <div key={module.title}>
                     <div style={this.navigationModuleItemContainerStyle}>
                         <Checkbox
                             value={enabledPercentage > 0}

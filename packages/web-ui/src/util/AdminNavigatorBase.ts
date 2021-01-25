@@ -17,8 +17,10 @@ export interface NavigationModuleItem<Feature, Field = never> {
      * If undefined, this module can be accessed by any one.
      * If given, this module can be accessed by any user, with at least 1 of the provided Feature permissions.
      * If the user is entitled with some super Feature permission (like "ALL"), this module can be accessed as well.
+     * Pass an empty array [] if allow only user with super Feature permission
      */
-    permissions?: Feature[] | {features: Feature[]; fields?: Field[]};
+    featurePermissions?: Feature[];
+    fieldPermissions?: Field[];
     /**
      * To define route parameter for React Router.
      * Example: "/:direction(asc|desc)"
@@ -93,12 +95,7 @@ export abstract class AdminNavigatorBase<Feature extends string, Field extends s
 
     private canAccessModule(module: NavigationModuleItem<Feature, Field>): boolean {
         const permissions = this.currentFeaturePermissions;
-        return (
-            !permissions ||
-            permissions.includes(this.superAdminFeaturePermission) ||
-            !module.permissions ||
-            (Array.isArray(module.permissions) ? module.permissions.some(_ => permissions.includes(_)) : module.permissions.features.some(_ => permissions.includes(_)))
-        );
+        return !permissions || permissions.includes(this.superAdminFeaturePermission) || !module.featurePermissions || module.featurePermissions.some(_ => permissions.includes(_));
     }
 
     protected abstract allGroups(): Array<NavigationGroupItem<Feature, Field>>;
