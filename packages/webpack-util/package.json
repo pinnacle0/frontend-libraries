@@ -34,7 +34,7 @@
         "terser-webpack-plugin": "5.1.1",
         "ts-loader": "8.0.14",
         "url-loader": "4.1.1",
-        "webpack": "5.16.0",
+        "webpack": "5.18.0",
         "webpack-dev-server": "3.11.2",
         "yargs": "16.2.0"
     },
