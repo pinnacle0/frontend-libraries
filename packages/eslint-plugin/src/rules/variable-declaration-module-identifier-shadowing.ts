@@ -1,4 +1,5 @@
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {TSESTree} from "@typescript-eslint/types";
 
 export type MessageIds = "variableDeclarationModuleIdentifierShadowing";
 
@@ -23,6 +24,20 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     },
     defaultOptions: [],
     create: context => {
+        const checkImportSpecifier = (node: TSESTree.ImportSpecifier | TSESTree.ImportDefaultSpecifier) => {
+            if (node.local.name === "module") {
+                // Do not report if variable declaration is prefixed with TS specific `import type` keyword (e.g. `import type {module} from "some-file";`)
+                const isTSImportType = node.parent?.type === AST_NODE_TYPES.ImportDeclaration && node.parent.importKind === "type";
+                if (isTSImportType) {
+                    return;
+                }
+                context.report({
+                    node: node.local,
+                    messageId: "variableDeclarationModuleIdentifierShadowing",
+                });
+            }
+        };
+
         return {
             VariableDeclarator(node) {
                 if (node.id.type === AST_NODE_TYPES.Identifier && node.id.name === "module") {
@@ -36,6 +51,12 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                         messageId: "variableDeclarationModuleIdentifierShadowing",
                     });
                 }
+            },
+            ImportSpecifier(node) {
+                checkImportSpecifier(node);
+            },
+            ImportDefaultSpecifier(node) {
+                checkImportSpecifier(node);
             },
         };
     },
