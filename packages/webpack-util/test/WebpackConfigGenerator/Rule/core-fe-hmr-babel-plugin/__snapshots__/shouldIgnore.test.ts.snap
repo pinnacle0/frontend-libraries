@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`declineCoreFEModuleHMRBabelPlugin sanity test for some react component files 1`] = `
+exports[`core-fe-hmr-babel-plugin sanity test for some react component files 1`] = `
 "import React from \\"react\\";
 import { ReactUtil } from \\"@pinnacle0/util\\";
 export const Main = ReactUtil.memo(\\"Main\\", () => {
@@ -8,7 +8,7 @@ export const Main = ReactUtil.memo(\\"Main\\", () => {
 });"
 `;
 
-exports[`declineCoreFEModuleHMRBabelPlugin should ignore when non core-fe source files 1`] = `
+exports[`core-fe-hmr-babel-plugin should ignore when non core-fe source files 1`] = `
 "import { Module } from \\"not-core-fe\\";
 import { Main } from \\"./component/Main\\";
 const initialState = {};

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`declineCoreFEModuleHMRBabelPlugin works with \`import * as CoreFENamespace\` 1`] = `
+exports[`core-fe-hmr-babel-plugin works with \`import * as CoreFENamespace\` 1`] = `
 "import * as CoreFENamespace from \\"core-fe\\";
 import { Main } from \\"./component/Main\\";
 const initialState = {};
@@ -13,7 +13,7 @@ export const MainComponent = featureModule.attachLifecycle(Main);
 if (module.hot) module.hot.decline();"
 `;
 
-exports[`declineCoreFEModuleHMRBabelPlugin works with \`import {Module as CoreFEModule}\` 1`] = `
+exports[`core-fe-hmr-babel-plugin works with \`import {Module as CoreFEModule}\` 1`] = `
 "import { Module as CoreFEModule } from \\"core-fe\\";
 import { Main } from \\"./component/Main\\";
 const initialState = {};
@@ -26,7 +26,7 @@ export const MainComponent = featureModule.attachLifecycle(Main);
 if (module.hot) module.hot.decline();"
 `;
 
-exports[`declineCoreFEModuleHMRBabelPlugin works with \`import {Module}\` 1`] = `
+exports[`core-fe-hmr-babel-plugin works with \`import {Module}\` 1`] = `
 "import { Module } from \\"core-fe\\";
 import { Main } from \\"./component/Main\\";
 const initialState = {};
@@ -39,7 +39,7 @@ export const MainComponent = featureModule.attachLifecycle(Main);
 if (module.hot) module.hot.decline();"
 `;
 
-exports[`declineCoreFEModuleHMRBabelPlugin works with \`import CoreFEDefault, {Module}\` 1`] = `
+exports[`core-fe-hmr-babel-plugin works with \`import CoreFEDefault, {Module}\` 1`] = `
 "import CoreFEDefault, { Module } from \\"core-fe\\";
 import { Main } from \\"./component/Main\\";
 const initialState = {};

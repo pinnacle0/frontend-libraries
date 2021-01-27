@@ -23,7 +23,7 @@ export function tsRule({tsconfigFilepath, transpileOnly, fastRefresh}: Deps): we
     const babelLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("babel-loader"),
         options: {
-            plugins: [require.resolve(path.join(__dirname, "./declineCoreFEModuleHMRBabelPlugin")), require.resolve("react-refresh/babel")],
+            plugins: [require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")), require.resolve("react-refresh/babel")],
         },
     };
 

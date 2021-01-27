@@ -11,7 +11,7 @@ interface State extends Pick<babel.PluginPass, "file" | "key" | "opts" | "cwd" |
  * otherwise react loses refrence of the MainComponent created by `ModuleProxy` in "core-fe"
  * and throws a runtime error during development (which is bad for developer experience).
  */
-export default function declineCoreFEModuleHMRBabelPlugin({types: t}: typeof babel): babel.PluginObj<State> {
+export default function ({types: t}: typeof babel): babel.PluginObj<State> {
     return {
         visitor: {
             ImportDeclaration(path, state) {

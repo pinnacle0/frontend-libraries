@@ -1,7 +1,7 @@
 import * as babel from "@babel/core";
-import declineCoreFEModuleHMRBabelPlugin from "@pinnacle0/webpack-util/src/WebpackConfigGenerator/Rule/declineCoreFEModuleHMRBabelPlugin";
+import plugin from "@pinnacle0/webpack-util/src/WebpackConfigGenerator/Rule/core-fe-hmr-babel-plugin";
 
-describe("declineCoreFEModuleHMRBabelPlugin", () => {
+describe("core-fe-hmr-babel-plugin", () => {
     test("should ignore when non core-fe source files", () => {
         const source = `
             import {Module} from "not-core-fe";
@@ -14,7 +14,7 @@ describe("declineCoreFEModuleHMRBabelPlugin", () => {
             export const actions = featureModule.getActions();
             export const MainComponent = featureModule.attachLifecycle(Main);
         `;
-        const {code} = babel.transform(source, {plugins: [declineCoreFEModuleHMRBabelPlugin]});
+        const {code} = babel.transform(source, {plugins: [plugin]});
         expect(code).toMatchSnapshot();
         expect(code).not.toContain("if (module.hot) module.hot.decline();");
     });
@@ -28,7 +28,7 @@ describe("declineCoreFEModuleHMRBabelPlugin", () => {
                 return React.createElement("div", {});
             });
         `;
-        const {code} = babel.transform(source, {plugins: [declineCoreFEModuleHMRBabelPlugin]});
+        const {code} = babel.transform(source, {plugins: [plugin]});
         expect(code).toMatchSnapshot();
         expect(code).not.toContain("if (module.hot) module.hot.decline();");
     });
