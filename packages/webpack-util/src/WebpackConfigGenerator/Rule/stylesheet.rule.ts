@@ -1,6 +1,5 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type webpack from "webpack";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 import {RegExpUtil} from "./RegExpUtil";
 
 interface StylesheetRuleDeps {
