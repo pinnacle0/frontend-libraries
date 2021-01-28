@@ -5,6 +5,8 @@
 // -----------------------------------------------------------------------------
 
 import type * as ESLint from "eslint";
+// @ts-expect-error -- untyped module
+import confusingBrowserGlobals from "confusing-browser-globals";
 
 export const baseline: ESLint.Linter.Config = {
     parser: "@typescript-eslint/parser",
@@ -124,6 +126,7 @@ export const baseline: ESLint.Linter.Config = {
         eqeqeq: ["error", "always", {null: "ignore"}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
+        "no-restricted-globals": ["error", ...confusingBrowserGlobals],
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
         "no-var": ["error"],
