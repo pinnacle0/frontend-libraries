@@ -1,11 +1,13 @@
 {
     "presets": [
         ["@babel/preset-env", {
+            "bugfixes": true,
             "spec": false,
             "loose": true,
             "modules": false,
             "useBuiltIns": "entry",
-            "corejs": 3
+            "corejs": "3.8",
+            "shippedProposals": true
         }],
         ["@babel/preset-react", {
             "runtime": "automatic"
