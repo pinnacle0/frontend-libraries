@@ -9,6 +9,7 @@ import {dummyEmptyCallback} from "@pinnacle0/web-ui-test/ui-test/util/dummyCallb
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
+import {BoolSwitch} from "@pinnacle0/web-ui/core/BoolSwitch";
 
 const UncontrolledTextarea = (props: Omit<InputTextAreaProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
@@ -18,6 +19,11 @@ const UncontrolledTextarea = (props: Omit<InputTextAreaProps, "value" | "onChang
 const UncontrolledInput = (props: Omit<InputProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
     return <Input {...props} value={value} onChange={onChange} />;
+};
+
+const UncontrolledBoolSwitch = (props: Omit<InputProps, "value" | "onChange">) => {
+    const [value, onChange] = React.useState<boolean>(false);
+    return <BoolSwitch.YesNo {...props} value={value} onChange={onChange} />;
 };
 
 const PasswordInput = (props: Omit<InputProps, "value" | "onChange">) => {
@@ -104,6 +110,29 @@ const groups: DemoHelperGroupConfig[] = [
                 </Form.Item>
                 <Form.Item>
                     <Button>Submit</Button>
+                </Form.Item>
+            </Form>,
+        ],
+    },
+    {
+        title: "Form Item Vertical Alignment",
+        showPropsHint: true,
+        components: [
+            <Form layout="horizontal">
+                <Form.Item label="Horizontal">
+                    <UncontrolledBoolSwitch />
+                </Form.Item>
+            </Form>,
+            "-",
+            <Form layout="vertical">
+                <Form.Item label="Vertical">
+                    <UncontrolledBoolSwitch />
+                </Form.Item>
+            </Form>,
+            "-",
+            <Form layout="inline">
+                <Form.Item label="Inline">
+                    <UncontrolledBoolSwitch />
                 </Form.Item>
             </Form>,
         ],
