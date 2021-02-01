@@ -1,7 +1,5 @@
 import AntDrawer from "antd/lib/drawer";
-import "antd/lib/drawer/style";
 import AntLayout from "antd/lib/layout";
-import "antd/lib/layout/style";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
@@ -20,6 +18,8 @@ import {TextUtil} from "../../internal/TextUtil";
 import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import type {AdminAppContextType} from "./context";
 import {AdminAppContext} from "./context";
+import "antd/lib/drawer/style";
+import "antd/lib/layout/style";
 import "./index.less";
 
 type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};
@@ -30,6 +30,11 @@ type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};
  *
  * 2) Wrap <BrowserRouter> outside MainLayout if needed.
  */
+// TODO: refactor:
+//  - remove logo, add {logoComponent?: React.ComponentType<{expanded: boolean}>}
+//  - remove onLogout/drawerUserInfo/supportMultiLanguage, add {navigatorSideComponent?: React.ComponentType<{expanded: boolean}>}
+//  - ref Ant Design Pro, collapse button move to Menu bottom
+//  - only keep navigator +  (in single row) in <AntLayout.Header>
 export interface Props {
     logo: string;
     name: string;
@@ -39,6 +44,7 @@ export interface Props {
     drawerUserInfo?: DrawerUserInfo;
     welcomeComponent?: React.ComponentType;
     supportMultiLanguage?: boolean;
+    // TODO: rename sideMenuWidth
     siderWidth?: number;
 }
 
