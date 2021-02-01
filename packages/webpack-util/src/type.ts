@@ -46,11 +46,13 @@ export interface WebpackConfigGeneratorOptions {
      * export class WrappedTableComponent extends React.PureComponent<Props, State> {}
      * ```
      */
+    // TODO: only pass ["mobile"], ["a", "b"], and rename: prioritizedExtensionPrefixes
     extraPrioritizedResolvedExtensions?: string[];
     /**
      * List of module resolution aliases to dynamically compute from `env`.
      */
     dynamicConfigResolvers?: DynamicConfigResolver[];
+    // TODO: webpackPublicPath?: string | (env: string) => string
     /**
      * Function to dynamically compute additional webpack config from `env`.
      * Currently supports `output.publicUrl` only.
@@ -83,6 +85,7 @@ export interface WebpackConfigGeneratorOptions {
      * Since webpack#stats.toString() might exclude messages from webpack child compilations.
      */
     verbose?: boolean;
+    // TODO: onSuccess?: () => void
 }
 
 export interface EntryDescriptor {
