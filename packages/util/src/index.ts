@@ -25,5 +25,7 @@ export {useDidMountEffect} from "./hooks/useDidMountEffect";
 export {useForceUpdate} from "./hooks/useForceUpdate";
 export {usePrevious} from "./hooks/usePrevious";
 export {useWhyDidYouUpdate} from "./hooks/useWhyDidYouUpdate";
+export {useAPI} from "./hooks/useAPI";
+export {useThunk} from "./hooks/useThunk";
 
 export * from "./type";
