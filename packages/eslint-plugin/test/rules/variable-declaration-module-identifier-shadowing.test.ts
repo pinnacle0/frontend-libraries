@@ -64,7 +64,7 @@ ruleTester.run(name, rule, {
         },
         {
             code: `
-                import * as R from 'rambda';
+                import * as R from 'ramda';
                 import {module} from 'some-package';
             `,
             errors: [{line: 3, messageId}],
