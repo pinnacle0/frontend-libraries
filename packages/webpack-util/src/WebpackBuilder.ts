@@ -52,6 +52,7 @@ export class WebpackBuilder {
 
     run() {
         if (!this.isFastMode) {
+            // TODO/Lok: new TestRunner().run(): run `test` scripts in package.json.scripts if exist
             new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,

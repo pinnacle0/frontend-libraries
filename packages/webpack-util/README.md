@@ -27,6 +27,7 @@ new WebpackBuilder({
 
 -   Checks if the project structure complies to convention described below.
 -   Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+-   Run test if supported by `package.json` scripts.
 -   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
