@@ -2,11 +2,12 @@ import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
-import {CodeStyleChecker} from "./CodeStyleChecker";
-import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import type {InternalCheckerOptions} from "./type";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import {ProjectStructureChecker} from "./ProjectStructureChecker";
+import {CodeStyleChecker} from "./CodeStyleChecker";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
+import {TestRunner} from "./TestRunner";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {}
 
@@ -52,7 +53,10 @@ export class WebpackBuilder {
 
     run() {
         if (!this.isFastMode) {
-            // TODO/Lok: new TestRunner().run(): run `test` scripts in package.json.scripts if exist
+            new TestRunner({
+                projectDirectory: this.projectDirectory,
+                extraCheckDirectories: this.extraCheckDirectories,
+            }).run();
             new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,

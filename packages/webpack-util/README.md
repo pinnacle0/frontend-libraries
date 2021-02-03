@@ -32,11 +32,12 @@ new WebpackBuilder({
 
 ## Project Tech Stack Requirement
 
--   TypeScript/JavaScript
--   CSS/LESS
--   eslint
--   stylelint
--   prettier
+- yarn
+- TypeScript/JavaScript
+- CSS/LESS
+- eslint
+- stylelint
+- prettier
 
 Note: CSS/LESS only website also supported, without any JavaScript.
 
