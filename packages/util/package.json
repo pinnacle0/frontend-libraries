@@ -20,7 +20,7 @@
     "dependencies": {},
     "peerDependencies": {},
     "devDependencies": {
-        "@types/react": "17.0.0",
+        "@types/react": "17.0.1",
         "react": "17.0.1"
     },
     "engines": {
