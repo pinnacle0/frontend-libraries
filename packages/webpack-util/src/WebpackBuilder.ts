@@ -9,7 +9,9 @@ import {CodeStyleChecker} from "./CodeStyleChecker";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {TestRunner} from "./TestRunner";
 
-export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {}
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {
+    onSuccess?: () => void;
+}
 
 /**
  * Build the website by webpack.
@@ -35,6 +37,7 @@ export class WebpackBuilder {
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
     private readonly verbose: boolean;
+    private readonly onSuccess?: () => void;
 
     private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
@@ -49,6 +52,7 @@ export class WebpackBuilder {
         this.isFastMode = webpackConfigGenerator.isFastMode;
         this.enableProfiling = webpackConfigGenerator.enableProfiling;
         this.verbose = webpackConfigGenerator.verbose;
+        this.onSuccess = options.onSuccess;
     }
 
     run() {
@@ -114,6 +118,11 @@ export class WebpackBuilder {
                 }
 
                 this.logger.info("Build successfully");
+
+                if (this.onSuccess) {
+                    this.logger.info("Running onSuccess callback");
+                    this.onSuccess();
+                }
             } else {
                 this.logger.error("Webpack compiler `run()` returns no `error` and no `stats`, this is unexpected.");
                 process.exit(1);
