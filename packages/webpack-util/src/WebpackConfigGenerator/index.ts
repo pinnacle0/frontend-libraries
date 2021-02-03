@@ -65,7 +65,7 @@ export class WebpackConfigGenerator {
         });
         this.outputPublicPath = WebpackOutputPublicURLFactory.generate({
             env: this.env,
-            dynamicWebpackConfigResolver: options.dynamicWebpackConfigResolver,
+            webpackPublicPath: options.webpackPublicPath,
         });
         this.resolveExtensions = WebpackResolveExtensionsFactory.generate({
             prioritizedExtensionPrefixes: options.prioritizedExtensionPrefixes,

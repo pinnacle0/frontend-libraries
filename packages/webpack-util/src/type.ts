@@ -55,12 +55,10 @@ export interface WebpackConfigGeneratorOptions {
      * List of module resolution aliases to dynamically compute from `env`.
      */
     dynamicConfigResolvers?: DynamicConfigResolver[];
-    // TODO: webpackPublicPath?: string | (env: string) => string
     /**
-     * Function to dynamically compute additional webpack config from `env`.
-     * Currently supports `output.publicUrl` only.
+     * Option to set or dynamically compute `output.publicUrl`.
      */
-    dynamicWebpackConfigResolver?: ((env: string) => string) | undefined;
+    webpackPublicPath?: string | ((env: string) => string);
     /**
      * Name of main entry output.
      * Defaults to "index".
