@@ -7,9 +7,13 @@ export interface WebpackConfigGeneratorOptions {
      */
     projectDirectory: string;
     /**
-     * Specify additional file extension postfixes from dependency requests
+     * Specify additional file extension prefixes from dependency requests
      * that should be take precedence before the default file extensions.
-     * The leading "." should be included.
+     * The leading "." should be excluded.
+     *
+     * For example, `prioritizedExtensionPrefixes: ["mobile"]` expands to
+     * the following file extensions prioritized during resolution:
+     * `[".mobile.ts", ".mobile.tsx", ".mobile.js", ".mobile.jsx", ".mobile.less", ".mobile.css"]`
      *
      * A particular use case is to enable the consumer projects to
      * dynamically resolve component files from shared projects, such as
@@ -21,7 +25,7 @@ export interface WebpackConfigGeneratorOptions {
      * ```
      * [ConfigGeneratorOptions]
      * new ConfigGenerator({
-     *   extraResolvedPostfix: [".mobile.tsx", ".mobile.ts", ".mobile.less"],
+     *   prioritizedExtensionPrefixes: ["mobile"],
      *   //...
      * })
      *
@@ -46,8 +50,7 @@ export interface WebpackConfigGeneratorOptions {
      * export class WrappedTableComponent extends React.PureComponent<Props, State> {}
      * ```
      */
-    // TODO: only pass ["mobile"], ["a", "b"], and rename: prioritizedExtensionPrefixes
-    extraPrioritizedResolvedExtensions?: string[];
+    prioritizedExtensionPrefixes?: string[];
     /**
      * List of module resolution aliases to dynamically compute from `env`.
      */

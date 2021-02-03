@@ -5,8 +5,7 @@ import DevServer from "webpack-dev-server";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-export interface WebpackServerStarterOptions
-    extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicConfigResolvers" | "extraEntries" | "extraPrioritizedResolvedExtensions" | "verbose"> {
+export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicConfigResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "verbose"> {
     port: number;
     apiProxy?: {
         target: string;
@@ -34,7 +33,7 @@ export class WebpackServerStarter {
     private readonly webpackConfig: webpack.Configuration;
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
 
-    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraEntries, extraPrioritizedResolvedExtensions, verbose}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraEntries, prioritizedExtensionPrefixes, verbose}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -43,7 +42,7 @@ export class WebpackServerStarter {
             projectDirectory,
             dynamicConfigResolvers,
             extraEntries,
-            extraPrioritizedResolvedExtensions,
+            prioritizedExtensionPrefixes,
             verbose,
         }).development();
     }

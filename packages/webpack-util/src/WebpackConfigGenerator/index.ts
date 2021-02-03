@@ -68,7 +68,7 @@ export class WebpackConfigGenerator {
             dynamicWebpackConfigResolver: options.dynamicWebpackConfigResolver,
         });
         this.resolveExtensions = WebpackResolveExtensionsFactory.generate({
-            extraPrioritizedResolvedExtensions: options.extraPrioritizedResolvedExtensions,
+            prioritizedExtensionPrefixes: options.prioritizedExtensionPrefixes,
         });
         this.resolveModules = WebpackResolveModulesFactory.generate({
             projectSrcDirectory: this.projectSrcDirectory,
