@@ -9,6 +9,9 @@
             "path": "./config/tsconfig.src.json"
         },
         {
+            "path": "./config/tsconfig.stories.json"
+        },
+        {
             "path": "./config/tsconfig.test.json"
         }
     ]

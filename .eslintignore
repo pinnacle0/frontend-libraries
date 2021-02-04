@@ -32,5 +32,8 @@
 # VS Code
 !.vscode/extensions.json
 
+# Web-ui Storybook
+!.storybook
+
 # Codegen templates
 **/template/*
