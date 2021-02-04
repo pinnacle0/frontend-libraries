@@ -17,8 +17,14 @@ export default {
             control: {type: "inline-radio", options: ["primary", "wire-frame", "green", "red"]},
             defaultValue: "primary",
         },
-        onClick: {
-            action: "onClick",
+        link: {
+            control: {type: "text"},
+        },
+        linkInNewTab: {
+            control: {type: "boolean"},
+        },
+        disabled: {
+            control: {type: "boolean"},
         },
     },
 } as Meta<P>;

@@ -25,9 +25,13 @@ type ExtendableColor<ExtraColor extends string> = ButtonColor extends ExtraColor
 type ExtendableSize<ExtraSize extends string> = ButtonSize extends ExtraSize ? ExtraSize | ButtonSize : ButtonSize;
 
 export interface Props<Color extends string, Size extends string = ButtonSize> extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** Set link to open when clicked. If set, use a `<Link />` instead of a `<button />` */
     link?: string;
+    /** Whether the link should be opened in a new tab */
     linkInNewTab?: boolean;
+    /** Color of button */
     color?: ExtendableColor<Color>;
+    /** Size of button */
     size?: ExtendableSize<Size>;
 }
 
