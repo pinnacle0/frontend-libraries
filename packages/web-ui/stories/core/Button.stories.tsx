@@ -26,6 +26,12 @@ export default {
         disabled: {
             control: {type: "boolean"},
         },
+        onClick: {
+            action: "onClick",
+        },
+    },
+    parameters: {
+        actions: {argTypesRegex: "$^"}, // Do not auto match actions
     },
 } as Meta<P>;
 
