@@ -1,0 +1,59 @@
+#drawer-button {
+    min-width: 34px;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0;
+    text-align: center;
+    border-radius: 99px;
+
+    .anticon-user {
+        font-size: 20px;
+    }
+}
+
+#admin-app-drawer {
+    .avatar {
+        @avatar-size: 140px;
+
+        display: block;
+        margin: 0 auto 20px;
+        font-size: 86px;
+        border-radius: @avatar-size / 2;
+        color: #1890ff;
+        border: 1px solid #1890ff;
+        text-align: center;
+        line-height: @avatar-size + 4;
+        width: @avatar-size;
+        height: @avatar-size;
+    }
+
+    .grid {
+        > .row {
+            @row-height: 40px;
+
+            position: relative;
+            font-size: 15px;
+            margin-bottom: 5px;
+            height: @row-height;
+            line-height: @row-height;
+            background: #f6f6f6;
+            padding-left: 130px;
+
+            > b.label {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 116px;
+                line-height: @row-height;
+                background: #e8e8e9;
+                padding-left: 10px;
+            }
+        }
+    }
+
+    .bottom {
+        margin: 40px 0 10px;
+        text-align: center;
+    }
+}

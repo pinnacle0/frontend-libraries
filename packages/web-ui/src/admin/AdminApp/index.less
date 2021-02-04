@@ -1,39 +1,33 @@
 #admin-app {
     .ant-layout-sider {
         height: 100vh;
-        overflow: auto;
+
+        > .ant-layout-sider-children {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .toggle-menu-icon {
+            color: #fff;
+            font-size: 22px;
+            padding-left: 28px;
+            cursor: pointer;
+        }
     }
 
     .ant-layout-header {
-        padding: 0;
-        height: 84px;
+        height: 45px;
         background: #fff;
+        display: flex;
+        padding: 0 15px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
 
-        .top {
-            padding: 0 15px;
-            height: 45px;
-            align-items: center;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-            > .toggle-menu-icon {
-                font-size: 22px;
-                cursor: pointer;
-            }
-
-            > .drawer-button {
-                min-width: 34px;
-                width: 34px;
-                height: 34px;
-                line-height: 34px;
-                padding: 0;
-                text-align: center;
-                border-radius: 99px;
-
-                .anticon-user {
-                    font-size: 20px;
-                }
+        > .ant-tabs.ant-tabs-top {
+            > .ant-tabs-nav {
+                margin: 0;
             }
         }
 
@@ -75,29 +69,13 @@
     }
 
     .ant-layout-content {
-        height: ~"calc(100vh - 90px)"; // Minus header height
+        height: ~"calc(100vh - 45px)"; // Minus header height
         overflow-y: scroll;
     }
 
     .main-menu-container {
-        .logo-title {
-            display: flex;
-            height: 80px;
-            background: #202c3a;
-            align-items: center;
-            justify-content: center;
-
-            img {
-                height: 60%;
-            }
-
-            h1 {
-                margin-left: 10px;
-                color: #fff;
-                font-size: 18px;
-                font-weight: bold;
-            }
-        }
+        flex: 1 1 0%;
+        overflow: hidden auto;
 
         .ant-menu-item,
         .ant-menu-submenu-title {
@@ -113,14 +91,6 @@
         }
 
         &.collapsed {
-            .logo-title {
-                height: 50px;
-
-                h1 {
-                    display: none;
-                }
-            }
-
             .ant-menu-submenu-title {
                 overflow: visible;
 
@@ -131,52 +101,6 @@
                 }
             }
         }
-    }
-}
-
-#admin-app-drawer {
-    .avatar {
-        @avatar-size: 140px;
-
-        display: block;
-        margin: 0 auto 20px;
-        font-size: 86px;
-        border-radius: @avatar-size / 2;
-        color: #1890ff;
-        border: 1px solid #1890ff;
-        text-align: center;
-        line-height: @avatar-size + 4;
-        width: @avatar-size;
-        height: @avatar-size;
-    }
-
-    .grid {
-        > .row {
-            @row-height: 40px;
-
-            position: relative;
-            font-size: 15px;
-            margin-bottom: 5px;
-            height: @row-height;
-            line-height: @row-height;
-            background: #f6f6f6;
-            padding-left: 130px;
-
-            > b.label {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 116px;
-                line-height: @row-height;
-                background: #e8e8e9;
-                padding-left: 10px;
-            }
-        }
-    }
-
-    .bottom {
-        margin: 40px 0 10px;
-        text-align: center;
     }
 }
 

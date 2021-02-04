@@ -4,14 +4,13 @@ import React from "react";
 import {Badge} from "../../core/Badge";
 import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
 import type {RouteComponentProps} from "react-router-dom";
-import {withRouter, Link} from "react-router-dom";
+import {withRouter} from "react-router-dom";
+import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 
 interface Props extends RouteComponentProps {
-    siteLogo: string;
     siteName: string;
     navigationService: AdminNavigatorBase<any, any>;
     menuExpanded: boolean;
-    soundEnabled: boolean;
     badges?: {[key: string]: number};
 }
 
@@ -23,6 +22,8 @@ interface State {
 export const Menu = withRouter(
     class extends React.PureComponent<Props, State> {
         static displayName = "Menu";
+
+        readonly soundEnabledKey = "admin-sound-enabled";
 
         constructor(props: Props) {
             super(props);
@@ -57,13 +58,14 @@ export const Menu = withRouter(
         };
 
         calculateMenuKeyByURL = (prevBadges?: {[key: string]: number}): State => {
-            const {location, menuExpanded, siteName, badges, soundEnabled, navigationService} = this.props;
+            const {location, menuExpanded, siteName, badges, navigationService} = this.props;
             const allNavigationGroups = navigationService.groups(true);
             let currentOpenedMenuKey: string | null = allNavigationGroups?.[0]?.title || null; // Fallback opened key
             let currentSelectedMenuKey = null;
             const currentModule = navigationService.moduleByURL(location.pathname);
             const totalBadgeCount = badges ? this.calculateTotalBadge(badges) : 0;
             const titlePrefix = (totalBadgeCount > 0 ? `(${totalBadgeCount}) ` : "") + siteName;
+            const soundEnabled = LocalStorageUtil.getBool(this.soundEnabledKey, true);
 
             if (soundEnabled && prevBadges && badges && this.shouldAlertNewBadge(prevBadges, badges)) {
                 /**
@@ -135,16 +137,10 @@ export const Menu = withRouter(
         };
 
         render() {
-            const {menuExpanded, siteLogo, siteName, navigationService} = this.props;
+            const {menuExpanded, navigationService} = this.props;
             const {currentOpenedMenuKey, currentSelectedMenuKey} = this.state;
             return (
                 <div className={`main-menu-container ${menuExpanded ? "" : "collapsed"}`}>
-                    <Link to="/">
-                        <div className="logo-title">
-                            <img src={siteLogo} />
-                            <h1>{siteName}</h1>
-                        </div>
-                    </Link>
                     {/* TODO: correct the typing */}
                     <AntMenu
                         theme="dark"
