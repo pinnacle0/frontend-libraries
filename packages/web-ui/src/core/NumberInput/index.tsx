@@ -18,19 +18,33 @@ type PropsWithDefault<AllowNull extends boolean = true> = {
     {[K in DefaultPropsKeys]: NonNullable<Props<AllowNull>[K]>};
 
 export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends true ? number | null : number> {
+    /** Whether `null` is allowed in `value` */
     allowNull: AllowNull;
+    /** Set number of decimal points for `value`. Important due to floating point precision issues  */
     scale?: number; // Very important for non-integer, due to floating point precision issues
+    /** Minimum value allowed as input. Out of range values are discarded onBlur, and does not trigger onChange. */
     min?: number;
+    /** Maximum value allowed as input. Out of range values are discarded onBlur, and does not trigger onChange. */
     max?: number;
+    /** Whether the input field should be editable */
     editable?: boolean;
+    /** Set the increment/decrement stepper display options */
     stepperMode?: "none" | "always" | "hover";
+    /** Set the interval to increment/decrement with stepper */
     step?: number;
-    displayRenderer?: (value: number) => string; // Only render when blurs
+    /** Callback function to render value onBlur */
+    displayRenderer?: (value: number) => string;
+    /** Whether the input field is disabled */
     disabled?: boolean;
+    /** Placeholder text to display when input field is empty */
     placeholder?: string;
+    /** Additional className for input field */
     className?: string;
+    /** Additional style for input field */
     inputStyle?: React.CSSProperties;
+    /** Additional component to render after input field */
     suffix?: React.ReactChild;
+    /** Additional component to render before input field */
     prefix?: React.ReactChild;
 }
 

@@ -17,6 +17,9 @@ module.exports = {
             tsconfig: path.join(__dirname, "../config/tsconfig.stories.json"),
         },
         reactDocgen: "react-docgen-typescript",
+        reactDocgenTypescriptOptions: {
+            tsconfigPath: path.join(__dirname, "../config/tsconfig.stories.json"),
+        },
     },
 
     webpackFinal(config, options) {
