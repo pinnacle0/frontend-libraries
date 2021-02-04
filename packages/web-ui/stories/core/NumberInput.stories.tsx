@@ -40,13 +40,25 @@ export default {
     },
 } as Meta<P>;
 
-const template: Story<P> = args => <NumberInput {...args} />;
+const Template: Story<P> = args => {
+    const [value, setValue] = React.useState(args.value);
+    return (
+        <NumberInput
+            {...args}
+            value={value}
+            onChange={newValue => {
+                args.onChange(newValue);
+                setValue(newValue);
+            }}
+        />
+    );
+};
 
-export const NonNullable = template.bind({});
+export const NonNullable = Template.bind({});
 NonNullable.args = {value: 0};
 NonNullable.argTypes = {
     value: {description: "Value of input field"},
 };
 
-export const Nullable = template.bind({});
+export const Nullable = Template.bind({});
 Nullable.args = {value: null, allowNull: true};
