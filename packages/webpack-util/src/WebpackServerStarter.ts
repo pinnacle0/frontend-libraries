@@ -73,6 +73,7 @@ export class WebpackServerStarter {
     }
 
     private createDevServerInstance() {
+        // @ts-expect-error -- @types/webpack@4 pollutes the correct types from webpack@5
         return new DevServer(webpack(this.webpackConfig), {
             contentBase: this.devServerConfigContentBase,
             https: true,
