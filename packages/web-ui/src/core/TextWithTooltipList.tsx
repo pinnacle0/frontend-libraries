@@ -9,10 +9,12 @@ export interface TooltipListProps {
 
 export interface Props {
     list: Array<TooltipListProps | "-">;
+    // TODO/yuen: rename to children, then update project usage
     label?: string | React.ReactElement; // If undefined, it will use the first list item as label
     onClick?: () => void;
 }
 
+// TODO/yuen: rename to WithTooltipList
 export class TextWithTooltipList extends React.PureComponent<Props> {
     static displayName = "TextWithTooltipList";
 
