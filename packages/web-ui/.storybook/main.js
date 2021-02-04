@@ -24,17 +24,17 @@ module.exports = {
 
     webpackFinal(config, options) {
         // Add path aliases (keep this in sync with tsconfig.stories.json)
-        config ??= {};
-        config.resolve ??= {};
-        config.resolve.alias ??= {};
+        config = config || {};
+        config.resolve = config.resolve || {};
+        config.resolve.alias = config.resolve.alias || {};
         Object.assign(config.resolve.alias, {
             "@pinnacle0/web-ui": path.join(__dirname, "../src"),
             "@pinnacle0/web-ui-stories": path.join(__dirname, "../stories"),
         });
 
         // Add loader for .less
-        config.module ??= {};
-        config.module.rules ??= [];
+        config.module = config.module || {};
+        config.module.rules = config.module.rules || [];
         config.module.rules.push({
             test: /\.less$/,
             use: [
