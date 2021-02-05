@@ -141,21 +141,18 @@ export const Menu = withRouter(
         };
 
         render() {
-            const {menuExpanded, navigationService} = this.props;
+            const {navigationService} = this.props;
             const {currentOpenedMenuKey, currentSelectedMenuKey} = this.state;
             return (
-                <div className={`main-menu-container ${menuExpanded ? "" : "collapsed"}`}>
-                    {/* TODO: correct the typing */}
-                    <AntMenu
-                        theme="dark"
-                        mode="inline"
-                        openKeys={currentOpenedMenuKey ? [currentOpenedMenuKey] : []}
-                        selectedKeys={currentSelectedMenuKey ? [currentSelectedMenuKey] : []}
-                        onOpenChange={this.onMenuOpenChange as any}
-                    >
-                        {navigationService.groups(false).map(this.renderMenuGroup)}
-                    </AntMenu>
-                </div>
+                <AntMenu
+                    theme="dark"
+                    mode="inline"
+                    openKeys={currentOpenedMenuKey ? [currentOpenedMenuKey] : []}
+                    selectedKeys={currentSelectedMenuKey ? [currentSelectedMenuKey] : []}
+                    onOpenChange={this.onMenuOpenChange as any}
+                >
+                    {navigationService.groups(false).map(this.renderMenuGroup)}
+                </AntMenu>
             );
         }
     }

@@ -1,6 +1,6 @@
 import React from "react";
-import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import {BoolSwitch} from "../../core/BoolSwitch";
+import {LocalStorageUtil} from "../../../util/LocalStorageUtil";
+import {BoolSwitch} from "../../../core/BoolSwitch";
 
 interface Props {}
 

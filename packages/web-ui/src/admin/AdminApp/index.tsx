@@ -13,16 +13,13 @@ import {TextUtil} from "../../internal/TextUtil";
 import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import type {AdminAppContextType} from "./context";
 import {AdminAppContext} from "./context";
-import {SoundSwitch} from "./SoundSwitch";
-import {Logo} from "./Logo";
-import {NavigatorSide} from "./NavigatorSide";
+import {SoundSwitch} from "./Default/SoundSwitch";
+import {SquareLogo} from "./Default/SquareLogo";
+import type {ExpandableProps} from "./Default/SquareLogo";
+import {NavigatorSide} from "./Default/NavigatorSide";
 import "antd/lib/drawer/style";
 import "antd/lib/layout/style";
 import "./index.less";
-
-export interface Expandable {
-    expanded: boolean;
-}
 
 /**
  * CAVEAT:
@@ -32,11 +29,11 @@ export interface Expandable {
  */
 
 export interface Props {
-    LogoComponent?: React.ComponentType<Expandable>;
-    NavigatorSideComponent?: React.ComponentType<Expandable>;
     name: string;
     navigationService: AdminNavigatorBase<any, any>;
-    welcomeComponent?: React.ComponentType;
+    LogoComponent?: React.ComponentType<ExpandableProps>;
+    NavigatorSideComponent?: React.ComponentType;
+    WelcomeComponent?: React.ComponentType;
     sideMenuWidth?: number;
     badges?: {[key: string]: number};
 }
@@ -48,9 +45,7 @@ interface State {
 export class AdminApp extends React.PureComponent<Props, State> {
     static displayName = "AdminApp";
 
-    static Logo = Logo;
-    static SoundSwitch = SoundSwitch;
-    static NavigatorSide = NavigatorSide;
+    static Default = Object.freeze({SquareLogo, SoundSwitch, NavigatorSide});
 
     private readonly menuExpandedKey = "admin-menu-expanded";
     private readonly navigationModules: NavigationModuleItem<any, any>[];
@@ -64,6 +59,7 @@ export class AdminApp extends React.PureComponent<Props, State> {
         };
         this.navigationModules = props.navigationService.modules();
         this.adminAppContext = {
+            baseTitle: props.name,
             updateTitle: title => this.registeredTitleUpdater?.(title),
             registerTitleUpdater: fn => (this.registeredTitleUpdater = fn),
         };
@@ -86,7 +82,7 @@ export class AdminApp extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {name, navigationService, welcomeComponent, sideMenuWidth, LogoComponent, NavigatorSideComponent, badges} = this.props;
+        const {name, navigationService, WelcomeComponent, LogoComponent, NavigatorSideComponent, badges, sideMenuWidth} = this.props;
         const {menuExpanded} = this.state;
         return (
             <AdminAppContext.Provider value={this.adminAppContext}>
@@ -101,11 +97,11 @@ export class AdminApp extends React.PureComponent<Props, State> {
                     <AntLayout>
                         <AntLayout.Header>
                             <Navigator navigationService={navigationService} />
-                            {NavigatorSideComponent && <NavigatorSideComponent expanded={menuExpanded} />}
+                            {NavigatorSideComponent && <NavigatorSideComponent />}
                         </AntLayout.Header>
                         <AntLayout.Content>
                             <Switch>
-                                <Route exact path="/" component={welcomeComponent || this.renderWelcome} />
+                                <Route exact path="/" component={WelcomeComponent || this.renderWelcome} />
                                 {this.navigationModules.map(({url, routeParameter, componentType}) => (
                                     <Route exact key={url} path={routeParameter ? url + routeParameter : url} component={componentType} />
                                 ))}

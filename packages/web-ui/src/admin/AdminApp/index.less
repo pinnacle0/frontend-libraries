@@ -1,3 +1,5 @@
+@import "../../css/variable.less";
+
 #admin-app {
     .ant-layout-sider {
         height: 100vh;
@@ -6,39 +8,88 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+
+            > .ant-menu {
+                flex: 1 1 0%;
+                overflow: hidden auto;
+
+                .ant-menu-item,
+                .ant-menu-submenu-title {
+                    .ant-badge {
+                        color: inherit;
+
+                        .anticon {
+                            font-size: 18px;
+                            margin-right: 8px;
+                        }
+
+                        .ant-badge-count {
+                            position: absolute;
+                            right: -30px;
+                            top: 6px;
+                        }
+                    }
+                }
+            }
+
+            > .toggle-menu-icon {
+                color: #fff;
+                font-size: 20px;
+                padding: 3px 24px;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+            }
         }
 
-        .toggle-menu-icon {
-            color: #fff;
-            font-size: 22px;
-            padding-left: 28px;
-            cursor: pointer;
+        &.ant-layout-sider-collapsed {
+            > .ant-layout-sider-children {
+                > .ant-menu {
+                    .ant-menu-submenu-title {
+                        overflow: visible;
+                        padding-left: 24px;
+
+                        .ant-badge {
+                            .ant-badge-count {
+                                right: -2px;
+                                top: 0;
+                                z-index: 1;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     .ant-layout-header {
-        height: 45px;
+        height: 39px;
         background: #fff;
         display: flex;
-        padding: 0 15px;
+        padding: 0 12px 0 0;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+        border-bottom: 1px solid @lib-border-gray;
 
-        > .ant-tabs.ant-tabs-top {
+        > .navigator-bar.ant-tabs-card {
             > .ant-tabs-nav {
                 margin: 0;
-            }
-        }
 
-        .navigator-bar {
-            &.ant-tabs-card {
                 .ant-tabs-tab {
-                    border-top-width: 0;
+                    border: none;
                     margin-right: 0;
                     border-radius: 0;
                     width: auto;
+
+                    > .ant-tabs-tab-btn {
+                        transition: none;
+                    }
+
+                    &:hover {
+                        background: @lib-background-gray;
+                    }
 
                     .ant-spin {
                         // Hide loading status for inactive tab
@@ -46,8 +97,7 @@
                     }
 
                     &.ant-tabs-tab-active {
-                        border-color: #1e90ff;
-                        background: #1e90ff;
+                        background: @lib-main-blue;
 
                         .ant-tabs-tab-btn {
                             color: #fff;
@@ -72,36 +122,6 @@
     .ant-layout-content {
         height: ~"calc(100vh - 45px)"; // Minus header height
         overflow-y: scroll;
-    }
-
-    .main-menu-container {
-        flex: 1 1 0%;
-        overflow: hidden auto;
-
-        .ant-menu-item,
-        .ant-menu-submenu-title {
-            .ant-badge {
-                color: inherit;
-
-                .ant-badge-count {
-                    position: absolute;
-                    right: -30px;
-                    top: 6px;
-                }
-            }
-        }
-
-        &.collapsed {
-            .ant-menu-submenu-title {
-                overflow: visible;
-
-                .ant-badge-count {
-                    right: -2px;
-                    top: 0;
-                    z-index: 1;
-                }
-            }
-        }
     }
 }
 

@@ -1,10 +1,10 @@
 import React from "react";
-import {Button} from "../../../core/Button";
+import {Button} from "../../../../core/Button";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import AntDrawer from "antd/lib/drawer";
-import {i18n} from "../../../internal/i18n/admin";
-import {LocaleSelect} from "../../../core/LocaleSelect";
-import {AdminApp} from "../index";
+import {i18n} from "../../../../internal/i18n/admin";
+import {LocaleSelect} from "../../../../core/LocaleSelect";
+import {SoundSwitch} from "../SoundSwitch";
 import "./index.less";
 
 type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};
@@ -38,17 +38,17 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
         const {showDrawer} = this.state;
         const completedDrawerInfo: DrawerUserInfo = {
             ...userInfo,
-            [t.notificationSound]: <AdminApp.SoundSwitch />,
+            [t.notificationSound]: <SoundSwitch />,
             [t.language]: <LocaleSelect />,
         };
 
         return (
             <React.Fragment>
-                <Button id="drawer-button" color="wire-frame" onClick={this.showDrawer}>
+                <Button id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
                     <UserOutlined />
                 </Button>
                 <AntDrawer width={350} visible={showDrawer} closable={false} onClose={this.closeDrawer}>
-                    <div id="admin-app-drawer">
+                    <div id="admin-app-default-drawer">
                         <UserOutlined className="avatar" />
                         <div className="grid">
                             {Object.entries(completedDrawerInfo).map(([title, node], index) => {
