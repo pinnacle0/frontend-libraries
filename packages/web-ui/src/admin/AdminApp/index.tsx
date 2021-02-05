@@ -12,9 +12,10 @@ import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {TextUtil} from "../../internal/TextUtil";
 import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import type {AdminAppContextType} from "./context";
-import type {SafeReactChild} from "../../internal/type";
 import {AdminAppContext} from "./context";
 import {SoundSwitch} from "./SoundSwitch";
+import {Logo} from "./Logo";
+import {NavigatorSide} from "./NavigatorSide";
 import "antd/lib/drawer/style";
 import "antd/lib/layout/style";
 import "./index.less";
@@ -32,7 +33,7 @@ export interface Expandable {
 
 export interface Props {
     LogoComponent?: React.ComponentType<Expandable>;
-    NavigatorSideComponent?: SafeReactChild;
+    NavigatorSideComponent?: React.ComponentType<Expandable>;
     name: string;
     navigationService: AdminNavigatorBase<any, any>;
     welcomeComponent?: React.ComponentType;
@@ -47,7 +48,9 @@ interface State {
 export class AdminApp extends React.PureComponent<Props, State> {
     static displayName = "AdminApp";
 
+    static Logo = Logo;
     static SoundSwitch = SoundSwitch;
+    static NavigatorSide = NavigatorSide;
 
     private readonly menuExpandedKey = "admin-menu-expanded";
     private readonly navigationModules: NavigationModuleItem<any, any>[];
@@ -98,7 +101,7 @@ export class AdminApp extends React.PureComponent<Props, State> {
                     <AntLayout>
                         <AntLayout.Header>
                             <Navigator navigationService={navigationService} />
-                            {NavigatorSideComponent}
+                            {NavigatorSideComponent && <NavigatorSideComponent expanded={menuExpanded} />}
                         </AntLayout.Header>
                         <AntLayout.Content>
                             <Switch>

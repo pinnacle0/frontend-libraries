@@ -18,7 +18,7 @@ const badges = {
 export const Main = () => (
     <LocaleProvider locale="auto">
         <BrowserRouter>
-            <AdminApp name="Pinnacle UI" NavigatorSideComponent={<WebUINavigatorSide />} LogoComponent={WebUILogo} navigationService={navigationService} badges={badges} />
+            <AdminApp name="Pinnacle UI" NavigatorSideComponent={WebUINavigatorSide} LogoComponent={WebUILogo} navigationService={navigationService} badges={badges} />
         </BrowserRouter>
     </LocaleProvider>
 );

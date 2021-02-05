@@ -6,6 +6,7 @@ import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavi
 import type {RouteComponentProps} from "react-router-dom";
 import {withRouter} from "react-router-dom";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
+import {AdminAppContext} from "./context";
 
 interface Props extends RouteComponentProps {
     siteName: string;
@@ -22,6 +23,9 @@ interface State {
 export const Menu = withRouter(
     class extends React.PureComponent<Props, State> {
         static displayName = "Menu";
+
+        static contextType = AdminAppContext;
+        declare context: React.ContextType<typeof AdminAppContext>;
 
         readonly soundEnabledKey = "admin-sound-enabled";
 

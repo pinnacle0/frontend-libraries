@@ -23,6 +23,7 @@
         padding: 0 15px;
         align-items: center;
         justify-content: space-between;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
 
         > .ant-tabs.ant-tabs-top {
@@ -106,9 +107,15 @@
 
 // Submenu popup is put directly under <body> in collapse mode
 .ant-menu-submenu-popup {
-    .ant-menu-item .ant-badge-count {
-        position: absolute;
-        right: -22px;
-        top: 6px;
+    .ant-menu-item {
+        .ant-badge {
+            color: inherit;
+
+            .ant-badge-count {
+                position: absolute;
+                right: -22px;
+                top: 6px;
+            }
+        }
     }
 }
