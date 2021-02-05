@@ -10,24 +10,31 @@
             height: 100%;
 
             > .ant-menu {
-                flex: 1 1 0%;
+                flex: 1 1 0;
                 overflow: hidden auto;
 
-                .ant-menu-item,
-                .ant-menu-submenu-title {
-                    .ant-badge {
-                        color: inherit;
+                .ant-menu-submenu-title .ant-badge {
+                    font-weight: bold;
+                    font-size: 16px;
+                }
 
-                        .anticon {
-                            font-size: 18px;
-                            margin-right: 8px;
-                        }
+                .ant-menu-item .ant-badge {
+                    font-size: 14px;
+                }
 
-                        .ant-badge-count {
-                            position: absolute;
-                            right: -30px;
-                            top: 6px;
-                        }
+                .ant-badge {
+                    color: inherit;
+
+                    .anticon {
+                        // Override Antd default
+                        font-size: 16px;
+                        margin-right: 2px;
+                    }
+
+                    .ant-badge-count {
+                        position: absolute;
+                        right: -24px;
+                        top: 8px;
                     }
                 }
             }
@@ -121,7 +128,7 @@
 
     .ant-layout-content {
         height: ~"calc(100vh - 45px)"; // Minus header height
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 }
 
