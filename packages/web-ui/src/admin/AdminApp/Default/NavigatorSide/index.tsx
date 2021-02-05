@@ -3,15 +3,13 @@ import {Button} from "../../../../core/Button";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import AntDrawer from "antd/lib/drawer";
 import {i18n} from "../../../../internal/i18n/admin";
-import {LocaleSelect} from "../../../../core/LocaleSelect";
-import {SoundSwitch} from "../SoundSwitch";
 import "./index.less";
 
 type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};
 
 interface Props {
     onLogout: () => void;
-    userInfo: DrawerUserInfo;
+    drawerInfo: DrawerUserInfo;
 }
 
 interface State {
@@ -34,13 +32,8 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
 
     render() {
         const t = i18n();
-        const {onLogout, userInfo} = this.props;
+        const {onLogout, drawerInfo} = this.props;
         const {showDrawer} = this.state;
-        const completedDrawerInfo: DrawerUserInfo = {
-            ...userInfo,
-            [t.notificationSound]: <SoundSwitch />,
-            [t.language]: <LocaleSelect />,
-        };
 
         return (
             <React.Fragment>
@@ -51,7 +44,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                     <div id="admin-app-default-drawer">
                         <UserOutlined className="avatar" />
                         <div className="grid">
-                            {Object.entries(completedDrawerInfo).map(([title, node], index) => {
+                            {Object.entries(drawerInfo).map(([title, node], index) => {
                                 if (node) {
                                     return (
                                         <div className="row" key={index}>
