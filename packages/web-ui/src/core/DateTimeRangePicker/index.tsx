@@ -9,6 +9,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     allowNull: T;
     disabled?: boolean;
     className?: string;
+    disabledRange?: (diffToToday: number, date: Date) => boolean;
     // default ranges for quick select
     ranges?: {[range: string]: [moment.Moment, moment.Moment]};
 }
@@ -16,16 +17,21 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
 export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DateTimeRangePicker";
 
-    isDateDisabled = (current: moment.Moment | null): boolean => {
+    isDateDisabled = (date: moment.Moment): boolean => {
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
          * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
          */
-        if (current && current.valueOf() >= new Date(2038, 0).valueOf()) {
+        if (date.valueOf() >= new Date(2038, 0).valueOf()) {
             return true;
         }
-        return false;
+
+        // moment will truncate the result to zero decimal places
+        // ref: https://momentjs.com/docs/#/displaying/difference/
+        const diffToToday = Math.floor(date.diff(moment().startOf("day"), "day", true));
+
+        return this.props.disabledRange?.(diffToToday, date.toDate()) || false;
     };
 
     onChange = (dates: [moment.Moment | null, moment.Moment | null] | null) => {

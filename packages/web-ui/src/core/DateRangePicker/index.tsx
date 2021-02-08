@@ -7,7 +7,7 @@ import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [string, string] : [string | null, string | null]> {
     allowNull: T;
-    disabledRange?: "today-and-before" | "today-and-after";
+    disabledRange?: (diffToToday: number, date: Date) => boolean;
     disabled?: boolean;
     className?: string;
 }
@@ -17,29 +17,21 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
 
     private readonly dateFormatter = "YYYY-MM-DD";
 
-    today = (dayEnd: boolean): number => {
-        const date = new Date();
-        return dayEnd ? new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59).valueOf() : new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0).valueOf();
-    };
-
-    isDateDisabled = (current: moment.Moment | null): boolean => {
-        const {disabledRange} = this.props;
+    isDateDisabled = (date: moment.Moment): boolean => {
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
          * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
          */
-        if (current && current.valueOf() >= new Date(2038, 0).valueOf()) {
+        if (date.valueOf() >= new Date(2038, 0).valueOf()) {
             return true;
         }
 
-        if (current && disabledRange === "today-and-before") {
-            return current.valueOf() <= this.today(true);
-        } else if (current && disabledRange === "today-and-after") {
-            return current.valueOf() >= this.today(false);
-        } else {
-            return false;
-        }
+        // moment will truncate the result to zero decimal places
+        // ref: https://momentjs.com/docs/#/displaying/difference/
+        const diffToToday = Math.floor(date.diff(moment().startOf("day"), "day", true));
+
+        return this.props.disabledRange?.(diffToToday, date.toDate()) || false;
     };
 
     onChange = (dates: [moment.Moment | null, moment.Moment | null] | null) => {

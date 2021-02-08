@@ -42,7 +42,7 @@ const UncontrolledDateTimePicker = (props: Omit<DateTimePickerProps<any>, "value
 
 const UncontrolledDateTimeRangePicker = (props: Omit<DateTimeRangePickerProps<any>, "value" | "onChange">) => {
     const [value, onChange] = React.useState<any>([null, null]);
-    return <DateTimeRangePicker {...props} value={value} onChange={onChange} />;
+    return <DateTimeRangePicker disabledRange={_ => _ > 1 && _ < 4} {...props} value={value} onChange={onChange} />;
 };
 
 const groups: DemoHelperGroupConfig[] = [
