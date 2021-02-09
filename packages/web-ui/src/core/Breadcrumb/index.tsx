@@ -2,7 +2,7 @@ import React from "react";
 import type {SafeReactChild, StringKey} from "../../internal/type";
 import "./index.less";
 
-interface Props<T extends object> {
+export interface Props<T extends object> {
     data: T[];
     onClick: (item: T, index: number) => void;
     renderItem: (item: T, index: number) => SafeReactChild;
