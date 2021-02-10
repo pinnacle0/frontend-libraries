@@ -23,6 +23,7 @@ import {ModalDemo} from "../component/core/ModalDemo";
 import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/OverflowableTextDemo";
+import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -159,6 +160,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         title: "Permission Selector",
                         componentType: PermissionSelectorDemo,
                         featurePermissions: [],
+                    },
+                    {
+                        url: "/admin/render-error",
+                        title: "Render Error",
+                        componentType: RenderErrorDemo,
                     },
                     {
                         url: "/admin/navigation-history",

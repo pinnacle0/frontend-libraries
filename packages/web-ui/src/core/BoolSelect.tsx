@@ -1,20 +1,21 @@
 import React from "react";
 import {EnumSelect} from "./EnumSelect";
-import type {Props as BaseProps} from "./EnumSelect/InitialNullable";
-import type {PickOptional} from "../internal/type";
+import type {ControlledFormValue, PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
-export interface Props extends Omit<BaseProps<boolean>, "list" | "translator"> {
+export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends false ? boolean : boolean | null> {
+    allowNull: AllowNull;
     trueText?: string;
     falseText?: string;
     trueOptionFirst?: boolean;
     disabled?: boolean;
+    className?: string;
     style?: React.CSSProperties;
 }
 
-export class BoolSelect extends React.PureComponent<Props> {
+export class BoolSelect<AllowNull extends boolean> extends React.PureComponent<Props<AllowNull>> {
     static displayName = "BoolSelect";
-    static defaultProps: PickOptional<Props> = {
+    static defaultProps: PickOptional<Props<any>> = {
         trueOptionFirst: true,
     };
 
@@ -27,8 +28,23 @@ export class BoolSelect extends React.PureComponent<Props> {
     };
 
     render() {
-        const {trueOptionFirst, ...restProps} = this.props;
+        const {trueOptionFirst, allowNull, value, onChange, disabled, className, style} = this.props;
         const list = trueOptionFirst ? this.trueOptionFirstList : this.falseOptionFirstList;
-        return <EnumSelect.InitialNullable list={list} translator={this.translator} {...restProps} />;
+
+        if (allowNull) {
+            return (
+                <EnumSelect.Nullable
+                    list={list}
+                    translator={this.translator}
+                    value={value as boolean | null}
+                    onChange={onChange as (_: boolean | null) => void}
+                    disabled={disabled}
+                    className={className}
+                    style={style}
+                />
+            );
+        } else {
+            return <EnumSelect list={list} translator={this.translator} value={value as boolean} onChange={onChange as (_: boolean) => void} disabled={disabled} className={className} style={style} />;
+        }
     }
 }

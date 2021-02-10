@@ -77,9 +77,6 @@ export abstract class AdminNavigatorBase<Feature extends string, Field extends s
     modules(): Array<NavigationModuleItem<Feature, Field>> {
         const list: Array<NavigationModuleItem<Feature, Field>> = [];
         this.groups(true).forEach(_ => list.push(..._.modules));
-        // if (list.length === 0) {
-        //     throw new Error("Must have at least one module");
-        // }
         return list;
     }
 

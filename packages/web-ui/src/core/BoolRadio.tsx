@@ -1,23 +1,20 @@
 import React from "react";
 import {EnumRadio} from "./EnumRadio";
-import type {Props as InitialNullableBaseProps} from "./EnumRadio/InitialNullable";
-import type {Props as NullableBaseProps} from "./EnumRadio/Nullable";
-import type {PickOptional} from "../internal/type";
+import type {PickOptional, ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
 
-type ExtractKey<Props> = Omit<Props, "list" | "translator">;
-
-export interface Props<Nullable extends boolean> extends ExtractKey<InitialNullableBaseProps<boolean>>, Pick<NullableBaseProps<boolean>, "nullText" | "nullPositionIndex"> {
-    nullable?: Nullable;
+export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends false ? boolean : boolean | null> {
+    allowNull?: AllowNull;
     trueText?: string;
     falseText?: string;
     trueOptionFirst?: boolean;
-    disabled?: boolean;
-    style?: React.CSSProperties;
     useButtonMode?: boolean;
+    disabled?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
-export class BoolRadio<Nullable extends boolean> extends React.PureComponent<Props<Nullable>> {
+export class BoolRadio<AllowNull extends boolean> extends React.PureComponent<Props<AllowNull>> {
     static displayName = "BoolRadio";
     static defaultProps: PickOptional<Props<false>> = {
         trueOptionFirst: true,
@@ -32,11 +29,34 @@ export class BoolRadio<Nullable extends boolean> extends React.PureComponent<Pro
     };
 
     render() {
-        const {trueOptionFirst, nullable, nullText, nullPositionIndex, ...restProps} = this.props;
+        const {trueOptionFirst, allowNull, value, onChange, useButtonMode, disabled, className, style} = this.props;
         const list = trueOptionFirst ? this.trueOptionFirstList : this.falseOptionFirstList;
-        if (nullable) {
-            return <EnumRadio.Nullable {...(restProps as ExtractKey<NullableBaseProps<boolean>>)} nullPositionIndex={nullPositionIndex} nullText={nullText} list={list} translator={this.translator} />;
+        if (allowNull) {
+            return (
+                <EnumRadio.Nullable
+                    list={list}
+                    translator={this.translator}
+                    value={value as boolean | null}
+                    onChange={onChange as (_: boolean | null) => void}
+                    useButtonMode={useButtonMode}
+                    disabled={disabled}
+                    className={className}
+                    style={style}
+                />
+            );
+        } else {
+            return (
+                <EnumRadio
+                    list={list}
+                    translator={this.translator}
+                    value={value as boolean}
+                    onChange={onChange as (_: boolean) => void}
+                    useButtonMode={useButtonMode}
+                    disabled={disabled}
+                    className={className}
+                    style={style}
+                />
+            );
         }
-        return <EnumRadio.InitialNullable list={list} translator={this.translator} {...restProps} />;
     }
 }

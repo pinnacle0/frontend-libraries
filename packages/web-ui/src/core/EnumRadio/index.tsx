@@ -10,6 +10,7 @@ export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
     translator: (enumValue: Enum) => React.ReactChild;
     useButtonMode?: boolean;
+    disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
 }
@@ -28,10 +29,10 @@ export class EnumRadio<Enum extends string | boolean | number> extends React.Pur
     };
 
     render() {
-        const {list, translator, value, useButtonMode, className, style} = this.props;
+        const {list, translator, value, useButtonMode, disabled, className, style} = this.props;
         const RadioItem = useButtonMode ? Radio.Button : Radio;
         return (
-            <Radio.Group value={value} onChange={this.onChange} className={className} style={style} optionType={useButtonMode ? "button" : undefined}>
+            <Radio.Group value={value} onChange={this.onChange} disabled={disabled} className={className} style={style} optionType={useButtonMode ? "button" : undefined}>
                 {list.map(_ => (
                     // RadioItem can accept any type as value, and emit the exact type while onChange
                     <RadioItem key={_.toString()} value={_}>
