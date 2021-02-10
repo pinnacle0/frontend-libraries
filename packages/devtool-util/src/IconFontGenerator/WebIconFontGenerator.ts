@@ -98,8 +98,9 @@ export class WebIconFontGenerator {
         const path = `${this.staticDirectory}/icon.html`;
         this.logger.task(["Generating static HTML for icon preview", path]);
 
-        const icons = this.iconClassList.map(_ => `<div class="item"><i class="g-${this.fontFamily}-icon ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
-        Utility.replaceTemplate(path, [this.cssURL, this.fontFamily, icons.join(""), new Date().toLocaleString()]);
+        // Must keep `iconfont` className here, because it is hard-coded in ali CSS
+        const icons = this.iconClassList.map(_ => `<div class="item"><i class="iconfont ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
+        Utility.replaceTemplate(path, [this.cssURL, icons.join(""), new Date().toLocaleString()]);
     }
 
     private formatSources() {
