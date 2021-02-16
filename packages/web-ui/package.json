@@ -23,7 +23,7 @@
     },
     "dependencies": {
         "@ant-design/icons": "4.3.0",
-        "antd": "4.8.5",
+        "antd": "4.12.3",
         "braft-editor": "2.3.9",
         "moment": "2.29.1"
     },
