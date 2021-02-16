@@ -8,13 +8,16 @@ import "./index.less";
 
 type Override<T, O> = Omit<T, keyof O> & O;
 
-interface RangeProps extends Override<Omit<SliderRangeProps, "range">, ControlledFormValue<[number, number]>> {}
+interface RangeProps extends Override<Omit<SliderRangeProps, "range">, ControlledFormValue<[number, number]>> {
+    draggable?: boolean;
+}
 
 class RangeSlider extends React.PureComponent<RangeProps> {
     static displayName = "RangeSlider";
 
     render() {
-        return <AntSlider range {...this.props} />;
+        const {draggable, ...rest} = this.props;
+        return <AntSlider range={{draggableTrack: draggable}} {...rest} />;
     }
 }
 
