@@ -18,12 +18,12 @@ export class SquareLogo extends React.PureComponent<Props> {
 
     render() {
         const {expanded, src} = this.props;
-        const {baseTitle} = this.context;
+        const {name} = this.context;
         return (
             <Link to="/">
                 <div id="admin-app-default-logo" className={expanded ? "" : "collapsed"}>
                     <img src={src} />
-                    <h1>{baseTitle}</h1>
+                    <h1>{name}</h1>
                 </div>
             </Link>
         );
