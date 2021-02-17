@@ -15,7 +15,7 @@ export interface Props extends Partial<UploadProps> {
      */
     accept: string;
     name: string;
-    beforeUpload?: (file: File) => boolean | PromiseLike<void>;
+    beforeUpload?: (file: File) => boolean | Promise<void | Blob | File>;
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
