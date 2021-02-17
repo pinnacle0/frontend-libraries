@@ -14,6 +14,8 @@ import {DateTimeRangePicker} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
 import type {Props as DateTimePickerProps} from "@pinnacle0/web-ui/core/DateTimePicker";
 import {DateTimePicker} from "@pinnacle0/web-ui/core/DateTimePicker";
 import {DateCalendar} from "@pinnacle0/web-ui/core/DateCalendar";
+import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
+import {YearMonthSelector} from "../../../../src/core/YearMonthSelector";
 
 const UncontrolledDatePicker = (props: Omit<DatePickerProps<any>, "value" | "onChange">) => {
     const [value, onChange] = React.useState<any>(null);
@@ -45,6 +47,8 @@ const UncontrolledDateTimeRangePicker = (props: Omit<DateTimeRangePickerProps<an
     return <DateTimeRangePicker disabledRange={_ => _ > 1 && _ < 4} {...props} value={value} onChange={onChange} />;
 };
 
+const UncontrolledYearMonthPicker = withUncontrolledInitialValue(YearMonthSelector);
+
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Date Picker",
@@ -74,6 +78,10 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Date Calendar",
         components: [<DateCalendarDemo />],
         showPropsHint: false,
+    },
+    {
+        title: "Year Month Picker",
+        components: [<UncontrolledYearMonthPicker allowNull initialValue={null} />],
     },
 ];
 
