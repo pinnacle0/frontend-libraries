@@ -12,3 +12,4 @@ export * from "./src/PrettierUtil";
 export * from "./src/ReactNativeChecker";
 export * from "./src/TaskRunner";
 export * from "./src/Utility";
+export * from "./src/VersionChecker";
