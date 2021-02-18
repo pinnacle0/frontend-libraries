@@ -6,17 +6,6 @@ interface VersionCheckerOptions {
     skipLibs?: string[];
 }
 
-/** There are many fields in the response, but we only need these two */
-interface NPMPackageAJAXResponse {
-    _id: string;
-    "dist-tags": {
-        latest: string;
-        beta: string;
-    };
-}
-
-// TODO: Check local dependencies version instead
-
 /**
  * Start NPM Packages version checker, before starting Webpack Dev Server
  *
@@ -36,8 +25,6 @@ export class VersionChecker {
     private readonly projectDirectory: string;
     private readonly skipLibs: string[];
     private readonly logger = Utility.createConsoleLogger("VersionChecker");
-    // Assuming all of our packages are using npm js registry
-    private readonly registry_url = "https://registry.npmjs.org";
     private packages: {
         [key: string]: string;
     } = {};
