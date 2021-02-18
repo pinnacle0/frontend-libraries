@@ -16,5 +16,5 @@ export const WebUINavigatorSide: React.FC<Props> = () => {
         [t.notificationSound]: <SoundSwitch />,
         [t.language]: <LocaleSelect />,
     };
-    return <AdminApp.Default.NavigatorSide drawerInfo={drawerInfo} onLogout={dummyEmptyCallback} />;
+    return <AdminApp.NavigatorSide drawerInfo={drawerInfo} onLogout={dummyEmptyCallback} />;
 };

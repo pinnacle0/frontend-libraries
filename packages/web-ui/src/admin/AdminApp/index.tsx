@@ -38,7 +38,9 @@ interface State {
 export class AdminApp extends React.PureComponent<Props, State> {
     static displayName = "AdminApp";
 
-    static Default = Object.freeze({SquareLogo, SoundSwitch, NavigatorSide});
+    static SquareLogo = SquareLogo;
+    static SoundSwitch = SoundSwitch;
+    static NavigatorSide = NavigatorSide;
 
     private readonly menuExpandedKey = "admin-menu-expanded";
     private readonly navigationModules: NavigationModuleItem<any, any>[];
