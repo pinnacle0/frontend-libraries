@@ -1,4 +1,4 @@
-import {Utility} from "./Utility";
+import {TaskRunner} from "./TaskRunner";
 import fs from "fs";
 
 interface VersionCheckerOptions {
@@ -24,7 +24,6 @@ interface VersionCheckerOptions {
 export class VersionChecker {
     private readonly projectDirectory: string;
     private readonly skipLibs: string[];
-    private readonly logger = Utility.createConsoleLogger("VersionChecker");
     private packages: {
         [key: string]: string;
     } = {};
@@ -35,20 +34,21 @@ export class VersionChecker {
     }
 
     run() {
-        try {
-            /**
-             * 1. Resolve package.json
-             * 2. Extract (dev) dependencies' name & version
-             * 3. Parallel fetch all meta data from registry
-             * 4. Compare all version tags
-             */
-            this.resolvePackageJson();
-            this.extractDependencies();
-            this.fetchAndValidatePackageVersion();
-        } catch (e) {
-            this.logger.error(e);
-            process.exit(1);
-        }
+        new TaskRunner("VersionChecker").execute([
+            {
+                name: "Resolve package.json",
+                skipInFastMode: true,
+                execute: this.resolvePackageJson,
+            },
+            {
+                name: "Extract Dependencies",
+                execute: this.extractDependencies,
+            },
+            {
+                name: "Validate Package Versions in node_modules",
+                execute: this.validatePackageVersion,
+            },
+        ]);
     }
 
     private resolvePackageJson() {
@@ -68,14 +68,14 @@ export class VersionChecker {
         this.packages = packages;
     }
 
-    private fetchAndValidatePackageVersion() {
-        Object.entries(this.packages).map(async ([packageName, version]) => {
-            const latest_version = this.fetchVersion(packageName);
+    private validatePackageVersion() {
+        Object.entries(this.packages).map(([packageName, version]) => {
+            const latest_version = this.getVersion(packageName);
             if (version !== latest_version) throw new Error(`Package version is not match. [${packageName}]: ${version} -> ${latest_version}`);
         });
     }
 
-    private fetchVersion(packageName: string) {
+    private getVersion(packageName: string) {
         const packagePath = require.resolve(`${packageName}/package.json`, {
             paths: [this.projectDirectory],
         });
