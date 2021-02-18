@@ -27,7 +27,6 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
             return true;
         }
 
-        // moment will truncate the result to zero decimal places
         // ref: https://momentjs.com/docs/#/displaying/difference/
         const diffToToday = Math.floor(date.diff(moment().startOf("day"), "day", true));
 
