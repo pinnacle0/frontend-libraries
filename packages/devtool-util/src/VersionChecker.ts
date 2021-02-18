@@ -1,6 +1,5 @@
 import {Utility} from "./Utility";
 import fs from "fs";
-import axios from "axios";
 
 interface VersionCheckerOptions {
     projectDirectory: string;
@@ -15,6 +14,8 @@ interface NPMPackageAJAXResponse {
         beta: string;
     };
 }
+
+// TODO: Check local dependencies version instead
 
 /**
  * Start NPM Packages version checker, before starting Webpack Dev Server
@@ -33,6 +34,7 @@ interface NPMPackageAJAXResponse {
  */
 export class VersionChecker {
     private readonly projectDirectory: string;
+    private readonly skipLibs: string[];
     private readonly logger = Utility.createConsoleLogger("VersionChecker");
     // Assuming all of our packages are using npm js registry
     private readonly registry_url = "https://registry.npmjs.org";
@@ -40,11 +42,12 @@ export class VersionChecker {
         [key: string]: string;
     } = {};
 
-    constructor({projectDirectory}: VersionCheckerOptions) {
+    constructor({projectDirectory, skipLibs}: VersionCheckerOptions) {
         this.projectDirectory = projectDirectory;
+        this.skipLibs = skipLibs ?? [];
     }
 
-    async run() {
+    run() {
         try {
             /**
              * 1. Resolve package.json
@@ -54,7 +57,7 @@ export class VersionChecker {
              */
             this.resolvePackageJson();
             this.extractDependencies();
-            await this.fetchAndValidatePackageVersion();
+            this.fetchAndValidatePackageVersion();
         } catch (e) {
             this.logger.error(e);
             process.exit(1);
@@ -68,22 +71,28 @@ export class VersionChecker {
     private extractDependencies() {
         const packageJson = fs.readFileSync(this.projectDirectory + "/package.json");
         const json = JSON.parse(packageJson.toString("utf-8"));
-        this.packages = {
+        const packages = {
             ...json.devDependencies,
             ...json.dependencies,
         };
+        this.skipLibs.forEach(packageName => {
+            delete packages[packageName];
+        });
+        this.packages = packages;
     }
 
-    private async fetchAndValidatePackageVersion() {
-        const promises = Object.entries(this.packages).map(async ([packageName, version]) => {
-            const latest_version = await this.fetchVersion(packageName);
+    private fetchAndValidatePackageVersion() {
+        Object.entries(this.packages).map(async ([packageName, version]) => {
+            const latest_version = this.fetchVersion(packageName);
             if (version !== latest_version) throw new Error(`Package version is not match. [${packageName}]: ${version} -> ${latest_version}`);
         });
-        await Promise.all(promises);
     }
 
-    private async fetchVersion(packageName: string) {
-        const res = await axios.get<NPMPackageAJAXResponse>(`${this.registry_url}/${packageName}`);
-        return res.data["dist-tags"].latest;
+    private fetchVersion(packageName: string) {
+        const packagePath = require.resolve(`${packageName}/package.json`, {
+            paths: [this.projectDirectory],
+        });
+        const packageJson = require(packagePath);
+        return packageJson.version;
     }
 }
