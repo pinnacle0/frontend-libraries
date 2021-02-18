@@ -26,6 +26,7 @@ export interface Props {
     WelcomeComponent?: React.ComponentType;
     sideMenuWidth?: number;
     badges?: {[key: string]: number};
+    noBrowserRouter?: boolean;
     onLifecycleError?: (error: unknown, componentStack: string) => void;
     onNotFound?: (notFoundPath: string) => void;
 }
@@ -64,31 +65,31 @@ export class AdminApp extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {name, navigationService, WelcomeComponent, LogoComponent, NavigatorSideComponent, badges, sideMenuWidth, onNotFound, onLifecycleError} = this.props;
+        const {name, navigationService, WelcomeComponent, LogoComponent, NavigatorSideComponent, noBrowserRouter, badges, sideMenuWidth, onNotFound, onLifecycleError} = this.props;
         const {menuExpanded} = this.state;
-        return (
-            <BrowserRouter>
-                <AdminAppContext.Provider value={this.adminAppContext}>
-                    <AntLayout id="admin-app">
-                        <AntLayout.Sider collapsed={!menuExpanded} width={sideMenuWidth}>
-                            {LogoComponent && <LogoComponent expanded={menuExpanded} />}
-                            <Menu navigationService={navigationService} menuExpanded={menuExpanded} siteName={name} badges={badges} />
-                            <div className="toggle-menu-icon" onClick={this.toggleMenuExpansion}>
-                                {menuExpanded ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
-                            </div>
-                        </AntLayout.Sider>
-                        <AntLayout>
-                            <AntLayout.Header>
-                                <Navigator navigationService={navigationService} />
-                                {NavigatorSideComponent && <NavigatorSideComponent />}
-                            </AntLayout.Header>
-                            <AntLayout.Content>
-                                <RouteSwitch navigationService={navigationService} WelcomeComponent={WelcomeComponent} onLifecycleError={onLifecycleError} onNotFound={onNotFound} />
-                            </AntLayout.Content>
-                        </AntLayout>
+        const coreContent = (
+            <AdminAppContext.Provider value={this.adminAppContext}>
+                <AntLayout id="admin-app">
+                    <AntLayout.Sider collapsed={!menuExpanded} width={sideMenuWidth}>
+                        {LogoComponent && <LogoComponent expanded={menuExpanded} />}
+                        <Menu navigationService={navigationService} menuExpanded={menuExpanded} siteName={name} badges={badges} />
+                        <div className="toggle-menu-icon" onClick={this.toggleMenuExpansion}>
+                            {menuExpanded ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+                        </div>
+                    </AntLayout.Sider>
+                    <AntLayout>
+                        <AntLayout.Header>
+                            <Navigator navigationService={navigationService} />
+                            {NavigatorSideComponent && <NavigatorSideComponent />}
+                        </AntLayout.Header>
+                        <AntLayout.Content>
+                            <RouteSwitch navigationService={navigationService} WelcomeComponent={WelcomeComponent} onLifecycleError={onLifecycleError} onNotFound={onNotFound} />
+                        </AntLayout.Content>
                     </AntLayout>
-                </AdminAppContext.Provider>
-            </BrowserRouter>
+                </AntLayout>
+            </AdminAppContext.Provider>
         );
+
+        return noBrowserRouter ? coreContent : <BrowserRouter>{coreContent}</BrowserRouter>;
     }
 }
