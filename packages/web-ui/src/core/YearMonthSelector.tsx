@@ -30,7 +30,7 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
         const {onChange, allowNull} = this.props;
         if (dateString || allowNull) {
             const typedOnChange = onChange as (value: [number, number] | null) => void;
-            typedOnChange(date && [date.year(), date.month()]);
+            typedOnChange(date && [date.year(), date.month() + 1]);
         }
     };
 
@@ -42,7 +42,7 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
                 className={className}
                 disabledDate={this.isDateDisabled}
                 placeholder={placeholder}
-                value={value ? moment(value) : null}
+                value={value ? moment([value[0], value[1] - 1]) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
