@@ -43,6 +43,7 @@ export class VersionChecker {
             {
                 name: "Extract Dependencies",
                 execute: () => {
+                    // TODO/Jamyth: Refactor to use `require()`
                     const packageJson = fs.readFileSync(this.projectDirectory + "/package.json");
                     const json = JSON.parse(packageJson.toString("utf-8"));
                     const packages = {
