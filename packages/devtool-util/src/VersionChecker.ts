@@ -37,15 +37,15 @@ export class VersionChecker {
                 name: "Resolve package.json",
                 skipInFastMode: true,
                 execute: () => {
-                    if (!fs.existsSync(this.projectDirectory + "/package.json")) throw new Error(`Package.json does not exist in [${this.projectDirectory}]`);
+                    if (!fs.existsSync(this.projectDirectory + "/package.json")) {
+                        throw new Error(`Package.json does not exist in [${this.projectDirectory}]`);
+                    }
                 },
             },
             {
                 name: "Extract Dependencies",
                 execute: () => {
-                    // TODO/Jamyth: Refactor to use `require()`
-                    const packageJson = fs.readFileSync(this.projectDirectory + "/package.json");
-                    const json = JSON.parse(packageJson.toString("utf-8"));
+                    const json = require(this.projectDirectory + "/package.json");
                     const packages = {
                         ...json.devDependencies,
                         ...json.dependencies,
@@ -65,7 +65,9 @@ export class VersionChecker {
                         });
                         const packageJson = require(packagePath);
                         const latest_version = packageJson.version;
-                        if (version !== latest_version) throw new Error(`Package version is not match. [${packageName}]: ${version} -> ${latest_version}`);
+                        if (version !== latest_version) {
+                            throw new Error(`Package version is not match. [${packageName}]: ${version} -> ${latest_version}`);
+                        }
                     });
                 },
             },
