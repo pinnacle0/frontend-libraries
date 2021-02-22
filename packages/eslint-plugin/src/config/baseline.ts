@@ -10,7 +10,7 @@ import confusingBrowserGlobals from "confusing-browser-globals";
 
 export const baseline: ESLint.Linter.Config = {
     parser: "@typescript-eslint/parser",
-    extends: ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended", "plugin:import/typescript", "prettier/@typescript-eslint"],
+    extends: ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended", "plugin:import/typescript", "prettier"],
     plugins: ["@pinnacle0", "@typescript-eslint", "eslint-comments", "import", "react", "react-hooks"],
     parserOptions: {
         ecmaVersion: 2020,
