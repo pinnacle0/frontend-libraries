@@ -27,12 +27,12 @@
     "devDependencies": {
         "@rollup/plugin-commonjs": "17.1.0",
         "@rollup/plugin-json": "4.1.0",
-        "@rollup/plugin-node-resolve": "11.1.1",
+        "@rollup/plugin-node-resolve": "11.2.0",
         "@typescript-eslint/eslint-plugin": "4.15.1",
         "@typescript-eslint/parser": "4.15.1",
         "eslint-config-prettier": "8.0.0",
-        "rollup": "2.38.4",
-        "rollup-plugin-typescript2": "0.29.0"
+        "rollup": "2.39.0",
+        "rollup-plugin-typescript2": "0.30.0"
     },
     "optionalDependencies": {
         "eslint-plugin-jest": "^24.1.5",
