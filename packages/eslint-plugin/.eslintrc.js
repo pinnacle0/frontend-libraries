@@ -4,7 +4,7 @@
 const config = {
     root: true, // Set root=true to prevent eslint config cascading from workspace root eslint config file
     ignorePatterns: ["./build/**"],
-    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
+    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaVersion: 2020,
