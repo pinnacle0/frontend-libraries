@@ -4,6 +4,7 @@ import fs from "fs";
 interface VersionCheckerOptions {
     projectDirectory: string;
     skipLibs?: string[];
+    onSuccess?: () => void;
 }
 
 /**
@@ -24,28 +25,26 @@ interface VersionCheckerOptions {
 export class VersionChecker {
     private readonly projectDirectory: string;
     private readonly skipLibs: string[];
+    private readonly onSuccess: () => void;
     private packages: Record<string, string> = {};
 
-    constructor({projectDirectory, skipLibs}: VersionCheckerOptions) {
+    constructor({projectDirectory, skipLibs, onSuccess}: VersionCheckerOptions) {
         this.projectDirectory = projectDirectory;
         this.skipLibs = skipLibs ?? [];
+        this.onSuccess = onSuccess ?? (() => {});
     }
 
     run() {
         new TaskRunner("VersionChecker").execute([
             {
-                name: "Resolve package.json",
-                skipInFastMode: true,
+                name: "Check and resolve package.json",
                 execute: () => {
-                    if (!fs.existsSync(this.projectDirectory + "/package.json")) {
-                        throw new Error(`Package.json does not exist in [${this.projectDirectory}]`);
+                    const packageJsonPath = this.projectDirectory + "/package.json";
+                    if (!fs.existsSync(packageJsonPath)) {
+                        throw new Error(`package.json does not exist in ${this.projectDirectory}`);
                     }
-                },
-            },
-            {
-                name: "Extract Dependencies",
-                execute: () => {
-                    const json = require(this.projectDirectory + "/package.json");
+
+                    const json = require(packageJsonPath);
                     const packages = {
                         ...json.devDependencies,
                         ...json.dependencies,
@@ -59,16 +58,17 @@ export class VersionChecker {
             {
                 name: "Validate Package Versions in node_modules",
                 execute: () => {
-                    Object.entries(this.packages).map(([packageName, version]) => {
+                    Object.entries(this.packages).map(([packageName, expectedVersion]) => {
                         const packagePath = require.resolve(`${packageName}/package.json`, {
                             paths: [this.projectDirectory],
                         });
                         const packageJson = require(packagePath);
-                        const latest_version = packageJson.version;
-                        if (version !== latest_version) {
-                            throw new Error(`Package version is not match. [${packageName}]: ${version} -> ${latest_version}`);
+                        const installedVersion = packageJson.version;
+                        if (expectedVersion !== installedVersion) {
+                            throw new Error(`[${packageName}] version not match, expected: ${expectedVersion}, installed: ${installedVersion}`);
                         }
                     });
+                    this.onSuccess();
                 },
             },
         ]);
