@@ -21,6 +21,9 @@ interface VersionCheckerOptions {
  *  For example:
  *      - @ub/shared
  *      - @ub/web-shared
+ *
+ *  This Version checker currently only check exact match, symbols like ^1.0.0 will consider not match
+ *  It is okay for our own projects (we use exact versioning)
  */
 export class VersionChecker {
     private readonly projectDirectory: string;
