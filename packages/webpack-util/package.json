@@ -10,7 +10,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "@babel/core": "7.12.13",
+        "@babel/core": "7.12.17",
         "@pinnacle0/devtool-util": "^0.1.5",
         "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
         "autoprefixer": "9.8.6",

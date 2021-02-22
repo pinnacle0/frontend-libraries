@@ -15,10 +15,10 @@
         "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
     },
     "devDependencies": {
-        "@babel/core": "7.12.13",
-        "@babel/preset-env": "7.12.13",
+        "@babel/core": "7.12.17",
+        "@babel/preset-env": "7.12.17",
         "@babel/preset-react": "7.12.13",
-        "@babel/preset-typescript": "7.12.13",
+        "@babel/preset-typescript": "7.12.17",
         "core-js": "3.8.3",
         "parcel": "2.0.0-beta.1",
         "react": "17.0.1",
