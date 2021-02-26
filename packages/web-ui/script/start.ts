@@ -3,8 +3,6 @@ import path from "path";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 
-// TODO/Lok: Use relative paths
-
 export interface ImageUploadResponse {
     imageURL: string;
     imageKey: string;
