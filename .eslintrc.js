@@ -2,7 +2,7 @@
 
 /** @type {import("eslint").Linter.Config} */
 const config = {
-    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:import/typescript", "prettier", "prettier/@typescript-eslint"],
+    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:import/typescript", "prettier"],
     plugins: ["import", "react", "react-hooks"],
     parser: "@typescript-eslint/parser",
     parserOptions: {
