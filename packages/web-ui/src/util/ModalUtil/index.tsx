@@ -28,7 +28,6 @@ export interface ModalConfig {
     autoFocusButton?: "ok" | "cancel" | null;
     hideButtons?: boolean;
     addInnerPadding?: boolean;
-    // TODO/James: complete this logic, for 單挑 UI
     footerExtra?: SafeReactChild;
 }
 

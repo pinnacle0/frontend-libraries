@@ -6,13 +6,14 @@ import "./index.less";
  * - \n for new line, each line wrapped with <p/>.
  * - `text` for emphasis, transform to <em>text</em>.
  * - __text__ for boldness, transform to <b>text</b>.
+ *
+ * Nested usage not supported yet.
  */
 export interface Props {
     children: string;
     style?: React.CSSProperties;
 }
 
-// TODO/tim: support nested bold / highlight
 export class Markdown extends React.PureComponent<Props> {
     static displayName = "Markdown";
 
