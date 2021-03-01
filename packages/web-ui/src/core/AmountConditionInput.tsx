@@ -19,13 +19,13 @@ export interface AmountConditionValue {
 
 export interface Props extends ControlledFormValue<AmountConditionValue> {
     scale: number;
-    operatorOptions?: Operator[];
+    operators?: Operator[];
 }
 
 export class AmountConditionInput extends React.PureComponent<Props> {
     static displayName = "AmountConditionInput";
 
-    private readonly operators: Operator[] = this.props.operatorOptions ?? [Operator.GREATER_THAN, Operator.GREATER_EQUAL, Operator.LESS_THAN, Operator.LESS_EQUAL, Operator.EQUALS];
+    private readonly operators: Operator[] = this.props.operators || [Operator.GREATER_THAN, Operator.GREATER_EQUAL, Operator.LESS_THAN, Operator.LESS_EQUAL, Operator.EQUALS];
     private readonly selectStyle: React.CSSProperties = {width: 55};
     private readonly inputStyle: React.CSSProperties = {width: 180, borderTopLeftRadius: 0, borderBottomLeftRadius: 0};
 
