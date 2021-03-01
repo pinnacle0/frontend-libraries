@@ -5,7 +5,7 @@ export class RegExpUtil {
             RegExpUtil.validateFileExtension(ext);
             escapedExtensions.push(ext.replace(/\./g, String.raw`\.`));
         }
-        return new RegExp(escapedExtensions.join("|") + "$");
+        return new RegExp(`(${escapedExtensions.join("|")})$`);
     }
 
     private static validateFileExtension(ext: string): void {
