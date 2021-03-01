@@ -1,8 +1,8 @@
-import AntDatePicker from "antd/lib/date-picker";
-import "antd/lib/date-picker/style";
-import moment from "moment";
 import React from "react";
+import moment from "moment";
+import AntDatePicker from "antd/lib/date-picker";
 import type {ControlledFormValue} from "../../internal/type";
+import "antd/lib/date-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [string, string] : [string | null, string | null]> {
@@ -17,20 +17,19 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
 
     private readonly dateFormatter = "YYYY-MM-DD";
 
-    isDateDisabled = (date: moment.Moment): boolean => {
+    isDateDisabled = (current: moment.Moment): boolean => {
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
          * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
          */
-        if (date.valueOf() >= new Date(2038, 0).valueOf()) {
+        if (current.valueOf() >= new Date(2038, 0).valueOf()) {
             return true;
         }
 
         // ref: https://momentjs.com/docs/#/displaying/difference/
-        const diffToToday = Math.floor(date.diff(moment().startOf("day"), "day", true));
-
-        return this.props.disabledRange?.(diffToToday, date.toDate()) || false;
+        const diffToToday = Math.floor(current.diff(moment().startOf("day"), "day", true));
+        return this.props.disabledRange?.(diffToToday, current.toDate()) || false;
     };
 
     onChange = (dates: [moment.Moment | null, moment.Moment | null] | null) => {

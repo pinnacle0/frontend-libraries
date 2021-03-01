@@ -15,13 +15,13 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
 export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DatePicker";
 
-    isDateDisabled = (current: moment.Moment | null): boolean => {
+    isDateDisabled = (current: moment.Moment): boolean => {
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
          * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
          */
-        if (current && current.valueOf() >= new Date(2038, 0).valueOf()) {
+        if (current.valueOf() >= new Date(2038, 0).valueOf()) {
             return true;
         }
         return false;

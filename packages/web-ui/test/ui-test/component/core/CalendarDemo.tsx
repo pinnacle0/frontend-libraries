@@ -80,8 +80,8 @@ const groups: DemoHelperGroupConfig[] = [
         showPropsHint: false,
     },
     {
-        title: "Year Month Picker",
-        components: [<UncontrolledYearMonthPicker allowNull initialValue={null} />],
+        title: "Year Month Picker (Disable Future Months & 1 Year Ago)",
+        components: [<UncontrolledYearMonthPicker allowNull initialValue={null} disabledRange={diff => diff < -12 || diff > 0} />],
     },
 ];
 
