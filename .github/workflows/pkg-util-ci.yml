@@ -27,8 +27,6 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            # TODO/Lok: This only works for yarn v1 (After upgrading to yarn v2, update below to use the yarn v2 snippet)
-            # See: https://github.com/actions/cache/blob/main/examples.md#node---yarn
             - name: Get yarn v1 cache directory path
               id: yarn-cache-dir-path
               run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -42,7 +40,6 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node${{ matrix.node-version }}-yarn-
 
-            # TODO/Lok: Use --immutable instead of --frozen-lockfile for yarn v2
             - name: Install node_modules
               run: yarn install --frozen-lockfile --prefer-offline
 
