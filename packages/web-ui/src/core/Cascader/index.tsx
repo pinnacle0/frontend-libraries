@@ -6,14 +6,14 @@ import {i18n} from "../../internal/i18n/core";
 import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
 import "./index.less";
 
-export interface CascaderDataNode<T> {
+export interface CascaderDataNode<T extends string | null> {
     label: string;
     value?: T;
     disabled?: boolean;
     children?: Array<CascaderDataNode<T>>;
 }
 
-export interface Props<T> extends ControlledFormValue<T> {
+export interface Props<T extends string | null> extends ControlledFormValue<T> {
     data: Array<CascaderDataNode<T>>;
     canSelectAnyLevel?: boolean;
     placeholder?: string;
