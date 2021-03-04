@@ -17,10 +17,7 @@ interface VersionCheckerOptions {
  *  └── package.json
  *  ```
  *
- * - `skipLibs`: skip version checking if the array contains the package, Basically for monorepos
- *  For example:
- *      - @ub/shared
- *      - @ub/web-shared
+ * - `skipLibs`: skip version checking if the array contains the package
  *
  *  This Version checker currently only check exact match, symbols like ^1.0.0 will consider not match
  *  It is okay for our own projects (we use exact versioning)
@@ -42,12 +39,12 @@ export class VersionChecker {
             {
                 name: "Check and resolve package.json",
                 execute: () => {
-                    const packageJsonPath = this.projectDirectory + "/package.json";
-                    if (!fs.existsSync(packageJsonPath)) {
+                    const packageJSONPath = this.projectDirectory + "/package.json";
+                    if (!fs.existsSync(packageJSONPath)) {
                         throw new Error(`package.json does not exist in ${this.projectDirectory}`);
                     }
 
-                    const json = require(packageJsonPath);
+                    const json = require(packageJSONPath);
                     const packages = {
                         ...json.devDependencies,
                         ...json.dependencies,
@@ -61,12 +58,12 @@ export class VersionChecker {
             {
                 name: "Validate Package Versions in node_modules",
                 execute: () => {
-                    Object.entries(this.packages).map(([packageName, expectedVersion]) => {
+                    Object.entries(this.packages).forEach(([packageName, expectedVersion]) => {
                         const packagePath = require.resolve(`${packageName}/package.json`, {
                             paths: [this.projectDirectory],
                         });
-                        const packageJson = require(packagePath);
-                        const installedVersion = packageJson.version;
+                        const packageJSON = require(packagePath);
+                        const installedVersion = packageJSON.version;
                         if (expectedVersion !== installedVersion) {
                             throw new Error(`[${packageName}] version not match, expected: ${expectedVersion}, installed: ${installedVersion}`);
                         }
