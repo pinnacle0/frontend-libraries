@@ -3,7 +3,6 @@ import type {ModalProps} from "antd/lib/modal";
 import AntModal from "antd/lib/modal";
 import {Spin} from "../Spin";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
-
 import "antd/lib/modal/style";
 import "./index.less";
 

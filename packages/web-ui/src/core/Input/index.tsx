@@ -1,8 +1,9 @@
 import React from "react";
 import type {InputProps, PasswordProps, SearchProps, TextAreaProps} from "antd/lib/input";
 import AntInput from "antd/lib/input";
-import type {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/input/style";
+import "./index.less";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 

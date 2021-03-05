@@ -3,6 +3,7 @@ import AntSelect from "antd/lib/select";
 import type {OptionProps as SelectOptionProps} from "rc-select/lib/Option";
 import React from "react";
 import "antd/lib/select/style";
+import "./index.less";
 
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
     options?: Array<{value: string | number; label?: string}>;

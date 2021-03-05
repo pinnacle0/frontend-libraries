@@ -2,6 +2,7 @@ import type {StepsProps} from "antd/lib/steps";
 import AntSteps from "antd/lib/steps";
 import React from "react";
 import "antd/lib/steps/style";
+import "./index.less";
 
 export interface Props extends StepsProps {}
 

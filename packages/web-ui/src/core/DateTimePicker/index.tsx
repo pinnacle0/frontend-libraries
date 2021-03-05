@@ -1,19 +1,19 @@
 import AntDatePicker from "antd/lib/date-picker";
-import type {Moment} from "moment";
 import moment from "moment";
 import React from "react";
-import type {ControlledFormValue} from "../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/date-picker/style";
+import "./index.less";
 
-export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {
+export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? Date : Date | null> {
     allowNull: T;
     disabled?: boolean;
-    placeholder?: string;
     className?: string;
+    placeholder?: string;
 }
 
-export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>> {
-    static displayName = "DatePicker";
+export class DateTimePicker<T extends boolean> extends React.PureComponent<Props<T>> {
+    static displayName = "DateTimePicker";
 
     isDateDisabled = (current: moment.Moment): boolean => {
         /**
@@ -27,26 +27,27 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
         return false;
     };
 
-    onChange = (date: Moment | null, dateString: string) => {
-        const {onChange, allowNull} = this.props;
-        if (dateString || allowNull) {
-            const typedOnChange = onChange as (value: string | null) => void;
-            typedOnChange(dateString);
+    onChange = (date: moment.Moment | null) => {
+        const typedOnChange = this.props.onChange as (value: Date | null) => void;
+        if (date) {
+            typedOnChange(date.toDate());
+        } else {
+            typedOnChange(null);
         }
     };
 
     render() {
-        const {value, allowNull, placeholder, disabled, className} = this.props;
+        const {value, allowNull, disabled, className, placeholder} = this.props;
         return (
             <AntDatePicker
                 className={className}
-                showTime={false}
-                disabledDate={this.isDateDisabled}
                 placeholder={placeholder}
+                disabledDate={this.isDateDisabled}
                 value={value ? moment(value) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
+                showTime
             />
         );
     }

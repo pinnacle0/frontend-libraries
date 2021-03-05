@@ -2,6 +2,7 @@ import type {BadgeProps as AntBadgeProps} from "antd/lib/badge";
 import AntBadge from "antd/lib/badge";
 import React from "react";
 import "antd/lib/badge/style";
+import "./index.less";
 
 export interface Props extends AntBadgeProps {}
 
