@@ -10,6 +10,7 @@ export enum Operator {
     LESS_THAN = "LESS_THAN",
     LESS_EQUAL = "LESS_EQUAL",
     EQUALS = "EQUALS",
+    NOT_EQUALS = "NOT_EQUALS",
 }
 
 export interface AmountConditionValue {
@@ -41,6 +42,8 @@ export class AmountConditionInput extends React.PureComponent<Props> {
                 return "≤";
             case Operator.EQUALS:
                 return "=";
+            case Operator.NOT_EQUALS:
+                return "≠";
         }
     };
 
