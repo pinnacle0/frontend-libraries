@@ -43,12 +43,9 @@ function openVideo(url: string) {
     });
 }
 
-/**
- * Usage: `MediaUtil.playAudio(require("./path/to/file"))`
- */
-function playAudio(requiredUrl: string, amplitude: number = 1) {
+function playAudio(url: string, amplitude: number = 1) {
     try {
-        const elementSource = new Audio(requiredUrl);
+        const elementSource = new Audio(url);
         elementSource.crossOrigin = "anonymous";
         const audioCtx = new AudioContext();
         const source = audioCtx.createMediaElementSource(elementSource);
