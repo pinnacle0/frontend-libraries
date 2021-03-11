@@ -11,6 +11,7 @@ import type {
     SafeReactChildren,
     MarkAsOptional,
     MarkAsNullable,
+    MarkAsNonNullable,
 } from "../src/type";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
@@ -212,7 +213,7 @@ describe("MarkAsRequired", () => {
     });
 });
 
-describe("PickOptional<T>", () => {
+describe("PickOptional", () => {
     type TestType = {
         nonNullable: 10;
         anotherNonNullable: 10;
@@ -252,7 +253,7 @@ describe("PickOptional<T>", () => {
     });
 });
 
-describe("PickNonNullable<T>", () => {
+describe("PickNonNullable", () => {
     type TestType = {
         nonNullable: 10;
         anotherNonNullable: 10;
@@ -291,7 +292,7 @@ describe("PickNonNullable<T>", () => {
     });
 });
 
-describe("NullableKeys<T>", () => {
+describe("NullableKeys", () => {
     type TestType = {
         nonNullable: 10;
         canBeUndefined: 11 | undefined;
@@ -323,7 +324,7 @@ describe("NullableKeys<T>", () => {
     });
 });
 
-describe("NonNullableKeys<T>", () => {
+describe("NonNullableKeys", () => {
     type TestType = {
         nonNullable: 10;
         canBeUndefined: 11 | undefined;
@@ -349,7 +350,6 @@ describe("NonNullableKeys<T>", () => {
         t1 = "canBeNull";
         // @ts-expect-error
         t1 = "canBeNullAndUndefined";
-
         // @ts-expect-error
         t1 = "optionalNonNullable";
         // @ts-expect-error
@@ -361,7 +361,30 @@ describe("NonNullableKeys<T>", () => {
     });
 });
 
-describe("MarkAsOptional<T>", () => {
+describe("MarkAsNonNullable", () => {
+    type TestType = {
+        a: number;
+        b: string | null;
+        c: string[];
+    };
+
+    test("zoo and cow are Nullable", () => {
+        let x: MarkAsNonNullable<TestType, "a" | "b">;
+
+        x = {a: 1, b: "b", c: ["c"]};
+
+        // @ts-expect-error
+        x = {a: null, b: "b", c: ["c"]};
+        // @ts-expect-error
+        x = {a: 1, b: null, c: ["c"]};
+        // @ts-expect-error
+        x = {a: null, b: null, c: ["c"]};
+        // @ts-expect-error
+        x = {a: 1, b: "b", c: null};
+    });
+});
+
+describe("MarkAsOptional", () => {
     type TestType = {
         zoo: number;
         cow: string;
@@ -396,7 +419,7 @@ describe("MarkAsOptional<T>", () => {
     });
 });
 
-describe("MarkAsNullable<T>", () => {
+describe("MarkAsNullable", () => {
     type TestType = {
         zoo: number;
         cow: string;

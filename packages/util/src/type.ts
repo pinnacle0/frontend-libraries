@@ -9,6 +9,7 @@ export type KeysOfType<T, ExpectedValueType> = {[P in keyof T]: T[P] extends Exp
 export type NullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? never : K}[keyof T];
 export type NonNullableKeys<T> = {[K in keyof T]: T[K] extends NonNullable<T[K]> ? K : never}[keyof T];
 
+export type MarkAsNonNullable<T, K extends keyof T> = Omit<T, K> & {[P in K]: NonNullable<T[P]>};
 export type MarkAsRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 export type MarkAsOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type MarkAsNullable<T, K extends keyof T> = Omit<T, K> & {[P in K]: T[P] | null};
