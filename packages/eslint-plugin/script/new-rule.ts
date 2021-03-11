@@ -1,8 +1,7 @@
-import {TaskRunner} from "@pinnacle0/devtool-util";
+import {NamingUtil, TaskRunner} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
-import {isKebabCase, kebabToCamelCase} from "./util";
 
 const directory = {
     src: path.join(__dirname, "../src"),
@@ -22,7 +21,7 @@ new TaskRunner("new-rule").execute([
     {
         name: "check pre-conditions",
         execute: () => {
-            if (!isKebabCase(newRuleName)) {
+            if (!NamingUtil.isKebabCase(newRuleName)) {
                 throw new Error(`Rule name should be in kebab-case, but received "${newRuleName}".`);
             }
             if (fs.existsSync(newRuleFile)) {
@@ -42,7 +41,7 @@ new TaskRunner("new-rule").execute([
                     encoding: "utf8",
                 })
                 .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
             fs.writeFileSync(newRuleFile, output, {encoding: "utf8"});
         },
     },
@@ -55,7 +54,7 @@ new TaskRunner("new-rule").execute([
                     encoding: "utf8",
                 })
                 .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", kebabToCamelCase(newRuleName));
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
             fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
         },
     },

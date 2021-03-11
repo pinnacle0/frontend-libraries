@@ -1,7 +1,6 @@
-import {TaskRunner, Utility} from "@pinnacle0/devtool-util";
+import {NamingUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
-import {kebabToCamelCase} from "./util";
 
 const print = Utility.createConsoleLogger("codegen");
 const directory = {
@@ -16,7 +15,7 @@ function scanCustomRules() {
         .map(file => {
             const fileBasename = path.basename(file, ".ts");
             console.info(`- ${fileBasename}`);
-            return {kebab: fileBasename, camel: kebabToCamelCase(fileBasename)};
+            return {kebab: fileBasename, camel: NamingUtil.toCamelCase(fileBasename)};
         })
         .filter(_ => _.kebab !== "index")
         .sort((a, b) => a.camel.localeCompare(b.camel));
