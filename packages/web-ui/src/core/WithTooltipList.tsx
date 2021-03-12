@@ -69,7 +69,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
             return (
                 <Tooltip placement="bottom" title={this.renderTooltip()}>
                     <div style={this.wrapperStyle}>
-                        <a onClick={onClick || this.dummyClick} style={this.wrapperStyle}>
+                        <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
                             {label}
                         </a>
                     </div>
@@ -77,7 +77,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
             );
         } else {
             return (
-                <Tooltip placement="bottom" title={this.renderTooltip()}>
+                <Tooltip placement="bottom" title={this.renderTooltip()} className="g-with-tooltip-list-anchor">
                     <a>{label}</a>
                 </Tooltip>
             );
