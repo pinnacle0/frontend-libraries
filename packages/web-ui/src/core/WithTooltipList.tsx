@@ -8,7 +8,11 @@ export interface TooltipListProps {
 
 export interface Props {
     list: Array<TooltipListProps | "-">;
-    children?: string | React.ReactElement; // If undefined, it will use the first list item as label
+    /**
+     * If undefined, it will use the first list item as label.
+     * If ReactElement, make sure it is inline-block, to make the tooltip arrow centered.
+     */
+    children?: string | React.ReactElement;
     onClick?: () => void;
 }
 
