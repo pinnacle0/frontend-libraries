@@ -1,9 +1,9 @@
 function isKebabCase(string: string): boolean {
-    return /^[a-z]+(-[a-z]+)*$/.test(string);
+    return /^([a-z][a-z0-9]*)+(-([a-z][a-z0-9]*)+)*$/.test(string);
 }
 
 function isSnakeCase(string: string): boolean {
-    return /^[a-z]+(_[a-z]+)*$/.test(string);
+    return /^([a-z][a-z0-9]*)+(_([a-z][a-z0-9]*)+)*$/.test(string);
 }
 
 function toCamelCase(string: string) {
