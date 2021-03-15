@@ -31,7 +31,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[string[]], MessageIds
         },
         fixable: "code",
         messages: {
-            noNamedImports: 'use [import {{name}} from "{{name}}" directly, no named imports.]]',
+            noNamedImports: 'Named imports forbidden with package "{{name}}"',
         },
         schema: [
             {
