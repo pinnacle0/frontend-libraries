@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
+import {NamingUtil} from "../NamingUtil";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {ModuleGeneratorOptions} from "./type";
@@ -80,7 +81,7 @@ export class ModuleGeneratorBase {
         if (!this.moduleName) throw new Error("Module name must be specified (via command line, or constructor)");
         if (splitModuleNames.length !== 2) throw new Error("Module name must be of parent/child format");
         if (!availableTopLevelModuleNames.includes(splitModuleNames[0])) throw new Error(`Module [${splitModuleNames[0]}] must be one of ${availableTopLevelModuleNames.join("/")}`);
-        if (!/^[a-z]+?((-[a-z]+?)|(-v[0-9]+?))*$/.test(splitModuleNames[1])) throw new Error(`Module name [${splitModuleNames[1]}] does not conform to naming convention`);
+        if (!NamingUtil.isKebabCase(splitModuleNames[1])) throw new Error(`Module name [${splitModuleNames[1]}] does not conform to naming convention`);
         if (fs.existsSync(this.newModuleDirectory)) throw new Error(`Module [${this.moduleName}] already exists`);
     }
 
@@ -145,20 +146,10 @@ export class ModuleGeneratorBase {
      * Special case: for common/some-name module, common will be omitted.
      */
     private getModuleNameInFormat(format: "pascal" | "camel") {
-        const replaceHyphen = (name: string, alwaysPascal: boolean) => {
-            return name
-                .split("-")
-                .map((_, index) => (alwaysPascal || index > 0 ? _.substr(0, 1).toUpperCase() + _.slice(1) : _))
-                .join("");
-        };
-
-        const [moduleName, subModuleName] = this.moduleName.split("/");
-        const camelNameWithoutPostfix = moduleName === "common" ? replaceHyphen(subModuleName, false) : replaceHyphen(moduleName, false) + replaceHyphen(subModuleName, true);
-
-        if (format === "pascal") {
-            return camelNameWithoutPostfix.charAt(0).toUpperCase() + camelNameWithoutPostfix.slice(1);
-        } else {
-            return camelNameWithoutPostfix;
-        }
+        return this.moduleName
+            .split("/")
+            .filter((_, index) => !(_ === "common" && index === 0))
+            .map((_, index) => (index === 0 && format === "camel" ? NamingUtil.toCamelCase(_) : NamingUtil.toPascalCase(_)))
+            .join("");
     }
 }
