@@ -1,5 +1,6 @@
 import {ReactUtil} from "@pinnacle0/util";
 import React from "react";
+import "./index.less";
 
 export const Main = ReactUtil.memo("Main", () => {
     return <div />;

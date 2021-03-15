@@ -39,7 +39,7 @@ describe("ModuleGenerator class", () => {
         }).run();
 
         const expectedNewFiles = [
-            path.join(tmpDirectory, "module/common/new-feature/component/Main.tsx"),
+            path.join(tmpDirectory, "module/common/new-feature/Main/index.tsx"),
             path.join(tmpDirectory, "module/common/new-feature/hooks.ts"),
             path.join(tmpDirectory, "module/common/new-feature/index.ts"),
             path.join(tmpDirectory, "module/common/new-feature/type.ts"),

@@ -1,6 +1,6 @@
 import {Lifecycle, Module, register} from "core-fe";
 import type {SagaGenerator} from "core-fe";
-import {Main} from "./component/Main";
+import {Main} from "./Main";
 import type {State} from "./type";
 import type {RootState} from "type/state";
 

@@ -3,6 +3,7 @@
 exports[`ModuleGenerator class generate files 1`] = `
 "import {ReactUtil} from \\"@pinnacle0/util\\";
 import React from \\"react\\";
+import \\"./index.less\\";
 
 export const Main = ReactUtil.memo(\\"Main\\", () => {
     return <div />;
@@ -23,7 +24,7 @@ export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFea
 exports[`ModuleGenerator class generate files 3`] = `
 "import {Lifecycle, Module, register} from \\"core-fe\\";
 import type {SagaGenerator} from \\"core-fe\\";
-import {Main} from \\"./component/Main\\";
+import {Main} from \\"./Main\\";
 import type {State} from \\"./type\\";
 import type {RootState} from \\"type/state\\";
 
