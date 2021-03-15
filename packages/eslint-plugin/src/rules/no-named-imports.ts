@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
 
@@ -16,7 +18,9 @@ const hasImportSpecifier = (node: TSESTree.ImportDeclaration) => {
     return node.specifiers.some(_ => _.type === AST_NODE_TYPES.ImportSpecifier);
 };
 
-export const rule = ESLintUtils.RuleCreator(name => name)<string[], MessageIds>({
+const defaultRestrictedImports = ["react", "react-dom"];
+
+export const rule = ESLintUtils.RuleCreator(name => name)<[string[]], MessageIds>({
     name,
     meta: {
         type: "suggestion",
@@ -29,17 +33,19 @@ export const rule = ESLintUtils.RuleCreator(name => name)<string[], MessageIds>(
         messages: {
             noNamedImports: 'use [import {{name}} from "{{name}}" directly, no named imports.]]',
         },
-        schema: {
-            type: "array",
-            items: {
-                type: "string",
+        schema: [
+            {
+                type: "array",
+                items: {
+                    type: "string",
+                },
+                uniqueItems: true,
             },
-            uniqueItems: true,
-        },
+        ],
     },
-    defaultOptions: ["react", "react-dom"],
-    create: context => {
-        const blacklist = new Set(context.options);
+    defaultOptions: [defaultRestrictedImports],
+    create(context, [options]) {
+        const blacklist = new Set(options);
         const reportedNodes = new Set();
         return {
             ImportDeclaration(node): void {
