@@ -13,8 +13,14 @@ function toCamelCase(string: string) {
     return string.replace(/([-_][a-z])/g, group => group.toUpperCase().replace("-", "").replace("_", ""));
 }
 
+function toPascalCase(string: string) {
+    const camelCaseString = toCamelCase(string);
+    return camelCaseString.charAt(0).toUpperCase() + camelCaseString.slice(1);
+}
+
 export const NamingUtil = Object.freeze({
     isKebabCase,
     isSnakeCase,
     toCamelCase,
+    toPascalCase,
 });
