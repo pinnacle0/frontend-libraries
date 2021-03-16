@@ -46,7 +46,7 @@
         "@types/mini-css-extract-plugin": "1.2.2",
         "@types/script-ext-html-webpack-plugin": "2.1.1",
         "@types/terser-webpack-plugin": "5.0.2",
-        "@types/webpack-dev-server": "3.11.1"
+        "@types/webpack-dev-server": "3.11.2"
     },
     "engines": {
         "node": ">=12.19.x"
