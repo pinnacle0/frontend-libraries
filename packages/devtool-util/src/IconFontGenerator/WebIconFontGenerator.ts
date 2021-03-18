@@ -11,6 +11,7 @@ export class WebIconFontGenerator {
     private readonly iconComponentDirectory: string;
     private readonly staticDirectory: string;
     private readonly fontFamily: string;
+    private readonly iconfontOfficialClassName: string;
 
     private readonly templateDirectory = path.join(__dirname, "./web-icon-template");
     private readonly cssURL = String(yargs.argv._[0]);
@@ -18,12 +19,13 @@ export class WebIconFontGenerator {
     private cssContent: string = "";
     private iconClassList: string[] = [];
 
-    private readonly logger = Utility.createConsoleLogger("IconFontGenerator");
+    private readonly logger = Utility.createConsoleLogger("WebIconFontGenerator");
 
     constructor(options: WebIconFontGeneratorOptions) {
         this.iconComponentDirectory = options.iconComponentDirectory;
         this.staticDirectory = options.staticDirectory;
         this.fontFamily = options.fontFamily || "iconfont";
+        this.iconfontOfficialClassName = options.iconfontOfficialClassName || "font_family";
     }
 
     async run() {
@@ -98,8 +100,7 @@ export class WebIconFontGenerator {
         const path = `${this.staticDirectory}/icon.html`;
         this.logger.task(["Generating static HTML for icon preview", path]);
 
-        // Must keep `iconfont` className here, because it is hard-coded in ali CSS
-        const icons = this.iconClassList.map(_ => `<div class="item"><i class="iconfont ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
+        const icons = this.iconClassList.map(_ => `<div class="item"><i class="${this.iconfontOfficialClassName} ${_}"></i><span>${this.classNameToEnum(_)}</span></div>`);
         Utility.replaceTemplate(path, [this.cssURL, icons.join(""), new Date().toLocaleString()]);
     }
 

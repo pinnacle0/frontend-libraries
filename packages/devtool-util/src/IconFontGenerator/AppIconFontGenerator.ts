@@ -14,7 +14,7 @@ export class AppIconFontGenerator {
     private readonly templateFile = path.join(__dirname, "./app-icon-template/Icon.tsx.template");
     private readonly cssURL = String(yargs.argv._[0]);
 
-    private readonly logger = Utility.createConsoleLogger("IconFontGenerator");
+    private readonly logger = Utility.createConsoleLogger("AppIconFontGenerator");
 
     constructor(options: AppIconFontGeneratorOptions) {
         this.iconComponentFile = options.iconComponentFile;
