@@ -104,6 +104,10 @@ function openQQ(qq: string) {
     }
 }
 
+function isDarkTheme(): boolean {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
 export const BrowserUtil = Object.freeze({
     os,
     kernel,
@@ -112,4 +116,5 @@ export const BrowserUtil = Object.freeze({
     scrollTo,
     newTab,
     openQQ,
+    isDarkTheme,
 });
