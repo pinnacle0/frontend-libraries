@@ -151,7 +151,10 @@ export const baseline: ESLint.Linter.Config = {
         "react/jsx-curly-brace-presence": ["error", {props: "never", children: "ignore"}],
         "react/jsx-fragments": ["error", "element"],
         "react/jsx-no-target-blank": "off",
+        "react/no-children-prop": ["error"],
+        "react/no-deprecated": ["error"],
         "react/self-closing-comp": ["error", {component: true, html: true}],
+        "react/state-in-constructor": ["error", "always"],
 
         "react-hooks/exhaustive-deps": ["error"],
         "react-hooks/rules-of-hooks": ["error"],
