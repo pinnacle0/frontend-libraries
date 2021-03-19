@@ -4,7 +4,7 @@ import type {ControlledFormValue} from "../../internal/type";
 
 interface Props<Enum extends string | boolean | number> extends ControlledFormValue<Enum[]> {
     list: readonly Enum[];
-    translator: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactChild;
     disabledItems?: Enum[] | "all";
 }
 
@@ -14,7 +14,7 @@ export class EnumCheckboxGroup<Enum extends string | boolean | number> extends R
     render() {
         const {list, translator, disabledItems, value, onChange} = this.props;
         const options = list.map(_ => ({
-            label: translator(_),
+            label: translator ? translator(_) : _.toString(),
             value: _,
             disabled: disabledItems ? disabledItems === "all" || disabledItems.includes(_) : false,
         }));

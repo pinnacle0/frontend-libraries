@@ -4,7 +4,7 @@ import type {ControlledFormValue} from "../internal/type";
 
 interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]> {
     list: Enum[];
-    translator: (enumValue: Enum) => string;
+    translator?: (enumValue: Enum) => string;
     disabled?: boolean;
     style?: React.CSSProperties;
 }
@@ -12,7 +12,13 @@ interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]
 export class MultipleEnumSelect<Enum extends string | number> extends React.PureComponent<Props<Enum>> {
     static displayName = "MultipleEnumSelect";
 
-    getSelectOptions = () => this.props.list.map(value => ({value, label: this.props.translator(value)}));
+    getSelectOptions = () => {
+        const {list, translator} = this.props;
+        return list.map(value => ({
+            value,
+            label: translator ? translator(value) : value.toString(),
+        }));
+    };
 
     render() {
         const {disabled, value, onChange, style} = this.props;

@@ -9,7 +9,7 @@ import "./index.less";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
-    translator: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactChild;
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -28,7 +28,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
         const value = this.props.value as Enum;
         const {translator} = this.props;
         const antValue = value.toString();
-        const antLabel = translator(value);
+        const antLabel = translator ? translator(value) : antValue;
         return {
             value: antValue,
             label: <span className="g-enum-select-label">{antLabel}</span>,
@@ -46,7 +46,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
             <Select<LabeledValue> disabled={disabled} labelInValue value={this.getAntSelectValue()} onChange={this.onChange} className={className} style={style}>
                 {list.map(_ => (
                     <Select.Option key={_.toString()} value={_.toString()}>
-                        {translator(_)}
+                        {translator ? translator(_) : _.toString()}
                     </Select.Option>
                 ))}
             </Select>

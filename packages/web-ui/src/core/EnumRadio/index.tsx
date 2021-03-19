@@ -8,7 +8,7 @@ import {Map} from "./Map";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
-    translator: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactChild;
     useButtonMode?: boolean;
     disabled?: boolean;
     className?: string;
@@ -36,7 +36,7 @@ export class EnumRadio<Enum extends string | boolean | number> extends React.Pur
                 {list.map(_ => (
                     // RadioItem can accept any type as value, and emit the exact type while onChange
                     <RadioItem key={_.toString()} value={_}>
-                        {translator(_)}
+                        {translator ? translator(_) : _.toString()}
                     </RadioItem>
                 ))}
             </Radio.Group>
