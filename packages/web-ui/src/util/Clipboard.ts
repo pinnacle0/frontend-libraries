@@ -1,4 +1,4 @@
-function copy(text: string) {
+function copyText(text: string) {
     const element = document.createElement("textarea");
     element.value = text;
     element.style.position = "absolute";
@@ -20,6 +20,19 @@ function copy(text: string) {
     }
 }
 
+async function copyImage(imageURL: string) {
+    if ("ClipboardItem" in window && "write" in navigator.clipboard) {
+        const resp = await fetch(imageURL);
+        const blob = await resp.blob();
+        // @ts-ignore
+        await navigator.clipboard.write([new ClipboardItem({"image/png": blob})]);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 export const Clipboard = Object.freeze({
-    copy,
+    copyText,
+    copyImage,
 });
