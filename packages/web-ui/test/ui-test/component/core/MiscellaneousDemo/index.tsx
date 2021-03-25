@@ -8,7 +8,7 @@ import {VerticalMarquee} from "@pinnacle0/web-ui/core/VerticalMarquee";
 import {generateDummyStrings} from "@pinnacle0/web-ui-test/ui-test/util/dummyList";
 import {Markdown} from "@pinnacle0/web-ui/core/Markdown";
 import {PagedList} from "@pinnacle0/web-ui/core/PagedList";
-import {TextWithTooltipList} from "@pinnacle0/web-ui/core/TextWithTooltipList";
+import {WithTooltipList} from "@pinnacle0/web-ui/core/WithTooltipList";
 import {TabsDemo} from "./TabsDemo";
 import {TagInputDemo} from "@pinnacle0/web-ui-test/ui-test/component/core/MiscellaneousDemo/TagInputDemo";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
@@ -52,7 +52,17 @@ const LocalImporterDemo = () => <LocalImporter type="txt" style={{width: 300, bo
 
 const ImageUploaderDemo = () => {
     const [value, setValue] = React.useState<ImageUploadResponse | null>(null);
-    return <ImageUploader imageURL={value?.imageURL || null} onChange={setValue} uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} removable />;
+    return (
+        <ImageUploader
+            imageName="foo"
+            imageURL={value?.imageURL || null}
+            onChange={setValue}
+            uploadURL={dummyUploadURL}
+            onUploadFailure={dummyUploadCallback}
+            onUploadSuccess={dummyUploadCallback}
+            removable
+        />
+    );
 };
 
 const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "button" | "table"}) => {
@@ -162,7 +172,7 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "TextWithTooltipList",
-        components: [<TextWithTooltipList list={[{label: "Test 2", content: 1234}, "-", {label: "Test 2", content: 2234}]} />],
+        components: [<WithTooltipList list={[{label: "Test 2", content: 1234}, "-", {label: "Test 2", content: 2234}]} />],
         showPropsHint: false,
     },
     {
