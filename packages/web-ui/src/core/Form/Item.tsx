@@ -7,7 +7,7 @@ export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
     children: SafeReactChildren;
-    label?: string;
+    label?: SafeReactChild;
     required?: boolean;
     extra?: SafeReactChild;
     validator?: FormValidator;
@@ -59,7 +59,7 @@ export class Item extends React.PureComponent<Props, State> {
         return (
             <div className={`g-form-item ${className || ""}`}>
                 <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
-                    {label && <label title={label}>{label}</label>}
+                    <label>{label}</label>
                 </div>
                 <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`}>
                     {errorDisplayMode.type === "extra" ? (
