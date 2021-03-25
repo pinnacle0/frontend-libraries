@@ -24,7 +24,7 @@ export class Nullable<Enum extends string | boolean | number> extends React.Pure
         const wrappedOnChange = (value: Enum | NullType) => onChange(value === this.nullValue ? null : value);
         const wrappedList: Array<Enum | NullType> = [...list];
         wrappedList.splice(nullPositionIndex || 0, 0, this.nullValue);
-        const wrappedTranslator = (value: Enum | NullType) => (value === this.nullValue ? nullText ?? t.all : translator(value));
+        const wrappedTranslator = (value: Enum | NullType) => (value === this.nullValue ? nullText ?? t.all : translator ? translator(value) : value.toString());
 
         return <EnumSelect value={wrappedValue} onChange={wrappedOnChange} list={wrappedList} translator={wrappedTranslator} {...restProps} />;
     }
