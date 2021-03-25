@@ -13,6 +13,7 @@ export interface BaseProps<Enum extends string | boolean | number> {
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    placeholder?: string;
 }
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
@@ -41,9 +42,9 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className, style} = this.props;
+        const {list, translator, disabled, className, style, placeholder} = this.props;
         return (
-            <Select<LabeledValue> disabled={disabled} labelInValue value={this.getAntSelectValue()} onChange={this.onChange} className={className} style={style}>
+            <Select<LabeledValue> disabled={disabled} labelInValue value={this.getAntSelectValue()} onChange={this.onChange} className={className} style={style} placeholder={placeholder}>
                 {list.map(_ => (
                     <Select.Option key={_.toString()} value={_.toString()}>
                         {translator ? translator(_) : _.toString()}
