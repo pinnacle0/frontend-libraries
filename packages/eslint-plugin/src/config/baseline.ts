@@ -125,7 +125,9 @@ export const baseline: ESLint.Linter.Config = {
         "import/prefer-default-export": "off",
 
         eqeqeq: ["error", "always", {null: "ignore"}],
+        "lines-between-class-members": ["error", "always", {exceptAfterSingleLine: true}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
+        "no-multiple-empty-lines": ["error", {max: 1}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
         "no-restricted-globals": ["error", ...confusingBrowserGlobals],
         "no-useless-computed-key": ["error"],
@@ -133,6 +135,7 @@ export const baseline: ESLint.Linter.Config = {
         "no-var": ["error"],
         "object-shorthand": ["error"],
         "prefer-const": ["error"],
+        "require-yield": "off",
         "spaced-comment": [
             "error",
             "always",
@@ -158,7 +161,5 @@ export const baseline: ESLint.Linter.Config = {
 
         "react-hooks/exhaustive-deps": ["error"],
         "react-hooks/rules-of-hooks": ["error"],
-
-        "require-yield": "off",
     },
 };
