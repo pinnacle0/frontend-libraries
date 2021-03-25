@@ -12,6 +12,7 @@ import type {
     MarkAsOptional,
     MarkAsNullable,
     MarkAsNonNullable,
+    StrictRequired,
 } from "../src/type";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
@@ -456,6 +457,75 @@ describe("MarkAsNullable", () => {
         x = {zoo: "zoo"};
         // @ts-expect-error
         x = {foo: "foo"};
+    });
+});
+
+describe("StrictRequired<T>", () => {
+    type TestType = {
+        normal: number;
+        nullable: number | null;
+        undefinable: number | undefined;
+        optional?: number;
+        optionalAndNullable?: number | null;
+        allTogether?: number | undefined | null;
+    };
+
+    test("All keys are required and removed null | undefined", () => {
+        let test: StrictRequired<TestType>;
+
+        // Correct Pass
+        test = {
+            normal: 0,
+            nullable: 0,
+            undefinable: 0,
+            optional: 0,
+            optionalAndNullable: 0,
+            allTogether: 0,
+        };
+
+        // default type are remain the same
+        test = {
+            // @ts-expect-error
+            normal: null,
+            nullable: 0,
+            undefinable: 0,
+            optional: 0,
+            optionalAndNullable: 0,
+            allTogether: 0,
+        };
+
+        // No Optionals allowed
+        // @ts-expect-error
+        test = {
+            normal: 0,
+            nullable: 0,
+            undefinable: 0,
+        };
+
+        // No Nullable allowed
+        test = {
+            normal: 0,
+            // @ts-expect-error
+            nullable: null,
+            undefinable: 0,
+            optional: 0,
+            // @ts-expect-error
+            optionalAndNullable: null,
+            // @ts-expect-error
+            allTogether: null,
+        };
+
+        // No Undefinable allowed
+        test = {
+            normal: 0,
+            nullable: 0,
+            // @ts-expect-error
+            undefinable: undefined,
+            optional: 0,
+            optionalAndNullable: 0,
+            // @ts-expect-error
+            allTogether: undefined,
+        };
     });
 });
 
