@@ -45,6 +45,11 @@ function openVideo(url: string) {
 
 function playAudio(url: string, amplitude: number = 1) {
     try {
+        /**
+         * Attention:
+         * (1) For old browsers, Promise return value may be unsupported.
+         * (2) For modern browsers, if the user never has interaction with the page, play() will reject.
+         */
         const elementSource = new Audio(url);
         elementSource.crossOrigin = "anonymous";
         const audioCtx = new AudioContext();

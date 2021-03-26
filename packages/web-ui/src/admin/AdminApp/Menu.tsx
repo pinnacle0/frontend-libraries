@@ -1,12 +1,13 @@
-import AntMenu from "antd/lib/menu";
-import "antd/lib/menu/style";
 import React from "react";
-import {Badge} from "../../core/Badge";
+import {withRouter} from "react-router-dom";
+import AntMenu from "antd/lib/menu";
 import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
 import type {RouteComponentProps} from "react-router-dom";
-import {withRouter} from "react-router-dom";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
+import {MediaUtil} from "../../util/MediaUtil";
+import {Badge} from "../../core/Badge";
 import {AdminAppContext} from "./context";
+import "antd/lib/menu/style";
 
 interface Props extends RouteComponentProps {
     siteName: string;
@@ -70,16 +71,7 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
         const soundEnabled = LocalStorageUtil.getBool(this.soundEnabledKey, true);
 
         if (soundEnabled && prevBadges && badges && this.shouldAlertNewBadge(prevBadges, badges)) {
-            /**
-             * Attention:
-             * (1) For old browsers, Promise return value may be unsupported.
-             * (2) For modern browsers, if the user never has interaction with the page, play() will reject.
-             */
-            try {
-                new Audio(require("./asset/alert.mp3")).play().catch(() => {});
-            } catch (e) {
-                // Do nothing
-            }
+            MediaUtil.playAudio(require("./asset/alert.mp3"));
         }
 
         if (currentModule) {
