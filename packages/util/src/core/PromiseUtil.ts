@@ -16,6 +16,13 @@ function raceSuccess<T>(promises: Array<PromiseLike<T>>): PromiseLike<T> {
     );
 }
 
+function sleep(ms: number): Promise<void> {
+    return new Promise(res => {
+        setTimeout(res, ms);
+    });
+}
+
 export const PromiseUtil = Object.freeze({
     raceSuccess,
+    sleep,
 });
