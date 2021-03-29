@@ -88,7 +88,7 @@ export class ModuleGeneratorBase {
     private copyTemplate() {
         this.logger.task(["Copying template to target", this.newModuleDirectory]);
         fs.mkdirSync(`${this.newModuleDirectory}/Main`, {recursive: true});
-        const files = ["Main/index.tsx", "hooks.ts", "index.ts", "type.ts"];
+        const files = ["Main/index.tsx", "Main/index.less", "hooks.ts", "index.ts", "type.ts"];
         for (const file of files) {
             fs.copyFileSync(`${this.templateDirectory}/${file}.template`, `${this.newModuleDirectory}/${file}`);
         }
