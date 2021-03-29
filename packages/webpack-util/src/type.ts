@@ -52,9 +52,9 @@ export interface WebpackConfigGeneratorOptions {
      */
     prioritizedExtensionPrefixes?: string[];
     /**
-     * List of module resolution aliases to dynamically compute from `env`.
+     * List of module resolution aliases.
      */
-    dynamicConfigResolvers?: DynamicConfigResolver[];
+    dynamicPathResolvers?: DynamicPathResolver[];
     /**
      * Option to set or dynamically compute `output.publicUrl`.
      */
@@ -86,7 +86,7 @@ export interface WebpackConfigGeneratorOptions {
      * Since webpack#stats.toString() might exclude messages from webpack child compilations.
      */
     verbose?: boolean;
-    // TODO: onSuccess?: () => void
+    onSuccess?: () => void;
 }
 
 export interface EntryDescriptor {
@@ -120,25 +120,23 @@ export interface HTMLEntryDescriptor {
     htmlPath: string;
 }
 
-export interface DynamicConfigResolver {
+export interface DynamicPathResolver {
     /**
      * Prefix of the dependencies that should be aliased.
      *
-     * Example: `prefix: "merchant-conf/current"` would match the dependency requests from
-     * `import {...} from "merchant-conf/current/MerchantConfig"`,
-     * `require("merchant-conf/current/assets/logo.png")`
-     * and replace the import path with the value returned from `resolveByEnv`
+     * {prefix: "merchant-conf/current"} would match the following:
+     *  `import {...} from "merchant-conf/current/MerchantConfig"`,
+     *  `require("merchant-conf/current/assets/logo.png")`
+     *
+     * and replace the import path with the value from `resolver`.
      */
     prefix: string;
     /**
-     * Callback function that returns a path to replace dependency requests matched by `prefix`.
-     *
-     * Example: `prefix: "merchant-conf/current", resolveByEnv: (env) => "merchant-conf/" + env`
-     * and running with `--env dev` will replace
-     * `require("merchant-conf/current/assets/logo.png")` with
-     * `require("merchant-conf/dev/assets/logo.png")`.
+     * The resolved real path for above prefix.
+     * It could be a fixed string, or based on current `env`.
+     * Returning null means this prefix will be skipped, no resolution transform will be performed.
      */
-    resolveByEnv(env: string): string;
+    resolver: string | null | ((env: string | null) => string | null);
 }
 
 export interface InternalCheckerOptions {

@@ -2,15 +2,17 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
+import type {Application as ExpressApplication} from "express";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicConfigResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "verbose"> {
+export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "verbose"> {
     port: number;
     apiProxy?: {
         target: string;
         context: string[];
     };
+    interceptExpressApp?: (app: ExpressApplication) => void;
 }
 
 /**
@@ -23,6 +25,7 @@ export interface WebpackServerStarterOptions extends Pick<WebpackConfigGenerator
 export class WebpackServerStarter {
     private readonly projectDirectory: string;
     private readonly devServerConfigContentBase: string;
+    private readonly interceptExpressApp: ((app: ExpressApplication) => void) | undefined;
     private readonly port: number;
     private readonly apiProxy:
         | {
@@ -33,14 +36,15 @@ export class WebpackServerStarter {
     private readonly webpackConfig: webpack.Configuration;
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
 
-    constructor({projectDirectory, port, apiProxy, dynamicConfigResolvers, extraEntries, prioritizedExtensionPrefixes, verbose}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, port, apiProxy, interceptExpressApp, dynamicPathResolvers, extraEntries, prioritizedExtensionPrefixes, verbose}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
         this.apiProxy = apiProxy;
+        this.interceptExpressApp = interceptExpressApp;
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
-            dynamicConfigResolvers,
+            dynamicPathResolvers,
             extraEntries,
             prioritizedExtensionPrefixes,
             verbose,
@@ -73,7 +77,6 @@ export class WebpackServerStarter {
     }
 
     private createDevServerInstance() {
-        // @ts-expect-error -- @types/webpack@4 pollutes the correct types from webpack@5
         return new DevServer(webpack(this.webpackConfig), {
             contentBase: this.devServerConfigContentBase,
             https: true,
@@ -83,6 +86,7 @@ export class WebpackServerStarter {
             overlay: {
                 errors: true,
             },
+            before: this.interceptExpressApp,
             stats: {
                 colors: true,
                 // https://github.com/webpack/webpack/blob/b65d060040a26255cbf6f50350fef4d4ffcce4d7/lib/stats/DefaultStatsPresetPlugin.js#L96-L103

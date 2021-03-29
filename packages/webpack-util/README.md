@@ -113,13 +113,3 @@ The following structure can be used for a yarn workspace monorepo setup.
 ├── stylelint.config.js
 └── package.json          (Yarn workspace manifest file)
 ```
-
-<!--
-## Webpack dependency versions status
--   `autoprefixer` # Lock at 9.8.6 (autoprefixer 10.0.0 uses postcss8)
--   `css-loader` # Lock at 4.3.0 (5.0.0 uses postcss8)
--   `less` # Lock at 3.13.1 (4.0.0 breaks antd<=4.10.0)
--   `less-loader` # Lock at 7.1.0 (7.2.0 has peerDep less 4.0.0)
--   `postcss` # Lock at 7.0.35 (stylelint uses <8.0.0)
--   `script-ext-html-webpack-plugin` # No changelog
--->

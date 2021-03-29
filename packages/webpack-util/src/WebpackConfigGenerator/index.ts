@@ -75,7 +75,7 @@ export class WebpackConfigGenerator {
         });
         this.resolveAliases = WebpackResolveAliasFactory.generate({
             env: this.env,
-            dynamicConfigResolvers: options.dynamicConfigResolvers ?? [],
+            resolvers: options.dynamicPathResolvers ?? [],
         });
 
         this.logger.info("Config constructed:");
