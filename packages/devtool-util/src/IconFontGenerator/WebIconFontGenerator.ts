@@ -25,7 +25,7 @@ export class WebIconFontGenerator {
         this.iconComponentDirectory = options.iconComponentDirectory;
         this.staticDirectory = options.staticDirectory;
         this.fontFamily = options.fontFamily || "iconfont";
-        this.iconfontOfficialClassName = options.iconfontOfficialClassName || "font_family";
+        this.iconfontOfficialClassName = options.iconfontOfficialClassName || "iconfont";
     }
 
     async run() {

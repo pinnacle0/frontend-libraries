@@ -2,7 +2,7 @@ export interface WebIconFontGeneratorOptions {
     iconComponentDirectory: string;
     staticDirectory: string;
     fontFamily?: string;
-    iconfontOfficialClassName?: string; // Current default is "font_family"
+    iconfontOfficialClassName?: string;
 }
 
 export interface AppIconFontGeneratorOptions {

@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "license": "MIT",
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
@@ -15,10 +15,6 @@
         "yargs": "16.2.0"
     },
     "peerDependencies": {
-        "prettier": "^2.2.1"
-    },
-    "devDependencies": {
-        "fs-extra": "9.1.0",
         "prettier": "^2.2.1"
     },
     "jest": {
