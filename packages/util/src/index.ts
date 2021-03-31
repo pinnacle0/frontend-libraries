@@ -15,6 +15,7 @@ export {RandomUtil} from "./core/RandomUtil";
 export {ReactUtil} from "./core/ReactUtil";
 export {TextUtil} from "./core/TextUtil";
 export {URLUtil} from "./core/URLUtil";
+export {VersionComparator} from "./core/VersionComparator";
 
 export {Memo} from "./decorator/Memo";
 export {Throttle} from "./decorator/Throttle";
