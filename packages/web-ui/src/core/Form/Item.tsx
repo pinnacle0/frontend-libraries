@@ -59,7 +59,7 @@ export class Item extends React.PureComponent<Props, State> {
         return (
             <div className={`g-form-item ${className || ""}`}>
                 <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
-                    <label>{label}</label>
+                    {label && <label>{label}</label>}
                 </div>
                 <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`}>
                     {errorDisplayMode.type === "extra" ? (

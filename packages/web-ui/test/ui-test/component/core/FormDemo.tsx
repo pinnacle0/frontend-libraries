@@ -10,6 +10,7 @@ import {Button} from "@pinnacle0/web-ui/core/Button";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import {BoolSwitch} from "@pinnacle0/web-ui/core/BoolSwitch";
+import {UserOutlined} from "@ant-design/icons";
 
 const UncontrolledTextarea = (props: Omit<InputTextAreaProps, "value" | "onChange">) => {
     const [value, onChange] = React.useState<string>("");
@@ -166,6 +167,24 @@ const groups: DemoHelperGroupConfig[] = [
                     <PasswordInput />
                 </Form.Item>
             </FormContainer>,
+        ],
+    },
+    {
+        title: "Form With icon label",
+        showPropsHint: false,
+        components: [
+            <React.Fragment>
+                <FormContainer errorDisplayMode={{type: "popover"}} onFinish={dummyEmptyCallback}>
+                    <Form.Item required label={<UserOutlined />} validator={() => "Username Incorrect!"} extra="You can put extra element here">
+                        <UncontrolledInput />
+                    </Form.Item>
+                </FormContainer>
+                <Form layout="vertical">
+                    <Form.Item label={<UserOutlined />} validator={() => "Username Incorrect!"}>
+                        <UncontrolledInput />
+                    </Form.Item>
+                </Form>
+            </React.Fragment>,
         ],
     },
 ];
