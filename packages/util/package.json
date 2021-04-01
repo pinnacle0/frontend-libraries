@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/util",
-    "version": "2.2.15",
+    "version": "2.3.0",
     "license": "MIT",
     "sideEffects": false,
     "repository": {
@@ -20,8 +20,8 @@
     "dependencies": {},
     "peerDependencies": {},
     "devDependencies": {
-        "@types/react": "17.0.2",
-        "react": "17.0.1"
+        "@types/react": "17.0.3",
+        "react": "17.0.2"
     },
     "engines": {
         "node": ">=12.19.x"

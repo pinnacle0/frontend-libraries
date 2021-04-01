@@ -4,6 +4,7 @@ export type {DayStartOrEnd} from "./core/DateUtil";
 export {DistributionGenerator} from "./core/DistributionGenerator";
 export {EnumUtil} from "./core/EnumUtil";
 export type {StringBasedEnumMap, StringBasedEnumValue} from "./core/EnumUtil";
+export {ErrorUtil} from "./core/ErrorUtil";
 export {HashUtil} from "./core/HashUtil";
 export {IDGenerator} from "./core/IDGenerator";
 export {NumberUtil} from "./core/NumberUtil";
