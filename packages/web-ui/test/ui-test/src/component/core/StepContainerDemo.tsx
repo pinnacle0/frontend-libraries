@@ -8,7 +8,7 @@ import {DemoHelper} from "../DemoHelper";
 
 const FormItem = () => {
     const [value, setValue] = React.useState("");
-    const validator = () => (value.length >= 2 ? new Promise<null>(resolve => setTimeout(() => resolve(null), 1000)) : "Length at least 2");
+    const validator = () => (value.length >= 2 ? new Promise<null>(resolve => setTimeout(() => resolve(null), 300)) : "Length at least 2");
     return (
         <Form.Item label="Name" extra="Length at least 2" validator={validator}>
             <Input value={value} onChange={setValue} />
@@ -22,6 +22,8 @@ const steps: StepItem[] = [
     {title: "free", content: <FormItem />},
 ];
 
+const containerStyle: React.CSSProperties = {width: 800};
+
 export const StepContainerDemo = () => {
     const [currentStep, setCurrentStep] = React.useState(1);
 
@@ -29,12 +31,21 @@ export const StepContainerDemo = () => {
         {
             title: "Step Container",
             showPropsHint: false,
-            components: [<StepFormContainer currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} onFinish={() => alert("Done")} />],
+            components: [<StepFormContainer currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} onFinish={() => alert("Done")} style={containerStyle} />],
         },
         {
             title: "Step Container (Vertical Label)",
             showPropsHint: false,
-            components: [<StepFormContainer stepLabelPlacement="vertical" currentStep={currentStep} steps={steps} onStepChange={setCurrentStep} onFinish={() => alert("Done")} />],
+            components: [
+                <StepFormContainer
+                    stepLabelPlacement="vertical"
+                    currentStep={currentStep}
+                    steps={steps}
+                    onStepChange={setCurrentStep}
+                    onFinish={() => alert("All steps finished")}
+                    style={containerStyle}
+                />,
+            ],
         },
     ];
 

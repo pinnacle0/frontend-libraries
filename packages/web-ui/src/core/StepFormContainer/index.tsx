@@ -29,8 +29,6 @@ export interface Props {
 export class StepFormContainer extends React.PureComponent<Props> {
     static displayName = "StepFormContainer";
 
-    private readonly stepBarStyle: React.CSSProperties = {marginBottom: 20};
-
     goToPrevStep = () => this.props.onStepChange(this.props.currentStep - 1);
 
     goToNextStep = () => this.props.onStepChange(this.props.currentStep + 1);
@@ -53,7 +51,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
 
         return (
             <div className={`g-step-form-container ${className || ""}`} id={id} style={style}>
-                <Steps current={currentStep} labelPlacement={stepLabelPlacement} style={this.stepBarStyle}>
+                <Steps current={currentStep} labelPlacement={stepLabelPlacement}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />
                     ))}
