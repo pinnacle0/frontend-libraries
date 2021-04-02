@@ -1,11 +1,10 @@
 import React from "react";
-import {SlidingDigit} from "./SlidingDigit";
 import type {PickOptional} from "../../internal/type";
+import {SlidingDigit} from "./SlidingDigit";
 import "./index.less";
 
 export interface Props {
     /**
-     * Use timeToComplete, instead of remainingSecond, to sync multiple Countdown correctly and easily.
      * Pass 0 or negative will invalidate the time into --:--:--.
      */
     timeToComplete: number;
@@ -15,11 +14,9 @@ export interface Props {
      * @remainingSecond will be null if not applicable.
      */
     renderer?: (hours: string, minutes: string, seconds: string, remainingSecond: number | null) => React.ReactElement | string;
-    /**
-     * If true, no UI element will show.
-     * Useful for triggering event after some time, without displaying anything on UI.
-     */
     isHidden?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
 interface State {
@@ -30,7 +27,7 @@ export class Countdown extends React.PureComponent<Props, State> {
     static displayName = "Countdown";
     static defaultProps: PickOptional<Props> = {
         renderer: (hours, minutes, seconds) => (
-            <div className="g-countdown">
+            <React.Fragment>
                 <SlidingDigit digit={hours.charAt(0)} />
                 <SlidingDigit digit={hours.charAt(1)} />
                 <div className="colon">:</div>
@@ -39,7 +36,7 @@ export class Countdown extends React.PureComponent<Props, State> {
                 <div className="colon">:</div>
                 <SlidingDigit digit={seconds.charAt(0)} />
                 <SlidingDigit digit={seconds.charAt(1)} />
-            </div>
+            </React.Fragment>
         ),
     };
 
@@ -90,32 +87,37 @@ export class Countdown extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {isHidden, renderer, timeToComplete} = this.props;
+        const {isHidden, renderer, timeToComplete, className, style} = this.props;
         const {remainingSecond} = this.state;
         if (isHidden) {
             return null;
         }
 
+        let bodyNode: React.ReactElement | string;
         if (timeToComplete > 0) {
-            // Special cases
             if (remainingSecond / 3600 >= 100) {
-                return renderer!("99", "59", "59", remainingSecond);
+                bodyNode = renderer!("99", "59", "59", remainingSecond);
+            } else if (remainingSecond <= 0) {
+                bodyNode = renderer!("00", "00", "00", 0);
+            } else {
+                const hours = Math.floor(remainingSecond / 3600)
+                    .toString()
+                    .padStart(2, "0");
+                const remainingSecondWithinHour = remainingSecond % 3600;
+                const minutes = Math.floor(remainingSecondWithinHour / 60)
+                    .toString()
+                    .padStart(2, "0");
+                const seconds = (remainingSecondWithinHour % 60).toString().padStart(2, "0");
+                bodyNode = renderer!(hours, minutes, seconds, remainingSecond);
             }
-            if (remainingSecond <= 0) {
-                return renderer!("00", "00", "00", 0);
-            }
-
-            const hours = Math.floor(remainingSecond / 3600)
-                .toString()
-                .padStart(2, "0");
-            const remainingSecondWithinHour = remainingSecond % 3600;
-            const minutes = Math.floor(remainingSecondWithinHour / 60)
-                .toString()
-                .padStart(2, "0");
-            const seconds = (remainingSecondWithinHour % 60).toString().padStart(2, "0");
-            return renderer!(hours, minutes, seconds, remainingSecond);
         } else {
-            return renderer!("--", "--", "--", null);
+            bodyNode = renderer!("--", "--", "--", null);
         }
+
+        return (
+            <div className={`g-countdown ${className || ""}`} style={style}>
+                {bodyNode}
+            </div>
+        );
     }
 }
