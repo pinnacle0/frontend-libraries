@@ -37,7 +37,6 @@ const config = {
     // Note: pathsToModuleNameMapper does NOT automatically pick up folder mapping from baseUrl, add "@pinnacle0/web-ui-test/*" to tsconfig.json
     moduleNameMapper: {
         [String.raw`^@pinnacle0/web-ui/(.*)$`]: "<rootDir>/src/$1",
-        [String.raw`^@pinnacle0/web-ui-test/(.*)$`]: "<rootDir>/test/$1",
         [String.raw`\.(css|less)$`]: "<rootDir>/config/jest-stubs/style-stub.js",
     },
 

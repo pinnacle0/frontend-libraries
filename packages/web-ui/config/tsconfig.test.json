@@ -3,17 +3,17 @@
     "compilerOptions": {
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
-        "rootDir": "../",
-        "outDir": "../build/tsc-out/",
-        "target": "ES2018",
-
-        "paths": {
-            "@pinnacle0/web-ui/*": ["../src/*"],
-            "@pinnacle0/web-ui-test/*": ["../test/*"]
-        },
-
+        "target": "ES5",
+        "importsNotUsedAsValues": "preserve",
+        "inlineSources": true,
+        "isolatedModules": true,
         "jsx": "react",
-        "suppressImplicitAnyIndexErrors": true
+        "sourceMap": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "baseUrl": "../test",
+        "paths": {
+            "@pinnacle0/web-ui/*": ["../src/*"]
+        }
     },
-    "include": ["../src/", "../test/"]
+    "include": ["../test"]
 }

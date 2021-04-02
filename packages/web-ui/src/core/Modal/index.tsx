@@ -8,9 +8,9 @@ import "./index.less";
 
 export interface Props extends ModalProps {
     width: number | string; // Do not use "auto"
+    children: SafeReactChildren;
     loading?: boolean;
     addInnerPadding?: boolean;
-    children: SafeReactChildren;
 }
 
 export class Modal extends React.PureComponent<Props> {
