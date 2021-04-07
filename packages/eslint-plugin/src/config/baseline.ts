@@ -130,7 +130,6 @@ export const baseline: ESLint.Linter.Config = {
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
         "no-multiple-empty-lines": ["error", {max: 1}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
-        "no-lonely-if": ["error"],
         "no-restricted-globals": ["error", ...confusingBrowserGlobals],
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
