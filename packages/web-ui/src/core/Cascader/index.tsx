@@ -17,8 +17,8 @@ export interface Props<T extends string | null> extends ControlledFormValue<T> {
     data: Array<CascaderDataNode<T>>;
     canSelectAnyLevel?: boolean;
     placeholder?: string;
+    className?: string;
     style?: React.CSSProperties;
-    prefix?: SafeReactChild;
     disabled?: boolean;
 }
 
@@ -54,19 +54,18 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
             return list.map(node => ({
                 ...node,
                 value: node.value === undefined ? node.label : (node.value as any),
-                children: node.children ? getAntChildren(node.children) : undefined,
+                children: node.children && node.children.length > 0 ? getAntChildren(node.children) : undefined,
             }));
         };
         return getAntChildren(this.props.data);
     };
 
-    displayRender = (label: string[], selectedOptions?: CascaderOptionType[]): SafeReactChild => {
+    displayRender = (label: string[]): SafeReactChild => {
         const t = i18n();
-        const {placeholder = t.pleaseSelect, prefix} = this.props;
+        const {placeholder = t.pleaseSelect} = this.props;
         const isNullValue = this.getAntValue().length === 0;
         return (
             <span className={`g-cascader-label ${isNullValue ? "null-value" : ""}`}>
-                {prefix && <span className="g-cascader-prefix">{prefix}</span>}
                 <span>{isNullValue ? placeholder : label.join("/")}</span>
             </span>
         );
@@ -77,10 +76,10 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
     };
 
     render() {
-        const {canSelectAnyLevel, disabled, style} = this.props;
+        const {canSelectAnyLevel, disabled, style, className} = this.props;
         return (
             <AntCascader
-                className="g-cascader"
+                className={`g-cascader ${className || ""}`}
                 popupClassName="g-cascader-popup"
                 style={style}
                 changeOnSelect={canSelectAnyLevel}

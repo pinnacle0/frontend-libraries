@@ -24,6 +24,7 @@ import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "../component/core/OverflowableTextDemo";
 import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
+import {CascaderDemo} from "../component/core/CascaderDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -89,13 +90,13 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                     },
                     {
                         url: "/core/Select",
-                        title: "Select (DropDown)",
+                        title: "Select",
                         componentType: SelectDemo,
                     },
                     {
-                        url: "/core/miscellaneous",
-                        title: "Miscellaneous",
-                        componentType: MiscellaneousDemo,
+                        url: "/core/Cascader",
+                        title: "Cascader",
+                        componentType: CascaderDemo,
                     },
                     {
                         url: "/core/carousel",
@@ -126,6 +127,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/overflowable-text",
                         title: "Overflowable Text",
                         componentType: OverflowableTextDemo,
+                    },
+                    {
+                        url: "/core/miscellaneous",
+                        title: "Miscellaneous",
+                        componentType: MiscellaneousDemo,
                     },
                 ],
             },

@@ -1,5 +1,5 @@
-import type {LabeledValue} from "antd/lib/select";
 import React from "react";
+import type {LabeledValue} from "antd/lib/select";
 import type {ControlledFormValue} from "../../internal/type";
 import {Select} from "../Select";
 import {Nullable} from "./Nullable";
@@ -27,6 +27,11 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
 
     getAntSelectValue = (): LabeledValue | undefined => {
         const value = this.props.value as Enum;
+        if (value === null) {
+            // Special case for InitialNullable, to show placeholder, no pre-selection
+            return undefined;
+        }
+
         const {translator} = this.props;
         const antValue = value.toString();
         const antLabel = translator ? translator(value) : antValue;

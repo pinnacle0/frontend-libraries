@@ -13,7 +13,7 @@ export class InitialNullable<Enum extends string | boolean | number> extends Rea
     render() {
         const {value, ...restProps} = this.props;
 
-        const wrappedValue = (value === null ? undefined : value) as Enum;
+        const wrappedValue = value as Enum;
 
         return <EnumSelect value={wrappedValue} {...restProps} />;
     }
