@@ -5,8 +5,8 @@ import {i18n} from "../internal/i18n/core";
 import "antd/lib/switch/style";
 
 export interface Props extends ControlledFormValue<boolean> {
-    trueText: string;
-    falseText: string;
+    trueText?: string;
+    falseText?: string;
     disabled?: boolean;
     style?: React.CSSProperties;
     loading?: boolean;
