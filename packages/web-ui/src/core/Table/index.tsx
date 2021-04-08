@@ -1,18 +1,18 @@
+import React from "react";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
 import AntTable from "antd/lib/table";
-import "antd/lib/table/style";
 import type {TableRowSelection} from "antd/lib/table/interface";
-import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
-import type {PickOptional, StringKey} from "../../internal/type";
+import type {PickOptional, SafeReactChildren, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import type {RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
+import "antd/lib/table/style";
 import "./index.less";
 
 enum SortOrder {
@@ -22,7 +22,7 @@ enum SortOrder {
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | React.ReactChild;
-    renderData: (record: RowType, index: number) => React.ReactElement | React.ReactChild | RenderedCell<RowType> | null | boolean | undefined; // Using name render leads to type incompatibility
+    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
     align?: "left" | "right" | "center";
     colSpan?: number;
     width?: string | number;
