@@ -28,7 +28,6 @@ export default {
     noData: "暂无数据",
     fold: "收起",
     expand: "展开",
-    dollar: "{1} 元",
     minimum: "最小值",
     maximum: "最大值",
     action: "操作",

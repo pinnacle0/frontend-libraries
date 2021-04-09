@@ -28,7 +28,6 @@ export default {
     noData: "No Date",
     fold: "Fold",
     expand: "Expand",
-    dollar: "${1}",
     minimum: "Minimum",
     maximum: "Maximum",
     action: "Action",
