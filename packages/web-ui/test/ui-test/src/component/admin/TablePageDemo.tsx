@@ -1,29 +1,34 @@
 import React from "react";
-import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import {AdminPage} from "@pinnacle0/web-ui/admin/AdminPage";
 import {Form} from "@pinnacle0/web-ui/core/Form";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {Amount} from "@pinnacle0/web-ui/core/Amount";
 import {Table} from "@pinnacle0/web-ui/core/Table";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 import {Pagination} from "@pinnacle0/web-ui/core/Pagination";
-import type {ExtraButtonConfig} from "@pinnacle0/web-ui/admin/AdminPage/Filter";
 import {dummyEmptyCallback} from "../../util/dummyCallback";
 import {generateDummyTableData, dummyTableColumns} from "../../util/dummyTableData";
+import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
+import {EnumRadio} from "@pinnacle0/web-ui/core/EnumRadio";
+import {Cascader} from "@pinnacle0/web-ui/core/Cascader";
+import {Tooltip} from "@pinnacle0/web-ui/core/Tooltip";
 
 const tableData = generateDummyTableData(12);
-const extraButtons: ExtraButtonConfig[] = [
-    {label: "Extra 1", onClick: dummyEmptyCallback},
-    {label: "Extra 2", icon: <FileSearchOutlined />, onClick: dummyEmptyCallback, disabled: true},
-];
 
 const FilterExpansion = () => {
     return (
         <React.Fragment>
-            <Form.Item label="Input 1">
+            <Form.Item label="Input">
                 <Input value="Some name" onChange={dummyEmptyCallback} />
             </Form.Item>
-            <Form.Item label="Input 2">
-                <Input value="Some name" onChange={dummyEmptyCallback} />
+            <Form.Item label="Select">
+                <EnumSelect list={["A", "B"]} value="A" onChange={dummyEmptyCallback} />
+            </Form.Item>
+            <Form.Item label="Cascader">
+                <Cascader data={[]} value="A" onChange={dummyEmptyCallback} />
+            </Form.Item>
+            <Form.Item label="Radio">
+                <EnumRadio list={["A", "B"]} value="A" onChange={dummyEmptyCallback} />
             </Form.Item>
         </React.Fragment>
     );
@@ -37,7 +42,21 @@ export const TablePageDemo = () => {
     };
     return (
         <AdminPage>
-            <AdminPage.Filter loading={loading} expandedArea={<FilterExpansion />} reminder="Some Reminder Text" extraButtons={extraButtons} onFinish={changeLoading} onReset={changeLoading}>
+            <AdminPage.Filter
+                loading={loading}
+                expandedArea={<FilterExpansion />}
+                reminder="Some Reminder Text"
+                extraElements={[
+                    <Button color="red" disabled>
+                        Disabled
+                    </Button>,
+                    <Tooltip title="Tooltip content ...">
+                        <Button color="green">Green Tooltip</Button>
+                    </Tooltip>,
+                ]}
+                onFinish={changeLoading}
+                onReset={changeLoading}
+            >
                 <Form.Item label="Input">
                     <Input value="Some name" onChange={dummyEmptyCallback} />
                 </Form.Item>

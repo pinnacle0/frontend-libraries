@@ -1,3 +1,5 @@
+@import "../../css/variable.less";
+
 .g-admin-page {
     margin: 12px;
     padding: 15px;
@@ -10,32 +12,18 @@
     .g-admin-page-filter {
         margin-bottom: 8px;
 
-        > .reminder {
-            font-size: 18px;
-            margin-right: 4px;
-            margin-left: -6px;
-        }
-
-        > button {
-            margin-right: 5px;
-        }
-
-        > .expand-button {
-            display: inline-block;
-            cursor: pointer;
-            margin-left: 4px;
-            vertical-align: middle;
-
+        .expand-trigger {
             &:hover {
-                color: #1890ff;
+                color: @lib-main-blue;
+                cursor: pointer;
             }
 
             > .anticon {
-                margin-right: 4px;
+                margin-right: 3px;
             }
         }
 
-        > .more-filter-area {
+        > .expanded-area {
             max-height: 0;
             overflow: hidden;
             transition: all ease 300ms;
