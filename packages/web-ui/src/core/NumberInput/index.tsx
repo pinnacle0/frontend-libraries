@@ -1,9 +1,8 @@
 import React from "react";
 import type {ControlledFormValue} from "../../internal/type";
 import {Input} from "../Input";
-import {NumberInputDollar} from "./NumberInputDollar";
-import {NumberInputPercentage} from "./NumberInputPercentage";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
+import {NumberInputPercentage} from "./NumberInputPercentage";
 import "./index.less";
 
 // NOTE: Use `this.typeSafeProps` instead of `this.props` inside this component for better type-safety.
@@ -65,8 +64,6 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         editable: true,
         stepperMode: "none",
     };
-
-    static Dollar = NumberInputDollar;
 
     static Percentage = NumberInputPercentage;
 
@@ -181,6 +178,6 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
 
     private get typeSafeProps() {
         // Use a less restrictive type here (allow null) for type inference in various places to work
-        return (this.props as unknown) as PropsWithDefault<true>;
+        return (this.props as unknown) as PropsWithDefault;
     }
 }

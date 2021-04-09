@@ -44,8 +44,6 @@ const TextArea = withUncontrolledInitialValue(Input.TextArea);
 
 const NullableTextArea = withUncontrolledInitialValue(Input.NullableTextArea);
 
-const onNumberChange = (_: number) => {};
-
 const onNumberRangeChange = (_: [number, number]) => {};
 
 const onNullableNumberRangeChange = (_: [number | null, number | null]) => {};
@@ -83,21 +81,6 @@ const groups: DemoHelperGroupConfig[] = [
             <NullableNumberInput scale={0} placeholder="Here..." />,
             "-",
             <NullableNumberInput scale={0} inputStyle={{width: 400, border: "2px solid blue", color: "blue"}} />,
-        ],
-    },
-    {
-        title: "Dollar Number Input",
-        components: [
-            <NumberInput.Dollar scale={2} min={0} onChange={onNumberChange} value={9999} allowNull={false} />,
-            <NumberInput.Dollar
-                stepperMode="always"
-                scale={2}
-                min={0}
-                // @ts-expect-error
-                onChange={onNumberChange}
-                value={9999.888}
-                allowNull
-            />,
         ],
     },
     {

@@ -6,9 +6,7 @@ import {truncate} from "./util";
 
 type OmitPropsKeys = "displayRenderer" | "scale" | "step" | "min" | "max" | "value" | "onChange";
 
-interface BaseProps<AllowNull extends boolean> extends Omit<NumberInputProps<AllowNull>, OmitPropsKeys> {}
-
-interface OwnProps<AllowNull extends boolean> {
+export interface Props<AllowNull extends boolean> extends Omit<NumberInputProps<AllowNull>, OmitPropsKeys> {
     /**
      * Number of decimal points used for **percentage** values.
      *
@@ -35,38 +33,30 @@ interface OwnProps<AllowNull extends boolean> {
 
     /**
      * Minimum value in **decimal** number.
-     *
      * Default value: `0`
-     *
      * If the minimum is `10%`, then `props.min` should be `0.1`.
      */
     min?: number;
 
     /**
      * Maximum value in **decimal** number.
-     *
      * Default value: `1`
-     *
      * If the maximum is `90%`, then `props.max` should be `0.9`.
      */
     max?: number;
 
     /**
      * Value of input field in **decimal** number.
-     *
      * If the value is `20%`, then `props.value` should be `0.2`.
      */
     value: AllowNull extends true ? number | null : number;
 
     /**
      * Callback when value of input field changed in **decimal** number.
-     *
      * If the new value is `30%`, then the argument `newValue` will be `0.3`.
      */
     onChange: (newValue: AllowNull extends true ? number | null : number) => void;
 }
-
-export interface Props<AllowNull extends boolean> extends BaseProps<AllowNull>, OwnProps<AllowNull> {}
 
 export class NumberInputPercentage<AllowNull extends boolean> extends React.PureComponent<Props<AllowNull>> {
     static displayName = "NumberInputPercentage";
@@ -76,14 +66,6 @@ export class NumberInputPercentage<AllowNull extends boolean> extends React.Pure
         min: 0,
         max: 1,
     };
-
-    componentDidMount() {
-        this.throwIfInvalidProps();
-    }
-
-    componentDidUpdate() {
-        this.throwIfInvalidProps();
-    }
 
     percentageDisplayRenderer = (value: number) => {
         const percentageValue = value;
@@ -100,7 +82,6 @@ export class NumberInputPercentage<AllowNull extends boolean> extends React.Pure
 
     render() {
         const {percentageScale, percentageStep, min, max, value, onChange, className, ...restProps} = this.props;
-        const {percentageDisplayRenderer, onPercentageChange} = this;
         const percentageValue = (typeof value === "number" ? value * 100 : value) as AllowNull extends true ? number | null : number;
         const percentageMin = min! * 100;
         const percentageMax = max! * 100;
@@ -108,20 +89,14 @@ export class NumberInputPercentage<AllowNull extends boolean> extends React.Pure
             <NumberInput<AllowNull>
                 className={`percentage ${className || ""}`}
                 value={percentageValue}
-                onChange={onPercentageChange}
+                onChange={this.onPercentageChange}
                 min={percentageMin}
                 max={percentageMax}
                 scale={percentageScale}
                 step={percentageStep}
-                displayRenderer={percentageDisplayRenderer}
+                displayRenderer={this.percentageDisplayRenderer}
                 {...restProps}
             />
         );
     }
-
-    private throwIfInvalidProps = () => {
-        if (!Number.isInteger(this.props.percentageScale)) {
-            throw new Error("NumberInputPercentage.props.percentageScale must be an integer");
-        }
-    };
 }
