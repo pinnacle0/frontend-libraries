@@ -1,0 +1,51 @@
+@import "../../css/variable.less";
+
+.g-amount {
+    display: inline-block;
+
+    &.bold * {
+        font-weight: bold;
+    }
+
+    &.del * {
+        text-decoration: line-through;
+    }
+
+    &.underline * {
+        text-decoration: underline;
+    }
+
+    &.del.underline * {
+        // Otherwise, only one `text-decoration` will overwrite each other
+        text-decoration: underline line-through;
+    }
+
+    &.color-highlight {
+        color: @lib-main-blue;
+    }
+
+    &.color-green {
+        color: @lib-main-green;
+    }
+
+    &.color-red {
+        color: @lib-main-red;
+    }
+
+    > .prefix {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 2px;
+    }
+
+    > .postfix {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 2px;
+    }
+
+    > .digits {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
