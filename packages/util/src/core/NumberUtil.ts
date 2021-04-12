@@ -57,9 +57,6 @@ function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale
 }
 
 function roundingToString(value: number, algorithm: "round" | "ceil" | "floor", scale: number): string {
-    if (!Number.isInteger(scale) || scale < 0 || scale > 10) {
-        throw new Error("[util] NumberUtil.roundingToString scale must be an integer in range [0, 10]");
-    }
     return rounding(value, algorithm, scale).toFixed(scale);
 }
 
