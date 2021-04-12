@@ -63,8 +63,8 @@ test("Format With Comma", () => {
 
 describe("NumberUtil.rounding", () => {
     test("throws if `maxScale` is invalid", () => {
-        expect(() => NumberUtil.rounding(10, "round", -1 as any)).toThrow(/maxScale/);
-        expect(() => NumberUtil.rounding(10, "round", 1.1 as any)).toThrow(/maxScale/);
+        expect(() => NumberUtil.rounding(10, "round", -1)).toThrow();
+        expect(() => NumberUtil.rounding(10, "round", 1.1)).toThrow();
     });
 
     type TestEachRowSchema = {value: number; algorithm: "round" | "ceil" | "floor"; maxScale: any; expected: number};
@@ -91,8 +91,8 @@ describe("NumberUtil.rounding", () => {
 
 describe("NumberUtil.roundingToString", () => {
     test("throws if `scale` is invalid", () => {
-        expect(() => NumberUtil.roundingToString(10, "round", -1 as any)).toThrow(/scale/);
-        expect(() => NumberUtil.roundingToString(10, "round", 1.1 as any)).toThrow(/scale/);
+        expect(() => NumberUtil.roundingToString(10, "round", -1)).toThrow();
+        expect(() => NumberUtil.roundingToString(10, "round", 1.1)).toThrow();
     });
 
     type TestEachRowSchema = {value: number; algorithm: "round" | "ceil" | "floor"; scale: any; expected: number};

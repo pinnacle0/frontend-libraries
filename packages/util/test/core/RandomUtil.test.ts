@@ -50,6 +50,6 @@ describe("RandomUtil.pickItemByHash", () => {
 
     test("throws error if array is empty", () => {
         const emptyArray = [] as const;
-        expect(() => RandomUtil.pickItemByHash(emptyArray, "any")).toThrow(/empty array/);
+        expect(() => RandomUtil.pickItemByHash(emptyArray, "any")).toThrow();
     });
 });
