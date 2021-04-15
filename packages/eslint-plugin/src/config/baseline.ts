@@ -124,6 +124,7 @@ export const baseline: ESLint.Linter.Config = {
         "import/no-useless-path-segments": ["error", {noUselessIndex: false}],
         "import/prefer-default-export": "off",
 
+        curly: ["error"],
         "dot-notation": ["error"],
         eqeqeq: ["error", "always", {null: "ignore"}],
         "lines-between-class-members": ["error", "always", {exceptAfterSingleLine: true}],
