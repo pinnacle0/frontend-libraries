@@ -135,6 +135,13 @@ export const baseline: ESLint.Linter.Config = {
         "no-useless-rename": ["error"],
         "no-var": ["error"],
         "object-shorthand": ["error"],
+        "padding-line-between-statements": [
+            "error",
+            {blankLine: "always", prev: ["function"], next: ["*"]},
+            {blankLine: "always", prev: ["*"], next: ["function"]},
+            {blankLine: "always", prev: ["class"], next: ["*"]},
+            {blankLine: "always", prev: ["*"], next: ["class"]},
+        ],
         "prefer-const": ["error"],
         "require-yield": "off",
         "spaced-comment": [

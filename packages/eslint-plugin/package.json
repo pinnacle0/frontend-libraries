@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "license": "MIT",
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
@@ -11,7 +11,7 @@
         "test": "jest --config config/jest.config.js"
     },
     "dependencies": {
-        "@typescript-eslint/experimental-utils": "4.20.0",
+        "@typescript-eslint/experimental-utils": "4.22.0",
         "confusing-browser-globals": "1.0.10"
     },
     "peerDependencies": {
@@ -28,10 +28,10 @@
         "@rollup/plugin-commonjs": "18.0.0",
         "@rollup/plugin-json": "4.1.0",
         "@rollup/plugin-node-resolve": "11.2.1",
-        "@typescript-eslint/eslint-plugin": "4.20.0",
-        "@typescript-eslint/parser": "4.20.0",
-        "eslint-config-prettier": "8.1.0",
-        "rollup": "2.44.0",
+        "@typescript-eslint/eslint-plugin": "4.22.0",
+        "@typescript-eslint/parser": "4.22.0",
+        "eslint-config-prettier": "8.2.0",
+        "rollup": "2.45.2",
         "rollup-plugin-typescript2": "0.30.0"
     },
     "optionalDependencies": {
