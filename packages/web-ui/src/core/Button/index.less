@@ -4,10 +4,12 @@
     border-radius: 2px;
     padding: 0;
 
-    &:not(:disabled) {
-        &:hover {
-            cursor: pointer;
-            opacity: 0.82;
+    @media (hover: hover) {
+        &:not(:disabled) {
+            &:hover {
+                cursor: pointer;
+                opacity: 0.82;
+            }
         }
     }
 
