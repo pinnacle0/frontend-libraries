@@ -1,7 +1,7 @@
 import React from "react";
+import type {SafeReactChildren} from "../internal/type";
 import type {TooltipPlacement} from "./Tooltip";
 import {Tooltip} from "./Tooltip";
-import type {SafeReactChildren} from "../internal/type";
 
 interface Props {
     /**
@@ -22,7 +22,6 @@ export class WithExplanation extends React.PureComponent<Props> {
         display: "inline-flex",
         justifyContent: "center",
         alignItems: "center",
-        verticalAlign: "middle",
     };
     private readonly tooltipOverlayStyle: React.CSSProperties = {maxWidth: 500};
     private readonly tooltipQuestionStyle: React.CSSProperties = {
