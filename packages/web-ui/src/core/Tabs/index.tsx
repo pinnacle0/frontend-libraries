@@ -104,7 +104,6 @@ export class Tabs extends React.PureComponent<Props, State> {
      * @param offset to go left, provide negative number, positive otherwise.
      */
     scroll = (offset: number) => {
-        console.info(`scroll ${offset}`);
         if (this.tabNavList) {
             if (this.isTabBarOverflow()) {
                 const currentOffset = parseFloat(this.tabNavList.style?.transform?.replace(/.*translate\w?\(/i, "") as string) || 0; // Try parse current translate offset
