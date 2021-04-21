@@ -44,7 +44,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
         autoFocusButton: "ok",
         addInnerPadding: true,
     };
-    const mergedConfig = {...defaultModalConfig, ...config};
+    const mergedConfig: ModalConfig = {...defaultModalConfig, ...config};
     if (Array.isArray(mergedConfig.body)) {
         mergedConfig.body = mergedConfig.body.map((rowContent, index) => <p key={index}>{rowContent}</p>);
     }
@@ -87,7 +87,6 @@ function createSync(config: ModalConfig): CreateModalReturnType {
     };
 
     const instance = modalInstance || Modal;
-
     const ref = mergedConfig.cancelText ? instance.confirm(antModalConfig) : instance.info(antModalConfig);
 
     function destroy(byClose: boolean) {
