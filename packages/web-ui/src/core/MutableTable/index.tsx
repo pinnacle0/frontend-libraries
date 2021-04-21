@@ -17,7 +17,6 @@ export interface Props<RowType extends object> {
     dataSource: RowType[];
     columns: TableColumns<RowType>;
     onChange?: (values: RowType[]) => void;
-    // TODO/dion: review onRowCountChange & nextRow=true design, currently only used for circular-autobet
     onRowCountChange?: (type: "add-row" | "remove-row") => void;
     nextRow?: RowType | true; // If true, onRowCountChange will be triggered when + is clicked, instead of onChange
     fixedRowCount?: number;
@@ -25,6 +24,7 @@ export interface Props<RowType extends object> {
     sequenceColumn?: {title: string; renderer: (index: number) => string} | "default";
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
+    bordered?: boolean;
 }
 
 export class MutableTable<RowType extends object> extends React.PureComponent<Props<RowType>> {
@@ -115,10 +115,19 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     };
 
     render() {
-        const {dataSource, shouldRenderIfUpdate, scrollX, scrollY} = this.props;
+        const {dataSource, shouldRenderIfUpdate, scrollX, scrollY, bordered} = this.props;
         return (
             <div ref={this.ref}>
-                <Table className="g-mutable-table" scrollX={scrollX} scrollY={scrollY} rowKey="index" columns={this.getColumns()} dataSource={dataSource} shouldRenderIfUpdate={shouldRenderIfUpdate} />
+                <Table
+                    className="g-mutable-table"
+                    scrollX={scrollX}
+                    scrollY={scrollY}
+                    rowKey="index"
+                    columns={this.getColumns()}
+                    dataSource={dataSource}
+                    shouldRenderIfUpdate={shouldRenderIfUpdate}
+                    bordered={bordered}
+                />
             </div>
         );
     }
