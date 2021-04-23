@@ -64,7 +64,10 @@
         max-height: 1000vh;
         transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
         overflow: hidden;
-        border: 1px solid @lib-background-gray;
+
+        &.expanded {
+            border: 1px solid @lib-background-gray;
+        }
 
         &.folded {
             max-height: 0;
