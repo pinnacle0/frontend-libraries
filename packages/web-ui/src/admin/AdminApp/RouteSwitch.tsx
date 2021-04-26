@@ -42,11 +42,11 @@ export class RouteSwitch extends React.PureComponent<Props> {
         return (
             <Switch>
                 <Route exact path="/" component={WelcomeComponent || this.renderWelcome} />
-                {this.navigationModules.map(({url, routeParameter, componentType: RouteComponent}) => (
+                {this.navigationModules.map(({url, routeParam, componentType: RouteComponent}) => (
                     <Route
                         exact
                         key={url}
-                        path={routeParameter ? url + routeParameter : url}
+                        path={routeParam ? url + routeParam : url}
                         component={(props: any) => (
                             <WithErrorBoundary onLifecycleError={onLifecycleError}>
                                 <RouteComponent {...props} />

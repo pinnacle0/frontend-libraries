@@ -25,7 +25,7 @@ export interface NavigationModuleItem<Feature, Field = never> {
      * To define route parameter for React Router.
      * Example: "/:direction(asc|desc)"
      */
-    routeParameter?: string;
+    routeParam?: string;
     /**
      *  default - display NavItem normally, can access by route.
      *  hidden -  Not shown as NavItem, can access by route. Useful for modules in development.
@@ -34,7 +34,7 @@ export interface NavigationModuleItem<Feature, Field = never> {
     display?: "default" | "hidden" | "disabled";
     /**
      * If true, each different URL will use different navigator tab.
-     * Only work when routeParameter is specified.
+     * Only work when routeParam is specified.
      *
      * Example:
      * /user/detail/100 and /user/detail/101 will occupy 2 tabs.
@@ -83,7 +83,7 @@ export abstract class AdminNavigatorBase<Feature extends string, Field extends s
     moduleByURL(url: string): NavigationModuleItem<Feature, Field> | undefined {
         const isMatched = (item: NavigationModuleItem<Feature, Field>) =>
             matchPath(url, {
-                path: item.routeParameter ? item.url + item.routeParameter : item.url,
+                path: item.routeParam ? item.url + item.routeParam : item.url,
                 exact: true,
                 strict: false,
             }) !== null;
