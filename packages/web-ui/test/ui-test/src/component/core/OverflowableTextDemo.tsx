@@ -53,12 +53,16 @@ function OverflowableTextWithChangeableText() {
             </div>
             <div>
                 <h3>React Node</h3>
-                <OverflowableText maxWidth={100}>{<div>{nodeText}</div>}</OverflowableText>
+                <OverflowableText maxWidth={100}>
+                    <div>{nodeText}</div>
+                </OverflowableText>
                 <Input onChange={setNodeText} value={nodeText} />
             </div>
             <div>
                 <h3>Amount</h3>
-                <OverflowableText maxWidth={100}>{<Amount scale={0} value={amount} />}</OverflowableText>
+                <OverflowableText maxWidth={100}>
+                    <Amount scale={0} value={amount} />
+                </OverflowableText>
                 <NumberInput max={1000000000000000000000000000} allowNull onChange={setAmount} value={amount} />
             </div>
             <div>
