@@ -1,7 +1,8 @@
 @import "../../css/variable.less";
 
 .g-amount {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
     &.bold * {
         font-weight: bold;
@@ -33,16 +34,19 @@
     }
 
     > .prefix {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         margin-right: 2px;
     }
 
     > .postfix {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         margin-left: 2px;
     }
 
     > .digits {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
     }
 }

@@ -82,6 +82,36 @@ const groups: DemoHelperGroupConfig[] = [
             <Amount.Percentage value={-1.2} percentageScale={1} colorScheme="green+red-" />,
         ],
     },
+    {
+        title: "With Surrounding Text",
+        components: [
+            <div>
+                test
+                <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
+                test
+            </div>,
+            <span>
+                test
+                <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
+                test
+            </span>,
+            <div>
+                <span>test </span>
+                <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
+                test
+            </div>,
+            <p>
+                test
+                <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
+                test
+            </p>,
+            <div>
+                <span style={{fontSize: 30}}>test</span>
+                <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
+                <span style={{fontSize: 10}}>test</span>
+            </div>,
+        ],
+    },
 ];
 
 export const AmountDemo = () => <DemoHelper groups={groups} />;
