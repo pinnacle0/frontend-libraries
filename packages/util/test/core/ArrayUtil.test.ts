@@ -96,30 +96,32 @@ describe("ArrayUtil.sortBy", () => {
         const extraList2 = [20, 30, 10];
         const extraList3 = [10, 50, 2];
 
-        type TestEachRowSchema = {array: any[]; extraPriorityLists: any[][]; expected: any[]};
+        type TestEachRowSchema = {array: number[]; priorityLists: number[][]; expected: number[]};
         test.each`
-            array                     | extraPriorityLists                      | expected
-            ${[]}                     | ${[]}                                   | ${[]}
-            ${[2]}                    | ${[]}                                   | ${[2]}
-            ${[2, 3]}                 | ${[]}                                   | ${[2, 3]}
-            ${[30, 2, 50, 1]}         | ${[]}                                   | ${[30, 50, 2, 1]}
-            ${[50, 3, 2, 20, 9, -1]}  | ${[]}                                   | ${[20, 50, 3, 2, 9, -1]}
-            ${[50, 3, 2, 20, 9, -1]}  | ${[extraList1]}                         | ${[50, 20, 3, 2, 9, -1]}
-            ${[50, 3, 2, 20, 9, -1]}  | ${[extraList1, extraList2]}             | ${[20, 50, 3, 2, 9, -1]}
-            ${[10, 20]}               | ${[]}                                   | ${[10, 20]}
-            ${[30, 20]}               | ${[]}                                   | ${[20, 30]}
-            ${[30, 20, 50, 10]}       | ${[]}                                   | ${[10, 20, 30, 50]}
-            ${[20, 20, 50, 10]}       | ${[]}                                   | ${[10, 20, 20, 50]}
-            ${[20, 20, 50, 10]}       | ${[extraList1]}                         | ${[50, 20, 20, 10]}
-            ${[20, 20, 50, 10]}       | ${[extraList1, extraList2]}             | ${[20, 20, 10, 50]}
-            ${[20, 20, 50, 10]}       | ${[extraList2, extraList1]}             | ${[50, 20, 20, 10]}
-            ${[20, 20, 50, 10]}       | ${[extraList1, extraList2, extraList3]} | ${[10, 50, 20, 20]}
-            ${[10, 50, 20, 30]}       | ${[extraList1]}                         | ${[50, 30, 20, 10]}
-            ${[10, 50, 20, 30]}       | ${[extraList1, extraList2]}             | ${[20, 30, 10, 50]}
-            ${[2, 10, 50, 20, 30]}    | ${[extraList1, extraList2, extraList3]} | ${[10, 50, 2, 20, 30]}
-            ${[2, 2, 10, 50, 20, 30]} | ${[extraList1, extraList2, extraList3]} | ${[10, 50, 2, 2, 20, 30]}
-        `("returns expected array from sortBy($array) @testid:$_id", ({array, extraPriorityLists, expected}: TestEachRowSchema) => {
-            expect(ArrayUtil.sortBy(array, sortedList, ...extraPriorityLists)).toStrictEqual(expected);
+            array                     | priorityLists                                       | expected
+            ${[]}                     | ${[]}                                               | ${[]}
+            ${[2]}                    | ${[]}                                               | ${[2]}
+            ${[2, 3]}                 | ${[]}                                               | ${[2, 3]}
+            ${[3, 2]}                 | ${[]}                                               | ${[3, 2]}
+            ${[2, 3]}                 | ${[sortedList]}                                     | ${[2, 3]}
+            ${[30, 2, 50, 1]}         | ${[sortedList]}                                     | ${[30, 50, 2, 1]}
+            ${[50, 3, 2, 20, 9, -1]}  | ${[sortedList]}                                     | ${[20, 50, 3, 2, 9, -1]}
+            ${[50, 3, 2, 20, 9, -1]}  | ${[sortedList, extraList1]}                         | ${[50, 20, 3, 2, 9, -1]}
+            ${[50, 3, 2, 20, 9, -1]}  | ${[sortedList, extraList1, extraList2]}             | ${[20, 50, 3, 2, 9, -1]}
+            ${[10, 20]}               | ${[sortedList]}                                     | ${[10, 20]}
+            ${[30, 20]}               | ${[sortedList]}                                     | ${[20, 30]}
+            ${[30, 20, 50, 10]}       | ${[sortedList]}                                     | ${[10, 20, 30, 50]}
+            ${[20, 20, 50, 10]}       | ${[sortedList]}                                     | ${[10, 20, 20, 50]}
+            ${[20, 20, 50, 10]}       | ${[sortedList, extraList1]}                         | ${[50, 20, 20, 10]}
+            ${[20, 20, 50, 10]}       | ${[sortedList, extraList1, extraList2]}             | ${[20, 20, 10, 50]}
+            ${[20, 20, 50, 10]}       | ${[sortedList, extraList2, extraList1]}             | ${[50, 20, 20, 10]}
+            ${[20, 20, 50, 10]}       | ${[sortedList, extraList1, extraList2, extraList3]} | ${[10, 50, 20, 20]}
+            ${[10, 50, 20, 30]}       | ${[sortedList, extraList1]}                         | ${[50, 30, 20, 10]}
+            ${[10, 50, 20, 30]}       | ${[sortedList, extraList1, extraList2]}             | ${[20, 30, 10, 50]}
+            ${[2, 10, 50, 20, 30]}    | ${[sortedList, extraList1, extraList2, extraList3]} | ${[10, 50, 2, 20, 30]}
+            ${[2, 2, 10, 50, 20, 30]} | ${[sortedList, extraList1, extraList2, extraList3]} | ${[10, 50, 2, 2, 20, 30]}
+        `("returns expected array from sortBy($array)", ({array, priorityLists, expected}: TestEachRowSchema) => {
+            expect(ArrayUtil.sortBy(array, ...priorityLists)).toStrictEqual(expected);
         });
     });
 
@@ -144,8 +146,35 @@ describe("ArrayUtil.sortBy", () => {
             ${[Enum.A, Enum.A, Enum.B]}                         | ${[Enum.A, Enum.A, Enum.B]}
             ${[Enum.E, Enum.D, Enum.A]}                         | ${[Enum.A, Enum.D, Enum.E]}
             ${[Enum.D, Enum.A, Enum.B, Enum.B, Enum.A, Enum.C]} | ${[Enum.A, Enum.A, Enum.B, Enum.B, Enum.C, Enum.D]}
-        `("returns expected array from sortBy($array, sortedList)", ({array, expected}: TestEachRowSchema) => {
+        `("returns expected array from sortBy($array)", ({array, expected}: TestEachRowSchema) => {
             expect(ArrayUtil.sortBy(array, sortedList)).toStrictEqual(expected);
+        });
+    });
+});
+
+describe("ArrayUtil.sortByKey", () => {
+    describe("by number", () => {
+        const sortedList = [10, 20, 30, 40, 50];
+        const extraList = [50, 30, 20];
+
+        type TestEachRowSchema = {array: Array<{d: number}>; priorityLists: number[][]; expected: Array<{d: number}>};
+        test.each`
+            array                                            | priorityLists              | expected
+            ${[]}                                            | ${[]}                      | ${[]}
+            ${[{d: 2}]}                                      | ${[]}                      | ${[{d: 2}]}
+            ${[{d: 10}]}                                     | ${[]}                      | ${[{d: 10}]}
+            ${[{d: 10}]}                                     | ${[sortedList]}            | ${[{d: 10}]}
+            ${[{d: 20}, {d: 10}]}                            | ${[sortedList]}            | ${[{d: 10}, {d: 20}]}
+            ${[{d: 20}, {d: 10}, {d: 10}]}                   | ${[sortedList]}            | ${[{d: 10}, {d: 10}, {d: 20}]}
+            ${[{d: 20}, {d: 10}, {d: 50}]}                   | ${[sortedList]}            | ${[{d: 10}, {d: 20}, {d: 50}]}
+            ${[{d: 20}, {d: 10}, {d: 50}, {d: 30}, {d: 40}]} | ${[sortedList]}            | ${[{d: 10}, {d: 20}, {d: 30}, {d: 40}, {d: 50}]}
+            ${[{d: 20}, {d: 10}, {d: 50}, {d: 0}, {d: 30}]}  | ${[sortedList]}            | ${[{d: 10}, {d: 20}, {d: 30}, {d: 50}, {d: 0}]}
+            ${[{d: 20}, {d: 10}, {d: 50}]}                   | ${[sortedList, extraList]} | ${[{d: 50}, {d: 20}, {d: 10}]}
+            ${[{d: 20}, {d: 10}, {d: 50}, {d: 30}]}          | ${[sortedList, extraList]} | ${[{d: 50}, {d: 30}, {d: 20}, {d: 10}]}
+            ${[{d: 20}, {d: 1}, {d: 5}, {d: 30}]}            | ${[sortedList, extraList]} | ${[{d: 30}, {d: 20}, {d: 1}, {d: 5}]}
+            ${[{d: 1}, {d: 2}, {d: 3}]}                      | ${[sortedList, extraList]} | ${[{d: 1}, {d: 2}, {d: 3}]}
+        `("returns expected array from sortByKey($array)", ({array, priorityLists, expected}: TestEachRowSchema) => {
+            expect(ArrayUtil.sortByKey(array, "d", ...priorityLists)).toStrictEqual(expected);
         });
     });
 });
@@ -234,7 +263,7 @@ describe("ArrayUtil.toObject", () => {
         ${1} | ${[1, 2, "a", "b"]} | ${((item, index) => [index.toString(), item]) as MapperCallback}     | ${{0: 1, 1: 2, 2: "a", 3: "b"}}
         ${2} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), index]) as MapperCallback}     | ${{1: 0, 2: 1, a: 2, b: 3}}
         ${3} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), {a: item}]) as MapperCallback} | ${{1: {a: 1}, 2: {a: 2}, a: {a: "a"}, b: {a: "b"}}}
-    `("returns expected array from toObject() @testid:$_id", ({array, mapperCallback, expected}: TestEachRowSchema) => {
+    `("returns expected array from toObject()", ({array, mapperCallback, expected}: TestEachRowSchema) => {
         expect(ArrayUtil.toObject(array, mapperCallback)).toStrictEqual(expected);
     });
 

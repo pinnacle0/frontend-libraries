@@ -36,14 +36,13 @@ function areSame<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>, compareOrdering: b
 }
 
 /**
- * Sort `array` by `priorityList` and optional `extraPriorityLists` ordering.<br>
- * If some element is not specified in the `priorityList` or `extraPriorityLists`, it will be put to the last, in the original ordering.<br>
- * If `extraPriorityLists` are provided, they will take precedence over `priorityList`.<br>
- * If more than 1 `extraPriorityLists` are provided, the latter takes precedence over the previous.<br>
+ * Sort `array` by `priorityLists` ordering.
+ * If some element is not specified in `priorityLists`, it will be put to the last, in the original ordering.
+ * If more than 1 `priorityLists` are provided, the latter takes precedence over the previous.
  */
-function sortBy<T>(array: ReadonlyArray<T>, priorityList: ReadonlyArray<T>, ...extraPriorityLists: Array<ReadonlyArray<T>>): T[] {
-    const reversedExtraPriorityList = extraPriorityLists.reduce((prev, curr) => [...curr, ...prev], []);
-    const mergedPriorityList = extraPriorityLists.length > 0 ? [...new Set([...reversedExtraPriorityList, ...priorityList])] : priorityList;
+function sortBy<T>(array: ReadonlyArray<T>, ...priorityLists: Array<ReadonlyArray<T>>): T[] {
+    const reversedPrioritySet = priorityLists.reduce((prev, curr) => [...curr, ...prev], []);
+    const mergedPriorityList = [...new Set(reversedPrioritySet)];
 
     if (mergedPriorityList.length > 0) {
         return [...array].sort((a, b) => {
@@ -62,7 +61,37 @@ function sortBy<T>(array: ReadonlyArray<T>, priorityList: ReadonlyArray<T>, ...e
             }
         });
     } else {
-        return [...array];
+        return array as T[];
+    }
+}
+
+/**
+ * Sort `array` by the `priorityLists` by specified `key` ordering.
+ * If some element is not specified in `priorityLists`, it will be put to the last, in the original ordering.
+ * If more than 1 `priorityLists` are provided, the latter takes precedence over the previous.
+ */
+function sortByKey<T extends object, K extends keyof T>(array: ReadonlyArray<T>, key: K, ...priorityLists: Array<ReadonlyArray<T[K]>>): T[] {
+    const reversedPrioritySet = priorityLists.reduce((prev, curr) => [...curr, ...prev], []);
+    const mergedPriorityList = [...new Set(reversedPrioritySet)];
+
+    if (mergedPriorityList.length > 0) {
+        return [...array].sort((a, b) => {
+            const aIndex = mergedPriorityList.findIndex(_ => _ === a[key]);
+            const bIndex = mergedPriorityList.findIndex(_ => _ === b[key]);
+            if (aIndex < 0 && bIndex < 0) {
+                return 0;
+            } else if (aIndex < 0) {
+                // b should be before a
+                return 1;
+            } else if (bIndex < 0) {
+                // a should be before b
+                return -1;
+            } else {
+                return aIndex - bIndex;
+            }
+        });
+    } else {
+        return array as T[];
     }
 }
 
@@ -117,10 +146,7 @@ function hasIntersection<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>): boolean {
 /**
  * Accepts a list of item and a callback, maps each item with the callback,
  * then removes value of `null`, `undefined`, `NaN` from the resulting list.
- * Other falsy values are **NOT** removed.
- *
- * @param array    List of items to be filtered
- * @param callback Callback to transform item
+ * Other falsy values are NOT removed.
  */
 function compactMap<T, V>(array: ReadonlyArray<T>, callback: (item: T, index: number) => V): Array<NonNullable<V>> {
     return array.map(callback).filter(_ => _ !== null && _ !== undefined && (typeof _ !== "number" || !Number.isNaN(_))) as Array<NonNullable<V>>;
@@ -131,10 +157,11 @@ export const ArrayUtil = Object.freeze({
     sumByKey,
     toggleElement,
     areSame,
-    generate,
+    sortBy,
+    sortByKey,
     chunk,
+    generate,
+    toObject,
     hasIntersection,
     compactMap,
-    toObject,
-    sortBy,
 });
