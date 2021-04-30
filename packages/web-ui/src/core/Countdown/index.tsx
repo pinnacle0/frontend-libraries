@@ -10,8 +10,12 @@ export interface Props {
     timeToComplete: number;
     onComplete?: () => void;
     /**
-     * @hours / @minutes / @seconds are well-formatted in exact two chars.
-     * @remainingSecond will be null if not applicable.
+     * @param remainingSecond - positive ONLY, use `onComplete` for remaining second is 0
+     */
+    onTick?: (remainingSecond: number) => void;
+    /**
+     * @param hours/minutes/seconds - well-formatted in exact two chars
+     * @param remainingSecond - NULL if not applicable
      */
     renderer?: (hours: string, minutes: string, seconds: string, remainingSecond: number | null) => React.ReactElement | string;
     isHidden?: boolean;
@@ -45,9 +49,7 @@ export class Countdown extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            remainingSecond: this.computeRemainingSecond(),
-        };
+        this.state = {remainingSecond: this.computeRemainingSecond()};
     }
 
     componentDidMount() {
@@ -74,7 +76,7 @@ export class Countdown extends React.PureComponent<Props, State> {
     };
 
     onTick = () => {
-        const {timeToComplete, onComplete} = this.props;
+        const {timeToComplete, onComplete, onTick} = this.props;
         if (!this.isTimerCompleted && timeToComplete > 0) {
             const remainingSecond = this.computeRemainingSecond();
             if (remainingSecond <= 0) {
@@ -82,6 +84,7 @@ export class Countdown extends React.PureComponent<Props, State> {
                 onComplete?.();
             } else {
                 this.setState({remainingSecond});
+                onTick?.(remainingSecond);
             }
         }
     };
