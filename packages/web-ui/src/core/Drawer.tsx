@@ -10,4 +10,5 @@ export class Drawer extends React.PureComponent<Props> {
         return <AntdDrawer {...this.props} />;
     }
 }
+
 export type {PushState};

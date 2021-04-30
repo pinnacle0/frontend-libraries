@@ -1,7 +1,7 @@
 import React from "react";
-import {Button} from "../../../../core/Button";
 import UserOutlined from "@ant-design/icons/UserOutlined";
-import AntDrawer from "antd/lib/drawer";
+import {Button} from "../../../../core/Button";
+import {Drawer} from "../../../../core/Drawer";
 import {i18n} from "../../../../internal/i18n/admin";
 import "./index.less";
 
@@ -40,7 +40,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                 <Button id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
                     <UserOutlined />
                 </Button>
-                <AntDrawer width={350} visible={showDrawer} closable={false} onClose={this.closeDrawer}>
+                <Drawer width={350} visible={showDrawer} closable={false} onClose={this.closeDrawer}>
                     <div id="admin-app-default-drawer">
                         <UserOutlined className="avatar" />
                         <div className="grid">
@@ -61,7 +61,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                             </Button>
                         </div>
                     </div>
-                </AntDrawer>
+                </Drawer>
             </React.Fragment>
         );
     }
