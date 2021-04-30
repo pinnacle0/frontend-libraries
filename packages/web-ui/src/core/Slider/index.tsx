@@ -1,33 +1,18 @@
 import React from "react";
-import type {SliderSingleProps, SliderRangeProps} from "antd/lib/slider";
+import type {SliderSingleProps} from "antd/lib/slider";
 import AntSlider from "antd/lib/slider";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/slider/style";
 import {Button} from "../Button";
+import {RangeSlider} from "./RangeSlider";
+import "antd/lib/slider/style";
 import "./index.less";
 
-type Override<T, O> = Omit<T, keyof O> & O;
-
-interface RangeProps extends Override<Omit<SliderRangeProps, "range">, ControlledFormValue<[number, number]>> {
-    draggable?: boolean;
-}
-
-class RangeSlider extends React.PureComponent<RangeProps> {
-    static displayName = "RangeSlider";
-
-    render() {
-        const {draggable, ...rest} = this.props;
-        return <AntSlider range={{draggableTrack: draggable}} {...rest} />;
-    }
-}
-
-interface Props extends Override<Omit<SliderSingleProps, "range">, ControlledFormValue<number>> {
+interface Props extends Omit<SliderSingleProps, "range" | "value" | "onChange">, ControlledFormValue<number> {
     showButton?: boolean;
 }
 
-export default class Slider extends React.PureComponent<Props> {
+export class Slider extends React.PureComponent<Props> {
     static displayName = "Slider";
-
     static Range = RangeSlider;
 
     /**
@@ -35,7 +20,7 @@ export default class Slider extends React.PureComponent<Props> {
      */
     getMarks = () => {
         const {showButton, marks, max, min} = this.props;
-        if (this.props.showButton) {
+        if (showButton) {
             const removeMinMaxMark = {...this.props.marks};
             delete removeMinMaxMark[min!];
             delete removeMinMaxMark[max!];
@@ -46,7 +31,6 @@ export default class Slider extends React.PureComponent<Props> {
 
     onChange = (newValue: number) => {
         const {min, max, onChange} = this.props;
-
         if (max && newValue > max) {
             onChange(max);
         } else if (min && newValue < min) {
@@ -57,10 +41,10 @@ export default class Slider extends React.PureComponent<Props> {
     };
 
     render() {
-        const {showButton, onChange, value, min, max, step = 1, marks, ...rest} = this.props;
+        const {showButton, onChange, value, min, max, step = 1, marks, className, ...rest} = this.props;
 
         return (
-            <span className={`g-slider ${showButton ? "show-button" : ""}`}>
+            <span className={`g-slider ${showButton ? "show-button" : ""} ${className || ""}`}>
                 {showButton && (
                     <div className="slider-button-wrapper">
                         <Button onClick={() => this.onChange(value - step!)}>
