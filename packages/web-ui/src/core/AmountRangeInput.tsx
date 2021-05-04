@@ -13,6 +13,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<AmountRang
     min?: number;
     shouldNotEqual?: true;
     style?: React.CSSProperties;
+    inputStyle?: React.CSSProperties;
 }
 
 export class AmountRangeInput<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -34,7 +35,7 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
     onConnectorInputChange = () => {};
 
     render() {
-        const {value, scale, disabled, min, shouldNotEqual, allowNull, style} = this.props;
+        const {value, scale, disabled, min, shouldNotEqual, allowNull, style, inputStyle} = this.props;
         const t = i18n();
         return (
             <Input.Group compact style={style}>
@@ -46,7 +47,7 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
                     placeholder={t.minimum}
                     value={value[0] as any}
                     onChange={this.onMinAmountChange}
-                    inputStyle={this.minInputStyle}
+                    inputStyle={{...this.minInputStyle, ...inputStyle}}
                 />
                 <Input style={this.connectorStyle} disabled value="~" onChange={this.onConnectorInputChange} />
                 <NumberInput
@@ -57,7 +58,7 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
                     placeholder={t.maximum}
                     value={value[1] as any}
                     onChange={this.onMaxAmountChange}
-                    inputStyle={this.maxInputStyle}
+                    inputStyle={{...this.maxInputStyle, ...inputStyle}}
                 />
             </Input.Group>
         );
