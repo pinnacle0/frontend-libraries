@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/frontend-libraries",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "license": "MIT",
     "private": true,
     "workspaces": {
@@ -44,13 +44,13 @@
         "jest": "26.6.3",
         "lint-staged": "10.5.4",
         "prettier": "2.2.1",
-        "stylelint": "13.13.0",
+        "stylelint": "13.13.1",
         "stylelint-config-prettier": "8.0.2",
         "stylelint-config-standard": "22.0.0",
         "ts-jest": "26.5.5",
         "ts-node": "9.1.1",
         "typescript": "4.2.4",
-        "yargs": "16.2.0"
+        "yargs": "17.0.1"
     },
     "husky": {
         "hooks": {
