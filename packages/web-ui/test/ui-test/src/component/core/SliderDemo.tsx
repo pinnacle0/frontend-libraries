@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "@pinnacle0/web-ui/core/Slider";
+import {Slider} from "@pinnacle0/web-ui/core/Slider";
 import type {SafeReactChildren} from "@pinnacle0/web-ui/internal/type";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
