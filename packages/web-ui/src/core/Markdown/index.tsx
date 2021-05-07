@@ -24,7 +24,11 @@ export class Markdown extends React.PureComponent<Props> {
 
     renderLine = (content: string, index: number) => {
         const splitContents = content.split("`");
-        return <p key={index}>{splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <em key={segmentIndex}>{_}</em> : this.renderBold(_, segmentIndex)))}</p>;
+        return (
+            <div className="line" key={index}>
+                {splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <em key={segmentIndex}>{_}</em> : this.renderBold(_, segmentIndex)))}
+            </div>
+        );
     };
 
     render() {
