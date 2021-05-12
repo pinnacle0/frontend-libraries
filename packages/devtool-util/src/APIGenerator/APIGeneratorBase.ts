@@ -4,7 +4,7 @@ import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
-import TypeScriptDefinitionGenerator from "./Utility/TypeScriptDefinitionGenerator";
+import {TypeScriptDefinitionGenerator} from "./TypeScriptDefinitionGenerator";
 
 export class APIGeneratorBase {
     private readonly metadataEndpointURL: string;
@@ -88,7 +88,7 @@ export class APIGeneratorBase {
 
         const typesImportStatement = (service: ServiceDefinition) => {
             const primitiveTypes = ["void", "number", "string", "boolean"];
-            const requireTypes = service.operations.flatMap(extractTypes).filter(Boolean).map(TypeScriptDefinitionGenerator.getTypeScriptType);
+            const requireTypes = service.operations.flatMap(extractTypes).filter(Boolean).map(TypeScriptDefinitionGenerator.javaToTSType);
             const customTypes = [...differenceSet(requireTypes, primitiveTypes)];
 
             return customTypes.length ? `import type { ${customTypes.join(",")} } from "${platformInfo.typeFileImportPath}";` : "";
@@ -97,7 +97,7 @@ export class APIGeneratorBase {
         const methodDeclaration = (operation: ServiceOperation) => {
             const {name, method, path, pathParams, requestType, responseType} = operation;
             const requestBody = requestType ? [{name: "request", type: requestType}] : [];
-            const parameters = [...pathParams, ...requestBody].map(({name, type}) => `${name}: ${TypeScriptDefinitionGenerator.getTypeScriptType(type)}`).join(",");
+            const parameters = [...pathParams, ...requestBody].map(({name, type}) => `${name}: ${TypeScriptDefinitionGenerator.javaToTSType(type)}`).join(",");
             const requestParams = pathParams.map(param => param.name).join(",");
             const request = requestType ? "request" : "null";
 

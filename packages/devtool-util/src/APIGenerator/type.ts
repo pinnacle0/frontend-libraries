@@ -24,16 +24,14 @@ export interface TypeDefinition {
     enumConstants: TypeEnumConstant[] | null;
 }
 
-// TODO: use string literal union type
-export enum TypeDefinitionType {
-    Enum = "enum",
-    Bean = "bean",
-}
+export type TypeDefinitionType = "enum" | "bean";
+
+export type JavaType = "String" | "Boolean" | "Integer" | "Long" | "Double" | "BigDecimal" | "ZonedDateTime" | "LocalDate" | "LocalDateTime" | "LocalTime" | "List" | "Map";
 
 export interface TypeDefinitionField {
     name: string;
-    type: string;
-    typeParams: string[] | null;
+    type: JavaType | string;
+    typeParams: (JavaType | string)[] | null;
     constraints: TypeDefinitionFieldConstraints;
 }
 
@@ -51,28 +49,11 @@ export interface TypeEnumConstant {
     value: string;
 }
 
-// TODO: use string literal union type
-export enum JavaType {
-    String = "String",
-    Boolean = "Boolean",
-    Integer = "Integer",
-    Long = "Long",
-    Double = "Double",
-    BigDecimal = "BigDecimal",
-    ZonedDateTime = "ZonedDateTime",
-    LocalDate = "LocalDate",
-    LocalDateTime = "LocalDateTime",
-    LocalTime = "LocalTime",
-    List = "List",
-    Map = "Map",
-}
-
 export interface PlatformConfig {
     ajaxFunction: string;
     ajaxFunctionImportStatement: string;
     typeFileImportPath: string;
 }
-
 export interface APIGeneratorOptions {
     metadataEndpointURL: string;
     typeFilePath: string;
