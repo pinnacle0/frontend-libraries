@@ -3,7 +3,7 @@ import fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
-import type {APIDefinition, APIGeneratorOptions, Operation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
+import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
 import TypeScriptDefinitionGenerator from "./Utility/TypeScriptDefinitionGenerator";
 
 export class APIGeneratorBase {
@@ -77,10 +77,13 @@ export class APIGeneratorBase {
             return [...a].filter(_ => !b.has(_));
         };
 
-        const extractTypes = (operation: Operation) => {
+        const extractTypes = (operation: ServiceOperation): string[] => {
             const {pathParams, requestType, responseType} = operation;
-            const types = [...pathParams.map(param => param.type), requestType, responseType];
-            return types.map(type => type?.replace("[]", ""));
+            const types = [...pathParams.map(param => param.type), responseType];
+            if (requestType) {
+                types.push(requestType);
+            }
+            return types.map(type => type.replace("[]", ""));
         };
 
         const typesImportStatement = (service: ServiceDefinition) => {
@@ -91,7 +94,7 @@ export class APIGeneratorBase {
             return customTypes.length ? `import type { ${customTypes.join(",")} } from "${platformInfo.typeFileImportPath}";` : "";
         };
 
-        const methodDeclaration = (operation: Operation) => {
+        const methodDeclaration = (operation: ServiceOperation) => {
             const {name, method, path, pathParams, requestType, responseType} = operation;
             const requestBody = requestType ? [{name: "request", type: requestType}] : [];
             const parameters = [...pathParams, ...requestBody].map(({name, type}) => `${name}: ${TypeScriptDefinitionGenerator.getTypeScriptType(type)}`).join(",");

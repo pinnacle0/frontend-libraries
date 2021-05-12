@@ -5,10 +5,10 @@ export interface APIDefinition {
 
 export interface ServiceDefinition {
     name: string;
-    operations: Operation[];
+    operations: ServiceOperation[];
 }
 
-export interface Operation {
+export interface ServiceOperation {
     name: string;
     method: "DELETE" | "GET" | "POST" | "PUT";
     path: string;
@@ -17,9 +17,24 @@ export interface Operation {
     requestType: null | string;
 }
 
-export interface TypeDefinitionFieldConstraintSize {
-    min: number;
-    max: number;
+export interface TypeDefinition {
+    name: string;
+    type: TypeDefinitionType;
+    fields: TypeDefinitionField[] | null;
+    enumConstants: TypeEnumConstant[] | null;
+}
+
+// TODO: use string literal union type
+export enum TypeDefinitionType {
+    Enum = "enum",
+    Bean = "bean",
+}
+
+export interface TypeDefinitionField {
+    name: string;
+    type: string;
+    typeParams: string[] | null;
+    constraints: TypeDefinitionFieldConstraints;
 }
 
 export interface TypeDefinitionFieldConstraints {
@@ -27,17 +42,8 @@ export interface TypeDefinitionFieldConstraints {
     notBlank: boolean | null;
     min: number | null;
     max: number | null;
-    size: TypeDefinitionFieldConstraintSize | null;
+    size: {min: number; max: number} | null;
     pattern: string | null;
-}
-
-export type TypeParams = string[] | null;
-
-export interface TypeDefinitionField {
-    name: string;
-    type: string;
-    typeParams: TypeParams;
-    constraints: TypeDefinitionFieldConstraints;
 }
 
 export interface TypeEnumConstant {
@@ -45,6 +51,7 @@ export interface TypeEnumConstant {
     value: string;
 }
 
+// TODO: use string literal union type
 export enum JavaType {
     String = "String",
     Boolean = "Boolean",
@@ -58,18 +65,6 @@ export enum JavaType {
     LocalTime = "LocalTime",
     List = "List",
     Map = "Map",
-}
-
-export enum TypeDefinitionType {
-    Enum = "enum",
-    Bean = "bean",
-}
-
-export interface TypeDefinition {
-    name: string;
-    type: TypeDefinitionType;
-    fields: TypeDefinitionField[] | null;
-    enumConstants: TypeEnumConstant[] | null;
 }
 
 export interface PlatformConfig {

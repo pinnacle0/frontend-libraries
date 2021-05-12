@@ -1,29 +1,11 @@
 import {JavaType, TypeDefinitionType} from "../type";
-import type {TypeParams, TypeDefinition, TypeDefinitionFieldConstraints} from "../type";
-import {Utility} from "../../Utility";
+import type {TypeDefinition, TypeDefinitionFieldConstraints} from "../type";
 
-const typeDefinitionGeneratorLogger = Utility.createConsoleLogger("Generate TypeScript Definition");
+// TODO: move to upper folder
 
-const capitalize = (str: string): string => str[0].toLocaleUpperCase() + str.slice(1);
-
-const byTypeAndName = (a: {name: string; type: string}, b: {name: string; type: string}) => {
-    if (a.type !== b.type) {
-        return a.type.localeCompare(b.type);
-    }
-    return a.name.localeCompare(b.name);
-};
-
-const exportTypeDefinitionTypeMap: {[TypeDefinitionType.Enum]: "enum"; [TypeDefinitionType.Bean]: "interface"} = {
-    [TypeDefinitionType.Enum]: "enum",
-    [TypeDefinitionType.Bean]: "interface",
-};
-
-const getTypeScriptType = (javaType?: TypeDefinitionType | string): string => {
-    if (typeof javaType === "undefined") {
-        return "any";
-    }
-
-    switch (javaType) {
+// TODO: javaToTSType
+const getTypeScriptType = (javaTypeOrCustomizedType: string): string => {
+    switch (javaTypeOrCustomizedType) {
         case JavaType.String:
             return "string";
 
@@ -45,34 +27,24 @@ const getTypeScriptType = (javaType?: TypeDefinitionType | string): string => {
             return "string"; // in ts/js, Date is always convert to ISO datetime utc format, so here use string for date/datetime without timezone
 
         default:
-            return javaType;
+            return javaTypeOrCustomizedType;
     }
 };
 
-const getArrayType = (typeParams: TypeParams): string => {
-    return getFieldDefinitionType(typeParams![0], typeParams!.slice(1)) + "[]";
-};
-
-const getMapType = (typeParams: TypeParams): string => {
-    const keyType = !typeParams![0] || typeParams![0] === JavaType.String ? "[key:string]:" : `[key in ${typeParams![0]}]?:`;
-    const valueType = typeParams![1] === JavaType.List ? getArrayType(typeParams!.slice(2)) : getFieldDefinitionType(typeParams![1], typeParams!.slice(2));
-
-    return `{ ${keyType} ${valueType}; }`;
-};
-
-const getFieldDefinitionType = (type?: TypeDefinitionType | string, typeParams?: TypeParams): string => {
+const getFieldDefinitionType = (type: TypeDefinitionType | string, typeParams?: string[] | null): string => {
     if (type === JavaType.List) {
-        return getArrayType(typeParams!);
+        return typeParams![0] + "[]";
+    } else if (type === JavaType.Map) {
+        const keyType = typeParams![0] === JavaType.String ? "[key:string]" : `[key in ${typeParams![0]}]?`;
+        const valueType = typeParams![1] === JavaType.List ? typeParams![2] + "[]" : typeParams![1];
+        return `{${keyType}: ${valueType}}`;
+    } else {
+        return getTypeScriptType(type);
     }
-
-    if (type === JavaType.Map) {
-        return getMapType(typeParams!);
-    }
-
-    return getTypeScriptType(type);
 };
 
 const getFieldConstraintsComment = (constraints: TypeDefinitionFieldConstraints): string => {
+    // TODO: refactor
     const rulesMap = {
         "notBlank=true`": constraints.notBlank,
         [`min=${constraints.min}`]: constraints.min !== null,
@@ -85,42 +57,42 @@ const getFieldConstraintsComment = (constraints: TypeDefinitionFieldConstraints)
 
     if (rules.length === 0) {
         return "";
+    } else {
+        return " // constraints: " + rules.join(", ");
     }
-
-    return " // constraints: " + rules.join(", ");
 };
 
-const generateTypeDefinition = ({type, name, fields, enumConstants}: TypeDefinition): string => {
-    const exportType = exportTypeDefinitionTypeMap[type];
-
-    const getExportDefinitionContent = () => {
-        typeDefinitionGeneratorLogger.info(`Extracting ${capitalize(exportType)}: ${name}`);
-
-        if (type === TypeDefinitionType.Bean) {
-            return fields!
-                .sort(byTypeAndName)
-                .map(field => {
-                    const fieldName = field.name;
-                    const nullability = field.constraints.notNull ? "" : " | null";
-                    const fieldDefinitionType = getFieldDefinitionType(field.type, field.typeParams) + nullability;
-                    const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
-
-                    return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
-                })
-                .join("\n");
-        } else if (type === TypeDefinitionType.Enum) {
-            return enumConstants!.map(constant => `${constant.name} = "${constant.value}",`).join("\n");
-        }
-        return "";
+const generate = (types: TypeDefinition[]): string[] => {
+    const exportTypeMap: Record<TypeDefinitionType, string> = {
+        [TypeDefinitionType.Enum]: "enum",
+        [TypeDefinitionType.Bean]: "interface",
     };
 
-    return [`export ${exportType} ${name} {`, getExportDefinitionContent(), `}`].join("\n") + "\n";
+    return types.map(({type, name, fields, enumConstants}: TypeDefinition): string => {
+        const exportType = exportTypeMap[type];
+        const getExportDefinitionContent = (): string => {
+            switch (type) {
+                case TypeDefinitionType.Bean:
+                    return fields!
+                        .map(field => {
+                            const fieldName = field.name;
+                            const nullability = field.constraints.notNull ? "" : " | null";
+                            const fieldDefinitionType = getFieldDefinitionType(field.type, field.typeParams) + nullability;
+                            const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
+
+                            return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
+                        })
+                        .join("\n");
+                case TypeDefinitionType.Enum:
+                    return enumConstants!.map(constant => `${constant.name} = "${constant.value}",`).join("\n");
+            }
+        };
+
+        return `export ${exportType} ${name} {${getExportDefinitionContent()}}`;
+    });
 };
 
-const generate = (types: TypeDefinition[]) => {
-    return types!.sort(byTypeAndName).map(generateTypeDefinition);
-};
-
+// TODO: export const TypeScriptDefinitionGenerator = Object.freeze({..})
 const TypeScriptDefinitionGenerator = {
     getTypeScriptType,
     generate,
