@@ -46,7 +46,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
     };
     const mergedConfig: ModalConfig = {...defaultModalConfig, ...config};
     if (Array.isArray(mergedConfig.body)) {
-        mergedConfig.body = mergedConfig.body.map((rowContent, index) => <p key={index}>{rowContent}</p>);
+        mergedConfig.body = mergedConfig.body.map((rowContent, index) => <div key={index}>{rowContent}</div>);
     }
 
     const getTitle = (remainingSecond?: number) => {
