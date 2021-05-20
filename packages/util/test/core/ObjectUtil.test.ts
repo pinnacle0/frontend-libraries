@@ -165,3 +165,27 @@ test("Sort by keys", () => {
     expect(Object.keys(sortedObject)).toEqual(["d", "a", "c", "b"]);
     expect(sortedObject).toEqual(object);
 });
+
+test("For each stop when callback return false", () => {
+    const object = {a: "a", b: "b", c: "c"};
+    let lastVal: string = "";
+
+    ObjectUtil.forEach(object, (key, value, index) => {
+        lastVal = value;
+        if (value === "a") {
+            return false;
+        }
+    });
+    expect(lastVal).toEqual("a");
+
+    ObjectUtil.forEach(object, (key, value, index) => {
+        lastVal = value;
+        if (value === "b") {
+            return false;
+        }
+    });
+    expect(lastVal).toEqual("b");
+
+    ObjectUtil.forEach(object, (key, value, index) => (lastVal = value));
+    expect(lastVal).toEqual("c");
+});
