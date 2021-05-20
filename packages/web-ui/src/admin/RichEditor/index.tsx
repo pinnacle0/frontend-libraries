@@ -80,7 +80,7 @@ export class RichEditor extends React.PureComponent<Props, State> {
             const onSuccess = () => {
                 const response = httpRequest.response;
                 try {
-                    const {imageKey, imageURL} = UploadUtil.castImageUploadResponse(httpRequest.response);
+                    const {imageKey, imageURL} = UploadUtil.castImageUploadResponse(response);
                     params.success({
                         url: imageURL,
                         meta: {
