@@ -47,13 +47,14 @@ function toArray<T extends object, V>(object: T, mapperCallback: (key: keyof T &
 }
 
 /**
+ * @param forEachCallback stop the iteration when explicitly returning FALSE
+ *
  * Attention:
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
 function forEach<T extends object>(object: T, forEachCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => any): void {
     const objKeys = Object.keys(object);
-
     for (let i = 0; i < objKeys.length; i++) {
         const currentKey = objKeys[i];
         if (forEachCallback(currentKey as keyof T & string, object[currentKey], i) === false) {
