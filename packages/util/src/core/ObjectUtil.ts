@@ -52,7 +52,19 @@ function toArray<T extends object, V>(object: T, mapperCallback: (key: keyof T &
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
 function forEach<T extends object>(object: T, forEachCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => any): void {
-    Object.keys(object).forEach((key, index) => object[key] !== undefined && forEachCallback(key as keyof T & string, object[key], index));
+    let isCompleted = false;
+    const ObjKeys = Object.keys(object);
+
+    let i = 0;
+    while (!isCompleted) {
+        const currentKey = ObjKeys[i];
+
+        if (forEachCallback(currentKey as keyof T & string, object[currentKey], i) === false || i >= ObjKeys.length) {
+            isCompleted = true;
+        } else {
+            i++;
+        }
+    }
 }
 
 /**
