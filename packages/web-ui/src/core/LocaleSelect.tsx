@@ -9,6 +9,7 @@ export class LocaleSelect extends React.PureComponent<Props> {
     static displayName = "LocaleSelect";
 
     private readonly allLocales: Locale[] = ["zh", "en"];
+    private readonly selectStyle: React.CSSProperties = {width: 120};
 
     translator = (locale: Locale): string => {
         switch (locale) {
@@ -25,6 +26,7 @@ export class LocaleSelect extends React.PureComponent<Props> {
             <EnumSelect
                 list={this.allLocales}
                 translator={this.translator}
+                style={this.selectStyle}
                 value={currentLocale}
                 // Do not use onChange={LocaleUtil.change}, due to "this" issue
                 onChange={newLocale => LocaleUtil.change(newLocale)}
