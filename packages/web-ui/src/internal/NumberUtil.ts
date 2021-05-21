@@ -1,6 +1,6 @@
 function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale: number): number {
     if (!Number.isInteger(maxScale) || maxScale < 0 || maxScale > 10) {
-        throw new Error("[util] NumberUtil.rounding maxScale must be an integer in range [0, 10]");
+        throw new Error("[web-ui] NumberUtil.rounding maxScale must be an integer in range [0, 10]");
     }
     /**
      * Take "4.975" as an example.

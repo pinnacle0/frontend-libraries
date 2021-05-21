@@ -1,27 +1,25 @@
 import React from "react";
-import {ModalUtil} from "@pinnacle0/web-ui/util/ModalUtil";
-import type {UploadFailureLogEntry, UploadProps, UploadSuccessLogEntry} from "@pinnacle0/web-ui/util/UploadUtil";
+import {ModalUtil} from "../../../../src/util/ModalUtil";
+import type {UploadFailureLogEntry, UploadSuccessLogEntry} from "../../../../src/type/uploader";
 
 /**
- * This API is mocked by webpack-dev-server, to respond a random image.
+ * This API is mocked by webpack-dev-server, to respond a fixed image, of typing TestImageUploadResponse.
  */
-export const dummyUploadURL = "/ajax/upload";
+export const dummyUploadImageUploadURL = "/ajax/upload";
+export const dummyUploadImageFormField = "image";
 
-export const dummyUploadCallback: UploadProps["onUploadFailure"] & UploadProps["onUploadSuccess"] = (response: any, logEntry: UploadFailureLogEntry | UploadSuccessLogEntry) => {
+export const dummyUploadCallback = (logEntry: UploadFailureLogEntry | UploadSuccessLogEntry) => {
     ModalUtil.createSync({
         title: "Upload Callback",
         body: <pre>{JSON.stringify(logEntry, null, 2)}</pre>,
     });
-    console.info("Dummy upload callback:");
-    console.info("[Response]", response);
-    console.info("[LogEntry]", logEntry);
 };
 
 export const dummyImportCallback = async (file: File) => {
     const content = await importTxt(file);
     ModalUtil.createSync({
         title: "Import Callback",
-        body: content,
+        body: content === null ? "<Fail to import>" : content,
     });
 };
 

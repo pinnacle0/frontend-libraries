@@ -1,4 +1,4 @@
-import type {TableColumns} from "@pinnacle0/web-ui/core/Table";
+import type {TableColumns} from "../../../../src/core/Table";
 
 export interface MockTableData {
     id: number;

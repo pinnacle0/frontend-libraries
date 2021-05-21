@@ -1,44 +1,62 @@
 import React from "react";
 import type {SafeReactChildren} from "../internal/type";
-import {Uploader} from "./Uploader";
-import UploadOutlined from "@ant-design/icons/UploadOutlined";
+import AntUpload from "antd/lib/upload";
 import {i18n} from "../internal/i18n/core";
 import {TextUtil} from "../internal/TextUtil";
+import {Spin} from "./Spin";
+import "antd/lib/upload/style";
 
 export interface Props {
     type: "txt" | "csv";
-    onImport: (file: File) => void;
-    /**
-     * If not specified, default children will display an icon and some text.
-     */
+    onImport: (file: File) => Promise<void> | void;
     children?: SafeReactChildren;
     className?: string;
     disabled?: boolean;
-    // height will be ignored by antd
     style?: React.CSSProperties;
-    // antd <Upload> accepts only separated height prop with number
-    height?: number;
 }
 
-export class LocalImporter extends React.PureComponent<Props> {
+interface State {
+    importing: boolean;
+}
+
+export class LocalImporter extends React.PureComponent<Props, State> {
     static displayName = "LocalImporter";
 
-    beforeUpload = (file: File) => {
-        this.props.onImport(file);
+    constructor(props: Props) {
+        super(props);
+        this.state = {importing: false};
+    }
+
+    beforeUpload = async (file: File): Promise<false> => {
+        try {
+            this.setState({importing: true});
+            await this.props.onImport(file);
+        } finally {
+            this.setState({importing: false});
+        }
+
         return false;
     };
 
     render() {
-        const {type, children, onImport, ...rest} = this.props;
+        const {type, children, className, disabled, style} = this.props;
+        const {importing} = this.state;
         const t = i18n();
         return (
-            <Uploader name={LocalImporter.displayName} accept={type === "txt" ? ".txt" : ".csv"} beforeUpload={this.beforeUpload}>
-                {children || (
-                    <React.Fragment>
-                        <UploadOutlined /> {TextUtil.interpolate(t.localImporterText, type)}
-                    </React.Fragment>
-                )}
-            </Uploader>
+            <AntUpload.Dragger
+                showUploadList={false}
+                multiple={false}
+                accept={type === "txt" ? ".txt" : ".csv"}
+                className={className}
+                disabled={disabled}
+                style={style}
+                height={Number(style?.height)}
+                beforeUpload={this.beforeUpload}
+            >
+                <Spin spinning={importing} size="small">
+                    {children || TextUtil.interpolate(t.localImporterHint, type)}
+                </Spin>
+            </AntUpload.Dragger>
         );
     }
 }

@@ -18,7 +18,7 @@ export const PermissionSelectorDemo = () => {
                     components: [
                         <AdminPermissionSelector
                             navigationGroups={navigationGroups}
-                            // boundPermissionsCalculator={boundPermissionsCalculator}
+                            boundPermissionsCalculator={boundPermissionsCalculator}
                             featureValue={feature}
                             onFeatureChange={setFeature}
                             fieldValue={field}

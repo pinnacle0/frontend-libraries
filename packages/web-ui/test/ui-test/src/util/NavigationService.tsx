@@ -2,15 +2,8 @@ import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 import {AdminNavigatorBase} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
-import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
-import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
 import {SelectDemo} from "../component/core/SelectDemo";
 import {SliderDemo} from "../component/core/SliderDemo";
-import {ConfigPageDemo} from "../component/admin/ConfigPageDemo";
-import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
-import {ResultPageDemo} from "../component/admin/ResultPageDemo";
-import {RichEditorDemo} from "../component/admin/RichEditorDemo";
-import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {AmountDemo} from "../component/core/AmountDemo";
 import {ButtonDemo} from "../component/core/ButtonDemo";
 import {CalendarDemo} from "../component/core/CalendarDemo";
@@ -23,8 +16,16 @@ import {ModalDemo} from "../component/core/ModalDemo";
 import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "../component/core/OverflowableTextDemo";
-import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
 import {CascaderDemo} from "../component/core/CascaderDemo";
+import {UploaderImporterDemo} from "../component/core/UploaderImporterDemo";
+import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
+import {ConfigPageDemo} from "../component/admin/ConfigPageDemo";
+import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
+import {ResultPageDemo} from "../component/admin/ResultPageDemo";
+import {RichEditorDemo} from "../component/admin/RichEditorDemo";
+import {TablePageDemo} from "../component/admin/TablePageDemo";
+import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
+import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -132,6 +133,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/miscellaneous",
                         title: "Miscellaneous",
                         componentType: MiscellaneousDemo,
+                    },
+                    {
+                        url: "/core/uploader-importer",
+                        title: "Uploader Importer",
+                        componentType: UploaderImporterDemo,
                     },
                 ],
             },

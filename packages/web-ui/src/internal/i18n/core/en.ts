@@ -21,7 +21,6 @@ export default {
     confirmImageRemoval: "Are you sure to remove the image?",
     depositPositive: "Add",
     depositNegative: "Minus",
-    localImporterText: "Click or drag {1} file to this area",
     nextPage: "Next Page",
     prevPage: "Previous Page",
     currentPage: "Current Page",
@@ -32,6 +31,8 @@ export default {
     maximum: "Maximum",
     action: "Action",
     sequence: "Sequence",
-    upload: "click or drag to upload",
-    reUpload: "click or drag to re-upload",
+    preview: "Preview",
+    upload: "Upload",
+    localImporterHint: "Click or drag {1} file to this area",
+    uploadHint: "Click Or Drag To Upload",
 };

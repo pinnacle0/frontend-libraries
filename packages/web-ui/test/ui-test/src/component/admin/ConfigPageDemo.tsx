@@ -3,7 +3,7 @@ import {AdminPage} from "@pinnacle0/web-ui/admin/AdminPage";
 import {Descriptions} from "@pinnacle0/web-ui/core/Descriptions";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {WithExplanation} from "@pinnacle0/web-ui/core/WithExplanation";
-import {dummyEmptyCallback} from "../../util/dummyCallback";
+import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 
 export const ConfigPageDemo = () => {
     const [config, setConfig] = React.useState("");

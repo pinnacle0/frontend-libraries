@@ -1,8 +1,20 @@
 import React from "react";
 import {RichEditor} from "@pinnacle0/web-ui/admin/RichEditor";
-import {dummyUploadCallback, dummyUploadURL} from "../../util/dummyUpload";
+import {dummyUploadCallback, dummyUploadImageFormField, dummyUploadImageUploadURL} from "../../dummy/dummyUpload";
+import {dummyEmptyCallback} from "../../dummy/dummyCallback";
+import type {TestImageUploadResponse} from "../../type";
 
 export const RichEditorDemo = () => {
     const initialValue = `<p>Initial Line 😂</p>`;
-    return <RichEditor value={initialValue} onChange={() => {}} uploadURL={dummyUploadURL} onUploadSuccess={dummyUploadCallback} onUploadFailure={dummyUploadCallback} />;
+    return (
+        <RichEditor<TestImageUploadResponse>
+            value={initialValue}
+            formField={dummyUploadImageFormField}
+            imageURLParser={response => response.imageURL}
+            onChange={dummyEmptyCallback}
+            uploadURL={dummyUploadImageUploadURL}
+            onUploadSuccess={dummyUploadCallback}
+            onUploadFailure={dummyUploadCallback}
+        />
+    );
 };

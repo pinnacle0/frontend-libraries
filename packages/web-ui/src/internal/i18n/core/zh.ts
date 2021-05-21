@@ -21,7 +21,6 @@ export default {
     confirmImageRemoval: "确定要移除图片吗?",
     depositPositive: "充正",
     depositNegative: "冲负",
-    localImporterText: "按下或拖曳 {1} 档至此",
     nextPage: "下一页",
     prevPage: "上一页",
     currentPage: "当前页",
@@ -32,6 +31,8 @@ export default {
     maximum: "最大值",
     action: "操作",
     sequence: "序列",
-    upload: "按下或拖曳上传",
-    reUpload: "按下或拖曳重新上传",
+    preview: "预览",
+    upload: "上传",
+    localImporterHint: "按下或拖曳 {1} 档至此",
+    uploadHint: "按下或拖曳上传",
 };

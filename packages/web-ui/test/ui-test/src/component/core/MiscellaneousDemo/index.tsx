@@ -7,27 +7,19 @@ import {Markdown} from "@pinnacle0/web-ui/core/Markdown";
 import {PagedList} from "@pinnacle0/web-ui/core/PagedList";
 import {WithTooltipList} from "@pinnacle0/web-ui/core/WithTooltipList";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
-import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
-import {Uploader} from "@pinnacle0/web-ui/core/Uploader";
-import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
-import type {ImageUploadResponse} from "@pinnacle0/web-ui/util/UploadUtil";
 import {Pagination} from "@pinnacle0/web-ui/core/Pagination";
-import {dummyTableColumns, generateDummyTableData} from "../../../util/dummyTableData";
-import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {dummyTableColumns, generateDummyTableData} from "../../../dummy/dummyTableData";
+import {generateDummyStrings} from "../../../dummy/dummyList";
+import type {MockTableData} from "../../../dummy/dummyTableData";
 import {DemoHelper} from "../../DemoHelper";
-import {generateDummyStrings} from "../../../util/dummyList";
-import type {MockTableData} from "../../../util/dummyTableData";
-import {dummyImportCallback, dummyUploadCallback, dummyUploadURL} from "../../../util/dummyUpload";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {TabsDemo} from "./TabsDemo";
 import {TagInputDemo} from "./TagInputDemo";
 
 const DemoPagedList = () => {
-    const ListItem = ({item, index}: {item: {a: number}; index: number}) => <div style={{textAlign: "center"}}>{item.a}</div>;
-
-    const data = new Array(15).fill(0).map((_, index) => ({
-        a: index,
-    }));
+    const data = new Array(15).fill(0).map((_, index) => ({a: index}));
+    const ListItem = ({item}: {item: {a: number}; index: number}) => <div style={{textAlign: "center"}}>{item.a}</div>;
 
     return <PagedList dataSource={data} renderItem={ListItem} itemWidth={45} pageSize={5} rowKey="index" />;
 };
@@ -40,29 +32,6 @@ const DemoBreadcrumb = () => {
     }));
 
     return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
-};
-
-const FileUploaderDemo = () => (
-    <Uploader name="file" accept=".csv" uploadURL={dummyUploadURL} onUploadFailure={dummyUploadCallback} onUploadSuccess={dummyUploadCallback} style={{width: 300}}>
-        <span>Click or Drag .csv file to here.</span>
-    </Uploader>
-);
-
-const LocalImporterDemo = () => <LocalImporter type="txt" style={{width: 300, borderRadius: 65}} onImport={dummyImportCallback} />;
-
-const ImageUploaderDemo = () => {
-    const [value, setValue] = React.useState<ImageUploadResponse | null>(null);
-    return (
-        <ImageUploader
-            imageName="foo"
-            imageURL={value?.imageURL || null}
-            onChange={setValue}
-            uploadURL={dummyUploadURL}
-            onUploadFailure={dummyUploadCallback}
-            onUploadSuccess={dummyUploadCallback}
-            removable
-        />
-    );
 };
 
 const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "button" | "table"}) => {
@@ -184,16 +153,7 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<DemoBreadcrumb />],
         showPropsHint: false,
     },
-    {
-        title: "Uploader",
-        showPropsHint: false,
-        components: [<ImageUploaderDemo />, <FileUploaderDemo />],
-    },
-    {
-        title: "Importer (no AJAX call)",
-        showPropsHint: false,
-        components: [<LocalImporterDemo />],
-    },
+
     {
         title: "Multiple Selector",
         showPropsHint: false,

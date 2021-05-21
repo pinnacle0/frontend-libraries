@@ -1,6 +1,6 @@
 import React from "react";
 import {AdminApp} from "@pinnacle0/web-ui/admin/AdminApp";
-import {dummyEmptyCallback} from "../util/dummyCallback";
+import {dummyEmptyCallback} from "../dummy/dummyCallback";
 import {SoundSwitch} from "@pinnacle0/web-ui/admin/AdminApp/Default/SoundSwitch";
 import {LocaleSelect} from "@pinnacle0/web-ui/core/LocaleSelect";
 import {i18n} from "@pinnacle0/web-ui/internal/i18n/admin";

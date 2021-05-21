@@ -1,12 +1,13 @@
 import React from "react";
-import type {SafeReactChildren} from "../internal/type";
 import type {UploadChangeParam} from "antd/lib/upload";
+import type {HttpRequestHeader} from "antd/lib/upload/interface";
 import AntUpload from "antd/lib/upload";
+import type {SafeReactChildren} from "../internal/type";
+import type {UploaderProps, UploadLogInfo} from "../type/uploader";
 import {Spin} from "./Spin";
-import type {UploadLogInfo, UploadProps} from "../util/UploadUtil";
 import "antd/lib/upload/style";
 
-export interface Props extends Partial<UploadProps> {
+export interface Props<Response> extends UploaderProps<Response> {
     children: SafeReactChildren;
     /**
      * Please follow W3C standard for HTML accept string.
@@ -14,7 +15,6 @@ export interface Props extends Partial<UploadProps> {
      * https://www.w3schools.com/tags/att_input_accept.asp
      */
     accept: string;
-    name: string;
     beforeUpload?: (file: File) => boolean | Promise<void | Blob | File>;
     className?: string;
     style?: React.CSSProperties;
@@ -25,13 +25,14 @@ interface State {
     uploading: boolean;
 }
 
-export class Uploader extends React.PureComponent<Props, State> {
+export class Uploader<Response> extends React.PureComponent<Props<Response>, State> {
     static displayName = "Uploader";
 
+    private readonly defaultStyle: React.CSSProperties = {minWidth: 250};
+    private readonly uploadHeader: HttpRequestHeader = {Accept: "application/json"};
     private uploadStartTime: number | undefined;
-    private defaultStyle: React.CSSProperties = {minWidth: 250};
 
-    constructor(props: Props) {
+    constructor(props: Props<Response>) {
         super(props);
         this.state = {uploading: false};
     }
@@ -59,24 +60,27 @@ export class Uploader extends React.PureComponent<Props, State> {
             try {
                 const info: UploadLogInfo = {
                     file_name: file.fileName || file.name,
-                    file_size: file.size.toString(),
-                    file_type: file.type,
+                    file_size: file.size?.toString() || "-",
+                    file_type: file.type || "-",
                     api_response: JSON.stringify(response),
                 };
                 const elapsedTime = this.uploadStartTime ? Date.now() - this.uploadStartTime : 0;
 
                 if (file.status === "error") {
-                    onUploadFailure?.(response, {
+                    onUploadFailure?.({
                         info,
                         elapsedTime,
                         errorCode: "UPLOAD_FAILURE",
                         errorMessage: JSON.stringify(file.error) || "[No Message]",
                     });
                 } else {
-                    onUploadSuccess?.(response, {
-                        info,
-                        elapsedTime,
-                    });
+                    onUploadSuccess?.(
+                        {
+                            info,
+                            elapsedTime,
+                        },
+                        response
+                    );
                 }
             } finally {
                 this.setState({uploading: false});
@@ -85,10 +89,11 @@ export class Uploader extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {children, accept, beforeUpload, className, style, uploadURL, name, disabled} = this.props;
+        const {children, accept, beforeUpload, className, style, uploadURL, formField, disabled} = this.props;
+        const {uploading} = this.state;
         return (
             <AntUpload.Dragger
-                name={name}
+                name={formField}
                 showUploadList={false}
                 multiple={false}
                 accept={accept}
@@ -99,9 +104,9 @@ export class Uploader extends React.PureComponent<Props, State> {
                 disabled={this.state.uploading || disabled}
                 height={Number(style?.height)}
                 beforeUpload={beforeUpload}
-                headers={{Accept: "application/json"}}
+                headers={this.uploadHeader}
             >
-                <Spin spinning={this.state.uploading} size="small">
+                <Spin spinning={uploading} size="small">
                     {children}
                 </Spin>
             </AntUpload.Dragger>

@@ -1,7 +1,7 @@
 import React from "react";
 import {Carousel3D} from "@pinnacle0/web-ui/core/Carousel3D";
 import {Carousel} from "@pinnacle0/web-ui/core/Carousel";
-import {generateDummyURLs} from "../../../util/dummyList";
+import {generateDummyURLs} from "../../../dummy/dummyList";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
 

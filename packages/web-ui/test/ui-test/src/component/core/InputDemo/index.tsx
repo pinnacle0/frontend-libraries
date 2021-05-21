@@ -8,7 +8,7 @@ import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCode
 import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
 import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
-import {dummyEmptyCallback} from "../../../util/dummyCallback";
+import {dummyEmptyCallback} from "../../../dummy/dummyCallback";
 import {withUncontrolledInitialValue} from "../../../util/withUncontrolledInitialValue";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";

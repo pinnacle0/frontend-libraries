@@ -7,7 +7,7 @@ import {Button} from "@pinnacle0/web-ui/core/Button";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {BoolSwitch} from "@pinnacle0/web-ui/core/BoolSwitch";
 import {UserOutlined} from "@ant-design/icons";
-import {dummyEmptyCallback} from "../../util/dummyCallback";
+import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
