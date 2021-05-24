@@ -168,18 +168,20 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         let tableColumns: Array<AntColumnsProps<RowType>>;
         if (sortConfig) {
             const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
-            tableColumns = filteredColumns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
-                if (column.sortField) {
-                    const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
-                    return {
-                        ...this.transformColumns(column, index),
-                        sorter: true,
-                        sortOrder: isSortingColumn ? sortOrder : null,
-                    };
-                } else {
-                    return this.transformColumns(column, index);
+            tableColumns = filteredColumns.map(
+                (column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
+                    if (column.sortField) {
+                        const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
+                        return {
+                            ...this.transformColumns(column, index),
+                            sorter: true,
+                            sortOrder: isSortingColumn ? sortOrder : null,
+                        };
+                    } else {
+                        return this.transformColumns(column, index);
+                    }
                 }
-            });
+            );
         } else {
             tableColumns = filteredColumns.map(this.transformColumns);
         }

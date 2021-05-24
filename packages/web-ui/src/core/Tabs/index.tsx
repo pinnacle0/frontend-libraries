@@ -162,7 +162,7 @@ export class Tabs extends React.PureComponent<Props, State> {
                     type === "button" ? (
                         this.renderButtonTabBar(oldProps)
                     ) : renderTabBar ? (
-                        renderTabBar({...oldProps, extra, ref: this.tabBarCallBackRef, onTabScroll: this.onTabBarDrag}, DefaultTabBar as unknown as typeof RcTabNavList)
+                        renderTabBar({...oldProps, extra, ref: this.tabBarCallBackRef, onTabScroll: this.onTabBarDrag}, (DefaultTabBar as unknown) as typeof RcTabNavList)
                     ) : (
                         <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} onTabScroll={this.onTabBarDrag} />
                     )

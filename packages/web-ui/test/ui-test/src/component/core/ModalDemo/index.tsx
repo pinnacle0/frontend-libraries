@@ -62,7 +62,8 @@ const groups: DemoHelperGroupConfig[] = [
                 onClick={() =>
                     PromptUtil.createAsync({
                         title: "Prompt",
-                        body: "This is Markdown style syntax\nIt supports __bold__ and `highlight` text\n__Whole line in bold__\n`Whole line in highlight`\nOr __bold text__ and `highlight text` mixed",
+                        body:
+                            "This is Markdown style syntax\nIt supports __bold__ and `highlight` text\n__Whole line in bold__\n`Whole line in highlight`\nOr __bold text__ and `highlight text` mixed",
                     })
                 }
             >

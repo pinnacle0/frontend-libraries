@@ -6,7 +6,7 @@ type ExtractValueType<F extends ControlledFormValue<any>> = F["value"] extends i
 export const withUncontrolledInitialValue = <T extends ControlledFormValue<any>>(WrappedComponent: React.ComponentType<T>) => {
     const Injected = ({initialValue, ...rest}: Omit<T, keyof ControlledFormValue<ExtractValueType<T>>> & {initialValue: ExtractValueType<T>}) => {
         const [value, setValue] = React.useState(initialValue);
-        return <WrappedComponent {...(rest as unknown as T)} value={value} onChange={setValue} />;
+        return <WrappedComponent {...((rest as unknown) as T)} value={value} onChange={setValue} />;
     };
     Injected.displayName = `withUncontrolledInitialValue(${WrappedComponent.displayName || "Component"})`;
 
