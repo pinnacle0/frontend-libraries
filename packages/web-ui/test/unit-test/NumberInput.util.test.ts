@@ -53,9 +53,9 @@ describe("canAdd", () => {
     test("allows add if value is null (no value provided)", () => {
         const props: Params = {
             value: null,
-            step: (null as unknown) as number, // don't care
-            max: (null as unknown) as number, // don't care
-            scale: (null as unknown) as number, // don't care
+            step: null as unknown as number, // don't care
+            max: null as unknown as number, // don't care
+            scale: null as unknown as number, // don't care
         };
         expect(canAdd(props)).toBe(true);
     });
@@ -103,9 +103,9 @@ describe("canMinus", () => {
     test("allows minus if value is null (no value provided)", () => {
         const props: Params = {
             value: null,
-            step: (null as unknown) as number, // don't care
-            min: (null as unknown) as number, // don't care
-            scale: (null as unknown) as number, // don't care
+            step: null as unknown as number, // don't care
+            min: null as unknown as number, // don't care
+            scale: null as unknown as number, // don't care
         };
         expect(canMinus(props)).toBe(true);
     });
@@ -151,14 +151,14 @@ describe("getDisplayValue", () => {
     test("**always** shows empty string if value is null (no value provided)", () => {
         const displayValue1 = getDisplayValue({
             value: null,
-            scale: (null as unknown) as number, // don't care
+            scale: null as unknown as number, // don't care
         });
         expect(displayValue1).toBe("");
 
         const displayRenderer = jest.fn();
         const displayValue2 = getDisplayValue({
             value: null,
-            scale: (null as unknown) as number, // don't care
+            scale: null as unknown as number, // don't care
             displayRenderer,
         });
         expect(displayValue2).toBe("");

@@ -184,6 +184,6 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
 
     private get typeSafeProps() {
         // Use a less restrictive type here (allow null) for type inference in various places to work
-        return (this.props as unknown) as PropsWithDefault;
+        return this.props as unknown as PropsWithDefault;
     }
 }
