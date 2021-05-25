@@ -1,4 +1,4 @@
-export default {
+export const en = {
     homePageTitle: "Home Page",
     homePageSubtitle: "Please open a page by left side menu.",
     welcome: "Welcome to {1}",

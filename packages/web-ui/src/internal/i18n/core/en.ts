@@ -1,4 +1,4 @@
-export default {
+export const en = {
     submit: "Submit",
     all: "All",
     yes: "Yes",

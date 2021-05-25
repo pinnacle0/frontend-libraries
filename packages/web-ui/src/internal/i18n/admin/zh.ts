@@ -1,4 +1,4 @@
-export default {
+export const zh = {
     homePageTitle: "管理平台首页",
     homePageSubtitle: "请在左侧菜单选择一项打开",
     welcome: "欢迎登录{1}",

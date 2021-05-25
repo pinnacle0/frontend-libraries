@@ -1,4 +1,4 @@
-export default {
+export const zh = {
     submit: "提交",
     all: "全部",
     yes: "是",

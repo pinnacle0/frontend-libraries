@@ -1,4 +1,4 @@
-export default {
+export const zh = {
     defaultTitle: "系统提示",
     defaultOk: "知道了",
     defaultConfirm: "确定",
