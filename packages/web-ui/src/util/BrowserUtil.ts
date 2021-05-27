@@ -11,12 +11,13 @@ function os(): BrowserOS {
     if (navigator.userAgent.toUpperCase().includes("WINDOWS")) {
         // https://stackoverflow.com/a/19176790
         return "windows";
-    } else if (navigator.platform.toUpperCase().includes("MAC")) {
-        return "mac";
     } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // Also include "Mac" keyword
         return "ios";
     } else if (/Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         return "android";
+    } else if (navigator.platform.toUpperCase().includes("MAC")) {
+        return "mac";
     } else {
         return "other";
     }
