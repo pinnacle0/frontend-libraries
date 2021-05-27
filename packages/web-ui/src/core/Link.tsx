@@ -4,8 +4,8 @@ import type {LocationDescriptorObject} from "history";
 import type {SafeReactChild} from "../internal/type";
 
 export interface Props {
-    to: string | (() => void) | LocationDescriptorObject<any>;
     children: SafeReactChild;
+    to?: string | (() => void) | LocationDescriptorObject<any>;
     className?: string; // class "g-text-link" will be added if children is pure string
     style?: React.CSSProperties;
     newTab?: boolean; // Default value: If `to` is local (start with /), then false; Else true
