@@ -45,10 +45,6 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     suffix?: React.ReactChild;
     /** Additional component to render before input field */
     prefix?: React.ReactChild;
-    /** Additional regex pattern */
-    pattern?: string | undefined;
-    /** Additional inputMode for mobile device */
-    inputMode?: "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal" | "search" | undefined;
 }
 
 interface State {
@@ -150,7 +146,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, pattern, inputMode} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         return (
@@ -171,8 +167,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     onKeyPress={this.onInputPress}
                     suffix={suffix}
                     prefix={prefix}
-                    pattern={pattern}
-                    inputMode={inputMode}
+                    inputMode="numeric"
                     className="count-input"
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
