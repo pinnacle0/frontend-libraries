@@ -1,14 +1,13 @@
 import type {RootState} from "app/type/state";
 import type {SagaGenerator} from "core-native";
-import {Lifecycle, Module, register} from "core-native";
+import {Module, register} from "core-native";
 import {Main} from "./Main";
 import type {State} from "./type";
 
 const initialState: State = {};
 
 class {1}Module extends Module<RootState, "{2}"> {
-    @Lifecycle()
-    *onEnter(): SagaGenerator {
+    override *onEnter(): SagaGenerator {
         // TODO
     }
 }

@@ -22,7 +22,7 @@ export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFea
 `;
 
 exports[`ModuleGenerator class generate files 3`] = `
-"import {Lifecycle, Module, register} from \\"core-fe\\";
+"import {Module, register} from \\"core-fe\\";
 import type {SagaGenerator} from \\"core-fe\\";
 import {Main} from \\"./Main\\";
 import type {State} from \\"./type\\";
@@ -31,8 +31,7 @@ import type {RootState} from \\"type/state\\";
 const initialState: State = {};
 
 class NewFeatureModule extends Module<RootState, \\"newFeature\\"> {
-    @Lifecycle()
-    *onEnter(): SagaGenerator {
+    override *onEnter(): SagaGenerator {
         // TODO
     }
 }
