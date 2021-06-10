@@ -22,7 +22,7 @@ export class Icon extends React.PureComponent<Props> {
         iconPosition: "left",
     };
 
-    render() {
+    override render() {
         const {type, children, iconPosition, className, ...restProps} = this.props;
         if (children) {
             if (iconPosition === "right") {

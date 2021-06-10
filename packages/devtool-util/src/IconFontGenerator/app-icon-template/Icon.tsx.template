@@ -16,7 +16,7 @@ interface Props extends TextProps {
 export class Icon extends React.PureComponent<Props> {
     static displayName = "Icon";
 
-    render() {
+    override render() {
         const {type, style, ...restProps} = this.props;
         // Only normal fontWeight is supported (on Android)
         return (
