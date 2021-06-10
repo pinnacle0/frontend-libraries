@@ -14,7 +14,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     meta: {
         type: "suggestion",
         docs: {
-            description: "",
+            description: "A Rule that checks if lifecycle methods should be ordered first in module class",
             category: "Best Practices",
             recommended: "error",
         },
