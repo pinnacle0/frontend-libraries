@@ -22,6 +22,7 @@ export const baseline: ESLint.Linter.Config = {
     },
     rules: {
         "@pinnacle0/deep-nested-relative-imports": ["error"],
+        "@pinnacle0/module-class-lifecycle-order": ["error"],
         "@pinnacle0/module-class-method-decorators": ["error"],
         "@pinnacle0/no-named-imports": ["error"],
         "@pinnacle0/order-stylesheet-import-statement-last": ["error"],
@@ -124,27 +125,15 @@ export const baseline: ESLint.Linter.Config = {
         "import/no-useless-path-segments": ["error", {noUselessIndex: false}],
         "import/prefer-default-export": "off",
 
-        curly: ["error"],
-        "dot-notation": ["error"],
         eqeqeq: ["error", "always", {null: "ignore"}],
-        "lines-between-class-members": ["error", "always", {exceptAfterSingleLine: true}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
-        "no-multiple-empty-lines": ["error", {max: 1}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
         "no-restricted-globals": ["error", ...confusingBrowserGlobals],
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
         "no-var": ["error"],
         "object-shorthand": ["error"],
-        "padding-line-between-statements": [
-            "error",
-            {blankLine: "always", prev: ["function"], next: ["*"]},
-            {blankLine: "always", prev: ["*"], next: ["function"]},
-            {blankLine: "always", prev: ["class"], next: ["*"]},
-            {blankLine: "always", prev: ["*"], next: ["class"]},
-        ],
         "prefer-const": ["error"],
-        "require-yield": "off",
         "spaced-comment": [
             "error",
             "always",
@@ -163,12 +152,11 @@ export const baseline: ESLint.Linter.Config = {
         "react/jsx-curly-brace-presence": ["error", {props: "never", children: "ignore"}],
         "react/jsx-fragments": ["error", "element"],
         "react/jsx-no-target-blank": "off",
-        "react/no-children-prop": ["error"],
-        "react/no-deprecated": ["error"],
         "react/self-closing-comp": ["error", {component: true, html: true}],
-        "react/state-in-constructor": ["error", "always"],
 
         "react-hooks/exhaustive-deps": ["error"],
         "react-hooks/rules-of-hooks": ["error"],
+
+        "require-yield": "off",
     },
 };

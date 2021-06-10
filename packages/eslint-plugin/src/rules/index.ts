@@ -6,6 +6,7 @@
 
 import type {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
 import {rule as deepNestedRelativeImports} from "./deep-nested-relative-imports";
+import {rule as moduleClassLifecycleOrder} from "./module-class-lifecycle-order";
 import {rule as moduleClassMethodDecorators} from "./module-class-method-decorators";
 import {rule as noNamedImports} from "./no-named-imports";
 import {rule as orderStylesheetImportStatementLast} from "./order-stylesheet-import-statement-last";
@@ -23,6 +24,7 @@ import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-d
 
 export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
     "deep-nested-relative-imports": deepNestedRelativeImports,
+    "module-class-lifecycle-order": moduleClassLifecycleOrder,
     "module-class-method-decorators": moduleClassMethodDecorators,
     "no-named-imports": noNamedImports,
     "order-stylesheet-import-statement-last": orderStylesheetImportStatementLast,
