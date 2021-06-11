@@ -53,6 +53,9 @@ function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, cla
         })
         .filter(<T>(_: T | null): _ is T => _ !== null);
 
+    if (!methodList.length) {
+        return;
+    }
     methodList.reduce((prevNode, currentNode) => {
         if (currentNode.key.type !== AST_NODE_TYPES.Identifier) {
             return prevNode;

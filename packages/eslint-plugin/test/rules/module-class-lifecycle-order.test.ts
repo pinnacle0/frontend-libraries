@@ -30,6 +30,8 @@ ruleTester.run(name, rule, {
             private *someGenerator() {}
             private *someMethod() {}
         }`,
+        `import {Module} from "core-fe";
+        class FeatureModule extends Module<RootState, "feature"> {}`,
         // prettier-format-preserve
     ],
     invalid: [
