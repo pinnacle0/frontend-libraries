@@ -53,27 +53,24 @@ function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, cla
         })
         .filter(<T>(_: T | null): _ is T => _ !== null);
 
-    if (!methodList.length) {
-        return;
-    }
-    methodList.reduce((prevNode, currentNode) => {
-        if (currentNode.key.type !== AST_NODE_TYPES.Identifier) {
-            return prevNode;
-        }
+    let prevNodeIndex = 0;
+    for (let i = 1; i < methodList.length; i++) {
+        const prevNode = methodList[prevNodeIndex];
+        const currentNode = methodList[i];
 
         const prevMethodName = (prevNode.key as TSESTree.Identifier).name;
-        const currentMethodName = currentNode.key.name;
+        const currentMethodName = (currentNode.key as TSESTree.Identifier).name;
 
-        if (prevNode && !isLifecycleMethod(prevMethodName) && isLifecycleMethod(currentMethodName) && currentNode.override) {
+        if (!isLifecycleMethod(prevMethodName) && isLifecycleMethod(currentMethodName) && currentNode.override) {
             context.report({
                 node: currentNode,
                 messageId: "moduleClassLifecycleOrder",
                 data: {methodName: currentMethodName},
             });
+            break;
         }
-
-        return currentNode;
-    });
+        prevNodeIndex = i;
+    }
 }
 
 function isLifecycleMethod(methodName: string) {

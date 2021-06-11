@@ -54,5 +54,17 @@ ruleTester.run(name, rule, {
                 }`,
             errors: [{line: 7, messageId}],
         },
+        {
+            code: `import {Module} from "core-fe";
+                class IncorrectModule extends Module<RootState, "incorrect"> {
+                    private readonly property: string[] = []
+                    override *onLocationMatched() {}
+                    *systemCheck() {}
+                    *onError() {}
+                    override onePunch() {}
+                    override *onRender() {}  // onRender should be ordered before systemCheck() {}
+                }`,
+            errors: [{line: 8, messageId}],
+        },
     ],
 });
