@@ -407,3 +407,18 @@ describe("ArrayUtil.compactMap", () => {
         }).run();
     });
 });
+
+describe("ArrayUtil.range", () => {
+    type TestEachRowSchema = {size: number; fromIndex?: number; expected: number[]};
+
+    test.each`
+        size | fromIndex    | expected
+        ${3} | ${0}         | ${[0, 1, 2]}
+        ${4} | ${2}         | ${[2, 3, 4, 5]}
+        ${0} | ${4}         | ${[]}
+        ${3} | ${undefined} | ${[0, 1, 2]}
+        ${0} | ${undefined} | ${[]}
+    `("returns expected array from range($size, $fromIndex)", ({size, fromIndex, expected}: TestEachRowSchema) => {
+        expect(ArrayUtil.range(size, fromIndex)).toStrictEqual(expected);
+    });
+});

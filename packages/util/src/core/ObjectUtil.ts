@@ -74,6 +74,7 @@ function findKey<T extends object>(object: T, value: WithoutUndefined<T[keyof T]
     forEach(object, key => {
         if (object[key] === value) {
             matchedKey = key;
+            return false;
         }
     });
     return matchedKey;

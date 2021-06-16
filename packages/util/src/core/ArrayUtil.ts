@@ -152,6 +152,14 @@ function compactMap<T, V>(array: ReadonlyArray<T>, callback: (item: T, index: nu
     return array.map(callback).filter(_ => _ !== null && _ !== undefined && (typeof _ !== "number" || !Number.isNaN(_))) as Array<NonNullable<V>>;
 }
 
+function range(size: number, fromIndex: number = 0) {
+    const result: number[] = [];
+    for (let i = fromIndex; i < fromIndex + size; i++) {
+        result.push(i);
+    }
+    return result;
+}
+
 export const ArrayUtil = Object.freeze({
     sum,
     sumByKey,
@@ -164,4 +172,5 @@ export const ArrayUtil = Object.freeze({
     toObject,
     hasIntersection,
     compactMap,
+    range,
 });
