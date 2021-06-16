@@ -167,7 +167,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     onKeyPress={this.onInputPress}
                     suffix={suffix}
                     prefix={prefix}
-                    inputMode="numeric"
+                    inputMode="decimal"
                     className="count-input"
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
