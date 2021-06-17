@@ -24,4 +24,4 @@ jobs:
                   path: "**/node_modules"
                   key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
             - run: yarn install
-            - run: yarn workspace @pinnacle0/eslint-plugin-util run build
+            - run: yarn workspace @pinnacle0/eslint-plugin run build
