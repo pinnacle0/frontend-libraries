@@ -82,9 +82,8 @@ export class Countdown extends React.PureComponent<Props, State> {
             if (remainingSecond <= 0) {
                 this.isTimerCompleted = true; // To avoid call onComplete more than once
                 onComplete?.();
-            } else {
-                this.setState({remainingSecond});
-                onTick?.(remainingSecond);
+            } else if (remainingSecond !== this.state.remainingSecond) {
+                this.setState({remainingSecond}, () => onTick?.(remainingSecond));
             }
         }
     };

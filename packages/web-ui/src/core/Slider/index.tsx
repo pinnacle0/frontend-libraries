@@ -15,20 +15,6 @@ export class Slider extends React.PureComponent<Props> {
     static displayName = "Slider";
     static Range = RangeSlider;
 
-    /**
-     * If showButton, put max/min marker under our button instead of passing to antd min/max slider position
-     */
-    getMarks = () => {
-        const {showButton, marks, max, min} = this.props;
-        if (showButton) {
-            const removeMinMaxMark = {...this.props.marks};
-            delete removeMinMaxMark[min!];
-            delete removeMinMaxMark[max!];
-            return removeMinMaxMark;
-        }
-        return marks;
-    };
-
     onChange = (newValue: number) => {
         const {min, max, onChange} = this.props;
         if (max && newValue > max) {
@@ -41,26 +27,21 @@ export class Slider extends React.PureComponent<Props> {
     };
 
     render() {
-        const {showButton, onChange, value, min, max, step = 1, marks, className, ...rest} = this.props;
+        const {showButton, onChange, value, step, className, ...rest} = this.props;
+        const safeStep = step || 1;
 
         return (
-            <span className={`g-slider ${showButton ? "show-button" : ""} ${className || ""}`}>
+            <span className={`g-slider ${className || ""}`}>
                 {showButton && (
-                    <div className="slider-button-wrapper">
-                        <Button onClick={() => this.onChange(value - step!)}>
-                            <span className="squeeze">{"<"}</span>
-                        </Button>
-                        {marks?.[min!] && <span>{marks?.[min!]}</span>}
-                    </div>
+                    <Button className="decrease-button" onClick={() => this.onChange(safeStep)}>
+                        <span>{"<"}</span>
+                    </Button>
                 )}
-                <AntSlider range={false} {...rest} className="slider" value={value} onChange={this.onChange} marks={this.getMarks()} min={min} max={max} step={step} />
+                <AntSlider range={false} value={value} onChange={this.onChange} step={safeStep} {...rest} />
                 {showButton && (
-                    <div className="slider-button-wrapper">
-                        <Button onClick={() => this.onChange(value + step!)}>
-                            <span className="squeeze"> {">"}</span>
-                        </Button>
-                        {marks?.[max!] && <span>{marks?.[max!]}</span>}
-                    </div>
+                    <Button className="increase-button" onClick={() => this.onChange(safeStep)}>
+                        <span>{">"}</span>
+                    </Button>
                 )}
             </span>
         );

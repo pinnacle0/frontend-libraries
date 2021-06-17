@@ -9,7 +9,7 @@ const UncontrolledSlider = withUncontrolledInitialValue(Slider);
 
 const UncontrolledRangeSlider = withUncontrolledInitialValue(Slider.Range);
 
-// Slider uses parent height if not specified, parent with 0 width means slider have 0 width
+// <Slider> will fill parent's width if unspecified
 const HasWidth = ({children, width = 200}: {children: SafeReactChildren; width?: number}) => <div style={{width}}>{children}</div>;
 
 const groups: DemoHelperGroupConfig[] = [
@@ -22,17 +22,20 @@ const groups: DemoHelperGroupConfig[] = [
             </HasWidth>,
             <UncontrolledSlider initialValue={3} min={2} max={9} style={{width: 300}} />,
             <UncontrolledSlider initialValue={3} min={-5} max={9} style={{width: 300}} />,
+            "-",
             <UncontrolledSlider initialValue={3} min={-5} max={9} style={{width: 300}} marks={{3: "Initial", [-5]: "min", 9: "max"}} />,
             "-",
-            <UncontrolledSlider initialValue={3} min={-5} max={9} style={{width: 300}} marks={{3: "Initial", [-5]: "min", 9: "max"}} showButton />,
+            <UncontrolledSlider initialValue={3} min={-5} max={9} style={{width: 300}} marks={{3: "Initial", [-5]: "min(-5)", 9: "max(9)"}} showButton />,
+            "-",
+            <UncontrolledSlider initialValue={3} min={-5} max={9} style={{width: 500}} showButton />,
         ],
     },
     {
         title: "Slider.Range Demo",
-        showPropsHint: true,
+        showPropsHint: false,
         components: [
             <HasWidth>
-                <UncontrolledRangeSlider initialValue={[0, 0]} />
+                <UncontrolledRangeSlider initialValue={[5, 50]} />
             </HasWidth>,
         ],
     },
