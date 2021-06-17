@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "axios": "0.21.1",
-        "yargs": "16.2.0"
+        "yargs": "17.0.1"
     },
     "peerDependencies": {
         "prettier": "^2.3.0"
