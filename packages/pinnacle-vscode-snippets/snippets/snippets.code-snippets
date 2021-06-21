@@ -55,7 +55,7 @@
             "import React from 'react';",
             "import {ReactUtil} from '@pinnacle0/util';",
             "",
-            "export const ${1:$TM_FILENAME_BASE} = ReactUtil.memo('$1', () => {",
+            "export const ${1:${TM_FILEPATH/^.*[\\/\\\\]([^\\/\\\\].+)[\\/\\\\]index\\.tsx?$|.*[\\/\\\\](.+)\\.tsx?$/$1$2/}} = ReactUtil.memo('$1', () => {",
             "\t",
             "\t$0",
             "\t",
