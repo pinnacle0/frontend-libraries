@@ -44,10 +44,18 @@ export class Input extends React.PureComponent<Props> {
 
     private antInputRef = React.createRef<AntInput>();
 
+    componentDidMount() {
+        if (this.props.autoFocus) {
+            this.antInputRef.current?.focus();
+        }
+    }
+
     blur = () => this.antInputRef.current?.blur();
 
+    focus = () => this.antInputRef.current?.focus();
+
     render() {
-        const {onChange, ...rest} = this.props;
+        const {onChange, autoFocus, ...rest} = this.props;
         return <AntInput {...rest} onChange={e => Input.onChange(e, onChange)} ref={this.antInputRef} />;
     }
 }

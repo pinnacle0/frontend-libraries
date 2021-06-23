@@ -51,7 +51,12 @@ const onNullableNumberRangeChange = (_: [number | null, number | null]) => {};
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Basic",
-        components: [<UncontrolledInput initialValue="" />, <UncontrolledInput initialValue="" prefix="before" suffix="after" />, <PasswordInput initialValue="" />],
+        components: [
+            <UncontrolledInput initialValue="" />,
+            <UncontrolledInput initialValue="" prefix="before" suffix="after" />,
+            <UncontrolledInput initialValue="" autoFocus />,
+            <PasswordInput initialValue="" />,
+        ],
     },
     {
         title: "Nullable Input",
