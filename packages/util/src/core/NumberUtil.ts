@@ -30,6 +30,9 @@ function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale
     if (!Number.isInteger(maxScale) || maxScale < 0 || maxScale > 10) {
         throw new Error("[util] NumberUtil.rounding maxScale must be an integer in range [0, 10]");
     }
+    if (!Number.isFinite(value)) {
+        return value;
+    }
     /**
      * Take "4.975" as an example.
      * First, we split the number by the decimal point to get ["4", "975"].
@@ -43,7 +46,7 @@ function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale
      * Therefore, we first get 4.975 * 10^3 = 4975. Then, we get 4975 / 10^(3 - 2) = 497.5 and we round this number.
      * In the end, we divide this number by 10^maxScale to obtained the final answer, i.e. 498 / 10^2 = 4.98 (assume algorithm is "round").
      */
-    const parts = Number(value).toString().split(".");
+    const parts = value.toString().split(".");
     const adjustmentScale = parts.length < 2 ? 0 : parts[1].length;
     const adjustmentPowerOf10 = 10 ** adjustmentScale;
     const isAdjustmentSafe = Number(value) * adjustmentPowerOf10 <= Number.MAX_SAFE_INTEGER;
