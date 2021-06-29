@@ -33,13 +33,13 @@ export class Slider extends React.PureComponent<Props> {
         return (
             <span className={`g-slider ${className || ""}`}>
                 {showButton && (
-                    <Button className="decrease-button" onClick={() => this.onChange(safeStep)}>
+                    <Button className="decrease-button" onClick={() => this.onChange(value - safeStep)}>
                         <span>{"<"}</span>
                     </Button>
                 )}
                 <AntSlider range={false} value={value} onChange={this.onChange} step={safeStep} {...rest} />
                 {showButton && (
-                    <Button className="increase-button" onClick={() => this.onChange(safeStep)}>
+                    <Button className="increase-button" onClick={() => this.onChange(value + safeStep)}>
                         <span>{">"}</span>
                     </Button>
                 )}
