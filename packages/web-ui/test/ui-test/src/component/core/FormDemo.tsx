@@ -9,6 +9,8 @@ import {DateRangePicker} from "@pinnacle0/web-ui/core/DateRangePicker";
 import {DateTimePicker} from "@pinnacle0/web-ui/core/DateTimePicker";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import {Cascader} from "@pinnacle0/web-ui/core/Cascader";
+import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
+import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
@@ -18,6 +20,7 @@ const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
 const UncontrolledInput = withUncontrolledInitialValue(Input);
 const UncontrolledInputTextArea = withUncontrolledInitialValue(Input.TextArea);
 const UncontrolledInputPassword = withUncontrolledInitialValue(Input.Password);
+const UncontrolledAmountConditionInput = withUncontrolledInitialValue(AmountConditionInput);
 const UncontrolledCascader = withUncontrolledInitialValue(Cascader);
 const UncontrolledDateRangePicker = withUncontrolledInitialValue(DateRangePicker);
 const UncontrolledDateTimePicker = withUncontrolledInitialValue(DateTimePicker);
@@ -35,8 +38,11 @@ const FormItems = () => {
             <Form.Item label="Fixture" required>
                 <UncontrolledInput initialValue="40" prefix=">" suffix="$" />
             </Form.Item>
-            <Form.Item label="Long Input" fillParentWidth>
-                <UncontrolledInput initialValue="long text ..." />
+            <Form.Item label=">Input<" widthMode="shrink">
+                <UncontrolledInput initialValue="" />
+            </Form.Item>
+            <Form.Item label="<Input>" widthMode="fill">
+                <UncontrolledInput initialValue="" />
             </Form.Item>
             <Form.Item label="Number 1" required>
                 <NumberInput value={20} scale={1} allowNull={false} onChange={dummyEmptyCallback} />
@@ -46,6 +52,18 @@ const FormItems = () => {
             </Form.Item>
             <Form.Item label="Number 3">
                 <NumberInput value={24} scale={2} step={0.05} stepperMode="always" allowNull={false} onChange={dummyEmptyCallback} />
+            </Form.Item>
+            <Form.Item label=">Number<" widthMode="shrink">
+                <NumberInput value={30} scale={0} allowNull={false} onChange={dummyEmptyCallback} prefix="<" suffix="$" />
+            </Form.Item>
+            <Form.Item label="<Number>" widthMode="fill">
+                <NumberInput value={30} scale={0} allowNull={false} onChange={dummyEmptyCallback} prefix="<" suffix="$" />
+            </Form.Item>
+            <Form.Item label="Numbers">
+                <AmountRangeInput value={[2, 50]} onChange={dummyEmptyCallback} allowNull={false} />
+            </Form.Item>
+            <Form.Item label="Operator">
+                <UncontrolledAmountConditionInput initialValue={{condition: Operator.GREATER_EQUAL, amount: 20}} scale={1} />
             </Form.Item>
             <Form.Item label="Password">
                 <UncontrolledInputPassword initialValue="password" />
@@ -57,6 +75,12 @@ const FormItems = () => {
                 <UncontrolledBoolSwitch initialValue={false} />
             </Form.Item>
             <Form.Item label="Selector" validator={() => "selector test"}>
+                <UncontrolledEnumSelect initialValue="+" list={["+", "-", "*", "/"]} />
+            </Form.Item>
+            <Form.Item label=">Selector<" widthMode="shrink">
+                <UncontrolledEnumSelect initialValue="+" list={["+", "-", "*", "/"]} />
+            </Form.Item>
+            <Form.Item label="<Selector>" widthMode="fill">
                 <UncontrolledEnumSelect initialValue="+" list={["+", "-", "*", "/"]} />
             </Form.Item>
             <Form.Item label="Cascader">
@@ -72,7 +96,19 @@ const FormItems = () => {
             <Form.Item label="Date">
                 <UncontrolledDateTimePicker initialValue={new Date()} allowNull={false} />
             </Form.Item>
-            <Form.Item label="Date Range">
+            <Form.Item label=">Date<" widthMode="shrink">
+                <UncontrolledDateTimePicker initialValue={new Date()} allowNull={false} />
+            </Form.Item>
+            <Form.Item label="<Date>" widthMode="fill">
+                <UncontrolledDateTimePicker initialValue={new Date()} allowNull={false} />
+            </Form.Item>
+            <Form.Item label="Range">
+                <UncontrolledDateRangePicker initialValue={["2020-01-01", "2020-05-22"]} allowNull={false} />
+            </Form.Item>
+            <Form.Item label=">Range<" widthMode="shrink">
+                <UncontrolledDateRangePicker initialValue={["2020-01-01", "2020-05-22"]} allowNull={false} />
+            </Form.Item>
+            <Form.Item label="<Range>" widthMode="fill">
                 <UncontrolledDateRangePicker initialValue={["2020-01-01", "2020-05-22"]} allowNull={false} />
             </Form.Item>
         </React.Fragment>
@@ -93,7 +129,7 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Vertical Layout",
         showPropsHint: false,
         components: [
-            <FormContainer layout="vertical" style={{width: 600}}>
+            <FormContainer layout="vertical" style={{width: 900, backgroundColor: "#eee"}}>
                 <FormItems />
             </FormContainer>,
         ],

@@ -13,7 +13,7 @@ export interface Props {
     validator?: FormValidator;
     className?: string;
     labelStyle?: React.CSSProperties;
-    fillParentWidth?: boolean;
+    widthMode?: "fill" | "auto" | "shrink"; // No affect for <Form layout="inline">
 }
 
 interface State {
@@ -52,7 +52,7 @@ export class Item extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {label, children, className, required, extra, labelStyle, fillParentWidth} = this.props;
+        const {label, children, className, required, extra, labelStyle, widthMode} = this.props;
         const {errorMessage} = this.state;
         const errorDisplayMode = this.context.errorDisplayMode();
         const childrenWrapper = <span className="g-form-item-children-inputs">{children}</span>;
@@ -62,7 +62,7 @@ export class Item extends React.PureComponent<Props, State> {
                 <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
                     {label && <label>{label}</label>}
                 </div>
-                <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`} style={fillParentWidth ? {maxWidth: "initial"} : undefined}>
+                <div className={`g-form-item-children ${errorMessage ? "has-error" : ""} ${widthMode ? `width-${widthMode}` : ""}`}>
                     {errorDisplayMode.type === "extra" ? (
                         <React.Fragment>
                             {childrenWrapper}

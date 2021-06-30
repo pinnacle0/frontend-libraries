@@ -65,6 +65,38 @@
                 vertical-align: middle;
             }
 
+            .ant-input,
+            .ant-select,
+            .ant-input-password,
+            .ant-input-affix-wrapper,
+            .ant-cascader-picker,
+            .ant-picker,
+            .g-number-input,
+            textarea {
+                width: 100%;
+            }
+
+            .g-number-input.stepper-always input {
+                width: auto;
+            }
+
+            .ant-input-group {
+                > * {
+                    width: auto;
+                }
+            }
+
+            // For braft editor
+            .bf-container {
+                border: 1px solid #d7d7d7;
+                border-radius: 4px;
+                width: 780px;
+
+                .bf-content {
+                    height: 350px;
+                }
+            }
+
             &.has-error {
                 textarea,
                 input,
@@ -80,42 +112,17 @@
                 }
             }
 
-            .ant-input,
-            .ant-select,
-            .ant-input-password,
-            .ant-input-affix-wrapper,
-            .ant-cascader-picker,
-            .ant-picker,
-            .g-number-input,
-            textarea {
-                width: 100%;
+            &.width-fill {
+                max-width: initial;
             }
 
-            .g-number-input.stepper-always input {
-                width: 150px;
-            }
+            &.width-shrink {
+                max-width: initial;
+                width: auto;
 
-            // For braft editor
-            .bf-container {
-                border: 1px solid #d7d7d7;
-                border-radius: 4px;
-                width: 780px;
-
-                .bf-content {
-                    height: 350px;
+                .g-form-item-children-inputs {
+                    width: auto;
                 }
-            }
-        }
-
-        &.separated {
-            .g-form-item-label,
-            .g-form-item-children {
-                display: block;
-            }
-
-            .g-form-item-label {
-                width: 100%;
-                text-align: left;
             }
         }
     }
@@ -141,8 +148,8 @@
                     flex-wrap: nowrap;
                 }
 
-                .ant-input-group.ant-input-group-compact {
-                    display: inline;
+                .ant-select {
+                    width: 130px;
                 }
             }
         }
