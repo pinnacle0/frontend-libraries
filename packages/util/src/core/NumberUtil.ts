@@ -26,6 +26,16 @@ function formatWithComma(value: number | null): string {
     }
 }
 
+/**
+ * Safe a number with correct decimal places
+ * @param value unsafe number
+ * @param maxScale decimal places
+ * @returns safe number with correct decimal places
+ */
+function safeNumber(value: number, maxScale: number) {
+    return Number(value.toFixed(maxScale));
+}
+
 function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale: number): number {
     if (!Number.isInteger(maxScale) || maxScale < 0 || maxScale > 10) {
         throw new Error("[util] NumberUtil.rounding maxScale must be an integer in range [0, 10]");
@@ -46,16 +56,17 @@ function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale
      * Therefore, we first get 4.975 * 10^3 = 4975. Then, we get 4975 / 10^(3 - 2) = 497.5 and we round this number.
      * In the end, we divide this number by 10^maxScale to obtained the final answer, i.e. 498 / 10^2 = 4.98 (assume algorithm is "round").
      */
-    const parts = value.toString().split(".");
+    const parts = String(value).split(".");
     const adjustmentScale = parts.length < 2 ? 0 : parts[1].length;
-    const adjustmentPowerOf10 = 10 ** adjustmentScale;
+    const adjustmentPowerOf10 = Math.pow(10, adjustmentScale);
     const isAdjustmentSafe = Number(value) * adjustmentPowerOf10 <= Number.MAX_SAFE_INTEGER;
-    const powerOf10 = 10 ** maxScale;
+    const powerOf10 = Math.pow(10, maxScale);
+
     if (adjustmentScale > maxScale && isAdjustmentSafe) {
-        const diffPowerOf10 = 10 ** (adjustmentScale - maxScale);
-        return Math[algorithm]((value * adjustmentPowerOf10) / diffPowerOf10) / powerOf10;
+        const diffPowerOf10 = Math.pow(10, adjustmentScale - maxScale);
+        return Math[algorithm](safeNumber(value * adjustmentPowerOf10, maxScale) / diffPowerOf10) / powerOf10;
     } else {
-        return Math[algorithm](value * powerOf10) / powerOf10;
+        return Math[algorithm](safeNumber(value * powerOf10, maxScale)) / powerOf10;
     }
 }
 
@@ -70,4 +81,5 @@ export const NumberUtil = Object.freeze({
     formatWithComma,
     rounding,
     roundingToString,
+    safeNumber,
 });
