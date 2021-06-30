@@ -13,6 +13,8 @@ export type CreateModalReturnType = ReturnType<ModalFunc>;
 
 export type ModalConfigWithoutEvent = Omit<ModalConfig, "onOk" | "onCancel">;
 
+export type CreateAsyncModalPromise<WithCloseHandling extends boolean> = WithCloseHandling extends true ? Promise<"ok" | "cancel" | "close"> : Promise<boolean>;
+
 export interface ModalConfig {
     body: SafeReactChildren; // Use array for multiple rows
     title?: React.ReactChild;
@@ -105,14 +107,27 @@ function createSync(config: ModalConfig): CreateModalReturnType {
     return enhancedRef;
 }
 
-function createAsync(config: ModalConfigWithoutEvent): Promise<boolean> {
+function createAsync<WithCloseHandling extends boolean = false>(
+    config: ModalConfigWithoutEvent,
+    withCloseHandling: WithCloseHandling = false as WithCloseHandling
+): CreateAsyncModalPromise<WithCloseHandling> {
+    if (withCloseHandling) {
+        return new Promise<"ok" | "cancel" | "close">(resolve => {
+            createSync({
+                ...config,
+                onOk: () => resolve("ok"),
+                onCancel: byClose => resolve(byClose ? "close" : "cancel"),
+            });
+        }) as CreateAsyncModalPromise<WithCloseHandling>;
+    }
+
     return new Promise<boolean>(resolve => {
         createSync({
             ...config,
             onOk: () => resolve(true),
             onCancel: () => resolve(false),
         });
-    });
+    }) as CreateAsyncModalPromise<WithCloseHandling>;
 }
 
 function confirm(body: SafeReactChildren, title?: string): Promise<boolean> {
