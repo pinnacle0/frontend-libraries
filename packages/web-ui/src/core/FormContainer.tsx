@@ -5,13 +5,16 @@ import {Form} from "./Form";
 import {i18n} from "../internal/i18n/core";
 import type {PickOptional, SafeReactChildren} from "../internal/type";
 
+// TODO: refactor this part:
+//  1) remove this component, merge following into <Form>
+//  2) <Form> add `hideSubmitButton?:bool`
+
 export interface Props extends FormProps {
-    onFinish: () => void;
+    children: SafeReactChildren;
     buttonText?: string;
     buttonDisabled?: boolean;
     buttonStyle?: React.CSSProperties;
     buttonRenderer?: (submitButton: React.ReactElement, isValidating: boolean) => React.ReactElement;
-    children: SafeReactChildren;
 }
 
 interface State {

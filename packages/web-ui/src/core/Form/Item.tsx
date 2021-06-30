@@ -1,7 +1,7 @@
 import React from "react";
-import {FormValidationContext} from "./context";
 import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import {Tooltip} from "../Tooltip";
+import {FormValidationContext} from "./context";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
@@ -13,6 +13,7 @@ export interface Props {
     validator?: FormValidator;
     className?: string;
     labelStyle?: React.CSSProperties;
+    fillParentWidth?: boolean;
 }
 
 interface State {
@@ -51,7 +52,7 @@ export class Item extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {label, children, className, required, extra, labelStyle} = this.props;
+        const {label, children, className, required, extra, labelStyle, fillParentWidth} = this.props;
         const {errorMessage} = this.state;
         const errorDisplayMode = this.context.errorDisplayMode();
         const childrenWrapper = <span className="g-form-item-children-inputs">{children}</span>;
@@ -61,7 +62,7 @@ export class Item extends React.PureComponent<Props, State> {
                 <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
                     {label && <label>{label}</label>}
                 </div>
-                <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`}>
+                <div className={`g-form-item-children ${errorMessage ? "has-error" : ""}`} style={fillParentWidth ? {maxWidth: "initial"} : undefined}>
                     {errorDisplayMode.type === "extra" ? (
                         <React.Fragment>
                             {childrenWrapper}
