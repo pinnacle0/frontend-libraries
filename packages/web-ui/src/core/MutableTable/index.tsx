@@ -25,6 +25,7 @@ export interface Props<RowType extends object> {
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
     bordered?: boolean;
+    disabled?: boolean;
 }
 
 export class MutableTable<RowType extends object> extends React.PureComponent<Props<RowType>> {
@@ -52,7 +53,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     }
 
     getColumns = (): TableColumns<RowType> => {
-        const {columns, dataSource, nextRow, fixedRowCount, sequenceColumn} = this.props;
+        const {columns, dataSource, nextRow, fixedRowCount, sequenceColumn, disabled} = this.props;
         const newColumns = [...columns];
         const t = i18n();
         if (sequenceColumn) {
@@ -72,12 +73,12 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
                 return (
                     <div className="operation">
                         {(!fixedRowCount || fixedRowCount <= index) && (
-                            <button type="button" disabled={dataSourceLength === 1} onClick={() => this.onDeleteRow(index)}>
+                            <button type="button" disabled={disabled || dataSourceLength === 1} onClick={() => this.onDeleteRow(index)}>
                                 &#65293;
                             </button>
                         )}
                         {nextRow !== undefined && index + 1 === dataSourceLength && (
-                            <button type="button" onClick={() => this.onAddRow(nextRow)}>
+                            <button disabled={disabled} type="button" onClick={() => this.onAddRow(nextRow)}>
                                 &#xff0b;
                             </button>
                         )}
