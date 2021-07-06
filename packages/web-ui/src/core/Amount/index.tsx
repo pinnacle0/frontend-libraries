@@ -13,7 +13,7 @@ export interface Props {
     nullText?: string;
     prefix?: string;
     postfix?: string;
-    colorScheme?: "green+red-" | "highlight" | "highlight+" | "green-red+";
+    colorScheme?: "green+red-" | "highlight" | "highlight+" | "green-red+" | "highlight-green";
     bold?: boolean;
     underline?: boolean;
     del?: boolean;
@@ -59,6 +59,8 @@ export class Amount extends React.PureComponent<Props> {
                 classNames.push("color-highlight");
             } else if (colorScheme === "highlight+") {
                 if (value > 0) classNames.push("color-highlight");
+            } else if (colorScheme === "highlight-green") {
+                classNames.push("color-green");
             }
 
             return (
