@@ -29,33 +29,10 @@
             transition: all ease 300ms;
 
             &.expanded {
-                border-top: 1px solid #ddd;
-                margin-top: 8px;
+                border-top: 1px solid @lib-border-gray;
+                margin-top: 5px;
                 max-height: 1000px;
                 padding-top: 10px;
-            }
-
-            .g-form-item {
-                display: block;
-                line-height: 38px;
-
-                .g-form-item-label {
-                    width: 100px;
-                    text-align: left;
-                }
-
-                .g-form-item-children {
-                    input,
-                    .ant-select {
-                        width: 300px;
-                    }
-
-                    .ant-picker-range {
-                        .ant-picker-input input {
-                            width: 140px; // e.g: DateRangePicker
-                        }
-                    }
-                }
             }
         }
     }

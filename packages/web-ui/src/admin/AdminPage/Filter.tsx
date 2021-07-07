@@ -64,7 +64,7 @@ export class Filter extends React.PureComponent<Props, State> {
                     {expandedArea && (
                         <div className="expand-trigger" onClick={this.toggleExpansion}>
                             {expanded ? <UpOutlined /> : <DownOutlined />}
-                            {expanded ? t.expand : t.collapse}
+                            {expanded ? t.collapse : t.expand}
                         </div>
                     )}
                 </Space>

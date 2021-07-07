@@ -10,6 +10,8 @@ import {DateTimePicker} from "@pinnacle0/web-ui/core/DateTimePicker";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import {Cascader} from "@pinnacle0/web-ui/core/Cascader";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
+import {EnumRadio} from "@pinnacle0/web-ui/core/EnumRadio";
+import {Checkbox} from "@pinnacle0/web-ui/core/Checkbox";
 import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import {dummyEmptyCallback} from "../../dummy/dummyCallback";
@@ -17,6 +19,8 @@ import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
+const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);
+const UncontrolledCheckbox = withUncontrolledInitialValue(Checkbox);
 const UncontrolledInput = withUncontrolledInitialValue(Input);
 const UncontrolledInputTextArea = withUncontrolledInitialValue(Input.TextArea);
 const UncontrolledInputPassword = withUncontrolledInitialValue(Input.Password);
@@ -71,8 +75,20 @@ const FormItems = () => {
             <Form.Item label="Bio" validator={() => "bio information too long"}>
                 <UncontrolledInputTextArea initialValue="Here is my bio ..." />
             </Form.Item>
+            <Form.Item label="Multiple" validator={() => "test"} widthMode="shrink">
+                <Input.Group>
+                    <UncontrolledInputPassword initialValue="password" />
+                    <UncontrolledDateTimePicker initialValue={new Date()} allowNull={false} />
+                </Input.Group>
+            </Form.Item>
             <Form.Item label="Flag">
                 <UncontrolledBoolSwitch initialValue={false} />
+            </Form.Item>
+            <Form.Item label="Checkbox">
+                <UncontrolledCheckbox initialValue={false} />
+            </Form.Item>
+            <Form.Item label="Radio">
+                <UncontrolledEnumRadio initialValue="+" list={["+", "-", "*", "/"]} />
             </Form.Item>
             <Form.Item label="Selector" validator={() => "selector test"}>
                 <UncontrolledEnumSelect initialValue="+" list={["+", "-", "*", "/"]} />

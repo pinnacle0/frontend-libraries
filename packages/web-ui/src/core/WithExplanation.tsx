@@ -18,6 +18,8 @@ interface Props {
 export class WithExplanation extends React.PureComponent<Props> {
     static displayName = "WithExplanation";
 
+    // TODO/Anthony: remove inline style, use CSS file to control (so that project is easy to over-write)
+    // TODO/Anthony: set hover cursor as `help`
     private readonly tooltipQuestionContainerStyle: React.CSSProperties = {
         display: "inline-flex",
         justifyContent: "center",

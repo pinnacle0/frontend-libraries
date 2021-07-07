@@ -1,12 +1,12 @@
 import React from "react";
-import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {SafeReactChild} from "../../internal/type";
 import {Tooltip} from "../Tooltip";
 import {FormValidationContext} from "./context";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
-    children: SafeReactChildren;
+    children: SafeReactChild;
     label?: SafeReactChild;
     required?: boolean;
     extra?: SafeReactChild;
@@ -55,7 +55,9 @@ export class Item extends React.PureComponent<Props, State> {
         const {label, children, className, required, extra, labelStyle, widthMode} = this.props;
         const {errorMessage} = this.state;
         const errorDisplayMode = this.context.errorDisplayMode();
-        const childrenWrapper = <span className="g-form-item-children-inputs">{children}</span>;
+
+        const childrenNode = <span className="g-form-item-children-inputs">{children}</span>;
+        const extraMessageNode = extra && <div className="message">{extra}</div>;
 
         return (
             <div className={`g-form-item ${className || ""}`}>
@@ -65,16 +67,16 @@ export class Item extends React.PureComponent<Props, State> {
                 <div className={`g-form-item-children ${errorMessage ? "has-error" : ""} ${widthMode ? `width-${widthMode}` : ""}`}>
                     {errorDisplayMode.type === "extra" ? (
                         <React.Fragment>
-                            {childrenWrapper}
-                            {extra && <div className="message">{extra}</div>}
+                            {childrenNode}
+                            {extraMessageNode}
                             {errorMessage && <div className="message error">{errorMessage}</div>}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <Tooltip title={errorMessage} visible={errorMessage !== null} placement={errorDisplayMode.placement || "right"} color="white" overlayInnerStyle={this.overlayStyle}>
-                                {childrenWrapper}
+                                {childrenNode}
                             </Tooltip>
-                            {extra && <div className="message">{extra}</div>}
+                            {extraMessageNode}
                         </React.Fragment>
                     )}
                 </div>
