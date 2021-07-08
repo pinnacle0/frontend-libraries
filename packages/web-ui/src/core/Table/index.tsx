@@ -5,7 +5,7 @@ import type {TableRowSelection} from "antd/lib/table/interface";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
-import type {PickOptional, SafeReactChildren, StringKey} from "../../internal/type";
+import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import type {RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
@@ -54,6 +54,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
     loading?: boolean;
+    emptyIcon?: SafeReactChild;
     emptyText?: string;
     sortConfig?: TableSorter<OrderByFieldType>;
     /**
@@ -153,13 +154,13 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
 
     render() {
         // Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
-        const {sortConfig, loading, columns, onRowClick, rowKey, scrollX, scrollY, emptyText, ...restProps} = this.props;
+        const {sortConfig, loading, columns, onRowClick, rowKey, scrollX, scrollY, emptyIcon, emptyText, ...restProps} = this.props;
         const t = i18n();
         const emptyTextNode = loading ? (
             <div />
         ) : (
             <div style={this.emptyPlaceHolderContainerStyle}>
-                <FileSearchOutlined style={this.emptyPlaceHolderIconStyle} />
+                {emptyIcon || <FileSearchOutlined style={this.emptyPlaceHolderIconStyle} />}
                 <h2>{emptyText || t.emptyData}</h2>
             </div>
         );
