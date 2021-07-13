@@ -17,6 +17,7 @@ import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialVa
 import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
+import {Amount} from "../../../../../src/core/Amount";
 
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
 const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);
@@ -33,6 +34,10 @@ const UncontrolledBoolSwitch = withUncontrolledInitialValue(BoolSwitch.YesNo);
 const FormItems = () => {
     return (
         <React.Fragment>
+            <Form.Item label="Text">Some simple string</Form.Item>
+            <Form.Item label="Digit">
+                <Amount scale={4} value={-43242} colorScheme="green-red+" />
+            </Form.Item>
             <Form.Item label="Username" validator={() => "username incorrect"}>
                 <UncontrolledInput initialValue="username" />
             </Form.Item>
