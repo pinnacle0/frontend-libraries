@@ -3,6 +3,7 @@ import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils
 import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
 
+// TODO/Alvis: module-class-method (must add return type for each function), then simplify current project .eslintrc
 export type Options = [];
 
 export type MessageIds = "logDecoratorOrder";

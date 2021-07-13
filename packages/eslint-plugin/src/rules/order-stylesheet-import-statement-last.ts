@@ -5,6 +5,7 @@ export type MessageIds = "orderStylesheetImportStatementLast";
 
 export const name = "order-stylesheet-import-statement-last";
 
+// TODO/Alvis: import-ordering (React -> "xx/xx" -> "." -> import typing -> CSS/LESS)
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
     meta: {

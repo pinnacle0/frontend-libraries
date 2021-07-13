@@ -9,6 +9,7 @@ type Option = Array<{
     packages: string[];
 }>;
 
+// TODO/Alvis: check if can remove
 export const rule = ESLintUtils.RuleCreator(name => name)<Option, MessageIds>({
     name,
     meta: {
