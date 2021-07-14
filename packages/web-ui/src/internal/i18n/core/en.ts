@@ -13,7 +13,6 @@ export const en = {
     finish: "Finish",
     emptyData: "No Data",
     select: "Select",
-    pleaseSelect: "Please select...",
     edit: "Edit ({1})",
     paginationSummary: "Total {1} Records, Page {2} Out Of {3}",
     sendAuthCode: "Send",

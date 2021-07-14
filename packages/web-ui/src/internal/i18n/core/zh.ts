@@ -13,7 +13,6 @@ export const zh = {
     finish: "完 成",
     emptyData: "暂无数据",
     select: "请选择",
-    pleaseSelect: "请选择",
     edit: "修改 ({1} 个)",
     paginationSummary: "共 {1} 条记录, 第 {2}/{3} 页",
     sendAuthCode: "发送验证码",

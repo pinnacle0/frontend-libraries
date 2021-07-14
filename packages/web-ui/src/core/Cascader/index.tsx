@@ -1,19 +1,25 @@
+import React from "react";
 import type {CascaderOptionType} from "antd/lib/cascader";
 import AntCascader from "antd/lib/cascader";
+import type {ControlledFormValue} from "../../internal/type";
+import {Nullable} from "./Nullable";
+import {InitialNullable} from "./InitialNullable";
 import "antd/lib/cascader/style";
-import React from "react";
-import {i18n} from "../../internal/i18n/core";
-import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
 import "./index.less";
 
-export interface CascaderDataNode<T extends string | null> {
+/**
+ * Attention:
+ * CascaderDataNode.value must be unique in the whole data tree.
+ */
+
+export interface CascaderDataNode<T extends string | number> {
     label: string;
-    value?: T;
+    value?: T; // Undefined if same with label
     disabled?: boolean;
     children?: Array<CascaderDataNode<T>>;
 }
 
-export interface Props<T extends string | null> extends ControlledFormValue<T> {
+export interface BaseProps<T extends string | number> {
     data: Array<CascaderDataNode<T>>;
     canSelectAnyLevel?: boolean;
     placeholder?: string;
@@ -22,12 +28,12 @@ export interface Props<T extends string | null> extends ControlledFormValue<T> {
     disabled?: boolean;
 }
 
-export class Cascader<T extends string | null> extends React.PureComponent<Props<T>> {
-    static displayName = "Cascader";
+export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T> {}
 
-    static defaultProps: PickOptional<Props<any>> = {
-        canSelectAnyLevel: false,
-    };
+export class Cascader<T extends string | number> extends React.PureComponent<Props<T>> {
+    static displayName = "Cascader";
+    static Nullable = Nullable;
+    static InitialNullable = InitialNullable;
 
     getAntValue = (): Array<string | number> => {
         const data = this.getAntDataSource();
@@ -35,15 +41,14 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
             const {value} = this.props;
             for (const item of data) {
                 if (item.value === value) {
-                    return [item.value!];
+                    return [item.value];
                 } else if (item.children) {
                     const result = [item.value!, ...getCascaderValues(item.children)];
-                    if (result.includes(value! as any)) {
+                    if (result.includes(value)) {
                         return result;
                     }
                 }
             }
-
             return [];
         };
         return getCascaderValues(data);
@@ -52,31 +57,21 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
     getAntDataSource = (): CascaderOptionType[] => {
         const getAntChildren = (list: Array<CascaderDataNode<T>>): CascaderOptionType[] => {
             return list.map(node => ({
-                ...node,
-                value: node.value === undefined ? node.label : (node.value as any),
+                label: node.label,
+                disabled: node.disabled,
+                value: node.value || node.label,
                 children: node.children && node.children.length > 0 ? getAntChildren(node.children) : undefined,
             }));
         };
         return getAntChildren(this.props.data);
     };
 
-    displayRender = (label: string[]): SafeReactChild => {
-        const t = i18n();
-        const {placeholder = t.pleaseSelect} = this.props;
-        const isNullValue = this.getAntValue().length === 0;
-        return (
-            <span className={`g-cascader-label ${isNullValue ? "null-value" : ""}`}>
-                <span>{isNullValue ? placeholder : label.join("/")}</span>
-            </span>
-        );
-    };
+    displayRender = (labels: string[]) => labels.join("/");
 
-    onChange = (antValue: Array<string | number>) => {
-        this.props.onChange(antValue[antValue.length - 1] as any);
-    };
+    onChange = (antValue: Array<string | number>) => this.props.onChange(antValue[antValue.length - 1] as T);
 
     render() {
-        const {canSelectAnyLevel, disabled, style, className} = this.props;
+        const {canSelectAnyLevel, placeholder, disabled, style, className} = this.props;
         return (
             <AntCascader
                 className={`g-cascader ${className || ""}`}
@@ -89,7 +84,7 @@ export class Cascader<T extends string | null> extends React.PureComponent<Props
                 allowClear={false}
                 expandTrigger="hover"
                 displayRender={this.displayRender}
-                placeholder="" // Note: the actual placeholder is inside displayRender
+                placeholder={placeholder}
                 disabled={disabled}
             />
         );

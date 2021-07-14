@@ -3,6 +3,7 @@ import type {CascaderDataNode} from "@pinnacle0/web-ui/core/Cascader";
 import {Cascader} from "@pinnacle0/web-ui/core/Cascader";
 import {DemoHelper} from "../../DemoHelper";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {dummyEmptyCallback} from "../../../dummy/dummyCallback";
 
 enum TestEnum {
     ONE = "ONE",
@@ -46,19 +47,21 @@ function SimpleCascader() {
     return <Cascader data={cascaderData} value={value} onChange={setValue} style={{width: 500}} />;
 }
 
-function InitialNullCascader() {
-    const [value, setValue] = React.useState<TestEnum | null>(null);
-    return <Cascader data={cascaderData} value={value} onChange={setValue} placeholder="Placeholder test ..." canSelectAnyLevel />;
-}
-
 const groups: DemoHelperGroupConfig[] = [
     {
-        title: "Simple Cascader",
+        title: "Cascader",
+        showPropsHint: false,
         components: [<SimpleCascader />],
     },
     {
-        title: "Cascader (Initial Null, Can Select Any Level)",
-        components: [<InitialNullCascader />],
+        title: "Nullable Cascader",
+        showPropsHint: false,
+        components: [<Cascader.Nullable data={cascaderData} value={null} onChange={dummyEmptyCallback} />],
+    },
+    {
+        title: "InitialNullable Cascader",
+        showPropsHint: false,
+        components: [<Cascader.InitialNullable data={cascaderData} value={null} onChange={dummyEmptyCallback} placeholder="Placeholder here" />],
     },
 ];
 

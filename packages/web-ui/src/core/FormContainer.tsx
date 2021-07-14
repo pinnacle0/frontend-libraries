@@ -5,9 +5,7 @@ import {Form} from "./Form";
 import {i18n} from "../internal/i18n/core";
 import type {PickOptional, SafeReactChildren} from "../internal/type";
 
-// TODO: refactor this part:
-//  1) remove this component, merge following into <Form>
-//  2) <Form> add `hideSubmitButton?:bool`
+// TODO/Alvis: refactor this part: remove this component, merge following into <Form>
 
 export interface Props extends FormProps {
     children: SafeReactChildren;
