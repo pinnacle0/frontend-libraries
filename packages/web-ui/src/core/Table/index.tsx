@@ -54,6 +54,8 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
     loading?: boolean;
+    // if emptyPlaceholder is provided, emptyIcon and emptyText will be ignored
+    emptyPlaceholder?: SafeReactChild;
     emptyIcon?: SafeReactChild;
     emptyText?: string;
     sortConfig?: TableSorter<OrderByFieldType>;
@@ -154,14 +156,18 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
 
     render() {
         // Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
-        const {sortConfig, loading, columns, onRowClick, rowKey, scrollX, scrollY, emptyIcon, emptyText, ...restProps} = this.props;
+        const {sortConfig, loading, columns, onRowClick, rowKey, scrollX, scrollY, emptyPlaceholder, emptyIcon, emptyText, ...restProps} = this.props;
         const t = i18n();
         const emptyTextNode = loading ? (
             <div />
         ) : (
             <div style={this.emptyPlaceHolderContainerStyle}>
-                {emptyIcon || <FileSearchOutlined style={this.emptyPlaceHolderIconStyle} />}
-                <h2>{emptyText || t.emptyData}</h2>
+                {emptyPlaceholder || (
+                    <React.Fragment>
+                        {emptyIcon || <FileSearchOutlined style={this.emptyPlaceHolderIconStyle} />}
+                        <h2>{emptyText || t.emptyData}</h2>
+                    </React.Fragment>
+                )}
             </div>
         );
 
