@@ -132,7 +132,19 @@ const groups: DemoHelperGroupConfig[] = [
     },
     {
         title: "Tab",
-        components: [<TabsDemo.Card />, <TabsDemo.Line />, "-", <TabsDemo.WithExtra />, "-", <TabsDemo.Button />, <TabsDemo.ArrayMode />, "-", <TabsDemo.MobileMode />],
+        components: [
+            <TabsDemo.Card />,
+            <TabsDemo.Line />,
+            "-",
+            <TabsDemo.LineWithMaxVisibleTabCount />,
+            "-",
+            <TabsDemo.WithExtra />,
+            "-",
+            <TabsDemo.Button />,
+            <TabsDemo.ArrayMode />,
+            "-",
+            <TabsDemo.MobileMode />,
+        ],
     },
     {
         title: "PagedList",

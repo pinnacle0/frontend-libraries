@@ -15,6 +15,35 @@ const tabs: TypedTabMap<TabsDemoKey> = {
     },
 };
 
+type TabsWithMaxVisibleTabCountDemoKey = "700" | "9988" | "1030" | "1755" | "2202" | "3908";
+
+const tabsWithMaxVisibleTabCount: TypedTabMap<TabsWithMaxVisibleTabCountDemoKey> = {
+    "700": {
+        title: "700.HK",
+        content: <div>Tencent Holdings Ltd.</div>,
+    },
+    "9988": {
+        title: "9988.HK",
+        content: <div>Alibaba Group Holding Ltd.</div>,
+    },
+    "1030": {
+        title: "1030.HK",
+        content: <div>SEAZEN Holdings Co. Ltd.</div>,
+    },
+    "1755": {
+        title: "1755.HK",
+        content: <div>S-Enjoy Service Group Co. Ltd</div>,
+    },
+    "2202": {
+        title: "2202.HK",
+        content: <div>China Vanke Co. Ltd</div>,
+    },
+    "3908": {
+        title: "3908.HK",
+        content: <div> China International Capital Co. Ltd </div>,
+    },
+};
+
 const tabsInArray: TypedTabList<TabsDemoKey> = [
     {
         key: "1",
@@ -36,6 +65,10 @@ export const TabsDemo = {
     Line: () => {
         const [activeKey, setCurrentKey] = React.useState<TabsDemoKey>("1");
         return <TypedTabs type="line" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />;
+    },
+    LineWithMaxVisibleTabCount: () => {
+        const [activeKey, setCurrentKey] = React.useState<TabsWithMaxVisibleTabCountDemoKey>("700");
+        return <TypedTabs maxVisibleTabCount={4} style={{width: 320}} type="line" activeKey={activeKey} onChange={setCurrentKey} tabs={tabsWithMaxVisibleTabCount} />;
     },
     WithExtra: () => {
         const [activeKey, setCurrentKey] = React.useState<TabsDemoKey>("1");

@@ -1,7 +1,8 @@
 import React from "react";
-import type {Props as TabsProps} from "./Tabs";
-import type {SafeReactChildren} from "../internal/type";
-import {Tabs} from "./Tabs";
+import type {Props as TabsProps} from "../Tabs";
+import type {SafeReactChildren} from "../../internal/type";
+import {Tabs} from "../Tabs";
+import "./index.less";
 
 export interface TabData {
     title: React.ReactElement | string;
@@ -17,16 +18,39 @@ export interface Props<T extends string> extends Omit<TabsProps, "onChange"> {
     tabs: TypedTabMap<T> | TypedTabList<T>;
     activeKey: T;
     onChange: (tab: T) => void;
+    maxVisibleTabCount?: number;
 }
 
 export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
     static displayName = "TypedTabs";
 
+    ref: React.RefObject<Tabs>;
+
+    constructor(props: Props<T>) {
+        super(props);
+        this.ref = React.createRef<Tabs>();
+    }
+
+    componentDidMount() {
+        this.resizeTabs();
+    }
+
+    resizeTabs = () => {
+        const {maxVisibleTabCount} = this.props;
+
+        if (typeof maxVisibleTabCount === "undefined") {
+            return;
+        }
+
+        this.ref.current?.resizeTabsWidth(this.ref.current?.getBarWidth() / (maxVisibleTabCount + 0.5)); // resize to show maxVisibleTabCount + 0.5 tabs for mobile screen
+    };
+
     render() {
-        const {tabs, children, onChange, type, ...restProps} = this.props;
+        const {tabs, children, onChange, type, maxVisibleTabCount, ...restProps} = this.props;
         const tabList = Array.isArray(tabs) ? tabs : Object.entries<TabData>(tabs).map(([key, item]) => ({key, ...item}));
+
         return (
-            <Tabs type={type} animated={type === "line"} onChange={onChange as (_: string) => void} {...restProps}>
+            <Tabs ref={this.ref} type={type} animated={type === "line"} onChange={onChange as (_: string) => void} {...restProps}>
                 {tabList
                     .filter(_ => _.display !== "hidden")
                     .map(_ => (

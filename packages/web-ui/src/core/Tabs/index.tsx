@@ -57,6 +57,24 @@ export class Tabs extends React.PureComponent<Props, State> {
         removeEventListener("resize", this.handleUpdateShowArrows);
     }
 
+    getTabBarRef = () => {
+        return this.tabBarRef;
+    };
+
+    getBarWidth = () => {
+        return this.tabBarRef?.getBoundingClientRect().width || 0;
+    };
+
+    getTabRefs = () => {
+        return Array.from(this.tabBarRef?.querySelectorAll<HTMLDivElement>(".ant-tabs-nav-list > .ant-tabs-tab") || []);
+    };
+
+    resizeTabsWidth = (width: number) => {
+        for (const tabRef of this.getTabRefs()) {
+            tabRef.style.width = `${width}px`;
+        }
+    };
+
     isTabBarOverflow = () =>
         this.tabNavList &&
         this.tabBarRef &&
