@@ -52,7 +52,7 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
             return;
         }
 
-        this.ref.current?.resizeTabsWidth(this.ref.current?.getBarWidth() / (maxVisibleTabCount + 0.5)); // resize to show maxVisibleTabCount + 0.5 tabs for mobile screen
+        this.ref.current?.resizeTabsWidth(window.innerWidth / (maxVisibleTabCount + 0.5)); // resize to show maxVisibleTabCount + 0.5 tabs for mobile screen
     };
 
     render() {
