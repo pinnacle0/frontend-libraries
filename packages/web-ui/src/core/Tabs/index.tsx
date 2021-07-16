@@ -61,10 +61,6 @@ export class Tabs extends React.PureComponent<Props, State> {
         return this.tabBarRef;
     };
 
-    getBarWidth = () => {
-        return this.tabBarRef?.getBoundingClientRect().width || 0;
-    };
-
     getTabRefs = () => {
         return Array.from(this.tabBarRef?.querySelectorAll<HTMLDivElement>(".ant-tabs-nav-list > .ant-tabs-tab") || []);
     };

@@ -1,6 +1,7 @@
 import React from "react";
 import type {TypedTabMap, TypedTabList, TabData} from "@pinnacle0/web-ui/core/TypedTabs";
 import {TypedTabs} from "@pinnacle0/web-ui/core/TypedTabs";
+import {BrowserUtil} from "@pinnacle0/web-ui/util/BrowserUtil";
 
 type TabsDemoKey = "1" | "2";
 
@@ -68,7 +69,18 @@ export const TabsDemo = {
     },
     LineWithMaxVisibleTabCount: () => {
         const [activeKey, setCurrentKey] = React.useState<TabsWithMaxVisibleTabCountDemoKey>("700");
-        return <TypedTabs maxVisibleTabCount={4} style={{width: 320}} type="line" activeKey={activeKey} onChange={setCurrentKey} tabs={tabsWithMaxVisibleTabCount} />;
+        return (
+            BrowserUtil.isMobile() && (
+                <TypedTabs
+                    maxVisibleTabCount={4}
+                    style={{width: "100%", position: "fixed", zIndex: 999, top: 0, left: 0, height: "100%", background: "white"}}
+                    type="line"
+                    activeKey={activeKey}
+                    onChange={setCurrentKey}
+                    tabs={tabsWithMaxVisibleTabCount}
+                />
+            )
+        );
     },
     WithExtra: () => {
         const [activeKey, setCurrentKey] = React.useState<TabsDemoKey>("1");
