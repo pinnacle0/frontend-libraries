@@ -21,6 +21,9 @@ interface VersionCheckerOptions {
  *
  *  This Version checker currently only check exact match, symbols like ^1.0.0 will consider not match
  *  It is okay for our own projects (we use exact versioning)
+ *
+ *  versionCheckerIgnore: string[]
+ *  Adding "versionCheckerIgnore" in package.json will do the same thing as "skipLibs";
  */
 export class VersionChecker {
     private readonly projectDirectory: string;
@@ -49,6 +52,8 @@ export class VersionChecker {
                         ...json.devDependencies,
                         ...json.dependencies,
                     };
+                    const ignoredLibs: string[] = json?.["versionCheckerIgnore"] ?? [];
+                    this.skipLibs.push(...ignoredLibs);
                     this.skipLibs.forEach(packageName => {
                         delete packages[packageName];
                     });
