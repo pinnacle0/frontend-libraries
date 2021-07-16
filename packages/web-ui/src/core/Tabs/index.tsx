@@ -95,12 +95,9 @@ export class Tabs extends React.PureComponent<Props, State> {
      * @param tabBar
      */
     tabBarCallBackRef = (tabBar: HTMLDivElement | null) => {
-        if (tabBar && BrowserUtil.isMobile()) {
-            const navList = tabBar.getElementsByClassName("ant-tabs-nav-list")[0];
-            this.tabBarRef = tabBar;
-            this.tabNavList = navList as HTMLDivElement;
-            this.handleUpdateShowArrows();
-        }
+        const navList = tabBar?.getElementsByClassName("ant-tabs-nav-list")[0];
+        this.tabBarRef = tabBar;
+        this.tabNavList = navList as HTMLDivElement;
     };
 
     getExtra = () => ({
