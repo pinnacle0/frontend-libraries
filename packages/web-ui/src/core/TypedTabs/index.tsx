@@ -24,12 +24,15 @@ export interface Props<T extends string> extends Omit<TabsProps, "onChange"> {
 export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
     static displayName = "TypedTabs";
 
-    ref: React.RefObject<Tabs>;
+    tabBar?: Tabs;
 
     constructor(props: Props<T>) {
         super(props);
-        this.ref = React.createRef<Tabs>();
     }
+
+    setTabBarRef = (tabBar: Tabs) => {
+        this.tabBar = tabBar;
+    };
 
     componentDidMount() {
         this.resizeTabs();
@@ -52,7 +55,7 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
             return;
         }
 
-        this.ref.current?.resizeTabsWidth(window.innerWidth / (maxVisibleTabCount + 0.5)); // resize to show maxVisibleTabCount + 0.5 tabs for mobile screen
+        this.tabBar?.resizeTabsWidth(this.tabBar?.getBarWidth() / (maxVisibleTabCount + 0.5)); // resize to show maxVisibleTabCount + 0.5 tabs for mobile screen
     };
 
     render() {
@@ -60,7 +63,7 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
         const tabList = Array.isArray(tabs) ? tabs : Object.entries<TabData>(tabs).map(([key, item]) => ({key, ...item}));
 
         return (
-            <Tabs ref={this.ref} type={type} animated={type === "line"} onChange={onChange as (_: string) => void} {...restProps}>
+            <Tabs ref={this.setTabBarRef} type={type} animated={type === "line"} onChange={onChange as (_: string) => void} {...restProps}>
                 {tabList
                     .filter(_ => _.display !== "hidden")
                     .map(_ => (
