@@ -48,7 +48,7 @@ export class Filter extends React.PureComponent<Props, State> {
         const t = i18n();
 
         return (
-            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline" errorDisplayMode={this.errorDisplayMode}>
+            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline" errorDisplayMode={this.errorDisplayMode} buttonRenderer={null}>
                 {children}
                 <Space>
                     {reminder && <WithExplanation explanation={reminder} />}

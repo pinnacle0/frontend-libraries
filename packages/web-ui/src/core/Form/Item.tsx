@@ -56,9 +56,7 @@ export class Item extends React.PureComponent<Props, State> {
         const {errorMessage} = this.state;
         const errorDisplayMode = this.context.errorDisplayMode();
 
-        const childrenNode = (
-            <span className="g-form-item-children-inputs">{typeof children === "number" || typeof children === "string" ? <span className="pure-text">{children}</span> : children}</span>
-        );
+        const childrenNode = typeof children === "number" || typeof children === "string" ? <span className="pure-text">{children}</span> : children;
         const extraMessageNode = extra && <div className="message">{extra}</div>;
 
         return (

@@ -2,7 +2,7 @@ import React from "react";
 import {i18n} from "../../internal/i18n/core";
 import type {SafeReactChild} from "../../internal/type";
 import {Button} from "../Button";
-import {FormContainer} from "../FormContainer";
+import {Form} from "../Form";
 import {Space} from "../Space";
 import {Steps} from "../Steps";
 import "./index.less";
@@ -56,9 +56,9 @@ export class StepFormContainer extends React.PureComponent<Props> {
                         <Steps.Step key={key} title={_.title} description={_.description} />
                     ))}
                 </Steps>
-                <FormContainer layout={formLayout} onFinish={currentStep < steps.length - 1 ? this.goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={this.renderButtons}>
+                <Form layout={formLayout} onFinish={currentStep < steps.length - 1 ? this.goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={this.renderButtons}>
                     {steps[currentStep].content}
-                </FormContainer>
+                </Form>
             </div>
         );
     }

@@ -2,7 +2,6 @@ import React from "react";
 import {UserOutlined} from "@ant-design/icons";
 import {Form} from "@pinnacle0/web-ui/core/Form";
 import {Input} from "@pinnacle0/web-ui/core/Input";
-import {FormContainer} from "@pinnacle0/web-ui/core/FormContainer";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {BoolSwitch} from "@pinnacle0/web-ui/core/BoolSwitch";
 import {DateRangePicker} from "@pinnacle0/web-ui/core/DateRangePicker";
@@ -141,27 +140,47 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Horizontal Layout",
         showPropsHint: false,
         components: [
-            <FormContainer layout="horizontal" style={{width: 520}}>
+            <Form layout="horizontal" style={{width: 520}} onFinish={() => {}}>
                 <FormItems />
-            </FormContainer>,
+            </Form>,
         ],
     },
     {
         title: "Vertical Layout",
         showPropsHint: false,
         components: [
-            <FormContainer layout="vertical" style={{width: 900, backgroundColor: "#eee"}}>
+            <Form layout="vertical" style={{width: 900, backgroundColor: "#eee"}}>
                 <FormItems />
-            </FormContainer>,
+            </Form>,
         ],
     },
     {
         title: "Inline Layout",
         showPropsHint: false,
         components: [
-            <FormContainer layout="inline" errorDisplayMode={{type: "popover", placement: "top"}}>
+            <Form layout="inline" errorDisplayMode={{type: "popover", placement: "top"}}>
                 <FormItems />
-            </FormContainer>,
+            </Form>,
+        ],
+    },
+    {
+        title: "Inline Layout without submit button",
+        showPropsHint: false,
+        components: [
+            <Form layout="inline" errorDisplayMode={{type: "popover", placement: "top"}} buttonRenderer={null}>
+                <FormItems />
+            </Form>,
+        ],
+    },
+    {
+        title: "Inline Layout with loading submit button",
+        showPropsHint: false,
+        components: [
+            <Form layout="inline" errorDisplayMode={{type: "popover", placement: "top"}} loading>
+                <Form.Item>
+                    <UncontrolledInput initialValue="loading" />
+                </Form.Item>
+            </Form>,
         ],
     },
 ];
