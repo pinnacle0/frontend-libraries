@@ -76,7 +76,7 @@ export class Amount extends React.PureComponent<Props> {
                 </div>
             );
         } else {
-            return nullText;
+            return <span className={`g-amount null-text ${className || ""}`}>{nullText}</span>;
         }
     }
 }
