@@ -4,7 +4,7 @@ import {Button} from "../Button";
 import {FormValidationContext} from "./context";
 import {i18n} from "../../internal/i18n/core";
 import {Item} from "./Item";
-import type {PickOptional, SafeReactChildren} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import type {FormErrorDisplayMode, FormValidationContextType} from "./context";
 import "./index.less";
 
@@ -21,6 +21,7 @@ export interface Props {
     buttonDisabled?: boolean;
     buttonStyle?: React.CSSProperties;
     buttonRenderer?: ((submitButton: React.ReactElement, isValidating: boolean, loading?: boolean) => React.ReactElement) | null;
+    allowBrowserAutoComplete?: boolean;
 }
 
 interface State {
@@ -96,9 +97,9 @@ export class Form extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {children, id, className, style, layout} = this.props;
+        const {children, id, className, style, layout, allowBrowserAutoComplete} = this.props;
         return (
-            <form id={id} className={`g-form g-form-${layout} ${className || ""}`} style={style} onSubmit={this.onSubmit}>
+            <form autoComplete={allowBrowserAutoComplete ? undefined : "off"} id={id} className={`g-form g-form-${layout} ${className || ""}`} style={style} onSubmit={this.onSubmit}>
                 <FormValidationContext.Provider value={this.validationContext}>{children}</FormValidationContext.Provider>
                 {this.renderSubmitButton()}
             </form>
