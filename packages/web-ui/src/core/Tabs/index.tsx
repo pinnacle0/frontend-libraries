@@ -6,7 +6,6 @@ import "antd/lib/tabs/style";
 import type RcTabNavList from "rc-tabs/lib/TabNavList";
 // eslint-disable-next-line import/no-duplicates -- false positive
 import type {TabNavListProps as RcTabNavListProps} from "rc-tabs/lib/TabNavList";
-import {BrowserUtil} from "../../util/BrowserUtil";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import {Button} from "../Button";
 import {Single} from "./Single";
@@ -19,11 +18,7 @@ export interface Props extends Omit<TabsProps, "type" | "tabBarExtraContent" | "
     renderTabBar?: (props: Omit<RcTabNavListProps, "ref" | "extra" | "onTabScroll">, DefaultTabBar: typeof RcTabNavList) => React.ReactElement;
 }
 
-interface State {
-    showArrows?: boolean;
-}
-
-export class Tabs extends React.PureComponent<Props, State> {
+export class Tabs extends React.PureComponent<Props> {
     static displayName = "Tabs";
 
     static Single = Single;
@@ -41,20 +36,7 @@ export class Tabs extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.state = {showArrows: false};
         this.onTabBarDrag = this.onTabBarDrag.bind(this);
-    }
-
-    componentDidMount() {
-        addEventListener("resize", this.handleUpdateShowArrows);
-    }
-
-    componentDidUpdate() {
-        this.handleUpdateShowArrows();
-    }
-
-    componentWillUnmount() {
-        removeEventListener("resize", this.handleUpdateShowArrows);
     }
 
     getTabBarRef = () => {
@@ -81,15 +63,6 @@ export class Tabs extends React.PureComponent<Props, State> {
         this.tabBarExtraContentLeft &&
         this.tabBarExtraContentRight &&
         this.tabNavList.clientWidth > this.tabBarRef.clientWidth - this.tabBarExtraContentLeft.clientWidth - this.tabBarExtraContentRight.clientWidth;
-
-    handleUpdateShowArrows = () => {
-        if (this.isTabBarOverflow()) {
-            !this.state.showArrows && this.setState({showArrows: true});
-        } else {
-            this.state.showArrows && this.setState({showArrows: false});
-        }
-    };
-
     /**
      * Using callBackRef such that it is immediately invoked after all dom elements are rendered.
      * @param tabBar
@@ -99,21 +72,6 @@ export class Tabs extends React.PureComponent<Props, State> {
         this.tabBarRef = tabBar;
         this.tabNavList = navList as HTMLDivElement;
     };
-
-    getExtra = () => ({
-        left: (
-            <div className="tab-bar-extra-content-wrap" onClick={this.onLeftArrowClick} ref={ref => (this.tabBarExtraContentLeft = ref)}>
-                {this.props.tabBarPrefix}
-                {this.state.showArrows && <button className="arrow">{"<"}</button>}
-            </div>
-        ),
-        right: (
-            <div className="tab-bar-extra-content-wrap" onClick={this.onRightArrowClick} ref={ref => (this.tabBarExtraContentRight = ref)}>
-                {this.state.showArrows && <button className="arrow">{">"}</button>}
-                {this.props.tabBarSuffix}
-            </div>
-        ),
-    });
 
     /**
      * @param offset to go left, provide negative number, positive otherwise.
@@ -131,10 +89,6 @@ export class Tabs extends React.PureComponent<Props, State> {
             }
         }
     };
-
-    onLeftArrowClick = () => this.scroll(40);
-
-    onRightArrowClick = () => this.scroll(-40);
 
     // TODO: Add debounce
     onTabBarDrag(offset: number) {
@@ -166,21 +120,27 @@ export class Tabs extends React.PureComponent<Props, State> {
 
     render() {
         const {tabBarPrefix, tabBarSuffix, renderTabBar, className, type, ...rest} = this.props;
-        const extra = this.getExtra();
 
         return (
             <AntTabs
                 className={`g-tabs ${className || ""}`}
                 type={type !== "button" ? type : undefined}
-                tabBarExtraContent={extra}
+                tabBarExtraContent={
+                    {
+                        left: (
+                            <div className="tab-bar-extra-content-wrap" ref={ref => (this.tabBarExtraContentLeft = ref)}>
+                                {this.props.tabBarPrefix}
+                            </div>
+                        ),
+                        right: (
+                            <div className="tab-bar-extra-content-wrap" ref={ref => (this.tabBarExtraContentRight = ref)}>
+                                {this.props.tabBarSuffix}
+                            </div>
+                        ),
+                    } /* don't remove this, it has some crazy coupling which affects horizontal touch scroll  */
+                }
                 renderTabBar={(oldProps, DefaultTabBar) =>
-                    type === "button" ? (
-                        this.renderButtonTabBar(oldProps)
-                    ) : renderTabBar ? (
-                        renderTabBar({...oldProps, extra, ref: this.tabBarCallBackRef, onTabScroll: this.onTabBarDrag}, DefaultTabBar as unknown as typeof RcTabNavList)
-                    ) : (
-                        <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} onTabScroll={this.onTabBarDrag} />
-                    )
+                    type === "button" ? this.renderButtonTabBar(oldProps) : <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} onTabScroll={this.onTabBarDrag} />
                 }
                 {...rest}
             />
