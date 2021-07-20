@@ -9,6 +9,27 @@ export class StorageHelper {
 
     constructor(private readonly storage: Storage) {}
 
+    clear(options?: {keys: string[]} | {exceptKeys: string[]}): void {
+        try {
+            if (options) {
+                if ("keys" in options) {
+                    options.keys.forEach(key => this.storage.removeItem(key));
+                } else {
+                    Object.keys(this.storage).forEach(key => {
+                        // Framework injected keys should not be cleared
+                        if (!key.startsWith("@@framework") && !options.exceptKeys.includes(key)) {
+                            this.storage.removeItem(key);
+                        }
+                    });
+                }
+            } else {
+                this.storage.clear();
+            }
+        } catch (e) {
+            // Do nothing
+        }
+    }
+
     setBool(key: string, value: boolean): void {
         this.set(key, value ? StorageHelper.trueBoolValue : StorageHelper.falseBoolValue);
     }
