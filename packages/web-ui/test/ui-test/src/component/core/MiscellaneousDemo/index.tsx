@@ -14,7 +14,6 @@ import {generateDummyStrings} from "../../../dummy/dummyList";
 import type {MockTableData} from "../../../dummy/dummyTableData";
 import {DemoHelper} from "../../DemoHelper";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
-import {TabsDemo} from "./TabsDemo";
 import {TagInputDemo} from "./TagInputDemo";
 
 const DemoPagedList = () => {
@@ -128,22 +127,6 @@ const groups: DemoHelperGroupConfig[] = [
             <Markdown>
                 {"This is Markdown style syntax\nIt supports __bold__ and `highlight` text\n__Whole line in bold__\n`Whole line in highlight`\n__Bold text__ and `highlight text` mixed"}
             </Markdown>,
-        ],
-    },
-    {
-        title: "Tab",
-        components: [
-            <TabsDemo.Card />,
-            <TabsDemo.Line />,
-            "-",
-            <TabsDemo.LineWithMaxVisibleTabCount />,
-            "-",
-            <TabsDemo.WithExtra />,
-            "-",
-            <TabsDemo.Button />,
-            <TabsDemo.ArrayMode />,
-            "-",
-            <TabsDemo.MobileMode />,
         ],
     },
     {

@@ -16,6 +16,7 @@ import {ModalDemo} from "../component/core/ModalDemo";
 import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "../component/core/OverflowableTextDemo";
+import {TabsDemo} from "../component/core/TabsDemo";
 import {CascaderDemo} from "../component/core/CascaderDemo";
 import {UploaderImporterDemo} from "../component/core/UploaderImporterDemo";
 import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
@@ -113,6 +114,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/foldable",
                         title: "Foldable",
                         componentType: FoldableDemo,
+                    },
+                    {
+                        url: "/core/tabs",
+                        title: "Tabs",
+                        componentType: TabsDemo,
                     },
                     {
                         url: "/core/relative-time",

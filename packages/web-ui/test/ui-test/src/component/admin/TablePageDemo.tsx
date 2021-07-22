@@ -49,10 +49,10 @@ export const TablePageDemo = () => {
                 expandedArea={<FilterExpansion />}
                 reminder="Some Reminder Text"
                 extraElements={[
-                    <Button color="red" disabled>
+                    <Button color="red" disabled key="1">
                         Disabled
                     </Button>,
-                    <Tooltip title="Tooltip content ...">
+                    <Tooltip title="Tooltip content ..." key="2">
                         <Button color="green">Green Tooltip</Button>
                     </Tooltip>,
                 ]}
