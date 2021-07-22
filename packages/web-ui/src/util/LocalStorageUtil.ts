@@ -1,3 +1,3 @@
-import {StorageHelper} from "./StorageHelper";
+import {StorageHelper} from "../internal/StorageHelper";
 
 export const LocalStorageUtil = new StorageHelper(localStorage);
