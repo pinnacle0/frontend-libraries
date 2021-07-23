@@ -3,21 +3,33 @@
  * In such situation, accessing to localStorage/sessionStorage will throw error.
  */
 
+type ClearOptions = {keys: string[] | ((key: string) => boolean)} | {exceptKeys: string[] | ((key: string) => boolean)};
+
 export class StorageHelper {
     private static readonly trueBoolValue = "TRUE";
     private static readonly falseBoolValue = "FALSE";
 
     constructor(private readonly storage: Storage) {}
 
-    clear(options?: {keys: string[]} | {exceptKeys: string[]}): void {
+    clear(options?: ClearOptions): void {
         try {
             if (options) {
                 if ("keys" in options) {
-                    options.keys.forEach(key => this.storage.removeItem(key));
+                    const {keys} = options;
+                    if (Array.isArray(keys)) {
+                        keys.forEach(key => this.storage.removeItem(key));
+                    } else {
+                        this.forEach(key => {
+                            if (keys(key)) {
+                                this.storage.removeItem(key);
+                            }
+                        });
+                    }
                 } else {
-                    Object.keys(this.storage).forEach(key => {
-                        // Framework injected keys should not be cleared
-                        if (!key.startsWith("@@framework") && !options.exceptKeys.includes(key)) {
+                    const {exceptKeys} = options;
+                    this.forEach(key => {
+                        const shouldNotRemove = Array.isArray(exceptKeys) ? exceptKeys.includes(key) : exceptKeys(key);
+                        if (!shouldNotRemove) {
                             this.storage.removeItem(key);
                         }
                     });
@@ -125,5 +137,9 @@ export class StorageHelper {
         } catch (e) {
             return defaultValue;
         }
+    }
+
+    private forEach(callback: (key: string, value: string) => void): void {
+        Object.keys(this.storage).forEach(key => callback(key, this.storage.getItem(key)!));
     }
 }
