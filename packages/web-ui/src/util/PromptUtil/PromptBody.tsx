@@ -40,7 +40,7 @@ export class PromptBody extends React.PureComponent<Props, State> {
             <div className={`g-modal-prompt-body ${inputType === "multi-line" ? "multi-linw" : ""}`}>
                 <Markdown>{body}</Markdown>
                 <p style={this.warningStyle}>{warning}</p>
-                <Form ref={this.formRef} style={this.formStyle}>
+                <Form ref={this.formRef} style={this.formStyle} buttonRenderer={null}>
                     <Form.Item validator={() => inputValidator?.(textValue) || null}>
                         {inputType === "multi-line" ? (
                             <Input.TextArea placeholder={inputPlaceholder} value={textValue} onChange={textValue => this.setState({textValue})} />
