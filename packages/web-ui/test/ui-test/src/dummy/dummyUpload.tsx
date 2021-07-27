@@ -1,6 +1,6 @@
 import React from "react";
-import {ModalUtil} from "../../../../src/util/ModalUtil";
-import type {UploadFailureLogEntry, UploadSuccessLogEntry} from "../../../../src/type/uploader";
+import {ModalUtil} from "@pinnacle0/web-ui//util/ModalUtil";
+import type {UploadFailureLogEntry, UploadSuccessLogEntry} from "@pinnacle0/web-ui/util/UploadUtil/type";
 
 /**
  * This API is mocked by webpack-dev-server, to respond a fixed image, of typing TestImageUploadResponse.

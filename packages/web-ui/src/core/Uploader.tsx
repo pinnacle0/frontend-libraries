@@ -3,11 +3,11 @@ import type {UploadChangeParam} from "antd/lib/upload";
 import type {HttpRequestHeader} from "antd/lib/upload/interface";
 import AntUpload from "antd/lib/upload";
 import type {SafeReactChildren} from "../internal/type";
-import type {UploaderProps, UploadLogInfo} from "../type/uploader";
+import type {UploaderProps, UploadLogInfo} from "../util/UploadUtil/type";
 import {Spin} from "./Spin";
 import "antd/lib/upload/style";
 
-export interface Props<Response> extends UploaderProps<Response> {
+export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     children: SafeReactChildren;
     /**
      * Please follow W3C standard for HTML accept string.
@@ -25,14 +25,14 @@ interface State {
     uploading: boolean;
 }
 
-export class Uploader<Response> extends React.PureComponent<Props<Response>, State> {
+export class Uploader<SuccessResponseType, ErrorResponseType> extends React.PureComponent<Props<SuccessResponseType, ErrorResponseType>, State> {
     static displayName = "Uploader";
 
     private readonly defaultStyle: React.CSSProperties = {minWidth: 250};
     private readonly uploadHeader: HttpRequestHeader = {Accept: "application/json"};
     private uploadStartTime: number | undefined;
 
-    constructor(props: Props<Response>) {
+    constructor(props: Props<SuccessResponseType, ErrorResponseType>) {
         super(props);
         this.state = {uploading: false};
     }
@@ -49,37 +49,40 @@ export class Uploader<Response> extends React.PureComponent<Props<Response>, Sta
 
     preventDefaultDragDrop = (e: DragEvent) => e.preventDefault();
 
-    onUpload = (info: UploadChangeParam) => {
-        const file = info.file;
+    onUpload = ({file}: UploadChangeParam) => {
         if (file.status === "uploading") {
             this.setState({uploading: true});
             this.uploadStartTime = Date.now();
         } else if (file.status === "done" || file.status === "error") {
             const {onUploadSuccess, onUploadFailure} = this.props;
-            const response = file.response;
+
             try {
                 const info: UploadLogInfo = {
                     file_name: file.fileName || file.name,
                     file_size: file.size?.toString() || "-",
                     file_type: file.type || "-",
-                    api_response: JSON.stringify(response),
+                    api_response: JSON.stringify(file.response),
                 };
                 const elapsedTime = this.uploadStartTime ? Date.now() - this.uploadStartTime : 0;
 
                 if (file.status === "error") {
-                    onUploadFailure?.({
-                        info,
-                        elapsedTime,
-                        errorCode: "UPLOAD_FAILURE",
-                        errorMessage: JSON.stringify(file.error) || "[No Message]",
-                    });
+                    onUploadFailure?.(
+                        {
+                            info,
+                            elapsedTime,
+                            errorCode: "UPLOADER_FAILURE",
+                            errorMessage: file.error?.toString() || "[No Message]",
+                            statusCode: Number(file.error?.status), // Un-official API, by trial
+                        },
+                        file.response
+                    );
                 } else {
                     onUploadSuccess?.(
                         {
                             info,
                             elapsedTime,
                         },
-                        response
+                        file.response
                     );
                 }
             } finally {

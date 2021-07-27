@@ -2,7 +2,7 @@ import path from "path";
 // @ts-ignore
 import {WebpackServerStarter} from "../../webpack-util/src";
 // @ts-ignore
-import type {TestImageUploadResponse} from "../test/ui-test/src/type";
+import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
 
 new WebpackServerStarter({
     projectDirectory: path.join(__dirname, "../test/ui-test"),
@@ -15,10 +15,18 @@ new WebpackServerStarter({
     ],
     interceptExpressApp: app =>
         app.post("/ajax/upload", (request, response) => {
-            const uploadResponse: TestImageUploadResponse = {
-                imageURL: "https://homepages.cae.wisc.edu/~ece533/images/pool.png",
-                imageKey: "test",
-            };
-            response.json(uploadResponse);
+            if (Math.random() > 0.5) {
+                const uploadResponse: TestImageUploadResponse = {
+                    imageURL: "https://upload.wikimedia.org/wikipedia/commons/1/11/Test-Logo.svg",
+                    imageKey: "test",
+                };
+                response.json(uploadResponse);
+            } else {
+                const errorCode = Math.random() > 0.5 ? 500 : 400;
+                const uploadResponse: APIErrorResponse = {
+                    message: "Server Error, Please Retry",
+                };
+                response.status(errorCode).json(uploadResponse);
+            }
         }),
 }).run();

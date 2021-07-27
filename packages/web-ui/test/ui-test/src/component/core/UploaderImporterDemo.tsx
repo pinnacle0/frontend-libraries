@@ -2,7 +2,7 @@ import React from "react";
 import {ImageUploader} from "@pinnacle0/web-ui/core/ImageUploader";
 import {LocalImporter} from "@pinnacle0/web-ui/core/LocalImporter";
 import {dummyUploadImageUploadURL, dummyUploadImageFormField, dummyUploadCallback, dummyImportCallback} from "../../dummy/dummyUpload";
-import type {TestImageUploadResponse} from "../../type";
+import type {TestImageUploadResponse, APIErrorResponse} from "../../type";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 
@@ -10,7 +10,7 @@ const ImageUploaderDemo = ({removable, width, height}: {removable: boolean; widt
     const [value, setValue] = React.useState<string | null>(null);
     return (
         <div>
-            <ImageUploader<TestImageUploadResponse>
+            <ImageUploader<TestImageUploadResponse, APIErrorResponse>
                 width={width}
                 height={height}
                 formField={dummyUploadImageFormField}

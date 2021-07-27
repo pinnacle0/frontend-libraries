@@ -5,14 +5,14 @@ import EyeOutlined from "@ant-design/icons/EyeOutlined";
 import {ModalUtil} from "../../util/ModalUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {i18n} from "../../internal/i18n/core";
-import type {UploaderProps, UploadFailureLogEntry, UploadSuccessLogEntry} from "../../type/uploader";
+import type {UploaderProps, UploadSuccessLogEntry} from "../../util/UploadUtil/type";
 import {Uploader} from "../../core/Uploader";
 import {Tooltip} from "../../core/Tooltip";
 import "./index.less";
 
-export interface Props<Response> extends UploaderProps<Response> {
+export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     imageURL: string | null;
-    onChange: (response: Response) => void;
+    onChange: (response: SuccessResponseType) => void;
     width: number; // At least 200px if onRemove supported, else at least 150px
     height: number;
     onRemove?: () => void;
@@ -22,7 +22,7 @@ export interface Props<Response> extends UploaderProps<Response> {
     style?: React.CSSProperties;
 }
 
-export class ImageUploader<Response> extends React.PureComponent<Props<Response>> {
+export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React.PureComponent<Props<SuccessResponseType, ErrorResponseType>> {
     static displayName = "ImageUploader";
 
     openPreviewModal = async (e: React.MouseEvent) => {
@@ -57,23 +57,10 @@ export class ImageUploader<Response> extends React.PureComponent<Props<Response>
         }
     };
 
-    onUploadSuccess = (logEntry: UploadSuccessLogEntry, response: Response) => {
-        const {onChange, onUploadSuccess, onUploadFailure} = this.props;
-        try {
-            onChange(response);
-            onUploadSuccess?.(logEntry, response);
-        } catch (e) {
-            onUploadFailure?.({
-                ...logEntry,
-                errorCode: "INVALID_IMAGE_UPLOAD_RESPONSE",
-                errorMessage: e?.message || "[Unknown]",
-            });
-        }
-    };
-
-    onUploadFailure = (logEntry: UploadFailureLogEntry) => {
-        const {onUploadFailure} = this.props;
-        onUploadFailure?.(logEntry);
+    onUploadSuccess = (logEntry: UploadSuccessLogEntry, response: SuccessResponseType) => {
+        const {onChange, onUploadSuccess} = this.props;
+        onChange(response);
+        onUploadSuccess?.(logEntry, response);
     };
 
     renderActionIcon = (name: string, icon: React.ReactElement) => {
@@ -85,14 +72,14 @@ export class ImageUploader<Response> extends React.PureComponent<Props<Response>
     };
 
     render() {
-        const {uploadURL, formField, className, style, imageURL, disabled, width, height, onRemove} = this.props;
+        const {uploadURL, formField, className, style, imageURL, disabled, width, height, onRemove, onUploadFailure} = this.props;
         const t = i18n();
         return (
-            <Uploader<Response>
+            <Uploader<SuccessResponseType, ErrorResponseType>
                 accept="image/*"
                 formField={formField}
                 uploadURL={uploadURL}
-                onUploadFailure={this.onUploadFailure}
+                onUploadFailure={onUploadFailure}
                 onUploadSuccess={this.onUploadSuccess}
                 style={{...style, width, height}}
                 className={`g-image-uploader ${className || ""}`}
