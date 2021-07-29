@@ -1,19 +1,23 @@
 import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
+import svgToMiniDataURI from "mini-svg-data-uri";
 
 /**
- * Handles dependency requests to image assets (".png", ".jpeg", ".jpg", ".gif")
- * by inlining as images as DataURL,
- * or emitting as separate files if file size is too large.
+ * Handles dependency requests to SVG assets
+ * by emitting as separate files.
  *
  * @see https://webpack.js.org/guides/asset-modules/
  */
-export function imageRule(): webpack.RuleSetRule {
+export function svgRule(): webpack.RuleSetRule {
     return {
-        test: RegExpUtil.fileExtension(".png", ".jpeg", ".jpg", ".gif"),
+        test: RegExpUtil.fileExtension(".svg"),
         type: "asset",
         generator: {
             filename: "static/img/[name][hash:8][ext][query]",
+            dataUrl: (content: string) => {
+                content = content.toString();
+                return svgToMiniDataURI(content);
+            },
         },
         parser: {
             dataUrlCondition: {
