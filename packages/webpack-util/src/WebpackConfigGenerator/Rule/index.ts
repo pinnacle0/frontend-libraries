@@ -1,6 +1,5 @@
 import {imageRule} from "./image.rule";
 import {otherRule} from "./other.rule";
-import {svgRule} from "./svg.rule";
 import {stylesheetRule} from "./stylesheet.rule";
 import {tsRule} from "./ts.rule";
 
@@ -9,8 +8,6 @@ import {tsRule} from "./ts.rule";
  */
 export class Rule {
     static readonly image = imageRule;
-
-    static readonly svg = svgRule;
 
     static readonly other = otherRule;
 
