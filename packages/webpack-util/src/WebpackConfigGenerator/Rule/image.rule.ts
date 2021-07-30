@@ -13,7 +13,7 @@ export function imageRule(): webpack.RuleSetRule {
         test: RegExpUtil.fileExtension(".png", ".jpeg", ".jpg", ".gif", ".svg"),
         type: "asset",
         generator: {
-            filename: "static/img/[name][hash:8][ext][query]",
+            filename: "static/img/[name].[hash:8][ext][query]",
         },
         parser: {
             dataUrlCondition: {

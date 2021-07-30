@@ -13,7 +13,7 @@ export function otherRule(): webpack.RuleSetRule {
         test: RegExpUtil.fileExtension(".ico", ...Constant.mediaExtensions, ...Constant.fontExtensions),
         type: "asset",
         generator: {
-            filename: "static/other/[name][hash:8][ext][query]",
+            filename: "static/other/[name].[hash:8][ext][query]",
         },
     };
 }

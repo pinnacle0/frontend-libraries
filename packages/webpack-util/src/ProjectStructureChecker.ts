@@ -1,5 +1,4 @@
 import fs from "fs";
-import glob from "glob";
 import path from "path";
 import {Constant} from "./Constant";
 import type {InternalCheckerOptions} from "./type";
@@ -86,9 +85,10 @@ export class ProjectStructureChecker {
 
     private checkTSConfig() {
         const mainProjectSrcDirectory = path.join(this.projectDirectory, "src");
-        const hasTypescriptFiles = glob.sync("**/*.{ts,tsx}", {cwd: mainProjectSrcDirectory}).length > 0;
+        // Checking the first-level of src/* is enough here
+        const hasTSFiles = fs.readdirSync(mainProjectSrcDirectory).some(fileName => fileName.endsWith(".ts") || fileName.endsWith(".tsx"));
         const hasTSConfigFile = fs.existsSync(this.tsConfigPath) && fs.statSync(this.tsConfigPath).isFile();
-        if (hasTypescriptFiles && !hasTSConfigFile) {
+        if (hasTSFiles && !hasTSConfigFile) {
             throw new Error(`Cannot find tsconfig.json at "${this.tsConfigPath}".`);
         }
     }
