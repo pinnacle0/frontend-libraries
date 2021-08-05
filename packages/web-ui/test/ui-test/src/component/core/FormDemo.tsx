@@ -183,6 +183,17 @@ const groups: DemoHelperGroupConfig[] = [
             </Form>,
         ],
     },
+    {
+        title: "Inline Layout with submit button disabled",
+        showPropsHint: false,
+        components: [
+            <Form layout="inline" errorDisplayMode={{type: "popover", placement: "top"}} buttonDisabled>
+                <Form.Item>
+                    <UncontrolledInput initialValue="loading" />
+                </Form.Item>
+            </Form>,
+        ],
+    },
 ];
 
 export const FormDemo = () => {

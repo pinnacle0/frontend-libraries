@@ -88,7 +88,7 @@ export class Form extends React.PureComponent<Props, State> {
         const t = i18n();
 
         const submitButton = (
-            <Button className="g-form-submit-button" type="submit" style={buttonStyle} disabled={isValidating || buttonDisabled}>
+            <Button className={`g-form-submit-button ${buttonDisabled ? "button-disabled" : ""}`} type="submit" style={buttonStyle} disabled={isValidating || loading || buttonDisabled}>
                 {isValidating || loading ? <Spin spinning size="small" /> : buttonText || t.submit}
             </Button>
         );

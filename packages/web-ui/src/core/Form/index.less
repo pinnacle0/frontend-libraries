@@ -128,9 +128,17 @@
     }
 
     .g-form-submit-form-item {
-        .ant-spin {
-            color: #fff;
-            line-height: 100%;
+        .g-button {
+            &:disabled:not(.button-disabled) {
+                border: none;
+                background-color: #1890ff;
+                color: #fff;
+            }
+
+            .ant-spin {
+                color: #fff;
+                line-height: 100%;
+            }
         }
     }
 
