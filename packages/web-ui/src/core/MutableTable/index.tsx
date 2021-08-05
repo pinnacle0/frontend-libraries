@@ -77,8 +77,8 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
                                 &#65293;
                             </button>
                         )}
-                        {nextRow !== undefined && index + 1 === dataSourceLength && (
-                            <button disabled={disabled} type="button" onClick={() => this.onAddRow(nextRow)}>
+                        {index === dataSourceLength - 1 && (
+                            <button disabled={disabled || nextRow === undefined} type="button" onClick={() => this.onAddRow(nextRow!)}>
                                 &#xff0b;
                             </button>
                         )}
