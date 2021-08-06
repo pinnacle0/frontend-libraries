@@ -25,7 +25,7 @@ export const baseline: ESLint.Linter.Config = {
         "@pinnacle0/module-class-lifecycle-order": ["error"],
         "@pinnacle0/module-class-method-decorators": ["error"],
         "@pinnacle0/no-named-imports": ["error"],
-        "@pinnacle0/order-stylesheet-import-statement-last": ["error"],
+        "@pinnacle0/import-ordering": ["error"],
         "@pinnacle0/react-component-default-props-typing": ["error"],
         "@pinnacle0/react-component-display-name": ["error"],
         "@pinnacle0/react-component-event-handler-naming": ["error"],
