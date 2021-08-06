@@ -1,9 +1,9 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import type {MessageIds} from "../../src/rules/unnecessary-ending-index";
-import {name, rule} from "../../src/rules/unnecessary-ending-index";
+import type {MessageIds} from "../../src/rules/no-unnecessary-ending-index";
+import {name, rule} from "../../src/rules/no-unnecessary-ending-index";
 import {createConfig} from "../create-config";
 
-const messageId: MessageIds = "unnecessaryEndingIndex";
+const messageId: MessageIds = "noUnnecessaryEndingIndex";
 
 const ruleTester = new TSESLint.RuleTester(createConfig());
 

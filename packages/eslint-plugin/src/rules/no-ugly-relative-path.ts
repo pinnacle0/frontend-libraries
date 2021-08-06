@@ -1,8 +1,8 @@
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
 
-export type MessageIds = "uglyRelativePath";
+export type MessageIds = "noUglyRelativePath";
 
-export const name = "ugly-relative-path";
+export const name = "no-ugly-relative-path";
 
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
@@ -15,7 +15,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         },
         fixable: "code",
         messages: {
-            uglyRelativePath: 'no ["."], [".."] imports',
+            noUglyRelativePath: 'no ["."], [".."] imports',
         },
         schema: [
             {
@@ -35,7 +35,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                 if (importSource.match(/^(\.\.?\/?)+$/)) {
                     context.report({
                         node,
-                        messageId: "uglyRelativePath",
+                        messageId: "noUglyRelativePath",
                         fix: [".", "..", "../.."].includes(importSource)
                             ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}/index"`)
                             : ["./", "../", "../../"].includes(importSource)

@@ -21,10 +21,8 @@ export const baseline: ESLint.Linter.Config = {
         react: {version: "detect"},
     },
     rules: {
-        "@pinnacle0/deep-nested-relative-imports": ["error"],
         "@pinnacle0/module-class-lifecycle-order": ["error"],
         "@pinnacle0/module-class-method-decorators": ["error"],
-        "@pinnacle0/no-named-imports": ["error"],
         "@pinnacle0/import-ordering": ["error"],
         "@pinnacle0/react-component-default-props-typing": ["error"],
         "@pinnacle0/react-component-display-name": ["error"],
@@ -34,8 +32,10 @@ export const baseline: ESLint.Linter.Config = {
         "@pinnacle0/react-component-state-member": ["error"],
         "@pinnacle0/restricted-imports": ["error"],
         "@pinnacle0/style-properties-type": ["error"],
-        "@pinnacle0/ugly-relative-path": ["error"],
-        "@pinnacle0/unnecessary-ending-index": ["error"],
+        "@pinnacle0/no-deep-nested-relative-imports": ["error"],
+        "@pinnacle0/no-ugly-relative-path": ["error"],
+        "@pinnacle0/no-unnecessary-ending-index": ["error"],
+        "@pinnacle0/no-named-imports": ["error"],
         "@pinnacle0/variable-declaration-module-identifier-shadowing": ["error"],
 
         "@typescript-eslint/ban-types": "off",

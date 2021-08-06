@@ -1,8 +1,8 @@
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
 
-export type MessageIds = "unnecessaryEndingIndex";
+export type MessageIds = "noUnnecessaryEndingIndex";
 
-export const name = "unnecessary-ending-index";
+export const name = "no-unnecessary-ending-index";
 
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
@@ -15,7 +15,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         },
         fixable: "code",
         messages: {
-            unnecessaryEndingIndex: "unnecessary ending index",
+            noUnnecessaryEndingIndex: "unnecessary ending index",
         },
         schema: [],
     },
@@ -27,7 +27,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                 if (importSourcePath && importSourcePath.endsWith("/index") && !isAllowedImportIndexPath(importSourcePath)) {
                     context.report({
                         node,
-                        messageId: "unnecessaryEndingIndex",
+                        messageId: "noUnnecessaryEndingIndex",
                         fix: fixer => fixer.replaceText(node.source, node.source.raw.replace(/\/index"/, '"')),
                     });
                 }

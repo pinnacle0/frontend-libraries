@@ -1,9 +1,9 @@
 import {TSESLint} from "@typescript-eslint/experimental-utils";
-import type {MessageIds} from "../../src/rules/ugly-relative-path";
-import {name, rule} from "../../src/rules/ugly-relative-path";
+import type {MessageIds} from "../../src/rules/no-ugly-relative-path";
+import {name, rule} from "../../src/rules/no-ugly-relative-path";
 import {createConfig} from "../create-config";
 
-const messageId: MessageIds = "uglyRelativePath";
+const messageId: MessageIds = "noUglyRelativePath";
 
 const ruleTester = new TSESLint.RuleTester(createConfig());
 
@@ -48,30 +48,6 @@ ruleTester.run(name, rule, {
                 {line: 2, messageId},
                 {line: 3, messageId},
             ],
-        },
-        {
-            code: `
-            import {NamedImport} from ".";
-            import {NamedImport} from "./";
-            import {NamedImport} from "..";
-            import {NamedImport} from "../";
-            import {NamedImport} from "../..";
-            import {NamedImport} from "../../";`,
-            errors: [
-                {line: 2, messageId},
-                {line: 3, messageId},
-                {line: 4, messageId},
-                {line: 5, messageId},
-                {line: 6, messageId},
-                {line: 7, messageId},
-            ],
-            output: `
-            import {NamedImport} from "./index";
-            import {NamedImport} from "./index";
-            import {NamedImport} from "../index";
-            import {NamedImport} from "../index";
-            import {NamedImport} from "../../index";
-            import {NamedImport} from "../../index";`,
         },
     ],
 });

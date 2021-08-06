@@ -1,8 +1,8 @@
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
 
-export type MessageIds = "deepNestedRelativeImports";
+export type MessageIds = "noDeepNestedRelativeImports";
 
-export const name = "deep-nested-relative-imports";
+export const name = "no-deep-nested-relative-imports";
 
 export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     name,
@@ -14,7 +14,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
             recommended: "error",
         },
         messages: {
-            deepNestedRelativeImports: 'no ["../../../"] imports',
+            noDeepNestedRelativeImports: 'no ["../../../"] imports',
         },
         schema: [
             {
@@ -30,7 +30,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                 if (node.source.value?.toString().startsWith("../../../")) {
                     context.report({
                         node,
-                        messageId: "deepNestedRelativeImports",
+                        messageId: "noDeepNestedRelativeImports",
                     });
                 }
             },
