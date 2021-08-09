@@ -177,12 +177,15 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
         }
     };
 
-    getSwipeHandlers = (currentKey: string) => {
+    getSwipeHandlers = (
+        currentKey: string
+    ): Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "onTouchStart" | "onTouchMove" | "onTouchEndCapture" | "onTouchCancelCapture"> => {
         return this.props.swipeable && this.isActiveKey(currentKey)
             ? {
                   onTouchStart: this.handleTouchStart,
                   onTouchMove: this.handleTouchMove,
-                  onTouchEnd: this.handleTouchEnd,
+                  onTouchEndCapture: this.handleTouchEnd,
+                  onTouchCancelCapture: this.handleTouchEnd,
               }
             : {};
     };
