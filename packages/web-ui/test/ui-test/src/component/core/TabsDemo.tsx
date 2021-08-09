@@ -1,51 +1,65 @@
 import React from "react";
 import type {TypedTabMap, TypedTabList} from "@pinnacle0/web-ui/core/TypedTabs";
 import {TypedTabs} from "@pinnacle0/web-ui/core/TypedTabs";
+import {BrowserUtil} from "@pinnacle0/web-ui/util/BrowserUtil";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 
-type TabKey = "700" | "9988" | "1030" | "1755" | "2202" | "3908";
+type TabKey = "FB" | "AMZN" | "AAPL" | "NFLX" | "GOOGL" | "MSFT";
 
 const maxVisibleTabCount = 3.5;
+
+const demoTabPaneStyle: React.CSSProperties = {
+    textAlign: "center",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "yellow",
+    fontWeight: "bold",
+    fontSize: 30,
+    background: "orange",
+};
+
 const tabs: TypedTabMap<TabKey> = {
-    "700": {
-        title: "700.HK",
-        content: <div>Tencent Holdings Ltd.</div>,
+    FB: {
+        title: "FB",
+        content: <div style={demoTabPaneStyle}>Facebook, Inc.</div>,
     },
-    "9988": {
-        title: "9988.HK",
-        content: <div>Alibaba Group Holding Ltd.</div>,
+    AMZN: {
+        title: "AMZN",
+        content: <div style={demoTabPaneStyle}>Amazon, Inc.</div>,
     },
-    "1030": {
-        title: "1030.HK",
-        content: <div>SEAZEN Holdings Co. Ltd.</div>,
+    AAPL: {
+        title: "AAPL",
+        content: <div style={demoTabPaneStyle}>Apple, Inc.</div>,
     },
-    "1755": {
-        title: "1755.HK",
-        content: <div>S-Enjoy Service Group Co. Ltd</div>,
+    NFLX: {
+        title: "NFLX",
+        content: <div style={demoTabPaneStyle}>Netflix, Inc.</div>,
     },
-    "2202": {
-        title: "2202.HK",
-        content: <div>China Vanke Co. Ltd</div>,
+    GOOGL: {
+        title: "GOOGL",
+        content: <div style={demoTabPaneStyle}>Alphabet Inc.</div>,
     },
-    "3908": {
-        title: "3908.HK",
-        content: <div> China International Capital Co. Ltd </div>,
+    MSFT: {
+        title: "MSFT",
+        content: <div style={demoTabPaneStyle}>Microsoft Corporation</div>,
     },
 };
 
 const Card = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
     return <TypedTabs activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />;
 };
 
 const Line = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
     return <TypedTabs type="line" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />;
 };
 
 const LineWithMaxVisible = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
     return (
         <div style={{width: 550, height: 300, backgroundColor: "#cc6", padding: 12}}>
             <TypedTabs
@@ -62,16 +76,27 @@ const LineWithMaxVisible = () => {
 };
 
 const CardWithMaxVisible = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
+
+    const mobileStyle: React.CSSProperties = BrowserUtil.isMobile()
+        ? {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100vh",
+              backgroundColor: "white",
+          }
+        : {};
+
     return (
-        <div style={{width: 380}}>
-            <TypedTabs initialMaxVisibleTabCount={maxVisibleTabCount} type="card" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />
+        <div style={{...mobileStyle, width: 380}}>
+            <TypedTabs swipeable initialMaxVisibleTabCount={maxVisibleTabCount} type="card" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />
         </div>
     );
 };
 
 const WithExtra = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
     return (
         <TypedTabs
             type="line"
@@ -85,17 +110,17 @@ const WithExtra = () => {
 };
 
 const ArrayMode = () => {
-    const [activeKey, setCurrentKey] = React.useState<TabKey>("700");
+    const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
     const tabsInArray: TypedTabList<TabKey> = [
         {
-            key: "700",
-            title: "700",
-            content: <div>700 content 1</div>,
+            key: "FB",
+            title: "FB",
+            content: <div>FB content 1</div>,
         },
         {
-            key: "1755",
-            title: "1755",
-            content: <div>1755 content 2</div>,
+            key: "AMZN",
+            title: "AMZN",
+            content: <div>AMZN content 2</div>,
         },
     ];
     return <TypedTabs activeKey={activeKey} onChange={setCurrentKey} tabs={tabsInArray} />;
