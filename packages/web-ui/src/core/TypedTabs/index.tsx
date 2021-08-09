@@ -96,18 +96,10 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
                     xUp: 0,
                     xDiff: +this.state.swipeableWidth,
                 });
-                setTimeout(() => {
-                    this.setState({
-                        transitionEnabled: true,
-                        xDiff: 0,
-                    });
-                }, this.SWIPE_ANIMATION_DURATION);
+                setTimeout(this.cancelSwipe, this.SWIPE_ANIMATION_DURATION);
             }, this.SWIPE_ANIMATION_DURATION);
         } else {
-            this.setState({
-                transitionEnabled: true,
-                xDiff: 0,
-            });
+            this.cancelSwipe();
         }
     };
 
@@ -127,20 +119,20 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
                     xUp: 0,
                     xDiff: -this.state.swipeableWidth,
                 });
-                setTimeout(() => {
-                    this.setState({
-                        transitionEnabled: true,
-                        xDiff: 0,
-                    });
-                }, this.SWIPE_ANIMATION_DURATION);
+                setTimeout(this.cancelSwipe, this.SWIPE_ANIMATION_DURATION);
             }, this.SWIPE_ANIMATION_DURATION);
         } else {
-            this.setState({
-                transitionEnabled: true,
-                xDown: 0,
-                xDiff: 0,
-            });
+            this.cancelSwipe();
         }
+    };
+
+    cancelSwipe = () => {
+        this.setState({
+            transitionEnabled: true,
+            xUp: 0,
+            xDown: 0,
+            xDiff: 0,
+        });
     };
 
     handleTouchEnd = () => {
@@ -151,7 +143,11 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
                 this.onSwipeRight();
             } else if (xDiff < -this.SWIPE_INTERMEDIATE) {
                 this.onSwipeLeft();
+            } else {
+                this.cancelSwipe();
             }
+        } else {
+            this.cancelSwipe();
         }
     };
 
