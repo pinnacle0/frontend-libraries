@@ -39,7 +39,7 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
 
     constructor(props: Props<T>) {
         super(props);
-        if (props.swipeBoundary) {
+        if (typeof props.swipeBoundary !== "undefined") {
             this.SWIPE_BOUNDARY = props.swipeBoundary;
         }
     }
