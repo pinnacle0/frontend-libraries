@@ -19,6 +19,7 @@ export interface Props<T extends string> extends Omit<TabsProps, "onChange"> {
     activeKey: T;
     onChange: (tab: T) => void;
     swipeable?: boolean;
+    swipeBoundary?: number;
 }
 
 export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
@@ -35,6 +36,13 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
         xDown: 0,
         swipeableWidth: 0,
     };
+
+    constructor(props: Props<T>) {
+        super(props);
+        if (props.swipeBoundary) {
+            this.SWIPE_BOUNDARY = props.swipeBoundary;
+        }
+    }
 
     get tabList() {
         const {tabs} = this.props;
