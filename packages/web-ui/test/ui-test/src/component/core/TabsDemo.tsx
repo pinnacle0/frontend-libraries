@@ -1,7 +1,6 @@
 import React from "react";
 import type {TypedTabMap, TypedTabList} from "@pinnacle0/web-ui/core/TypedTabs";
 import {TypedTabs} from "@pinnacle0/web-ui/core/TypedTabs";
-import {BrowserUtil} from "@pinnacle0/web-ui/util/BrowserUtil";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 
@@ -78,19 +77,9 @@ const LineWithMaxVisible = () => {
 const CardWithMaxVisible = () => {
     const [activeKey, setCurrentKey] = React.useState<TabKey>("FB");
 
-    const mobileStyle: React.CSSProperties = BrowserUtil.isMobile()
-        ? {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              height: "100vh",
-              backgroundColor: "white",
-          }
-        : {};
-
     return (
-        <div style={{...mobileStyle, width: 380}}>
-            <TypedTabs swipeable initialMaxVisibleTabCount={maxVisibleTabCount} type="card" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />
+        <div style={{width: 380}}>
+            <TypedTabs initialMaxVisibleTabCount={maxVisibleTabCount} type="card" activeKey={activeKey} onChange={setCurrentKey} tabs={tabs} />
         </div>
     );
 };
