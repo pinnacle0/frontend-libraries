@@ -36,6 +36,7 @@ export const baseline: ESLint.Linter.Config = {
         "@pinnacle0/no-ugly-relative-path": ["error"],
         "@pinnacle0/no-unnecessary-ending-index": ["error"],
         "@pinnacle0/no-named-imports": ["error"],
+        "@pinnacle0/explicit-module-class-method-return-type": ["error"],
         "@pinnacle0/variable-declaration-module-identifier-shadowing": ["error"],
 
         "@typescript-eslint/ban-types": "off",

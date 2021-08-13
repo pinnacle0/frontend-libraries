@@ -14,19 +14,18 @@ import {rule as reactComponentMethodOrdering} from "./react-component-method-ord
 import {rule as reactComponentPropsTyping} from "./react-component-props-typing";
 import {rule as reactComponentStateMember} from "./react-component-state-member";
 import {rule as noNamedImports} from "./no-named-imports";
-import {rule as deepNestedRelativeImports} from "./no-deep-nested-relative-imports";
-import {rule as uglyRelativePath} from "./no-ugly-relative-path";
-import {rule as unnecessaryEndingIndex} from "./no-unnecessary-ending-index";
+import {rule as noDeepNestedRelativeImports} from "./no-deep-nested-relative-imports";
+import {rule as noUglyRelativePath} from "./no-ugly-relative-path";
+import {rule as noUnnecessaryEndingIndex} from "./no-unnecessary-ending-index";
 import {rule as restrictedImports} from "./restricted-imports";
 import {rule as stylePropertiesType} from "./style-properties-type";
 import {rule as importOrdering} from "./import-ordering";
+import {rule as explicitModuleClassMethodReturnType} from "./explicit-module-class-method-return-type";
 import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
 
 export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
-    "deep-nested-relative-imports": deepNestedRelativeImports,
     "module-class-lifecycle-order": moduleClassLifecycleOrder,
     "module-class-method-decorators": moduleClassMethodDecorators,
-    "no-named-imports": noNamedImports,
     "import-ordering": importOrdering,
     "react-component-default-props-typing": reactComponentDefaultPropsTyping,
     "react-component-display-name": reactComponentDisplayName,
@@ -34,9 +33,12 @@ export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
     "react-component-method-ordering": reactComponentMethodOrdering,
     "react-component-props-typing": reactComponentPropsTyping,
     "react-component-state-member": reactComponentStateMember,
+    "no-ugly-relative-path": noUglyRelativePath,
+    "no-unnecessary-ending-index": noUnnecessaryEndingIndex,
+    "no-named-imports": noNamedImports,
+    "no-deep-nested-relative-imports": noDeepNestedRelativeImports,
     "restricted-imports": restrictedImports,
+    "explicit-module-class-method-return-type": explicitModuleClassMethodReturnType,
     "style-properties-type": stylePropertiesType,
-    "ugly-relative-path": uglyRelativePath,
-    "unnecessary-ending-index": unnecessaryEndingIndex,
     "variable-declaration-module-identifier-shadowing": variableDeclarationModuleIdentifierShadowing,
 };
