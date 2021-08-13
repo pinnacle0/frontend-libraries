@@ -23,3 +23,7 @@ export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOp
         profile: enableProfiling,
     });
 }
+
+export function webpackDefinePlugin(map: {[key: string]: string}): webpack.WebpackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("webpack.DefinePlugin", webpack.DefinePlugin, map);
+}

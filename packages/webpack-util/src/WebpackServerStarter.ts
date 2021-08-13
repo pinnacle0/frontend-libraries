@@ -6,7 +6,12 @@ import type {Application as ExpressApplication} from "express";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 
-export interface WebpackServerStarterOptions extends Pick<WebpackConfigGeneratorOptions, "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "verbose"> {
+export interface WebpackServerStarterOptions
+    extends Pick<
+        WebpackConfigGeneratorOptions,
+        // prettier-reserve
+        "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "defineVars"
+    > {
     port: number;
     apiProxy?: {
         target: string;
@@ -36,7 +41,7 @@ export class WebpackServerStarter {
     private readonly webpackConfig: webpack.Configuration;
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
 
-    constructor({projectDirectory, port, apiProxy, interceptExpressApp, dynamicPathResolvers, extraEntries, prioritizedExtensionPrefixes, verbose}: WebpackServerStarterOptions) {
+    constructor({projectDirectory, port, apiProxy, interceptExpressApp, dynamicPathResolvers, extraEntries, prioritizedExtensionPrefixes, defineVars}: WebpackServerStarterOptions) {
         this.projectDirectory = projectDirectory;
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -47,7 +52,7 @@ export class WebpackServerStarter {
             dynamicPathResolvers,
             extraEntries,
             prioritizedExtensionPrefixes,
-            verbose,
+            defineVars,
         }).development();
     }
 

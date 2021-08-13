@@ -8,6 +8,7 @@ import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {CodeStyleChecker} from "./CodeStyleChecker";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {TestRunner} from "./TestRunner";
+import {CoreUtil} from "./CoreUtil";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {
     onSuccess?: () => void;
@@ -36,23 +37,24 @@ export class WebpackBuilder {
     private readonly webpackConfig: webpack.Configuration;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
-    private readonly verbose: boolean;
     private readonly onSuccess?: () => void;
 
     private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
     constructor(options: WebpackBuilderOptions) {
+        const webpackConfigGenerator = new WebpackConfigGenerator(options);
+
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
         this.projectProfilingJSONOutputPath = path.join(this.projectDirectory, "profile.json");
         this.outputDirectory = path.join(this.projectDirectory, "build/dist");
-        const webpackConfigGenerator = new WebpackConfigGenerator(options);
-        this.webpackConfig = webpackConfigGenerator.production(this.outputDirectory);
-        this.isFastMode = webpackConfigGenerator.isFastMode;
-        this.enableProfiling = webpackConfigGenerator.enableProfiling;
-        this.verbose = webpackConfigGenerator.verbose;
+
+        this.isFastMode = CoreUtil.isFastMode();
+        this.enableProfiling = CoreUtil.profilingEnabled();
         this.onSuccess = options.onSuccess;
+
+        this.webpackConfig = webpackConfigGenerator.production(this.outputDirectory);
     }
 
     run() {
@@ -99,21 +101,8 @@ export class WebpackBuilder {
                 }
 
                 if (stats.hasErrors() || stats.hasWarnings()) {
-                    if (!this.verbose) {
-                        this.logger.error("Webpack compiled with the following errors/warnings:");
-                        console.error(stats.toString("errors-warnings"));
-                        process.exit(1);
-                    }
-
-                    const {warnings, errors} = this.getRawWarningsAndErrors(statsJSON);
-                    if (warnings.length > 0) {
-                        this.logger.error("Webpack compiled with the following warnings:");
-                        console.error(JSON.stringify(warnings, null, 2));
-                    }
-                    if (errors.length > 0) {
-                        this.logger.error("Webpack compiled with the following errors:");
-                        console.error(JSON.stringify(errors, null, 2));
-                    }
+                    this.logger.error("Webpack compiled with the following errors/warnings:");
+                    console.error(stats.toString("errors-warnings"));
                     process.exit(1);
                 }
 

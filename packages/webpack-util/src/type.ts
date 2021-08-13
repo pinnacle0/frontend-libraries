@@ -86,6 +86,10 @@ export interface WebpackConfigGeneratorOptions {
      * Since webpack#stats.toString() might exclude messages from webpack child compilations.
      */
     verbose?: boolean;
+    /**
+     * Ref: https://webpack.js.org/plugins/define-plugin/
+     */
+    defineVars?: {[key: string]: string};
     onSuccess?: () => void;
 }
 
