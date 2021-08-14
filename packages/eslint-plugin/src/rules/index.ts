@@ -17,7 +17,6 @@ import {rule as noNamedImports} from "./no-named-imports";
 import {rule as noDeepNestedRelativeImports} from "./no-deep-nested-relative-imports";
 import {rule as noUglyRelativePath} from "./no-ugly-relative-path";
 import {rule as noUnnecessaryEndingIndex} from "./no-unnecessary-ending-index";
-import {rule as restrictedImports} from "./restricted-imports";
 import {rule as stylePropertiesType} from "./style-properties-type";
 import {rule as importOrdering} from "./import-ordering";
 import {rule as explicitModuleClassMethodReturnType} from "./explicit-module-class-method-return-type";
@@ -37,7 +36,6 @@ export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
     "no-unnecessary-ending-index": noUnnecessaryEndingIndex,
     "no-named-imports": noNamedImports,
     "no-deep-nested-relative-imports": noDeepNestedRelativeImports,
-    "restricted-imports": restrictedImports,
     "explicit-module-class-method-return-type": explicitModuleClassMethodReturnType,
     "style-properties-type": stylePropertiesType,
     "variable-declaration-module-identifier-shadowing": variableDeclarationModuleIdentifierShadowing,

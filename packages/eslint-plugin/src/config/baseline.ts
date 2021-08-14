@@ -30,7 +30,6 @@ export const baseline: ESLint.Linter.Config = {
         "@pinnacle0/react-component-method-ordering": ["error"],
         "@pinnacle0/react-component-props-typing": ["error"],
         "@pinnacle0/react-component-state-member": ["error"],
-        "@pinnacle0/restricted-imports": ["error"],
         "@pinnacle0/style-properties-type": ["error"],
         "@pinnacle0/no-deep-nested-relative-imports": ["error"],
         "@pinnacle0/no-ugly-relative-path": ["error"],
