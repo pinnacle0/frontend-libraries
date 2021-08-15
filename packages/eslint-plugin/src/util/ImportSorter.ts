@@ -37,7 +37,7 @@ export interface ReportMessageData {
 // sorting principle: deps path -> import statement length (increasing) ->  deps path alphabet
 export class ImportSorter<Options extends readonly unknown[]> {
     private static PathOrder = [
-        /^"react"$/,
+        /^"(react|node|electron)"$/,
         /^"react/,
         /^"core-.+"$/,
         /^"@pinnacle0.+"$/,
