@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModuleGenerator class generate files 1`] = `
-"import {ReactUtil} from \\"@pinnacle0/util\\";
-import React from \\"react\\";
+"import React from \\"react\\";
+import {ReactUtil} from \\"@pinnacle0/util\\";
 import \\"./index.less\\";
 
 export const Main = ReactUtil.memo(\\"Main\\", () => {
@@ -12,8 +12,8 @@ export const Main = ReactUtil.memo(\\"Main\\", () => {
 `;
 
 exports[`ModuleGenerator class generate files 2`] = `
-"import type {RootState} from \\"type/state\\";
-import {useSelector} from \\"react-redux\\";
+"import {useSelector} from \\"react-redux\\";
+import type {RootState} from \\"type/state\\";
 
 export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFeature\\"]) => T): T {
     return useSelector((state: RootState) => fn(state.app.newFeature));
@@ -23,10 +23,10 @@ export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFea
 
 exports[`ModuleGenerator class generate files 3`] = `
 "import {Module, register} from \\"core-fe\\";
-import type {SagaGenerator} from \\"core-fe\\";
 import {Main} from \\"./Main\\";
-import type {State} from \\"./type\\";
+import type {SagaGenerator} from \\"core-fe\\";
 import type {RootState} from \\"type/state\\";
+import type {State} from \\"./type\\";
 
 const initialState: State = {};
 
@@ -48,10 +48,9 @@ exports[`ModuleGenerator class generate files 4`] = `
 `;
 
 exports[`ModuleGenerator class generate files 5`] = `
-"import type {State as NewFeatureState} from \\"module/common/new-feature/type\\";
-//
+"import type {State} from \\"core-fe\\";
+import type {State as NewFeatureState} from \\"module/common/new-feature/type\\";
 import type {State as OldFeatureState} from \\"./modules/common/old-feature\\";
-import type {State} from \\"core-fe\\";
 
 export interface RootState extends State {
     app: {

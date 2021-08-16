@@ -1,7 +1,7 @@
-import type {RootState} from "app/type/state";
-import type {SagaGenerator} from "core-native";
 import {Module, register} from "core-native";
 import {Main} from "./Main";
+import type {SagaGenerator} from "core-native";
+import type {RootState} from "app/type/state";
 import type {State} from "./type";
 
 const initialState: State = {};

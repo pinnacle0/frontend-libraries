@@ -116,13 +116,16 @@ export class ModuleGeneratorBase {
         const stateFileContent = fs.readFileSync(this.reduxStateTypePath).toString();
         const lastStateDeclarationIndex = stateFileContent.lastIndexOf("};");
         if (lastStateDeclarationIndex === -1) throw new Error("Cannot find state declaration");
+        const firstLineEndIndex = stateFileContent.indexOf("\n");
+        if (lastStateDeclarationIndex === -1) throw new Error("Cannot find core import");
 
         const moduleFullName = this.getModuleNameInFormat("camel");
         const moduleStateName = this.getModuleNameInFormat("pascal") + "State";
         const newStateFileContent =
+            stateFileContent.substr(0, firstLineEndIndex + 1) +
             this.generateImportStatementForNewModuleState({moduleStateName, partialModulePath: this.moduleName}) +
             "\n" +
-            stateFileContent.substr(0, lastStateDeclarationIndex) +
+            stateFileContent.substring(firstLineEndIndex + 1, lastStateDeclarationIndex) +
             `${moduleFullName}: ${moduleStateName};\n` +
             stateFileContent.substr(lastStateDeclarationIndex);
 

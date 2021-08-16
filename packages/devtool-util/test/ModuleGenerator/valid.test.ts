@@ -60,9 +60,8 @@ function getFixtures(): {path: string; data: string}[] {
     return [
         {
             path: tmpReduxStatePath,
-            data: `//
+            data: `import type {State} from "core-fe";
 import type {State as OldFeatureState} from "./modules/common/old-feature";
-import type {State} from "core-fe";
 
 export interface RootState extends State {
     app: {

@@ -1,6 +1,6 @@
-import {ReactUtil} from "@pinnacle0/util";
 import React from "react";
 import {StyleSheet, View} from "react-native";
+import {ReactUtil} from "@pinnacle0/util";
 
 export const Main = ReactUtil.memo("Main", () => {
     return (
