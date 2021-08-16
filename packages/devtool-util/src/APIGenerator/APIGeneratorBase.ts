@@ -119,7 +119,7 @@ export class APIGeneratorBase {
         let count = 0;
         await Promise.all(
             services.map(async service => {
-                const content = [typesImportStatement(service), platformInfo.ajaxFunctionImportStatement, comment, classDeclaration(service)].join("\n");
+                const content = [platformInfo.ajaxFunctionImportStatement, typesImportStatement(service), comment, classDeclaration(service)].join("\n");
                 const filename = `${folderPath}/${service.name}.ts`;
 
                 await fs.promises.writeFile(filename, content, {encoding: "utf8"});
