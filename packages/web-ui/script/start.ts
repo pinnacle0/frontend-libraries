@@ -1,10 +1,10 @@
 import path from "path";
 // @ts-ignore
-import {WebpackServerStarter} from "../../webpack-util/src";
+import {WebpackUtil} from "../../webpack-util/src";
 // @ts-ignore
 import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
 
-new WebpackServerStarter({
+new WebpackUtil.ServerStarter({
     projectDirectory: path.join(__dirname, "../test/ui-test"),
     port: 4455,
     dynamicPathResolvers: [
