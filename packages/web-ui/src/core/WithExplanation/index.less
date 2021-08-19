@@ -1,0 +1,30 @@
+.g-with-explanation {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    &.with-icon-left {
+        flex-flow: row-reverse nowrap;
+
+        .icon-container {
+            margin-left: 0;
+            margin-right: 5px;
+        }
+    }
+
+    .icon-container {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        font-size: 10px;
+        margin-left: 5px;
+        cursor: help;
+    }
+}
+
+.g-with-explanation-tooltip {
+    max-width: 500px;
+}
