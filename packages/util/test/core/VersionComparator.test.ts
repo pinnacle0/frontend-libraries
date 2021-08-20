@@ -10,13 +10,17 @@ interface TestProps {
 test.each`
     currentVersion | latestVersion
     ${""}          | ${""}
+    ${"1.1.1"}     | ${"1.1"}
+    ${"1.1.1"}     | ${"1.1."}
+    ${"1.1.1"}     | ${".1.1.1"}
+    ${"1.1.1"}     | ${"test"}
     ${"a.a.a"}     | ${"1.1.1"}
     ${"1.1.1"}     | ${"1.b.b"}
     ${"1.1.1"}     | ${"b.1.b"}
     ${"1.1.1"}     | ${"b.b.1"}
     ${"1.1.1"}     | ${"1.1.1-1"}
 `("should throw error with invalid version: currentVersion[$currentVersion], latestVersion[$latestVersion]", ({currentVersion, latestVersion}: TestProps) => {
-    expect(() => VersionComparator.compare(currentVersion, latestVersion)).toThrowError("invalid version string");
+    expect(() => VersionComparator.compare(currentVersion, latestVersion)).toThrow();
 });
 
 test.each`

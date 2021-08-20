@@ -5,13 +5,15 @@
  * Attention:
  * Return "no-upgrade" if currentVersion is newer than latestVersion
  */
-
 export type ComparisonResult = "major-upgrade" | "minor-upgrade" | "patch-upgrade" | "no-upgrade";
 
 function compare(currentVersion: string, latestVersion: string): ComparisonResult {
     const regex = /^\d+\.\d+\.\d+$/;
-    if (!regex.test(currentVersion) || !regex.test(latestVersion)) {
-        throw new Error("invalid version string");
+    if (!regex.test(currentVersion)) {
+        throw new Error(`[util] invalid version: ${currentVersion}`);
+    }
+    if (!regex.test(latestVersion)) {
+        throw new Error(`[util] invalid version: ${latestVersion}`);
     }
 
     const [currentMajor, currentMinor, currentPatch] = currentVersion.split(".").map(Number);

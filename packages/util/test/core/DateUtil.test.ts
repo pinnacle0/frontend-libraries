@@ -158,3 +158,46 @@ describe("DateUtil.isSameMinute", () => {
         expect(DateUtil.isSameMinute(time1, time7)).toBeFalsy();
     });
 });
+
+describe("DateUtil.dayDiff", () => {
+    test("throw error if invalid string", () => {
+        expect(() => DateUtil.dayDiff("-", "2020-01-01")).toThrow();
+        expect(() => DateUtil.dayDiff("2020-01-01", "--")).toThrow();
+        expect(() => DateUtil.dayDiff("-", "abc")).toThrow();
+        expect(() => DateUtil.dayDiff("", "")).toThrow();
+    });
+
+    test("test string format", () => {
+        const d1 = "2020-01-01";
+        const d2 = "2020-01-08";
+        const d3 = "2019-12-31";
+        const d4 = "2019-12-02";
+        const d5 = "2019-11-30";
+
+        expect(DateUtil.dayDiff(d1, d2)).toBe(-7);
+        expect(DateUtil.dayDiff(d2, d1)).toBe(7);
+        expect(DateUtil.dayDiff(d2, d2)).toBe(0);
+        expect(DateUtil.dayDiff(d1, d3)).toBe(1);
+        expect(DateUtil.dayDiff(d2, d3)).toBe(8);
+        expect(DateUtil.dayDiff(d3, d2)).toBe(-8);
+        expect(DateUtil.dayDiff(d1, d4)).toBe(30);
+        expect(DateUtil.dayDiff(d1, d5)).toBe(32);
+    });
+
+    test("test Date format", () => {
+        const d1 = new Date("2020-01-01");
+        const d2 = new Date("2020-01-08 23:59:11");
+        const d3 = new Date("2019-12-31 00:00:00");
+        const d4 = new Date("2019-12-02 12:00:00");
+        const d5 = new Date("2019-11-30 08:05");
+
+        expect(DateUtil.dayDiff(d1, d2)).toBe(-7);
+        expect(DateUtil.dayDiff(d2, d1)).toBe(7);
+        expect(DateUtil.dayDiff(d2, d2)).toBe(0);
+        expect(DateUtil.dayDiff(d1, d3)).toBe(1);
+        expect(DateUtil.dayDiff(d2, d3)).toBe(8);
+        expect(DateUtil.dayDiff(d3, d2)).toBe(-8);
+        expect(DateUtil.dayDiff(d1, d4)).toBe(30);
+        expect(DateUtil.dayDiff(d1, d5)).toBe(32);
+    });
+});
