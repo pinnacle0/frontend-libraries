@@ -19,6 +19,8 @@ type PropsWithDefault<AllowNull extends boolean = true> = {
 export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends true ? number | null : number> {
     /** Whether `null` is allowed in `value` */
     allowNull: AllowNull;
+    /** Clear button to clear value */
+    allowClear?: boolean;
     /** Set number of decimal points for `value`. Important due to floating point precision issues  */
     scale?: number; // Very important for non-integer, due to floating point precision issues
     /** Minimum value allowed as input. Out of range values are discarded onBlur, and does not trigger onChange. */
@@ -146,7 +148,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         return (
@@ -169,6 +171,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     prefix={prefix}
                     inputMode="decimal"
                     className="count-input"
+                    allowClear={allowClear}
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
                     &#xff0b;
