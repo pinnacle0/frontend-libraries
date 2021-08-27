@@ -29,7 +29,7 @@ export class AppIconFontGenerator {
             const cssContent = await this.getContent(this.cssURL);
             await this.parseCSS(cssContent, this.cssURL);
         } catch (e) {
-            this.logger.error(e.message);
+            this.logger.error(e);
             process.exit(1);
         }
     }

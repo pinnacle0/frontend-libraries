@@ -37,7 +37,7 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
         try {
             Utility.runCommand("prettier", [flag, quotedGlobPattern, ...prettierIgnoreFlags]);
         } catch (error) {
-            if (typeof error === "object" && error !== null && error?.childProcessResult?.status === PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND) {
+            if (error && (error as any).childProcessResult?.status === PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND) {
                 return;
             }
             throw error;
