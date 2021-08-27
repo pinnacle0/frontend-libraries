@@ -6,7 +6,7 @@
         "target": "ES5",
         "rootDir": "../src/",
         "outDir": "../build/",
-
+        "exactOptionalPropertyTypes": false,
         "isolatedModules": true,
         "jsx": "react",
         "suppressImplicitAnyIndexErrors": true
