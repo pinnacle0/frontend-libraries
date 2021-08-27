@@ -50,11 +50,11 @@ export interface WebpackConfigGeneratorOptions {
      * export class WrappedTableComponent extends React.PureComponent<Props, State> {}
      * ```
      */
-    prioritizedExtensionPrefixes?: string[];
+    prioritizedExtensionPrefixes?: string[] | undefined;
     /**
      * List of module resolution aliases.
      */
-    dynamicPathResolvers?: DynamicPathResolver[];
+    dynamicPathResolvers?: DynamicPathResolver[] | undefined;
     /**
      * Option to set or dynamically compute `output.publicUrl`.
      */
@@ -67,7 +67,7 @@ export interface WebpackConfigGeneratorOptions {
     /**
      * Extra entries to be bundled separately.
      */
-    extraEntries?: Record<string, string>;
+    extraEntries?: Record<string, string> | undefined;
     /**
      * Maximum file size (in KB) allowed by an entry bundle.
      * Entry bundles exceeding the specified file size (KB) will be warned.
@@ -89,7 +89,7 @@ export interface WebpackConfigGeneratorOptions {
     /**
      * Ref: https://webpack.js.org/plugins/define-plugin/
      */
-    defineVars?: {[key: string]: string};
+    defineVars?: {[key: string]: string} | undefined;
     onSuccess?: () => void;
 }
 

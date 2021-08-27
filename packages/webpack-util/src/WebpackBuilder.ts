@@ -37,7 +37,7 @@ export class WebpackBuilder {
     private readonly webpackConfig: webpack.Configuration;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
-    private readonly onSuccess?: () => void;
+    private readonly onSuccess?: (() => void) | undefined;
 
     private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
