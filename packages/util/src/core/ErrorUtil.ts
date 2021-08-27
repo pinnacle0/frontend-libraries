@@ -14,6 +14,8 @@ function serialize(error: unknown): string {
                 } else {
                     return `[${error.name}]: ${error.message}`;
                 }
+            } else if (Array.isArray(error)) {
+                return `[${error.map(serialize).join(", ")}]`;
             } else {
                 return JSON.stringify(error);
             }
