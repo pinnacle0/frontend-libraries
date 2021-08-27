@@ -46,7 +46,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                                 messageId: "explicitModuleClassMethodReturnType",
                                 node: method,
                                 loc: method.key.loc,
-                                fix: firstCloseParentheses && fn.generator ? fixer => fixer.insertTextAfterRange(firstCloseParentheses.token.range, ": SagaGenerator") : undefined,
+                                fix: firstCloseParentheses && fn.generator ? fixer => fixer.insertTextAfterRange(firstCloseParentheses.token.range, ": SagaGenerator") : null,
                             });
                         });
                 }
