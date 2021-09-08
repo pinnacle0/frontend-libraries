@@ -10,7 +10,6 @@ interface TestProps {
 test.each`
     currentVersion | latestVersion
     ${""}          | ${""}
-    ${"1.1.1"}     | ${"1.1"}
     ${"1.1.1"}     | ${"1.1."}
     ${"1.1.1"}     | ${".1.1.1"}
     ${"1.1.1"}     | ${"test"}
@@ -38,6 +37,9 @@ test.each`
     ${"1.1.1"}     | ${"1.1.0"}    | ${"no-upgrade"}
     ${"2.1.1"}     | ${"1.1.0"}    | ${"no-upgrade"}
     ${"2.1.1"}     | ${"1.2.0"}    | ${"no-upgrade"}
+    ${"2.1.1"}     | ${"1.2"}      | ${"no-upgrade"}
+    ${"2.1"}       | ${"1.2.0"}    | ${"no-upgrade"}
+    ${"2.1"}       | ${"1.2"}      | ${"no-upgrade"}
 `("should return no-upgrade: currentVersion[$currentVersion], latestVersion[$latestVersion]", ({currentVersion, latestVersion, expectedResult}: TestProps) => {
     expect(VersionComparator.compare(currentVersion, latestVersion)).toBe(expectedResult);
 });
@@ -47,6 +49,7 @@ test.each`
     ${"0.0.0"}     | ${"1.0.0"}    | ${"major-upgrade"}
     ${"0.0.1"}     | ${"1.0.0"}    | ${"major-upgrade"}
     ${"0.1.1"}     | ${"1.0.0"}    | ${"major-upgrade"}
+    ${"0.1.1"}     | ${"1.0"}      | ${"major-upgrade"}
 `("should return major-upgrade: currentVersion[$currentVersion], latestVersion[$latestVersion]", ({currentVersion, latestVersion, expectedResult}: TestProps) => {
     expect(VersionComparator.compare(currentVersion, latestVersion)).toBe(expectedResult);
 });
@@ -56,6 +59,9 @@ test.each`
     ${"1.0.0"}     | ${"1.1.0"}    | ${"minor-upgrade"}
     ${"1.0.1"}     | ${"1.1.0"}    | ${"minor-upgrade"}
     ${"1.1.0"}     | ${"1.2.0"}    | ${"minor-upgrade"}
+    ${"1.1"}       | ${"1.2.0"}    | ${"minor-upgrade"}
+    ${"1.1.0"}     | ${"1.2"}      | ${"minor-upgrade"}
+    ${"1.1"}       | ${"1.2"}      | ${"minor-upgrade"}
 `("should return minor-upgrade: currentVersion[$currentVersion], latestVersion[$latestVersion]", ({currentVersion, latestVersion, expectedResult}: TestProps) => {
     expect(VersionComparator.compare(currentVersion, latestVersion)).toBe(expectedResult);
 });
@@ -65,6 +71,7 @@ test.each`
     ${"1.1.0"}     | ${"1.1.1"}    | ${"patch-upgrade"}
     ${"1.0.1"}     | ${"1.0.2"}    | ${"patch-upgrade"}
     ${"1.2.0"}     | ${"1.2.1"}    | ${"patch-upgrade"}
+    ${"1.2"}       | ${"1.2.1"}    | ${"patch-upgrade"}
 `("should return patch-upgrade: currentVersion[$currentVersion], latestVersion[$latestVersion]", ({currentVersion, latestVersion, expectedResult}: TestProps) => {
     expect(VersionComparator.compare(currentVersion, latestVersion)).toBe(expectedResult);
 });

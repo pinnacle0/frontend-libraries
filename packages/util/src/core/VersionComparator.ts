@@ -8,7 +8,7 @@
 export type ComparisonResult = "major-upgrade" | "minor-upgrade" | "patch-upgrade" | "no-upgrade";
 
 function compare(currentVersion: string, latestVersion: string): ComparisonResult {
-    const regex = /^\d+\.\d+\.\d+$/;
+    const regex = /^\d+\.\d+(\.\d+)?$/;
     if (!regex.test(currentVersion)) {
         throw new Error(`[util] invalid version: ${currentVersion}`);
     }
@@ -16,8 +16,10 @@ function compare(currentVersion: string, latestVersion: string): ComparisonResul
         throw new Error(`[util] invalid version: ${latestVersion}`);
     }
 
-    const [currentMajor, currentMinor, currentPatch] = currentVersion.split(".").map(Number);
-    const [latestMajor, latestMinor, latestPatch] = latestVersion.split(".").map(Number);
+    // Patch Version might be undefined
+    // TODO/Jamyth update test and release
+    const [currentMajor, currentMinor, currentPatch = 0] = currentVersion.split(".").map(Number) as [number, number, number?];
+    const [latestMajor, latestMinor, latestPatch = 0] = latestVersion.split(".").map(Number) as [number, number, number?];
 
     if (currentMajor > latestMajor) {
         return "no-upgrade";
