@@ -109,16 +109,18 @@ const groups: DemoHelperGroupConfig[] = [
         components: [
             <div style={{height: 100}}>
                 <VerticalMarquee>
-                    {generateDummyStrings(10).map(entry => {
+                    {["FUCK", ...generateDummyStrings(10)].map(entry => {
                         return <div key={entry}>{entry}</div>;
                     })}
                 </VerticalMarquee>
             </div>,
-            <VerticalMarquee>
-                {generateDummyStrings(5).map(entry => {
-                    return <div key={entry}>{entry}</div>;
-                })}
-            </VerticalMarquee>,
+            <div style={{height: 80}}>
+                <VerticalMarquee>
+                    {generateDummyStrings(5).map(entry => {
+                        return <div key={entry}>{entry}</div>;
+                    })}
+                </VerticalMarquee>
+            </div>,
         ],
     },
     {
