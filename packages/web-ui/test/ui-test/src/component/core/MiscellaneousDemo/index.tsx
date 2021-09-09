@@ -107,20 +107,16 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VerticalMarquee",
         showPropsHint: false,
         components: [
-            <div style={{height: 100}}>
-                <VerticalMarquee>
-                    {["FUCK", ...generateDummyStrings(10)].map(entry => {
-                        return <div key={entry}>{entry}</div>;
-                    })}
-                </VerticalMarquee>
-            </div>,
-            <div style={{height: 80}}>
-                <VerticalMarquee>
-                    {generateDummyStrings(5).map(entry => {
-                        return <div key={entry}>{entry}</div>;
-                    })}
-                </VerticalMarquee>
-            </div>,
+            <VerticalMarquee height={100}>
+                {generateDummyStrings(10).map(entry => {
+                    return <div key={entry}>{entry}</div>;
+                })}
+            </VerticalMarquee>,
+            <VerticalMarquee height={80}>
+                {generateDummyStrings(5).map(entry => {
+                    return <div key={entry}>{entry}</div>;
+                })}
+            </VerticalMarquee>,
         ],
     },
     {

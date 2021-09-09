@@ -2,6 +2,7 @@ import React from "react";
 import "./index.less";
 
 export interface Props {
+    height: number;
     children: React.ReactElement[] | string[];
     className?: string;
     styles?: React.CSSProperties;
@@ -14,18 +15,10 @@ export interface State {
 }
 
 export const VerticalMarquee = Object.assign(
-    React.memo(({className: extraClassName, speed, styles, children}: Props) => {
+    React.memo(({className: extraClassName, speed, height, styles, children}: Props) => {
         const className = ["g-marquee", extraClassName].filter(Boolean).join(" ");
-        const [marqueeHeight, setMarqueeHeight] = React.useState(0);
         const [contentHeight, setContentHeight] = React.useState(0);
         const animationSpeed = contentHeight / (speed || 30);
-
-        const marqueeRef = React.useCallback((node: HTMLDivElement | null) => {
-            if (!node) {
-                return;
-            }
-            setMarqueeHeight(node?.clientHeight);
-        }, []);
 
         const marqueeInnerRef = React.useCallback((node: HTMLDivElement | null) => {
             if (!node) {
@@ -42,10 +35,10 @@ export const VerticalMarquee = Object.assign(
             [animationSpeed, contentHeight]
         );
 
-        const pageSize = contentHeight / marqueeHeight;
+        const pageSize = contentHeight / height;
 
         return (
-            <div ref={marqueeRef} className={className} style={styles}>
+            <div className={className} style={{...styles, height}}>
                 <div ref={marqueeInnerRef} className="inner" style={pageSize > 1 ? marqueeInnerAnimationStyle : undefined}>
                     {children}
                     {children}
