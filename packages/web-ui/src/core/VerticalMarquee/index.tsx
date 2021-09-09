@@ -1,9 +1,10 @@
 import React from "react";
+import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
     height: number;
-    children: React.ReactElement[] | string[];
+    children: SafeReactChildren;
     className?: string;
     styles?: React.CSSProperties;
     speed?: number; // number of pixels scrolled per second
