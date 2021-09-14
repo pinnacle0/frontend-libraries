@@ -4,7 +4,7 @@ export function prepareEmptyDirectory(directory: string) {
     const folderExist = fs.existsSync(directory);
     if (folderExist) {
         if (fs.statSync(directory).isDirectory()) {
-            fs.rmdirSync(directory, {recursive: true});
+            fs.rmSync(directory, {recursive: true});
         } else {
             throw new Error(`Path ${directory} is not a directory`);
         }
