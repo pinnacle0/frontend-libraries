@@ -6,6 +6,7 @@ export function isClassElementAbstract(classElement: TSESTree.ClassElement): boo
         case AST_NODE_TYPES.ClassProperty:
         case AST_NODE_TYPES.MethodDefinition:
         case AST_NODE_TYPES.TSIndexSignature:
+        case AST_NODE_TYPES.StaticBlock:
             return false;
         case AST_NODE_TYPES.TSAbstractClassProperty:
         case AST_NODE_TYPES.TSAbstractMethodDefinition:

@@ -15,6 +15,7 @@ export function getClassElementCategory(classElement: TSESTree.ClassElement): "c
                 return "method-or-arrow-function"; // Treat arrow function expressions as methods
             }
             return "field";
+        case AST_NODE_TYPES.StaticBlock:
         case AST_NODE_TYPES.TSIndexSignature:
             return "field"; // Don't care what this is
     }

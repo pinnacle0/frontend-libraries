@@ -50,7 +50,7 @@ const incorrectOnClickRegExp = /^onClick(\w+)$/;
 
 function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
     classBody.body.forEach(classElement => {
-        if (classElement.type === AST_NODE_TYPES.TSIndexSignature) {
+        if (classElement.type === AST_NODE_TYPES.TSIndexSignature || classElement.type === AST_NODE_TYPES.StaticBlock) {
             return; // Allow type narrowing on classElement.type
         }
 

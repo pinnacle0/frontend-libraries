@@ -1,5 +1,5 @@
 import type {TSESTree} from "@typescript-eslint/experimental-utils";
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
 import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
@@ -117,8 +117,8 @@ function getClassMethods(classBody: TSESTree.ClassBody): CheckableClassElements[
                 return null;
             }
             const isAbstract = isClassElementAbstract(classElement);
-            const isStatic = classElement.static || false;
-            const accessibility = classElement.accessibility || "public";
+            const isStatic = classElement.type === AST_NODE_TYPES.StaticBlock || classElement.static || false;
+            const accessibility = classElement.type === AST_NODE_TYPES.StaticBlock || !classElement.accessibility ? "public" : classElement.accessibility;
             const groupLabel = [accessibility, isStatic ? "static" : isAbstract ? "abstract" : "instance", "method"].filter(_ => _ !== null).join("-");
             return {index, classElement, groupLabel, name, category, isAbstract, isStatic, accessibility};
         })
