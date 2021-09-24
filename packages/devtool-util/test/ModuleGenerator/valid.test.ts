@@ -9,7 +9,7 @@ describe("ModuleGenerator class", () => {
     const fixtures = getFixtures();
 
     beforeAll(() => {
-        fs.rmdirSync(tmpDirectory, {recursive: true});
+        if (fs.existsSync(tmpDirectory)) fs.rmdirSync(tmpDirectory, {recursive: true});
         fixtures.forEach(_ => {
             const fixtureDirectory = path.dirname(_.path);
             if (!fs.existsSync(fixtureDirectory)) fs.mkdirSync(fixtureDirectory, {recursive: true});

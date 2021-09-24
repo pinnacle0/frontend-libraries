@@ -6,7 +6,7 @@ const tmpDirectory = path.join(__dirname, "./__tmp__/format");
 
 describe("Prettier.format", () => {
     beforeAll(() => {
-        fs.rmdirSync(tmpDirectory, {recursive: true});
+        if (fs.existsSync(tmpDirectory)) fs.rmdirSync(tmpDirectory, {recursive: true});
         fs.mkdirSync(tmpDirectory, {recursive: true});
     });
 
