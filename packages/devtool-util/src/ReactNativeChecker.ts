@@ -7,6 +7,7 @@ import {Utility} from "./Utility";
 interface ReactNativeCheckerOptions {
     projectDirectory: string;
     extraCheckDirectories?: string[];
+    skipVersionCheckPackageNames?: string[];
 }
 
 /**
@@ -34,10 +35,12 @@ interface ReactNativeCheckerOptions {
 export class ReactNativeChecker {
     private readonly projectDirectory: string;
     private readonly extraCheckDirectories: string[];
+    private readonly skipVersionCheckPackageNames: string[];
 
-    constructor({projectDirectory, extraCheckDirectories}: ReactNativeCheckerOptions) {
+    constructor({projectDirectory, extraCheckDirectories, skipVersionCheckPackageNames}: ReactNativeCheckerOptions) {
         this.projectDirectory = projectDirectory;
         this.extraCheckDirectories = extraCheckDirectories ?? [];
+        this.skipVersionCheckPackageNames = skipVersionCheckPackageNames ?? [];
     }
 
     run() {
@@ -48,7 +51,7 @@ export class ReactNativeChecker {
                 execute: () => {
                     [this.projectDirectory, ...this.extraCheckDirectories].forEach(directory => {
                         const packageJSONPath = path.join(directory, "package.json");
-                        if (fs.existsSync(packageJSONPath)) {
+                        if (fs.existsSync(packageJSONPath) && this.skipVersionCheckPackageNames.length === 0) {
                             const packageJSON = require(packageJSONPath);
                             if (Object.values(packageJSON.dependencies || {}).some(version => !/^\d/.test(String(version)))) {
                                 throw new Error("Project dependency must be a valid npm version");
