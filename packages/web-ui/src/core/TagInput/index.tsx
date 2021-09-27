@@ -9,6 +9,7 @@ interface Props<T> extends ControlledFormValue<T[]> {
     style?: React.CSSProperties;
     disabled?: boolean;
     placeholder?: SafeReactChild;
+    autoFocus?: boolean;
 }
 
 interface State {
@@ -69,7 +70,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {value, renderTag, className, style, disabled, placeholder} = this.props;
+        const {value, renderTag, className, style, disabled, placeholder, autoFocus = true} = this.props;
         const {inputText} = this.state;
         return (
             <div className={`g-tag-input ${disabled ? "ant-input-disabled" : ""}`} style={style}>
@@ -82,7 +83,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
                     );
                 })}
                 {!value.length && !inputText && <div className="placeholder">{placeholder}</div>}
-                <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus />
+                <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus={autoFocus} />
             </div>
         );
     }
