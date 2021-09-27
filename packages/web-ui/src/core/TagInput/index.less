@@ -6,6 +6,17 @@
     height: 100%;
     border: 1px solid #ddd;
     border-radius: 4px;
+    position: relative;
+
+    .placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 16px;
+        padding: 2px 7px;
+        color: rgb(211, 211, 211);
+        z-index: 1;
+    }
 
     .g-tag-input-label {
         height: 28px;
@@ -29,6 +40,8 @@
         background: transparent;
         font-size: 16px;
         border: 0;
+        position: relative;
+        z-index: 2;
 
         &:focus,
         &:active,

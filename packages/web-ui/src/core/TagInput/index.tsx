@@ -1,5 +1,5 @@
 import React from "react";
-import type {ControlledFormValue, PickOptional} from "../../internal/type";
+import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
 import "./index.less";
 
 interface Props<T> extends ControlledFormValue<T[]> {
@@ -8,11 +8,14 @@ interface Props<T> extends ControlledFormValue<T[]> {
     className?: (item: T) => string;
     style?: React.CSSProperties;
     disabled?: boolean;
+    placeholder?: SafeReactChild;
 }
 
 interface State {
     inputText: string;
 }
+
+const separators = [",", " ", ";", "|", "*", "Tab", "Enter"];
 
 export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     static displayName = "TagInput";
@@ -48,18 +51,15 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     };
 
     onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        // Ref: https://css-tricks.com/snippets/javascript/javascript-keycodes/
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
         const {inputText} = this.state;
-        if (event.keyCode === 8) {
-            // Backspace
+
+        if (event.key === "Backspace") {
             if (!inputText.length) {
                 this.removeTag(this.props.value.length - 1);
             }
-        } else if ([9, 13, 32, 188].includes(event.keyCode)) {
-            // Tab: 9
-            // Enter:13
-            // Space, 32
-            // Comma: 188
+        } else if (separators.includes(event.key)) {
+            event.preventDefault();
             this.addTagsByInput(inputText);
         }
     };
@@ -69,7 +69,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {value, renderTag, className, style, disabled} = this.props;
+        const {value, renderTag, className, style, disabled, placeholder} = this.props;
         const {inputText} = this.state;
         return (
             <div className={`g-tag-input ${disabled ? "ant-input-disabled" : ""}`} style={style}>
@@ -81,6 +81,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
                         </div>
                     );
                 })}
+                {!value.length && !inputText && <div className="placeholder">{placeholder}</div>}
                 <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus />
             </div>
         );
