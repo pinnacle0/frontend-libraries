@@ -203,11 +203,19 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                 <AntTable
                     tableLayout="auto"
                     locale={{emptyText: emptyTextNode}}
+                    // TODO
+                    // @ts-expect-error -- Definition Issue @4.17.x-alpha.4
                     onRow={this.onRow}
                     loading={loading ? {indicator: <LoadingOutlined />} : false}
                     pagination={false}
+                    // TODO
+                    // @ts-expect-error -- Definition Issue @4.17.x-alpha.4
                     columns={tableColumns}
+                    // TODO
+                    // @ts-expect-error -- Definition Issue @4.17.x-alpha.4
                     onChange={this.onSortChange}
+                    // TODO
+                    // @ts-expect-error -- Definition Issue @4.17.x-alpha.4
                     rowKey={rowKey === "index" ? this.rowKeyByIndex : rowKey}
                     scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY}}
                     {...restProps}

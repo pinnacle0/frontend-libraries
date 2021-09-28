@@ -1,5 +1,5 @@
 import React from "react";
-import type {CascaderOptionType} from "antd/lib/cascader";
+import type {DataNode} from "rc-cascader";
 import AntCascader from "antd/lib/cascader";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
@@ -37,7 +37,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
 
     getAntValue = (): Array<string | number> => {
         const data = this.getAntDataSource();
-        const getCascaderValues = (data: CascaderOptionType[]): Array<string | number> => {
+        const getCascaderValues = (data: DataNode[]): Array<string | number> => {
             const {value} = this.props;
             for (const item of data) {
                 if (item.value === value) {
@@ -54,8 +54,8 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         return getCascaderValues(data);
     };
 
-    getAntDataSource = (): CascaderOptionType[] => {
-        const getAntChildren = (list: Array<CascaderDataNode<T>>): CascaderOptionType[] => {
+    getAntDataSource = (): DataNode[] => {
+        const getAntChildren = (list: Array<CascaderDataNode<T>>): DataNode[] => {
             return list.map(node => ({
                 label: node.label,
                 disabled: node.disabled,
@@ -66,7 +66,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         return getAntChildren(this.props.data);
     };
 
-    displayRender = (labels: string[]) => labels.join("/");
+    displayRender = (labels: React.ReactNode[]) => <React.Fragment>{labels.join("/")}</React.Fragment>;
 
     onChange = (antValue: Array<string | number>) => this.props.onChange(antValue[antValue.length - 1] as T);
 
@@ -74,8 +74,9 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         const {canSelectAnyLevel, placeholder, disabled, style, className} = this.props;
         return (
             <AntCascader
+                multiple={false}
                 className={`g-cascader ${className || ""}`}
-                popupClassName="g-cascader-popup"
+                dropdownClassName="g-cascader-popup"
                 style={style}
                 changeOnSelect={canSelectAnyLevel}
                 value={this.getAntValue()}
