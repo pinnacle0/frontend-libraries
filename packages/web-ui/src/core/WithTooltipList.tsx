@@ -14,6 +14,7 @@ export interface Props {
      */
     children?: string | React.ReactElement;
     onClick?: () => void;
+    onVisibleChange?: (visible: boolean) => void;
 }
 
 export class WithTooltipList extends React.PureComponent<Props> {
@@ -42,7 +43,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
     };
 
     render() {
-        const {list, children, onClick} = this.props;
+        const {list, children, onClick, onVisibleChange} = this.props;
         if (list.length === 0) {
             return children || "-";
         }
@@ -67,7 +68,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
              * Ref: https://ant.design/components/tooltip/#Note
              */
             return (
-                <Tooltip placement="bottom" title={this.renderTooltip()}>
+                <Tooltip placement="bottom" title={this.renderTooltip()} onVisibleChange={onVisibleChange}>
                     <div style={this.wrapperStyle}>
                         <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
                             {label}
@@ -77,7 +78,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
             );
         } else {
             return (
-                <Tooltip placement="bottom" title={this.renderTooltip()} className="g-with-tooltip-list-anchor">
+                <Tooltip placement="bottom" title={this.renderTooltip()} onVisibleChange={onVisibleChange} className="g-with-tooltip-list-anchor">
                     <a>{label}</a>
                 </Tooltip>
             );
