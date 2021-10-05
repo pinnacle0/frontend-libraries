@@ -4,7 +4,7 @@ import type {TooltipPlacement} from "../Tooltip";
 import {Tooltip} from "../Tooltip";
 import "./index.less";
 
-interface Props {
+export interface Props {
     /**
      * If there are multiple children, they should handle inline display by self.
      */
