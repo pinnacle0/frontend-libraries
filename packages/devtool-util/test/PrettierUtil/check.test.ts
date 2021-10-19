@@ -8,7 +8,7 @@ const unformattedFixturePath = path.join(tmpDirectory, "./unformatted.ts");
 
 describe("PrettierUtil.check", () => {
     beforeAll(() => {
-        if (fs.existsSync(tmpDirectory)) fs.rmdirSync(tmpDirectory, {recursive: true});
+        if (fs.existsSync(tmpDirectory)) fs.rmSync(tmpDirectory, {recursive: true});
         getFixtures().forEach(_ => {
             const fixtureDirectory = path.dirname(_.path);
             if (!fs.existsSync(fixtureDirectory)) fs.mkdirSync(fixtureDirectory, {recursive: true});
@@ -18,7 +18,7 @@ describe("PrettierUtil.check", () => {
 
     afterAll(() => {
         // Comment the following line to see the temp files
-        if (fs.existsSync(tmpDirectory)) fs.rmdirSync(tmpDirectory, {recursive: true});
+        if (fs.existsSync(tmpDirectory)) fs.rmSync(tmpDirectory, {recursive: true});
     });
 
     test("passes when called with formatted file", () => {

@@ -6,12 +6,12 @@ const tmpDirectory = path.join(__dirname, "./__tmp__/format");
 
 describe("Prettier.format", () => {
     beforeAll(() => {
-        if (fs.existsSync(tmpDirectory)) fs.rmdirSync(tmpDirectory, {recursive: true});
+        if (fs.existsSync(tmpDirectory)) fs.rmSync(tmpDirectory, {recursive: true});
         fs.mkdirSync(tmpDirectory, {recursive: true});
     });
 
     afterAll(() => {
-        fs.rmdirSync(tmpDirectory, {recursive: true});
+        fs.rmSync(tmpDirectory, {recursive: true});
     });
 
     test("when running Prettier.format(emptyDirectory), suppress error", () => {

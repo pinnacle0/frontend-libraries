@@ -59,7 +59,7 @@ export class ModuleGeneratorBase {
             this.formatSources();
         } catch (e) {
             try {
-                fs.rmdirSync(this.newModuleDirectory);
+                fs.rmSync(this.newModuleDirectory, {recursive: true});
             } catch (e) {
                 // Do nothing
             }
