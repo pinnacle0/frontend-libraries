@@ -129,11 +129,24 @@ export const baseline: ESLint.Linter.Config = {
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
         "no-restricted-globals": ["error", ...confusingBrowserGlobals],
+        // no this and super in static method
+        "no-restricted-syntax": [
+            "error",
+            {
+                selector: "ClassDeclaration MethodDefinition[static='true'] ThisExpression",
+                message: "`this` keyword is not allowed in static methods of class",
+            },
+            {
+                selector: "ClassDeclaration MethodDefinition[static='true'] Super",
+                message: "`super` keyword is not allowed in static methods of class",
+            },
+        ],
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
         "no-var": ["error"],
         "object-shorthand": ["error"],
         "prefer-const": ["error"],
+        "require-yield": "off",
         "spaced-comment": [
             "error",
             "always",
@@ -146,17 +159,13 @@ export const baseline: ESLint.Linter.Config = {
                 },
             },
         ],
-
         "react/display-name": "off",
         "react/jsx-boolean-value": ["error", "never"],
         "react/jsx-curly-brace-presence": ["error", {props: "never", children: "ignore"}],
         "react/jsx-fragments": ["error", "element"],
         "react/jsx-no-target-blank": "off",
         "react/self-closing-comp": ["error", {component: true, html: true}],
-
         "react-hooks/exhaustive-deps": ["error"],
         "react-hooks/rules-of-hooks": ["error"],
-
-        "require-yield": "off",
     },
 };
