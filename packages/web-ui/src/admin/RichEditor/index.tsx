@@ -3,7 +3,7 @@ import type {ControlType, EditorState, ImageControlType, MediaType} from "braft-
 import BraftEditor from "braft-editor";
 import {LocaleUtil} from "../../util/LocaleUtil";
 import type {ControlledFormValue} from "../../internal/type";
-import type {UploaderProps, UploadLogInfo} from "../../util/UploadUtil/type";
+import type {UploaderProps} from "../../util/UploadUtil/type";
 import "braft-editor/dist/index.css";
 import "./index.less";
 import {UploadUtil} from "../../util/UploadUtil";
