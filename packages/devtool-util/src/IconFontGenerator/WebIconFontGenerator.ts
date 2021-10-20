@@ -2,6 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import {Agent} from "https";
 import path from "path";
+import type {Readable} from "stream";
 import yargs from "yargs";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
@@ -51,7 +52,7 @@ export class WebIconFontGenerator {
         const fullCSSURL = this.cssURL.startsWith("//") ? `http:${this.cssURL}` : this.cssURL;
         this.logger.task(["Fetching CSS content", fullCSSURL]);
 
-        const response = await axios.get(fullCSSURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
+        const response = await axios.get<string>(fullCSSURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
         this.cssContent = response.data;
     }
 
@@ -113,7 +114,7 @@ export class WebIconFontGenerator {
         const downloadFontAsset = async (fileName: string) => {
             const path = `${this.iconComponentDirectory}/${fileName}`;
             if (url.startsWith("//")) url = "http:" + url;
-            const response = await axios({url, responseType: "stream"});
+            const response = await axios.get<Readable>(url, {responseType: "stream"});
             response.data.pipe(fs.createWriteStream(path, {encoding: "utf8"}));
             response.data.on("error", (error: Error) => {
                 this.logger.error(error);
