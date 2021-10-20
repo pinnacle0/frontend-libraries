@@ -6,7 +6,7 @@
             "loose": true,
             "modules": false,
             "useBuiltIns": "entry",
-            "corejs": "3.8",
+            "corejs": "3.18",
             "shippedProposals": true
         }],
         ["@babel/preset-react", {

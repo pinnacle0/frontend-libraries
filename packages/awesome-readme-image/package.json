@@ -14,15 +14,21 @@
         "start": "parcel serve src/index.html",
         "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
     },
+    "dependencies": {
+        "core-js": "3.18.3",
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+    },
     "devDependencies": {
-        "@babel/core": "7.13.10",
-        "@babel/preset-env": "7.13.10",
-        "@babel/preset-react": "7.12.13",
-        "@babel/preset-typescript": "7.13.0",
-        "core-js": "3.9.1",
-        "parcel": "2.0.0-beta.1",
-        "react": "17.0.1",
-        "react-dom": "17.0.1"
+        "@babel/core": "7.15.8",
+        "@babel/preset-env": "7.15.8",
+        "@babel/preset-react": "7.14.5",
+        "@babel/preset-typescript": "7.15.0",
+        "@parcel/transformer-typescript-tsc": "^2.0.0",
+        "@parcel/optimizer-data-url": "^2.0.0",
+        "@parcel/transformer-inline-string": "^2.0.0",
+        "@parcel/transformer-less": "^2.0.0",
+        "parcel": "2.0.0"
     },
     "engines": {
         "node": ">= 13"

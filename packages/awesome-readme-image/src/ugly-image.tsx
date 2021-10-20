@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-fragments -- new jsx transform */
-
+import {Fragment} from "react";
 import {colors, dimensions, durations} from "./values";
 
 type UglyImageProps = {style?: React.CSSProperties};
@@ -35,10 +34,10 @@ export const UglyImage = ({style}: UglyImageProps) => (
     </Svg>
 );
 
-type SvgProps = {viewBoxWidth: number; viewBoxHeight: number; children: React.ReactNode; style?: React.CSSProperties};
+type SvgProps = {viewBoxWidth: number; viewBoxHeight: number; children: React.ReactNode; style: React.CSSProperties | undefined};
 
 const Svg = ({viewBoxWidth, viewBoxHeight, children, style}: SvgProps) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} style={style ?? {}}>
         {children}
     </svg>
 );
@@ -46,7 +45,7 @@ const Svg = ({viewBoxWidth, viewBoxHeight, children, style}: SvgProps) => (
 type ObnoxiousTextProps = {className: string; x: number; y: number; children: string};
 
 const ObnoxiousText = ({className, x, y, children}: ObnoxiousTextProps) => (
-    <>
+    <Fragment>
         <text className={className} x={x} y={y} stroke={colors.textLayer3} strokeWidth={10}>
             {children}
         </text>
@@ -56,7 +55,7 @@ const ObnoxiousText = ({className, x, y, children}: ObnoxiousTextProps) => (
         <text className={className} x={x} y={y} fill="url(#gradientGold)" stroke="url(#gradientGold)" strokeWidth={2}>
             {children}
         </text>
-    </>
+    </Fragment>
 );
 
 const Doge = () => (

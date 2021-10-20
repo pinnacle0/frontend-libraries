@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-fragments -- new jsx transform */
-
 import {writeFileSync} from "fs";
 import {join} from "path";
 import {renderToStaticMarkup} from "react-dom/server";
