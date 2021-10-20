@@ -6,7 +6,6 @@
         "target": "ES2015",
         "rootDir": "../",
         "outDir": "../build/",
-
         "isolatedModules": true
     },
     "include": ["../src/"]

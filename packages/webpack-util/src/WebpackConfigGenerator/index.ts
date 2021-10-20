@@ -127,7 +127,6 @@ export class WebpackConfigGenerator {
                 ...this.htmlWebpackPluginInstances,
                 Plugin.ignoreMomentLocale(),
                 Plugin.reactRefresh(),
-                Plugin.webpack.hmr(),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
                 // prettier-format-preserve
