@@ -1,3 +1,3 @@
-import {ExpirableStorageHelper} from "../internal/ExpirableStorageHelper";
+import {ExpirableLocalStorage} from "../internal/ExpirableLocalStorage";
 
-export const ExpirableLocalStorageUtil = new ExpirableStorageHelper(localStorage);
+export const ExpirableLocalStorageUtil = ExpirableLocalStorage.getInstance();
