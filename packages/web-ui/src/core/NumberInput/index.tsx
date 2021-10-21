@@ -13,7 +13,8 @@ type DefaultPropsKeys = "scale" | "min" | "max" | "editable" | "stepperMode";
 
 type PropsWithDefault<AllowNull extends boolean = true> = {
     [K in Exclude<keyof Props<AllowNull>, DefaultPropsKeys>]: Props<AllowNull>[K];
-} & {[K in DefaultPropsKeys]: NonNullable<Props<AllowNull>[K]>};
+} &
+    {[K in DefaultPropsKeys]: NonNullable<Props<AllowNull>[K]>};
 
 export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends true ? number | null : number> {
     /** Whether `null` is allowed in `value` */
