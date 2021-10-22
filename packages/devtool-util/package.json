@@ -17,6 +17,9 @@
     "peerDependencies": {
         "prettier": "^2.3.0"
     },
+    "engines": {
+        "node": ">=14.14.0"
+    },
     "jest": {
         "preset": "ts-jest",
         "watchPathIgnorePatterns": [
