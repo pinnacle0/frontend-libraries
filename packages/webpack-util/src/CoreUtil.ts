@@ -12,8 +12,13 @@ function isFastMode(): boolean {
     return yargs.argv.mode === "fast";
 }
 
+function verbose(): boolean {
+    return Boolean(yargs.argv.verbose);
+}
+
 export const CoreUtil = Object.freeze({
     currentEnv,
     profilingEnabled,
     isFastMode,
+    verbose,
 });

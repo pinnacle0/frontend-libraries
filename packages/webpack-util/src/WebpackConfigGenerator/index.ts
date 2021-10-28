@@ -87,6 +87,7 @@ export class WebpackConfigGenerator {
             `-- HTML Entries: ${Object.keys(this.entry).join(" / ")}`,
             `-- Webpack Public URL: ${this.outputPublicPath}`,
             `-- Dynamic Aliases: ${JSON.stringify(this.resolveAliases, null, 4)}`,
+            `-- Use Cache: ${this.env === null}`,
         ]) {
             console.info(info);
         }
@@ -131,12 +132,15 @@ export class WebpackConfigGenerator {
                 Plugin.webpack.define(this.defineVars),
                 // prettier-format-preserve
             ],
-            cache: {
-                type: "filesystem",
-                cacheDirectory: path.join(this.projectDirectory, ".webpack-cache"),
-            },
+            cache:
+                this.env === null
+                    ? {
+                          type: "filesystem",
+                          cacheDirectory: path.join(this.projectDirectory, ".webpack-cache"),
+                      }
+                    : false,
         };
-        if (this.verbose) {
+        if (this.verbose || CoreUtil.verbose()) {
             this.logger.info("Full webpack config:");
             console.info(WebpackConfigSerializationUtil.configToString(config));
         }
@@ -196,7 +200,7 @@ export class WebpackConfigGenerator {
                 // prettier-format-preserve
             ],
         };
-        if (this.verbose) {
+        if (this.verbose || CoreUtil.verbose()) {
             this.logger.info("Full webpack config:");
             console.info(WebpackConfigSerializationUtil.configToString(config));
         }
