@@ -69,24 +69,26 @@ describe("NumberUtil.rounding", () => {
 
     type TestEachRowSchema = {value: number; algorithm: "round" | "ceil" | "floor"; maxScale: any; expected: number};
     test.each`
-        value    | algorithm  | maxScale | expected
-        ${3.65}  | ${"floor"} | ${0}     | ${3}
-        ${3.65}  | ${"floor"} | ${1}     | ${3.6}
-        ${3.65}  | ${"floor"} | ${2}     | ${3.65}
-        ${3.65}  | ${"floor"} | ${3}     | ${3.65}
-        ${18.58} | ${"floor"} | ${4}     | ${18.58}
-        ${7.45}  | ${"ceil"}  | ${0}     | ${8}
-        ${7.45}  | ${"ceil"}  | ${1}     | ${7.5}
-        ${7.45}  | ${"ceil"}  | ${2}     | ${7.45}
-        ${7.45}  | ${"ceil"}  | ${3}     | ${7.45}
-        ${18.58} | ${"ceil"}  | ${4}     | ${18.58}
-        ${1.664} | ${"round"} | ${0}     | ${2}
-        ${1.664} | ${"round"} | ${1}     | ${1.7}
-        ${1.664} | ${"round"} | ${2}     | ${1.66}
-        ${1.664} | ${"round"} | ${3}     | ${1.664}
-        ${1.664} | ${"round"} | ${4}     | ${1.664}
-        ${18.58} | ${"round"} | ${4}     | ${18.58}
-        ${4.975} | ${"round"} | ${2}     | ${4.98}
+        value                 | algorithm  | maxScale | expected
+        ${3.65}               | ${"floor"} | ${0}     | ${3}
+        ${3.65}               | ${"floor"} | ${1}     | ${3.6}
+        ${3.65}               | ${"floor"} | ${2}     | ${3.65}
+        ${3.65}               | ${"floor"} | ${3}     | ${3.65}
+        ${18.58}              | ${"floor"} | ${4}     | ${18.58}
+        ${7.45}               | ${"ceil"}  | ${0}     | ${8}
+        ${7.45}               | ${"ceil"}  | ${1}     | ${7.5}
+        ${7.45}               | ${"ceil"}  | ${2}     | ${7.45}
+        ${7.45}               | ${"ceil"}  | ${3}     | ${7.45}
+        ${18.58}              | ${"ceil"}  | ${4}     | ${18.58}
+        ${1.664}              | ${"round"} | ${0}     | ${2}
+        ${1.664}              | ${"round"} | ${1}     | ${1.7}
+        ${1.664}              | ${"round"} | ${2}     | ${1.66}
+        ${1.664}              | ${"round"} | ${3}     | ${1.664}
+        ${1.664}              | ${"round"} | ${4}     | ${1.664}
+        ${18.58}              | ${"round"} | ${4}     | ${18.58}
+        ${4.975}              | ${"round"} | ${2}     | ${4.98}
+        ${2136.4649681528663} | ${"round"} | ${2}     | ${2136.46}
+        ${213646.49681528663} | ${"round"} | ${10}    | ${213646.4968152866}
     `("rounding($value, '$algorithm', $maxScale) returns $expected", ({value, algorithm, maxScale, expected}: TestEachRowSchema) => {
         expect(NumberUtil.rounding(value, algorithm, maxScale)).toBe(expected);
     });

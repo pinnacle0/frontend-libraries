@@ -56,18 +56,19 @@ function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale
      * Therefore, we first get 4.975 * 10^3 = 4975. Then, we get 4975 / 10^(3 - 2) = 497.5 and we round this number.
      * In the end, we divide this number by 10^maxScale to obtained the final answer, i.e. 498 / 10^2 = 4.98 (assume algorithm is "round").
      */
-    const parts = String(value).split(".");
-    const adjustmentScale = parts.length < 2 ? 0 : parts[1].length;
-    const adjustmentPowerOf10 = Math.pow(10, adjustmentScale);
-    const isAdjustmentSafe = Number(value) * adjustmentPowerOf10 <= Number.MAX_SAFE_INTEGER;
-    const powerOf10 = Math.pow(10, maxScale);
 
-    if (adjustmentScale > maxScale && isAdjustmentSafe) {
-        const diffPowerOf10 = Math.pow(10, adjustmentScale - maxScale);
-        return Math[algorithm](safeNumber(value * adjustmentPowerOf10, maxScale) / diffPowerOf10) / powerOf10;
-    } else {
-        return Math[algorithm](safeNumber(value * powerOf10, maxScale)) / powerOf10;
+    // for passing exponential notation string to it
+    const func = Math[algorithm] as any;
+
+    const precision = maxScale == null ? 0 : maxScale >= 0 ? Math.min(maxScale, 292) : Math.max(maxScale, -292);
+    if (precision) {
+        // Shift with exponential notation to avoid floating-point issues.
+        let pair = `${value}e`.split("e");
+        const roundedValue = func(`${pair[0]}e${+pair[1] + precision}`);
+        pair = `${roundedValue}e`.split("e");
+        return +`${pair[0]}e${+pair[1] - precision}`;
     }
+    return func(value);
 }
 
 function roundingToString(value: number, algorithm: "round" | "ceil" | "floor", scale: number): string {
