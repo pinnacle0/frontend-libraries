@@ -3,6 +3,7 @@ import {EnumRadio} from "@pinnacle0/web-ui/core/EnumRadio";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 import {MultipleEnumSelect} from "@pinnacle0/web-ui/core/MultipleEnumSelect";
 import {BoolRadio} from "@pinnacle0/web-ui/core/BoolRadio";
+import {Select} from "@pinnacle0/web-ui/core/Select";
 import {withUncontrolledInitialValue} from "../../../util/withUncontrolledInitialValue";
 import {DemoHelper} from "../../DemoHelper";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
@@ -54,6 +55,21 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Boolean Radio Initial Nullable",
         components: [<UncontrolledBoolRadio initialValue />],
+    },
+    {
+        title: "Select",
+        components: [
+            <Select
+                options={[
+                    {
+                        label: "blah blah",
+                        value: "blah",
+                        disabled: true,
+                    },
+                ]}
+                style={{width: 200}}
+            />,
+        ],
     },
     {
         title: "MultipleEnumSelect",

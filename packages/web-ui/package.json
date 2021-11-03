@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.2.63",
+    "version": "0.2.64",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@ant-design/icons": "4.7.0",
-        "antd": "4.17.0-alpha.5",
+        "antd": "4.17.0-alpha.9",
         "braft-editor": "2.3.9",
         "moment": "2.29.1"
     },

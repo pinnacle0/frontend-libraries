@@ -3,5 +3,7 @@
 .ant-select-dropdown,
 .ant-select-arrow,
 .ant-select-item-empty {
-    color: inherit;
+    &:not(.ant-select-item-option-disabled) {
+        color: inherit;
+    }
 }

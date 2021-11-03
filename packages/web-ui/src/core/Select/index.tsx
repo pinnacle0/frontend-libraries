@@ -6,7 +6,7 @@ import "antd/lib/select/style";
 import "./index.less";
 
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
-    options?: Array<{value: string | number; label?: string}>;
+    options?: Array<{value: string | number; label?: string; disabled?: boolean}>;
 }
 
 export class Select<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
