@@ -41,16 +41,26 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
 
     triggerChangeEvent = (changedPermissions: Array<Feature | Field>, isChecked: boolean, isFieldPermission: boolean) => {
         const {onFeatureChange, onFieldChange, fieldValue, featureValue, editable} = this.props;
-        if (editable) {
-            if (isFieldPermission) {
-                if (fieldValue && onFieldChange) {
-                    const newPermissions = isChecked ? [...new Set([...fieldValue, ...(changedPermissions as Field[])])] : fieldValue.filter(_ => !(changedPermissions as Field[]).includes(_));
-                    onFieldChange(newPermissions);
-                }
-            } else {
-                const newPermissions = isChecked ? [...new Set([...featureValue, ...(changedPermissions as Feature[])])] : featureValue.filter(_ => !(changedPermissions as Feature[]).includes(_));
-                onFeatureChange(newPermissions);
+
+        const getNewPermissions = <T extends Feature | Field>(isChecked: boolean, value: T[]) => {
+            if (!value) {
+                return [];
             }
+
+            return isChecked ? [...new Set([...value, ...(changedPermissions as T[])])] : value.filter(_ => !(changedPermissions as T[]).includes(_));
+        };
+
+        if (!editable) {
+            return;
+        }
+
+        if (!isFieldPermission) {
+            onFeatureChange(getNewPermissions(isChecked, featureValue));
+            return;
+        }
+
+        if (fieldValue && onFieldChange) {
+            onFieldChange(getNewPermissions(isChecked, fieldValue));
         }
     };
 
@@ -58,58 +68,67 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         const permissions = module.featurePermissions;
         if (permissions) {
             return [...permissions];
-        } else {
-            return [];
         }
+        return [];
     };
 
     getNavigationModuleFieldPermission = (module: NavigationModuleItem<Feature, Field>): Field[] => {
         const permissions = module.fieldPermissions;
         if (permissions) {
             return [...permissions];
-        } else {
-            return [];
         }
+        return [];
     };
 
     getNavigationGroupFeaturePermissions = (groupItem: NavigationGroupItem<Feature, Field>): Feature[] => {
-        const permissions: Feature[] = [];
-        groupItem.modules.forEach(_ => {
-            permissions.push(...this.getNavigationModuleFeaturePermissions(_));
-        });
-        return permissions;
+        return groupItem.modules.flatMap(this.getNavigationModuleFeaturePermissions);
     };
 
     getNavigationGroupFieldPermissions = (groupItem: NavigationGroupItem<Feature, Field>): Field[] => {
-        const permissions: Field[] = [];
-        groupItem.modules.forEach(_ => {
-            permissions.push(...this.getNavigationModuleFieldPermission(_));
-        });
-        return permissions;
+        return groupItem.modules.flatMap(this.getNavigationModuleFieldPermission);
     };
 
-    onPermissionChange = (checked: boolean, permission: Feature | Field, isFieldPermission: boolean) => {
-        if (checked) {
-            // Also trigger bound permission checked event
-            if (this.props.boundPermissionsCalculator) {
-                this.triggerChangeEvent(isFieldPermission ? [permission] : [permission, ...this.props.boundPermissionsCalculator(permission as Feature)], checked, isFieldPermission);
-            } else {
-                this.triggerChangeEvent(isFieldPermission ? [permission] : [permission], checked, isFieldPermission);
-            }
-        } else {
-            this.triggerChangeEvent([permission], checked, isFieldPermission);
+    recursivelyGetBoundPermissions(permission: Feature | Field, includeSelf = true) {
+        const {boundPermissionsCalculator} = this.props;
+
+        const extractPermissions = (feature: Feature): Feature[] => {
+            const childPermissions = boundPermissionsCalculator?.(feature as Feature) || [];
+            return [...childPermissions, ...childPermissions.flatMap(extractPermissions)];
+        };
+
+        const permissions = extractPermissions(permission as Feature);
+
+        if (includeSelf) {
+            permissions.unshift(permission as Feature);
         }
+
+        return [...new Set(permissions)];
+    }
+
+    onPermissionChange = (checked: boolean, permission: Feature | Field, isFieldPermission: boolean) => {
+        const {boundPermissionsCalculator} = this.props;
+        const changedPermissions: Array<Feature | Field> = (() => {
+            if (checked && boundPermissionsCalculator) {
+                // Also trigger bound permission checked event
+                return isFieldPermission ? [permission] : this.recursivelyGetBoundPermissions(permission);
+            }
+            return [permission];
+        })();
+
+        this.triggerChangeEvent(changedPermissions, checked, isFieldPermission);
     };
 
     renderExtraPermission = (extraPermissions: Feature[]) => {
         const t = i18n();
         const {featureValue, featurePermissionTranslator} = this.props;
         const enabledPercentage = ArrayUtil.intersectionPercentage(extraPermissions, featureValue);
+
         const titleNode = (
             <Checkbox value={enabledPercentage > 0} indeterminate={enabledPercentage > 0 && enabledPercentage < 100} onChange={value => this.triggerChangeEvent(extraPermissions, value, false)}>
                 {t.extraPermission}
             </Checkbox>
         );
+
         return (
             <Descriptions>
                 <Descriptions.Item label={titleNode}>
@@ -135,11 +154,17 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         if (permissions.length < 1) {
             return null;
         }
-        const {featureValue, fieldValue, editable, boundPermissionsCalculator, featurePermissionTranslator, fieldPermissionTranslator} = this.props;
+
         const t = i18n();
+        const {featureValue, fieldValue, editable, boundPermissionsCalculator, featurePermissionTranslator, fieldPermissionTranslator} = this.props;
         const enabledPercentage = isFieldPermission ? ArrayUtil.intersectionPercentage(permissions as Field[], fieldValue!) : ArrayUtil.intersectionPercentage(permissions as Feature[], featureValue);
+
         const titleNode = editable ? (
-            <Checkbox value={enabledPercentage > 0} indeterminate={enabledPercentage > 0 && enabledPercentage < 100} onChange={value => this.triggerChangeEvent(permissions, value, isFieldPermission)}>
+            <Checkbox
+                value={enabledPercentage > 0}
+                indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
+                onChange={value => this.triggerChangeEvent(isFieldPermission ? permissions : permissions.flatMap(_ => this.recursivelyGetBoundPermissions(_)), value, isFieldPermission)}
+            >
                 {isFieldPermission ? t.fieldPermission : t.featurePermission}
             </Checkbox>
         ) : isFieldPermission ? (
@@ -147,6 +172,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         ) : (
             t.featurePermission
         );
+
         return (
             <Descriptions.Item label={titleNode}>
                 {permissions.map(permission => {
@@ -168,69 +194,77 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
     };
 
     renderNavigationModule = (module: NavigationModuleItem<Feature, Field>) => {
+        const {featureValue, fieldValue, alwaysExpand} = this.props;
         const featurePermissions = module.featurePermissions;
         const fieldPermission = module.fieldPermissions;
-        if (featurePermissions?.length || fieldPermission?.length) {
-            const {featureValue, fieldValue} = this.props;
-            const moduleFeaturePermissions = this.getNavigationModuleFeaturePermissions(module);
-            const moduleFieldPermissions = this.getNavigationModuleFieldPermission(module);
-            const enabledPercentage = ArrayUtil.intersectionPercentage([...moduleFeaturePermissions, ...moduleFieldPermissions], [...featureValue, ...(fieldValue || [])]);
-            const popover = (
-                <Descriptions column={1}>
-                    {featurePermissions ? this.renderPermissionGroup(featurePermissions, false) : null}
-                    {this.props.fieldValue && fieldPermission ? this.renderPermissionGroup(fieldPermission, true) : null}
-                </Descriptions>
-            );
-            return this.props.alwaysExpand ? (
-                <div key={module.title}>
-                    <div style={this.navigationModuleItemContainerStyle}>
-                        <Checkbox
-                            value={enabledPercentage > 0}
-                            indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
-                            onChange={value => {
-                                this.triggerChangeEvent([...moduleFieldPermissions], value, true);
-                                this.triggerChangeEvent([...moduleFeaturePermissions], value, false);
-                            }}
-                            style={this.checkboxStyle}
-                        >
-                            {module.title}
-                        </Checkbox>
-                        <Progress style={this.progressStyle} percent={enabledPercentage} size="small" showInfo={false} />
-                    </div>
-                    {popover}
-                </div>
-            ) : (
-                <Popover overlayClassName="permission-group" placement="left" overlayStyle={this.popoverStyle} autoAdjustOverflow key={module.title} content={popover}>
-                    <div style={this.navigationModuleItemContainerStyle}>
-                        <Checkbox
-                            value={enabledPercentage > 0}
-                            indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
-                            onChange={value => {
-                                this.triggerChangeEvent([...moduleFieldPermissions], value, true);
-                                this.triggerChangeEvent([...moduleFeaturePermissions], value, false);
-                            }}
-                            style={this.checkboxStyle}
-                        >
-                            {module.title}
-                        </Checkbox>
-                        <Progress style={this.progressStyle} percent={enabledPercentage} size="small" showInfo={false} />
-                    </div>
-                </Popover>
-            );
-        } else {
+
+        const hasFeaturePermissions = featurePermissions?.length;
+        const hasFieldPermissions = fieldPermission?.length;
+
+        if (!hasFeaturePermissions && !hasFieldPermissions) {
             return null;
         }
+
+        const moduleFeaturePermissions = this.getNavigationModuleFeaturePermissions(module);
+        const moduleFieldPermissions = this.getNavigationModuleFieldPermission(module);
+        const enabledPercentage = ArrayUtil.intersectionPercentage([...moduleFeaturePermissions, ...moduleFieldPermissions], [...featureValue, ...(fieldValue || [])]);
+
+        const popover = (
+            <Descriptions column={1}>
+                {featurePermissions ? this.renderPermissionGroup(featurePermissions, false) : null}
+                {fieldValue && fieldPermission ? this.renderPermissionGroup(fieldPermission, true) : null}
+            </Descriptions>
+        );
+
+        const navigationModuleItemContainer = (
+            <div style={this.navigationModuleItemContainerStyle}>
+                <Checkbox
+                    value={enabledPercentage > 0}
+                    indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
+                    onChange={value => {
+                        this.triggerChangeEvent(moduleFieldPermissions, value, true);
+                        this.triggerChangeEvent(
+                            moduleFeaturePermissions.flatMap(_ => this.recursivelyGetBoundPermissions(_)),
+                            value,
+                            false
+                        );
+                    }}
+                    style={this.checkboxStyle}
+                >
+                    {module.title}
+                </Checkbox>
+                <Progress style={this.progressStyle} percent={enabledPercentage} size="small" showInfo={false} />
+            </div>
+        );
+
+        if (alwaysExpand) {
+            return (
+                <div key={module.title}>
+                    {navigationModuleItemContainer}
+                    {popover}
+                </div>
+            );
+        }
+
+        return (
+            <Popover overlayClassName="permission-group" placement="left" overlayStyle={this.popoverStyle} autoAdjustOverflow key={module.title} content={popover}>
+                {navigationModuleItemContainer}
+            </Popover>
+        );
     };
 
     renderNavigationGroup = (groupItem: NavigationGroupItem<Feature, Field>) => {
         const {featureValue, fieldValue} = this.props;
         const modulesWithSelectablePermissions = groupItem.modules.map(this.renderNavigationModule).filter(_ => _);
+
         if (modulesWithSelectablePermissions.length === 0) {
             return;
         }
+
         const groupFeaturePermissions = this.getNavigationGroupFeaturePermissions(groupItem);
         const groupFieldPermissions = this.getNavigationGroupFieldPermissions(groupItem);
         const enabledPercentage = ArrayUtil.intersectionPercentage([...groupFeaturePermissions, ...groupFieldPermissions], [...featureValue, ...(fieldValue || [])]);
+
         const titleNode = (
             <Checkbox
                 value={enabledPercentage > 0}
@@ -243,6 +277,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
                 {groupItem.title}
             </Checkbox>
         );
+
         return (
             <Descriptions key={groupItem.title}>
                 <Descriptions.Item style={this.descriptionItemStyle} label={titleNode}>
