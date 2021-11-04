@@ -8,8 +8,13 @@ type ClearOptions = {keys: string[] | ((key: string) => boolean)} | {exceptKeys:
 export class StorageHelper {
     private static readonly trueBoolValue = "TRUE";
     private static readonly falseBoolValue = "FALSE";
+    private globalPrefix: string | null = null;
 
     constructor(private readonly storage: Storage) {}
+
+    setGlobalPrefix(prefix: string) {
+        this.globalPrefix = prefix;
+    }
 
     clear(options?: ClearOptions): void {
         try {
@@ -118,7 +123,8 @@ export class StorageHelper {
 
     private set(key: string, value: string): void {
         try {
-            this.storage.setItem(key, value);
+            const prefix = this.globalPrefix ? `${this.globalPrefix}-` : "";
+            this.storage.setItem(prefix + key, value);
         } catch (e) {
             // Do nothing
         }
@@ -126,7 +132,8 @@ export class StorageHelper {
 
     private get<T extends string | number | boolean | object>(key: string, defaultValue: T, transformer: (value: string) => T | null) {
         try {
-            const data = this.storage.getItem(key);
+            const prefix = this.globalPrefix ? `${this.globalPrefix}-` : "";
+            const data = this.storage.getItem(prefix + key);
             if (data !== null) {
                 const typedData = transformer(data);
                 if (typedData !== null) {
