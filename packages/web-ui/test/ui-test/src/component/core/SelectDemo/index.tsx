@@ -62,8 +62,12 @@ const groups: DemoHelperGroupConfig[] = [
             <Select
                 options={[
                     {
-                        label: "blah blah",
-                        value: "blah",
+                        label: "Apple",
+                        value: "Apple",
+                    },
+                    {
+                        label: "Disabled",
+                        value: "Disabled",
                         disabled: true,
                     },
                 ]}

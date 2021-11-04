@@ -1,4 +1,6 @@
+import React from "react";
 import type {TableColumns} from "../../../../src/core/Table";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 
 export interface MockTableData {
     id: number;
@@ -32,6 +34,10 @@ export const dummyTableColumns: TableColumns<MockTableData> = [
     {
         title: "Locale Time",
         renderData: _ => _.time.toLocaleString(),
+    },
+    {
+        title: "Actions",
+        renderData: _ => <Button onClick={() => alert("Alert !")}>Dummy Button</Button>,
     },
 ];
 
