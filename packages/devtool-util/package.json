@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "0.1.24",
+    "version": "0.1.25",
     "license": "MIT",
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
@@ -11,7 +11,7 @@
         "build": "yarn run check-code-style && yarn run lint && yarn run test && yarn run compile && yarn run copy-static-files"
     },
     "dependencies": {
-        "axios": "0.23.0",
+        "axios": "0.24.0",
         "yargs": "17.2.1"
     },
     "peerDependencies": {
