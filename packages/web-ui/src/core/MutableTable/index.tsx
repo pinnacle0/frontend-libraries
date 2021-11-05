@@ -11,8 +11,16 @@ import "./index.less";
  * If props.nextRow is undefined, the (+) button should be disabled.
  *
  * Attention:
- * dataSource should not be empty array.
+ * dataSource must not be empty array.
  */
+
+export interface SequenceColumnConfig {
+    title: string;
+    renderer: (index: number) => string;
+    width: number;
+    align: "left" | "center" | "right";
+}
+
 export interface Props<RowType extends object> {
     dataSource: RowType[];
     columns: TableColumns<RowType>;
@@ -21,7 +29,7 @@ export interface Props<RowType extends object> {
     nextRow?: RowType | true; // If true, onRowCountChange will be triggered when + is clicked, instead of onChange
     fixedRowCount?: number;
     shouldRenderIfUpdate?: any;
-    sequenceColumn?: {title: string; renderer: (index: number) => string} | "default";
+    sequenceColumn?: Partial<SequenceColumnConfig> | "default";
     scrollX?: "max-content" | "none" | number;
     scrollY?: number;
     bordered?: boolean;
@@ -36,7 +44,12 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     };
 
     private readonly ref: React.RefObject<HTMLDivElement>;
-    private readonly defaultSequenceColumn = {title: i18n().sequence, renderer: (index: number) => (index + 1).toString()};
+    private readonly defaultSequenceColumn: SequenceColumnConfig = {
+        title: i18n().sequence,
+        renderer: (index: number) => (index + 1).toString(),
+        width: 90,
+        align: "center",
+    };
 
     constructor(props: Props<RowType>) {
         super(props);
@@ -53,21 +66,24 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     }
 
     getColumns = (): TableColumns<RowType> => {
-        const {columns, dataSource, nextRow, fixedRowCount, sequenceColumn, disabled} = this.props;
+        const {columns, dataSource, nextRow, fixedRowCount, scrollX, sequenceColumn, disabled} = this.props;
         const newColumns = [...columns];
         const t = i18n();
         if (sequenceColumn) {
+            const finalSequenceColumn = sequenceColumn === "default" ? this.defaultSequenceColumn : {...this.defaultSequenceColumn, ...sequenceColumn};
             newColumns.unshift({
-                title: sequenceColumn === "default" ? this.defaultSequenceColumn.title : sequenceColumn.title,
-                width: 90,
-                align: "center",
-                renderData: (_, index) => (sequenceColumn === "default" ? this.defaultSequenceColumn.renderer(index) : sequenceColumn.renderer(index)),
+                title: finalSequenceColumn.title,
+                width: finalSequenceColumn.width,
+                align: finalSequenceColumn.align,
+                fixed: scrollX === "none" ? undefined : "left",
+                renderData: (_, index) => finalSequenceColumn.renderer(index),
             });
         }
         newColumns.push({
             title: t.action,
             width: 100,
             align: "center",
+            fixed: scrollX === "none" ? undefined : "right",
             renderData: (_, index) => {
                 const dataSourceLength = dataSource.length;
                 return (
