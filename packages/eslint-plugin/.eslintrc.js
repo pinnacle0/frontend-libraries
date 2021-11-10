@@ -27,6 +27,13 @@ const config = {
         "no-var": ["error"],
         "object-shorthand": "error",
         "prefer-const": ["error"],
+        "no-restricted-imports": [
+            "error",
+            {
+                name: "@typescript-eslint/typescript-estree",
+                message: "Use `@typescript-eslint/experimental-utils` instead when building ESLint plugin",
+            },
+        ],
     },
     overrides: [
         {
