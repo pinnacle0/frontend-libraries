@@ -16,9 +16,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "Specify generic type of React.Component or React.PureComponent when declaring a class component",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             reactComponentPropsTyping: "Declare React.{{componentOrPureComponent}} with type annotation parameters",

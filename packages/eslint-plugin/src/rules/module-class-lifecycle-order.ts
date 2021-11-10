@@ -1,7 +1,8 @@
-import {ESLintUtils, AST_NODE_TYPES} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/experimental-utils";
 import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
 import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {getClassMethod} from "../util/getClassMethod";
 
 export type Options = [];
 
@@ -15,9 +16,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "A Rule that checks if lifecycle methods should be ordered first in module class",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             moduleClassLifecycleOrder: '"{{methodName}}" has prefix "on" must be ordered first',
@@ -42,16 +43,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
 });
 
 function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
-    const methodList = classBody.body
-        .map(classElement => {
-            return classElement.type === AST_NODE_TYPES.MethodDefinition || classElement.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-                ? classElement
-                : (classElement.type === AST_NODE_TYPES.ClassProperty || classElement.type === AST_NODE_TYPES.TSAbstractClassProperty) &&
-                  (classElement.value?.type === AST_NODE_TYPES.ArrowFunctionExpression || classElement.value?.type === AST_NODE_TYPES.FunctionExpression)
-                ? classElement
-                : null;
-        })
-        .filter(<T>(_: T | null): _ is T => _ !== null);
+    const methodList = getClassMethod(classBody);
 
     let prevNodeIndex = 0;
     for (let i = 1; i < methodList.length; i++) {

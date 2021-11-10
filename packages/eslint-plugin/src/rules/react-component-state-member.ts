@@ -18,9 +18,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "Initialize component state inside constructor instead of using class field declaration",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             reactComponentStateMember: "Put state initialization inside constructor",
@@ -46,7 +46,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
 
 function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, classBody: TSESTree.ClassBody) {
     classBody.body.forEach(classElement => {
-        if (classElement.type !== AST_NODE_TYPES.ClassProperty && classElement.type !== AST_NODE_TYPES.TSAbstractClassProperty) {
+        if (classElement.type !== AST_NODE_TYPES.PropertyDefinition && classElement.type !== AST_NODE_TYPES.TSAbstractPropertyDefinition) {
             return; // Allow type narrowing on classElement.type
         }
         if (!classElement.static && !classElement.declare && getClassElementName(classElement) === "state") {

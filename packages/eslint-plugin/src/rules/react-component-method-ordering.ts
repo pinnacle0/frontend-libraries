@@ -68,9 +68,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "Order react component methods according to pinnacle react component guideline",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             reactComponentMethodOrdering: "Method [{{methodName}}] is a {{methodType}}, and should be placed before {{prevCheckerType}}",

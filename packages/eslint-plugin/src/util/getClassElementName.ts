@@ -6,9 +6,9 @@ export function getClassElementName(classElement: TSESTree.ClassElement): string
         case AST_NODE_TYPES.StaticBlock:
         case AST_NODE_TYPES.TSIndexSignature:
             return null; // Don't know what this is, just ignore it
-        case AST_NODE_TYPES.ClassProperty:
+        case AST_NODE_TYPES.PropertyDefinition:
         case AST_NODE_TYPES.MethodDefinition:
-        case AST_NODE_TYPES.TSAbstractClassProperty:
+        case AST_NODE_TYPES.TSAbstractPropertyDefinition:
         case AST_NODE_TYPES.TSAbstractMethodDefinition:
             if (classElement.key.type === AST_NODE_TYPES.Identifier) {
                 return classElement.key.name;

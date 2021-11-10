@@ -1,5 +1,5 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
 
 export type MessageIds = "stylePropertiesType";
 
@@ -11,9 +11,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             stylePropertiesType: "React.CSSProperties' name must end with 'Style', e.g: containerStyle, inputStyle",

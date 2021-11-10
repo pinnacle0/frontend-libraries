@@ -17,9 +17,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "Use onXxxChange instead of onChangeXxx, and onXxxClick instead of onClickXxx for event handler naming",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             reactComponentChangeHandlerNaming: 'Name change handlers "{{suggestedName}}" instead of "{{methodName}}"',

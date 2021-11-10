@@ -1,6 +1,6 @@
 import {AST_NODE_TYPES, AST_TOKEN_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import {FunctionExpression, MethodDefinition} from "@typescript-eslint/types/dist/ast-spec";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
 
 export const name = "explicit-module-class-method-return-type";
 
@@ -12,9 +12,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             explicitModuleClassMethodReturnType: "Require explicit return types on module class methods",
@@ -29,11 +29,12 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                     const sourceCode = context.getSourceCode();
                     node.body.body
                         .filter(
-                            (classElement): classElement is MethodDefinition => classElement.type === AST_NODE_TYPES.MethodDefinition && classElement.value.type === AST_NODE_TYPES.FunctionExpression
+                            (classElement): classElement is TSESTree.MethodDefinition =>
+                                classElement.type === AST_NODE_TYPES.MethodDefinition && classElement.value.type === AST_NODE_TYPES.FunctionExpression
                         )
                         .filter(method => !method.value.returnType)
                         .forEach(method => {
-                            const fn = method.value as FunctionExpression;
+                            const fn = method.value as TSESTree.FunctionExpression;
                             const blockStatementRange = fn.body.range;
                             const firstCloseParentheses = sourceCode
                                 .getTokens(fn)

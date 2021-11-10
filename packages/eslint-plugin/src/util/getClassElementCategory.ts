@@ -9,8 +9,8 @@ export function getClassElementCategory(classElement: TSESTree.ClassElement): "c
                 return "constructor";
             }
             return "method-or-arrow-function";
-        case AST_NODE_TYPES.ClassProperty:
-        case AST_NODE_TYPES.TSAbstractClassProperty:
+        case AST_NODE_TYPES.PropertyDefinition:
+        case AST_NODE_TYPES.TSAbstractPropertyDefinition:
             if (classElement.value?.type === AST_NODE_TYPES.ArrowFunctionExpression || classElement.value?.type === AST_NODE_TYPES.FunctionExpression) {
                 return "method-or-arrow-function"; // Treat arrow function expressions as methods
             }

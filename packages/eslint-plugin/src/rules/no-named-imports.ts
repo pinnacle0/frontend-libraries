@@ -26,9 +26,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[string[]], MessageIds
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             noNamedImports: 'Named imports forbidden with package "{{name}}"',

@@ -1,5 +1,5 @@
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import {TSESTree} from "@typescript-eslint/types";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
 
 export type MessageIds = "variableDeclarationModuleIdentifierShadowing";
 
@@ -11,9 +11,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             // Webpack React Refresh Plugin (https://github.com/pmmmwh/react-refresh-webpack-plugin) hard codes registering react component modules with `module.id`

@@ -9,10 +9,10 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     meta: {
         type: "suggestion",
         docs: {
-            description: "",
-            category: "Best Practices",
+            description: "Check import order according to import type and path",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             importOrdering: "`{{ currentNode }}` should be place after `{{ prevNodeInRightOrder }}`",

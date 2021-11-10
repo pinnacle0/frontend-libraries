@@ -10,9 +10,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "No index at the end of import statements",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             noUnnecessaryEndingIndex: "unnecessary ending index",

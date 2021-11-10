@@ -1,7 +1,8 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import {getClassMethod} from "../util/getClassMethod";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
+import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import type {TSESTree} from "@typescript-eslint/experimental-utils";
 
 export type Options = [];
 
@@ -15,9 +16,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             logDecoratorOrder: "@Log() must be the last decorator",
@@ -42,16 +43,8 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
 });
 
 function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
-    const methodList = classBody.body
-        .map(classElement => {
-            return classElement.type === AST_NODE_TYPES.MethodDefinition || classElement.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-                ? classElement
-                : (classElement.type === AST_NODE_TYPES.ClassProperty || classElement.type === AST_NODE_TYPES.TSAbstractClassProperty) &&
-                  (classElement.value?.type === AST_NODE_TYPES.ArrowFunctionExpression || classElement.value?.type === AST_NODE_TYPES.FunctionExpression)
-                ? classElement
-                : null;
-        })
-        .filter(<T>(_: T | null): _ is T => _ !== null);
+    const methodList = getClassMethod(classBody);
+
     methodList.forEach(methodNode => {
         if (methodNode.key.type !== AST_NODE_TYPES.Identifier) {
             return;

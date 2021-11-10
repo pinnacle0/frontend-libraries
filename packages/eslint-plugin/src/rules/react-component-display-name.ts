@@ -16,9 +16,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
         type: "suggestion",
         docs: {
             description: "",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         fixable: "code",
         messages: {
             noDisplayName: "Add displayName",
@@ -71,7 +71,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
 
 function checkClassProperties(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, displayName: string) {
     const {body} = classNode;
-    const displayNameNode = body.body.find(_ => _.type === AST_NODE_TYPES.ClassProperty && ASTUtils.isIdentifier(_.key) && _.key.name === "displayName") as TSESTree.ClassProperty | undefined;
+    const displayNameNode = body.body.find(_ => _.type === AST_NODE_TYPES.PropertyDefinition && ASTUtils.isIdentifier(_.key) && _.key.name === "displayName") as
+        | TSESTree.PropertyDefinition
+        | undefined;
     if (displayNameNode) {
         // Check if displayName is static
         if (!displayNameNode.static) {

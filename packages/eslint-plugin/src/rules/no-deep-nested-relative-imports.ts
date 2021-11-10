@@ -10,9 +10,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         type: "suggestion",
         docs: {
             description: "No deep nested relative imports",
-            category: "Best Practices",
             recommended: "error",
         },
+        hasSuggestions: true,
         messages: {
             noDeepNestedRelativeImports: 'no ["../../../"] imports',
         },
