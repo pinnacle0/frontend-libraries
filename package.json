@@ -11,6 +11,9 @@
             "packages/*"
         ]
     },
+    "engines": {
+        "node": ">=16.0.0"
+    },
     "scripts": {
         "canadyarn": "canadyarn"
     },
