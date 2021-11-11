@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.1.21",
+    "version": "0.1.22",
     "license": "MIT",
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
