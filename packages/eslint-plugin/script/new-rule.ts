@@ -10,9 +10,6 @@ const directory = {
     testRules: path.join(__dirname, "../test/rules"),
 };
 
-const KEBAB_CASE_RULE_NAME_PLACEHOLDER_REGEX = /\/\/ {{KEBAB_CASE_RULE_NAME}}/g;
-const CAMEL_CASE_RULE_NAME_PLACEHOLDER_REGEX = /\/\/ {{CAMEL_CASE_RULE_NAME}}/g;
-
 const newRuleName = yargs.argv._[0];
 if (typeof newRuleName !== "string") {
     throw new Error("Missing positional cli argument (new rule name), usage: yarn new-rule custom-new-eslint-rule-name");
@@ -43,11 +40,8 @@ new TaskRunner("new-rule").execute([
                 .readFileSync(templateFile, {
                     encoding: "utf8",
                 })
-                .replace(KEBAB_CASE_RULE_NAME_PLACEHOLDER_REGEX, newRuleName)
-                .replace(CAMEL_CASE_RULE_NAME_PLACEHOLDER_REGEX, NamingUtil.toCamelCase(newRuleName));
-            // Temporay swtich to old school style replace before node v16 in active lts https://nodejs.org/en/about/releases/
-            // .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            // .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
+                .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
             fs.writeFileSync(newRuleFile, output, {encoding: "utf8"});
         },
     },
@@ -59,10 +53,8 @@ new TaskRunner("new-rule").execute([
                 .readFileSync(templateFile, {
                     encoding: "utf8",
                 })
-                .replace(KEBAB_CASE_RULE_NAME_PLACEHOLDER_REGEX, newRuleName)
-                .replace(CAMEL_CASE_RULE_NAME_PLACEHOLDER_REGEX, NamingUtil.toCamelCase(newRuleName));
-            // .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
-            // .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
+                .replaceAll("// {{KEBAB_CASE_RULE_NAME}}", newRuleName)
+                .replaceAll("// {{CAMEL_CASE_RULE_NAME}}", NamingUtil.toCamelCase(newRuleName));
             fs.writeFileSync(newTestFile, output, {encoding: "utf8"});
         },
     },
