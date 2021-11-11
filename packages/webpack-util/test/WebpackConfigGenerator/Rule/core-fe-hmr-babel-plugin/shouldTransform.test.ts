@@ -14,7 +14,7 @@ describe("core-fe-hmr-babel-plugin", () => {
             export const actions = featureModule.getActions();
             export const MainComponent = featureModule.attachLifecycle(Main);
         `;
-        const {code} = babel.transform(source, {plugins: [plugin]});
+        const {code} = babel.transformSync(source, {plugins: [plugin]})!;
         expect(code).toMatchSnapshot();
         expect(code).toContain("if (module.hot) module.hot.decline();");
     });
@@ -31,7 +31,7 @@ describe("core-fe-hmr-babel-plugin", () => {
             export const actions = featureModule.getActions();
             export const MainComponent = featureModule.attachLifecycle(Main);
         `;
-        const {code} = babel.transform(source, {plugins: [plugin]});
+        const {code} = babel.transformSync(source, {plugins: [plugin]})!;
         expect(code).toMatchSnapshot();
         expect(code).toContain("if (module.hot) module.hot.decline();");
     });
@@ -48,7 +48,7 @@ describe("core-fe-hmr-babel-plugin", () => {
             export const actions = featureModule.getActions();
             export const MainComponent = featureModule.attachLifecycle(Main);
         `;
-        const {code} = babel.transform(source, {plugins: [plugin]});
+        const {code} = babel.transformSync(source, {plugins: [plugin]})!;
         expect(code).toMatchSnapshot();
         expect(code).toContain("if (module.hot) module.hot.decline();");
     });
@@ -65,7 +65,7 @@ describe("core-fe-hmr-babel-plugin", () => {
             export const actions = featureModule.getActions();
             export const MainComponent = featureModule.attachLifecycle(Main);
         `;
-        const {code} = babel.transform(source, {plugins: [plugin]});
+        const {code} = babel.transformSync(source, {plugins: [plugin]})!;
         expect(code).toMatchSnapshot();
         expect(code).toContain("if (module.hot) module.hot.decline();");
     });

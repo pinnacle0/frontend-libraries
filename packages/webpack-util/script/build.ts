@@ -8,6 +8,7 @@ const FilePath = {
     script: path.join(__dirname, "../script"),
     src: path.join(__dirname, "../src"),
 
+    jestConfig: path.join(__dirname, "../config/jest.config.js"),
     tsConfigForSrc: path.join(__dirname, "../config/tsconfig.src.json"),
     projectPackageJSON: path.join(__dirname, "../package.json"),
     projectReadMe: path.join(__dirname, "../README.md"),
@@ -38,7 +39,7 @@ new TaskRunner("build").execute([
         name: "test",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("jest", ["--bail"]);
+            Utility.runCommand("jest", ["--config", FilePath.jestConfig, "--bail"]);
         },
     },
     {

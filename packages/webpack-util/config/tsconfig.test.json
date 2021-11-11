@@ -1,0 +1,12 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": ["ES2020"],
+        "module": "CommonJS",
+        "target": "ES2015",
+        "rootDir": "../",
+        "outDir": "../build/",
+        "isolatedModules": true
+    },
+    "include": ["../src/", "../test/"]
+}
