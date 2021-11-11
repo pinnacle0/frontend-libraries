@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/util",
-    "version": "2.3.11",
+    "version": "2.3.12",
     "license": "MIT",
     "sideEffects": false,
     "repository": {
@@ -10,6 +10,9 @@
     },
     "main": "cjs/index.js",
     "module": "esm/index.js",
+    "engines": {
+        "node": ">= 16.0.0"
+    },
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
         "build": "yarn run-script script/build.ts",
@@ -22,8 +25,5 @@
     "devDependencies": {
         "@types/react": "17.0.34",
         "react": "17.0.2"
-    },
-    "engines": {
-        "node": ">= 16.0.0"
     }
 }
