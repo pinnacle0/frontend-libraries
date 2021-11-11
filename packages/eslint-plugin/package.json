@@ -37,6 +37,6 @@
         "eslint-plugin-testing-library": "^5.0.0"
     },
     "engines": {
-        "node": ">= 14.14.0"
+        "node": ">= 16.0.0"
     }
 }
