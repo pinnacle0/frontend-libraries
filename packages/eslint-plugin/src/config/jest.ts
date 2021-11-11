@@ -16,6 +16,7 @@ export const jest: ESLint.Linter.Config = {
         "jest/consistent-test-it": ["warn", {fn: "test", withinDescribe: "test"}],
         "jest/expect-expect": "off", // This is too annoying
         "jest/prefer-lowercase-title": ["warn", {ignore: ["describe"]}],
+        "jest/prefer-to-be": ["warn"],
         "jest/no-alias-methods": ["warn"],
         "jest/no-commented-out-tests": ["warn"],
         "jest/no-deprecated-functions": ["warn"],
