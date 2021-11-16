@@ -203,7 +203,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                 <AntTable
                     tableLayout="auto"
                     locale={{emptyText: emptyTextNode}}
-                    onRow={this.onRow}
+                    onRow={this.props.onRowClick ? this.onRow : undefined}
                     loading={loading ? {indicator: <LoadingOutlined />} : false}
                     pagination={false}
                     columns={tableColumns}

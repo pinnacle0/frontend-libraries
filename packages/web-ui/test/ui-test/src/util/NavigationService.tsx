@@ -1,6 +1,5 @@
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
-import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 import {AdminNavigatorBase} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 import {SelectDemo} from "../component/core/SelectDemo";
 import {SliderDemo} from "../component/core/SliderDemo";
@@ -17,6 +16,7 @@ import {RelativeTimeDemo} from "../component/core/RelativeTimeDemo";
 import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "../component/core/OverflowableTextDemo";
 import {TabsDemo} from "../component/core/TabsDemo";
+import {TableDemo} from "../component/core/TableDemo";
 import {CascaderDemo} from "../component/core/CascaderDemo";
 import {UploaderImporterDemo} from "../component/core/UploaderImporterDemo";
 import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
@@ -27,6 +27,7 @@ import {RichEditorDemo} from "../component/admin/RichEditorDemo";
 import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
+import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -119,6 +120,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/tabs",
                         title: "Tabs",
                         componentType: TabsDemo,
+                    },
+                    {
+                        url: "/core/table",
+                        title: "Table",
+                        componentType: TableDemo,
                     },
                     {
                         url: "/core/relative-time",
