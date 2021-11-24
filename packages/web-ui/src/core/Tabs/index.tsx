@@ -48,7 +48,10 @@ export class Tabs extends React.PureComponent<Props> {
         }
     };
 
-    tabBarCallBackRef = (tabBar: HTMLDivElement | null) => (this.tabBarRef = tabBar);
+    tabBarCallBackRef = (tabBar: HTMLDivElement | null) => {
+        console.info("------------------------------------", tabBar);
+        this.tabBarRef = tabBar;
+    };
 
     render() {
         const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type, animated, ...restProps} = this.props;
@@ -67,7 +70,8 @@ export class Tabs extends React.PureComponent<Props> {
                 animated={animated === undefined ? type === "line" : animated}
                 type={type}
                 tabBarExtraContent={tabBarExtraContent}
-                renderTabBar={renderTabBar || ((oldProps, DefaultTabBar) => <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} />)}
+                // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
+                renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} />)}
                 {...restProps}
             />
         );
