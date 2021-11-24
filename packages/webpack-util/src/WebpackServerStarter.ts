@@ -75,6 +75,7 @@ export class WebpackServerStarter {
             process.exit(1);
         }
     }
+
     private createDevServerInstance() {
         return new DevServer(
             {
@@ -84,7 +85,9 @@ export class WebpackServerStarter {
                     directory: this.devServerConfigContentBase,
                 },
                 historyApiFallback: true,
-                https: true,
+                server: {
+                    type: "https",
+                },
                 compress: true,
                 hot: true,
                 client: {
