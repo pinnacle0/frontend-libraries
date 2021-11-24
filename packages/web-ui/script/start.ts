@@ -1,6 +1,5 @@
 import path from "path";
-// @ts-ignore
-import {WebpackUtil} from "../../webpack-util/src";
+import {WebpackUtil} from "@pinnacle0/webpack-util/src";
 // @ts-ignore
 import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
 
