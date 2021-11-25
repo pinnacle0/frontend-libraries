@@ -48,10 +48,7 @@ export class Tabs extends React.PureComponent<Props> {
         }
     };
 
-    tabBarCallBackRef = (tabBar: HTMLDivElement | null) => {
-        console.info("------------------------------------", tabBar);
-        this.tabBarRef = tabBar;
-    };
+    tabBarCallBackRef = (tabBar: HTMLDivElement | null) => (this.tabBarRef = tabBar);
 
     render() {
         const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type, animated, ...restProps} = this.props;
