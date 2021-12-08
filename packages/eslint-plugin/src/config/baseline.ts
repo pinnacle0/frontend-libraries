@@ -129,7 +129,7 @@ export const baseline: ESLint.Linter.Config = {
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
         "no-duplicate-imports": "off", // Use rule from eslint-plugin-import
         "no-restricted-globals": ["error", ...confusingBrowserGlobals],
-        // no this and super in static method
+        // no `this` and `super` in static method
         "no-restricted-syntax": [
             "error",
             {

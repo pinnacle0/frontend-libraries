@@ -15,8 +15,6 @@ export const jest: ESLint.Linter.Config = {
         // jest
         "jest/consistent-test-it": ["warn", {fn: "test", withinDescribe: "test"}],
         "jest/expect-expect": "off", // This is too annoying
-        "jest/prefer-lowercase-title": ["warn", {ignore: ["describe"]}],
-        "jest/prefer-to-be": ["warn"],
         "jest/no-alias-methods": ["warn"],
         "jest/no-commented-out-tests": ["warn"],
         "jest/no-deprecated-functions": ["warn"],
@@ -39,6 +37,8 @@ export const jest: ESLint.Linter.Config = {
         "jest/prefer-hooks-on-top": ["warn"],
         "jest/prefer-spy-on": ["warn"],
         "jest/prefer-strict-equal": ["warn"],
+        "jest/prefer-lowercase-title": ["warn", {ignore: ["describe"]}],
+        "jest/prefer-to-be": ["warn"],
         "jest/prefer-to-contain": ["warn"],
         "jest/prefer-to-have-length": ["warn"],
         "jest/prefer-todo": ["warn"],
