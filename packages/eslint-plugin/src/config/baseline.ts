@@ -27,6 +27,7 @@ export const baseline: ESLint.Linter.Config = {
         "@pinnacle0/module-class-method-decorators": ["error"],
         "@pinnacle0/no-deep-nested-relative-imports": ["error"],
         "@pinnacle0/no-named-imports": ["error"],
+        "@pinnacle0/no-process-env": ["error"],
         "@pinnacle0/no-ugly-relative-path": ["error"],
         "@pinnacle0/no-unnecessary-ending-index": ["error"],
         "@pinnacle0/react-component-default-props-typing": ["error"],
