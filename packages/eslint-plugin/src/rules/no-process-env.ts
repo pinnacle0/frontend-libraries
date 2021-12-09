@@ -26,9 +26,9 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
             MemberExpression(node) {
                 if (
                     node.object.type === TSESTree.AST_NODE_TYPES.Identifier &&
-                    node.property.type === TSESTree.AST_NODE_TYPES.Identifier &&
                     node.object.name === "process" &&
-                    node.property.name === "env"
+                    ((node.property.type === TSESTree.AST_NODE_TYPES.Identifier && node.property.name === "env") ||
+                        (node.property.type === TSESTree.AST_NODE_TYPES.Literal && node.property.value === "env"))
                 ) {
                     context.report({node, messageId: "noProcessEnv"});
                 }

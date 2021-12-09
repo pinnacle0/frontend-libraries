@@ -15,6 +15,7 @@ ruleTester.run(name, rule, {
             process.getuid()
         }`,
         `const a = 3`,
+        `const propertyName = 'env';const env = process[propertyName]`,
         // prettier-format-preserve
     ],
     invalid: [
@@ -27,14 +28,28 @@ ruleTester.run(name, rule, {
             errors: [{line: 1, messageId}],
         },
         {
-            code: `process.env.NODE_ENV.man_i_dont_know.some.some.some.some.some`,
-            errors: [{line: 1, messageId}],
-        },
-        {
             code: `function getMode(){
                 if( process.env.NODE_ENV === "production") {
                     // do something
                 }
+            }`,
+            errors: [{line: 2, messageId}],
+        },
+        {
+            code: `process['env']`,
+            errors: [{line: 1, messageId}],
+        },
+        {
+            code: `process['env']['NODE_ENV']`,
+            errors: [{line: 1, messageId}],
+        },
+        {
+            code: `process.env.NODE_ENV.man_i_dont_know.long.long.long.long.long`,
+            errors: [{line: 1, messageId}],
+        },
+        {
+            code: `const obj = {
+                [process.env]: 3
             }`,
             errors: [{line: 2, messageId}],
         },
