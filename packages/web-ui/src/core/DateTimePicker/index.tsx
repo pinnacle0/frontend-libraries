@@ -10,6 +10,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabled?: boolean;
     className?: string;
     placeholder?: string;
+    disabledRange?: (diffHourToToday: number, date: Date) => boolean;
 }
 
 export class DateTimePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -24,7 +25,11 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
         if (current.valueOf() >= new Date(2038, 0).valueOf()) {
             return true;
         }
-        return false;
+
+        // moment will truncate the result to zero decimal places
+        // ref: https://momentjs.com/docs/#/displaying/difference/
+        const diffHourToToday = Math.floor(current.diff(moment().startOf("hour"), "hour", true));
+        return this.props.disabledRange?.(diffHourToToday, current.toDate()) || false;
     };
 
     onChange = (date: moment.Moment | null) => {
