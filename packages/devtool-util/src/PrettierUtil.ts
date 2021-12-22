@@ -35,7 +35,7 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
     if (fileStats.isDirectory()) {
         const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{css,html,js,json,jsx,less,ts,tsx}"`);
         try {
-            Utility.runCommand("prettier", [flag, quotedGlobPattern, ...prettierIgnoreFlags]);
+            Utility.runCommand("prettier", [flag, quotedGlobPattern, ...prettierIgnoreFlags, "--no-error-on-unmatched-pattern"]);
         } catch (error) {
             if (error && (error as any).childProcessResult?.status === PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND) {
                 return;
