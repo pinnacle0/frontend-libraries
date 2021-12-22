@@ -24,7 +24,7 @@ export function createConsoleLogger(descriptiveTitle: string) {
     const curriedPrint = (emoji: string) => (color: "blueBright" | "greenBright" | "redBright") => {
         return (descriptiveTitle: string) => (text: any) => {
             const title = chalk[color].bold(`${emoji} [${descriptiveTitle}]`);
-            const body = chalk.whiteBright.bgBlack((Array.isArray(text) ? text : [text]).map(_ => _.toString()).join(" "));
+            const body = chalk.whiteBright((Array.isArray(text) ? text : [text]).map(_ => _.toString()).join(" "));
             console.info("");
             console.info(`${title} ${body}`);
         };
