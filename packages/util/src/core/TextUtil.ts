@@ -34,7 +34,16 @@ function interpolate(text: string, ...parameters: string[]): string {
 }
 
 function stripHTML(html: string): string {
-    return html.replace(/(<([^>]+)>)/gi, "");
+    const decodeHtml = (html: string) => {
+        return html
+            .replace(/&nbsp;/g, " ")
+            .split(/\r?\n/g)
+            .map(line => line.trim())
+            .join("\n")
+            .trim();
+    };
+
+    return decodeHtml(html.replace(/(<([^>]+)>)/gi, ""));
 }
 
 export const TextUtil = Object.freeze({

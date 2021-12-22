@@ -43,16 +43,18 @@ test("stripHTML", () => {
     expect(TextUtil.stripHTML(`<html><p>123</p></html>`)).toBe("123");
     expect(TextUtil.stripHTML(`<html><p class="a">123</p></html>`)).toBe("123");
     expect(
+        TextUtil.stripHTML(`<p><span style="background-color:rgb(242,242,243);color:rgba(0,0,0,0.85);font-size:16px;">
+    &nbsp;&nbsp;
+    修改并重发站内信&nbsp;：&nbsp;信内站发重并改修</span></p>
+
+    &nbsp;&nbsp;`)
+    ).toEqual("修改并重发站内信 ： 信内站发重并改修");
+    expect(
         TextUtil.stripHTML(`
         <html>
             <p>321,
                 <a>123</a>
             </p>
         </html>`)
-    ).toBe(`
-        
-            321,
-                123
-            
-        `);
+    ).toBe("321,\n123");
 });
