@@ -44,6 +44,9 @@ const TableWithActionButton = () => {
         {
             title: "Name",
             renderData: _ => _.name,
+            onCell: _ => ({
+                colSpan: _.key === "4" ? 2 : 1,
+            }),
         },
         {
             title: "Address",

@@ -7,7 +7,7 @@ import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
 import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
-import type {RenderedCell} from "rc-table/lib/interface";
+import type {GetComponentProps, RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
@@ -32,6 +32,7 @@ export interface TableColumn<RowType extends object, OrderByFieldType = undefine
     onHeaderClick?: () => void;
     display?: "default" | "hidden";
     customizedKey?: string;
+    onCell?: GetComponentProps<RowType>;
 }
 
 export type TableColumns<RowType extends object, OrderByFieldType = undefined> = Array<TableColumn<RowType, OrderByFieldType>>;
