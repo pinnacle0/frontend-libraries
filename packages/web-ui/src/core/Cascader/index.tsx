@@ -1,5 +1,5 @@
 import React from "react";
-import type {DataNode} from "rc-cascader";
+import type {DefaultOptionType} from "rc-cascader";
 import AntCascader from "antd/lib/cascader";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
@@ -37,7 +37,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
 
     getAntValue = (): Array<string | number> => {
         const data = this.getAntDataSource();
-        const getCascaderValues = (data: DataNode[]): Array<string | number> => {
+        const getCascaderValues = (data: DefaultOptionType[]): Array<string | number> => {
             const {value} = this.props;
             for (const item of data) {
                 if (item.value === value) {
@@ -54,8 +54,8 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         return getCascaderValues(data);
     };
 
-    getAntDataSource = (): DataNode[] => {
-        const getAntChildren = (list: Array<CascaderDataNode<T>>): DataNode[] => {
+    getAntDataSource = (): DefaultOptionType[] => {
+        const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map(node => ({
                 label: node.label,
                 disabled: node.disabled,

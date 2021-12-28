@@ -1,7 +1,7 @@
 import React from "react";
 import AntCascader from "antd/lib/cascader";
 import type {ControlledFormValue} from "../../internal/type";
-import type {DataNode} from "rc-cascader";
+import type {DefaultOptionType} from "rc-cascader";
 import "antd/lib/cascader/style";
 import "./index.less";
 
@@ -33,7 +33,7 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
     getAntValue = (): (string | number)[][] => {
         const data = this.getAntDataSource();
         const value = this.props.value;
-        const getCascaderValues = (data: DataNode[], value: T): Array<string | number> => {
+        const getCascaderValues = (data: DefaultOptionType[], value: T): Array<string | number> => {
             for (const item of data) {
                 if (item.value === value) {
                     return [item.value];
@@ -50,8 +50,8 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
         return value.map(_ => getCascaderValues(data, _));
     };
 
-    getAntDataSource = (): DataNode[] => {
-        const getAntChildren = (list: Array<CascaderDataNode<T>>): DataNode[] => {
+    getAntDataSource = (): DefaultOptionType[] => {
+        const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map((node, index) => ({
                 label: node.label,
                 disabled: node.disabled,
@@ -68,13 +68,13 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
         const branches = lastNodes.filter(_ => `${_}`.startsWith(MultipleCascader.nonLeafPrefix));
         const leaves = lastNodes.filter(_ => !`${_}`.startsWith(MultipleCascader.nonLeafPrefix));
 
-        const recursion = (data: DataNode): (string | number)[] => {
+        const recursion = (data: DefaultOptionType): (string | number)[] => {
             if (data.children) {
                 return data.children.flatMap(recursion);
             }
-            return [data.value];
+            return [data.value!];
         };
-        const getLeafValue = (data: DataNode[], value: string): (string | number)[] => {
+        const getLeafValue = (data: DefaultOptionType[], value: string): (string | number)[] => {
             for (const item of data) {
                 if (item.value === value) {
                     return recursion(item);
