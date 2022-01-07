@@ -16,7 +16,7 @@ interface State {
     inputText: string;
 }
 
-const separators = [",", " ", ";", "|", "*", "Tab", "Enter"];
+const separators = [" ", ";", "|", "*", "Tab", "Enter"];
 
 export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     static displayName = "TagInput";
