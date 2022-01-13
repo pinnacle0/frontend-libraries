@@ -1,4 +1,5 @@
 import {PrettierUtil, Utility} from "@pinnacle0/devtool-util";
+import fs from "fs";
 import path from "path";
 import type {InternalCheckerOptions} from "./type";
 
@@ -9,7 +10,8 @@ export class CodeStyleChecker {
     constructor({projectDirectory, extraCheckDirectories = []}: InternalCheckerOptions) {
         this.checkableSrcDirectories = [path.join(projectDirectory, "src")];
         for (const directory of extraCheckDirectories) {
-            this.checkableSrcDirectories.push(path.join(directory, "src"));
+            const others = ["test", "script"].map(folder => path.join(directory, folder)).filter(path => fs.existsSync(path));
+            this.checkableSrcDirectories.push(path.join(directory, "src"), ...others);
         }
     }
 

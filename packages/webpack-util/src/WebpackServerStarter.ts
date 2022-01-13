@@ -37,7 +37,9 @@ export class WebpackServerStarter {
         | {
               target: string;
               context: string[];
-          }
+              secure: boolean;
+              changeOrigin: boolean;
+          }[]
         | undefined;
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
     private readonly webpackConfig: webpack.Configuration;
@@ -45,8 +47,17 @@ export class WebpackServerStarter {
     constructor({projectDirectory, port, apiProxy, interceptExpressApp, dynamicPathResolvers, extraEntries, prioritizedExtensionPrefixes, defineVars}: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
-        this.apiProxy = apiProxy;
-        this.onBeforeSetupMiddleware = interceptExpressApp ? devServer => interceptExpressApp(devServer.app) : undefined;
+        this.apiProxy = apiProxy
+            ? [
+                  {
+                      context: apiProxy.context,
+                      target: apiProxy.target,
+                      secure: false,
+                      changeOrigin: true,
+                  },
+              ]
+            : undefined;
+        this.onBeforeSetupMiddleware = interceptExpressApp ? devServer => (devServer.app ? interceptExpressApp(devServer.app) : undefined) : undefined;
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
             dynamicPathResolvers,
@@ -108,16 +119,7 @@ export class WebpackServerStarter {
                         logging: "warn",
                     },
                 },
-                proxy: this.apiProxy
-                    ? [
-                          {
-                              context: this.apiProxy.context,
-                              target: this.apiProxy.target,
-                              secure: false,
-                              changeOrigin: true,
-                          },
-                      ]
-                    : undefined,
+                proxy: this.apiProxy,
             },
             webpack(this.webpackConfig)
         );
