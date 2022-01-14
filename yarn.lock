@@ -1962,7 +1962,7 @@
     cssnano "^5.0.5"
     postcss "^8.3.0"
 
-"@parcel/optimizer-data-url@^2.2.0":
+"@parcel/optimizer-data-url@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@parcel/optimizer-data-url/-/optimizer-data-url-2.2.0.tgz#bddd226af008c4361727ab4c15bbbb7e65af0f01"
   integrity sha512-7mjJSCZMXTT/9WGvSlzW+cFmg1lAShxsXVxGAo2EzFJnZZzwicohr054PtpYSTvxeiMvst5zUV2mOiGhrBcvbA==
@@ -2234,7 +2234,7 @@
     "@parcel/workers" "^2.2.0"
     nullthrows "^1.1.1"
 
-"@parcel/transformer-inline-string@^2.2.0":
+"@parcel/transformer-inline-string@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-inline-string/-/transformer-inline-string-2.2.0.tgz#f66a748e21546e209daedeaa388b6010b6355736"
   integrity sha512-6ONzIm/Aidekaa9i9SY/KJ1luv6EEfC+NmEh3gCACCzAuCDzsjH8EKq/9msJn5uHV3f/gk6SNlnM4fWEYzotsA==
@@ -2267,7 +2267,7 @@
     "@parcel/plugin" "^2.2.0"
     json5 "^2.1.0"
 
-"@parcel/transformer-less@^2.2.0":
+"@parcel/transformer-less@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-less/-/transformer-less-2.2.0.tgz#fd09deaecc0930a4456aac38d9d0d2e7186532ec"
   integrity sha512-qIOPZ86CxW5CTSQ3gcn/aZ7TPWFgwX7qXOriNYMv+QZa1hLmLy+gnHLXhX3ejOVZiKAIA5CLmRUWEfMET4P7mg==
@@ -2334,7 +2334,7 @@
     posthtml-render "^3.0.0"
     semver "^5.7.1"
 
-"@parcel/transformer-typescript-tsc@^2.2.0":
+"@parcel/transformer-typescript-tsc@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-tsc/-/transformer-typescript-tsc-2.2.0.tgz#e12213b4331966bf393ac9acf4528cb9bfcc6499"
   integrity sha512-VUz2hiyuYdPIGUDhTtPYh0tLFBinCHT26NLkfjtnE8kCY4VRjxveQlE+AsuiumpYrvhqs59rGYiDAXqztC455w==
