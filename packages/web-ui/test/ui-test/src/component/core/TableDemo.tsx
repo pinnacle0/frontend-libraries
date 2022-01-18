@@ -39,7 +39,7 @@ const data: Profile[] = [
     },
 ];
 
-const TableWithActionButton = () => {
+const TableWithActionButton = ({hasData = false}: {hasData?: boolean}) => {
     const columns: TableColumns<Profile> = [
         {
             title: "Name",
@@ -62,12 +62,17 @@ const TableWithActionButton = () => {
         },
     ];
 
-    return <Table rowKey="index" dataSource={data} columns={columns} />;
+    return <Table rowKey="index" dataSource={hasData ? data : []} columns={columns} />;
 };
 
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Table with Action button",
+        showPropsHint: false,
+        components: [<TableWithActionButton hasData />],
+    },
+    {
+        title: "Table without Data",
         showPropsHint: false,
         components: [<TableWithActionButton />],
     },

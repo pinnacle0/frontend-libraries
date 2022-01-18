@@ -79,6 +79,9 @@ const FormItems = () => {
             <Form.Item label="Bio" validator={() => "bio information too long"}>
                 <UncontrolledInputTextArea initialValue="Here is my bio ..." />
             </Form.Item>
+            <Form.Item label="Empty Error message" validator={() => ""}>
+                <UncontrolledInputTextArea initialValue="Test" />
+            </Form.Item>
             <Form.Item label="Multiple" validator={() => "test"} widthMode="shrink">
                 <Input.Group>
                     <UncontrolledInputPassword initialValue="password" />
