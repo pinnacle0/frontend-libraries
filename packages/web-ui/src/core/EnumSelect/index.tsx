@@ -38,7 +38,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
         const antLabel = translator ? translator(value) : antValue;
         return {
             value: antValue,
-            label: <span className="g-enum-select-label">{antLabel}</span>,
+            label: antLabel,
         };
     };
 
@@ -48,14 +48,14 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className, style, placeholder, suffixIcon} = this.props;
+        const {list, translator, disabled, className = "", style, placeholder, suffixIcon} = this.props;
         return (
             <Select<LabeledValue>
                 disabled={disabled}
                 labelInValue
                 value={this.getAntSelectValue()}
                 onChange={this.onChange}
-                className={className}
+                className={`g-enum-select ${className}`}
                 style={style}
                 placeholder={placeholder}
                 suffixIcon={suffixIcon}
