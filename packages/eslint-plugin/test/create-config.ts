@@ -1,6 +1,6 @@
-import type {RuleTesterConfig} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {TSESLint} from "@typescript-eslint/experimental-utils";
 
-export function createConfig({parserOptions}: Omit<RuleTesterConfig, "parser"> = {}): RuleTesterConfig {
+export function createConfig({parserOptions}: Omit<TSESLint.RuleTesterConfig, "parser"> = {}): TSESLint.RuleTesterConfig {
     return {
         parser: require.resolve("@typescript-eslint/parser"),
         parserOptions: {

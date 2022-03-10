@@ -96,7 +96,7 @@ export class WebpackBuilder {
     private bundleByWebpack() {
         this.logger.task("Starting webpack");
 
-        webpack(this.webpackConfig).run((error?: Error, stats?: webpack.Stats) => {
+        webpack(this.webpackConfig).run((error?: Error | null, stats?: webpack.Stats) => {
             if (error) {
                 throw error;
             } else if (stats) {

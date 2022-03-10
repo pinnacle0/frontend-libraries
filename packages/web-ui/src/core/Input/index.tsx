@@ -1,6 +1,6 @@
 import React from "react";
-import type {InputProps, PasswordProps, SearchProps, TextAreaProps} from "antd/lib/input";
 import AntInput from "antd/lib/input";
+import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} from "antd/lib/input";
 import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/input/style";
 import "./index.less";
@@ -42,7 +42,7 @@ export class Input extends React.PureComponent<Props> {
 
     private static onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void) => onValueChange(e.target.value);
 
-    private antInputRef = React.createRef<AntInput>();
+    private antInputRef = React.createRef<InputRef>();
 
     componentDidMount() {
         if (this.props.autoFocus) {
