@@ -15,7 +15,8 @@
         "node": ">=16.0.0"
     },
     "scripts": {
-        "canadyarn": "canadyarn"
+        "canadyarn": "canadyarn",
+        "postinstall": "husky install"
     },
     "checkSingleVersionDependencies": [
         "@types/react",
