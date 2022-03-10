@@ -1,9 +1,8 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 import {ASTUtils, AST_NODE_TYPES} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 
 export function isCoreFeOrCoreNativeModuleClass<MessageIds extends string, Options extends readonly unknown[]>(
-    context: Readonly<RuleContext<MessageIds, Options>>,
+    context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
     classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression
 ) {
     const {superClass} = classNode;

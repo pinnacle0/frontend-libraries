@@ -1,6 +1,5 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
 import {isReactComponent} from "../util/isReactComponent";
 
@@ -42,7 +41,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     },
 });
 
-function checkComponentClass(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
+function checkComponentClass(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
     const propsGenericAnnotation = getRawGenericsOfSuperClass(context, classNode)?.[0] || null;
     if (propsGenericAnnotation === null) {
         const componentOrPureComponent = ((classNode.superClass as TSESTree.MemberExpression).property as TSESTree.Identifier).name === "Component" ? "Component" : "PureComponent";

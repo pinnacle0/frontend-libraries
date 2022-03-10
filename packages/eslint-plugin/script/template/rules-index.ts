@@ -4,9 +4,9 @@
 //              Run "yarn export-rules" to regenerate this file
 // -----------------------------------------------------------------------------
 
-import type {RuleListener, RuleModule} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {TSESLint} from "@typescript-eslint/experimental-utils";
 // {{TEMPLATE_IMPORT_STATEMENTS}}
 
-export const rules: Record<string, RuleModule<string, any[], RuleListener>> = {
+export const rules: Record<string, TSESLint.RuleModule<string, any[], TSESLint.RuleListener>> = {
     // {{TEMPLATE_RULE_DEFINITIONS}}
 };

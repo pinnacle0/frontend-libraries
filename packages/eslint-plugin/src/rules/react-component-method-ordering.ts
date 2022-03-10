@@ -1,6 +1,5 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {isClassElementAbstract} from "../util/isClassElementAbstract";
@@ -94,7 +93,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     },
 });
 
-function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
+function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
     const methodList: readonly CheckableClassElements[] = getClassMethods(classBody);
     const groupedMethods = methodList.reduce<{[key: string]: readonly CheckableClassElements[]}>((prev, method) => {
         const group = (prev[method.groupLabel] || []).concat([method]);
@@ -125,7 +124,7 @@ function getClassMethods(classBody: TSESTree.ClassBody): CheckableClassElements[
         .filter((_): _ is CheckableClassElements => _ !== null);
 }
 
-function checkClassMethodList(context: Readonly<RuleContext<MessageIds, Options>>, classMethodList: readonly CheckableClassElements[]) {
+function checkClassMethodList(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classMethodList: readonly CheckableClassElements[]) {
     let prevCheckerIndex = 0;
     for (const wrappedMethod of classMethodList) {
         const currentCheckerIndex = methodOrderCheckers.findIndex(_ => _.validator(wrappedMethod.name));

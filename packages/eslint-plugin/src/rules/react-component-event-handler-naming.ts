@@ -1,9 +1,8 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {isReactComponent} from "../util/isReactComponent";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 
 export type Options = [];
 
@@ -48,7 +47,7 @@ const incorrectOnChangeRegExp = /^onChange(\w+)$/;
 
 const incorrectOnClickRegExp = /^onClick(\w+)$/;
 
-function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
+function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
     classBody.body.forEach(classElement => {
         if (classElement.type === AST_NODE_TYPES.TSIndexSignature || classElement.type === AST_NODE_TYPES.StaticBlock) {
             return; // Allow type narrowing on classElement.type

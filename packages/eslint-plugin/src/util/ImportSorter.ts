@@ -1,5 +1,4 @@
-import {ReportFixFunction, RuleContext, RuleFixer} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 
 interface Import {
     node: TSESTree.ImportDeclaration;
@@ -53,7 +52,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
 
     private imports: Import[] = [];
 
-    constructor(private context: Readonly<RuleContext<MessageIds, Options>>) {}
+    constructor(private context: Readonly<TSESLint.RuleContext<MessageIds, Options>>) {}
 
     register(node: TSESTree.ImportDeclaration) {
         const result = this.computeRanking(node);
@@ -170,7 +169,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
         return /\.(css|scss|sass|less)['"]$/.test(node.source.raw);
     }
 
-    private fix = (fixer: RuleFixer, order: Import[]): ReturnType<ReportFixFunction> => {
+    private fix = (fixer: TSESLint.RuleFixer, order: Import[]): ReturnType<TSESLint.ReportFixFunction> => {
         const sourceCode = this.context.getSourceCode();
         return this.imports.map((target, index) => fixer.replaceText(target.node, sourceCode.getText(order[index].node)));
     };

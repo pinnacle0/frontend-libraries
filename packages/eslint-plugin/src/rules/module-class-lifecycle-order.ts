@@ -1,8 +1,7 @@
 import {ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {getClassMethod} from "../util/getClassMethod";
+import type {TSESLint, TSESTree} from "@typescript-eslint/experimental-utils";
 
 export type Options = [];
 
@@ -42,7 +41,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
     },
 });
 
-function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
+function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classBody: TSESTree.ClassBody) {
     const methodList = getClassMethod(classBody);
 
     let prevNodeIndex = 0;

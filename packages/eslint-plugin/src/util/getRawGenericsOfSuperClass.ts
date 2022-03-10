@@ -1,8 +1,7 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
-import type {SourceCode} from "@typescript-eslint/experimental-utils/dist/ts-eslint";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 
 export function getRawGenericsOfSuperClass(
-    context: {getSourceCode: () => Readonly<SourceCode>},
+    context: {getSourceCode: () => Readonly<TSESLint.SourceCode>},
     classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression
 ): [string, ...(string | undefined)[]] | null {
     const typeNode = classNode.superTypeParameters || null;

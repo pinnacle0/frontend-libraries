@@ -1,6 +1,6 @@
 import {ASTUtils, TSESTree} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
+import type {TSESLint} from "@typescript-eslint/experimental-utils";
 import {isReactComponent} from "../util/isReactComponent";
 
 export type Options = [];
@@ -42,7 +42,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     },
 });
 
-function checkComponentClass(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
+function checkComponentClass(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
     const classBody: TSESTree.ClassBody = classNode.body;
     classBody.body.forEach(_ => {
         const defaultPropsNode = _.type === AST_NODE_TYPES.PropertyDefinition && ASTUtils.isIdentifier(_.key) && _.key.name === "defaultProps" && _.static && !_.declare ? _ : null;

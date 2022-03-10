@@ -1,10 +1,9 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
 import {isReactComponent} from "../util/isReactComponent";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 
 export type Options = [];
 
@@ -44,7 +43,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     },
 });
 
-function checkClassBody(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, classBody: TSESTree.ClassBody) {
+function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, classBody: TSESTree.ClassBody) {
     classBody.body.forEach(classElement => {
         if (classElement.type !== AST_NODE_TYPES.PropertyDefinition && classElement.type !== AST_NODE_TYPES.TSAbstractPropertyDefinition) {
             return; // Allow type narrowing on classElement.type

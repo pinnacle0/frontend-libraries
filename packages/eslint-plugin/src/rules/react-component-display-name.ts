@@ -1,8 +1,7 @@
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {RuleContext} from "@typescript-eslint/experimental-utils/dist/ts-eslint/Rule";
 import {findClosestParent} from "../util/findClosestParent";
 import {isReactComponent} from "../util/isReactComponent";
+import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
 
 export type Options = [];
 
@@ -69,7 +68,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
     },
 });
 
-function checkClassProperties(context: Readonly<RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, displayName: string) {
+function checkClassProperties(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression, displayName: string) {
     const {body} = classNode;
     const displayNameNode = body.body.find(_ => _.type === AST_NODE_TYPES.PropertyDefinition && ASTUtils.isIdentifier(_.key) && _.key.name === "displayName") as
         | TSESTree.PropertyDefinition
