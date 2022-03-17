@@ -56,23 +56,24 @@ function removeElement(element: HTMLElement | null) {
     }
 }
 
-function scrollTo(position: number, container: Element | null = null) {
+function scrollTo(options: Omit<ScrollToOptions, "behavior">, container: Element | null = null) {
     if (container) {
         if (container.scrollTo) {
             try {
-                container.scrollTo({top: position, behavior: "smooth"});
+                container.scrollTo({...options, behavior: "smooth"});
             } catch (e) {
-                container.scrollTo(0, position);
+                container.scrollTo(options.left ?? container.scrollLeft, options.top ?? container.scrollTop);
             }
         } else {
-            container.scrollTop = position;
+            options.left && (container.scrollLeft = options.left);
+            options.top && (container.scrollTop = options.top);
         }
     } else {
         // Some legacy browser may not support DOM element scrollTo({...}) signature, or even scrollTo()
         try {
-            window.scrollTo({top: position, behavior: "smooth"});
+            window.scrollTo({...options, behavior: "smooth"});
         } catch (e) {
-            window.scrollTo(0, position);
+            window.scrollTo(options.left ?? window.scrollX, options.top ?? window.scrollY);
         }
     }
 }
