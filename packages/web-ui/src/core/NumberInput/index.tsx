@@ -1,6 +1,7 @@
 import React from "react";
 import type {ControlledFormValue} from "../../internal/type";
 import {Input} from "../Input";
+import type {InputRef as AntInputRef} from "antd/lib";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
 import "./index.less";
@@ -14,6 +15,8 @@ type DefaultPropsKeys = "scale" | "min" | "max" | "editable" | "stepperMode";
 type PropsWithDefault<AllowNull extends boolean = true> = {
     [K in Exclude<keyof Props<AllowNull>, DefaultPropsKeys>]: Props<AllowNull>[K];
 } & {[K in DefaultPropsKeys]: NonNullable<Props<AllowNull>[K]>};
+
+export type InputRef = AntInputRef;
 
 export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends true ? number | null : number> {
     /** Whether `null` is allowed in `value` */
@@ -46,6 +49,8 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     suffix?: React.ReactChild;
     /** Additional component to render before input field */
     prefix?: React.ReactChild;
+    /** Optional Input Ref */
+    inputRef?: React.RefObject<InputRef>;
 }
 
 interface State {
@@ -68,7 +73,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
 
     static Percentage = NumberInputPercentage;
 
-    private inputRef = React.createRef<Input>();
+    private inputRef = React.createRef<InputRef>();
 
     constructor(props: PropsWithDefault<AllowNull>) {
         super(props);
@@ -142,12 +147,12 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
 
     onInputPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            this.inputRef.current?.blur();
+            (this.props.inputRef || this.inputRef).current?.blur();
         }
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         return (
@@ -156,7 +161,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     &#65293;
                 </button>
                 <Input
-                    ref={this.inputRef}
+                    inputRef={inputRef || this.inputRef}
                     style={inputStyle}
                     placeholder={placeholder}
                     disabled={disabled}

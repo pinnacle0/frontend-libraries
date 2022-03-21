@@ -21,7 +21,9 @@ export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKey
 
 export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
-export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
+export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
+    inputRef?: React.RefObject<InputRef>;
+}
 
 export class Input extends React.PureComponent<Props> {
     static displayName = "Input";
@@ -46,16 +48,16 @@ export class Input extends React.PureComponent<Props> {
 
     componentDidMount() {
         if (this.props.autoFocus) {
-            this.antInputRef.current?.focus();
+            (this.props.inputRef || this.antInputRef).current?.focus();
         }
     }
 
-    blur = () => this.antInputRef.current?.blur();
+    blur = () => (this.props.inputRef || this.antInputRef).current?.blur();
 
-    focus = () => this.antInputRef.current?.focus();
+    focus = () => (this.props.inputRef || this.antInputRef).current?.focus();
 
     render() {
-        const {onChange, autoFocus, ...rest} = this.props;
-        return <AntInput {...rest} onChange={e => Input.onChange(e, onChange)} ref={this.antInputRef} />;
+        const {onChange, autoFocus, inputRef, ...rest} = this.props;
+        return <AntInput {...rest} onChange={e => Input.onChange(e, onChange)} ref={inputRef || this.antInputRef} />;
     }
 }
