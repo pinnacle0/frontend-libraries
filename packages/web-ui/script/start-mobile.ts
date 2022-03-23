@@ -7,7 +7,7 @@ new WebpackUtil.ServerStarter({
     dynamicPathResolvers: [
         {
             prefix: "@pinnacle0/web-ui",
-            resolver: path.resolve(__dirname, "../src"),
+            resolver: path.join(__dirname, "../src"),
         },
     ],
 }).run();
