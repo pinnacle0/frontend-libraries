@@ -28,8 +28,10 @@ export function FlatList<T>(props: Props<T>) {
     return (
         <VariableSizeList height={500} itemCount={data.length} itemSize={cache.itemSize.bind(cache)} width={300} ref={listRef}>
             {({index, style}) => (
-                <CellMeasurer data={data[index]} rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
-                    {({registerChild, measure}) => <RowRenderer style={style} ref={registerChild} data={data} index={index} itemRenderer={itemRenderer as ItemRenderer<unknown>} measure={measure} />}
+                <CellMeasurer rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
+                    {({registerChild, measure}) => (
+                        <RowRenderer style={style} ref={registerChild} data={data[index]} index={index} itemRenderer={itemRenderer as ItemRenderer<unknown>} measure={measure} />
+                    )}
                 </CellMeasurer>
             )}
         </VariableSizeList>

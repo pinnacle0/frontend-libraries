@@ -8,7 +8,6 @@ interface CellMeasurerChildrenProps {
 }
 
 interface Props<T> {
-    data: T;
     onSizeReset: (rwoIndex: number) => void;
     rowIndex: number;
     cache: CellMeasurerCache;
@@ -16,10 +15,8 @@ interface Props<T> {
 }
 
 export function CellMeasurer<T>(props: Props<T>) {
-    const {cache, data, rowIndex, children, onSizeReset} = props;
+    const {cache, rowIndex, children, onSizeReset} = props;
     const childRef = React.useRef<HTMLElement | null>();
-
-    React.useEffect(() => {}, [data]);
 
     const calculateSize = React.useCallback((node: HTMLElement): number => {
         const originalStyleHeight = node.style.height;
