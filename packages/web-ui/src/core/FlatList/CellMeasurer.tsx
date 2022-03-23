@@ -1,21 +1,25 @@
 import React from "react";
 import type {CellMeasurerCache} from "./CellMeasurerCache";
+import type {Measure, RegisterChild} from "./type";
 
 interface CellMeasurerChildrenProps {
-    registerChild: React.RefCallback<HTMLElement>;
-    measure: () => void;
+    registerChild: RegisterChild;
+    measure: Measure;
 }
 
-interface Props {
+interface Props<T> {
+    data: T;
     onSizeReset: (rwoIndex: number) => void;
     rowIndex: number;
     cache: CellMeasurerCache;
     children: React.FunctionComponent<CellMeasurerChildrenProps>;
 }
 
-export const CellMeasurer: React.FC<Props> = (props: Props) => {
-    const {cache, rowIndex, children, onSizeReset} = props;
+export function CellMeasurer<T>(props: Props<T>) {
+    const {cache, data, rowIndex, children, onSizeReset} = props;
     const childRef = React.useRef<HTMLElement | null>();
+
+    React.useEffect(() => {}, [data]);
 
     const calculateSize = React.useCallback((node: HTMLElement): number => {
         const originalStyleHeight = node.style.height;
@@ -25,7 +29,7 @@ export const CellMeasurer: React.FC<Props> = (props: Props) => {
         return height;
     }, []);
 
-    const measure = React.useCallback(() => {
+    const measure: Measure = React.useCallback(() => {
         if (childRef.current) {
             const height = calculateSize(childRef.current);
 
@@ -49,4 +53,4 @@ export const CellMeasurer: React.FC<Props> = (props: Props) => {
     };
 
     return children({registerChild, measure});
-};
+}

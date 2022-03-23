@@ -2,17 +2,13 @@ import React from "react";
 import {VariableSizeList} from "react-window";
 import {CellMeasurer} from "./CellMeasurer";
 import {CellMeasurerCache} from "./CellMeasurerCache";
+import type {ItemRenderer} from "./type";
 import "./index.less";
-
-export interface FlatListItemProps<T> {
-    data: T;
-    index: number;
-    measure: () => void;
-}
+import {RowRenderer} from "./RowRenderer";
 
 export interface Props<T> {
     data: T[];
-    itemRenderer: React.ComponentType<FlatListItemProps<T>>;
+    itemRenderer: ItemRenderer<T>;
 }
 
 export function FlatList<T>(props: Props<T>) {
@@ -32,12 +28,8 @@ export function FlatList<T>(props: Props<T>) {
     return (
         <VariableSizeList height={500} itemCount={data.length} itemSize={cache.itemSize.bind(cache)} width={300} ref={listRef}>
             {({index, style}) => (
-                <CellMeasurer rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
-                    {({registerChild, measure}) => (
-                        <div className="g-flat-list-item-wrapper" style={style} ref={registerChild}>
-                            {React.createElement(itemRenderer, {data: data[index], index, measure})}
-                        </div>
-                    )}
+                <CellMeasurer data={data[index]} rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
+                    {({registerChild, measure}) => <RowRenderer style={style} ref={registerChild} data={data} index={index} itemRenderer={itemRenderer as ItemRenderer<unknown>} measure={measure} />}
                 </CellMeasurer>
             )}
         </VariableSizeList>

@@ -1,13 +1,13 @@
-import React, {useLayoutEffect} from "react";
-import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList";
+import React from "react";
 import {CellMeasurerCache} from "react-virtualized";
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
+import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 
 const cache = new CellMeasurerCache({
     defaultHeight: 500,
 });
 
-const randomLength = () => Math.floor(Math.random() * (300 - 50) + 50);
+const randomLength = () => Math.floor(Math.random() * (50 - 5) + 5);
 
 function makeid(length: number) {
     let result = "";
@@ -25,7 +25,7 @@ const Item: React.FC<FlatListItemProps<string>> = props => {
     const indexRef = React.useRef(index);
     indexRef.current = index;
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         measure();
     });
 
