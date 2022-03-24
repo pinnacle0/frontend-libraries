@@ -1,6 +1,8 @@
 import React from "react";
 import type {CellMeasurerCache} from "./CellMeasurerCache";
-import type {Measure, RegisterChild} from "./type";
+import type {Measure} from "./type";
+
+export type RegisterChild = (instance: HTMLElement | null) => void;
 
 interface CellMeasurerChildrenProps {
     registerChild: RegisterChild;

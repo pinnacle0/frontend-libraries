@@ -2612,13 +2612,6 @@
   version "17.0.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
   integrity sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==
-"@types/react-virtualized@^9.21.20":
-  version "9.21.20"
-  resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.21.20.tgz#756c78b5512a2a1804fdaf749a5f5cff3d805e5b"
-  integrity sha512-i8nZf1LpuX5rG4DZLaPGayIQwjxsZwmst5VdNhEznDTENel9p3A735AdRRp2iueFOyOuWBmaEaDxg8AD3GHilA==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/react" "*"
 
 "@types/react-window@1.8.5":
   version "1.8.5"
@@ -8483,6 +8476,10 @@ react-virtualized@^9.22.3:
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
+react-virtualized-auto-sizer@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.6.tgz#66c5b1c9278064c5ef1699ed40a29c11518f97ca"
+  integrity sha512-7tQ0BmZqfVF6YYEWcIGuoR3OdYe8I/ZFbNclFlGOC3pMqunkYF/oL30NCjSGl9sMEb17AnzixDz98Kqc3N76HQ==
 
 react-window@^1.8.6:
   version "1.8.6"

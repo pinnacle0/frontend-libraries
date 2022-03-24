@@ -1,11 +1,6 @@
 import React from "react";
-import {CellMeasurerCache} from "react-virtualized";
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
-
-const cache = new CellMeasurerCache({
-    defaultHeight: 500,
-});
 
 const randomLength = () => Math.floor(Math.random() * (50 - 5) + 5);
 
@@ -72,8 +67,8 @@ export const Main = () => {
     };
 
     return (
-        <div>
-            <FlatList data={data} itemRenderer={Item} />
+        <div className="main-container">
+            <FlatList data={data} renderItem={Item} />
             <button onClick={() => updateData()}>update data</button>
         </div>
     );
