@@ -82,7 +82,7 @@ export class Controller {
             delta,
             direction: SwipeUtil.getDirection(s, e),
             displacement: SwipeUtil.getDisplacement(s, e),
-            // TODO/Alvis, need to improve the method of calculation of velocity
+            // TODO/Alvis, need to improve velocity calculation
             velocity: [Math.abs(delta[0]) / timeElapsed, Math.abs(delta[1]) / timeElapsed],
             reactEvent: event,
             cancel: (() => this.cancel(event)).bind(this),

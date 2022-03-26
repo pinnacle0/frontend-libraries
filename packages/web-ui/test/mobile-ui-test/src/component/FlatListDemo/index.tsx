@@ -67,6 +67,8 @@ export const FlatListDemo = () => {
         setData(new Array(20).fill("a").map(() => makeid(randomLength())));
     };
 
+    React.useEffect(updateData, []);
+
     return (
         <div className="main-container">
             <FlatList data={data} renderItem={Item} />

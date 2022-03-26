@@ -1,10 +1,10 @@
 import React from "react";
-import {SwipeDemo} from "./SwipeDemo";
+import {FlatListDemo} from "./FlatListDemo";
 
 export const Main = () => {
     return (
         <div className="main-container">
-            <SwipeDemo />
+            <FlatListDemo />
         </div>
     );
 };

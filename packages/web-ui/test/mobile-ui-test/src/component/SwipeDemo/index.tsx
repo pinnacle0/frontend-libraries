@@ -1,5 +1,5 @@
 import React from "react";
-import {useSwipe} from "@pinnacle0/web-ui/hooks/useSwipe";
+import {Direction, useSwipe} from "@pinnacle0/web-ui/hooks/useSwipe";
 import {useTransition} from "@pinnacle0/web-ui/hooks/useTransition";
 import "./index.less";
 
@@ -8,18 +8,18 @@ export const SwipeDemo = () => {
     const {transit, clear} = useTransition(ref);
     const bind = useSwipe({
         onStart: () => {},
-        onMove: state => {
-            if (state.delta[1] > 300) {
-                state.cancel();
+        onMove: event => {
+            const [dx, dy] = event.delta;
+            if (dy > 300) {
+                event.cancel();
             } else {
-                transit(state.delta[0], state.delta[1]);
+                transit({x: dx, y: dy, immediate: true});
             }
         },
-        onEnd: state => {
+        onEnd: event => {
             clear();
         },
-        onCancel: state => {
-            state.cancel;
+        onCancel: event => {
             clear();
         },
     });

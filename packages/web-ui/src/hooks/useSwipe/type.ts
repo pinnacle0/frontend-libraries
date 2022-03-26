@@ -30,7 +30,6 @@ export interface SwipeHookHandlers {
 export interface SwipeHookConfig {
     threshold?: (state: SwipeEvent) => boolean;
     preventDefault?: boolean;
-    ref?: React.Ref<HTMLElement>;
 }
 
 export enum Direction {
