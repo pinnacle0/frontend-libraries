@@ -1,9 +1,9 @@
 import React from "react";
+import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 import "./index.less";
-import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 
-const randomLength = () => Math.floor(Math.random() * (50 - 5) + 5);
+const randomLength = () => Math.floor(Math.random() * (150 - 10) + 5);
 
 function makeid(length: number) {
     let result = "";
@@ -64,14 +64,14 @@ export const FlatListDemo = () => {
     const [data, setData] = React.useState<string[]>([]);
 
     const updateData = () => {
-        setData(new Array(20).fill("a").map(() => makeid(randomLength())));
+        setData(new Array(100).fill("a").map(() => makeid(randomLength())));
     };
 
     React.useEffect(updateData, []);
 
     return (
         <div className="main-container">
-            <FlatList data={data} renderItem={Item} />
+            <FlatList data={data} renderItem={Item} pullDownMessage="Release to refresh" />
             <button onClick={() => updateData()}>update data</button>
         </div>
     );
