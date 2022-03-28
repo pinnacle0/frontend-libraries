@@ -20,15 +20,15 @@
         "react-dom": "17.0.2"
     },
     "devDependencies": {
-        "@babel/core": "7.17.5",
+        "@babel/core": "7.17.8",
         "@babel/preset-env": "7.16.11",
         "@babel/preset-react": "7.16.7",
         "@babel/preset-typescript": "7.16.7",
-        "@parcel/optimizer-data-url": "2.3.2",
-        "@parcel/transformer-inline-string": "2.3.2",
-        "@parcel/transformer-less": "2.3.2",
-        "@parcel/transformer-typescript-tsc": "2.3.2",
-        "parcel": "2.3.2"
+        "@parcel/optimizer-data-url": "2.4.0",
+        "@parcel/transformer-inline-string": "2.4.0",
+        "@parcel/transformer-less": "2.4.0",
+        "@parcel/transformer-typescript-tsc": "2.4.0",
+        "parcel": "2.4.0"
     },
     "engines": {
         "node": ">= 16.0.0"

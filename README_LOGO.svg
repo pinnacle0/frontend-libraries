@@ -1,155 +1,141 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300"><style>* {
   font-family: Comic Sans MS;
 }
+
 text {
-  font-size: 60px;
   dominant-baseline: middle;
   text-anchor: middle;
+  font-size: 60px;
 }
-.mask-static,
-.mask-anim {
-  opacity: 0.8;
+
+.mask-static, .mask-anim {
+  opacity: .8;
   width: 100%;
   height: 100%;
   fill: url(#bgImg);
 }
+
 .mask-anim {
-  opacity: 0.4;
-  animation: mask 10s ease-in-out 0s infinite;
+  opacity: .4;
+  animation: mask 10s ease-in-out infinite;
 }
+
 @keyframes mask {
-  0%,
-  100% {
-    transform: translate(300px, 150px) scale(3) rotate(90deg) translate(-300px, -150px);
+  0%, 100% {
+    transform: translate(300px, 150px)scale(3)rotate(90deg)translate(-300px, -150px);
   }
+
   50% {
-    transform: translate(300px, 150px) scale(5) rotate(270deg) translate(-300px, -150px);
+    transform: translate(300px, 150px)scale(5)rotate(270deg)translate(-300px, -150px);
   }
 }
+
 .line1 {
-  animation: line1 2s linear 0s infinite;
+  animation: line1 2s linear infinite;
 }
+
 @keyframes line1 {
-  0%,
-  10%,
-  20%,
-  30%,
-  40% {
-    transform: translate(300px, 75px) rotate(0deg) translate(-300px, -75px);
+  0%, 10%, 20%, 30%, 40% {
+    transform: translate(300px, 75px)rotate(0deg)translate(-300px, -75px);
   }
-  5%,
-  25% {
-    transform: translate(300px, 75px) rotate(-10deg) translate(-300px, -75px);
+
+  5%, 25% {
+    transform: translate(300px, 75px)rotate(-10deg)translate(-300px, -75px);
   }
-  15%,
-  35% {
-    transform: translate(300px, 75px) rotate(10deg) translate(-300px, -75px);
+
+  15%, 35% {
+    transform: translate(300px, 75px)rotate(10deg)translate(-300px, -75px);
   }
 }
+
 .line2 {
-  animation: line2 2s linear 0.5s infinite;
+  animation: line2 2s linear .5s infinite;
 }
+
 @keyframes line2 {
-  0%,
-  10%,
-  20%,
-  30%,
-  40% {
-    transform: translate(300px, 150px) rotate(0deg) translate(-300px, -150px);
+  0%, 10%, 20%, 30%, 40% {
+    transform: translate(300px, 150px)rotate(0deg)translate(-300px, -150px);
   }
-  5%,
-  25% {
-    transform: translate(300px, 150px) rotate(-10deg) translate(-300px, -150px);
+
+  5%, 25% {
+    transform: translate(300px, 150px)rotate(-10deg)translate(-300px, -150px);
   }
-  15%,
-  35% {
-    transform: translate(300px, 150px) rotate(10deg) translate(-300px, -150px);
+
+  15%, 35% {
+    transform: translate(300px, 150px)rotate(10deg)translate(-300px, -150px);
   }
 }
+
 .line3 {
   animation: line3 2s linear 1s infinite;
 }
+
 @keyframes line3 {
-  0%,
-  10%,
-  20%,
-  30%,
-  40% {
-    transform: translate(300px, 225px) rotate(0deg) translate(-300px, -225px);
+  0%, 10%, 20%, 30%, 40% {
+    transform: translate(300px, 225px)rotate(0deg)translate(-300px, -225px);
   }
-  5%,
-  25% {
-    transform: translate(300px, 225px) rotate(-10deg) translate(-300px, -225px);
+
+  5%, 25% {
+    transform: translate(300px, 225px)rotate(-10deg)translate(-300px, -225px);
   }
-  15%,
-  35% {
-    transform: translate(300px, 225px) rotate(10deg) translate(-300px, -225px);
+
+  15%, 35% {
+    transform: translate(300px, 225px)rotate(10deg)translate(-300px, -225px);
   }
 }
+
 .doge {
-  animation: doge-walker 5s ease-in-out 0s infinite;
+  animation: doge-walker 5s ease-in-out infinite;
 }
+
 @keyframes doge-walker {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(80%, 70%);
   }
+
   25% {
     transform: translate(75%, 10%);
   }
+
   50% {
     transform: translate(20%, 65%);
   }
+
   75% {
     transform: translate(15%, 15%);
   }
 }
+
 .doge-look-dir {
-  animation: doge-flipper 5s linear 0s infinite;
+  animation: doge-flipper 5s linear infinite;
 }
+
 @keyframes doge-flipper {
-  0%,
-  35%,
-  95% {
+  0%, 35%, 95% {
     transform: rotateY(0deg);
   }
-  45%,
-  85% {
+
+  45%, 85% {
     transform: rotateY(180deg);
   }
 }
+
 .doge image {
   width: 80px;
   height: 80px;
-  animation: doge-shaker 4s linear 0s infinite;
+  animation: doge-shaker 4s linear infinite;
 }
+
 @keyframes doge-shaker {
-  0%,
-  25%,
-  50%,
-  60%,
-  65%,
-  70%,
-  75%,
-  80%,
-  85%,
-  90%,
-  95%,
-  100% {
+  0%, 25%, 50%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
     transform: translate(80 / 2 * 1px, 80 / 2 * 1px) rotate(0deg) translate(-80 / 2 * 1px, -80 / 2 * 1px);
   }
-  12.5%,
-  62.5%,
-  72.5%,
-  82.5%,
-  92.5% {
+
+  12.5%, 62.5%, 72.5%, 82.5%, 92.5% {
     transform: translate(80 / 2 * 1px, 80 / 2 * 1px) rotate(-20deg) translate(-80 / 2 * 1px, -80 / 2 * 1px);
   }
-  32.5%,
-  67.5%,
-  77.5%,
-  87.5%,
-  97.5% {
+
+  32.5%, 67.5%, 77.5%, 87.5%, 97.5% {
     transform: translate(80 / 2 * 1px, 80 / 2 * 1px) rotate(20deg) translate(-80 / 2 * 1px, -80 / 2 * 1px);
   }
 }
