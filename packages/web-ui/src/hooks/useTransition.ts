@@ -16,6 +16,8 @@ export const useTransition = (ref: React.RefObject<HTMLElement>) => {
                     el.style.transform = `translate3d(${options.x ?? 0}px, ${options.y ?? 0}px, ${options.z ?? 0}px)`;
                     if (options.immediate) {
                         el.style.transition = "none";
+                    } else {
+                        el.style.transition = "";
                     }
                 });
             }
