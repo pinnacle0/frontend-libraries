@@ -44,6 +44,9 @@ export class Controller {
     }
 
     private onTouchEnd(e: React.TouchEvent) {
+        if (!this.started) {
+            return;
+        }
         const matchedTouches = this.matchTouches(e);
         if (!matchedTouches) {
             return;
@@ -54,6 +57,9 @@ export class Controller {
     }
 
     private onTouchCancel(e: React.TouchEvent) {
+        if (!this.started) {
+            return;
+        }
         const matchedTouches = this.matchTouches(e);
         if (!matchedTouches) {
             return;
