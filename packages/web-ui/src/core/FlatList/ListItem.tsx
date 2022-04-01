@@ -1,5 +1,4 @@
 import React from "react";
-import type {CellMeasurerChildProps} from "./CellMeasurer";
 import {CellMeasurer} from "./CellMeasurer";
 import type {ItemRenderer, ListItemData, Measure} from "./type";
 import type {ListChildComponentProps} from "react-window";
