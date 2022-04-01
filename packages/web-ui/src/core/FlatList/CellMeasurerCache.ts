@@ -31,9 +31,12 @@ export class CellMeasurerCache {
         delete this.cellHeightCache[this.createCacheKey(index)];
     }
 
+    getKey(index: number) {
+        return this.createCacheKey(index);
+    }
+
     itemSize(index: number): number {
         const cachedHeight = this.cellHeightCache[this.createCacheKey(index)];
-        const height = cachedHeight ?? this.defaultHeight;
-        return height;
+        return cachedHeight ?? this.defaultHeight;
     }
 }

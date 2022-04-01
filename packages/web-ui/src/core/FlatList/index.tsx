@@ -1,14 +1,13 @@
 import React from "react";
 import {VariableSizeList} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import {CellMeasurer} from "./CellMeasurer";
 import {CellMeasurerCache} from "./CellMeasurerCache";
-import {Row} from "./Row";
-import type {ItemRenderer} from "./type";
-import "./index.less";
 import {Loading} from "./Loading";
 import {Direction, useSwipe} from "../../hooks/useSwipe";
 import {useTransition} from "../../hooks/useTransition";
+import {ListItem} from "./ListItem";
+import type {ListItemData, ItemRenderer} from "./type";
+import "./index.less";
 
 const PULL_DOWN_THRESHOLD = 60;
 
@@ -36,6 +35,7 @@ export function FlatList<T>(props: Props<T>) {
     const [outBound, setOutBound] = React.useState(false);
     const [count, setCount] = React.useState(0);
 
+    // const listRef = React.useRef<VariableSizeList>(null);
     const listRef = React.useRef<VariableSizeList>(null);
     const outerRef = React.useRef<HTMLElement>(null);
     const innerContainerRef = React.useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ export function FlatList<T>(props: Props<T>) {
     const startOffsetRef = React.useRef(0);
 
     const transit = useTransition(innerContainerRef);
-    const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 0}), []);
+    const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);
 
     const isScrollTop = () => {
         return outerRef.current?.scrollTop === 0;
@@ -54,37 +54,40 @@ export function FlatList<T>(props: Props<T>) {
         setOutBound(false);
     }, []);
 
-    const onSizeReset = React.useCallback((rowIndex: number) => {
-        listRef.current?.resetAfterIndex(rowIndex);
-    }, []);
+    React.useEffect(() => {
+        listRef.current?.resetAfterIndex(0);
+    }, [data]);
+
+    const listDataItem: ListItemData<T> = React.useMemo(() => ({data, cache, parent: listRef, itemRenderer: renderItem} as ListItemData<T>), [data, cache, renderItem]);
 
     const handlers = useSwipe(
         {
-            onStart: () => {
-                // startOffsetRef.current = y;
-                // setOutBound(true);
-                // transit.clear();
+            onStart: ({delta: [, y]}) => {
+                startOffsetRef.current = y;
+                setOutBound(true);
+                transit.clear();
             },
-            onMove: state => {
-                setCount(_ => _ + 1);
-                // transit.to({
-                //     y: y - startOffsetRef.current,
-                //     immediate: true,
-                // });
+            onMove: ({delta: [, y]}) => {
+                transit.to({
+                    y: y - startOffsetRef.current,
+                    immediate: true,
+                });
             },
             onEnd: state => {
-                // if (state.direction === Direction.DOWN && Math.abs(state.delta[1]) >= PULL_DOWN_THRESHOLD) {
-                //     // transit.to({y: LOADING_TRANSITION, immediate: false});
-                //     transit.clear();
-                //     onPullDownRefresh?.();
-                // } else {
-                //     transit.clear();
-                // }
-                // clearSwipe();
+                if (state.direction === Direction.DOWN && Math.abs(state.delta[1]) >= PULL_DOWN_THRESHOLD) {
+                    // transit.to({y: LOADING_TRANSITION, immediate: false});
+                    transit.clear();
+                    onPullDownRefresh?.();
+                } else {
+                    transit.clear();
+                    setOutBound(false);
+                }
+                clearSwipe();
             },
             onCancel: () => {
-                // clearSwipe();
-                // transit.clear();
+                clearSwipe();
+                transit.clear();
+                setOutBound(false);
             },
         },
         {
@@ -98,14 +101,16 @@ export function FlatList<T>(props: Props<T>) {
                 <Loading loading={loading} message={pullDownMessage} />
                 <AutoSizer>
                     {size => (
-                        <VariableSizeList height={size.height} width={size.width} itemCount={data.length} itemSize={cache.itemSize.bind(cache)} outerRef={outerRef} ref={listRef}>
-                            {({index, style}) => (
-                                <CellMeasurer rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
-                                    {({registerChild, measure}) => (
-                                        <Row style={style} ref={registerChild} data={data[index]} index={index} itemRenderer={renderItem as ItemRenderer<unknown>} measure={measure} />
-                                    )}
-                                </CellMeasurer>
-                            )}
+                        <VariableSizeList<ListItemData<T>>
+                            height={size.height}
+                            width={size.width}
+                            itemCount={data.length}
+                            itemSize={cache.itemSize.bind(cache)}
+                            ref={listRef}
+                            outerRef={outerRef}
+                            itemData={listDataItem}
+                        >
+                            {ListItem}
                         </VariableSizeList>
                     )}
                 </AutoSizer>

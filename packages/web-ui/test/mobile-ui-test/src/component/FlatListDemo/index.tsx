@@ -15,20 +15,25 @@ function makeid(length: number) {
     return result;
 }
 
-const Item: React.FC<FlatListItemProps<string>> = props => {
+const Item: React.FC<FlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
     const [expand, setExpand] = React.useState(false);
-    const indexRef = React.useRef(index);
-    indexRef.current = index;
+    const measureRef = React.useRef(measure);
+    measureRef.current = measure;
 
-    React.useLayoutEffect(() => {
-        measure();
-    });
+    // React.useLayoutEffect(() => {
+    //     measure();
+    // });
+    //
+    React.useEffect(() => {
+        measureRef.current();
+    }, [expand]);
 
     return (
         <div className={`item ${index} ${expand ? "expand" : ""}`}>
             <h4>
-                {data}, index: {index}
+                {data}
+                <div>index: {index}</div>
             </h4>
             <button onClick={() => setExpand(_ => !_)}>toggle</button>
             {expand && (
@@ -58,7 +63,7 @@ const Item: React.FC<FlatListItemProps<string>> = props => {
             )}
         </div>
     );
-};
+});
 
 export const FlatListDemo = () => {
     const [data, setData] = React.useState<string[]>([]);

@@ -1,4 +1,6 @@
 import type React from "react";
+import type {VariableSizeList} from "react-window";
+import type {CellMeasurerCache} from "./CellMeasurerCache";
 
 // CellMeasurer type
 export type Measure = () => void;
@@ -11,3 +13,10 @@ export interface FlatListItemProps<T> {
 }
 
 export type ItemRenderer<T> = React.ComponentType<FlatListItemProps<T>>;
+
+export interface ListItemData<T> {
+    data: T[];
+    cache: CellMeasurerCache;
+    parent: React.RefObject<VariableSizeList>;
+    itemRenderer: ItemRenderer<T>;
+}
