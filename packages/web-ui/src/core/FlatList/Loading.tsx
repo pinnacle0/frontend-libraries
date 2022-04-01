@@ -6,6 +6,28 @@ interface Props {
     message?: string;
 }
 
+const throttle = (ms: number, callback: (...args: any[]) => void) => {
+    let canRun = true;
+    setTimeout(() => {
+        canRun = true;
+    }, ms);
+
+    return function (...args: any[]) {
+        if (canRun) {
+            canRun = false;
+            callback(...args);
+        }
+    };
+};
+
+const useThrottle = (ms: number, callback: (...args: any[]) => void) => {
+    const callbackRef = React.useRef(callback);
+    callbackRef.current = callback;
+    const runner = React.useMemo(() => throttle(ms, callbackRef.current), [ms]);
+
+    return runner;
+};
+
 export const Loading = (props: Props) => {
     const {loading, message} = props;
     return (

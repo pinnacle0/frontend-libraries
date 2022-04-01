@@ -19,6 +19,8 @@ export interface Props<T> {
     loading?: boolean;
     onPullUpLoading?: () => void;
     onPullDownRefresh?: () => void;
+    // Automatic load new data when scroll to bottom, a number {X} mean: when to scroll to last {X} items, auto load is going to be triggered
+    autoLoad?: boolean | number;
     emptyPlaceholder?: string | React.ReactElement;
     style?: React.CSSProperties;
     contentStyle?: React.CSSProperties;
@@ -26,57 +28,77 @@ export interface Props<T> {
     swipable?: boolean;
 }
 
+const LOADING_TRANSITION = 50;
+
 export function FlatList<T>(props: Props<T>) {
-    const {data, renderItem, pullDownMessage, loading = false, onPullDownRefresh, onPullUpLoading, emptyPlaceholder, style, contentStyle, gap, swipable = true} = props;
-    const listRef = React.useRef<VariableSizeList | null>(null);
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const {data, renderItem, pullDownMessage, loading = false, onPullDownRefresh, onPullUpLoading, emptyPlaceholder, style, contentStyle, gap, swipable = true, autoLoad: autoRefresh = true} = props;
+
+    const [outBound, setOutBound] = React.useState(false);
+    const [count, setCount] = React.useState(0);
+
+    const listRef = React.useRef<VariableSizeList>(null);
+    const outerRef = React.useRef<HTMLElement>(null);
+    const innerContainerRef = React.useRef<HTMLDivElement>(null);
+
+    const startOffsetRef = React.useRef(0);
+
+    const transit = useTransition(innerContainerRef);
     const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 0}), []);
 
-    const {transit, clear} = useTransition(containerRef);
+    const isScrollTop = () => {
+        return outerRef.current?.scrollTop === 0;
+    };
 
-    const handlers = useSwipe(
-        {
-            onStart: state => {
-                clear();
-            },
-            onMove: state => {
-                transit({
-                    y: state.delta[1],
-                    immediate: true,
-                });
-            },
-            onEnd: state => {
-                // pull down
-                if (state.direction === Direction.DOWN && Math.abs(state.delta[1]) >= PULL_DOWN_THRESHOLD) {
-                    transit({
-                        y: 80,
-                        immediate: false,
-                    });
-                    onPullDownRefresh?.();
-                } else {
-                    clear();
-                }
-            },
-            onCancel: state => {
-                clear();
-            },
-        },
-        {
-            threshold: ({direction}) => direction === Direction.DOWN || direction === Direction.UP,
-        }
-    );
+    const clearSwipe = React.useCallback(() => {
+        startOffsetRef.current = 0;
+        setOutBound(false);
+    }, []);
 
     const onSizeReset = React.useCallback((rowIndex: number) => {
         listRef.current?.resetAfterIndex(rowIndex);
     }, []);
 
+    const handlers = useSwipe(
+        {
+            onStart: () => {
+                // startOffsetRef.current = y;
+                // setOutBound(true);
+                // transit.clear();
+            },
+            onMove: state => {
+                setCount(_ => _ + 1);
+                // transit.to({
+                //     y: y - startOffsetRef.current,
+                //     immediate: true,
+                // });
+            },
+            onEnd: state => {
+                // if (state.direction === Direction.DOWN && Math.abs(state.delta[1]) >= PULL_DOWN_THRESHOLD) {
+                //     // transit.to({y: LOADING_TRANSITION, immediate: false});
+                //     transit.clear();
+                //     onPullDownRefresh?.();
+                // } else {
+                //     transit.clear();
+                // }
+                // clearSwipe();
+            },
+            onCancel: () => {
+                // clearSwipe();
+                // transit.clear();
+            },
+        },
+        {
+            threshold: ({direction}) => direction === Direction.DOWN && isScrollTop(),
+        }
+    );
+
     return (
         <div className="g-flat-list-wrapper">
-            <div className="inner-container" {...handlers} ref={containerRef}>
+            <div className="inner-container" ref={innerContainerRef} {...handlers}>
                 <Loading loading={loading} message={pullDownMessage} />
                 <AutoSizer>
                     {size => (
-                        <VariableSizeList height={size.height} width={size.width} itemCount={data.length} itemSize={cache.itemSize.bind(cache)} ref={listRef}>
+                        <VariableSizeList height={size.height} width={size.width} itemCount={data.length} itemSize={cache.itemSize.bind(cache)} outerRef={outerRef} ref={listRef}>
                             {({index, style}) => (
                                 <CellMeasurer rowIndex={index} cache={cache} onSizeReset={onSizeReset}>
                                     {({registerChild, measure}) => (

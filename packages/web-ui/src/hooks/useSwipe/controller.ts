@@ -16,12 +16,8 @@ export class Controller {
         this.config = {};
     }
 
-    private isTrigger() {
-        return this.startTouch !== null;
-    }
-
     private onTouchStart(e: React.TouchEvent) {
-        if (e.changedTouches[0] && !this.isTrigger()) {
+        if (e.changedTouches[0] && !this.startTouch) {
             this.startTouch = e.changedTouches[0];
             this.startTime = Date.now();
         }
@@ -33,12 +29,12 @@ export class Controller {
             return;
         }
         const state = this.computeEvent(matchedTouches.start, matchedTouches.changed, e);
+
         if (!this.started && this.testThreshold(state)) {
             this.started = true;
             this.handlers.onStart?.(state);
             return;
-        }
-        if (this.started) {
+        } else if (this.started) {
             this.handlers.onMove?.(state);
         }
     }
@@ -116,12 +112,12 @@ export class Controller {
         this.started = false;
     }
 
-    update(handlers: SwipeHookHandlers, config?: SwipeHookConfig) {
+    update(handlers: SwipeHookHandlers, config: SwipeHookConfig = {}) {
         this.handlers = handlers;
-        this.config = config ?? {};
+        this.config = config;
     }
 
-    createHookResult(): SwipeHookResult {
+    createHandlers(): SwipeHookResult {
         return {
             onTouchStart: this.onTouchStart.bind(this),
             onTouchMove: this.onTouchMove.bind(this),

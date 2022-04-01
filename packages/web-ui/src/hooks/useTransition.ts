@@ -1,24 +1,23 @@
 import React from "react";
 
-interface TransitionOptions {
+interface TransitionOption {
     x?: number;
     y?: number;
     z?: number;
     immediate?: boolean;
 }
 
-export const useTransition = (ref: React.RefObject<HTMLElement>) => {
-    const transit = React.useCallback(
-        (options: TransitionOptions) => {
+export const useTransition = (ref: React.RefObject<HTMLElement>, initialOption?: TransitionOption) => {
+    const initialOptionRef = React.useRef(initialOption);
+    initialOptionRef.current = initialOption;
+
+    const to = React.useCallback(
+        (option: TransitionOption) => {
             if (ref.current) {
                 const el = ref.current;
                 requestAnimationFrame(() => {
-                    el.style.transform = `translate3d(${options.x ?? 0}px, ${options.y ?? 0}px, ${options.z ?? 0}px)`;
-                    if (options.immediate) {
-                        el.style.transition = "none";
-                    } else {
-                        el.style.transition = "";
-                    }
+                    el.style.transform = `translate3d(${option.x ?? 0}px, ${option.y ?? 0}px, ${option.z ?? 0}px) `;
+                    option.immediate ? (el.style.transition = "none") : (el.style.transition = "");
                 });
             }
         },
@@ -35,5 +34,13 @@ export const useTransition = (ref: React.RefObject<HTMLElement>) => {
         }
     }, [ref]);
 
-    return {transit, clear};
+    // TODO/Alvis: this can be wrong in fast refresh mode, need to improve
+    React.useEffect(() => {
+        if (initialOptionRef.current) {
+            to(initialOptionRef.current);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
+    }, []);
+
+    return {to, clear};
 };
