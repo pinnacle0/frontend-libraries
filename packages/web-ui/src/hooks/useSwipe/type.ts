@@ -11,6 +11,9 @@ export interface SwipeHookResult {
 
 export interface SwipeEvent {
     syntheticEvent: React.TouchEvent;
+    startTouch: React.Touch;
+    clientX: number;
+    clientY: number;
     displacement: number;
     delta: Vector2;
     velocity: Vector2;

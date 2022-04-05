@@ -41,6 +41,7 @@ export class Controller {
 
     private onTouchEnd(e: React.TouchEvent) {
         if (!this.started) {
+            this.reset();
             return;
         }
         const matchedTouches = this.matchTouches(e);
@@ -54,6 +55,7 @@ export class Controller {
 
     private onTouchCancel(e: React.TouchEvent) {
         if (!this.started) {
+            this.reset();
             return;
         }
         const matchedTouches = this.matchTouches(e);
@@ -81,6 +83,9 @@ export class Controller {
         const delta: Vector2 = [e[0] - s[0], e[1] - s[1]];
         const timeElapsed = Date.now() - this.startTime;
         return {
+            clientX: changed.clientX,
+            clientY: changed.clientY,
+            startTouch: start,
             delta,
             direction: SwipeUtil.getDirection(s, e),
             displacement: SwipeUtil.getDisplacement(s, e),
