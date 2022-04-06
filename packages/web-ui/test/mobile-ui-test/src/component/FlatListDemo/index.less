@@ -1,15 +1,18 @@
-.main-container {
+#flat-list-demo {
     display: flex;
     flex-flow: column;
     height: 100%;
-}
 
-.item {
-    background: yellowgreen;
-    border-bottom: 1px solid red;
-    overflow-wrap: break-word;
+    .list {
+        background-color: lightcoral;
 
-    &.expand {
-        background: lightcoral;
+        .item {
+            border-bottom: 1px solid red;
+            overflow-wrap: break-word;
+
+            &.expand {
+                background: lightpink;
+            }
+        }
     }
 }

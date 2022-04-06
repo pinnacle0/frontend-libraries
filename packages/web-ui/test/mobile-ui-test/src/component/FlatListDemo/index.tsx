@@ -2,18 +2,7 @@ import React from "react";
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 import "./index.less";
-
-const randomLength = () => Math.floor(Math.random() * (150 - 10) + 5);
-
-function makeid(length: number) {
-    let result = "";
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
+import {fetchData} from "./fetch";
 
 const Item: React.FC<FlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
@@ -21,10 +10,6 @@ const Item: React.FC<FlatListItemProps<string>> = React.memo(props => {
     const measureRef = React.useRef(measure);
     measureRef.current = measure;
 
-    // React.useLayoutEffect(() => {
-    //     measure();
-    // });
-    //
     React.useEffect(() => {
         measureRef.current();
     }, [expand]);
@@ -67,16 +52,22 @@ const Item: React.FC<FlatListItemProps<string>> = React.memo(props => {
 
 export const FlatListDemo = () => {
     const [data, setData] = React.useState<string[]>([]);
+    const [loading, setLoading] = React.useState(false);
 
-    const updateData = () => {
-        setData(new Array(100).fill("a").map(() => makeid(randomLength())));
+    const updateData = async () => {
+        setLoading(true);
+        const data = await fetchData();
+        setData(data);
+        setLoading(false);
     };
 
-    React.useEffect(updateData, []);
+    React.useEffect(() => {
+        updateData();
+    }, []);
 
     return (
-        <div className="main-container">
-            <FlatList data={data} renderItem={Item} pullDownMessage="Release to refresh" />
+        <div id="flat-list-demo">
+            <FlatList className="list" loading={loading} data={data} renderItem={Item} pullDownMessage="Release to refresh" onPullDownRefresh={updateData} />
             <button onClick={() => updateData()}>update data</button>
         </div>
     );
