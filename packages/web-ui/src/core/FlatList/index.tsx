@@ -1,4 +1,5 @@
 import React from "react";
+import type {ListOnItemsRenderedProps} from "react-window";
 import {VariableSizeList} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import {Direction, useSwipe} from "../../hooks/useSwipe";
@@ -7,17 +8,16 @@ import {useLoadingWithDelay} from "./useLoadingWithDelay";
 import {ListItem} from "./ListItem";
 import {Loading} from "./Loading";
 import {CellMeasurerCache} from "./CellMeasurerCache";
-import type {ListItemData, ItemRenderer} from "./type";
+import type {ListItemData, ItemRenderer, FooterData} from "./type";
 import "./index.less";
 
-const LOADING_THRESHOLD = 50;
+type LoadingType = "refresh" | "loading" | null;
 
-type Boundary = "upper" | "lower" | null;
+const LOADING_THRESHOLD = 50;
 
 export interface Props<T> {
     data: T[];
     renderItem: ItemRenderer<T>;
-    pullDownMessage?: string;
     loading?: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -29,35 +29,44 @@ export interface Props<T> {
     contentStyle?: React.CSSProperties;
     gap?: {top?: number; bottom?: number; left?: number; right?: number};
     swipable?: boolean;
+    virtualized?: boolean;
+    pullUpLoadingMessage?: string;
+    endOfListMessage?: string;
+    pullDownRefreshMessage?: string;
 }
 
 export function FlatList<T>(props: Props<T>) {
     const {
         data,
         renderItem,
-        pullDownMessage,
         loading = false,
-        onPullDownRefresh,
-        onPullUpLoading,
         className,
         style,
+        onPullDownRefresh,
+        onPullUpLoading,
         emptyPlaceholder,
         contentStyle,
         gap,
+        autoLoad = true,
         swipable = true,
-        autoLoad: autoRefresh = true,
+        pullUpLoadingMessage,
+        endOfListMessage,
+        pullDownRefreshMessage,
     } = props;
 
-    const [outBounded, setOutBounded] = React.useState<Boundary>(null);
+    const [outBounded, setOutBounded] = React.useState<"upper" | "lower" | null>(null);
+    const [loadingType, setLoadingType] = React.useState<"refresh" | "loading" | null>(null);
 
     const listRef = React.useRef<VariableSizeList>(null);
     const outerRef = React.useRef<HTMLElement>(null);
     const innerContainerRef = React.useRef<HTMLDivElement>(null);
     const startOffsetRef = React.useRef(0);
-    const prevLoadingBound = React.useRef<Boundary>(null);
+
+    const loadingTypeRef = React.useRef<LoadingType>(null);
+    loadingTypeRef.current = loadingType;
 
     const transit = useTransition(innerContainerRef);
-    const loadingWithDelay = useLoadingWithDelay(loading, 1000);
+    const loadingWithDelay = useLoadingWithDelay(loading, 300);
 
     const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);
 
@@ -80,6 +89,7 @@ export function FlatList<T>(props: Props<T>) {
         setOutBounded(null);
     }, []);
 
+    // Limited the offset in a range, it prevent over swipe the list
     const getOutOfBoundOffset = (y: number): number | null => {
         const offset = y - startOffsetRef.current;
         if (outBounded === "upper") {
@@ -91,7 +101,21 @@ export function FlatList<T>(props: Props<T>) {
         }
     };
 
-    const listDataItem: ListItemData<T> = React.useMemo(() => ({data, cache, parent: listRef, itemRenderer: renderItem} as ListItemData<T>), [data, cache, renderItem]);
+    const onAutoLoad = (props: ListOnItemsRenderedProps) => {
+        if (autoLoad) {
+            const {overscanStopIndex} = props;
+            if (overscanStopIndex > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3) && !loading && onPullUpLoading) {
+                setLoadingType("loading");
+                onPullUpLoading();
+            }
+        }
+    };
+
+    const newData: Array<T | FooterData> = [
+        ...data,
+        {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage},
+    ];
+    const listDataItem = {data: newData, cache, parent: listRef, itemRenderer: renderItem, gap};
 
     const handlers = useSwipe(
         {
@@ -102,6 +126,7 @@ export function FlatList<T>(props: Props<T>) {
             onMove: ({delta: [, y], cancel}) => {
                 const offset = getOutOfBoundOffset(y);
                 if (!offset) {
+                    // if
                     cancel();
                 } else {
                     transit.to({
@@ -112,13 +137,17 @@ export function FlatList<T>(props: Props<T>) {
             },
             onEnd: state => {
                 if (loadingWithDelay) {
-                    transit.to({
-                        y: LOADING_THRESHOLD,
-                    });
+                    if (outBounded === "upper") {
+                        transit.to({
+                            y: LOADING_THRESHOLD,
+                        });
+                    } else {
+                        transit.clear();
+                    }
                 } else {
-                    if (outBounded && Math.abs(startOffsetRef.current - state.delta[1]) >= LOADING_THRESHOLD && !loading) {
+                    if (outBounded && Math.abs(startOffsetRef.current - state.delta[1]) >= LOADING_THRESHOLD) {
                         outBounded === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
-                        prevLoadingBound.current = outBounded;
+                        setLoadingType(outBounded === "upper" ? "refresh" : "loading");
                     }
                     transit.clear();
                 }
@@ -141,33 +170,36 @@ export function FlatList<T>(props: Props<T>) {
 
     React.useEffect(() => {
         if (loadingWithDelay) {
-            transit.to({
-                y: LOADING_THRESHOLD,
-                immediate: false,
-            });
+            if (loadingTypeRef.current === "refresh") {
+                transit.to({
+                    y: LOADING_THRESHOLD,
+                    immediate: false,
+                });
+            }
         } else {
             transit.clear();
+            setLoadingType(null);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps -- transit
     }, [loadingWithDelay]);
 
     return (
-        <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...handlers}>
+        <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(swipable ? handlers : {})}>
             <div className={`inner-container${outBounded ? " out-bounded" : ""}`} ref={innerContainerRef} style={contentStyle}>
-                <Loading loading={loadingWithDelay} message={pullDownMessage} />
+                <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
                 {data.length !== 0 ? (
                     <AutoSizer>
                         {size => (
                             <VariableSizeList<ListItemData<T>>
                                 height={size.height}
                                 width={size.width}
-                                itemCount={data.length}
+                                itemCount={listDataItem.data.length}
                                 itemSize={cache.itemSize.bind(cache)}
                                 ref={listRef}
                                 outerRef={outerRef}
                                 itemData={listDataItem}
-                                onItemsRendered={() => {}}
-                                onScroll={() => transit.clear()}
+                                onItemsRendered={onAutoLoad}
+                                onScroll={clearSwipe}
                             >
                                 {ListItem}
                             </VariableSizeList>

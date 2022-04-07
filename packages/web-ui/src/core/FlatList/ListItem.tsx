@@ -1,7 +1,8 @@
 import React from "react";
 import {CellMeasurer} from "./CellMeasurer";
-import type {ItemRenderer, ListItemData, Measure} from "./type";
+import type {FooterData, ItemRenderer, ListItemData, Measure} from "./type";
 import type {ListChildComponentProps} from "react-window";
+import {Footer} from "./Footer";
 
 interface WrapperProps<T> extends ListChildComponentProps {
     itemRenderer: ItemRenderer<T>;
@@ -27,13 +28,32 @@ const ItemRendererWrapper = React.forwardRef(function <T>(props: WrapperProps<T>
 
 export const ListItem = function <T>(props: ListChildComponentProps<ListItemData<T>>) {
     const {data, index, style} = props;
-    const {cache, parent, data: rawData, itemRenderer} = data;
+    const {cache, parent, data: rawData, itemRenderer, gap} = data;
+
+    const padding = React.useMemo((): React.CSSProperties => {
+        return gap ? {paddingLeft: gap.left, paddingRight: gap.right, paddingBottom: gap.bottom, paddingTop: gap.top} : {};
+    }, [gap]);
 
     return (
         <CellMeasurer cache={cache} rowIndex={index} parent={parent}>
-            {({registerChild, measure}) => (
-                <ItemRendererWrapper ref={registerChild} style={style} data={rawData[index]} index={index} itemRenderer={itemRenderer as ItemRenderer<any>} measure={measure} />
-            )}
+            {({registerChild, measure}) => {
+                const data = rawData[index];
+                if (index === rawData.length - 1) {
+                    const {loading, loadingMessage, endMessage, ended} = data as FooterData;
+                    return <Footer ref={registerChild} loading={loading} ended={ended} loadingMessage={loadingMessage} endMessage={endMessage} style={style} measure={measure} />;
+                } else {
+                    return (
+                        <ItemRendererWrapper
+                            ref={registerChild}
+                            style={{...style, ...padding}}
+                            data={rawData[index]}
+                            index={index}
+                            itemRenderer={itemRenderer as ItemRenderer<any>}
+                            measure={measure}
+                        />
+                    );
+                }
+            }}
         </CellMeasurer>
     );
 };

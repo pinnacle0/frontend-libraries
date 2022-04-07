@@ -4,11 +4,16 @@
     height: 100%;
 
     .list {
-        background-color: lightcoral;
+        .g-flat-list-item-wrapper {
+            transition: all 300ms ease-in-out;
+        }
 
         .item {
-            border-bottom: 1px solid red;
+            transition: all 300ms ease-in-out;
+            padding: 10px;
+            border-radius: 10px;
             overflow-wrap: break-word;
+            background-color: lightcoral;
 
             &.expand {
                 background: lightpink;

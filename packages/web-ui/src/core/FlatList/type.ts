@@ -14,9 +14,24 @@ export interface FlatListItemProps<T> {
 
 export type ItemRenderer<T> = React.ComponentType<FlatListItemProps<T>>;
 
+export interface ListItemGap {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+}
+
+export interface FooterData {
+    loading: boolean;
+    ended: boolean;
+    loadingMessage?: string;
+    endMessage?: string;
+}
+
 export interface ListItemData<T> {
-    data: T[];
+    data: (T | FooterData)[];
     cache: CellMeasurerCache;
     parent: React.RefObject<VariableSizeList>;
     itemRenderer: ItemRenderer<T>;
+    gap?: ListItemGap;
 }

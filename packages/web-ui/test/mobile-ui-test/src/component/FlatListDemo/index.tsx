@@ -54,21 +54,37 @@ export const FlatListDemo = () => {
     const [data, setData] = React.useState<string[]>([]);
     const [loading, setLoading] = React.useState(false);
 
-    const updateData = async () => {
+    const refreshData = async () => {
         setLoading(true);
         const data = await fetchData();
         setData(data);
         setLoading(false);
     };
 
+    const loadMoreData = async () => {
+        setLoading(true);
+        const data = await fetchData();
+        setData(_ => [..._, ...data]);
+        setLoading(false);
+    };
+
     React.useEffect(() => {
-        updateData();
+        refreshData();
     }, []);
 
     return (
         <div id="flat-list-demo">
-            <FlatList className="list" loading={loading} data={data} renderItem={Item} pullDownMessage="Release to refresh" onPullDownRefresh={updateData} />
-            <button onClick={() => updateData()}>update data</button>
+            <FlatList
+                className="list"
+                loading={loading}
+                data={data}
+                renderItem={Item}
+                pullDownRefreshMessage="Release to refresh"
+                onPullDownRefresh={refreshData}
+                onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
+                gap={{left: 10, right: 10, bottom: 10, top: 10}}
+            />
+            <button onClick={() => refreshData()}>update data</button>
         </div>
     );
 };
