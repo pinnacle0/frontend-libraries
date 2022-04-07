@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "0.1.36",
+    "version": "0.1.37",
     "license": "MIT",
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
