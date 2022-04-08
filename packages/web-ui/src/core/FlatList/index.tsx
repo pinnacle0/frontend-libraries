@@ -3,7 +3,7 @@ import type {ListOnItemsRenderedProps} from "react-window";
 import {VariableSizeList} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import {Direction, useSwipe} from "../../hooks/useSwipe";
-import {useTransition} from "../../hooks/useTransition";
+import {useTransform} from "../../hooks/useTransform";
 import {useLoadingWithDelay} from "./useLoadingWithDelay";
 import {ListItem} from "./ListItem";
 import {Loading} from "./Loading";
@@ -49,6 +49,7 @@ export function FlatList<T>(props: Props<T>) {
         gap,
         autoLoad = true,
         swipable = true,
+        virtualized = false,
         pullUpLoadingMessage,
         endOfListMessage,
         pullDownRefreshMessage,
@@ -65,7 +66,7 @@ export function FlatList<T>(props: Props<T>) {
     const loadingTypeRef = React.useRef<LoadingType>(null);
     loadingTypeRef.current = loadingType;
 
-    const transit = useTransition(innerContainerRef);
+    const transit = useTransform(innerContainerRef);
     const loadingWithDelay = useLoadingWithDelay(loading, 300);
 
     const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);

@@ -1,18 +1,18 @@
 import React from "react";
 
-interface TransitionOption {
+interface TransformOption {
     x?: number;
     y?: number;
     z?: number;
     immediate?: boolean;
 }
 
-export const useTransition = (ref: React.RefObject<HTMLElement>, initialOption?: TransitionOption) => {
+export const useTransform = (ref: React.RefObject<HTMLElement>, initialOption?: TransformOption) => {
     const initialOptionRef = React.useRef(initialOption);
     initialOptionRef.current = initialOption;
 
     const to = React.useCallback(
-        (option: TransitionOption) => {
+        (option: TransformOption) => {
             if (ref.current) {
                 const el = ref.current;
                 requestAnimationFrame(() => {
