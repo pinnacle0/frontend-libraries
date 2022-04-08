@@ -1,5 +1,5 @@
 import type React from "react";
-import type {SwipeHookConfig, SwipeHookHandlers, SwipeHookResult, SwipeEvent, Vector2} from "./type";
+import type {SwipeHookConfig, SwipeHookHandlers, SwipeHookResult, SwipeState, Vector2} from "./type";
 import {SwipeUtil} from "../../util/SwipeUtil";
 
 const SWIPE_START_THRESHOLD = 10;
@@ -67,7 +67,7 @@ export class Controller {
         this.reset();
     }
 
-    private testThreshold(state: SwipeEvent): boolean {
+    private testThreshold(state: SwipeState): boolean {
         return this.config.threshold ? this.config.threshold(state) : state.displacement > SWIPE_START_THRESHOLD;
     }
 
@@ -77,7 +77,7 @@ export class Controller {
         }
     }
 
-    private computeEvent(start: React.Touch, changed: React.Touch, event: React.TouchEvent): SwipeEvent {
+    private computeEvent(start: React.Touch, changed: React.Touch, event: React.TouchEvent): SwipeState {
         const s: Vector2 = [start.clientX, start.clientY];
         const e: Vector2 = [changed.clientX, changed.clientY];
         const delta: Vector2 = [e[0] - s[0], e[1] - s[1]];

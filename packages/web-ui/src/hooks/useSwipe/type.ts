@@ -9,7 +9,7 @@ export interface SwipeHookResult {
     onTouchCancel: React.TouchEventHandler;
 }
 
-export interface SwipeEvent {
+export interface SwipeState {
     syntheticEvent: React.TouchEvent;
     startTouch: React.Touch;
     clientX: number;
@@ -21,7 +21,7 @@ export interface SwipeEvent {
     cancel: () => void;
 }
 
-type SwipeHookHandler = (event: SwipeEvent) => void;
+type SwipeHookHandler = (event: SwipeState) => void;
 
 export interface SwipeHookHandlers {
     onStart?: SwipeHookHandler;
@@ -31,7 +31,7 @@ export interface SwipeHookHandlers {
 }
 
 export interface SwipeHookConfig {
-    threshold?: (state: SwipeEvent) => boolean;
+    threshold?: (state: SwipeState) => boolean;
     preventDefault?: boolean;
 }
 
