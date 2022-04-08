@@ -68,7 +68,7 @@ export class Controller {
     }
 
     private testThreshold(state: SwipeState): boolean {
-        return this.config.threshold ? this.config.threshold(state) : state.displacement > SWIPE_START_THRESHOLD;
+        return state.displacement > SWIPE_START_THRESHOLD && (this.config.threshold?.(state) ?? true);
     }
 
     private cancel(event: React.TouchEvent) {
