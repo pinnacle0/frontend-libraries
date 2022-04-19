@@ -1,10 +1,14 @@
+interface DrawPathOptions {
+    strokeColor: string;
+    lineWidth?: number;
+}
 /**
  * This function draws line on canvas between the center of nodes.
  *
  * Attention:
  * canvasContext must share the same offsetParent with the nodes.
  */
-function drawPathBetweenNodes(nodes: NodeListOf<Element>, canvasContext: CanvasRenderingContext2D, strokeColor: string) {
+function drawPathBetweenNodes(nodes: NodeListOf<Element>, canvasContext: CanvasRenderingContext2D, {strokeColor, lineWidth = 1}: DrawPathOptions) {
     canvasContext.save();
     canvasContext.beginPath();
     const [first, ...rest] = Array.from(nodes).map(_ => elementCenter(_, canvasContext.canvas.offsetParent));
@@ -16,7 +20,7 @@ function drawPathBetweenNodes(nodes: NodeListOf<Element>, canvasContext: CanvasR
             }
         });
     }
-    canvasContext.lineWidth = 1;
+    canvasContext.lineWidth = lineWidth;
     canvasContext.strokeStyle = strokeColor;
     canvasContext.stroke();
     canvasContext.restore();
