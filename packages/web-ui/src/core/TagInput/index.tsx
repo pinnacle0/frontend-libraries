@@ -83,7 +83,10 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
                     );
                 })}
                 {!value.length && !inputText && <div className="placeholder">{placeholder}</div>}
-                <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus={autoFocus} />
+                {/* The absolute position of textarea for prevent the cursor jumps back to the beginning while typing in the textarea out of view */}
+                <div className="text-area-wrapper">
+                    <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus={autoFocus} />
+                </div>
             </div>
         );
     }
