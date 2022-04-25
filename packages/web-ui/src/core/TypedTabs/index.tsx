@@ -8,6 +8,7 @@ export interface TabData {
     title: React.ReactElement | string;
     content: SafeReactChildren;
     display?: "default" | "hidden";
+    disabled?: boolean;
 }
 
 export type TypedTabMap<T extends string> = Record<T, TabData>;
@@ -32,7 +33,7 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
                 {tabList
                     .filter(_ => _.display !== "hidden")
                     .map(_ => (
-                        <Tabs.TabPane tab={_.title} key={_.key}>
+                        <Tabs.TabPane tab={_.title} key={_.key} disabled={_.disabled}>
                             {_.content}
                         </Tabs.TabPane>
                     ))}
