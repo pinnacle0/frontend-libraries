@@ -17,6 +17,7 @@ import {StepContainerDemo} from "../component/core/StepContainerDemo";
 import {OverflowableTextDemo} from "../component/core/OverflowableTextDemo";
 import {TabsDemo} from "../component/core/TabsDemo";
 import {TableDemo} from "../component/core/TableDemo";
+import {VirtualTableDemo} from "../component/core/VirtualTableDemo";
 import {CascaderDemo} from "../component/core/CascaderDemo";
 import {UploaderImporterDemo} from "../component/core/UploaderImporterDemo";
 import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
@@ -125,6 +126,11 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/core/table",
                         title: "Table",
                         componentType: TableDemo,
+                    },
+                    {
+                        url: "/core/virtual-table",
+                        title: "Virtual Table",
+                        componentType: VirtualTableDemo,
                     },
                     {
                         url: "/core/relative-time",
