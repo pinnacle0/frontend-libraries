@@ -26,7 +26,8 @@
         "@ant-design/icons": "4.7.0",
         "antd": "4.19.4",
         "braft-editor": "2.3.9",
-        "moment": "2.29.2"
+        "moment": "2.29.2",
+        "react-virtual": "2.10.4"
     },
     "peerDependencies": {
         "@babel/runtime": ">=7.12.1",

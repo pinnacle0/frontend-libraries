@@ -30,8 +30,24 @@ function compactMap<T, V>(array: ReadonlyArray<T>, callback: (item: T, index: nu
     return array.map(callback).filter(_ => _ !== null && _ !== undefined && (typeof _ !== "number" || !Number.isNaN(_))) as Array<NonNullable<V>>;
 }
 
+/**
+ * If element exists in array, it will return a new array without this element.
+ * If element not exists in array, it will return a new array with this element in the last.
+ */
+function toggleElement<T>(array: ReadonlyArray<T>, element: T): T[] {
+    const index = array.indexOf(element);
+    if (index >= 0) {
+        const clonedArray = [...array];
+        clonedArray.splice(index, 1);
+        return clonedArray;
+    } else {
+        return [...array, element];
+    }
+}
+
 export const ArrayUtil = Object.freeze({
     intersectionPercentage,
     toObject,
     compactMap,
+    toggleElement,
 });
