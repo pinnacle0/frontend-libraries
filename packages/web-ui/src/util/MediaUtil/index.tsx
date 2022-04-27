@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import "./index.less";
 
@@ -12,13 +12,12 @@ function openImage(url: string) {
             resolve();
         };
 
-        ReactDOM.render(
+        bodyElement.appendChild(divElement);
+        ReactDOM.createRoot(divElement).render(
             <div onClick={closeModal} className="g-media-modal">
                 <img src={url} />
                 <CloseOutlined />
-            </div>,
-            divElement,
-            () => bodyElement.appendChild(divElement)
+            </div>
         );
     });
 }
@@ -32,14 +31,13 @@ function openVideo(url: string) {
             resolve();
         };
 
-        ReactDOM.render(
+        ReactDOM.createRoot(divElement).render(
             <div onClick={closeModal} className="g-media-modal">
                 <video src={url} autoPlay controls controlsList="nodownload" muted />
                 <CloseOutlined />
-            </div>,
-            divElement,
-            () => bodyElement.appendChild(divElement)
+            </div>
         );
+        bodyElement.appendChild(divElement);
     });
 }
 

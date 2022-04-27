@@ -3,6 +3,7 @@ import {AdminPage} from "../AdminPage";
 
 interface Props {
     onLifecycleError?: (error: unknown, componentStack: string) => void;
+    children: React.ReactChild;
 }
 
 interface State {
@@ -29,7 +30,7 @@ export class WithErrorBoundary extends React.PureComponent<Props, State> {
                 <AdminPage.Result type="error" title="Page Script Error" subtitle={error.message} />
             </AdminPage>
         ) : (
-            this.props.children || null
+            this.props.children
         );
     }
 }
