@@ -26,7 +26,7 @@ describe("ModuleGenerator class", () => {
         fixtures.forEach(_ => expect(fs.existsSync(_.path)).toBe(true));
 
         jest.doMock("yargs", () => ({
-            argv: {_: {0: "common/new-feature"}},
+            parseSync: () => ({_: {0: "common/new-feature"}}),
         }));
         jest.doMock("../../src/PrettierUtil", () => ({
             PrettierUtil: {format: () => {}},
