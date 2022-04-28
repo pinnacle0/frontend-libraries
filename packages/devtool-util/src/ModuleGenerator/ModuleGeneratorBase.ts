@@ -31,6 +31,7 @@ import type {ModuleGeneratorOptions} from "./type";
  *   }
  *   ```
  */
+
 export class ModuleGeneratorBase {
     private readonly moduleName: string;
     private readonly moduleBaseDirectory: string;

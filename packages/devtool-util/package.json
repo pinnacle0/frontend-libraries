@@ -5,10 +5,10 @@
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
-        "test": "jest --config config/jest.config.js",
+        "test": "jest --config config/jest.config.ts",
         "compile": "tsc --project config/tsconfig.src.json",
         "copy-static-files": "node script/copyStaticFiles.js",
-        "build": "yarn run check-code-style && yarn run lint && yarn run test && yarn run compile && yarn run copy-static-files"
+        "build": "yarn run check-code-style && yarn run lint && yarn test && yarn run compile && yarn run copy-static-files"
     },
     "dependencies": {
         "axios": "0.27.2",
