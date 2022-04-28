@@ -31,7 +31,7 @@
         "@types/fs-extra": "9.0.13",
         "@types/jest": "27.4.1",
         "@types/node": "17.0.29",
-        "@types/stylelint": "14.0.0",
+        "@types/yargs": "17.0.10",
         "@typescript-eslint/eslint-plugin": "5.16.0",
         "@typescript-eslint/parser": "5.16.0",
         "canadyarn": "0.0.2",
@@ -55,7 +55,7 @@
         "ts-jest": "27.1.4",
         "ts-node": "10.7.0",
         "typescript": "4.6.3",
-        "yargs": "17.4.0"
+        "yargs": "17.4.1"
     },
     "husky": {
         "hooks": {

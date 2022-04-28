@@ -13,7 +13,7 @@ export class AppIconFontGenerator {
     private readonly iosFontPath: string;
 
     private readonly templateFile = path.join(__dirname, "./app-icon-template/Icon.tsx.template");
-    private readonly cssURL = String(yargs.argv._[0]);
+    private readonly cssURL = String(yargs.parseSync()._[0]);
 
     private readonly logger = Utility.createConsoleLogger("AppIconFontGenerator");
 
