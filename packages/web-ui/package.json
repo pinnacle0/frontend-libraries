@@ -36,8 +36,8 @@
         "react-router-dom": ">=5.2.0"
     },
     "devDependencies": {
-        "@babel/core": "7.17.8",
-        "@babel/runtime": "7.17.8",
+        "@babel/core": "7.17.9",
+        "@babel/runtime": "7.17.9",
         "@testing-library/dom": "8.13.0",
         "@testing-library/jest-dom": "5.16.4",
         "@testing-library/react": "13.1.1",

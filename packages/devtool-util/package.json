@@ -5,8 +5,9 @@
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
-        "test": "jest --config config/jest.config.ts",
+        "test": "jest --config config/jest.config.js",
         "compile": "tsc --project config/tsconfig.src.json",
+        "game": "ts-node --project config/tsconfig.test.json ./script/game.ts",
         "copy-static-files": "node script/copyStaticFiles.js",
         "build": "yarn run check-code-style && yarn run lint && yarn test && yarn run compile && yarn run copy-static-files"
     },
