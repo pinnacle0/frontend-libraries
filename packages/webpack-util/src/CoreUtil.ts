@@ -1,19 +1,19 @@
 import yargs from "yargs";
 
 function currentEnv(): string | null {
-    return (yargs.argv.env as string) || null;
+    return (yargs.parseSync().env as string) || null;
 }
 
 function profilingEnabled(): boolean {
-    return Boolean(yargs.argv.profile);
+    return Boolean(yargs.parseSync().profile);
 }
 
 function isFastMode(): boolean {
-    return yargs.argv.mode === "fast";
+    return yargs.parseSync().mode === "fast";
 }
 
 function verbose(): boolean {
-    return Boolean(yargs.argv.verbose);
+    return Boolean(yargs.parseSync().verbose);
 }
 
 export const CoreUtil = Object.freeze({
