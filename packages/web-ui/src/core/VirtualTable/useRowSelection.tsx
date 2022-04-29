@@ -16,31 +16,53 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
             return [...columns];
         }
 
-        const {width, onChange, selectedRowKeys, fixed, disableSelectAll, disableSelection, title} = rowSelection;
+        const {width, onChange, selectedRowKeys, fixed, isDisabled, isSelectAllDisabled, title} = rowSelection;
+
+        const allSelectionRowKeys: React.Key[] = [];
+        const allSelectionRows: RowType[] = [];
+        const unAllSelectionRowKeys: React.Key[] = [];
+        const unAllSelectionRows: RowType[] = [];
+        const enabledRowKeys: React.Key[] = [];
+        const enabledCheckedRowKeys: React.Key[] = [];
+
+        dataSource.forEach((data, rowIndex) => {
+            const key = rowKey === "index" ? rowIndex : data[rowKey];
+            const isSelected = selectedRowKeys.findIndex(_ => _ === key) !== -1;
+            const isDisabledRow = isDisabled?.(data, rowIndex) || false;
+            if (isDisabledRow) {
+                if (isSelected) {
+                    allSelectionRowKeys.push(key);
+                    allSelectionRows.push(data[rowIndex]);
+                    unAllSelectionRowKeys.push(key);
+                    unAllSelectionRows.push(data[rowIndex]);
+                }
+            } else {
+                enabledRowKeys.push(key);
+                isSelected && enabledCheckedRowKeys.push(key);
+                allSelectionRowKeys.push(key);
+                allSelectionRows.push(data[rowIndex]);
+            }
+        });
 
         const onSelectAll = (val: boolean) => {
-            const allSelectedRowKeys = dataSource.map((_, idx) => (rowKey === "index" ? idx : _[rowKey]));
-            val ? onChange(allSelectedRowKeys, dataSource) : onChange([], []);
+            return val ? onChange(allSelectionRowKeys, allSelectionRows) : onChange(unAllSelectionRowKeys, unAllSelectionRows);
         };
+
+        const isAllSelectionDisabled = isSelectAllDisabled || enabledRowKeys.length === 0;
+        const isAllSelected = enabledRowKeys.length === enabledCheckedRowKeys.length;
+        const isIndeterminate = enabledCheckedRowKeys.length > 0 && !isAllSelected;
 
         const rowSelectionColumn: VirtualTableColumn<RowType> = {
             width,
             fixed: fixed ? "left" : undefined,
-            title: title || (
-                <Checkbox
-                    disabled={disableSelectAll || dataSource.length === 0}
-                    indeterminate={selectedRowKeys.length >= 1 && selectedRowKeys.length !== dataSource.length}
-                    onChange={onSelectAll}
-                    value={dataSource.length !== 0 && selectedRowKeys ? selectedRowKeys.length === dataSource.length : false}
-                />
-            ),
+            title: title || <Checkbox disabled={isAllSelectionDisabled} indeterminate={isIndeterminate} onChange={onSelectAll} value={isAllSelected} />,
             renderData: (data, rowIndex) => {
-                const dataKey = rowKey === "index" ? rowIndex : data[rowKey];
-                const isChecked = selectedRowKeys.includes(dataKey);
-                const toggledSelectedRowKeys = ArrayUtil.toggleElement(selectedRowKeys, dataKey);
+                const key = rowKey === "index" ? rowIndex : data[rowKey];
+                const toggledSelectedRowKeys = ArrayUtil.toggleElement(selectedRowKeys, key);
+                const isChecked = selectedRowKeys.findIndex(_ => _ === key) !== -1;
                 return (
                     <Checkbox
-                        disabled={disableSelection?.(data, rowIndex)}
+                        disabled={isDisabled?.(data, rowIndex)}
                         value={isChecked}
                         onChange={() =>
                             onChange(

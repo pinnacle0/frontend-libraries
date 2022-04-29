@@ -7,6 +7,10 @@ import {useScrollToEdge} from "./useScrollToEdge";
 import type {SafeReactChildren, SafeReactChild, StringKey} from "../../internal/type";
 import "./index.less";
 
+/**
+ * Similar usage of Antd Table but only support partial features: fixed columns, row selection
+ */
+
 interface StickyPosition {
     value: number;
     isLast: boolean;
@@ -16,19 +20,35 @@ export type VirtualTableRowSelection<RowType extends object> = {
     width: number;
     selectedRowKeys: React.Key[];
     onChange: (selectedRowKeys: React.Key[], selectedRows: RowType[]) => void;
-    fixed?: boolean; // can only sticky in left
-    disableSelection?: (data: RowType, rowIndex: number) => boolean;
-    disableSelectAll?: boolean;
+    /**
+     * Can only sticky in left
+     */
+    fixed?: boolean;
+    isDisabled?: (data: RowType, rowIndex: number) => boolean;
+    isSelectAllDisabled?: boolean;
+    /**
+     * Attention:
+     * If title is provided, the select all checkbox wil be overridden
+     */
     title?: React.ReactElement | React.ReactChild;
 };
 
 export type VirtualTableColumn<RowType extends object> = {
     title: React.ReactElement | React.ReactChild;
     width: number;
+    /**
+     * Attention:
+     * If renderData return null, the corresponding table cell will not render
+     */
     renderData: (record: RowType, rowIndex: number) => SafeReactChildren | undefined;
     align?: "left" | "right" | "center";
     display?: "default" | "hidden";
     fixed?: "left" | "right";
+    /**
+     * Attention:
+     * The overridden cell should return null in renderData props:
+     * e.g. [{colSpan: 3, renderData: () => <div />}, {renderData: () => null}], {renderData: () => null}
+     */
     colSpan?: (record: RowType, rowIndex: number, colIndex: number) => number;
 };
 
@@ -39,6 +59,9 @@ export interface VirtualTableProps<RowType extends object> {
     rowHeight: number | ((rowIndex: number) => number);
     className?: string;
     rowClassName?: string;
+    /**
+     * if scrollX is not provided, width: 100% will be used
+     */
     scrollX?: number;
     loading?: boolean;
     emptyPlaceholder?: SafeReactChild;
@@ -50,6 +73,7 @@ export interface VirtualTableProps<RowType extends object> {
 }
 
 const headerHeight = 50;
+// TODO/David: handle for different size of scrollbar
 const scrollBarSize = 10;
 
 export const VirtualTable = Object.assign(
@@ -70,7 +94,7 @@ export const VirtualTable = Object.assign(
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
         const transformedColumns = useRowSelection({columns, dataSource, rowSelection, rowKey});
-        const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize, paddingStart: headerHeight});
+        const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
         const {onScroll, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const [colWidths, setColWidths] = React.useState<number[]>([]);
@@ -141,14 +165,17 @@ export const VirtualTable = Object.assign(
                 {
                     <div className="scroll-content" ref={scrollContentRef} style={{height: scrollContainerHeight}} onScroll={onScroll}>
                         <div className="table" style={{height: totalSize}}>
-                            <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: isScrollable && !isReady ? `calc(100% - ${scrollBarSize}px)` : "100%"}}>
+                            <div className="table-headers" ref={headersRef} style={{height: headerHeight}}>
                                 {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
+                                    const headerStyle = {
+                                        display: display !== "hidden" ? "flex" : "none",
+                                        flex: !isReady ? `1 0 ${width}px` : undefined,
+                                        width: !isReady ? undefined : colWidths[columnIndex],
+                                        textAlign: align,
+                                        ...getFixedColStyle(fixed, columnIndex),
+                                    };
                                     return (
-                                        <div
-                                            className={["table-header", ...getFixedColClassNames(fixed, columnIndex)].join(" ")}
-                                            key={columnIndex}
-                                            style={{display: display !== "hidden" ? "flex" : "none", flex: `1 0 ${width}px`, textAlign: align, ...getFixedColStyle(fixed, columnIndex)}}
-                                        >
+                                        <div className={["table-header", ...getFixedColClassNames(fixed, columnIndex)].join(" ")} key={columnIndex} style={headerStyle}>
                                             {title}
                                         </div>
                                     );

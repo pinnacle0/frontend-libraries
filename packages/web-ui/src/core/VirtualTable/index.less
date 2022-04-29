@@ -26,11 +26,9 @@
     position: relative;
 
     .scroll-content {
-        width: 100%;
         overflow: auto;
 
         .table {
-            position: relative;
             min-height: 100%;
 
             .table-headers {
@@ -39,6 +37,8 @@
                 position: sticky;
                 top: 0;
                 z-index: 10;
+                min-width: 100%;
+                width: max-content;
 
                 .table-header {
                     display: flex;
@@ -89,6 +89,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                position: relative;
 
                 .table-row {
                     display: flex;

@@ -17,7 +17,7 @@ const data: Profile[] = Array.from({length: 10000}, () => ({
     address: "New York No. 1 Lake Park",
 }));
 
-const extraColumns = Array.from({length: 10}, (_, idx) => ({
+const extraColumns = Array.from({length: 20}, (_, idx) => ({
     title: `test col ${idx + 1}`,
     width: 70,
     renderData: () => idx + 1,
@@ -38,6 +38,18 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
             renderData: _ => _.address,
         },
         ...(horizontalScroll ? extraColumns : []),
+        {
+            title: "fixed 1",
+            width: 120,
+            fixed: "right",
+            renderData: () => "fixed 1",
+        },
+        {
+            title: "fixed 2",
+            width: 120,
+            fixed: "right",
+            renderData: () => "fixed 2",
+        },
         {
             title: "age",
             width: 70,
@@ -60,11 +72,11 @@ const VirtualTableWithData = ({hasData = false}: {hasData?: boolean}) => {
 const LoadingVirtualTable = () => <VirtualTable rowKey="index" rowHeight={50} dataSource={[]} scrollY={400} scrollX={800} columns={getColumns()} loading />;
 
 const VirtualTableWithRowSelection = () => {
-    const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(data.map((_, idx) => idx));
+    const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
     const rowSelection: VirtualTableRowSelection<Profile> = {
         width: 40,
         onChange: _ => setSelectedRowKeys(_),
-        disableSelection: (data, rowIndex) => rowIndex === 0,
+        isDisabled: (data, rowIndex) => rowIndex === 0,
         fixed: true,
         selectedRowKeys,
     };
