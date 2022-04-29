@@ -25,6 +25,7 @@ export interface VirtualTableProps<RowType extends object> {
     loading?: boolean;
     emptyPlaceholder?: SafeReactChild;
     rowSelection?: VirtualTableRowSelection<RowType>;
+    onRowClick?: (record: RowType, rowIndex: number) => void;
     /**
      * Default: index
      */
