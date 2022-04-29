@@ -28,14 +28,16 @@ export interface Props<T> {
     emptyPlaceholder?: string | React.ReactElement;
     contentStyle?: React.CSSProperties;
     gap?: {top?: number; bottom?: number; left?: number; right?: number};
-    swipable?: boolean;
-    virtualized?: boolean;
+    bounceEffect?: boolean;
     pullUpLoadingMessage?: string;
     endOfListMessage?: string;
     pullDownRefreshMessage?: string;
 }
 
-export function FlatList<T>(props: Props<T>) {
+/**
+ * VirtualizedFlatList currently only work with item without and size related animation and transition since it break the layout. This will be improve in the future
+ */
+export function VirtualizedFlatList<T>(props: Props<T>) {
     const {
         data,
         renderItem,
@@ -48,8 +50,7 @@ export function FlatList<T>(props: Props<T>) {
         contentStyle,
         gap,
         autoLoad = true,
-        swipable = true,
-        virtualized = false,
+        bounceEffect = true,
         pullUpLoadingMessage,
         endOfListMessage,
         pullDownRefreshMessage,
@@ -185,7 +186,7 @@ export function FlatList<T>(props: Props<T>) {
     }, [loadingWithDelay]);
 
     return (
-        <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(swipable ? handlers : {})}>
+        <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(bounceEffect ? handlers : {})}>
             <div className={`inner-container${outBounded ? " out-bounded" : ""}`} ref={innerContainerRef} style={contentStyle}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
                 {data.length !== 0 ? (

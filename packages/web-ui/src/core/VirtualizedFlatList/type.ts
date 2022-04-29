@@ -6,13 +6,13 @@ import type {CellMeasurerCache} from "./CellMeasurerCache";
 export type Measure = () => void;
 
 // FlatList related type
-export interface FlatListItemProps<T> {
+export interface VirtualizedFlatListItemProps<T> {
     data: T;
     index: number;
     measure: Measure;
 }
 
-export type ItemRenderer<T> = React.ComponentType<FlatListItemProps<T>>;
+export type ItemRenderer<T> = React.ComponentType<VirtualizedFlatListItemProps<T>>;
 
 export interface ListItemGap {
     top?: number;

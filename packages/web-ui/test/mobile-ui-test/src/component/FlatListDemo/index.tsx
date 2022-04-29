@@ -1,10 +1,10 @@
 import React from "react";
-import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
-import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
+import {VirtualizedFlatList} from "@pinnacle0/web-ui/core/VirtualizedFlatList";
+import type {VirtualizedFlatListItemProps} from "@pinnacle0/web-ui/core/VirtualizedFlatList/type";
 import "./index.less";
 import {fetchData} from "./fetch";
 
-const Item: React.FC<FlatListItemProps<string>> = React.memo(props => {
+const Item: React.FC<VirtualizedFlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
     const [expand, setExpand] = React.useState(false);
     const measureRef = React.useRef(measure);
@@ -74,8 +74,9 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            <FlatList
+            <VirtualizedFlatList
                 className="list"
+                bounceEffect={false}
                 loading={loading}
                 data={data}
                 renderItem={Item}
