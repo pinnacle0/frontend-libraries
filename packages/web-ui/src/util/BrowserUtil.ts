@@ -56,11 +56,11 @@ function removeElement(element: HTMLElement | null) {
     }
 }
 
-function scrollTo(options: Omit<ScrollToOptions, "behavior">, container: Element | null = null) {
+function scrollTo(options: ScrollToOptions, container: Element | null = null) {
     if (container) {
         if (container.scrollTo) {
             try {
-                container.scrollTo({...options, behavior: "smooth"});
+                container.scrollTo({...options});
             } catch (e) {
                 container.scrollTo(options.left ?? container.scrollLeft, options.top ?? container.scrollTop);
             }
@@ -71,7 +71,7 @@ function scrollTo(options: Omit<ScrollToOptions, "behavior">, container: Element
     } else {
         // Some legacy browser may not support DOM element scrollTo({...}) signature, or even scrollTo()
         try {
-            window.scrollTo({...options, behavior: "smooth"});
+            window.scrollTo({...options});
         } catch (e) {
             window.scrollTo(options.left ?? window.scrollX, options.top ?? window.scrollY);
         }
