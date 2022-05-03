@@ -103,8 +103,6 @@ export const VirtualTable = Object.assign(
 
         const isScrollable = totalSize > scrollY;
 
-        const scrollContainerHeight = scrollY - headerHeight;
-
         const getColWidths = () => {
             if (headersRef.current) {
                 const widths: number[] = [];
@@ -154,8 +152,8 @@ export const VirtualTable = Object.assign(
         }, [isScrollable]);
 
         return (
-            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY}}>
-                <div className="scroll-content" ref={scrollContentRef} style={{height: scrollContainerHeight, top: headerHeight}} onScroll={onScroll}>
+            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY + headerHeight}}>
+                <div className="scroll-content" ref={scrollContentRef} style={{height: scrollY, top: headerHeight}} onScroll={onScroll}>
                     {loading && (
                         <div className="mask">
                             <Spin spinning={loading} />
