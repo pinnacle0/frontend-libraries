@@ -98,7 +98,6 @@ export const VirtualTable = Object.assign(
         const {onScroll, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const [colWidths, setColWidths] = React.useState<number[]>([]);
-        const isColWidthsReady = colWidths.length > 0;
         const headersRef = React.useRef<HTMLDivElement>(null);
 
         const isScrollable = totalSize > scrollY;
@@ -153,12 +152,12 @@ export const VirtualTable = Object.assign(
 
         return (
             <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY + headerHeight}}>
+                {loading && (
+                    <div className="mask">
+                        <Spin spinning={loading} />
+                    </div>
+                )}
                 <div className="scroll-content" ref={scrollContentRef} style={{height: scrollY, top: headerHeight}} onScroll={onScroll}>
-                    {loading && (
-                        <div className="mask">
-                            <Spin spinning={loading} />
-                        </div>
-                    )}
                     <div className="table" style={{height: totalSize}}>
                         <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: scrollX || "100%"}}>
                             {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
@@ -179,8 +178,7 @@ export const VirtualTable = Object.assign(
                         <div className="table-body" style={{height: `calc(100% - ${headerHeight}px)`}}>
                             {dataSource.length === 0
                                 ? emptyPlaceholder || "暂无数据"
-                                : isColWidthsReady &&
-                                  virtualItems.map(virtualItem => {
+                                : virtualItems.map(virtualItem => {
                                       const rowIndex = virtualItem.index;
                                       const currentData = dataSource[rowIndex];
                                       return (

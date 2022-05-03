@@ -7,15 +7,18 @@ export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLElement>) 
     const [isScrollToBottom, setIsScrollToBottom] = React.useState(false);
 
     const isScrollToEdge = React.useCallback(() => {
-        const isScrollLeft = scrollContentRef.current ? scrollContentRef.current.scrollLeft <= 1 : false;
-        const isScrollRight = scrollContentRef.current ? scrollContentRef.current.scrollLeft >= scrollContentRef.current.scrollWidth - scrollContentRef.current.clientWidth : false;
+        if (scrollContentRef.current) {
+            const {scrollLeft, scrollWidth, clientWidth, scrollTop, scrollHeight, clientHeight} = scrollContentRef.current;
+            const isScrollLeft = scrollLeft <= 1;
+            const isScrollRight = scrollLeft >= scrollWidth - clientWidth;
 
-        const isScrollTop = scrollContentRef.current ? scrollContentRef.current.scrollTop <= 1 : false;
-        const isScrollBottom = scrollContentRef.current ? scrollContentRef.current.scrollTop >= scrollContentRef.current.scrollHeight - scrollContentRef.current.clientHeight : false;
-        setIsScrollToLeft(isScrollLeft);
-        setIsScrollToRight(isScrollRight);
-        setIsScrollToTop(isScrollTop);
-        setIsScrollToBottom(isScrollBottom);
+            const isScrollTop = scrollTop <= 1;
+            const isScrollBottom = scrollTop >= scrollHeight - clientHeight;
+            setIsScrollToLeft(isScrollLeft);
+            setIsScrollToRight(isScrollRight);
+            setIsScrollToTop(isScrollTop);
+            setIsScrollToBottom(isScrollBottom);
+        }
     }, [scrollContentRef]);
 
     // initialize
