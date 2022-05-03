@@ -59,19 +59,9 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
             renderData: (data, rowIndex) => {
                 const key = rowKey === "index" ? rowIndex : data[rowKey];
                 const toggledSelectedRowKeys = ArrayUtil.toggleElement(selectedRowKeys, key);
+                const toggledSelectedRow = ArrayUtil.toggleElement(dataSource, data);
                 const isChecked = selectedRowKeys.findIndex(_ => _ === key) !== -1;
-                return (
-                    <Checkbox
-                        disabled={isDisabled?.(data, rowIndex)}
-                        value={isChecked}
-                        onChange={() =>
-                            onChange(
-                                toggledSelectedRowKeys,
-                                dataSource.filter((_, idx) => toggledSelectedRowKeys.includes(rowKey ? _[rowKey] : idx))
-                            )
-                        }
-                    />
-                );
+                return <Checkbox disabled={isDisabled?.(data, rowIndex)} value={isChecked} onChange={() => onChange(toggledSelectedRowKeys, toggledSelectedRow)} />;
             },
         };
 

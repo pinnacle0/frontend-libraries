@@ -74,7 +74,7 @@ export interface VirtualTableProps<RowType extends object> {
 
 const headerHeight = 50;
 // TODO/David: handle for different size of scrollbar
-const scrollBarSize = 10;
+const scrollBarSize = 15;
 
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
@@ -98,12 +98,12 @@ export const VirtualTable = Object.assign(
         const {onScroll, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const [colWidths, setColWidths] = React.useState<number[]>([]);
+        const isColWidthsReady = colWidths.length > 0;
         const headersRef = React.useRef<HTMLDivElement>(null);
 
         const isScrollable = totalSize > scrollY;
-        const isReady = colWidths.length > 0;
 
-        const scrollContainerHeight = scrollY + headerHeight + (isScrollable ? scrollBarSize : 0);
+        const scrollContainerHeight = scrollY - headerHeight;
 
         const getColWidths = () => {
             if (headersRef.current) {
@@ -140,13 +140,6 @@ export const VirtualTable = Object.assign(
             return result;
         }, [colWidths, transformedColumns]);
 
-        const getFixedColStyle = (fixed: "left" | "right" | undefined, columnIndex: number): React.CSSProperties => {
-            return {
-                left: fixed === "left" ? stickyPosition[columnIndex].value : undefined,
-                right: fixed === "right" ? stickyPosition[columnIndex].value : undefined,
-            };
-        };
-
         const getFixedColClassNames = (fixed: "left" | "right" | undefined, columnIndex: number): (string | undefined)[] => {
             const isFixedClassName = fixed ? "fixed" : "";
             const isLastFixedClassName = fixed && stickyPosition[columnIndex].isLast ? "last" : "";
@@ -161,71 +154,72 @@ export const VirtualTable = Object.assign(
         }, [isScrollable]);
 
         return (
-            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%"}}>
-                {
-                    <div className="scroll-content" ref={scrollContentRef} style={{height: scrollContainerHeight}} onScroll={onScroll}>
-                        <div className="table" style={{height: totalSize}}>
-                            <div className="table-headers" ref={headersRef} style={{height: headerHeight}}>
-                                {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
-                                    const headerStyle = {
-                                        display: display !== "hidden" ? "flex" : "none",
-                                        flex: !isReady ? `1 0 ${width}px` : undefined,
-                                        width: !isReady ? undefined : colWidths[columnIndex],
-                                        textAlign: align,
-                                        ...getFixedColStyle(fixed, columnIndex),
-                                    };
-                                    return (
-                                        <div className={["table-header", ...getFixedColClassNames(fixed, columnIndex)].join(" ")} key={columnIndex} style={headerStyle}>
-                                            {title}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            <div className="table-body" style={{height: `calc(100% - ${headerHeight}px)`}}>
-                                {loading ? (
-                                    <Spin spinning={loading} />
-                                ) : dataSource.length === 0 ? (
-                                    emptyPlaceholder || "暂无数据"
-                                ) : (
-                                    isReady &&
-                                    virtualItems.map(virtualItem => {
-                                        const rowIndex = virtualItem.index;
-                                        const currentData = dataSource[rowIndex];
-                                        return (
-                                            <div
-                                                key={rowIndex}
-                                                className={["table-row", rowClassName, rowIndex % 2 ? "odd" : "even"].join(" ")}
-                                                style={{height: virtualItem.size, transform: `translateY(${virtualItem.start}px)`}}
-                                            >
-                                                {transformedColumns.map((column, columnIndex) => {
-                                                    const colSpan = column.colSpan ? column.colSpan(currentData, rowIndex, columnIndex) : 1;
-                                                    const cellWidth = colSpan > 1 ? colWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : colWidths[columnIndex];
-                                                    const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
-                                                    return (
-                                                        renderData && (
-                                                            <div
-                                                                className={["table-cell", ...getFixedColClassNames(column.fixed, columnIndex)].join(" ")}
-                                                                key={columnIndex}
-                                                                style={{
-                                                                    height: "100%",
-                                                                    width: cellWidth,
-                                                                    textAlign: column.align,
-                                                                    ...getFixedColStyle(column.fixed, columnIndex),
-                                                                }}
-                                                            >
-                                                                {renderData}
-                                                            </div>
-                                                        )
-                                                    );
-                                                })}
-                                            </div>
-                                        );
-                                    })
-                                )}
-                            </div>
+            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY}}>
+                <div className="scroll-content" ref={scrollContentRef} style={{height: scrollContainerHeight, top: headerHeight}} onScroll={onScroll}>
+                    {loading && (
+                        <div className="mask">
+                            <Spin spinning={loading} />
+                        </div>
+                    )}
+                    <div className="table" style={{height: totalSize}}>
+                        <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: scrollX || "100%"}}>
+                            {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
+                                const headerStyle = {
+                                    display: display !== "hidden" ? "flex" : "none",
+                                    flex: `1 0 ${width}px`,
+                                    textAlign: align,
+                                    left: fixed === "left" ? stickyPosition[columnIndex].value : undefined,
+                                    right: fixed === "right" ? stickyPosition[columnIndex].value : undefined,
+                                };
+                                return (
+                                    <div className={["table-header", ...getFixedColClassNames(fixed, columnIndex)].join(" ")} key={columnIndex} style={headerStyle}>
+                                        {title}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="table-body" style={{height: `calc(100% - ${headerHeight}px)`}}>
+                            {dataSource.length === 0
+                                ? emptyPlaceholder || "暂无数据"
+                                : isColWidthsReady &&
+                                  virtualItems.map(virtualItem => {
+                                      const rowIndex = virtualItem.index;
+                                      const currentData = dataSource[rowIndex];
+                                      return (
+                                          <div
+                                              key={rowIndex}
+                                              className={["table-row", rowClassName, rowIndex % 2 ? "odd" : "even"].join(" ")}
+                                              style={{height: virtualItem.size, transform: `translateY(${virtualItem.start}px)`}}
+                                          >
+                                              {transformedColumns.map((column, columnIndex) => {
+                                                  const colSpan = column.colSpan ? column.colSpan(currentData, rowIndex, columnIndex) : 1;
+                                                  const cellWidth = colSpan > 1 ? colWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : colWidths[columnIndex];
+                                                  const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
+                                                  const isLastColumn = columnIndex === transformedColumns.length - 1;
+                                                  return (
+                                                      renderData && (
+                                                          <div
+                                                              className={["table-cell", ...getFixedColClassNames(column.fixed, columnIndex)].join(" ")}
+                                                              key={columnIndex}
+                                                              style={{
+                                                                  height: "100%",
+                                                                  width: cellWidth - (isLastColumn ? scrollBarSize : 0),
+                                                                  textAlign: column.align,
+                                                                  left: column.fixed === "left" ? stickyPosition[columnIndex].value : undefined,
+                                                                  right: column.fixed === "right" ? stickyPosition[columnIndex].value - (isLastColumn ? 0 : scrollBarSize) : undefined,
+                                                              }}
+                                                          >
+                                                              {renderData}
+                                                          </div>
+                                                      )
+                                                  );
+                                              })}
+                                          </div>
+                                      );
+                                  })}
                         </div>
                     </div>
-                }
+                </div>
             </div>
         );
     },

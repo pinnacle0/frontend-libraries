@@ -58,7 +58,7 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
         },
         {
             title: "action",
-            width: 120,
+            width: 140,
             fixed: horizontalScroll ? "right" : undefined,
             renderData: () => <Button>Click Me</Button>,
         },
@@ -69,7 +69,7 @@ const VirtualTableWithData = ({hasData = false}: {hasData?: boolean}) => {
     return <VirtualTable rowKey="index" rowHeight={50} dataSource={hasData ? data : []} scrollY={400} scrollX={800} columns={getColumns()} />;
 };
 
-const LoadingVirtualTable = () => <VirtualTable rowKey="index" rowHeight={50} dataSource={[]} scrollY={400} scrollX={800} columns={getColumns()} loading />;
+const LoadingVirtualTable = () => <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} loading />;
 
 const VirtualTableWithRowSelection = () => {
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
@@ -81,6 +81,32 @@ const VirtualTableWithRowSelection = () => {
         selectedRowKeys,
     };
     return <VirtualTable rowKey="index" rowHeight={50} rowSelection={rowSelection} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />;
+};
+
+const VirtualTableWithVariousData = () => {
+    const [data, setData] = React.useState<Profile[]>([]);
+    const singleData = {
+        name: "John Brown",
+        age: 32,
+        address: "New York No. 1 Lake Park",
+    };
+
+    const addOneData = () => setData([...data, singleData]);
+    const addTenData = () => setData([...data, ...Array.from({length: 10}, () => singleData)]);
+    const deleteLastData = () => setData(data.slice(0, data.length - 1));
+    const deleteLastTenData = () => setData(data.slice(0, data.length - 10));
+
+    return (
+        <div>
+            <div style={{display: "flex", justifyContent: "space-around", width: 800}}>
+                <Button onClick={addOneData}>add 1 data</Button>
+                <Button onClick={addTenData}>add 10 data</Button>
+                <Button onClick={deleteLastData}>delete 1 data</Button>
+                <Button onClick={deleteLastTenData}>delete 10 data</Button>
+            </div>
+            <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+        </div>
+    );
 };
 
 const VirtualTableWithFixedColumns = () => {
@@ -102,6 +128,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VirtualTable With Fixed Columns",
         showPropsHint: false,
         components: [<VirtualTableWithFixedColumns />],
+    },
+    {
+        title: "VirtualTable with various amount of data",
+        showPropsHint: false,
+        components: [<VirtualTableWithVariousData />],
     },
     {
         title: "VirtualTable without Data",
