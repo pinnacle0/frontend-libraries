@@ -8,7 +8,7 @@ import type {SafeReactChildren, SafeReactChild, StringKey} from "../../internal/
 import "./index.less";
 
 /**
- * Similar usage of Antd Table but only support partial features: fixed columns, row selection
+ * Similar usage of Antd Table but only support partial features: fixed columns, row selection, on row click
  */
 
 interface StickyPosition {
@@ -57,10 +57,12 @@ export interface VirtualTableProps<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];
     scrollY: number;
     rowHeight: number | ((rowIndex: number) => number);
+    onRowClick?: (record: RowType, rowIndex: number) => number;
     className?: string;
     rowClassName?: string;
     /**
      * if scrollX is not provided, width: 100% will be used
+     * if width: 100% is used, please wrap the table with a container
      */
     scrollX?: number;
     loading?: boolean;
@@ -71,8 +73,6 @@ export interface VirtualTableProps<RowType extends object> {
      */
     rowKey?: StringKey<RowType> | "index";
 }
-
-const headerHeight = 50;
 
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
@@ -85,21 +85,28 @@ export const VirtualTable = Object.assign(
         loading,
         emptyPlaceholder,
         rowSelection,
+        onRowClick,
         scrollX,
         rowKey = "index",
     }: VirtualTableProps<RowType>) {
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
+        const headersRef = React.useRef<HTMLDivElement>(null);
         const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
-        const transformedColumns = useRowSelection({columns, dataSource, rowSelection, rowKey});
-        const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
-        const {onScroll, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const [colWidths, setColWidths] = React.useState<number[]>([]);
         const [scrollBarSize, setScrollBarSize] = React.useState(0);
-        const headersRef = React.useRef<HTMLDivElement>(null);
+
+        const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
+        const {onScroll: isScrollToEdge, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
+        const transformedColumns = useRowSelection({columns, dataSource, rowSelection, rowKey});
 
         const isScrollable = totalSize > scrollY;
+        const headerHeight = 50;
+        const tableHeight = scrollY + headerHeight;
+        const tableBodyHeight = scrollY;
+
+        const emptyElement = emptyPlaceholder || "暂无数据";
 
         const getScrollBarSize = () => {
             if (scrollContentRef.current) {
@@ -126,6 +133,7 @@ export const VirtualTable = Object.assign(
             const right: number[] = [];
 
             const leftFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "left" ? {columnIndex, width: colWidths[columnIndex]} : null));
+            // the right sticky value stack in reverse direction
             const rightFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "right" ? {columnIndex, width: colWidths[columnIndex]} : null)).reverse();
 
             leftFixedCols.forEach((column, idx) => {
@@ -143,6 +151,7 @@ export const VirtualTable = Object.assign(
             return result;
         }, [colWidths, transformedColumns]);
 
+        // handle the edge position & shadow of the fixed columns
         const getFixedColClassNames = (fixed: "left" | "right" | undefined, columnIndex: number): (string | undefined)[] => {
             const isFixedClassName = fixed ? "fixed" : "";
             const isLastFixedClassName = fixed && stickyPosition[columnIndex].isLast ? "last" : "";
@@ -151,22 +160,33 @@ export const VirtualTable = Object.assign(
             return [isFixedClassName, isLastFixedClassName, fixedPositionClassName, hideShadowClassName];
         };
 
+        const onScroll = React.useCallback(() => {
+            requestAnimationFrame(() => {
+                // only trigger in horizontal direction
+                if (scrollContentRef.current && headersRef.current && scrollContentRef.current.scrollLeft !== headersRef.current.scrollLeft) {
+                    isScrollToEdge();
+                    // sync scrolling in header
+                    headersRef.current.scrollLeft = scrollContentRef.current.scrollLeft;
+                }
+            });
+        }, [isScrollToEdge]);
+
         React.useEffect(() => {
-            getScrollBarSize();
-        }, [isScrollable]);
+            isScrollable && !scrollBarSize && getScrollBarSize();
+        }, [isScrollable, scrollBarSize]);
 
         React.useEffect(() => {
             getColWidths();
         }, []);
 
         return (
-            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY + headerHeight}}>
+            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: tableHeight}}>
                 {loading && (
                     <div className="mask">
                         <Spin spinning={loading} />
                     </div>
                 )}
-                <div className="scroll-content" ref={scrollContentRef} style={{height: scrollY, top: headerHeight}} onScroll={onScroll}>
+                <div className="scroll-content" ref={scrollContentRef} style={{height: tableBodyHeight, top: headerHeight}} onScroll={onScroll}>
                     <div className="table" style={{height: totalSize}}>
                         <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: scrollX || "100%"}}>
                             {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
@@ -184,9 +204,9 @@ export const VirtualTable = Object.assign(
                                 );
                             })}
                         </div>
-                        <div className="table-body" style={{height: `calc(100% - ${headerHeight}px)`}}>
+                        <div className="table-body">
                             {dataSource.length === 0
-                                ? emptyPlaceholder || "暂无数据"
+                                ? emptyElement
                                 : virtualItems.map(virtualItem => {
                                       const rowIndex = virtualItem.index;
                                       const currentData = dataSource[rowIndex];
@@ -195,11 +215,15 @@ export const VirtualTable = Object.assign(
                                               key={rowIndex}
                                               className={["table-row", rowClassName, rowIndex % 2 ? "odd" : "even"].join(" ")}
                                               style={{height: virtualItem.size, transform: `translateY(${virtualItem.start}px)`}}
+                                              onClick={() => onRowClick?.(currentData, rowIndex)}
                                           >
                                               {transformedColumns.map((column, columnIndex) => {
                                                   const colSpan = column.colSpan ? column.colSpan(currentData, rowIndex, columnIndex) : 1;
+                                                  // handle colspan > 1
                                                   const cellWidth = colSpan > 1 ? colWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : colWidths[columnIndex];
+
                                                   const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
+                                                  // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                                                   const isLastColumn = columnIndex === transformedColumns.length - 1;
                                                   return (
                                                       renderData && (
