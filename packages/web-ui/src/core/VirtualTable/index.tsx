@@ -73,8 +73,6 @@ export interface VirtualTableProps<RowType extends object> {
 }
 
 const headerHeight = 50;
-// TODO/David: handle for different size of scrollbar
-const scrollBarSize = 15;
 
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
@@ -98,9 +96,17 @@ export const VirtualTable = Object.assign(
         const {onScroll, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const [colWidths, setColWidths] = React.useState<number[]>([]);
+        const [scrollBarSize, setScrollBarSize] = React.useState(0);
         const headersRef = React.useRef<HTMLDivElement>(null);
 
         const isScrollable = totalSize > scrollY;
+
+        const getScrollBarSize = () => {
+            if (scrollContentRef.current) {
+                const {clientWidth, offsetWidth} = scrollContentRef.current;
+                setScrollBarSize(offsetWidth - clientWidth);
+            }
+        };
 
         const getColWidths = () => {
             if (headersRef.current) {
@@ -145,10 +151,13 @@ export const VirtualTable = Object.assign(
             return [isFixedClassName, isLastFixedClassName, fixedPositionClassName, hideShadowClassName];
         };
 
-        // get the correct column width with the occurrence of scroll bar
+        React.useEffect(() => {
+            getScrollBarSize();
+        }, [isScrollable]);
+
         React.useEffect(() => {
             getColWidths();
-        }, [isScrollable]);
+        }, []);
 
         return (
             <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: scrollY + headerHeight}}>
