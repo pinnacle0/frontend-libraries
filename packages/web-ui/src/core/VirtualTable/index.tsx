@@ -30,11 +30,11 @@ export type VirtualTableRowSelection<RowType extends object> = {
      * Attention:
      * If title is provided, the select all checkbox wil be overridden
      */
-    title?: React.ReactElement | React.ReactChild;
+    title?: SafeReactChild;
 };
 
 export type VirtualTableColumn<RowType extends object> = {
-    title: React.ReactElement | React.ReactChild;
+    title: SafeReactChild;
     width: number;
     /**
      * Attention:
@@ -190,12 +190,13 @@ export const VirtualTable = Object.assign(
                     <div className="table" style={{height: totalSize}}>
                         <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: scrollX || "100%"}}>
                             {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
+                                const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
                                 const headerStyle = {
                                     display: display !== "hidden" ? "flex" : "none",
                                     flex: `1 0 ${width}px`,
                                     textAlign: align,
-                                    left: fixed === "left" ? stickyPosition[columnIndex].value : undefined,
-                                    right: fixed === "right" ? stickyPosition[columnIndex].value : undefined,
+                                    left: fixed === "left" ? stickyPositionValue : undefined,
+                                    right: fixed === "right" ? stickyPositionValue : undefined,
                                 };
                                 return (
                                     <div className={["table-header", ...getFixedColClassNames(fixed, columnIndex)].join(" ")} key={columnIndex} style={headerStyle}>
@@ -220,11 +221,13 @@ export const VirtualTable = Object.assign(
                                               {transformedColumns.map((column, columnIndex) => {
                                                   const colSpan = column.colSpan ? column.colSpan(currentData, rowIndex, columnIndex) : 1;
                                                   // handle colspan > 1
-                                                  const cellWidth = colSpan > 1 ? colWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : colWidths[columnIndex];
+                                                  const cellWidth =
+                                                      colSpan > 1 ? colWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : colWidths[columnIndex] || column.width;
 
                                                   const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
                                                   // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                                                   const isLastColumn = columnIndex === transformedColumns.length - 1;
+                                                  const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
                                                   return (
                                                       renderData && (
                                                           <div
@@ -234,8 +237,8 @@ export const VirtualTable = Object.assign(
                                                                   height: "100%",
                                                                   width: cellWidth - (isLastColumn ? scrollBarSize : 0),
                                                                   textAlign: column.align,
-                                                                  left: column.fixed === "left" ? stickyPosition[columnIndex].value : undefined,
-                                                                  right: column.fixed === "right" ? stickyPosition[columnIndex].value - (isLastColumn ? 0 : scrollBarSize) : undefined,
+                                                                  left: column.fixed === "left" ? stickyPositionValue : undefined,
+                                                                  right: column.fixed === "right" ? stickyPositionValue - (isLastColumn ? 0 : scrollBarSize) : undefined,
                                                               }}
                                                           >
                                                               {renderData}
