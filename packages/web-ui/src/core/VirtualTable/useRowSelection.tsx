@@ -108,7 +108,9 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
             title: title || <Checkbox disabled={selectionAllStatus.isDisabled} indeterminate={selectionAllStatus.isIndeterminate} onChange={onAllSelectClick} value={selectionAllStatus.isSelected} />,
             renderData: (data, rowIndex) => {
                 const key = rowKey === "index" ? rowIndex : data[rowKey];
-                return <Checkbox disabled={isDisabled?.(data, rowIndex)} value={rowStatus[key].isChecked} onChange={() => onRowSelectClick(key)} />;
+                const status = rowStatus[key];
+                const isChecked = status?.isChecked || false;
+                return <Checkbox disabled={isDisabled?.(data, rowIndex)} value={isChecked} onChange={() => onRowSelectClick(key)} />;
             },
         };
 
