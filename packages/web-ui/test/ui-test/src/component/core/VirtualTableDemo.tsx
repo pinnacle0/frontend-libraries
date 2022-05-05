@@ -109,6 +109,41 @@ const VirtualTableWithVariousData = () => {
     );
 };
 
+const VirtualTableWithVariousDataAndRowSelection = () => {
+    const [data, setData] = React.useState<Profile[]>([]);
+    const singleData = {
+        name: "John Brown",
+        age: 32,
+        address: "New York No. 1 Lake Park",
+    };
+
+    const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
+    const rowSelection: VirtualTableRowSelection<Profile> = {
+        width: 40,
+        onChange: _ => setSelectedRowKeys(_),
+        isDisabled: (data, rowIndex) => rowIndex === 0,
+        fixed: true,
+        selectedRowKeys,
+    };
+
+    const addOneData = () => setData([...data, singleData]);
+    const addTenData = () => setData([...data, ...Array.from({length: 10}, () => singleData)]);
+    const deleteLastData = () => setData(data.slice(0, data.length - 1));
+    const deleteLastTenData = () => setData(data.slice(0, data.length - 10));
+
+    return (
+        <div>
+            <div style={{display: "flex", justifyContent: "space-around", width: 800}}>
+                <Button onClick={addOneData}>add 1 data</Button>
+                <Button onClick={addTenData}>add 10 data</Button>
+                <Button onClick={deleteLastData}>delete 1 data</Button>
+                <Button onClick={deleteLastTenData}>delete 10 data</Button>
+            </div>
+            <VirtualTable rowSelection={rowSelection} rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+        </div>
+    );
+};
+
 const VirtualTableWithFixedColumns = () => {
     return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} />;
 };
@@ -133,6 +168,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VirtualTable with various amount of data",
         showPropsHint: false,
         components: [<VirtualTableWithVariousData />],
+    },
+    {
+        title: "VirtualTable with various amount of data and row selection",
+        showPropsHint: false,
+        components: [<VirtualTableWithVariousDataAndRowSelection />],
     },
     {
         title: "VirtualTable without Data",
