@@ -116,7 +116,7 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
     }, [columns, onAllSelectClick, onRowSelectClick, rowKey, rowSelection, rowStatus, selectionAllStatus]);
 
     React.useEffect(() => {
-        if (onChangeRef.current) {
+        if (onChangeRef.current && Object.values(rowStatus).length > 0) {
             const rowKeys: React.Key[] = [];
             const rows: RowType[] = [];
             Object.entries(rowStatus).forEach(([rowKey, status]) => {
