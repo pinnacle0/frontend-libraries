@@ -28,62 +28,54 @@ interface BounceSwipeOption extends BounceSwipeHandlers {
     contentRef: React.RefObject<HTMLElement>;
     // Element Ref which is going to be applied bounce transform and animation
     animatedRef: React.RefObject<HTMLElement>;
-    isScrollable: boolean;
     baseOffset?: number;
 }
 
 export const useBounceSwipe = (options: BounceSwipeOption): BounceSwipeHookResult => {
-    const {contentRef, animatedRef, axis, isScrollable, baseOffset = 0, onStart, onMove, onEnd, onCancel} = options;
-    const [outBounded, setOutBounded] = React.useState<Boundary>(null);
+    const {contentRef, animatedRef, axis, baseOffset = 0, onStart, onMove, onEnd, onCancel} = options;
+    const [boundary, setBoundary] = React.useState<Boundary>(null);
     const transit = useTransform(animatedRef, {duration: 300, timingFunction: "cubic-bezier(0, 0.61, 0.28, 1.22)", property: "transform"});
     const startOffsetRef = React.useRef(0);
 
     const isX = React.useMemo(() => axis === "horizontal", [axis]);
     const isY = React.useMemo(() => axis === "vertical", [axis]);
-    const {isScrollTop, isScrollBottom, isScrollLeft, isScrollRight} = useElementScrollState(contentRef);
+    const {isScrollable, isScrollTop, isScrollBottom, isScrollLeft, isScrollRight} = useElementScrollState(contentRef);
 
     const threshold = ({direction}: SwipeState): boolean => {
-        if (isScrollable) {
-            if (isY) {
-                return (direction === Direction.DOWN && isScrollTop()) || (direction === Direction.UP && isScrollBottom());
-            } else {
-                return (direction === Direction.RIGHT && isScrollLeft()) || (direction === Direction.LEFT && isScrollRight());
-            }
+        if (isY) {
+            return (direction === Direction.DOWN && isScrollTop()) || (direction === Direction.UP && isScrollBottom());
         } else {
-            return true;
+            return (direction === Direction.RIGHT && isScrollLeft()) || (direction === Direction.LEFT && isScrollRight());
         }
     };
 
     const clearSwipe = () => {
         startOffsetRef.current = 0;
-        setOutBounded(null);
+        setBoundary(null);
     };
 
     React.useEffect(() => {
         if (contentRef.current) {
-            if (outBounded) {
+            if (boundary) {
                 contentRef.current.style.overflow = "hidden";
             } else {
                 contentRef.current.style.overflow = "auto";
             }
         }
-    }, [outBounded, contentRef]);
+    }, [boundary, contentRef]);
 
     const getOffset = (delta: [number, number], boundary: Boundary): Readonly<[number, number]> | null => {
         let resultOffset: Readonly<[number, number]> | null = [0, 0];
         const limitedOffset = delta[isX ? 0 : 1] - startOffsetRef.current + baseOffset;
         const computeResultOffset = (value: number) => [isX ? value : 0, isY ? value : 0] as const;
-        if (isScrollable) {
-            if (boundary === "upper") {
-                resultOffset = limitedOffset < 0 ? null : computeResultOffset(limitedOffset);
-            } else if (boundary === "lower") {
-                resultOffset = limitedOffset > 0 ? null : computeResultOffset(limitedOffset);
-            } else {
-                resultOffset = computeResultOffset(limitedOffset);
-            }
+        if (boundary === "upper") {
+            resultOffset = limitedOffset < 0 ? null : computeResultOffset(limitedOffset);
+        } else if (boundary === "lower") {
+            resultOffset = limitedOffset > 0 ? null : computeResultOffset(limitedOffset);
         } else {
             resultOffset = computeResultOffset(limitedOffset);
         }
+
         return resultOffset;
     };
 
@@ -94,28 +86,28 @@ export const useBounceSwipe = (options: BounceSwipeOption): BounceSwipeHookResul
                     delta: [x, y],
                     direction,
                 } = state;
-                isScrollable && setOutBounded(direction === Direction.DOWN ? "upper" : "lower");
+                isScrollable(axis) && setBoundary(direction === Direction.DOWN ? "upper" : "lower");
                 startOffsetRef.current = isX ? x : y;
-                onStart?.({...state, boundary: outBounded});
+                onStart?.({...state, boundary});
             },
             onMove: state => {
                 const {delta, cancel} = state;
-                const offset = getOffset(delta, outBounded);
+                const offset = getOffset(delta, boundary);
                 if (!offset) {
                     cancel();
                 } else {
                     const [x, y] = offset;
                     transit.to({x, y, immediate: true});
-                    onMove?.({...state, boundary: outBounded});
+                    onMove?.({...state, boundary});
                 }
             },
             onEnd: state => {
-                onEnd?.({...state, boundary: outBounded});
+                onEnd?.({...state, boundary});
                 transit.clear();
                 clearSwipe();
             },
             onCancel: state => {
-                onCancel?.({...state, boundary: outBounded});
+                onCancel?.({...state, boundary});
                 transit.clear();
                 clearSwipe();
             },

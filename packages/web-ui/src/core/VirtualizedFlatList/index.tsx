@@ -66,8 +66,8 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
     const loadingTypeRef = React.useRef<LoadingType>(null);
     loadingTypeRef.current = loadingType;
 
-    const transit = useTransform(innerContainerRef);
     const loadingWithDelay = useLoadingWithDelay(loading, 300);
+    const transit = useTransform(innerContainerRef);
 
     const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);
 
@@ -95,7 +95,6 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         axis: "vertical",
         contentRef: listOuterRef,
         animatedRef: innerContainerRef,
-        isScrollable: true,
         onStart: ({delta: [, y]}) => {
             startOffsetRef.current = y;
         },
@@ -111,7 +110,6 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
                     boundary === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
                     setLoadingType(boundary === "upper" ? "refresh" : "loading");
                 }
-                transit.clear();
             }
             reset();
         },
@@ -153,7 +151,7 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
                                 outerRef={listOuterRef}
                                 itemData={listDataItem}
                                 onItemsRendered={onAutoLoad}
-                                onScroll={reset}
+                                onScroll={() => transit.clear()}
                             >
                                 {ListItem}
                             </VariableSizeList>
