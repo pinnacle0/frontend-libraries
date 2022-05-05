@@ -49,7 +49,7 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
         };
 
         const isAllSelectionDisabled = isSelectAllDisabled || enabledRowKeys.length === 0;
-        const isAllSelected = enabledRowKeys.length === enabledCheckedRowKeys.length;
+        const isAllSelected = enabledCheckedRowKeys.length > 0 && enabledRowKeys.length === enabledCheckedRowKeys.length;
         const isIndeterminate = enabledCheckedRowKeys.length > 0 && !isAllSelected;
 
         const rowSelectionColumn: VirtualTableColumn<RowType> = {

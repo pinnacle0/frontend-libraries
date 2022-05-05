@@ -171,6 +171,10 @@ export const VirtualTable = Object.assign(
             });
         }, [isScrollToEdge]);
 
+        const lastShownColumnIndex = React.useMemo(() => {
+            return columns.length - 1 - columns.reverse().findIndex(_ => _.display !== "hidden");
+        }, [columns]);
+
         React.useEffect(() => {
             isScrollable && !scrollBarSize && getScrollBarSize();
         }, [isScrollable, scrollBarSize]);
@@ -226,7 +230,7 @@ export const VirtualTable = Object.assign(
 
                                                   const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
                                                   // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
-                                                  const isLastColumn = columnIndex === transformedColumns.length - 1;
+                                                  const isLastShownColumn = lastShownColumnIndex === columnIndex;
                                                   const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
                                                   return (
                                                       renderData && (
@@ -235,10 +239,10 @@ export const VirtualTable = Object.assign(
                                                               key={columnIndex}
                                                               style={{
                                                                   height: "100%",
-                                                                  width: cellWidth - (isLastColumn ? scrollBarSize : 0),
+                                                                  width: cellWidth - (isLastShownColumn ? scrollBarSize : 0),
                                                                   textAlign: column.align,
                                                                   left: column.fixed === "left" ? stickyPositionValue : undefined,
-                                                                  right: column.fixed === "right" ? stickyPositionValue - (isLastColumn ? 0 : scrollBarSize) : undefined,
+                                                                  right: column.fixed === "right" ? stickyPositionValue - (isLastShownColumn ? 0 : scrollBarSize) : undefined,
                                                               }}
                                                           >
                                                               {renderData}

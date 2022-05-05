@@ -62,6 +62,13 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
             fixed: horizontalScroll ? "right" : undefined,
             renderData: () => <Button>Click Me</Button>,
         },
+        {
+            title: "hidden column",
+            width: 200,
+            fixed: "right",
+            display: "hidden",
+            renderData: () => "hidden",
+        },
     ];
 };
 
