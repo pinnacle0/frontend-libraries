@@ -1,6 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import {Main} from "./component/Main";
 import "./index.less";
 
-ReactDOM.render(<Main />, document.getElementById("app-root"));
+ReactDOM.createRoot(document.getElementById("app-root")!).render(<Main />);

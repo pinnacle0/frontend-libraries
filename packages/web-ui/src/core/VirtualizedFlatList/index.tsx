@@ -2,9 +2,9 @@ import React from "react";
 import type {ListOnItemsRenderedProps} from "react-window";
 import {VariableSizeList} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import {Direction, useSwipe} from "../../hooks/useSwipe";
 import {useTransform} from "../../hooks/useTransform";
 import {useLoadingWithDelay} from "./useLoadingWithDelay";
+import {useBounceSwipe} from "./hooks/useBounceSwipe";
 import {ListItem} from "./ListItem";
 import {Loading} from "./Loading";
 import {CellMeasurerCache} from "./CellMeasurerCache";
@@ -56,11 +56,10 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         pullDownRefreshMessage,
     } = props;
 
-    const [outBounded, setOutBounded] = React.useState<"upper" | "lower" | null>(null);
     const [loadingType, setLoadingType] = React.useState<"refresh" | "loading" | null>(null);
 
     const listRef = React.useRef<VariableSizeList>(null);
-    const outerRef = React.useRef<HTMLElement>(null);
+    const listOuterRef = React.useRef<HTMLElement>(null);
     const innerContainerRef = React.useRef<HTMLDivElement>(null);
     const startOffsetRef = React.useRef(0);
 
@@ -72,36 +71,15 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
 
     const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);
 
-    const isScrollTop = () => {
-        return outerRef.current?.scrollTop === 0;
-    };
+    const newData: Array<T | FooterData> = [
+        ...data,
+        {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage},
+    ];
+    const listDataItem = {data: newData, cache, parent: listRef, itemRenderer: renderItem, gap};
 
-    const isScrollBottom = () => {
-        const element = outerRef.current;
-        if (element) {
-            const {scrollHeight, scrollTop, clientHeight} = element;
-            return Math.ceil(scrollTop) + clientHeight >= scrollHeight;
-        } else {
-            return false;
-        }
-    };
-
-    const clearSwipe = React.useCallback(() => {
+    const reset = React.useCallback(() => {
         startOffsetRef.current = 0;
-        setOutBounded(null);
     }, []);
-
-    // Limited the offset in a range, it prevent over swipe the list
-    const getOutOfBoundOffset = (y: number): number | null => {
-        const offset = y - startOffsetRef.current;
-        if (outBounded === "upper") {
-            return offset < 0 ? null : offset;
-        } else if (outBounded === "lower") {
-            return offset > 0 ? null : offset;
-        } else {
-            return null;
-        }
-    };
 
     const onAutoLoad = (props: ListOnItemsRenderedProps) => {
         if (autoLoad) {
@@ -113,58 +91,32 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         }
     };
 
-    const newData: Array<T | FooterData> = [
-        ...data,
-        {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage},
-    ];
-    const listDataItem = {data: newData, cache, parent: listRef, itemRenderer: renderItem, gap};
-
-    const handlers = useSwipe(
-        {
-            onStart: ({delta: [, y], direction}) => {
-                startOffsetRef.current = y;
-                setOutBounded(direction === Direction.DOWN ? "upper" : "lower");
-            },
-            onMove: ({delta: [, y], cancel}) => {
-                const offset = getOutOfBoundOffset(y);
-                if (!offset) {
-                    // if
-                    cancel();
-                } else {
+    const handlers = useBounceSwipe({
+        axis: "vertical",
+        contentRef: listOuterRef,
+        animatedRef: innerContainerRef,
+        isScrollable: true,
+        onStart: ({delta: [, y]}) => {
+            startOffsetRef.current = y;
+        },
+        onEnd: ({delta, boundary}) => {
+            if (loadingWithDelay) {
+                if (boundary === "upper") {
                     transit.to({
-                        y: offset,
-                        immediate: true,
+                        y: LOADING_THRESHOLD,
                     });
                 }
-            },
-            onEnd: state => {
-                if (loadingWithDelay) {
-                    if (outBounded === "upper") {
-                        transit.to({
-                            y: LOADING_THRESHOLD,
-                        });
-                    } else {
-                        transit.clear();
-                    }
-                } else {
-                    if (outBounded && Math.abs(startOffsetRef.current - state.delta[1]) >= LOADING_THRESHOLD) {
-                        outBounded === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
-                        setLoadingType(outBounded === "upper" ? "refresh" : "loading");
-                    }
-                    transit.clear();
+            } else {
+                if (boundary && Math.abs(startOffsetRef.current - delta[1]) >= LOADING_THRESHOLD) {
+                    boundary === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
+                    setLoadingType(boundary === "upper" ? "refresh" : "loading");
                 }
-
-                clearSwipe();
-            },
-            onCancel: () => {
                 transit.clear();
-                clearSwipe();
-            },
+            }
+            reset();
         },
-        {
-            threshold: ({direction}) => (direction === Direction.DOWN && isScrollTop()) || (direction === Direction.UP && isScrollBottom()),
-        }
-    );
+        onCancel: reset,
+    });
 
     React.useEffect(() => {
         listRef.current?.resetAfterIndex(0);
@@ -187,7 +139,7 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
 
     return (
         <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(bounceEffect ? handlers : {})}>
-            <div className={`inner-container${outBounded ? " out-bounded" : ""}`} ref={innerContainerRef} style={contentStyle}>
+            <div className="inner-container" ref={innerContainerRef} style={contentStyle}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
                 {data.length !== 0 ? (
                     <AutoSizer>
@@ -198,10 +150,10 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
                                 itemCount={listDataItem.data.length}
                                 itemSize={cache.itemSize.bind(cache)}
                                 ref={listRef}
-                                outerRef={outerRef}
+                                outerRef={listOuterRef}
                                 itemData={listDataItem}
                                 onItemsRendered={onAutoLoad}
-                                onScroll={clearSwipe}
+                                onScroll={reset}
                             >
                                 {ListItem}
                             </VariableSizeList>

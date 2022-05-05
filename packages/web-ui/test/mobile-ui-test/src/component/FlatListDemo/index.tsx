@@ -76,7 +76,6 @@ export const FlatListDemo = () => {
         <div id="flat-list-demo">
             <VirtualizedFlatList
                 className="list"
-                bounceEffect={false}
                 loading={loading}
                 data={data}
                 renderItem={Item}
