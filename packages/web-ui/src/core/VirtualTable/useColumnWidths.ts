@@ -1,9 +1,9 @@
 import React from "react";
 
-export const useColumnWidths = (headersRef: React.RefObject<HTMLDivElement>): number[] => {
+export const useColumnWidths = (headersRef: React.RefObject<HTMLDivElement>) => {
     const [colWidths, setColWidths] = React.useState<number[]>([]);
 
-    React.useEffect(() => {
+    const getColWidths = React.useCallback(() => {
         if (!headersRef.current) return;
         const headers = headersRef.current.querySelectorAll(".table-header");
         const widths: number[] = Array.prototype.slice.call(headers).map(header => {
@@ -11,7 +11,14 @@ export const useColumnWidths = (headersRef: React.RefObject<HTMLDivElement>): nu
             return width;
         });
         setColWidths(widths);
-    }, [headersRef, setColWidths]);
+    }, [headersRef]);
 
-    return colWidths;
+    React.useEffect(() => {
+        getColWidths();
+    }, [getColWidths, headersRef]);
+
+    return {
+        getColWidths,
+        columnWidths: colWidths,
+    };
 };

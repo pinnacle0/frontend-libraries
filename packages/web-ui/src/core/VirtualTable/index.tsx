@@ -8,9 +8,9 @@ import {useScrollBarSize} from "./useScrollBarSize";
 import {useColumnWidths} from "./useColumnWidths";
 import {useStickyPosition} from "./useStickyPosition";
 import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowSelection} from "./type";
-import "./index.less";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
+import "./index.less";
 
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
@@ -54,6 +54,7 @@ export const VirtualTable = Object.assign(
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const headersRef = React.useRef<HTMLDivElement>(null);
+        const {columnWidths, getColWidths} = useColumnWidths(headersRef);
         const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
 
         const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
@@ -66,9 +67,8 @@ export const VirtualTable = Object.assign(
         const emptyElement = emptyPlaceholder || "暂无数据";
 
         const scrollBarSize = useScrollBarSize(scrollContentRef, isScrollable);
-        const columnWidths = useColumnWidths(headersRef);
         const stickyPosition = useStickyPosition(transformedColumns, columnWidths);
-        const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - columns.reverse().findIndex(_ => _.display !== "hidden"), [columns]);
+        const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
 
         // handle the edge position & shadow of the fixed columns
         const getFixedColumnClassNames = React.useCallback(
@@ -108,13 +108,14 @@ export const VirtualTable = Object.assign(
                             transformedColumns={transformedColumns}
                             stickyPosition={stickyPosition}
                             getFixedColumnClassNames={getFixedColumnClassNames}
+                            getColWidths={getColWidths}
                         />
                         <div className="table-body">
                             {dataSource.length === 0
                                 ? emptyElement
-                                : virtualItems.map((virtualItem, columnIndex) => (
+                                : virtualItems.map((virtualItem, rowIndex) => (
                                       <TableRow
-                                          key={columnIndex}
+                                          key={rowIndex}
                                           onRowClick={onRowClick}
                                           virtualItem={virtualItem}
                                           dataSource={dataSource}

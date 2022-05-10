@@ -1,6 +1,7 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
+import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable/type";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
+import type {VirtualTableRowExpand} from "@pinnacle0/web-ui/core/VirtualTable2/type";
 import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
@@ -43,12 +44,6 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
             width: 120,
             fixed: "right",
             renderData: () => "fixed 1",
-        },
-        {
-            title: "fixed 2",
-            width: 120,
-            fixed: "right",
-            renderData: () => "fixed 2",
         },
         {
             title: "age",
@@ -155,6 +150,19 @@ const VirtualTableWithFixedColumns = () => {
     return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} />;
 };
 
+// const VirtualTableWithExpand = () => {
+//     const ExpandButton = React.useCallback(({onClick}: {onClick: () => void}) => {
+//         return <Button onClick={onClick}>Click Me</Button>;
+//     }, []);
+//     const rowExpand: VirtualTableRowExpand<Profile> = {
+//         width: 130,
+//         renderExpandRow: (record, rowIndex) => `Data ${rowIndex + 1}`,
+//         ExpandButton,
+//         fixed: true,
+//     };
+//     return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} rowExpand={rowExpand} />;
+// };
+
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "VirtualTable with huge amount of data",
@@ -181,6 +189,11 @@ const groups: DemoHelperGroupConfig[] = [
         showPropsHint: false,
         components: [<VirtualTableWithVariousDataAndRowSelection />],
     },
+    // {
+    //     title: "VirtualTable with expand",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithExpand />],
+    // },
     {
         title: "VirtualTable without Data",
         showPropsHint: false,
