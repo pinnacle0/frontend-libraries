@@ -13,7 +13,6 @@ export const useElementScrollState = (ref: React.RefObject<HTMLElement | null>) 
             } else {
                 return false;
             }
-            // eslint-disable-next-line react-hooks/exhaustive-deps -- any value in deps changed will recalculate the scrollable state of the element
         },
         [ref]
     );
