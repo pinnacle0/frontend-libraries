@@ -39,7 +39,7 @@ export interface Props<T> {
 /**
  * VirtualizedFlatList currently only work with item without and size related animation and transition since it break the layout. This will be improve in the future
  */
-export function VirtualizedFlatList<T>(props: Props<T>) {
+export function VirtualFlatList<T>(props: Props<T>) {
     const {
         data,
         renderItem,

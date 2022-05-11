@@ -1,5 +1,5 @@
 import React from "react";
-import {VirtualizedFlatList} from "@pinnacle0/web-ui/core/VirtualizedFlatList";
+import {VirtualFlatList} from "@pinnacle0/web-ui/core/VirtualFlatList";
 import type {VirtualizedFlatListItemProps} from "@pinnacle0/web-ui/core/VirtualFlatList/type";
 import "./index.less";
 import {fetchData} from "./fetch";
@@ -77,7 +77,7 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            <VirtualizedFlatList
+            <VirtualFlatList
                 className="list"
                 loading={loading}
                 data={data}
