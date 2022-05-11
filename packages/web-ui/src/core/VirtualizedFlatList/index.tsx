@@ -1,19 +1,16 @@
 import React from "react";
-import type {ListOnItemsRenderedProps} from "react-window";
-import {VariableSizeList} from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import {useVirtual} from "react-virtual";
 import {useTransform} from "../../hooks/useTransform";
 import {useLoadingWithDelay} from "./useLoadingWithDelay";
 import {useBounceSwipe} from "./hooks/useBounceSwipe";
-import {ListItem} from "./ListItem";
 import {Loading} from "./Loading";
-import {CellMeasurerCache} from "./CellMeasurerCache";
-import type {ListItemData, ItemRenderer, FooterData} from "./type";
+import {Item} from "./Item";
+import type {ItemRenderer, FooterData} from "./type";
 import "./index.less";
 
 type LoadingType = "refresh" | "loading" | null;
 
-const LOADING_THRESHOLD = 50;
+const PULL_DOWN_REFRESH_THRESHOLD = 50;
 
 export interface Props<T> {
     data: T[];
@@ -58,8 +55,7 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
 
     const [loadingType, setLoadingType] = React.useState<"refresh" | "loading" | null>(null);
 
-    const listRef = React.useRef<VariableSizeList>(null);
-    const listOuterRef = React.useRef<HTMLElement>(null);
+    const parentRef = React.useRef<HTMLDivElement>(null);
     const innerContainerRef = React.useRef<HTMLDivElement>(null);
     const startOffsetRef = React.useRef(0);
 
@@ -68,32 +64,31 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
 
     const loadingWithDelay = useLoadingWithDelay(loading, 300);
     const transit = useTransform(innerContainerRef);
+    const transitRef = React.useRef(transit);
+    transitRef.current = transit;
 
-    const cache = React.useMemo(() => new CellMeasurerCache({defaultHeight: 100}), []);
-
-    const newData: Array<T | FooterData> = [
+    const listData: Array<T | FooterData> = [
         ...data,
         {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage},
     ];
-    const listDataItem = {data: newData, cache, parent: listRef, itemRenderer: renderItem, gap};
+
+    const onAutoLoad = () => {
+        // if (autoLoad) {
+        //     const {overscanStopIndex} = props;
+        //     if (overscanStopIndex > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3) && !loading && onPullUpLoading) {
+        //         setLoadingType("loading");
+        //         onPullUpLoading();
+        //     }
+        // }
+    };
 
     const reset = React.useCallback(() => {
         startOffsetRef.current = 0;
     }, []);
 
-    const onAutoLoad = (props: ListOnItemsRenderedProps) => {
-        if (autoLoad) {
-            const {overscanStopIndex} = props;
-            if (overscanStopIndex > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3) && !loading && onPullUpLoading) {
-                setLoadingType("loading");
-                onPullUpLoading();
-            }
-        }
-    };
-
     const handlers = useBounceSwipe({
         axis: "vertical",
-        contentRef: listOuterRef,
+        contentRef: parentRef,
         animatedRef: innerContainerRef,
         onStart: ({delta: [, y]}) => {
             startOffsetRef.current = y;
@@ -102,11 +97,11 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
             if (loadingWithDelay) {
                 if (boundary === "upper") {
                     transit.to({
-                        y: LOADING_THRESHOLD,
+                        y: PULL_DOWN_REFRESH_THRESHOLD,
                     });
                 }
             } else {
-                if (boundary && Math.abs(startOffsetRef.current - delta[1]) >= LOADING_THRESHOLD) {
+                if (boundary && Math.abs(startOffsetRef.current - delta[1]) >= PULL_DOWN_REFRESH_THRESHOLD) {
                     boundary === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
                     setLoadingType(boundary === "upper" ? "refresh" : "loading");
                 }
@@ -116,50 +111,51 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         onCancel: reset,
     });
 
+    const rowVirtualizer = useVirtual({
+        size: listData.length,
+        parentRef,
+    });
+    const rowVirtualizerRef = React.useRef(rowVirtualizer);
+    rowVirtualizerRef.current = rowVirtualizer;
+
     React.useEffect(() => {
-        listRef.current?.resetAfterIndex(0);
+        rowVirtualizerRef.current.measure();
     }, [data]);
 
     React.useEffect(() => {
         if (loadingWithDelay) {
             if (loadingTypeRef.current === "refresh") {
-                transit.to({
-                    y: LOADING_THRESHOLD,
+                transitRef.current.to({
+                    y: PULL_DOWN_REFRESH_THRESHOLD,
                     immediate: false,
                 });
             }
         } else {
-            transit.clear();
+            transitRef.current.clear();
             setLoadingType(null);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- transit
     }, [loadingWithDelay]);
 
     return (
         <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(bounceEffect ? handlers : {})}>
             <div className="inner-container" ref={innerContainerRef} style={contentStyle}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
-                {data.length !== 0 ? (
-                    <AutoSizer>
-                        {size => (
-                            <VariableSizeList<ListItemData<T>>
-                                height={size.height}
-                                width={size.width}
-                                itemCount={listDataItem.data.length}
-                                itemSize={cache.itemSize.bind(cache)}
-                                ref={listRef}
-                                outerRef={listOuterRef}
-                                itemData={listDataItem}
-                                onItemsRendered={onAutoLoad}
-                                onScroll={() => transit.clear()}
-                            >
-                                {ListItem}
-                            </VariableSizeList>
-                        )}
-                    </AutoSizer>
-                ) : (
-                    emptyPlaceholder
-                )}
+                <div className="list-wrapper" ref={parentRef}>
+                    <div
+                        className="list"
+                        style={{
+                            height: rowVirtualizer.totalSize,
+                        }}
+                    >
+                        {rowVirtualizer.virtualItems.map(virtualItem => {
+                            return (
+                                <div className="g-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
+                                    <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     );

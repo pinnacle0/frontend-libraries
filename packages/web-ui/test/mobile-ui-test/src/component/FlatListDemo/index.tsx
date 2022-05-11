@@ -7,15 +7,18 @@ import {fetchData} from "./fetch";
 const Item: React.FC<VirtualizedFlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
     const [expand, setExpand] = React.useState(false);
+    const ref = React.useRef<HTMLDivElement>(null);
     const measureRef = React.useRef(measure);
     measureRef.current = measure;
 
     React.useEffect(() => {
-        measureRef.current();
+        if (ref.current) {
+            measureRef.current(ref.current);
+        }
     }, [expand]);
 
     return (
-        <div className={`item ${index} ${expand ? "expand" : ""}`}>
+        <div ref={ref} className={`item ${index} ${expand ? "expand" : ""}`}>
             <h4>
                 {data}
                 <div>index: {index}</div>
