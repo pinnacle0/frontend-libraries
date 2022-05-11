@@ -55,6 +55,7 @@ export const useBounceSwipe = (options: BounceSwipeOption): BounceSwipeHookResul
     };
 
     React.useEffect(() => {
+        // Changing overflow style to fixed laggy bounce swipe in chrome
         if (contentRef.current) {
             if (boundary) {
                 contentRef.current.style.overflow = "hidden";
