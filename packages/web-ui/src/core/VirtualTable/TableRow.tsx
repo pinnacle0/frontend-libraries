@@ -8,7 +8,7 @@ interface Props<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];
     virtualItem: VirtualItem;
     columnWidths: number[];
-    rowHeight: number | ((rowIndex: number) => number);
+    rowHeight: number;
     lastShownColumnIndex: number;
     scrollBarSize: number;
     stickyPosition: Record<number, StickyPosition>;
@@ -38,7 +38,6 @@ export const TableRow = Object.assign(
         const rowIndex = virtualItem.index;
 
         const toggleExpendRow = React.useCallback(() => setIsExpanded(!isExpanded), [isExpanded]);
-        const cellHeight = React.useMemo(() => (typeof rowHeight === "number" ? rowHeight : rowHeight(rowIndex)), [rowHeight, rowIndex]);
 
         React.useEffect(() => {
             if (rowRef.current) {
@@ -71,7 +70,7 @@ export const TableRow = Object.assign(
                                 className={["table-cell", ...getFixedColumnClassNames(column.fixed, columnIndex)].join(" ")}
                                 key={columnIndex}
                                 style={{
-                                    height: cellHeight,
+                                    height: rowHeight,
                                     width: cellWidth - (isLastShownColumn ? scrollBarSize : 0),
                                     textAlign: column.align,
                                     left: column.fixed === "left" ? stickyPositionValue : undefined,
