@@ -1,7 +1,6 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable/type";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
-import type {VirtualTableRowExpand} from "@pinnacle0/web-ui/core/VirtualTable2/type";
 import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";

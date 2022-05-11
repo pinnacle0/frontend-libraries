@@ -54,7 +54,7 @@ export const VirtualTable = Object.assign(
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const headersRef = React.useRef<HTMLDivElement>(null);
-        const {columnWidths, getColWidths} = useColumnWidths(headersRef);
+        const columnWidths = useColumnWidths(headersRef);
         const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
 
         const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
@@ -74,7 +74,7 @@ export const VirtualTable = Object.assign(
         const getFixedColumnClassNames = React.useCallback(
             (fixed: ColumnFixedPosition | undefined, columnIndex: number): (string | undefined)[] => {
                 const isFixedClassName = fixed ? "fixed" : "";
-                const isLastFixedClassName = fixed && stickyPosition[columnIndex].isLast ? "last" : "";
+                const isLastFixedClassName = fixed && stickyPosition.current[columnIndex]?.isLast ? "last" : "";
                 const fixedPositionClassName = fixed;
                 const hideShadowClassName = (fixed === "left" && isScrollToLeft) || (fixed === "right" && isScrollToRight) ? "hide-shadow" : "";
                 return [isFixedClassName, isLastFixedClassName, fixedPositionClassName, hideShadowClassName];
@@ -108,7 +108,6 @@ export const VirtualTable = Object.assign(
                             transformedColumns={transformedColumns}
                             stickyPosition={stickyPosition}
                             getFixedColumnClassNames={getFixedColumnClassNames}
-                            getColWidths={getColWidths}
                         />
                         <div className="table-body">
                             {dataSource.length === 0

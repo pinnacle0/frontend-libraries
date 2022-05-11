@@ -7,15 +7,17 @@ export interface StickyPosition {
     isLast: boolean;
 }
 
-export const useStickyPosition = <RowType extends object>(transformedColumns: VirtualTableColumn<RowType>[], columnWidths: number[]): Record<number, StickyPosition> => {
-    return React.useMemo(() => {
+export const useStickyPosition = <RowType extends object>(transformedColumns: VirtualTableColumn<RowType>[], columnWidths: React.MutableRefObject<number[]>) => {
+    const stickyPosition = React.useRef<Record<number, StickyPosition>>({});
+
+    React.useLayoutEffect(() => {
         const result: Record<number, StickyPosition> = {};
         const left: number[] = [];
         const right: number[] = [];
 
-        const leftFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "left" ? {columnIndex, width: columnWidths[columnIndex]} : null));
+        const leftFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "left" ? {columnIndex, width: columnWidths.current[columnIndex]} : null));
         // the right sticky value stack in reverse direction
-        const rightFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "right" ? {columnIndex, width: columnWidths[columnIndex]} : null)).reverse();
+        const rightFixedCols = ArrayUtil.compactMap(transformedColumns, (_, columnIndex) => (_.fixed === "right" ? {columnIndex, width: columnWidths.current[columnIndex]} : null)).reverse();
 
         leftFixedCols.forEach((column, idx) => {
             const stackedPositionValue = left.reduce((acc, prev) => acc + prev, 0);
@@ -28,7 +30,8 @@ export const useStickyPosition = <RowType extends object>(transformedColumns: Vi
             right.unshift(column.width);
             result[column.columnIndex] = {value: stackedPositionValue, isLast: idx === rightFixedCols.length - 1};
         });
+        stickyPosition.current = result;
+    });
 
-        return result;
-    }, [columnWidths, transformedColumns]);
+    return stickyPosition;
 };
