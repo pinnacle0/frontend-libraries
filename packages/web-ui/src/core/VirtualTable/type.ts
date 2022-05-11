@@ -22,6 +22,18 @@ export type VirtualTableRowSelection<RowType extends object> = {
     title?: SafeReactChild;
 };
 
+export type VirtualTableRowExpand<RowType extends object> = {
+    width: number;
+    renderExpandRow: (record: RowType, rowIndex: number) => SafeReactChild;
+    ExpandButton: React.ComponentType<{onClick: () => void}>;
+    title?: SafeReactChild;
+    /**
+     * Can only sticky in right
+     */
+    fixed?: boolean;
+    isDefaultExpanded?: boolean;
+};
+
 export type VirtualTableColumn<RowType extends object> = {
     title: SafeReactChild;
     width: number;

@@ -5,16 +5,16 @@ import type {StickyPosition} from "./useStickyPosition";
 interface Props<RowType extends object> {
     headersRef: React.RefObject<HTMLDivElement>;
     headerHeight: number;
-    transformedColumns: VirtualTableColumn<RowType>[];
+    columns: VirtualTableColumn<RowType>[];
     stickyPosition: Record<number, StickyPosition>;
     getFixedColumnClassNames: (fixed: ColumnFixedPosition | undefined, columnIndex: number) => (string | undefined)[];
 }
 
 export const TableHeader = Object.assign(
-    function <RowType extends object>({headersRef, headerHeight, transformedColumns, stickyPosition, getFixedColumnClassNames}: Props<RowType>) {
+    function <RowType extends object>({headersRef, headerHeight, columns, stickyPosition, getFixedColumnClassNames}: Props<RowType>) {
         return (
             <div className="table-headers" ref={headersRef} style={{height: headerHeight, width: scrollX || "100%"}}>
-                {transformedColumns.map(({title, width, align, fixed, display}, columnIndex) => {
+                {columns.map(({title, width, align, fixed, display}, columnIndex) => {
                     const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
                     return (
                         <div

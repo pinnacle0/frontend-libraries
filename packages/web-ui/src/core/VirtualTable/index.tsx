@@ -1,21 +1,20 @@
 import React from "react";
 import {useVirtual} from "react-virtual";
 import {Spin} from "../Spin";
-import {useRowSelection} from "./useRowSelection";
 import {useScrollToEdge} from "./useScrollToEdge";
 import type {SafeReactChild, StringKey} from "../../internal/type";
 import {useLayout} from "./useLayout";
-import {useColumnWidths} from "./useColumnWidths";
-import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowSelection} from "./type";
+import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
 import "./index.less";
+import {useTransformColumn} from "./useTransformColumn";
 
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
     scrollY: number;
-    rowHeight: number | ((rowIndex: number) => number);
+    rowHeight: number;
     onRowClick?: (record: RowType, rowIndex: number) => number;
     className?: string;
     rowClassName?: string;
@@ -32,6 +31,7 @@ export interface VirtualTableProps<RowType extends object> {
      */
     rowKey?: StringKey<RowType> | "index";
     headerHeight?: number;
+    rowExpand?: VirtualTableRowExpand<RowType>;
 }
 
 export const VirtualTable = Object.assign(
@@ -47,23 +47,29 @@ export const VirtualTable = Object.assign(
         rowSelection,
         onRowClick,
         scrollX,
+        rowExpand,
         rowKey = "index",
         headerHeight = 50,
     }: VirtualTableProps<RowType>) {
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const headersRef = React.useRef<HTMLDivElement>(null);
-        const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
+        const estimateSize = React.useCallback(() => rowHeight, [rowHeight]);
+        const overscan = Math.floor(scrollY / rowHeight);
 
-        const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
+        const {virtualItems, totalSize} = useVirtual({
+            size,
+            parentRef: scrollContentRef,
+            estimateSize,
+            overscan,
+        });
+        const transformedColumns = useTransformColumn({columns, dataSource, rowSelection, rowKey, rowExpand});
         const {onScroll: isScrollToEdge, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
-        const transformedColumns = useRowSelection({columns, dataSource, rowSelection, rowKey});
 
         const isScrollable = totalSize > scrollY;
         const tableHeight = scrollY + headerHeight;
         const tableBodyHeight = scrollY;
         const emptyElement = emptyPlaceholder || "暂无数据";
-
         const {scrollBarSize, stickyPosition, columnWidths} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
 
         const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
@@ -103,26 +109,28 @@ export const VirtualTable = Object.assign(
                         <TableHeader
                             headersRef={headersRef}
                             headerHeight={headerHeight}
-                            transformedColumns={transformedColumns}
+                            columns={transformedColumns}
                             stickyPosition={stickyPosition}
                             getFixedColumnClassNames={getFixedColumnClassNames}
                         />
                         <div className="table-body">
                             {dataSource.length === 0
                                 ? emptyElement
-                                : virtualItems.map((virtualItem, rowIndex) => (
+                                : virtualItems.map(virtualItem => (
                                       <TableRow
-                                          key={rowIndex}
+                                          key={virtualItem.index}
+                                          rowHeight={rowHeight}
                                           onRowClick={onRowClick}
                                           virtualItem={virtualItem}
-                                          dataSource={dataSource}
-                                          transformedColumns={transformedColumns}
+                                          data={dataSource[virtualItem.index]}
+                                          columns={transformedColumns}
                                           columnWidths={columnWidths}
                                           scrollBarSize={scrollBarSize}
                                           stickyPosition={stickyPosition}
                                           lastShownColumnIndex={lastShownColumnIndex}
                                           rowClassName={rowClassName}
                                           getFixedColumnClassNames={getFixedColumnClassNames}
+                                          rowExpand={rowExpand}
                                       />
                                   ))}
                         </div>
