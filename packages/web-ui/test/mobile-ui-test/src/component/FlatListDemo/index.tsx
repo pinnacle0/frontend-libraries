@@ -1,6 +1,6 @@
 import React from "react";
 import {VirtualizedFlatList} from "@pinnacle0/web-ui/core/VirtualizedFlatList";
-import type {VirtualizedFlatListItemProps} from "@pinnacle0/web-ui/core/VirtualizedFlatList/type";
+import type {VirtualizedFlatListItemProps} from "@pinnacle0/web-ui/core/VirtualFlatList/type";
 import "./index.less";
 import {fetchData} from "./fetch";
 

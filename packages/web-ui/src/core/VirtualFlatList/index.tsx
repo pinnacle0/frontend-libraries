@@ -1,5 +1,6 @@
 import React from "react";
-import {useVirtual} from "react-virtual";
+import type {Range} from "react-virtual";
+import {defaultRangeExtractor, useVirtual} from "react-virtual";
 import {useTransform} from "../../hooks/useTransform";
 import {useLoadingWithDelay} from "./useLoadingWithDelay";
 import {useBounceSwipe} from "./hooks/useBounceSwipe";
@@ -7,6 +8,8 @@ import {Loading} from "./Loading";
 import {Item} from "./Item";
 import type {ItemRenderer, FooterData} from "./type";
 import "./index.less";
+import {useElementScrollState} from "./hooks/useElementScrollState";
+import {Direction} from "../../hooks/useSwipe";
 
 type LoadingType = "refresh" | "loading" | null;
 
@@ -22,6 +25,8 @@ export interface Props<T> {
     onPullDownRefresh?: () => void;
     // Automatic load new data when scroll to bottom, a number {X} mean: when to scroll to last {X} items, auto load is going to be triggered
     autoLoad?: boolean | number;
+    //  The amount of items to load both behind and ahead of the current window range, default = 3
+    overscan?: number;
     emptyPlaceholder?: string | React.ReactElement;
     contentStyle?: React.CSSProperties;
     gap?: {top?: number; bottom?: number; left?: number; right?: number};
@@ -47,6 +52,7 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         contentStyle,
         gap,
         autoLoad = true,
+        overscan = 3,
         bounceEffect = true,
         pullUpLoadingMessage,
         endOfListMessage,
@@ -56,14 +62,17 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
     const [loadingType, setLoadingType] = React.useState<"refresh" | "loading" | null>(null);
 
     const parentRef = React.useRef<HTMLDivElement>(null);
-    const innerContainerRef = React.useRef<HTMLDivElement>(null);
+    const animatedRef = React.useRef<HTMLDivElement>(null);
     const startOffsetRef = React.useRef(0);
+    const currentRangeRef = React.useRef<Range>();
+    const previousRangeRef = React.useRef<Range>();
+    const {isScrollable} = useElementScrollState(parentRef);
 
     const loadingTypeRef = React.useRef<LoadingType>(null);
     loadingTypeRef.current = loadingType;
 
     const loadingWithDelay = useLoadingWithDelay(loading, 300);
-    const transit = useTransform(innerContainerRef);
+    const transit = useTransform(animatedRef);
     const transitRef = React.useRef(transit);
     transitRef.current = transit;
 
@@ -72,14 +81,23 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage},
     ];
 
+    // the reason why onScroll event is used to simulate auto loading instead of rangeExtractor is rangeExtractor return a wrong range when on mount
     const onAutoLoad = () => {
-        // if (autoLoad) {
-        //     const {overscanStopIndex} = props;
-        //     if (overscanStopIndex > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3) && !loading && onPullUpLoading) {
-        //         setLoadingType("loading");
-        //         onPullUpLoading();
-        //     }
-        // }
+        const previousRange = previousRangeRef.current;
+        const currentRange = currentRangeRef.current;
+        if (
+            previousRange &&
+            currentRange &&
+            autoLoad &&
+            onPullUpLoading &&
+            !loading &&
+            // check going downward
+            previousRange.end < currentRange.end &&
+            currentRange.end > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3)
+        ) {
+            setLoadingType("loading");
+            onPullUpLoading();
+        }
     };
 
     const reset = React.useCallback(() => {
@@ -89,21 +107,27 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
     const handlers = useBounceSwipe({
         axis: "vertical",
         contentRef: parentRef,
-        animatedRef: innerContainerRef,
+        animatedRef,
         onStart: ({delta: [, y]}) => {
             startOffsetRef.current = y;
         },
-        onEnd: ({delta, boundary}) => {
+        onEnd: ({delta, direction, boundary}) => {
             if (loadingWithDelay) {
-                if (boundary === "upper") {
+                if (boundary !== "upper") {
                     transit.to({
                         y: PULL_DOWN_REFRESH_THRESHOLD,
                     });
                 }
             } else {
-                if (boundary && Math.abs(startOffsetRef.current - delta[1]) >= PULL_DOWN_REFRESH_THRESHOLD) {
-                    boundary === "upper" ? onPullDownRefresh?.() : onPullUpLoading?.();
-                    setLoadingType(boundary === "upper" ? "refresh" : "loading");
+                if (Math.abs(startOffsetRef.current - delta[1]) >= PULL_DOWN_REFRESH_THRESHOLD) {
+                    const scrollable = isScrollable("vertical");
+                    if (boundary === "upper" || (!scrollable && direction === Direction.DOWN)) {
+                        setLoadingType("refresh");
+                        onPullDownRefresh?.();
+                    } else {
+                        setLoadingType("loading");
+                        onPullUpLoading?.();
+                    }
                 }
             }
             reset();
@@ -111,9 +135,17 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         onCancel: reset,
     });
 
+    const rangeExtractor = React.useCallback((range: Range) => {
+        previousRangeRef.current = currentRangeRef.current ?? range;
+        currentRangeRef.current = range;
+        return defaultRangeExtractor(range);
+    }, []);
+
     const rowVirtualizer = useVirtual({
         size: listData.length,
         parentRef,
+        overscan,
+        rangeExtractor,
     });
     const rowVirtualizerRef = React.useRef(rowVirtualizer);
     rowVirtualizerRef.current = rowVirtualizer;
@@ -136,20 +168,17 @@ export function VirtualizedFlatList<T>(props: Props<T>) {
         }
     }, [loadingWithDelay]);
 
+    // TODO/Alvis loading more when item can not fill the whole viewport
+
     return (
-        <div className={`g-flat-list-wrapper ${className ?? ""}`} style={style} {...(bounceEffect ? handlers : {})}>
-            <div className="inner-container" ref={innerContainerRef} style={contentStyle}>
+        <div className={`g-virtual-flat-list ${className ?? ""}`} style={style} {...(bounceEffect ? handlers : {})}>
+            <div className="inner-container" ref={animatedRef} style={contentStyle}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
-                <div className="list-wrapper" ref={parentRef}>
-                    <div
-                        className="list"
-                        style={{
-                            height: rowVirtualizer.totalSize,
-                        }}
-                    >
+                <div className="list-wrapper" ref={parentRef} onScroll={onAutoLoad}>
+                    <div className="list" style={{height: rowVirtualizer.totalSize}}>
                         {rowVirtualizer.virtualItems.map(virtualItem => {
                             return (
-                                <div className="g-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
+                                <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
                                     <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
                                 </div>
                             );

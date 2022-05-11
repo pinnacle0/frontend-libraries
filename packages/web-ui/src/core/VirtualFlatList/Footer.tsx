@@ -12,7 +12,7 @@ export const Footer = (props: Props) => {
     measureRef.current = measure;
 
     return (
-        <div ref={measure} className="g-flat-list-footer">
+        <div className="g-virtual-flat-list-footer" ref={measure}>
             {loading && (
                 <div>
                     <Spin spinning size="small" />
@@ -20,6 +20,7 @@ export const Footer = (props: Props) => {
                 </div>
             )}
             {ended && !loading && (endMessage ?? "All data loaded")}
+            {!ended && !loading && "Pull up to loading more "}
         </div>
     );
 };

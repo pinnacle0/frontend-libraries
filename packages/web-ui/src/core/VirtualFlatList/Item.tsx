@@ -27,7 +27,7 @@ export const Item = function <T>(props: ListItemProps<T>) {
         return <Footer loading={loading} ended={ended} loadingMessage={loadingMessage} endMessage={endMessage} measure={measure} />;
     } else {
         return (
-            <div className="g-flat-list-item" style={{...padding}}>
+            <div className="g-virtual-flat-list-item" style={{...padding}}>
                 <ItemRenderer data={data[index] as T} index={index} measure={measure} />
             </div>
         );

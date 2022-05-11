@@ -13,6 +13,6 @@ function generateString(length: number) {
 export const fetchData = () =>
     new Promise<string[]>(resolve => {
         setTimeout(() => {
-            resolve(new Array(30).fill("a").map(() => generateString(random(10, 150))));
+            resolve(new Array(20).fill(null).map(() => generateString(random(10, 150))));
         }, random(30, 1500));
     });

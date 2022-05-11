@@ -10,7 +10,7 @@ export const Loading = (props: Props) => {
     const {loading, message} = props;
 
     return (
-        <div className="g-flat-list-loading">
+        <div className="g-virtual-flat-list-loading">
             <div>
                 <Spin spinning={loading} size="small" />
                 {message ?? "Release to refresh"}
