@@ -4,9 +4,8 @@ import {Spin} from "../Spin";
 import {useRowSelection} from "./useRowSelection";
 import {useScrollToEdge} from "./useScrollToEdge";
 import type {SafeReactChild, StringKey} from "../../internal/type";
-import {useScrollBarSize} from "./useScrollBarSize";
+import {useLayout} from "./useLayout";
 import {useColumnWidths} from "./useColumnWidths";
-import {useStickyPosition} from "./useStickyPosition";
 import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowSelection} from "./type";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
@@ -54,7 +53,6 @@ export const VirtualTable = Object.assign(
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const headersRef = React.useRef<HTMLDivElement>(null);
-        const columnWidths = useColumnWidths(headersRef);
         const estimateSize = React.useCallback((rowIndex: number) => (typeof rowHeight === "function" ? rowHeight(rowIndex) : rowHeight), [rowHeight]);
 
         const {virtualItems, totalSize} = useVirtual({size, parentRef: scrollContentRef, estimateSize});
@@ -66,15 +64,15 @@ export const VirtualTable = Object.assign(
         const tableBodyHeight = scrollY;
         const emptyElement = emptyPlaceholder || "暂无数据";
 
-        const scrollBarSize = useScrollBarSize(scrollContentRef, isScrollable);
-        const stickyPosition = useStickyPosition(transformedColumns, columnWidths);
-        const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
+        const {scrollBarSize, stickyPosition, columnWidths} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
+
+        const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
 
         // handle the edge position & shadow of the fixed columns
         const getFixedColumnClassNames = React.useCallback(
             (fixed: ColumnFixedPosition | undefined, columnIndex: number): (string | undefined)[] => {
                 const isFixedClassName = fixed ? "fixed" : "";
-                const isLastFixedClassName = fixed && stickyPosition.current[columnIndex]?.isLast ? "last" : "";
+                const isLastFixedClassName = fixed && stickyPosition[columnIndex]?.isLast ? "last" : "";
                 const fixedPositionClassName = fixed;
                 const hideShadowClassName = (fixed === "left" && isScrollToLeft) || (fixed === "right" && isScrollToRight) ? "hide-shadow" : "";
                 return [isFixedClassName, isLastFixedClassName, fixedPositionClassName, hideShadowClassName];

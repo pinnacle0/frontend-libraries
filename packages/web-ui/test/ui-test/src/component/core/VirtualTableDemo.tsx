@@ -1,6 +1,7 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable/type";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
+import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
@@ -149,6 +150,23 @@ const VirtualTableWithFixedColumns = () => {
     return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} />;
 };
 
+const VirtualTableInModal = () => {
+    const [showModal, setShowModal] = React.useState(false);
+
+    const toggleModal = React.useCallback(() => setShowModal(!showModal), [showModal]);
+
+    return (
+        <div>
+            <Button onClick={toggleModal}>Show Modal</Button>
+            {showModal && (
+                <Modal width={1300} onCancel={toggleModal}>
+                    <VirtualTable rowKey="index" rowHeight={50} dataSource={data.slice(0, 1)} scrollY={400} columns={getColumns()} />
+                </Modal>
+            )}
+        </div>
+    );
+};
+
 // const VirtualTableWithExpand = () => {
 //     const ExpandButton = React.useCallback(({onClick}: {onClick: () => void}) => {
 //         return <Button onClick={onClick}>Click Me</Button>;
@@ -187,6 +205,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VirtualTable with various amount of data and row selection",
         showPropsHint: false,
         components: [<VirtualTableWithVariousDataAndRowSelection />],
+    },
+    {
+        title: "VirtualTable inside Modal",
+        showPropsHint: false,
+        components: [<VirtualTableInModal />],
     },
     // {
     //     title: "VirtualTable with expand",

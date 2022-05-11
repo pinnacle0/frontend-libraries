@@ -8,19 +8,17 @@ import React from "react";
  */
 
 export const useColumnWidths = (headersRef: React.RefObject<HTMLDivElement>) => {
-    const colWidths = React.useRef<number[]>([]);
+    const [colWidths, setColWidths] = React.useState<number[]>([]);
 
-    const getColWidths = React.useCallback(() => {
+    const calculateColWidths = React.useCallback(() => {
         if (!headersRef.current) return;
         const headers = headersRef.current.querySelectorAll(".table-header");
         const widths: number[] = Array.prototype.slice.call(headers).map(header => {
             const {width} = header.getBoundingClientRect();
             return width;
         });
-        colWidths.current = widths;
+        setColWidths(widths);
     }, [headersRef]);
 
-    React.useLayoutEffect(getColWidths);
-
-    return colWidths;
+    return {columnWidths: colWidths, calculateColWidths};
 };

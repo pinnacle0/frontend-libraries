@@ -1,6 +1,6 @@
 import React from "react";
 
-export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElement>, isScrollable: boolean): number => {
+export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElement>, isScrollable: boolean) => {
     const [scrollBarSize, setScrollBarSize] = React.useState<number>(0);
 
     const calculateScrollBarSize = React.useCallback(() => {
@@ -16,5 +16,8 @@ export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElemen
         }
     }, [calculateScrollBarSize, isScrollable, scrollBarSize]);
 
-    return scrollBarSize;
+    return {
+        calculateScrollBarSize,
+        scrollBarSize,
+    };
 };

@@ -7,10 +7,10 @@ interface Props<RowType extends object> {
     dataSource: RowType[];
     transformedColumns: VirtualTableColumn<RowType>[];
     virtualItem: VirtualItem;
-    columnWidths: React.MutableRefObject<number[]>;
+    columnWidths: number[];
     lastShownColumnIndex: number;
     scrollBarSize: number;
-    stickyPosition: React.MutableRefObject<Record<number, StickyPosition>>;
+    stickyPosition: Record<number, StickyPosition>;
     getFixedColumnClassNames: (fixed: ColumnFixedPosition | undefined, columnIndex: number) => (string | undefined)[];
     rowClassName?: string;
     onRowClick?: (record: RowType, rowIndex: number) => number;
@@ -41,13 +41,12 @@ export const TableRow = Object.assign(
                 {transformedColumns.map((column, columnIndex) => {
                     const colSpan = column.colSpan ? column.colSpan(currentData, rowIndex, columnIndex) : 1;
                     // handle colspan > 1
-                    const cellWidth =
-                        colSpan > 1 ? columnWidths.current.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : columnWidths.current[columnIndex] || column.width;
+                    const cellWidth = colSpan > 1 ? columnWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : columnWidths[columnIndex] || column.width;
 
                     const renderData = column.display !== "hidden" && column.renderData(currentData, rowIndex);
                     // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                     const isLastShownColumn = lastShownColumnIndex === columnIndex;
-                    const stickyPositionValue = stickyPosition.current[columnIndex]?.value || 0;
+                    const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
 
                     return (
                         renderData && (
