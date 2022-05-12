@@ -1,7 +1,7 @@
 import React from "react";
-import {Checkbox} from "../Checkbox";
-import {ArrayUtil} from "../../internal/ArrayUtil";
-import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
+import {Checkbox} from "../../Checkbox";
+import {ArrayUtil} from "../../../internal/ArrayUtil";
+import type {VirtualTableColumn, VirtualTableRowSelection} from "../type";
 
 interface Props<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];

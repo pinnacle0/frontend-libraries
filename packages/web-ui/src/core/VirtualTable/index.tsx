@@ -1,14 +1,13 @@
 import React from "react";
 import {useVirtual} from "react-virtual";
 import {Spin} from "../Spin";
-import {useScrollToEdge} from "./useScrollToEdge";
 import type {SafeReactChild, StringKey} from "../../internal/type";
-import {useLayout} from "./useLayout";
+import {useLayout} from "./hooks/useLayout";
 import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
 import "./index.less";
-import {useTransformColumn} from "./useTransformColumn";
+import {useTransformColumn} from "./hooks/useTransformColumn";
 
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
@@ -64,13 +63,12 @@ export const VirtualTable = Object.assign(
             overscan,
         });
         const transformedColumns = useTransformColumn({columns, dataSource, rowSelection, rowKey, rowExpand});
-        const {onScroll: isScrollToEdge, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
 
         const isScrollable = totalSize > scrollY;
         const tableHeight = scrollY + headerHeight;
         const tableBodyHeight = scrollY;
         const emptyElement = emptyPlaceholder || "暂无数据";
-        const {scrollBarSize, stickyPosition, columnWidths} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
+        const {scrollBarSize, stickyPosition, columnWidths, isScrollToEdge, isScrollToLeft, isScrollToRight} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
 
         const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
 

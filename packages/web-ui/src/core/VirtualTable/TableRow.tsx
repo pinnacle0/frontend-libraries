@@ -1,7 +1,6 @@
 import React from "react";
 import type {VirtualItem} from "react-virtual";
-import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand} from "./type";
-import type {StickyPosition} from "./useStickyPosition";
+import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, StickyPosition} from "./type";
 
 interface Props<RowType extends object> {
     data: RowType;

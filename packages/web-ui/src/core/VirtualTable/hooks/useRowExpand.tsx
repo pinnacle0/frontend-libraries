@@ -1,5 +1,5 @@
 import React from "react";
-import type {VirtualTableRowExpand, VirtualTableColumn} from "./type";
+import type {VirtualTableRowExpand, VirtualTableColumn} from "../type";
 
 interface Props<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];

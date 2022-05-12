@@ -2,6 +2,11 @@ import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 
 export type ColumnFixedPosition = "left" | "right";
 
+export interface StickyPosition {
+    value: number;
+    isLast: boolean;
+}
+
 /**
  * Similar usage of Antd Table but only support partial features: fixed columns, row selection, on row click
  */

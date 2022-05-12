@@ -27,7 +27,7 @@ export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLElement>) 
     }, [isScrollToEdge]);
 
     return {
-        onScroll: isScrollToEdge,
+        isScrollToEdge,
         isScrollToLeft,
         isScrollToRight,
         isScrollToTop,

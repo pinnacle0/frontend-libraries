@@ -1,11 +1,6 @@
 import React from "react";
-import {ArrayUtil} from "../../internal/ArrayUtil";
-import type {VirtualTableColumn} from "./type";
-
-export interface StickyPosition {
-    value: number;
-    isLast: boolean;
-}
+import {ArrayUtil} from "../../../internal/ArrayUtil";
+import type {VirtualTableColumn, StickyPosition} from "../type";
 
 export const useStickyPosition = <RowType extends object>(columns: VirtualTableColumn<RowType>[], columnWidths: number[]): Record<number, StickyPosition> => {
     return React.useMemo(() => {

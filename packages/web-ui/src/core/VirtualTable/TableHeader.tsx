@@ -1,6 +1,5 @@
 import React from "react";
-import type {ColumnFixedPosition, VirtualTableColumn} from "./type";
-import type {StickyPosition} from "./useStickyPosition";
+import type {ColumnFixedPosition, VirtualTableColumn, StickyPosition} from "./type";
 
 interface Props<RowType extends object> {
     headersRef: React.RefObject<HTMLDivElement>;

@@ -3,7 +3,8 @@ import {useDebounce} from "./useDebounce";
 import {useScrollBarSize} from "./useScrollBarSize";
 import {useColumnWidths} from "./useColumnWidths";
 import {useStickyPosition} from "./useStickyPosition";
-import type {VirtualTableColumn} from "./type";
+import {useScrollToEdge} from "./useScrollToEdge";
+import type {VirtualTableColumn} from "../type";
 
 interface Props<RowType extends object> {
     headersRef: React.RefObject<HTMLDivElement>;
@@ -15,10 +16,12 @@ interface Props<RowType extends object> {
 export const useLayout = function <RowType extends object>({headersRef, scrollContentRef, isScrollable, columns}: Props<RowType>) {
     const {calculateColWidths, columnWidths} = useColumnWidths(headersRef);
     const {calculateScrollBarSize, scrollBarSize} = useScrollBarSize(scrollContentRef, isScrollable);
+    const {isScrollToEdge, isScrollToLeft, isScrollToRight} = useScrollToEdge(scrollContentRef);
     const stickyPosition = useStickyPosition(columns, columnWidths);
 
     const debouncedCalculateColWidths = useDebounce(calculateColWidths);
     const debouncedCalculateScrollBarSize = useDebounce(calculateScrollBarSize);
+    const debouncedIsScrollToEdge = useDebounce(isScrollToEdge);
 
     const handler = React.useCallback(
         (event: TransitionEvent | AnimationEvent) => {
@@ -28,10 +31,11 @@ export const useLayout = function <RowType extends object>({headersRef, scrollCo
                 if (result) {
                     debouncedCalculateColWidths();
                     debouncedCalculateScrollBarSize();
+                    debouncedIsScrollToEdge();
                 }
             }
         },
-        [debouncedCalculateColWidths, debouncedCalculateScrollBarSize, headersRef]
+        [debouncedCalculateColWidths, debouncedCalculateScrollBarSize, headersRef, debouncedIsScrollToEdge]
     );
 
     React.useEffect(() => {
@@ -47,5 +51,8 @@ export const useLayout = function <RowType extends object>({headersRef, scrollCo
         columnWidths,
         scrollBarSize,
         stickyPosition,
+        isScrollToEdge,
+        isScrollToLeft,
+        isScrollToRight,
     };
 };
