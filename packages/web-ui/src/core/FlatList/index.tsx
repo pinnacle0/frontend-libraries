@@ -23,12 +23,12 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         endOfListMessage,
     } = props;
 
-    const contentRef = React.useRef<HTMLDivElement>(null);
+    const listWrapperRef = React.useRef<HTMLDivElement>(null);
     const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
 
     return (
         <Wrapper
-            contentRef={contentRef}
+            listWrapperRef={listWrapperRef}
             bounceEffect={bounceEffect}
             innerStyle={contentStyle}
             className={classNames("g-flat-list", className)}
@@ -42,10 +42,12 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             {data.length === 0 ? (
                 emptyPlaceholder
             ) : (
-                <div className="list" ref={contentRef}>
-                    {data.map((d, i) => {
-                        return <ItemRenderer data={d} index={i} />;
-                    })}
+                <div className="list">
+                    {data.map((d, i) => (
+                        <div className="g-flat-list-item">
+                            <ItemRenderer data={d} index={i} />
+                        </div>
+                    ))}
                     <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />
                 </div>
             )}

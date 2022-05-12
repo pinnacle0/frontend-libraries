@@ -51,7 +51,7 @@ export function VirtualFlatList<T>(props: Props<T>) {
         pullDownRefreshMessage,
     } = props;
 
-    const parentRef = React.useRef<HTMLDivElement>(null);
+    const listWrapperRef = React.useRef<HTMLDivElement>(null);
     const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
     const currentRangeRef = React.useRef<Range>();
     const previousRangeRef = React.useRef<Range>();
@@ -87,7 +87,7 @@ export function VirtualFlatList<T>(props: Props<T>) {
 
     const rowVirtualizer = useVirtual({
         size: listData.length,
-        parentRef,
+        parentRef: listWrapperRef,
         overscan,
         rangeExtractor,
     });
@@ -102,30 +102,29 @@ export function VirtualFlatList<T>(props: Props<T>) {
 
     return (
         <Wrapper
-            bounceEffect={bounceEffect}
-            contentRef={parentRef}
-            loading={loading}
             className="g-virtual-flat-list"
+            bounceEffect={bounceEffect}
+            listWrapperRef={listWrapperRef}
+            loading={loading}
             innerStyle={contentStyle}
             style={style}
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}
-            onLoadingTypeChange={setLoadingType}
             pullDownRefreshMessage={pullDownRefreshMessage}
+            onScroll={onAutoLoad}
+            onLoadingTypeChange={setLoadingType}
         >
             {data.length === 0 ? (
                 emptyPlaceholder
             ) : (
-                <div className="list-wrapper" ref={parentRef} onScroll={onAutoLoad}>
-                    <div className="list" style={{height: rowVirtualizer.totalSize}}>
-                        {rowVirtualizer.virtualItems.map(virtualItem => {
-                            return (
-                                <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
-                                    <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
-                                </div>
-                            );
-                        })}
-                    </div>
+                <div className="list" style={{height: rowVirtualizer.totalSize}}>
+                    {rowVirtualizer.virtualItems.map(virtualItem => {
+                        return (
+                            <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
+                                <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </Wrapper>

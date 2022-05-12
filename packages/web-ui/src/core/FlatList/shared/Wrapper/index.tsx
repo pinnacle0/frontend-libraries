@@ -11,14 +11,29 @@ import "./index.less";
 
 interface Props<T> extends Pick<FlatListProps<T>, "loading" | "bounceEffect" | "onPullUpLoading" | "onPullDownRefresh" | "className" | "style" | "pullDownRefreshMessage"> {
     children: React.ReactNode;
-    contentRef: React.MutableRefObject<HTMLElement | null>;
-    onLoadingTypeChange?: (type: LoadingType) => void;
+    listWrapperRef: React.RefObject<HTMLDivElement>;
     innerClassName?: string;
     innerStyle?: React.CSSProperties;
+    onScroll?: (event: React.UIEvent) => void;
+    onLoadingTypeChange?: (type: LoadingType) => void;
 }
 
 export const Wrapper = function <T>(props: Props<T>) {
-    const {children, bounceEffect, loading = false, contentRef, onPullDownRefresh, onPullUpLoading, className, innerClassName, style, innerStyle, pullDownRefreshMessage, onLoadingTypeChange} = props;
+    const {
+        children,
+        bounceEffect,
+        loading = false,
+        listWrapperRef,
+        onPullDownRefresh,
+        onPullUpLoading,
+        className,
+        innerClassName,
+        style,
+        innerStyle,
+        pullDownRefreshMessage,
+        onScroll,
+        onLoadingTypeChange,
+    } = props;
     const startOffsetRef = React.useRef(0);
 
     const animatedRef = React.useRef<HTMLDivElement>(null);
@@ -31,7 +46,7 @@ export const Wrapper = function <T>(props: Props<T>) {
     const onLoadingTypeChangeRef = React.useRef(onLoadingTypeChange);
     onLoadingTypeChangeRef.current = onLoadingTypeChange;
 
-    const {isScrollable} = useElementScrollState(contentRef);
+    const {isScrollable} = useElementScrollState(listWrapperRef);
     const transit = useTransform(animatedRef);
     const transitRef = React.useRef(transit);
     transitRef.current = transit;
@@ -42,7 +57,7 @@ export const Wrapper = function <T>(props: Props<T>) {
 
     const handlers = useBounceSwipe({
         axis: "vertical",
-        contentRef,
+        contentRef: listWrapperRef,
         animatedRef,
         onStart: ({delta: [, y]}) => {
             startOffsetRef.current = y;
@@ -93,7 +108,9 @@ export const Wrapper = function <T>(props: Props<T>) {
         <div className={`g-flat-list-wrapper${className ? ` ${className}` : ""}`} style={style} {...(bounceEffect ? handlers : {})}>
             <div className={`inner-container${innerClassName ? ` ${innerClassName}` : ""}`} style={innerStyle} ref={animatedRef}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
-                {children}
+                <div className="list-wrapper" ref={listWrapperRef} onScroll={onScroll}>
+                    {children}
+                </div>
             </div>
         </div>
     );
