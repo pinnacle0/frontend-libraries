@@ -104,13 +104,14 @@ export interface EntryDescriptor {
      */
     outputFilename: string;
     /**
-     * Filepath to an html template file. Omitting this will result in the output having a static filename (***not*** having contenthash).
+     * Filepath to a HTML template file.
+     * If undefined, a separate JS entry with name `"<EntryDescriptor.name>.js"` will be generated.
      *
      * Example usage:
      * Backend requires the "third-party-error-handler" entry to have a static filename.
      * Content hash should not be included in the output filename if the EntryDescriptor does not have htmlPath specified.
      */
-    htmlPath?: string; // If undefined, a separate JS entry with name `"<EntryDescriptor.name>.js"` will be generated.
+    htmlPath?: string;
 }
 
 /**
