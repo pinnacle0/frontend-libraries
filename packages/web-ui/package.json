@@ -29,10 +29,7 @@
         "braft-editor": "2.3.9",
         "classnames": "2.3.1",
         "moment": "2.29.3",
-        "react-virtual": "2.10.4",
-        "react-virtualized": "^9.22.3",
-        "react-virtualized-auto-sizer": "^1.0.6",
-        "react-window": "^1.8.6"
+        "react-virtual": "2.10.4"
     },
     "peerDependencies": {
         "@babel/runtime": ">=7.12.1",

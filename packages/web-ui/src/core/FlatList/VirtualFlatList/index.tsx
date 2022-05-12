@@ -113,17 +113,21 @@ export function VirtualFlatList<T>(props: Props<T>) {
             onLoadingTypeChange={setLoadingType}
             pullDownRefreshMessage={pullDownRefreshMessage}
         >
-            <div className="list-wrapper" ref={parentRef} onScroll={onAutoLoad}>
-                <div className="list" style={{height: rowVirtualizer.totalSize}}>
-                    {rowVirtualizer.virtualItems.map(virtualItem => {
-                        return (
-                            <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
-                                <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
-                            </div>
-                        );
-                    })}
+            {data.length === 0 ? (
+                emptyPlaceholder
+            ) : (
+                <div className="list-wrapper" ref={parentRef} onScroll={onAutoLoad}>
+                    <div className="list" style={{height: rowVirtualizer.totalSize}}>
+                        {rowVirtualizer.virtualItems.map(virtualItem => {
+                            return (
+                                <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
+                                    <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
         </Wrapper>
     );
 }

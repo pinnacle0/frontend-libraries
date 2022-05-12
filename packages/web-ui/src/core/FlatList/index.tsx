@@ -7,10 +7,11 @@ import {Footer} from "./shared/Footer";
 export const FlatList = function <T>(props: FlatListProps<T>) {
     const {
         data,
-        renderItem,
+        renderItem: ItemRenderer,
+        // TODO/Alvis add auto load to flat list
         autoLoad,
         loading = false,
-        bounceEffect,
+        bounceEffect = true,
         className,
         style,
         onPullDownRefresh,
@@ -21,6 +22,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         emptyPlaceholder,
         endOfListMessage,
     } = props;
+
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
 
@@ -37,12 +39,16 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             onLoadingTypeChange={setLoadingType}
             pullDownRefreshMessage={pullDownRefreshMessage}
         >
-            <div className="list" ref={contentRef}>
-                {data.map((d, i) => {
-                    return <div>hi</div>;
-                })}
-                <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} />
-            </div>
+            {data.length === 0 ? (
+                emptyPlaceholder
+            ) : (
+                <div className="list" ref={contentRef}>
+                    {data.map((d, i) => {
+                        return <ItemRenderer data={d} index={i} />;
+                    })}
+                    <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />
+                </div>
+            )}
         </Wrapper>
     );
 };
