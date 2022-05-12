@@ -120,7 +120,6 @@ export const FlatListDemo = () => {
     return (
         <div id="flat-list-demo">
             <FlatList
-                className="list"
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
@@ -129,7 +128,6 @@ export const FlatListDemo = () => {
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
             />
             {/* <VirtualFlatList
-                className="list"
                 loading={loading}
                 data={data}
                 renderItem={Item}

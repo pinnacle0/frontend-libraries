@@ -1,10 +1,11 @@
 import React from "react";
-import type {Range} from "react-virtual";
+import classNames from "classnames";
 import {defaultRangeExtractor, useVirtual} from "react-virtual";
-import {Item} from "./Item";
-import type {ItemRenderer} from "./type";
 import {Wrapper} from "../shared/Wrapper";
+import {Item} from "./Item";
 import "./index.less";
+import type {ItemRenderer} from "./type";
+import type {Range} from "react-virtual";
 import type {FooterData, LoadingType} from "../type";
 
 export interface Props<T> {
@@ -102,7 +103,7 @@ export function VirtualFlatList<T>(props: Props<T>) {
 
     return (
         <Wrapper
-            className="g-virtual-flat-list"
+            className={classNames("g-virtual-flat-list", className)}
             bounceEffect={bounceEffect}
             listWrapperRef={listWrapperRef}
             loading={loading}
