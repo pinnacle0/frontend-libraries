@@ -1,9 +1,17 @@
 import React from "react";
 
+/**
+ * This hook prevent loading state causing ui to flash
+ * For instance, in real life loading only last for 50ms, so it make loading ui appear in a blink of an eye, which is not good
+ * Hook will only delay the loading state change from true to false, it force loading ui at least appear for a period of time
+ * @param loading
+ * @param delay
+ * @returns
+ */
 export const useLoadingWithDelay = (loading: boolean, delay: number): Readonly<boolean> => {
     const [loadingWithDelay, setLoadingWithDelay] = React.useState(loading);
     const startTimeRef = React.useRef<number | null>(null);
-    const setLoadingRef = React.useRef<(value: boolean) => void>(() => {});
+    const setLoadingRef = React.useRef<(value: boolean) => void>();
 
     const setLoading = React.useCallback(
         (value: boolean) => {
@@ -25,16 +33,8 @@ export const useLoadingWithDelay = (loading: boolean, delay: number): Readonly<b
     setLoadingRef.current = setLoading;
 
     React.useEffect(() => {
-        setLoadingRef.current(loading);
+        setLoadingRef.current?.(loading);
     }, [loading]);
-
-    React.useEffect(() => {
-        if (loadingWithDelay) {
-            startTimeRef.current = Date.now();
-        } else {
-            startTimeRef.current = null;
-        }
-    }, [loadingWithDelay]);
 
     return loadingWithDelay;
 };

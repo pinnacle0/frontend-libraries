@@ -1,9 +1,11 @@
 import React from "react";
-import {Spin} from "../Spin";
-import type {FooterData, Measure} from "./type";
+import type {Measure} from "../../VirtualFlatList/type";
+import type {FooterData} from "../../type";
+import {Spinner} from "../Spinner";
+import "./index.less";
 
 export interface Props extends FooterData {
-    measure: Measure;
+    measure?: Measure;
 }
 
 export const Footer = (props: Props) => {
@@ -12,13 +14,8 @@ export const Footer = (props: Props) => {
     measureRef.current = measure;
 
     return (
-        <div className="g-virtual-flat-list-footer" ref={measure}>
-            {loading && (
-                <div>
-                    <Spin spinning size="small" />
-                    <div>{loadingMessage ?? "loading..."}</div>
-                </div>
-            )}
+        <div className="g-flat-list-footer" ref={measure}>
+            {loading && <Spinner loading message={loadingMessage ?? "loading..."} />}
             {ended && !loading && (endMessage ?? "All data loaded")}
             {!ended && !loading && "Pull up to loading more "}
         </div>

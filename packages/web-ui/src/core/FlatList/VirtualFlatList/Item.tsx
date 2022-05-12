@@ -1,6 +1,7 @@
 import React from "react";
-import type {FooterData, ItemRenderer, Measure} from "./type";
-import {Footer} from "./Footer";
+import {Footer} from "../shared/Footer";
+import type {FooterData} from "../type";
+import type {ItemRenderer, Measure} from "./type";
 
 export interface Gap {
     top?: number;

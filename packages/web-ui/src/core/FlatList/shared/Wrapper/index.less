@@ -1,0 +1,28 @@
+.g-flat-list-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    will-change: contents;
+
+    .inner-container {
+        flex: 1;
+        transition: all 300ms cubic-bezier(0, 0.61, 0.28, 1.22);
+        max-height: 100%;
+    }
+
+    .g-flat-list-loading {
+        width: 100%;
+        padding: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        left: 0;
+        min-height: 50px;
+        will-change: transform;
+        transform: translateY(-100%);
+        z-index: 2;
+    }
+}

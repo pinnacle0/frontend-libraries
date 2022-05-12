@@ -1,10 +1,52 @@
 import React from "react";
-import {VirtualFlatList} from "@pinnacle0/web-ui/core/VirtualFlatList";
-import type {VirtualizedFlatListItemProps} from "@pinnacle0/web-ui/core/VirtualFlatList/type";
-import "./index.less";
+import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
+import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {fetchData} from "./fetch";
+import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
+import "./index.less";
+import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 
-const Item: React.FC<VirtualizedFlatListItemProps<string>> = React.memo(props => {
+const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
+    const {data, index} = props;
+    const [expand, setExpand] = React.useState(false);
+
+    return (
+        <div className={`item ${index} ${expand ? "expand" : ""}`}>
+            <h4>
+                {data}
+                <div>index: {index}</div>
+            </h4>
+            <button onClick={() => setExpand(_ => !_)}>toggle</button>
+            {expand && (
+                <div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                    <div>item 1</div>
+                </div>
+            )}
+        </div>
+    );
+});
+
+const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
     const [expand, setExpand] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
@@ -77,7 +119,16 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            <VirtualFlatList
+            <FlatList
+                className="list"
+                loading={loading}
+                data={data}
+                renderItem={NormalItem}
+                pullDownRefreshMessage="Release to refresh"
+                onPullDownRefresh={refreshData}
+                onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
+            />
+            {/* <VirtualFlatList
                 className="list"
                 loading={loading}
                 data={data}
@@ -86,7 +137,7 @@ export const FlatListDemo = () => {
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
                 gap={{left: 10, right: 10, bottom: 10, top: 10}}
-            />
+            /> */}
             <button onClick={() => refreshData()}>update data</button>
         </div>
     );

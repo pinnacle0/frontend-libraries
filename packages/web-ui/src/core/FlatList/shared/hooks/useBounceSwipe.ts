@@ -1,8 +1,8 @@
 import React from "react";
 import {useElementScrollState} from "./useElementScrollState";
-import type {SwipeHookResult, SwipeState} from "../../../hooks/useSwipe";
-import {Direction, useSwipe} from "../../../hooks/useSwipe";
-import {useTransform} from "../../../hooks/useTransform";
+import type {SwipeHookResult, SwipeState} from "../../../../hooks/useSwipe";
+import {Direction, useSwipe} from "../../../../hooks/useSwipe";
+import {useTransform} from "../../../../hooks/useTransform";
 
 export type Boundary = "upper" | "lower" | null;
 
