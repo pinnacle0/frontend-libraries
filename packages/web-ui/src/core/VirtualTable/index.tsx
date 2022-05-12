@@ -54,7 +54,7 @@ export const VirtualTable = Object.assign(
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
         const headersRef = React.useRef<HTMLDivElement>(null);
         const estimateSize = React.useCallback(() => rowHeight, [rowHeight]);
-        const overscan = Math.floor(scrollY / rowHeight);
+        const overscan = rowExpand ? Math.floor(scrollY / rowHeight) : 1;
 
         const {virtualItems, totalSize} = useVirtual({
             size,
