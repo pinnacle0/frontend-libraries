@@ -14,7 +14,6 @@ export interface VirtualTableProps<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];
     scrollY: number;
     rowHeight: number;
-    onRowClick?: (record: RowType, rowIndex: number) => number;
     className?: string;
     rowClassName?: string;
     /**

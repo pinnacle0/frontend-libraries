@@ -13,7 +13,7 @@ interface Props<RowType extends object> {
     stickyPosition: Record<number, StickyPosition>;
     getFixedColumnClassNames: (fixed: ColumnFixedPosition | undefined, columnIndex: number) => (string | undefined)[];
     rowClassName?: string;
-    onRowClick?: (record: RowType, rowIndex: number) => number;
+    onRowClick?: (record: RowType, rowIndex: number) => void;
     rowExpand?: VirtualTableRowExpand<RowType>;
 }
 
