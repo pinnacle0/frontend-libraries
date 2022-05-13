@@ -26,6 +26,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
         gap,
         autoLoad = true,
         overscan = 3,
+        estimateSize,
         listRef,
         pullUpLoadingMessage,
         endOfListMessage,
@@ -52,6 +53,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
         size: listData.length,
         parentRef: listWrapperRef,
         overscan,
+        estimateSize,
         rangeExtractor,
     });
     const rowVirtualizerRef = React.useRef(rowVirtualizer);

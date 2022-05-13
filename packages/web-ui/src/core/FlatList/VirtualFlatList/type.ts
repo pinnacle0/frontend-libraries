@@ -10,6 +10,8 @@ export interface VirtualFlatListHandle {
 
 export interface VirtualFlatListProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
     renderItem: ItemRenderer<T>;
+    // Must wrap with React.useCallback
+    estimateSize?: (index: number) => number;
     //  The amount of items to load both behind and ahead of the current window range, default = 3
     overscan?: number;
     gap?: {top?: number; bottom?: number; left?: number; right?: number};
