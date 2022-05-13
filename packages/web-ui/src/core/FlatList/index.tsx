@@ -3,7 +3,7 @@ import {Wrapper} from "./shared/Wrapper";
 import type {FlatListProps, LoadingType} from "./type";
 import {Footer} from "./shared/Footer";
 import {useLoadingWithDelay} from "./shared/hooks/useLoadingWithDelay";
-import {classNames} from "../../util/Classnames";
+import {classNames} from "../../util/ClassNames";
 
 export const FlatList = function <T>(props: FlatListProps<T>) {
     const {

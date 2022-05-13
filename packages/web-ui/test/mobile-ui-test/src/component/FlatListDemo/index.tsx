@@ -1,5 +1,4 @@
 import React from "react";
-import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {fetchData} from "./fetch";
