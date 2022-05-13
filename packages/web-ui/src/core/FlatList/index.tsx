@@ -36,6 +36,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         if (!loading && onPullUpLoading) {
             const {scrollHeight, scrollTop, clientHeight} = e.currentTarget;
             if (scrollHeight * 0.8 < clientHeight + scrollTop) {
+                setLoadingType("loading");
                 onPullUpLoading?.();
             }
         }
@@ -46,12 +47,13 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             listWrapperRef={listWrapperRef}
             bounceEffect={bounceEffect}
             innerStyle={contentStyle}
+            loadingType={loadingType}
+            onLoadingTypeChange={setLoadingType}
+            loading={loading}
             className={classNames("g-flat-list", className)}
             style={style}
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}
-            loading={loading}
-            onLoadingTypeChange={setLoadingType}
             pullDownRefreshMessage={pullDownRefreshMessage}
             onScroll={onScroll}
         >

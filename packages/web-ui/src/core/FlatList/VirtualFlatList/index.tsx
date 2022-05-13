@@ -77,6 +77,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             previousRange.end < currentRange.end &&
             currentRange.end > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3)
         ) {
+            setLoadingType("loading");
             onPullUpLoading();
         }
     };
@@ -88,14 +89,15 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             className={classNames("g-virtual-flat-list", className)}
             bounceEffect={bounceEffect}
             listWrapperRef={listWrapperRef}
+            loadingType={loadingType}
+            onLoadingTypeChange={setLoadingType}
             loading={loading}
-            innerStyle={contentStyle}
-            style={style}
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}
+            innerStyle={contentStyle}
+            style={style}
             pullDownRefreshMessage={pullDownRefreshMessage}
             onScroll={onAutoLoad}
-            onLoadingTypeChange={setLoadingType}
         >
             {data.length === 0 ? (
                 emptyPlaceholder

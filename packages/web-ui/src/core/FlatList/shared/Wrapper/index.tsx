@@ -12,18 +12,21 @@ import "./index.less";
 interface Props<T> extends Pick<FlatListProps<T>, "loading" | "bounceEffect" | "onPullUpLoading" | "onPullDownRefresh" | "className" | "style" | "pullDownRefreshMessage"> {
     children: React.ReactNode;
     listWrapperRef: React.RefObject<HTMLDivElement>;
+    loadingType: LoadingType;
+    onLoadingTypeChange: (type: LoadingType) => void;
     innerClassName?: string;
     innerStyle?: React.CSSProperties;
     onScroll?: (event: React.UIEvent) => void;
-    onLoadingTypeChange?: (type: LoadingType) => void;
 }
 
 export const Wrapper = function <T>(props: Props<T>) {
     const {
         children,
         bounceEffect,
-        loading = false,
         listWrapperRef,
+        loadingType,
+        onLoadingTypeChange,
+        loading = false,
         onPullDownRefresh,
         onPullUpLoading,
         className,
@@ -32,14 +35,12 @@ export const Wrapper = function <T>(props: Props<T>) {
         innerStyle,
         pullDownRefreshMessage,
         onScroll,
-        onLoadingTypeChange,
     } = props;
     const startOffsetRef = React.useRef(0);
 
     const animatedRef = React.useRef<HTMLDivElement>(null);
     const loadingWithDelay = useLoadingWithDelay(loading, 250);
 
-    const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
     const loadingTypeRef = React.useRef<LoadingType>(null);
     loadingTypeRef.current = loadingType;
 
@@ -73,10 +74,10 @@ export const Wrapper = function <T>(props: Props<T>) {
                 if (Math.abs(startOffsetRef.current - delta[1]) >= PULL_DOWN_REFRESH_THRESHOLD) {
                     const scrollable = isScrollable("vertical");
                     if (boundary === "upper" || (!scrollable && direction === Direction.DOWN)) {
-                        setLoadingType("refresh");
+                        onLoadingTypeChange("refresh");
                         onPullDownRefresh?.();
                     } else {
-                        setLoadingType("loading");
+                        onLoadingTypeChange("loading");
                         onPullUpLoading?.();
                     }
                 }
@@ -85,6 +86,14 @@ export const Wrapper = function <T>(props: Props<T>) {
         },
         onCancel: reset,
     });
+
+    const handleScroll = React.useCallback(
+        (e: React.UIEvent) => {
+            transitRef.current.clear();
+            onScroll?.(e);
+        },
+        [onScroll]
+    );
 
     React.useEffect(() => {
         if (loadingWithDelay) {
@@ -96,19 +105,15 @@ export const Wrapper = function <T>(props: Props<T>) {
             }
         } else {
             transitRef.current.clear();
-            setLoadingType(null);
+            onLoadingTypeChangeRef.current(null);
         }
     }, [loadingWithDelay]);
-
-    React.useEffect(() => {
-        onLoadingTypeChangeRef.current?.(loadingType);
-    }, [loadingType]);
 
     return (
         <div className={`g-flat-list-wrapper${className ? ` ${className}` : ""}`} style={style} {...(bounceEffect ? handlers : {})}>
             <div className={`inner-container${innerClassName ? ` ${innerClassName}` : ""}`} style={innerStyle} ref={animatedRef}>
                 <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
-                <div className="list-wrapper" ref={listWrapperRef} onScroll={onScroll}>
+                <div className="list-wrapper" ref={listWrapperRef} onScroll={handleScroll}>
                     {children}
                 </div>
             </div>
