@@ -48,9 +48,9 @@ export const Wrapper = function <T>(props: Props<T>) {
     onLoadingTypeChangeRef.current = onLoadingTypeChange;
 
     const {isScrollable} = useElementScrollState(listWrapperRef);
-    const transit = useTransform(animatedRef);
-    const transitRef = React.useRef(transit);
-    transitRef.current = transit;
+    const transform = useTransform(animatedRef);
+    const transformRef = React.useRef(transform);
+    transformRef.current = transform;
 
     const reset = React.useCallback(() => {
         startOffsetRef.current = 0;
@@ -66,7 +66,7 @@ export const Wrapper = function <T>(props: Props<T>) {
         onEnd: ({delta, direction, boundary}) => {
             if (loadingWithDelay) {
                 if (boundary !== "upper") {
-                    transit.to({
+                    transform.to({
                         y: PULL_DOWN_REFRESH_THRESHOLD,
                     });
                 }
@@ -89,7 +89,7 @@ export const Wrapper = function <T>(props: Props<T>) {
 
     const handleScroll = React.useCallback(
         (e: React.UIEvent) => {
-            transitRef.current.clear();
+            transformRef.current.clear();
             onScroll?.(e);
         },
         [onScroll]
@@ -98,13 +98,13 @@ export const Wrapper = function <T>(props: Props<T>) {
     React.useEffect(() => {
         if (loadingWithDelay) {
             if (loadingTypeRef.current === "refresh") {
-                transitRef.current.to({
+                transformRef.current.to({
                     y: PULL_DOWN_REFRESH_THRESHOLD,
                     immediate: false,
                 });
             }
         } else {
-            transitRef.current.clear();
+            transformRef.current.clear();
             onLoadingTypeChangeRef.current(null);
         }
     }, [loadingWithDelay]);

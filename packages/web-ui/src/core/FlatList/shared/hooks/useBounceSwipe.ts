@@ -34,7 +34,7 @@ interface BounceSwipeOption extends BounceSwipeHandlers {
 export const useBounceSwipe = (options: BounceSwipeOption): BounceSwipeHookResult => {
     const {contentRef, animatedRef, axis, baseOffset = 0, onStart, onMove, onEnd, onCancel} = options;
     const [boundary, setBoundary] = React.useState<Boundary>(null);
-    const transit = useTransform(animatedRef, {duration: 300, timingFunction: "cubic-bezier(0, 0.61, 0.28, 1.22)", property: "transform"});
+    const transform = useTransform(animatedRef, {duration: 300, timingFunction: "cubic-bezier(0, 0.61, 0.28, 1.22)", property: "transform"});
     const startOffsetRef = React.useRef(0);
 
     const isX = React.useMemo(() => axis === "horizontal", [axis]);
@@ -98,18 +98,18 @@ export const useBounceSwipe = (options: BounceSwipeOption): BounceSwipeHookResul
                     cancel();
                 } else {
                     const [x, y] = offset;
-                    transit.to({x, y, immediate: true});
+                    transform.to({x, y, immediate: true});
                     onMove?.({...state, boundary});
                 }
             },
             onEnd: state => {
                 onEnd?.({...state, boundary});
-                transit.clear();
+                transform.clear();
                 clearSwipe();
             },
             onCancel: state => {
                 onCancel?.({...state, boundary});
-                transit.clear();
+                transform.clear();
                 clearSwipe();
             },
         },
