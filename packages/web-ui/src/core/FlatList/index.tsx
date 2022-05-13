@@ -48,7 +48,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}
-                    <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />
+                    {bounceEffect && <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
                 </div>
             )}
         </Wrapper>

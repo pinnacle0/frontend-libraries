@@ -1,5 +1,6 @@
 import React from "react";
 import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
+import {Input} from "@pinnacle0/web-ui/core/Input";
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {fetchData} from "./fetch";
 import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
@@ -49,6 +50,7 @@ const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
 const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => {
     const {data, index, measure} = props;
     const [expand, setExpand] = React.useState(false);
+    const [value, setValue] = React.useState("");
     const ref = React.useRef<HTMLDivElement>(null);
     const measureRef = React.useRef(measure);
     measureRef.current = measure;
@@ -65,6 +67,7 @@ const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => {
                 {data}
                 <div>index: {index}</div>
             </h4>
+            <Input value={value} onChange={setValue} />
             <button onClick={() => setExpand(_ => !_)}>toggle</button>
             {expand && (
                 <div>
@@ -119,15 +122,15 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            <FlatList
+            {/* <FlatList
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
                 pullDownRefreshMessage="Release to refresh"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
-            />
-            {/* <VirtualFlatList
+            /> */}
+            <VirtualFlatList
                 loading={loading}
                 data={data}
                 renderItem={Item}
@@ -135,7 +138,7 @@ export const FlatListDemo = () => {
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
                 gap={{left: 10, right: 10, bottom: 10, top: 10}}
-            /> */}
+            />
             <button onClick={() => refreshData()}>update data</button>
         </div>
     );

@@ -1,14 +1,19 @@
 import type React from "react";
-import type {FlatListItemProps} from "../type";
+import type {FlatListItemProps, FlatListProps} from "../type";
 
 // FlatList related type
 export type Measure = (node: HTMLElement | null) => void;
 
-export interface VirtualFlatListProps<T> extends FlatListItemProps<T> {
+export interface VirtualFlatListHandle {
+    measure: () => void;
+}
+
+export interface VirtualFlatListProps<T> extends Omit<FlatListProps<T>, "renderItem"> {
+    renderItem: ItemRenderer<T>;
     //  The amount of items to load both behind and ahead of the current window range, default = 3
     overscan?: number;
     gap?: {top?: number; bottom?: number; left?: number; right?: number};
-    renderItem: ItemRenderer<T>;
+    listRef?: React.RefObject<VirtualFlatListHandle>;
 }
 
 export interface VirtualFlatListItemProps<T> extends FlatListItemProps<T> {
