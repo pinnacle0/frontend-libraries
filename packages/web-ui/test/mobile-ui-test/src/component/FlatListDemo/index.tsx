@@ -122,15 +122,15 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            {/* <FlatList
+            <FlatList
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
                 pullDownRefreshMessage="Release to refresh"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
-            /> */}
-            <VirtualFlatList
+            />
+            {/* <VirtualFlatList
                 loading={loading}
                 data={data}
                 renderItem={Item}
@@ -138,7 +138,7 @@ export const FlatListDemo = () => {
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
                 gap={{left: 10, right: 10, bottom: 10, top: 10}}
-            />
+            /> */}
             <button onClick={() => refreshData()}>update data</button>
         </div>
     );

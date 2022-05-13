@@ -3,12 +3,13 @@ import classNames from "classnames";
 import {Wrapper} from "./shared/Wrapper";
 import type {FlatListProps, LoadingType} from "./type";
 import {Footer} from "./shared/Footer";
+import {useLoadingWithDelay} from "./shared/hooks/useLoadingWithDelay";
 
 export const FlatList = function <T>(props: FlatListProps<T>) {
     const {
         data,
         renderItem: ItemRenderer,
-        loading = false,
+        loading,
         bounceEffect = true,
         className,
         style,
@@ -24,6 +25,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
 
     const listWrapperRef = React.useRef<HTMLDivElement>(null);
     const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
+    const loadingWithDelay = useLoadingWithDelay(loading ?? false, 250);
 
     React.useEffect(() => {
         if ((loading === undefined || loading === null) && (onPullDownRefresh || onPullUpLoading)) {
@@ -33,7 +35,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
 
     // Automatically loading new data when scroll near the bottom
     const onScroll = (e: React.UIEvent) => {
-        if (!loading && onPullUpLoading) {
+        if (!loadingWithDelay && onPullUpLoading) {
             const {scrollHeight, scrollTop, clientHeight} = e.currentTarget;
             if (scrollHeight * 0.8 < clientHeight + scrollTop) {
                 setLoadingType("loading");
@@ -49,7 +51,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             innerStyle={contentStyle}
             loadingType={loadingType}
             onLoadingTypeChange={setLoadingType}
-            loading={loading}
+            loading={loadingWithDelay}
             className={classNames("g-flat-list", className)}
             style={style}
             onPullDownRefresh={onPullDownRefresh}
@@ -66,7 +68,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}
-                    {!hideFooter && <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
+                    {!hideFooter && <Footer loading={loadingWithDelay && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
                 </div>
             )}
         </Wrapper>

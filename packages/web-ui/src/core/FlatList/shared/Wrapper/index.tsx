@@ -39,7 +39,6 @@ export const Wrapper = function <T>(props: Props<T>) {
     const startOffsetRef = React.useRef(0);
 
     const animatedRef = React.useRef<HTMLDivElement>(null);
-    const loadingWithDelay = useLoadingWithDelay(loading, 250);
 
     const loadingTypeRef = React.useRef<LoadingType>(null);
     loadingTypeRef.current = loadingType;
@@ -64,7 +63,7 @@ export const Wrapper = function <T>(props: Props<T>) {
             startOffsetRef.current = y;
         },
         onEnd: ({delta, direction, boundary}) => {
-            if (loadingWithDelay) {
+            if (loading) {
                 if (boundary !== "upper") {
                     transform.to({
                         y: PULL_DOWN_REFRESH_THRESHOLD,
@@ -96,7 +95,7 @@ export const Wrapper = function <T>(props: Props<T>) {
     );
 
     React.useEffect(() => {
-        if (loadingWithDelay) {
+        if (loading) {
             if (loadingTypeRef.current === "refresh") {
                 transformRef.current.to({
                     y: PULL_DOWN_REFRESH_THRESHOLD,
@@ -107,12 +106,12 @@ export const Wrapper = function <T>(props: Props<T>) {
             transformRef.current.clear();
             onLoadingTypeChangeRef.current(null);
         }
-    }, [loadingWithDelay]);
+    }, [loading]);
 
     return (
         <div className={`g-flat-list-wrapper${className ? ` ${className}` : ""}`} style={style} {...(bounceEffect ? handlers : {})}>
             <div className={`inner-container${innerClassName ? ` ${innerClassName}` : ""}`} style={innerStyle} ref={animatedRef}>
-                <Loading loading={loadingWithDelay && loadingType === "refresh"} message={pullDownRefreshMessage} />
+                <Loading loading={loading && loadingType === "refresh"} message={pullDownRefreshMessage} />
                 <div className="list-wrapper" ref={listWrapperRef} onScroll={handleScroll}>
                     {children}
                 </div>

@@ -7,6 +7,7 @@ import "./index.less";
 import type {VirtualFlatListProps} from "./type";
 import type {Range} from "react-virtual";
 import type {FooterData, LoadingType} from "../type";
+import {useLoadingWithDelay} from "../shared/hooks/useLoadingWithDelay";
 
 /**
  * VirtualizedFlatList currently only work with item without and size related animation and transition since it break the layout. This will be improve in the future
@@ -15,7 +16,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
     const {
         data,
         renderItem,
-        loading = false,
+        loading,
         bounceEffect = true,
         className,
         style,
@@ -39,9 +40,11 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
     const currentRangeRef = React.useRef<Range>();
     const previousRangeRef = React.useRef<Range>();
 
+    const loadingWithDelay = useLoadingWithDelay(loading ?? false, 300);
+
     const listData: Array<T | FooterData> = React.useMemo(() => {
-        return hideFooter ? data : [...data, {loading: loading && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage}];
-    }, [loading, loadingType, endOfListMessage, onPullUpLoading, pullUpLoadingMessage, data, hideFooter]);
+        return hideFooter ? data : [...data, {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage}];
+    }, [loadingWithDelay, loadingType, endOfListMessage, onPullUpLoading, pullUpLoadingMessage, data, hideFooter]);
 
     const rangeExtractor = React.useCallback((range: Range) => {
         previousRangeRef.current = currentRangeRef.current ?? range;
@@ -63,6 +66,12 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
         measure: rowVirtualizer.measure,
     }));
 
+    React.useEffect(() => {
+        if ((loading === undefined || loading === null) && (onPullDownRefresh || onPullUpLoading)) {
+            throw new Error("Loading must be specify when given either onPullDownRefresh or onPullUpLoading");
+        }
+    }, [onPullDownRefresh, onPullUpLoading, loading]);
+
     // the reason why onScroll event is used to simulate auto loading instead of rangeExtractor is rangeExtractor return a wrong range when on mount
     const onAutoLoad = () => {
         const previousRange = previousRangeRef.current;
@@ -72,7 +81,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             currentRange &&
             autoLoad &&
             onPullUpLoading &&
-            !loading &&
+            !loadingWithDelay &&
             // check going downward
             previousRange.end < currentRange.end &&
             currentRange.end > data.length - 2 - (typeof autoLoad === "number" ? autoLoad : 3)
@@ -91,7 +100,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             listWrapperRef={listWrapperRef}
             loadingType={loadingType}
             onLoadingTypeChange={setLoadingType}
-            loading={loading}
+            loading={loadingWithDelay}
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}
             innerStyle={contentStyle}
