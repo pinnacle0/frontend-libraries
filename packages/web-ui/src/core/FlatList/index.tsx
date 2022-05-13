@@ -8,8 +8,6 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
     const {
         data,
         renderItem: ItemRenderer,
-        // TODO/Alvis add auto load to flat list
-        autoLoad,
         loading = false,
         bounceEffect = true,
         className,
@@ -21,10 +19,27 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         contentStyle,
         emptyPlaceholder,
         endOfListMessage,
+        hideFooter,
     } = props;
 
     const listWrapperRef = React.useRef<HTMLDivElement>(null);
     const [loadingType, setLoadingType] = React.useState<LoadingType>(null);
+
+    React.useEffect(() => {
+        if ((loading === undefined || loading === null) && (onPullDownRefresh || onPullUpLoading)) {
+            throw new Error("Loading must be specify when given either onPullDownRefresh or onPullUpLoading");
+        }
+    }, [onPullDownRefresh, onPullUpLoading, loading]);
+
+    // Automatically loading new data when scroll near the bottom
+    const onScroll = (e: React.UIEvent) => {
+        if (!loading && onPullUpLoading) {
+            const {scrollHeight, scrollTop, clientHeight} = e.currentTarget;
+            if (scrollHeight * 0.8 < clientHeight + scrollTop) {
+                onPullUpLoading?.();
+            }
+        }
+    };
 
     return (
         <Wrapper
@@ -38,17 +53,18 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             loading={loading}
             onLoadingTypeChange={setLoadingType}
             pullDownRefreshMessage={pullDownRefreshMessage}
+            onScroll={onScroll}
         >
             {data.length === 0 ? (
                 emptyPlaceholder
             ) : (
                 <div className="list">
                     {data.map((d, i) => (
-                        <div className="g-flat-list-item">
+                        <div className="g-flat-list-item" key={i}>
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}
-                    {bounceEffect && <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
+                    {!hideFooter && <Footer loading={loading && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
                 </div>
             )}
         </Wrapper>

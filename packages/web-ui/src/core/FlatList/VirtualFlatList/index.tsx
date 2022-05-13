@@ -26,6 +26,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
         gap,
         autoLoad = true,
         overscan = 3,
+        hideFooter,
         estimateSize,
         listRef,
         pullUpLoadingMessage,
@@ -38,10 +39,9 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
     const currentRangeRef = React.useRef<Range>();
     const previousRangeRef = React.useRef<Range>();
 
-    const listData: Array<T | FooterData> = React.useMemo(
-        () => [...data, {loading: loading && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage}],
-        [loading, loadingType, endOfListMessage, onPullUpLoading, pullUpLoadingMessage, data]
-    );
+    const listData: Array<T | FooterData> = React.useMemo(() => {
+        return hideFooter ? data : [...data, {loading: loading && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage}];
+    }, [loading, loadingType, endOfListMessage, onPullUpLoading, pullUpLoadingMessage, data, hideFooter]);
 
     const rangeExtractor = React.useCallback((range: Range) => {
         previousRangeRef.current = currentRangeRef.current ?? range;

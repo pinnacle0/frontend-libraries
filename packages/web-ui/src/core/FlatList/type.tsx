@@ -15,13 +15,13 @@ export interface FlatListProps<T> {
     loading?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    /** When either onPullUpLoading or onPullDownRefresh is given, loading must be given too */
     onPullUpLoading?: () => void;
     onPullDownRefresh?: () => void;
-    /** Automatic load new data when scroll to bottom, a number {X} mean: when to scroll to last {X} items, auto load is going to be triggered */
-    autoLoad?: boolean | number;
     emptyPlaceholder?: string | React.ReactElement;
     contentStyle?: React.CSSProperties;
     bounceEffect?: boolean;
+    hideFooter?: boolean;
     pullUpLoadingMessage?: string;
     endOfListMessage?: string;
     pullDownRefreshMessage?: string;
