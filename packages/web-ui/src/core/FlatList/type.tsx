@@ -17,7 +17,7 @@ export interface FlatListProps<T> {
     style?: React.CSSProperties;
     onPullUpLoading?: () => void;
     onPullDownRefresh?: () => void;
-    // Automatic load new data when scroll to bottom, a number {X} mean: when to scroll to last {X} items, auto load is going to be triggered
+    /** Automatic load new data when scroll to bottom, a number {X} mean: when to scroll to last {X} items, auto load is going to be triggered */
     autoLoad?: boolean | number;
     emptyPlaceholder?: string | React.ReactElement;
     contentStyle?: React.CSSProperties;
