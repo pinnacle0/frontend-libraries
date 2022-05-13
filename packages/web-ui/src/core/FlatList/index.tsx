@@ -1,9 +1,9 @@
 import React from "react";
-import classNames from "classnames";
 import {Wrapper} from "./shared/Wrapper";
 import type {FlatListProps, LoadingType} from "./type";
 import {Footer} from "./shared/Footer";
 import {useLoadingWithDelay} from "./shared/hooks/useLoadingWithDelay";
+import {classNames} from "../../util/Classnames";
 
 export const FlatList = function <T>(props: FlatListProps<T>) {
     const {
@@ -46,13 +46,13 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
 
     return (
         <Wrapper
+            className={classNames("g-flat-list", className)}
             listWrapperRef={listWrapperRef}
             bounceEffect={bounceEffect}
             innerStyle={contentStyle}
             loadingType={loadingType}
             onLoadingTypeChange={setLoadingType}
             loading={loadingWithDelay}
-            className={classNames("g-flat-list", className)}
             style={style}
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}

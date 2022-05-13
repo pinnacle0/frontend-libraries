@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 import {defaultRangeExtractor, useVirtual} from "react-virtual";
 import {Wrapper} from "../shared/Wrapper";
 import {Item} from "./Item";
@@ -8,6 +7,7 @@ import type {VirtualFlatListProps} from "./type";
 import type {Range} from "react-virtual";
 import type {FooterData, LoadingType} from "../type";
 import {useLoadingWithDelay} from "../shared/hooks/useLoadingWithDelay";
+import {classNames} from "../../../util/Classnames";
 
 /**
  * VirtualizedFlatList currently only work with item without and size related animation and transition since it break the layout. This will be improve in the future
