@@ -45,7 +45,7 @@ describe("ScriptTagCrossOriginPlugin test : Add crossorigin='anonymous'", () => 
             done
         );
     });
-    test.only("multiple entry script tag", done => {
+    test("multiple entry script tag", done => {
         testPlugin(
             {
                 main: path.join(__dirname, "./fixture/script.js"),
