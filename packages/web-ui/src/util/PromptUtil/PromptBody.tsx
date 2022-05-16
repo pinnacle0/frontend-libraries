@@ -2,6 +2,7 @@ import React from "react";
 import {Input} from "../../core/Input";
 import {Form} from "../../core/Form";
 import {Markdown} from "../../core/Markdown";
+import {classNames} from "../ClassNames";
 import type {PromptConfig, PromptResult} from "./index";
 import "./index.less";
 
@@ -37,7 +38,7 @@ export class PromptBody extends React.PureComponent<Props, State> {
         const {body, warning, inputPlaceholder, inputType, inputValidator} = this.props;
         const {textValue} = this.state;
         return (
-            <div className={`g-modal-prompt-body ${inputType === "multi-line" ? "multi-linw" : ""}`}>
+            <div className={classNames("g-modal-prompt-body", inputType)}>
                 <Markdown>{body}</Markdown>
                 <p style={this.warningStyle}>{warning}</p>
                 <Form ref={this.formRef} style={this.formStyle} buttonRenderer={null}>

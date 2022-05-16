@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
 import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
@@ -43,10 +44,10 @@ export class OverflowableText extends React.PureComponent<Props, States> {
     };
 
     render() {
-        const {children, style, maxWidth, className = ""} = this.props;
+        const {children, style, maxWidth, className} = this.props;
 
         return (
-            <div className={`g-overflowable-text ${className}`}>
+            <div className={classNames("g-overflowable-text", className)}>
                 {this.state.overflow ? (
                     <Tooltip overlay={children}>
                         <div className="wrap-text" style={{...style, width: maxWidth}}>

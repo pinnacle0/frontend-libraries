@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import type {VirtualItem} from "react-virtual";
 import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, StickyPosition} from "./type";
 
@@ -48,7 +49,7 @@ export const TableRow = Object.assign(
             <div
                 ref={rowRef}
                 key={rowIndex}
-                className={["table-row", rowClassName, rowIndex % 2 ? "odd" : "even"].join(" ")}
+                className={classNames("table-row", rowClassName, rowIndex % 2 ? "odd" : "even")}
                 style={{transform: `translateY(${virtualItem.start}px)`}}
                 onClick={() => onRowClick?.(data, rowIndex)}
             >
@@ -66,7 +67,7 @@ export const TableRow = Object.assign(
                     return (
                         renderData && (
                             <div
-                                className={["table-cell", ...getFixedColumnClassNames(column.fixed, columnIndex)].join(" ")}
+                                className={classNames("table-cell", ...getFixedColumnClassNames(column.fixed, columnIndex))}
                                 key={columnIndex}
                                 style={{
                                     height: rowHeight,
@@ -81,7 +82,7 @@ export const TableRow = Object.assign(
                         )
                     );
                 })}
-                {rowExpand && <div className={`expand-row ${isExpanded ? "expanded" : ""}`}>{rowExpand.renderExpandRow(data, rowIndex)}</div>}
+                {rowExpand && <div className={classNames("expand-row", {expanded: isExpanded})}>{rowExpand.renderExpandRow(data, rowIndex)}</div>}
             </div>
         );
     },

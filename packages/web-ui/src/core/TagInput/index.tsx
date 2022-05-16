@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
 import "./index.less";
 
@@ -73,10 +74,10 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
         const {value, renderTag, className, style, disabled, placeholder, autoFocus = true} = this.props;
         const {inputText} = this.state;
         return (
-            <div className={`g-tag-input ${disabled ? "ant-input-disabled" : ""}`} style={style}>
+            <div className={classNames("g-tag-input", {"ant-input-disabled": disabled})} style={style}>
                 {value.map((tag, index) => {
                     return (
-                        <div className={`g-tag-input-label ${className ? className(tag) : ""}`} key={index}>
+                        <div className={classNames("g-tag-input-label", className?.(tag))} key={index}>
                             {renderTag!(tag)}
                             <i onClick={() => this.removeTag(index)}>&times;</i>
                         </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import {NavLink as ReactRouterLink} from "react-router-dom";
+import {classNames} from "../util/ClassNames";
 import type {LocationDescriptorObject} from "history";
 import type {SafeReactChild} from "../internal/type";
 
@@ -17,38 +18,37 @@ export class Link extends React.PureComponent<Props> {
 
     render() {
         const {to, children, newTab, replace, className, style} = this.props;
-        const fullClassNames: string[] = [];
-        if (typeof children === "string" || typeof children === "number") {
-            fullClassNames.push("g-text-link");
-        }
 
-        if (className) {
-            fullClassNames.push(className);
-        }
+        const fullClassNames: string = classNames(
+            {
+                "g-text-link": typeof children === "string" || typeof children === "number",
+            },
+            className
+        );
 
         if (typeof to === "object") {
             return (
-                <ReactRouterLink to={to} replace={replace} className={fullClassNames.join(" ")} style={style}>
+                <ReactRouterLink to={to} replace={replace} className={fullClassNames} style={style}>
                     {children}
                 </ReactRouterLink>
             );
         } else if (typeof to === "string") {
             if (to.startsWith("/")) {
                 return (
-                    <ReactRouterLink to={to} target={!newTab ? "_self" : "_blank"} replace={replace} className={fullClassNames.join(" ")} style={style}>
+                    <ReactRouterLink to={to} target={!newTab ? "_self" : "_blank"} replace={replace} className={fullClassNames} style={style}>
                         {children}
                     </ReactRouterLink>
                 );
             } else {
                 return (
-                    <a href={to} target={newTab === undefined || newTab ? "_blank" : "_self"} className={fullClassNames.join(" ")} style={style}>
+                    <a href={to} target={newTab === undefined || newTab ? "_blank" : "_self"} className={fullClassNames} style={style}>
                         {children}
                     </a>
                 );
             }
         } else {
             return (
-                <a onClick={to} className={fullClassNames.join(" ")} style={style}>
+                <a onClick={to} className={fullClassNames} style={style}>
                     {children}
                 </a>
             );

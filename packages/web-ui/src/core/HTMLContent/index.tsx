@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import "./index.less";
 
 interface Props {
@@ -11,6 +12,6 @@ export class HTMLContent extends React.PureComponent<Props> {
 
     render() {
         const {html, className} = this.props;
-        return <div className={`g-html-content ${className || ""}`} dangerouslySetInnerHTML={{__html: html}} />;
+        return <div className={classNames("g-html-content", className)} dangerouslySetInnerHTML={{__html: html}} />;
     }
 }

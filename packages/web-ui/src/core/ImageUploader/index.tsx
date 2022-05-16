@@ -2,6 +2,7 @@ import React from "react";
 import CloudUploadOutlined from "@ant-design/icons/CloudUploadOutlined";
 import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
 import EyeOutlined from "@ant-design/icons/EyeOutlined";
+import {classNames} from "../../util/ClassNames";
 import {ModalUtil} from "../../util/ModalUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {i18n} from "../../internal/i18n/core";
@@ -82,7 +83,7 @@ export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React
                 onUploadFailure={onUploadFailure}
                 onUploadSuccess={this.onUploadSuccess}
                 style={{...style, width, height}}
-                className={`g-image-uploader ${className || ""}`}
+                className={classNames("g-image-uploader", className)}
                 disabled={disabled}
                 beforeUpload={this.beforeUpload}
             >

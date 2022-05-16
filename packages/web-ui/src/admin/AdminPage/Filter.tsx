@@ -1,6 +1,7 @@
 import React from "react";
 import DownOutlined from "@ant-design/icons/DownOutlined";
 import UpOutlined from "@ant-design/icons/UpOutlined";
+import {classNames} from "../../util/ClassNames";
 import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
 import {WithExplanation} from "../../core/WithExplanation";
@@ -68,7 +69,7 @@ export class Filter extends React.PureComponent<Props, State> {
                         </div>
                     )}
                 </Space>
-                <div className={`expanded-area ${expanded ? "expanded" : ""}`}>{expandedArea}</div>
+                <div className={classNames("expanded-area", {expanded})}>{expandedArea}</div>
             </Form>
         );
     }

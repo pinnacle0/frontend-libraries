@@ -1,8 +1,9 @@
 import React from "react";
-import type {PickOptional} from "../../internal/type";
-import type {Props as NumberInputProps} from "./index";
+import {classNames} from "../../util/ClassNames";
 import {NumberInput} from "./index";
 import {truncate} from "./util";
+import type {PickOptional} from "../../internal/type";
+import type {Props as NumberInputProps} from "./index";
 
 type OmitPropsKeys = "displayRenderer" | "scale" | "step" | "min" | "max" | "value" | "onChange";
 
@@ -87,7 +88,7 @@ export class NumberInputPercentage<AllowNull extends boolean> extends React.Pure
         const percentageMax = max! * 100;
         return (
             <NumberInput<AllowNull>
-                className={`percentage ${className || ""}`}
+                className={classNames("percentage", className)}
                 value={percentageValue}
                 onChange={this.onPercentageChange}
                 min={percentageMin}

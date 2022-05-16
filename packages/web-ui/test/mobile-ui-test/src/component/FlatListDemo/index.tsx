@@ -5,13 +5,14 @@ import {fetchData} from "./fetch";
 import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
 import "./index.less";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
+import {classNames} from "@pinnacle0/web-ui/util/ClassNames";
 
 const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
     const {data, index} = props;
     const [expand, setExpand] = React.useState(false);
 
     return (
-        <div className={`item ${index} ${expand ? "expand" : ""}`}>
+        <div className={classNames(`item ${index}`, {expand})}>
             <h4>
                 {data}
                 <div>index: {index}</div>
@@ -61,7 +62,7 @@ const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => {
     }, [expand]);
 
     return (
-        <div ref={ref} className={`item ${index} ${expand ? "expand" : ""}`}>
+        <div className={classNames(`item ${index}`, {expand})}>
             <h4>
                 {data}
                 <div>index: {index}</div>

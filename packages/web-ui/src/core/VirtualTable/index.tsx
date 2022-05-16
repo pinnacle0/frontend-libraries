@@ -1,13 +1,14 @@
 import React from "react";
 import {useVirtual} from "react-virtual";
+import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
-import type {SafeReactChild, StringKey} from "../../internal/type";
 import {useLayout} from "./hooks/useLayout";
-import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
+import {useTransformColumn} from "./hooks/useTransformColumn";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
+import type {SafeReactChild, StringKey} from "../../internal/type";
+import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
 import "./index.less";
-import {useTransformColumn} from "./hooks/useTransformColumn";
 
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
@@ -96,7 +97,7 @@ export const VirtualTable = Object.assign(
         }, [isScrollToEdge]);
 
         return (
-            <div className={["g-virtual-table", className].join(" ")} style={{width: scrollX || "100%", height: tableHeight}}>
+            <div className={classNames("g-virtual-table", className)} style={{width: scrollX || "100%", height: tableHeight}}>
                 {loading && (
                     <div className="mask">
                         <Spin spinning={loading} />

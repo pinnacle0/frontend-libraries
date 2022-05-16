@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import {i18n} from "../../internal/i18n/core";
 import type {StringKey} from "../../internal/type";
 import "./index.less";
@@ -73,7 +74,7 @@ export class PagedList<T extends object> extends React.PureComponent<Props<T>, S
                     {dataSource.length === 0 && <div className="no-data">{t.noData}</div>}
                 </div>
                 <div className="navigation">
-                    <div onClick={isNextDisabled ? undefined : this.goNextPage} className={isNextDisabled ? "disabled" : ""}>
+                    <div onClick={isNextDisabled ? undefined : this.goNextPage} className={classNames({disabled: isNextDisabled})}>
                         <div className="next-button" />
                         <div>{t.nextPage}</div>
                     </div>
@@ -81,7 +82,7 @@ export class PagedList<T extends object> extends React.PureComponent<Props<T>, S
                         <div className="previous-button" />
                         <div>{t.prevPage}</div>
                     </div>
-                    <div onClick={isNextDisabled ? undefined : this.goCurrentPage} className={isNextDisabled ? "disabled" : ""}>
+                    <div onClick={isNextDisabled ? undefined : this.goCurrentPage} className={classNames({disabled: isNextDisabled})}>
                         <div className="current-button" />
                         <div>{t.currentPage}</div>
                     </div>

@@ -1,10 +1,11 @@
 import React from "react";
-import type {SafeReactChildren} from "../../internal/type";
+import {classNames} from "../../util/ClassNames";
 import {Filter} from "./Filter";
 import {Summary} from "./Summary";
 import {SaveBar} from "./SaveBar";
 import {Result} from "./Result";
 import {TopBar} from "./TopBar";
+import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
@@ -23,6 +24,6 @@ export class AdminPage extends React.PureComponent<Props> {
 
     render() {
         const {className, children} = this.props;
-        return <div className={`g-admin-page ${className || ""}`}>{children}</div>;
+        return <div className={classNames("g-admin-page", className)}>{children}</div>;
     }
 }

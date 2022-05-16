@@ -1,7 +1,8 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
+import {Tooltip} from "../Tooltip";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import type {TooltipPlacement} from "../Tooltip";
-import {Tooltip} from "../Tooltip";
 import "./index.less";
 
 export interface Props {
@@ -28,7 +29,7 @@ export class WithExplanation extends React.PureComponent<Props> {
         const {children, explanation, iconPosition} = this.props;
         if (explanation) {
             return (
-                <div className={`g-with-explanation with-icon-${iconPosition}`}>
+                <div className={classNames("g-with-explanation", `with-icon-${iconPosition}`)}>
                     {children}
                     <Tooltip className="g-with-explanation-tooltip" title={Array.isArray(explanation) ? explanation.map((_, index) => <p key={index}>{_}</p>) : explanation}>
                         <div className="icon-container">

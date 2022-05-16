@@ -1,7 +1,8 @@
 import React from "react";
-import type {ModalProps} from "antd/lib/modal";
 import AntModal from "antd/lib/modal";
+import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
+import type {ModalProps} from "antd/lib/modal";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import "antd/lib/modal/style";
 import "./index.less";
@@ -28,7 +29,7 @@ export class Modal extends React.PureComponent<Props> {
     render() {
         const {children, loading, title, className, addInnerPadding, ...restProps} = this.props;
         return (
-            <AntModal title={title} className={`${className || ""} ${addInnerPadding ? "" : "no-padding"}`} {...restProps}>
+            <AntModal title={title} className={classNames(className, {"no-padding": !addInnerPadding})} {...restProps}>
                 <Spin spinning={loading || false}>{children}</Spin>
             </AntModal>
         );

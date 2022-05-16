@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import type {ColumnFixedPosition, VirtualTableColumn, StickyPosition} from "./type";
 
 interface Props<RowType extends object> {
@@ -17,7 +18,7 @@ export const TableHeader = Object.assign(
                     const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
                     return (
                         <div
-                            className={["table-header", ...getFixedColumnClassNames(fixed, columnIndex)].join(" ")}
+                            className={classNames("table-header", ...getFixedColumnClassNames(fixed, columnIndex))}
                             key={columnIndex}
                             style={{
                                 display: display !== "hidden" ? "flex" : "none",

@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../../../util/ClassNames";
 import {Direction} from "../../../../hooks/useSwipe";
 import {useTransform} from "../../../../hooks/useTransform";
 import {useBounceSwipe} from "../hooks/useBounceSwipe";
@@ -6,7 +7,6 @@ import {useElementScrollState} from "../hooks/useElementScrollState";
 import type {FlatListProps, LoadingType} from "../../type";
 import {PULL_DOWN_REFRESH_THRESHOLD} from "../../type";
 import {Loading} from "./Loading";
-import {useLoadingWithDelay} from "../hooks/useLoadingWithDelay";
 import "./index.less";
 
 interface Props<T> extends Pick<FlatListProps<T>, "loading" | "bounceEffect" | "onPullUpLoading" | "onPullDownRefresh" | "className" | "style" | "pullDownRefreshMessage"> {
@@ -109,8 +109,8 @@ export const Wrapper = function <T>(props: Props<T>) {
     }, [loading]);
 
     return (
-        <div className={`g-flat-list-wrapper${className ? ` ${className}` : ""}`} style={style} {...(bounceEffect ? handlers : {})}>
-            <div className={`inner-container${innerClassName ? ` ${innerClassName}` : ""}`} style={innerStyle} ref={animatedRef}>
+        <div className={classNames("g-flat-list-wrapper", className)} style={style} {...(bounceEffect ? handlers : {})}>
+            <div className={classNames("inner-container", innerClassName)} style={innerStyle} ref={animatedRef}>
                 <Loading loading={loading && loadingType === "refresh"} message={pullDownRefreshMessage} />
                 <div className="list-wrapper" ref={listWrapperRef} onScroll={handleScroll}>
                     {children}

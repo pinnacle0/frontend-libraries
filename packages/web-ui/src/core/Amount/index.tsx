@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import type {PickOptional} from "../../internal/type";
 import {NumberUtil} from "../../internal/NumberUtil";
 import {AmountPercentage} from "./AmountPercentage";
@@ -43,26 +44,14 @@ export class Amount extends React.PureComponent<Props> {
                 parts[0] = "+" + parts[0];
             }
 
-            const classNames = ["g-amount"];
-            if (bold) classNames.push("bold");
-            if (del) classNames.push("del");
-            if (underline) classNames.push("underline");
-            if (className) classNames.push(className);
-
-            if (colorScheme === "green+red-") {
-                if (value > 0) classNames.push("color-green");
-                if (value < 0) classNames.push("color-red");
-            } else if (colorScheme === "green-red+") {
-                if (value > 0) classNames.push("color-red");
-                if (value < 0) classNames.push("color-green");
-            } else if (colorScheme === "highlight") {
-                classNames.push("color-highlight");
-            } else if (colorScheme === "highlight+") {
-                if (value > 0) classNames.push("color-highlight");
-            }
+            const fullClassNames = classNames("g-amount", {bold, del, underline}, className, {
+                "color-green": (colorScheme === "green+red-" && value > 0) || (colorScheme === "green-red+" && value < 0),
+                "color-red": (colorScheme === "green+red-" && value < 0) || (colorScheme === "green-red+" && value > 0),
+                "color-highlight": colorScheme === "highlight" || (colorScheme === "highlight+" && value > 0),
+            });
 
             return (
-                <div className={classNames.join(" ")} style={style}>
+                <div className={fullClassNames} style={style}>
                     {prefix && <div className="prefix">{prefix}</div>}
                     <div className="digits">
                         {parts[0]}
@@ -76,7 +65,7 @@ export class Amount extends React.PureComponent<Props> {
                 </div>
             );
         } else {
-            return <span className={`g-amount null-text ${className || ""}`}>{nullText}</span>;
+            return <span className={classNames("g-amount", "null-text", className)}>{nullText}</span>;
         }
     }
 }

@@ -1,9 +1,10 @@
 import React from "react";
-import type {ControlledFormValue} from "../../internal/type";
+import {classNames} from "../../util/ClassNames";
 import {Input} from "../Input";
-import type {InputRef as AntInputRef} from "antd/lib";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
+import type {InputRef as AntInputRef} from "antd/lib";
+import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 
 // NOTE: Use `this.typeSafeProps` instead of `this.props` inside this component for better type-safety.
@@ -156,7 +157,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         const {editingValue, isEditing} = this.state;
 
         return (
-            <div className={`g-number-input stepper-${stepperMode} ${disabled ? "disabled" : ""} ${className || ""}`} onClick={this.stopPropagation}>
+            <div className={classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className)} onClick={this.stopPropagation}>
                 <button type="button" className="minus" disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})} onClick={this.onMinusClick}>
                     &#65293;
                 </button>

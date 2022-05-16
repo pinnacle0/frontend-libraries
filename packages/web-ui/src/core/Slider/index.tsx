@@ -1,9 +1,10 @@
 import React from "react";
-import type {SliderSingleProps} from "antd/lib/slider";
 import AntSlider from "antd/lib/slider";
-import type {ControlledFormValue} from "../../internal/type";
+import {classNames} from "../../util/ClassNames";
 import {Button} from "../Button";
 import {RangeSlider} from "./RangeSlider";
+import type {SliderSingleProps} from "antd/lib/slider";
+import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/slider/style";
 import "./index.less";
 
@@ -31,7 +32,7 @@ export class Slider extends React.PureComponent<Props> {
         const safeStep = step || 1;
 
         return (
-            <span className={`g-slider ${className || ""}`}>
+            <span className={classNames("g-slider", className)}>
                 {showButton && (
                     <Button className="decrease-button" onClick={() => this.onChange(value - safeStep)}>
                         <span>{"<"}</span>

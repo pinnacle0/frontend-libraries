@@ -1,5 +1,6 @@
 import React from "react";
 import AntCascader from "antd/lib/cascader";
+import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue} from "../../internal/type";
 import type {DefaultOptionType} from "rc-cascader";
 import "antd/lib/cascader/style";
@@ -96,7 +97,7 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
         return (
             <AntCascader
                 multiple
-                className={`g-multiple-cascader ${className || ""}`}
+                className={classNames("g-multiple-cascader", className)}
                 dropdownClassName="g-multiple-cascader-popup"
                 style={style}
                 value={this.getAntValue()}

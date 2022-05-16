@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import {Button} from "../Button";
 import {FormValidationContext} from "./context";
@@ -88,7 +89,7 @@ export class Form extends React.PureComponent<Props, State> {
         const t = i18n();
 
         const submitButton = (
-            <Button className={`g-form-submit-button ${buttonDisabled ? "button-disabled" : ""}`} type="submit" style={buttonStyle} disabled={isValidating || loading || buttonDisabled}>
+            <Button className={classNames("g-form-submit-button", {"button-disabled": buttonDisabled})} type="submit" style={buttonStyle} disabled={isValidating || loading || buttonDisabled}>
                 {isValidating || loading ? <Spin spinning size="small" /> : buttonText || t.submit}
             </Button>
         );
@@ -99,7 +100,7 @@ export class Form extends React.PureComponent<Props, State> {
     render() {
         const {children, id, className, style, layout, allowBrowserAutoComplete} = this.props;
         return (
-            <form autoComplete={allowBrowserAutoComplete ? undefined : "off"} id={id} className={`g-form g-form-${layout} ${className || ""}`} style={style} onSubmit={this.onSubmit}>
+            <form autoComplete={allowBrowserAutoComplete ? undefined : "off"} id={id} className={classNames("g-form", `g-form-${layout}`, className)} style={style} onSubmit={this.onSubmit}>
                 <FormValidationContext.Provider value={this.validationContext}>{children}</FormValidationContext.Provider>
                 {this.renderSubmitButton()}
             </form>

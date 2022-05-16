@@ -1,10 +1,11 @@
 import React from "react";
 import {i18n} from "../../internal/i18n/core";
-import type {SafeReactChild} from "../../internal/type";
+import {classNames} from "../../util/ClassNames";
 import {Button} from "../Button";
 import {Form} from "../Form";
 import {Space} from "../Space";
 import {Steps} from "../Steps";
+import type {SafeReactChild} from "../../internal/type";
 import "./index.less";
 
 export interface StepItem {
@@ -50,7 +51,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
         const nextButtonText = currentStep !== steps.length - 1 ? t.nextStep : t.finish;
 
         return (
-            <div className={`g-step-form-container ${className || ""}`} id={id} style={style}>
+            <div className={classNames("g-step-form-container", className)} id={id} style={style}>
                 <Steps current={currentStep} labelPlacement={stepLabelPlacement}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />

@@ -1,10 +1,11 @@
 import React from "react";
 import {Button} from "./Button";
-import type {Props as InputProps} from "./Input";
-import {Input} from "./Input";
-import type {PickOptional} from "../internal/type";
+import {classNames} from "../util/ClassNames";
 import {i18n} from "../internal/i18n/core";
 import {TextUtil} from "../internal/TextUtil";
+import {Input} from "./Input";
+import type {Props as InputProps} from "./Input";
+import type {PickOptional} from "../internal/type";
 
 export interface Props extends Omit<InputProps, "suffix"> {
     onSend: () => Promise<boolean>;
@@ -79,6 +80,6 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
                 {nextSendRemainingSecond ? TextUtil.interpolate(t.waitResendAuthCode, nextSendRemainingSecond.toString()) : sendButtonText || t.sendAuthCode}
             </Button>
         );
-        return <Input {...inputProps} className={`${className || ""} g-auth-code-input`} suffix={sendButton} />;
+        return <Input {...inputProps} className={classNames(className, "g-auth-code-input")} suffix={sendButton} />;
     }
 }

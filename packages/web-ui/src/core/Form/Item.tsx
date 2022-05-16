@@ -1,7 +1,8 @@
 import React from "react";
-import type {SafeReactChild} from "../../internal/type";
+import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
 import {FormValidationContext} from "./context";
+import type {SafeReactChild} from "../../internal/type";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
@@ -60,11 +61,11 @@ export class Item extends React.PureComponent<Props, State> {
         const extraMessageNode = extra && <div className="message">{extra}</div>;
 
         return (
-            <div className={`g-form-item ${className || ""}`}>
-                <div className={`g-form-item-label ${required ? "required" : ""}`} style={labelStyle}>
+            <div className={classNames("g-form-item", className)}>
+                <div className={classNames("g-form-item-label", {required})} style={labelStyle}>
                     {label && <label>{label}</label>}
                 </div>
-                <div className={`g-form-item-children ${errorMessage ? "has-error" : ""} ${widthMode ? `width-${widthMode}` : ""}`}>
+                <div className={classNames("g-form-item-children", {"has-error": errorMessage}, widthMode ? `width-${widthMode}` : "")}>
                     {errorDisplayMode.type === "extra" ? (
                         <React.Fragment>
                             {childrenNode}

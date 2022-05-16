@@ -1,9 +1,10 @@
 import React from "react";
-import type {TabsProps} from "antd/lib/tabs";
 import AntTabs from "antd/lib/tabs";
-import type {PickOptional, SafeReactChildren} from "../../internal/type";
-import type {TabBarExtraMap} from "rc-tabs/lib/interface";
+import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
+import type {TabsProps} from "antd/lib/tabs";
+import type {TabBarExtraMap} from "rc-tabs/lib/interface";
+import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import "antd/lib/tabs/style";
 import "./index.less";
 
@@ -63,7 +64,7 @@ export class Tabs extends React.PureComponent<Props> {
 
         return (
             <AntTabs
-                className={`g-tabs ${className || ""} ${initialMaxVisibleTabCount ? "with-max-visible-tab-count" : ""}`}
+                className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
                 animated={animated === undefined ? type === "line" : animated}
                 type={type}
                 tabBarExtraContent={tabBarExtraContent}
