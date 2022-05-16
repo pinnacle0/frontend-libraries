@@ -30,7 +30,7 @@ const config = {
     verbose: true,
 
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
-    watchPathIgnorePatterns: ["<rootDir>/build/"],
+    watchPathIgnorePatterns: ["<rootDir>/build/", "dist/"],
 };
 
 module.exports = config;
