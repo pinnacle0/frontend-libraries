@@ -1,5 +1,5 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
-import {ScriptTagCrossOriginPlugin} from "./ScriptTagCrossOriginPlugin";
+import {ScriptTagCrossOriginPlugin} from "./script-tag-crossorigin-plugin";
 import type webpack from "webpack";
 import type {HTMLEntryDescriptor} from "../../type";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";

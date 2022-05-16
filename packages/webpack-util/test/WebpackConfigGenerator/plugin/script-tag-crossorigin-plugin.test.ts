@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/ScriptTagCrossOriginPlugin";
+import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/script-tag-crossorigin-plugin";
 
 const OUTPUT_DIR = path.join(__dirname, "./dist");
 type Entry = Omit<webpack.Configuration["entry"], "undefined">;
@@ -20,7 +20,7 @@ const createConfig = (entry: Entry): webpack.Configuration => ({
     ],
 });
 
-describe("ScriptTagCrossOriginPlugin test : Add crossorigin='anonymous'", () => {
+describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () => {
     beforeEach(done => {
         fs.rmSync(OUTPUT_DIR, {force: true, recursive: true});
         done();
