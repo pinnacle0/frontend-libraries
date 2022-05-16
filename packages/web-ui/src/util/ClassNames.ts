@@ -1,1 +1,2 @@
-export {default as classNames} from "classnames";
+import classnames from "classnames";
+export const classNames = classnames;
