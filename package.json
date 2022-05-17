@@ -45,6 +45,7 @@
         "fs-extra": "10.1.0",
         "husky": "8.0.1",
         "jest": "28.1.0",
+        "jest-environment-jsdom": "28.1.0",
         "lint-staged": "12.4.1",
         "postcss": "8.4.13",
         "postcss-less": "6.0.0",
