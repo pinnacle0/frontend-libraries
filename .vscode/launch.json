@@ -10,7 +10,7 @@
             "args": [
                 "${relativeFileDirname}/${fileBasenameNoExtension}",
                 "--config",
-                "config/jest.config.js",
+                "config/jest.config.ts",
                 "--watchAll",
                 "--runInBand",
             ],

@@ -12,7 +12,7 @@ const FilePath = {
 
     projectESLintRc: path.join(__dirname, "../.eslintrc.js"),
     workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
-    jestConfig: path.join(__dirname, "../config/jest.config.js"),
+    jestConfig: path.join(__dirname, "../config/jest.config.ts"),
     rollupConfig: path.join(__dirname, "../config/rollup.config.js"),
     projectPackageJSON: path.join(__dirname, "../package.json"),
     projectReadMe: path.join(__dirname, "../README.md"),
@@ -44,7 +44,7 @@ new TaskRunner("build").execute([
         name: "test",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("jest", ["--config", "config/jest.config.js"]);
+            Utility.runCommand("jest", ["--config", "config/jest.config.ts"]);
         },
     },
     {

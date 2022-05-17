@@ -5,7 +5,7 @@
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
-        "test": "jest --config config/jest.config.js",
+        "test": "jest --config config/jest.config.ts",
         "compile": "tsc --project config/tsconfig.src.json",
         "game": "ts-node --project config/tsconfig.test.json ./script/game.ts",
         "copy-static-files": "node script/copyStaticFiles.js",

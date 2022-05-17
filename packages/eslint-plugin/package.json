@@ -8,7 +8,7 @@
         "codegen": "yarn run-script script/codegen.ts",
         "format": "yarn run-script script/format.ts",
         "new-rule": "yarn run-script script/new-rule.ts",
-        "test": "jest --config config/jest.config.js"
+        "test": "jest --config config/jest.config.ts"
     },
     "dependencies": {
         "@typescript-eslint/eslint-plugin": "5.23.0",

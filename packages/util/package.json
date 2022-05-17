@@ -18,7 +18,7 @@
         "build": "yarn run-script script/build.ts",
         "format": "yarn run-script script/format.ts",
         "lint": "yarn run-script script/lint.ts",
-        "test": "jest --config config/jest.config.js --coverage"
+        "test": "jest --config config/jest.config.ts --coverage"
     },
     "dependencies": {},
     "peerDependencies": {},

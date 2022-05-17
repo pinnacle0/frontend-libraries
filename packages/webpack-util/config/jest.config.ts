@@ -1,7 +1,6 @@
-// @ts-check
+import type {Config} from "@jest/types";
 
-/** @type {import("@jest/types/build/Config").InitialOptionsWithRootDir} */
-const config = {
+const config: Config.InitialOptionsWithRootDir = {
     // Stop running tests after `n` failures
     bail: 1,
 
@@ -33,4 +32,4 @@ const config = {
     watchPathIgnorePatterns: ["<rootDir>/build/", "dist/"],
 };
 
-module.exports = config;
+export default config;

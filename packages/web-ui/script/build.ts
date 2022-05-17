@@ -11,7 +11,7 @@ const FilePath = {
     src: path.join(__dirname, "../src"),
     test: path.join(__dirname, "../test"),
 
-    jestConfig: path.join(__dirname, "../config/jest.config.js"),
+    jestConfig: path.join(__dirname, "../config/jest.config.ts"),
     tsConfigForSrc: path.join(__dirname, "../config/tsconfig.src.json"),
     projectPackageJSON: path.join(__dirname, "../package.json"),
     projectReadMe: path.join(__dirname, "../README.md"),

@@ -1,8 +1,6 @@
-/* eslint-env node */
-// @ts-check
+import type {Config} from "@jest/types";
 
-/** @type {import("@jest/types/build/Config").InitialOptionsWithRootDir} */
-const config = {
+const config: Config.InitialOptionsWithRootDir = {
     // An array of file extensions your modules use
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 
@@ -56,4 +54,4 @@ const config = {
     watchPathIgnorePatterns: ["<rootDir>/build/"],
 };
 
-module.exports = config;
+export default config;

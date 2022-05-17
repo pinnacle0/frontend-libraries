@@ -1,7 +1,9 @@
-// @ts-check
+import type {Config} from "@jest/types";
 
-/** @type {import("@jest/types/build/Config").InitialOptionsWithRootDir} */
-const config = {
+const config: Config.InitialOptionsWithRootDir = {
+    // Stop running tests after `n` failures
+    bail: 1,
+
     // A preset that is used as a base for Jest's configuration
     preset: "ts-jest",
 
@@ -18,13 +20,8 @@ const config = {
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     testPathIgnorePatterns: ["/node_modules/", "<rootDir>/build/"],
 
-    // A map from regular expressions to paths to transformers
-    transform: {
-        [String.raw`\.(ts|tsx)$`]: "ts-jest",
-    },
-
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
     watchPathIgnorePatterns: ["<rootDir>/build/"],
 };
 
-module.exports = config;
+export default config;
