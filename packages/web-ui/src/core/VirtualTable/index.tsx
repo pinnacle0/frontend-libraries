@@ -115,7 +115,8 @@ export const VirtualTable = Object.assign(
                         <div className="table-body">
                             {dataSource.length === 0
                                 ? emptyElement
-                                : virtualItems.map(virtualItem => (
+                                : columnWidths.length > 0 &&
+                                  virtualItems.map(virtualItem => (
                                       <TableRow
                                           key={virtualItem.index}
                                           rowHeight={rowHeight}
