@@ -20,6 +20,9 @@ export interface BaseProps<Enum extends string | boolean | number> {
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
 
 export class EnumSelect<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
+    private readonly trueValue = "@@TRUE";
+    private readonly falseValue = "@@FALSE";
+
     static displayName = "EnumSelect";
 
     static Nullable = Nullable;
@@ -43,8 +46,8 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     onChange = ({value: antValue}: LabeledValue) => {
-        const enumValue = antValue === "true" ? true : antValue === "false" ? false : antValue;
-        this.props.onChange(enumValue as any);
+        const enumValue = antValue === this.trueValue ? true : antValue === this.falseValue ? false : antValue;
+        this.props.onChange(enumValue as Enum);
     };
 
     render() {
@@ -61,7 +64,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 suffixIcon={suffixIcon}
             >
                 {list.map(_ => (
-                    <Select.Option key={_.toString()} value={_.toString()}>
+                    <Select.Option key={_.toString()} value={_ === true ? this.trueValue : _ === false ? this.falseValue : _}>
                         {translator ? translator(_) : _.toString()}
                     </Select.Option>
                 ))}
