@@ -4,11 +4,13 @@ import type {FlatListProps, LoadingType} from "./type";
 import {Footer} from "./shared/Footer";
 import {useLoadingWithDelay} from "./shared/hooks/useLoadingWithDelay";
 import {classNames} from "../../util/ClassNames";
+import {GetRowKey} from "./shared/GetRowKey";
 
 export const FlatList = function <T>(props: FlatListProps<T>) {
     const {
         data,
         renderItem: ItemRenderer,
+        rowKey,
         loading,
         bounceEffect = true,
         className,
@@ -64,7 +66,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             ) : (
                 <div className="list">
                     {data.map((d, i) => (
-                        <div className="g-flat-list-item" key={i}>
+                        <div className="g-flat-list-item" key={GetRowKey(rowKey, d, i)}>
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}

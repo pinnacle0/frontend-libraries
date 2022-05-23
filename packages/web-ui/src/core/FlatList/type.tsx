@@ -9,9 +9,12 @@ export interface FlatListItemProps<T> {
 
 export type ItemRenderer<T> = React.FunctionComponent<FlatListItemProps<T>>;
 
+export type RowKey<T> = (keyof T & string) | ((data: T, index: number) => string) | "index";
+
 export interface FlatListProps<T> {
     data: T[];
     renderItem: ItemRenderer<T>;
+    rowKey: RowKey<T>;
     loading?: boolean;
     className?: string;
     style?: React.CSSProperties;
