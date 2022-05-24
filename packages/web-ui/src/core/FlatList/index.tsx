@@ -17,10 +17,12 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         style,
         onPullDownRefresh,
         onPullUpLoading,
-        pullDownRefreshMessage,
-        pullUpLoadingMessage,
         contentStyle,
         emptyPlaceholder,
+        pullDownRefreshingMessage,
+        pullUpLoadMoreMessage,
+        pullDownRefreshMessage,
+        pullUpLoadingMessage,
         endOfListMessage,
         hideFooter,
     } = props;
@@ -59,6 +61,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             onPullDownRefresh={onPullDownRefresh}
             onPullUpLoading={onPullUpLoading}
             pullDownRefreshMessage={pullDownRefreshMessage}
+            pullDownRefreshingMessage={pullDownRefreshingMessage}
             onScroll={onScroll}
         >
             {data.length === 0 ? (
@@ -70,7 +73,15 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}
-                    {!hideFooter && <Footer loading={loadingWithDelay && loadingType === "loading"} ended={!onPullUpLoading} endMessage={endOfListMessage} loadingMessage={pullUpLoadingMessage} />}
+                    {!hideFooter && (
+                        <Footer
+                            loading={loadingWithDelay && loadingType === "loading"}
+                            ended={!onPullUpLoading}
+                            loadMoreMessage={pullUpLoadMoreMessage}
+                            loadingMessage={pullUpLoadingMessage}
+                            endMessage={endOfListMessage}
+                        />
+                    )}
                 </div>
             )}
         </Wrapper>
