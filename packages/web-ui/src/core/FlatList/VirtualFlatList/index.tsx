@@ -122,7 +122,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             pullDownRefreshMessage={pullDownRefreshMessage}
             onScroll={onAutoLoad}
         >
-            {data.length === 0 ? (
+            {data.length === 0 && !loadingWithDelay ? (
                 emptyPlaceholder
             ) : (
                 <div className="list" style={{height: rowVirtualizer.totalSize}}>
