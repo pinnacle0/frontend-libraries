@@ -3,12 +3,12 @@ import {defaultRangeExtractor, useVirtual} from "react-virtual";
 import {classNames} from "../../../util/ClassNames";
 import {useLoadingWithDelay} from "../shared/hooks/useLoadingWithDelay";
 import {Wrapper} from "../shared/Wrapper";
-import {Item} from "./Item";
 import {Footer} from "../shared/Footer";
 import {GetRowKey} from "../shared/GetRowKey";
+import {Item} from "./Item";
 import type {VirtualFlatListProps} from "./type";
 import type {Range} from "react-virtual";
-import type {FooterData, ItemRenderer, LoadingType} from "../type";
+import type {FooterData, LoadingType} from "../type";
 import "./index.less";
 
 /**
