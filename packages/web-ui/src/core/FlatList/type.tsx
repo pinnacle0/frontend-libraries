@@ -7,6 +7,14 @@ export interface FlatListItemProps<T> {
     index: number;
 }
 
+export type Gap =
+    | {
+          top?: number;
+          bottom?: number;
+          left?: number;
+          right?: number;
+      }
+    | number;
 export type ItemRenderer<T> = React.FunctionComponent<FlatListItemProps<T>>;
 
 export type RowKey<T> = (keyof T & string) | ((data: T, index: number) => string) | "index";
@@ -25,6 +33,7 @@ export interface FlatListProps<T> {
     contentStyle?: React.CSSProperties;
     bounceEffect?: boolean;
     hideFooter?: boolean;
+    gap?: Gap;
     pullDownRefreshMessage?: React.ReactElement | string;
     pullDownRefreshingMessage?: React.ReactElement | string;
     pullUpLoadMoreMessage?: React.ReactElement | string;

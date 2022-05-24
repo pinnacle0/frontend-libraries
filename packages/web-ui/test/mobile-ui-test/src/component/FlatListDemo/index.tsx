@@ -129,6 +129,7 @@ export const FlatListDemo = () => {
                 data={data}
                 renderItem={NormalItem}
                 pullDownRefreshMessage="Release to refresh"
+                pullDownRefreshingMessage="Refreshing..."
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
             />

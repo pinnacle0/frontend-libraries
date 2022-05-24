@@ -15,6 +15,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         bounceEffect = true,
         className,
         style,
+        gap,
         onPullDownRefresh,
         onPullUpLoading,
         contentStyle,
@@ -48,6 +49,11 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
         }
     };
 
+    const margin = React.useMemo(
+        (): React.CSSProperties => (gap ? (typeof gap === "number" ? {margin: gap} : {marginLeft: gap.left, marginRight: gap.right, marginBottom: gap.bottom, marginTop: gap.top}) : {}),
+        [gap]
+    );
+
     return (
         <Wrapper
             className={classNames("g-flat-list", className)}
@@ -69,7 +75,7 @@ export const FlatList = function <T>(props: FlatListProps<T>) {
             ) : (
                 <div className="list">
                     {data.map((d, i) => (
-                        <div className="g-flat-list-item" key={GetRowKey(rowKey, d, i)}>
+                        <div className="g-flat-list-item" key={GetRowKey(rowKey, d, i)} style={{...margin}}>
                             <ItemRenderer data={d} index={i} />
                         </div>
                     ))}
