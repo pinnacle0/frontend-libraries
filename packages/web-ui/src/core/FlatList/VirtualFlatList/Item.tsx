@@ -1,7 +1,6 @@
 import React from "react";
-import {Footer} from "../shared/Footer";
-import type {FooterData} from "../type";
-import type {ItemRenderer, Measure} from "./type";
+import type {VirtualItem} from "react-virtual";
+import type {ItemRenderer} from "./type";
 
 export interface Gap {
     top?: number;
@@ -11,26 +10,22 @@ export interface Gap {
 }
 
 export interface ListItemProps<T> {
-    measure: Measure;
-    data: (T | FooterData)[];
-    index: number;
-    itemRenderer: ItemRenderer<T>;
+    virtualItem: VirtualItem;
+    data: T;
+    renderItem: ItemRenderer<T>;
     gap?: Gap;
 }
 
 export const Item = function <T>(props: ListItemProps<T>) {
-    const {data, index, itemRenderer: ItemRenderer, gap, measure} = props;
+    const {data, virtualItem, gap, renderItem: ItemRenderer} = props;
 
     const padding = React.useMemo((): React.CSSProperties => (gap ? {paddingLeft: gap.left, paddingRight: gap.right, paddingBottom: gap.bottom, paddingTop: gap.top} : {}), [gap]);
 
-    if (index === data.length - 1) {
-        const {loading, loadingMessage, endMessage, ended} = data[index] as FooterData;
-        return <Footer loading={loading} ended={ended} loadingMessage={loadingMessage} endMessage={endMessage} measure={measure} />;
-    } else {
-        return (
+    return (
+        <div className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
             <div className="g-virtual-flat-list-item" style={{...padding}}>
-                <ItemRenderer data={data[index] as T} index={index} measure={measure} />
+                <ItemRenderer data={data} index={virtualItem.index} measure={virtualItem.measureRef} />
             </div>
-        );
-    }
+        </div>
+    );
 };

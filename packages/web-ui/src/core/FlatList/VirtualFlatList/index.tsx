@@ -1,13 +1,15 @@
 import React from "react";
 import {defaultRangeExtractor, useVirtual} from "react-virtual";
+import {classNames} from "../../../util/ClassNames";
+import {useLoadingWithDelay} from "../shared/hooks/useLoadingWithDelay";
 import {Wrapper} from "../shared/Wrapper";
 import {Item} from "./Item";
-import "./index.less";
+import {Footer} from "../shared/Footer";
+import {GetRowKey} from "../shared/GetRowKey";
 import type {VirtualFlatListProps} from "./type";
 import type {Range} from "react-virtual";
-import type {FooterData, LoadingType} from "../type";
-import {useLoadingWithDelay} from "../shared/hooks/useLoadingWithDelay";
-import {classNames} from "../../../util/ClassNames";
+import type {FooterData, ItemRenderer, LoadingType} from "../type";
+import "./index.less";
 
 /**
  * VirtualizedFlatList currently only work with item without and size related animation and transition since it break the layout. This will be improve in the future
@@ -16,6 +18,7 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
     const {
         data,
         renderItem,
+        rowKey,
         loading,
         bounceEffect = true,
         className,
@@ -43,7 +46,18 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
     const loadingWithDelay = useLoadingWithDelay(loading ?? false, 300);
 
     const listData: Array<T | FooterData> = React.useMemo(() => {
-        return hideFooter ? data : [...data, {loading: loadingWithDelay && loadingType === "loading", ended: !onPullUpLoading, endMessage: endOfListMessage, loadingMessage: pullUpLoadingMessage}];
+        return hideFooter
+            ? data
+            : [
+                  ...data,
+                  {
+                      loading: loadingWithDelay && loadingType === "loading",
+                      ended: !onPullUpLoading,
+                      endMessage: endOfListMessage,
+                      loadingMessage: pullUpLoadingMessage,
+                      __markedAsFooterData: true,
+                  } as FooterData,
+              ];
     }, [loadingWithDelay, loadingType, endOfListMessage, onPullUpLoading, pullUpLoadingMessage, data, hideFooter]);
 
     const rangeExtractor = React.useCallback((range: Range) => {
@@ -113,11 +127,13 @@ export const VirtualFlatList = function <T>(props: VirtualFlatListProps<T>) {
             ) : (
                 <div className="list" style={{height: rowVirtualizer.totalSize}}>
                     {rowVirtualizer.virtualItems.map(virtualItem => {
-                        return (
-                            <div key={virtualItem.index} className="g-virtual-flat-list-item-wrapper" style={{transform: `translateY(${virtualItem.start}px)`}} ref={virtualItem.measureRef}>
-                                <Item data={listData} index={virtualItem.index} itemRenderer={renderItem} measure={virtualItem.measureRef} gap={gap} />
-                            </div>
-                        );
+                        const data = listData[virtualItem.index];
+                        if (listData[virtualItem.index]?.["__markedAsFooterData"] === true) {
+                            const {loading, loadingMessage, endMessage, ended} = data as FooterData;
+                            return <Footer key={virtualItem.index} loading={loading} ended={ended} loadingMessage={loadingMessage} endMessage={endMessage} measure={virtualItem.measureRef} />;
+                        } else {
+                            return <Item key={GetRowKey(rowKey, data as T, virtualItem.index)} virtualItem={virtualItem} data={data as T} gap={gap} renderItem={renderItem} />;
+                        }
                     })}
                 </div>
             )}

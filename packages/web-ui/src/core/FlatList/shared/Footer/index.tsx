@@ -4,7 +4,7 @@ import type {FooterData} from "../../type";
 import {Spinner} from "../Spinner";
 import "./index.less";
 
-export interface Props extends FooterData {
+export interface Props extends Omit<FooterData, "__markedAsFooterData"> {
     measure?: Measure;
 }
 

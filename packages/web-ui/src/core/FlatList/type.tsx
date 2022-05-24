@@ -36,6 +36,7 @@ export interface FlatListItemProps<T> {
 }
 
 export interface FooterData {
+    __markedAsFooterData: true;
     loading: boolean;
     ended: boolean;
     loadingMessage?: string;

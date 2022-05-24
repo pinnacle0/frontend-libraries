@@ -1,11 +1,11 @@
 import React from "react";
+import {classNames} from "@pinnacle0/web-ui/util/ClassNames";
 import {Input} from "@pinnacle0/web-ui/core/Input";
-import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
+import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
 import {fetchData} from "./fetch";
 import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
-import "./index.less";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
-import {classNames} from "@pinnacle0/web-ui/util/ClassNames";
+import "./index.less";
 
 const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
     const {data, index} = props;
@@ -122,23 +122,24 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            <FlatList
+            {/* <FlatList
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
                 pullDownRefreshMessage="Release to refresh"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
-            />
-            {/* <VirtualFlatList
+            /> */}
+            <VirtualFlatList
                 loading={loading}
                 data={data}
+                rowKey="index"
                 renderItem={Item}
                 pullDownRefreshMessage="Release to refresh"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
                 gap={{left: 10, right: 10, bottom: 10, top: 10}}
-            /> */}
+            />
             <button onClick={() => refreshData()}>update data</button>
         </div>
     );
