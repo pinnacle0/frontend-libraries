@@ -9,15 +9,15 @@ export interface Props extends Omit<FooterData, "__markedAsFooterData"> {
 }
 
 export const Footer = (props: Props) => {
-    const {loading, ended, loadingMessage, endMessage, measure} = props;
+    const {loading, ended, loadMoreMessage, loadingMessage, endMessage, measure} = props;
     const measureRef = React.useRef(measure);
     measureRef.current = measure;
 
     return (
         <div className="g-flat-list-footer" ref={measure}>
-            {loading && <Spinner loading message={loadingMessage ?? "loading..."} />}
+            {loading && (typeof loadingMessage !== "object" ? <Spinner loading message={loadingMessage ?? "loading..."} /> : loadingMessage)}
             {ended && !loading && (endMessage ?? "All data loaded")}
-            {!ended && !loading && "Pull up to loading more "}
+            {!ended && !loading && (loadMoreMessage ?? "Pull up to loading more")}
         </div>
     );
 };

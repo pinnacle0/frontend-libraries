@@ -2,6 +2,7 @@ import React from "react";
 import {classNames} from "@pinnacle0/web-ui/util/ClassNames";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
+import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {fetchData} from "./fetch";
 import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
@@ -122,15 +123,16 @@ export const FlatListDemo = () => {
 
     return (
         <div id="flat-list-demo">
-            {/* <FlatList
+            <FlatList
+                rowKey="index"
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
                 pullDownRefreshMessage="Release to refresh"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
-            /> */}
-            <VirtualFlatList
+            />
+            {/* <VirtualFlatList
                 loading={loading}
                 data={data}
                 rowKey="index"
@@ -139,7 +141,7 @@ export const FlatListDemo = () => {
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
                 gap={{left: 10, right: 10, bottom: 10, top: 10}}
-            />
+            /> */}
             <button onClick={() => refreshData()}>update data</button>
         </div>
     );

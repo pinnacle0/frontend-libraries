@@ -25,9 +25,11 @@ export interface FlatListProps<T> {
     contentStyle?: React.CSSProperties;
     bounceEffect?: boolean;
     hideFooter?: boolean;
-    pullUpLoadingMessage?: string;
-    endOfListMessage?: string;
-    pullDownRefreshMessage?: string;
+    pullDownRefreshMessage?: React.ReactElement | string;
+    pullDownRefreshingMessage?: React.ReactElement | string;
+    pullUpLoadMoreMessage?: React.ReactElement | string;
+    pullUpLoadingMessage?: React.ReactElement | string;
+    endOfListMessage?: React.ReactElement | string;
 }
 
 export interface FlatListItemProps<T> {
@@ -39,6 +41,7 @@ export interface FooterData {
     __markedAsFooterData: true;
     loading: boolean;
     ended: boolean;
-    loadingMessage?: string;
-    endMessage?: string;
+    loadMoreMessage?: React.ReactElement | string;
+    loadingMessage?: React.ReactElement | string;
+    endMessage?: React.ReactElement | string;
 }

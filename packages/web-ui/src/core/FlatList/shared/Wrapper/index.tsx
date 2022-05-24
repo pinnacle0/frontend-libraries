@@ -9,7 +9,8 @@ import {PULL_DOWN_REFRESH_THRESHOLD} from "../../type";
 import {Loading} from "./Loading";
 import "./index.less";
 
-interface Props<T> extends Pick<FlatListProps<T>, "loading" | "bounceEffect" | "onPullUpLoading" | "onPullDownRefresh" | "className" | "style" | "pullDownRefreshMessage"> {
+interface Props<T>
+    extends Pick<FlatListProps<T>, "loading" | "bounceEffect" | "onPullUpLoading" | "onPullDownRefresh" | "className" | "style" | "pullDownRefreshMessage" | "pullDownRefreshingMessage"> {
     children: React.ReactNode;
     listWrapperRef: React.RefObject<HTMLDivElement>;
     loadingType: LoadingType;
@@ -34,6 +35,7 @@ export const Wrapper = function <T>(props: Props<T>) {
         style,
         innerStyle,
         pullDownRefreshMessage,
+        pullDownRefreshingMessage,
         onScroll,
     } = props;
     const startOffsetRef = React.useRef(0);
@@ -111,7 +113,7 @@ export const Wrapper = function <T>(props: Props<T>) {
     return (
         <div className={classNames("g-flat-list-wrapper", className)} style={style} {...(bounceEffect ? handlers : {})}>
             <div className={classNames("inner-container", innerClassName)} style={innerStyle} ref={animatedRef}>
-                <Loading loading={loading && loadingType === "refresh"} message={pullDownRefreshMessage} />
+                <Loading loading={loading && loadingType === "refresh"} message={pullDownRefreshMessage} loadingMessage={pullDownRefreshingMessage} />
                 <div className="list-wrapper" ref={listWrapperRef} onScroll={handleScroll}>
                     {children}
                 </div>

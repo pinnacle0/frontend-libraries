@@ -1,18 +1,17 @@
 import React from "react";
-import {Spin} from "../../../Spin";
 import {Spinner} from "../Spinner";
 
 interface Props {
     loading: boolean;
-    message?: string;
+    message?: React.ReactElement | string;
+    loadingMessage?: React.ReactElement | string;
 }
 
 export const Loading = (props: Props) => {
-    const {loading, message} = props;
-
+    const {loading, message, loadingMessage} = props;
     return (
         <div className="g-flat-list-loading">
-            <Spinner loading={loading} message={message ?? "Release to refresh"} />
+            {loading ? typeof loadingMessage !== "object" ? <Spinner loading={loading} message={loadingMessage ?? "loading..."} /> : loadingMessage : message ?? "Release to refresh"}
         </div>
     );
 };
