@@ -7,7 +7,7 @@
         "build": "pnpm run run-script script/build.ts",
         "codegen": "pnpm run run-script script/codegen.ts",
         "format": "pnpm run run-script script/format.ts",
-        "new-rule": "pnm run run-script script/new-rule.ts",
+        "new-rule": "pnpm run run-script script/new-rule.ts",
         "test": "jest --config config/jest.config.ts"
     },
     "dependencies": {
