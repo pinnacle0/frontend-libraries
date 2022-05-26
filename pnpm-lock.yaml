@@ -84,6 +84,7 @@ importers:
 
     packages/eslint-plugin:
         specifiers:
+            "@pinnacle0/devtool-util": workspace:*
             "@rollup/plugin-commonjs": 22.0.0
             "@rollup/plugin-json": 4.1.0
             "@rollup/plugin-node-resolve": 13.3.0
@@ -118,6 +119,7 @@ importers:
             eslint-plugin-jest-dom: 4.0.1_eslint@8.15.0
             eslint-plugin-testing-library: 5.5.0_hcfsmds2fshutdssjqluwm76uu
         devDependencies:
+            "@pinnacle0/devtool-util": link:../devtool-util
             "@rollup/plugin-commonjs": 22.0.0_rollup@2.73.0
             "@rollup/plugin-json": 4.1.0_rollup@2.73.0
             "@rollup/plugin-node-resolve": 13.3.0_rollup@2.73.0
@@ -128,9 +130,11 @@ importers:
 
     packages/util:
         specifiers:
+            "@pinnacle0/devtool-util": workspace:*
             "@types/react": 18.0.8
             react: 18.1.0
         devDependencies:
+            "@pinnacle0/devtool-util": link:../devtool-util
             "@types/react": 18.0.8
             react: 18.1.0
 
@@ -139,6 +143,7 @@ importers:
             "@ant-design/icons": 4.7.0
             "@babel/core": 7.17.10
             "@babel/runtime": 7.17.9
+            "@pinnacle0/devtool-util": workspace:*
             "@testing-library/dom": 8.13.0
             "@testing-library/jest-dom": 5.16.4
             "@testing-library/react": 13.2.0
@@ -169,6 +174,7 @@ importers:
         devDependencies:
             "@babel/core": 7.17.10
             "@babel/runtime": 7.17.9
+            "@pinnacle0/devtool-util": link:../devtool-util
             "@testing-library/dom": 8.13.0
             "@testing-library/jest-dom": 5.16.4
             "@testing-library/react": 13.2.0_ef5jwxihqo6n7gxfmzogljlgcm

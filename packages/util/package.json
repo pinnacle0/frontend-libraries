@@ -21,6 +21,7 @@
         "test": "jest --config config/jest.config.ts --coverage"
     },
     "devDependencies": {
+        "@pinnacle0/devtool-util": "workspace:*",
         "@types/react": "18.0.21"
     }
 }
