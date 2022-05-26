@@ -15,9 +15,9 @@
     },
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
-        "build": "pnm run-script script/build.ts",
-        "format": "pnm run-script script/format.ts",
-        "lint": "pnpm run-script script/lint.ts",
+        "build": "pnm run run-script script/build.ts",
+        "format": "pnm run run-script script/format.ts",
+        "lint": "pnpm run run-script script/lint.ts",
         "test": "jest --config config/jest.config.ts --coverage"
     },
     "devDependencies": {

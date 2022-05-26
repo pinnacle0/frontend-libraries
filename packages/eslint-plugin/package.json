@@ -4,10 +4,10 @@
     "license": "MIT",
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
-        "build": "pnpm run-script script/build.ts",
-        "codegen": "pnpm run-script script/codegen.ts",
-        "format": "pnpm run-script script/format.ts",
-        "new-rule": "pnm run-script script/new-rule.ts",
+        "build": "pnpm run run-script script/build.ts",
+        "codegen": "pnpm run run-script script/codegen.ts",
+        "format": "pnpm run run-script script/format.ts",
+        "new-rule": "pnm run run-script script/new-rule.ts",
         "test": "jest --config config/jest.config.ts"
     },
     "dependencies": {
