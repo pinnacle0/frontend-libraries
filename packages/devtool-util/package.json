@@ -9,7 +9,7 @@
         "compile": "tsc --project config/tsconfig.src.json",
         "game": "ts-node --project config/tsconfig.test.json ./script/game.ts",
         "copy-static-files": "node script/copyStaticFiles.js",
-        "build": "yarn run check-code-style && yarn run lint && yarn test && yarn run compile && yarn run copy-static-files"
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files"
     },
     "dependencies": {
         "axios": "0.27.2",

@@ -17,10 +17,10 @@
     },
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",
-        "build": "yarn run-script script/build.ts",
-        "start": "yarn run-script script/start.ts",
-        "start:mobile": "yarn run-script script/start-mobile.ts",
-        "format": "yarn run-script script/format.ts",
+        "build": "pnpm run-script script/build.ts",
+        "start": "pnpm run-script script/start.ts",
+        "start:mobile": "pnpm run-script script/start-mobile.ts",
+        "format": "pnpm run-script script/format.ts",
         "test": "jest --config config/jest.config.ts"
     },
     "dependencies": {

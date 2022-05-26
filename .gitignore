@@ -32,6 +32,7 @@
 **/.DS_Store
 **/*.iml
 **/yarn-error.log
+**/pnpm-debug.log
 
 # VS Code
 !.vscode/extensions.json
