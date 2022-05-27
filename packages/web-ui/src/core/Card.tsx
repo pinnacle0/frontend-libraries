@@ -8,7 +8,7 @@ export interface Props extends CardProps {}
 export class Card extends React.PureComponent<Props> {
     static displayName = "Card";
 
-    static Grid = AntCard.Grid;
+    static Grid: typeof AntCard.Grid = AntCard.Grid;
 
     render() {
         return <AntCard {...this.props} />;

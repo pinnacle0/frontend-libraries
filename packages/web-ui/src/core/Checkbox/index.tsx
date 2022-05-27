@@ -11,7 +11,7 @@ export interface Props extends Omit<CheckboxProps, "value" | "onChange" | "check
 export class Checkbox extends React.PureComponent<Props> {
     static displayName = "Checkbox";
 
-    static Group = AntCheckbox.Group;
+    static Group: typeof AntCheckbox.Group = AntCheckbox.Group;
 
     onChange = (e: CheckboxChangeEvent) => this.props.onChange(e.target.checked);
 

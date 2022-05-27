@@ -32,7 +32,7 @@ export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, Controlle
 export class Input extends React.PureComponent<Props> {
     static displayName = "Input";
 
-    static Group = AntInput.Group;
+    static Group: typeof AntInput.Group = AntInput.Group;
 
     static Readonly = (props: InputReadonlyProps) => <AntInput onChange={() => {}} readOnly disabled {...props} />;
 
