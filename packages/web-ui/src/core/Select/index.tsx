@@ -1,7 +1,5 @@
-import type {SelectProps, SelectValue} from "antd/lib/select";
 import AntSelect from "antd/lib/select";
-import type {OptionProps as SelectOptionProps} from "rc-select/lib/Option";
-import type {DefaultOptionType} from "rc-select/lib/Select";
+import type {SelectProps, SelectValue, DefaultOptionType, OptionProps as SelectOptionProps} from "antd/lib/select";
 import React from "react";
 import "antd/lib/select/style";
 import "./index.less";
@@ -13,9 +11,9 @@ export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<V
 export class Select<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
     static displayName = "Select";
 
-    static Option = AntSelect.Option;
+    static Option: typeof AntSelect.Option = AntSelect.Option;
 
-    static OptGroup = AntSelect.OptGroup;
+    static OptGroup: typeof AntSelect.OptGroup = AntSelect.OptGroup;
 
     render() {
         return <AntSelect {...this.props} />;

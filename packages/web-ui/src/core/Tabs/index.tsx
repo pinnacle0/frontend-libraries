@@ -25,7 +25,7 @@ export class Tabs extends React.PureComponent<Props> {
     static displayName = "Tabs";
 
     static Single = Single;
-    static TabPane = AntTabs.TabPane;
+    static TabPane: typeof AntTabs.TabPane = AntTabs.TabPane;
 
     static defaultProps: PickOptional<Props> = {
         type: "card",

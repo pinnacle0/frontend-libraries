@@ -8,7 +8,7 @@ export interface Props extends AutoCompleteProps {}
 export class AutoCompleteInput extends React.PureComponent<Props> {
     static displayName = "AutoCompleteInput";
 
-    static Option = AntAutoComplete.Option;
+    static Option: typeof AntAutoComplete.Option = AntAutoComplete.Option;
 
     render() {
         return <AntAutoComplete {...this.props} />;

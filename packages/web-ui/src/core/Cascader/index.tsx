@@ -1,6 +1,6 @@
 import React from "react";
-import type {DefaultOptionType} from "rc-cascader";
 import AntCascader from "antd/lib/cascader";
+import type {DefaultOptionType} from "antd/lib/cascader";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
