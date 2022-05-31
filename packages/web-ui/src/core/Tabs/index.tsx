@@ -35,6 +35,11 @@ export class Tabs extends React.PureComponent<Props> {
 
     componentDidMount() {
         this.resizeTabs();
+        window.addEventListener("resize", this.resizeTabs);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resizeTabs);
     }
 
     resizeTabs = () => {
