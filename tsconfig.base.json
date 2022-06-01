@@ -9,6 +9,7 @@
         "strict": true,
         "exactOptionalPropertyTypes": true,
         "allowSyntheticDefaultImports": true,
+        "strictPropertyInitialization": true,
         "esModuleInterop": true,
         "moduleResolution": "Node",
         "emitDecoratorMetadata": true,
