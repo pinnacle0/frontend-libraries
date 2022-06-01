@@ -22,7 +22,8 @@
         "@types/react",
         "@types/react-dom",
         "react",
-        "react-dom"
+        "react-dom",
+        "rc-resize-observer"
     ],
     "devDependencies": {
         "@commitlint/cli": "17.0.2",
