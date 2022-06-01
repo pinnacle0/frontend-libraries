@@ -9,7 +9,6 @@ export function createConfig({parserOptions}: Omit<TSESLint.RuleTesterConfig, "p
             ecmaFeatures: {
                 jsx: true,
             },
-            useJSXTextNode: true,
             ...parserOptions,
         },
     };
