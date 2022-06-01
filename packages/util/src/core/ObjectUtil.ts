@@ -12,7 +12,7 @@ function firstKey<T extends object>(object: T): keyof T | null {
  */
 function safeAssign<T extends object | undefined | null>(object: T, updatedFields: Partial<NonNullable<T>> | undefined | null): T {
     if (object) {
-        return Object.assign(object, updatedFields);
+        return Object.assign(object, updatedFields) as T;
     } else {
         return object;
     }
