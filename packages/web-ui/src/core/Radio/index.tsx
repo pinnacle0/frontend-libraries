@@ -9,9 +9,9 @@ export interface Props extends RadioProps {}
 export class Radio extends React.PureComponent<Props> {
     static displayName = "Radio";
 
-    static Button: typeof AntRadio.Button = AntRadio.Button;
+    static Button = AntRadio.Button;
 
-    static Group: typeof AntRadio.Group = AntRadio.Group;
+    static Group = AntRadio.Group;
 
     render() {
         return <AntRadio {...this.props} />;

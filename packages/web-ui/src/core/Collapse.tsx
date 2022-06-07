@@ -9,7 +9,7 @@ export interface Props extends CollapseProps {}
 export class Collapse extends React.PureComponent<Props> {
     static displayName = "Collapse";
 
-    static Panel: typeof AntdCollapse.Panel = AntdCollapse.Panel;
+    static Panel = AntdCollapse.Panel;
 
     render() {
         return <AntdCollapse {...this.props} />;
