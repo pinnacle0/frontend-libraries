@@ -173,8 +173,7 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
                 minimizer: [
-                    Plugin.minimizer.terser({sourceMap: true}),
-                    Plugin.minimizer.cssMinimizer(),
+                    Plugin.minimizer.esbuildMinimizer(),
                     // prettier-format-preserve
                 ],
             },

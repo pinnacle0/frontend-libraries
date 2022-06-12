@@ -41,8 +41,28 @@ export function tsRule({tsconfigFilepath, transpileOnly, fastRefresh}: Deps): we
         },
     };
 
+    const swcLoader: webpack.RuleSetUseItem = {
+        loader: require.resolve("swc-loader"),
+        options: {
+            jsc: {
+                target: "es5",
+                parser: {
+                    syntax: "typescript",
+                    decorators: true,
+                },
+                transform: {
+                    react: {
+                        runtime: "classic",
+                    },
+                    legacyDecorator: true,
+                    decoratorMetadata: true,
+                },
+            },
+        },
+    };
+
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
-        use: fastRefresh ? [babelLoader, tsLoader] : [tsLoader],
+        use: fastRefresh ? [babelLoader, tsLoader] : [swcLoader],
     };
 }
