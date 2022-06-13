@@ -91,6 +91,7 @@ export interface WebpackConfigGeneratorOptions {
      */
     defineVars?: {[key: string]: string} | undefined;
     onSuccess?: () => void;
+    extraExtensionsForOtherRule?: string[] | undefined;
 }
 
 export interface EntryDescriptor {

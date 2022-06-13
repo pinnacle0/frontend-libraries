@@ -11,7 +11,7 @@ export interface WebpackServerStarterOptions
     extends Pick<
         WebpackConfigGeneratorOptions,
         // prettier-reserve
-        "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "defineVars"
+        "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "defineVars" | "extraExtensionsForOtherRule"
     > {
     port: number;
     apiProxy?: {
@@ -44,7 +44,17 @@ export class WebpackServerStarter {
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
     private readonly webpackConfig: webpack.Configuration;
 
-    constructor({projectDirectory, port, apiProxy, interceptExpressApp, dynamicPathResolvers, extraEntries, prioritizedExtensionPrefixes, defineVars}: WebpackServerStarterOptions) {
+    constructor({
+        projectDirectory,
+        port,
+        apiProxy,
+        interceptExpressApp,
+        dynamicPathResolvers,
+        extraEntries,
+        prioritizedExtensionPrefixes,
+        defineVars,
+        extraExtensionsForOtherRule,
+    }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
         this.apiProxy = apiProxy
@@ -64,6 +74,7 @@ export class WebpackServerStarter {
             extraEntries,
             prioritizedExtensionPrefixes,
             defineVars,
+            extraExtensionsForOtherRule,
         }).development();
     }
 

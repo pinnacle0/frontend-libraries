@@ -29,6 +29,7 @@ export class WebpackConfigGenerator {
     private readonly isFastMode: boolean;
     private readonly verbose: boolean;
     private readonly defineVars: {[key: string]: string};
+    private readonly extraExtensionsForOtherRule: string[];
 
     private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
@@ -52,6 +53,7 @@ export class WebpackConfigGenerator {
         this.maxAssetKiloByte = options.maxAssetKiloByte ?? Constant.maxAssetKiloByte;
         this.verbose = options.verbose || false;
         this.defineVars = options.defineVars || {};
+        this.extraExtensionsForOtherRule = options.extraExtensionsForOtherRule || [];
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -120,7 +122,7 @@ export class WebpackConfigGenerator {
                     Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: true, fastRefresh: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
-                    Rule.other(),
+                    Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
                     // prettier-format-preserve
                 ],
             },
@@ -186,7 +188,7 @@ export class WebpackConfigGenerator {
                     Rule.ts({tsconfigFilepath: this.tsconfigFilepath, transpileOnly: false, fastRefresh: false}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
-                    Rule.other(),
+                    Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
                     // prettier-format-preserve
                 ],
             },
