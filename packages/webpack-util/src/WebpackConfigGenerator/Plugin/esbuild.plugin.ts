@@ -4,8 +4,8 @@ import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil"
 
 export function esbuildMinimizer(): webpack.WebpackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin("ESBuildMinifyPlugin", ESBuildMinifyPlugin, {
-        target: "es5",
+        // Disable Esbuild minify for JS. it is unstable when targeting es5 minify
+        minify: false,
         css: true,
-        sourcemap: true,
     });
 }
