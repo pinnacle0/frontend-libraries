@@ -27,6 +27,7 @@ export function tsRule({tsconfigFilepath, transpileOnly, fastRefresh}: Deps): we
         },
     };
 
+    // TODO/Alvis: Check whether ts-loader can be replaced by babel loader
     const tsLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("ts-loader"),
         options: {
