@@ -181,7 +181,7 @@ export class WebpackConfigGenerator {
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
                 maxAssetSize: this.maxAssetKiloByte * 1000,
-                assetFilter: (filename: string) => Constant.mediaExtensions.every(_ => !filename.endsWith(_)),
+                assetFilter: (filename: string) => Constant.mediaExtensions.concat(this.extraExtensionsForOtherRule).every(_ => !filename.endsWith(_)),
             },
             module: {
                 rules: [
