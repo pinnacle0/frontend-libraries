@@ -1,5 +1,4 @@
-import {miniCssExtractPlugin} from "./css.plugin";
-import {esbuildCssMinimizer} from "./esbuild.plugin";
+import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin";
 import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin";
 import {ignoreMomentLocalePlugin} from "./moment.plugin";
 import {reactRefreshPlugin, terserPlugin} from "./ts.plugin";
@@ -24,7 +23,7 @@ export class Plugin {
 
     static readonly minimizer = {
         terser: terserPlugin,
-        esbuildMinimizer: esbuildCssMinimizer,
+        css: cssMinimizerPlugin,
     };
 
     static readonly webpack = {

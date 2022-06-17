@@ -174,7 +174,7 @@ export class WebpackConfigGenerator {
                 },
                 minimizer: [
                     Plugin.minimizer.terser({sourceMap: true}),
-                    Plugin.minimizer.esbuildMinimizer(),
+                    Plugin.minimizer.css(),
                     // prettier-format-preserve
                 ],
             },

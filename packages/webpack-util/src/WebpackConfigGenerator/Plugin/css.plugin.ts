@@ -1,9 +1,18 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import type webpack from "webpack";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 interface ExtractCssPluginOptions {
     enableProfiling: boolean;
+}
+
+/**
+ * Applies CssNano to minimize stylesheets
+ * after bundles/chunks are built.
+ */
+export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("CssMinimizerWebpackPlugin", CssMinimizerWebpackPlugin);
 }
 
 /**
