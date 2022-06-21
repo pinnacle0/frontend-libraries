@@ -2,14 +2,15 @@ import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
+import {CoreUtil} from "./CoreUtil";
+import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
+import {CanadyarnRunner} from "./CanadyarnRunner";
+import {ProjectStructureChecker} from "./ProjectStructureChecker";
+import {TypescriptTypeChecker} from "./TypescriptTypeChecker";
+import {TestRunner} from "./TestRunner";
+import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
-import {ProjectStructureChecker} from "./ProjectStructureChecker";
-import {CodeStyleChecker} from "./CodeStyleChecker";
-import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
-import {TestRunner} from "./TestRunner";
-import {CanadyarnRunner} from "./CanadyarnRunner";
-import {CoreUtil} from "./CoreUtil";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {
     onSuccess?: () => void;
@@ -65,11 +66,15 @@ export class WebpackBuilder {
             new CanadyarnRunner({
                 rootDirectory: this.rootDirectory,
             }).run();
-            new TestRunner({
+            new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
             }).run();
-            new ProjectStructureChecker({
+            new TypescriptTypeChecker({
+                projectDirectory: this.projectDirectory,
+                extraCheckDirectories: this.extraCheckDirectories,
+            }).run();
+            new TestRunner({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
             }).run();
