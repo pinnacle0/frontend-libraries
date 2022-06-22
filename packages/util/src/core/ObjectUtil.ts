@@ -9,13 +9,17 @@ function firstKey<T extends object>(object: T): keyof T | null {
  * Similar to Object.assign, differences are:
  * - Type Checking
  * - Null-case Handling
+ * - implement own Object.assign, prevent different behavior of Object.assign in old version browser
  */
 function safeAssign<T extends object | undefined | null>(object: T, updatedFields: Partial<NonNullable<T>> | undefined | null): T {
-    if (object) {
-        return Object.assign(object, updatedFields) as T;
-    } else {
-        return object;
+    if (object && updatedFields) {
+        for (const key of Object.keys(updatedFields)) {
+            if (Object.prototype.hasOwnProperty.call(updatedFields, key)) {
+                object[key] = updatedFields[key];
+            }
+        }
     }
+    return object;
 }
 
 /**
