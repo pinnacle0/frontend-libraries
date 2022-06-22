@@ -14,9 +14,7 @@ function firstKey<T extends object>(object: T): keyof T | null {
 function safeAssign<T extends object | undefined | null>(object: T, updatedFields: Partial<NonNullable<T>> | undefined | null): T {
     if (object && updatedFields) {
         for (const key of Object.keys(updatedFields)) {
-            if (Object.prototype.hasOwnProperty.call(updatedFields, key)) {
-                object[key] = updatedFields[key];
-            }
+            object[key] = updatedFields[key];
         }
     }
     return object;
