@@ -37,7 +37,7 @@ export function tsRule({tsconfigFilepath, fastRefresh}: Deps): webpack.RuleSetRu
                 target: "ES5",
                 noEmit: false,
             },
-            transpileOnly: false,
+            transpileOnly: true,
         },
     };
 
