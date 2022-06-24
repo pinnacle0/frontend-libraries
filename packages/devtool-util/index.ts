@@ -7,6 +7,7 @@
 
 export * from "./src/APIGenerator";
 export * from "./src/IconFontGenerator";
+export * from "./src/IconGenerator";
 export * from "./src/ModuleGenerator";
 export * from "./src/NamingUtil";
 export * from "./src/PrettierUtil";
