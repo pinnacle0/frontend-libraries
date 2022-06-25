@@ -8,6 +8,9 @@ on:
         branches: [master, pnpm]
         paths:
             - packages/devtool-util/**
+            - package.json
+            - pnpm-lock.yaml
+            - pnpm-workspace.yaml
             - .github/workflows/pkg-devtool-util-ci.yml
 
 jobs:

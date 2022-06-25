@@ -8,6 +8,9 @@ on:
         branches: [master, pnpm]
         paths:
             - packages/eslint-plugin/**
+            - package.json
+            - pnpm-lock.yaml
+            - pnpm-workspace.yaml
             - .github/workflows/pkg-eslint-plugin-ci.yml
 
 jobs:
