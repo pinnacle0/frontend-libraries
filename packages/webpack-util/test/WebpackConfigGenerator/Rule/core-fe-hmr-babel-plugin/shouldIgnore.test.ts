@@ -1,5 +1,5 @@
 import * as babel from "@babel/core";
-import plugin from "@pinnacle0/webpack-util/src/WebpackConfigGenerator/Rule/core-fe-hmr-babel-plugin";
+import plugin from "../../../../src/WebpackConfigGenerator/Rule/core-fe-hmr-babel-plugin";
 
 describe("core-fe-hmr-babel-plugin", () => {
     test("should ignore when non core-fe source files", () => {
