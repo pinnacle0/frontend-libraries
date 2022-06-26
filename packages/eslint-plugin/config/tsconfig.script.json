@@ -4,8 +4,7 @@
         "lib": ["ES2021"],
         "module": "CommonJS",
         "target": "ES2015",
-        "noEmit": true,
-        "rootDir": "../script/"
+        "noEmit": true
     },
-    "include": ["../script/"]
+    "include": ["../config", "../script/"]
 }

@@ -4,8 +4,7 @@
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
-        "noEmit": true,
-        "rootDir": "../"
+        "noEmit": true
     },
-    "include": ["../src/", "../test/"]
+    "include": ["../test/"]
 }

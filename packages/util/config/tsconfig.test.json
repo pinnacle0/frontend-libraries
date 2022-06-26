@@ -5,10 +5,8 @@
         "module": "CommonJS",
         "target": "ES2015",
         "noEmit": true,
-        "rootDir": "../",
-
         "jsx": "react",
         "suppressImplicitAnyIndexErrors": true
     },
-    "include": ["../config", "../src/", "../test/"]
+    "include": ["../test/"]
 }

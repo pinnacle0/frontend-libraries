@@ -5,8 +5,7 @@
         "module": "CommonJS",
         "target": "ES2015",
         "rootDir": "../",
-        "outDir": "../build/",
         "isolatedModules": true
     },
-    "include": ["../src/", "../test/"]
+    "include": ["../test/"]
 }

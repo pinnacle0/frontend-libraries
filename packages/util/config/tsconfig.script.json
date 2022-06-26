@@ -1,11 +1,9 @@
 {
-    "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES2015",
-        "noEmit": true,
-        "rootDir": "../script/"
+        "noEmit": true
     },
-    "include": ["../script/"]
+    "include": ["../config", "../script/"]
 }
