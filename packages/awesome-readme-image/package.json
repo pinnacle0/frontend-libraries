@@ -15,20 +15,20 @@
         "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
     },
     "dependencies": {
-        "core-js": "3.23.1",
-        "react": "18.1.0",
-        "react-dom": "18.1.0"
+        "core-js": "3.23.3",
+        "react": "18.2.0",
+        "react-dom": "18.2.0"
     },
     "devDependencies": {
         "@babel/core": "7.18.5",
         "@babel/preset-env": "7.18.2",
         "@babel/preset-react": "7.17.12",
         "@babel/preset-typescript": "7.17.12",
-        "@parcel/optimizer-data-url": "2.6.0",
-        "@parcel/transformer-inline-string": "2.6.0",
-        "@parcel/transformer-less": "2.6.0",
-        "@parcel/transformer-typescript-tsc": "2.6.0",
-        "parcel": "2.6.0"
+        "@parcel/optimizer-data-url": "2.6.2",
+        "@parcel/transformer-inline-string": "2.6.2",
+        "@parcel/transformer-less": "2.6.2",
+        "@parcel/transformer-typescript-tsc": "2.6.2",
+        "parcel": "2.6.2"
     },
     "engines": {
         "node": ">= 16.0.0"

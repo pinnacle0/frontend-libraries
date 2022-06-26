@@ -12,7 +12,7 @@
     "dependencies": {
         "@babel/core": "7.18.5",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
-        "@swc/core": "1.2.203",
+        "@swc/core": "1.2.205",
         "autoprefixer": "10.4.7",
         "babel-loader": "8.2.5",
         "css-loader": "6.7.1",
@@ -29,7 +29,7 @@
         "style-loader": "3.3.1",
         "swc-loader": "0.2.3",
         "terser-webpack-plugin": "5.3.3",
-        "ts-loader": "9.3.0",
+        "ts-loader": "9.3.1",
         "webpack": "5.73.0",
         "webpack-dev-server": "4.9.2",
         "yargs": "17.5.1"
