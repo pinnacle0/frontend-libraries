@@ -46,7 +46,6 @@
         "@pinnacle0/devtool-util": "workspace:*",
         "typescript": "4.6.4",
         "@types/html-webpack-plugin": "3.2.6",
-        "@types/speed-measure-webpack-plugin": "1.3.4",
         "@types/yargs": "17.0.10",
         "@types/babel__core": "7.1.19"
     },

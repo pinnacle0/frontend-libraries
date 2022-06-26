@@ -17,7 +17,8 @@
         "yargs": "17.5.1"
     },
     "peerDependencies": {
-        "prettier": "^2.3.0"
+        "prettier": ">=2.6.0",
+        "eslint": "^8.0.0"
     },
     "engines": {
         "node": ">=16.0.0"
