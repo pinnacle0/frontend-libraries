@@ -6,7 +6,7 @@
         "target": "ES5",
         "outDir": "../build/cjs/",
         "rootDir": "../src/",
-
+        "declaration": true,
         "isolatedModules": true,
         "suppressImplicitAnyIndexErrors": true
     },

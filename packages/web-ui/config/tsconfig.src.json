@@ -7,6 +7,7 @@
         "rootDir": "../src/",
         "outDir": "../build/",
         "exactOptionalPropertyTypes": false,
+        "declaration": true,
         "isolatedModules": true,
         "jsx": "react",
         "suppressImplicitAnyIndexErrors": true

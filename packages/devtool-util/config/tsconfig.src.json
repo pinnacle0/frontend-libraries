@@ -6,7 +6,7 @@
         "target": "ES5",
         "outDir": "../build/",
         "rootDir": "../",
-
+        "declaration": true,
         "isolatedModules": true
     },
     "include": ["../index.ts", "../src/"],
