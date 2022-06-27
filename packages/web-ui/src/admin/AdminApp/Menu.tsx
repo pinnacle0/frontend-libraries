@@ -112,22 +112,27 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
         const children = groupItem.modules.map(({title, url}) => {
             const count = badges?.[url] || 0;
             totalCount += count;
-            return (
-                <AntMenu.Item key={url} onClick={() => history.push(url)}>
-                    <Badge count={count}>{title}</Badge>
-                </AntMenu.Item>
-            );
+
+            return {
+                label: <Badge count={count}>{title}</Badge>,
+                key: url,
+                onClick() {
+                    history.push(url);
+                },
+            };
         });
-        const title = (
+
+        const label = (
             <Badge count={totalCount}>
                 {groupItem.icon} {menuExpanded ? groupItem.title : ""}
             </Badge>
         );
-        return (
-            <AntMenu.SubMenu title={title} key={groupItem.title}>
-                {children}
-            </AntMenu.SubMenu>
-        );
+
+        return {
+            children,
+            label,
+            key: groupItem.title,
+        };
     };
 
     render() {
@@ -140,9 +145,8 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
                 openKeys={currentOpenedMenuKey ? [currentOpenedMenuKey] : []}
                 selectedKeys={currentSelectedMenuKey ? [currentSelectedMenuKey] : []}
                 onOpenChange={this.onMenuOpenChange as any}
-            >
-                {navigationService.groups(false).map(this.renderMenuGroup)}
-            </AntMenu>
+                items={navigationService.groups(false).map(this.renderMenuGroup)}
+            />
         );
     }
 }
