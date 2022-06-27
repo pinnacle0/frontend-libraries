@@ -3,7 +3,7 @@ import path from "path";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import type {IconGeneratorOptions} from "./type";
-import {FontAssetType, generateFonts, ASSET_TYPES} from "fantasticon";
+import {FontAssetType, generateFonts as fantasticonGenerateFonts, ASSET_TYPES} from "fantasticon";
 
 export class IconGenerator {
     private readonly iconComponentDirectory: string;
@@ -11,11 +11,10 @@ export class IconGenerator {
     private readonly svgDirectory: string;
 
     private readonly templateDirectory = path.join(__dirname, "./icon-template");
+    private readonly logger = Utility.createConsoleLogger("IconGenerator");
 
     private cssContent: string = "";
     private iconClassList: string[] = [];
-
-    private readonly logger = Utility.createConsoleLogger("IconGenerator");
 
     constructor(options: IconGeneratorOptions) {
         this.iconComponentDirectory = options.iconComponentDirectory;
@@ -26,13 +25,11 @@ export class IconGenerator {
     async run() {
         try {
             await this.prepareFolder();
-            await this.fantasticonGenerateFonts();
-            await this.getContent();
-            this.parseClassList();
+            await this.generateFonts();
+            this.parseContent();
             this.generateReactComponent();
             this.generateCSSAndAssets();
-            this.removeCssFile();
-            this.formatSources();
+            this.cleanup();
         } catch (e) {
             this.logger.error(e);
             process.exit(1);
@@ -48,12 +45,14 @@ export class IconGenerator {
         }
     }
 
-    private async fantasticonGenerateFonts() {
-        this.logger.task("Generating font by fantasticon");
-        await generateFonts({
+    private async generateFonts() {
+        this.logger.task("Generating WOFF/TTF by Fantasticon");
+
+        // ref: https://www.npmjs.com/package/fantasticon
+        await fantasticonGenerateFonts({
             inputDir: this.svgDirectory,
             outputDir: this.iconComponentDirectory,
-            name: this.fontFamily, // name of the file name
+            name: this.fontFamily,
             fontTypes: [FontAssetType.WOFF, FontAssetType.TTF],
             assetTypes: [ASSET_TYPES.CSS],
             normalize: false, // the font will be square if true
@@ -63,20 +62,17 @@ export class IconGenerator {
         });
     }
 
-    private async getContent() {
+    private parseContent() {
         this.cssContent = fs.readFileSync(path.join(this.iconComponentDirectory, `${this.fontFamily}.css`), "utf-8");
-        return;
-    }
-
-    private parseClassList() {
         this.iconClassList = this.cssContent.match(/\.icon-(.*):before/g)!.map(_ => _.substr(1).replace(":before", ""));
 
-        this.logger.info(["Parsed CSS class, total", String(this.iconClassList.length)]);
+        this.logger.info(["CSS parsed, total icons", String(this.iconClassList.length)]);
     }
 
     private generateReactComponent() {
         const path = `${this.iconComponentDirectory}/index.tsx`;
         this.logger.task(["Generating React Component", path]);
+
         Utility.replaceTemplate(path, [this.iconClassList.map(_ => `${this.classNameToEnum(_)} = "${_}",`).join("\n"), this.fontFamily, "fantasticon"]);
     }
 
@@ -94,8 +90,12 @@ export class IconGenerator {
         ]);
     }
 
-    private formatSources() {
-        this.logger.task("Format generated sources");
+    private cleanup() {
+        this.logger.task("Cleaning up final folder");
+
+        const tempCSS = path.join(this.iconComponentDirectory, `${this.fontFamily}.css`);
+        fs.rmSync(tempCSS);
+
         PrettierUtil.format(this.iconComponentDirectory);
     }
 
@@ -104,13 +104,5 @@ export class IconGenerator {
             throw new Error(`${className} does not conform to naming convention`);
         }
         return className.substring(5).replace(/-/g, "_").toUpperCase();
-    }
-
-    private removeCssFile() {
-        const cssFilePath = path.join(this.iconComponentDirectory, `${this.fontFamily}.css`);
-        const folderExist = fs.existsSync(cssFilePath);
-        if (folderExist) {
-            fs.rmSync(cssFilePath);
-        }
     }
 }
