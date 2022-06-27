@@ -5658,7 +5658,7 @@ ext@^1.1.2:
   dependencies:
     type "^2.5.0"
 
-fantasticon@^1.2.3:
+fantasticon@1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/fantasticon/-/fantasticon-1.2.3.tgz#9082b8bcb38ef6fd63e4f392643b12675c2fb310"
   integrity sha512-VoPXI8+wbLq4qooK2LAFRcqKtOCR20+InF/Io/9I1kLp3IT+LwqJgeFijFvp9a3HRZptfCAxNvazoVHn4kihzQ==
