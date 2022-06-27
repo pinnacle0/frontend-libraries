@@ -29,7 +29,7 @@ export class IconGenerator {
             this.parseContent();
             this.generateReactComponent();
             this.generateCSSAndAssets();
-            this.cleanup();
+            this.cleanUp();
         } catch (e) {
             this.logger.error(e);
             process.exit(1);
@@ -90,7 +90,7 @@ export class IconGenerator {
         ]);
     }
 
-    private cleanup() {
+    private cleanUp() {
         this.logger.task("Cleaning up final folder");
 
         const tempCSS = path.join(this.iconComponentDirectory, `${this.fontFamily}.css`);
