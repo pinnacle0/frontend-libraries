@@ -38,8 +38,7 @@
         "typescript": "*"
     },
     "devDependencies": {
-        "@types/html-webpack-plugin": "3.2.6",
-        "@types/yargs": "17.0.10"
+        "@types/html-webpack-plugin": "3.2.6"
     },
     "engines": {
         "node": ">= 16.0.0"

@@ -16,9 +16,6 @@
         "fantasticon": "1.2.3",
         "yargs": "17.5.1"
     },
-    "devDependencies": {
-        "@types/yargs": "17.0.10"
-    },
     "peerDependencies": {
         "prettier": "^2.3.0"
     },
