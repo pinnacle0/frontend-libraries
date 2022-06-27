@@ -75,7 +75,7 @@ importers:
         specifiers:
             "@types/yargs": 17.0.10
             axios: 0.27.2
-            fantasticon: ^1.2.3
+            fantasticon: 1.2.3
             yargs: 17.5.1
         dependencies:
             axios: 0.27.2
