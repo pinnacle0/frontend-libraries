@@ -1,7 +1,12 @@
-const {checkSingleVersion} = require("pnpm-single-version");
-
 module.exports = {
     hooks: {
-        afterAllResolved: checkSingleVersion,
+        afterAllResolved: (() => {
+            try {
+                require.resolve("pnpm-single-version");
+                return require("pnpm-single-version").checkSingleVersion;
+            } catch {
+                return;
+            }
+        })(),
     },
 };
