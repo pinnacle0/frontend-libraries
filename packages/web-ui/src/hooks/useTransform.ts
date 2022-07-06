@@ -11,9 +11,9 @@ interface TransitionOption {
 
 interface Option extends TransitionOption {
     // transform related properties
-    x?: number;
-    y?: number;
-    z?: number;
+    x?: string | number;
+    y?: string | number;
+    z?: string | number;
     immediate?: boolean;
 }
 
@@ -46,9 +46,10 @@ export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option)
     const to = React.useCallback(
         (option: Option) => {
             if (ref.current) {
+                const format = (value?: number | string): string => (value ? (typeof value === "number" ? `${value}px` : value) : "0px");
                 const el = ref.current;
                 requestAnimationFrame(() => {
-                    el.style.transform = `translate3d(${option.x ?? 0}px, ${option.y ?? 0}px, ${option.z ?? 0}px) `;
+                    el.style.transform = `translate3d(${format(option.x)}, ${format(option.y)}, ${format(option.z)}) `;
                     option.immediate ? clearTransition(el) : setTransition(el);
                 });
             }
