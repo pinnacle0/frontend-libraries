@@ -21,11 +21,5 @@
     },
     "engines": {
         "node": ">=16.0.0"
-    },
-    "jest": {
-        "preset": "ts-jest",
-        "watchPathIgnorePatterns": [
-            "/__tmp__/"
-        ]
     }
 }
