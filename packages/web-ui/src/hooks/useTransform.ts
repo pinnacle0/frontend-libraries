@@ -18,8 +18,8 @@ interface Option extends TransitionOption {
 }
 
 export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option) => {
-    const optionRef = React.useRef(option);
-    optionRef.current = option;
+    const initialOptionRef = React.useRef(option);
+    initialOptionRef.current = option;
 
     const clearTransition = React.useCallback((el: HTMLElement) => {
         el.style.transitionDuration = "";
@@ -29,9 +29,9 @@ export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option)
     }, []);
 
     const setTransition = React.useCallback(
-        (el: HTMLElement) => {
-            if (optionRef.current) {
-                const {delay, duration, property, timingFunction} = optionRef.current;
+        (el: HTMLElement, option?: Option) => {
+            if (option) {
+                const {delay, duration, property, timingFunction} = option;
                 delay && (el.style.transitionDelay = delay + "ms");
                 duration && (el.style.transitionDuration = duration + "ms");
                 property && (el.style.transitionProperty = property);
@@ -50,7 +50,7 @@ export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option)
                 const el = ref.current;
                 requestAnimationFrame(() => {
                     el.style.transform = `translate3d(${format(option.x)}, ${format(option.y)}, ${format(option.z)}) `;
-                    option.immediate ? clearTransition(el) : setTransition(el);
+                    option.immediate ? clearTransition(el) : setTransition(el, option);
                 });
             }
         },
@@ -62,14 +62,14 @@ export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option)
             const el = ref.current;
             requestAnimationFrame(() => {
                 el.style.transform = "";
-                setTransition(el);
+                setTransition(el, initialOptionRef.current);
             });
         }
     }, [ref, setTransition]);
 
     React.useEffect(() => {
-        if (optionRef.current) {
-            to(optionRef.current);
+        if (initialOptionRef.current) {
+            to(initialOptionRef.current);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
     }, []);
