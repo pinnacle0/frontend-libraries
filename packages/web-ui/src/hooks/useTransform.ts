@@ -18,7 +18,7 @@ interface Option extends TransitionOption {
 }
 
 export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option) => {
-    const initialOptionRef = React.useRef(option);
+    const initialOptionRef = React.useRef<Option | undefined>(option);
     initialOptionRef.current = option;
 
     const clearTransition = React.useCallback((el: HTMLElement) => {
@@ -50,7 +50,7 @@ export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option)
                 const el = ref.current;
                 requestAnimationFrame(() => {
                     el.style.transform = `translate3d(${format(option.x)}, ${format(option.y)}, ${format(option.z)}) `;
-                    option.immediate ? clearTransition(el) : setTransition(el, option);
+                    option.immediate ? clearTransition(el) : setTransition(el, {...(initialOptionRef.current ?? {}), ...option});
                 });
             }
         },
