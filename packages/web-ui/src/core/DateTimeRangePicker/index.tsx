@@ -18,6 +18,10 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     static displayName = "DateTimeRangePicker";
 
     isDateDisabled = (current: moment.Moment): boolean => {
+        if (!current) {
+            return false;
+        }
+
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.

@@ -18,6 +18,10 @@ export class DateCalendar extends React.PureComponent<Props> {
     private readonly now = moment();
 
     isDateDisabled = (current: moment.Moment): boolean => {
+        if (!current) {
+            return false;
+        }
+
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
