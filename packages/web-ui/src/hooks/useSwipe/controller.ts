@@ -1,5 +1,5 @@
 import type React from "react";
-import type {SwipeHookConfig, SwipeHookHandlers, SwipeHookResult, SwipeState, Vector2} from "./type";
+import type {SwipeHookConfig, SwipeHookHandlers, SwipeState, TouchEventHandlers, Vector2} from "./type";
 import {SwipeUtil} from "../../util/SwipeUtil";
 
 const SWIPE_START_THRESHOLD = 10;
@@ -10,6 +10,8 @@ export class Controller {
     private started: boolean = false;
     private handlers: SwipeHookHandlers;
     private config: SwipeHookConfig;
+    private targetNode: HTMLElement | null = null;
+    private nativeTouchMoveListener: ((e: TouchEvent) => void) | undefined;
 
     constructor() {
         this.handlers = {};
@@ -117,12 +119,34 @@ export class Controller {
         this.started = false;
     }
 
+    private preventDefault(event: TouchEvent) {
+        if (event.cancelable && this.config.preventDefault) {
+            event.preventDefault();
+        }
+    }
+
     update(handlers: SwipeHookHandlers, config: SwipeHookConfig = {}) {
         this.handlers = handlers;
         this.config = config;
     }
 
-    createHandlers(): SwipeHookResult {
+    createRef() {
+        return (node: HTMLElement | null) => {
+            if (this.targetNode && this.nativeTouchMoveListener) {
+                this.targetNode.removeEventListener("touchmove", this.nativeTouchMoveListener);
+                this.targetNode = null;
+                this.nativeTouchMoveListener = undefined;
+            }
+
+            if (node) {
+                this.targetNode = node;
+                this.nativeTouchMoveListener = this.preventDefault.bind(this);
+                this.targetNode.addEventListener("touchmove", this.nativeTouchMoveListener, {passive: false});
+            }
+        };
+    }
+
+    createHandlers(): TouchEventHandlers {
         return {
             onTouchStart: this.onTouchStart.bind(this),
             onTouchMove: this.onTouchMove.bind(this),

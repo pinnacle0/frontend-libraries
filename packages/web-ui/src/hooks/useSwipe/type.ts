@@ -1,12 +1,16 @@
 import type React from "react";
 
-export type TouchHandlers = Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "onTouchStart" | "onTouchMove" | "onTouchEndCapture" | "onTouchCancelCapture">;
+export type TouchHandler = Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "onTouchStart" | "onTouchMove" | "onTouchEndCapture" | "onTouchCancelCapture">;
 
-export interface SwipeHookResult {
+export interface TouchEventHandlers {
     onTouchMove: React.TouchEventHandler;
     onTouchStart: React.TouchEventHandler;
     onTouchEnd: React.TouchEventHandler;
     onTouchCancel: React.TouchEventHandler;
+}
+
+export interface SwipeHookResult extends TouchEventHandlers {
+    ref: React.RefCallback<HTMLElement>;
 }
 
 export interface SwipeState {
