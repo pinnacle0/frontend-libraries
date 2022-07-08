@@ -33,7 +33,6 @@
         "react-virtual": "2.10.4"
     },
     "peerDependencies": {
-        "@babel/runtime": ">=7.12.1",
         "react": ">=17.0.0",
         "react-dom": ">=17.0.0",
         "react-router-dom": ">=5.2.0"
