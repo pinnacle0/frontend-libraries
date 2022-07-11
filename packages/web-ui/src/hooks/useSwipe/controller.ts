@@ -130,8 +130,23 @@ export class Controller {
         this.config = config;
     }
 
+    private combineRef(node: HTMLElement | null) {
+        const ref = this.config.ref;
+
+        if (!ref) {
+            return;
+        }
+        if (typeof ref === "function") {
+            ref(node);
+        } else {
+            ref && (ref.current = node);
+        }
+    }
+
     createRef() {
         return (node: HTMLElement | null) => {
+            this.combineRef(node);
+
             if (this.targetNode && this.nativeTouchMoveListener) {
                 this.targetNode.removeEventListener("touchmove", this.nativeTouchMoveListener);
                 this.targetNode = null;
