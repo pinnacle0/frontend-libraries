@@ -120,14 +120,9 @@ export class Controller {
     }
 
     private preventDefault(event: TouchEvent) {
-        if (event.cancelable && this.config.preventDefault) {
+        if (event.cancelable && this.config.preventDefault && this.started) {
             event.preventDefault();
         }
-    }
-
-    update(handlers: SwipeHookHandlers, config: SwipeHookConfig = {}) {
-        this.handlers = handlers;
-        this.config = config;
     }
 
     private combineRef(node: HTMLElement | null) {
@@ -141,6 +136,11 @@ export class Controller {
         } else {
             ref && (ref.current = node);
         }
+    }
+
+    update(handlers: SwipeHookHandlers, config: SwipeHookConfig = {}) {
+        this.handlers = handlers;
+        this.config = config;
     }
 
     createRef() {
