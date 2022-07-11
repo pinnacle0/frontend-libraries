@@ -19,7 +19,13 @@ function getDirection(start: [number, number], end: [number, number]): Direction
 function getDisplacement(start: [number, number], end: [number, number]): number {
     return Math.sqrt(Math.pow(start[0] - end[0], 2) + Math.pow(start[1] - end[1], 2));
 }
+
+const isHorizontal = (direction: Direction) => [Direction.RIGHT, Direction.LEFT].includes(direction);
+const isVertical = (direction: Direction) => [Direction.UP, Direction.DOWN].includes(direction);
+
 export const SwipeUtil = Object.freeze({
+    isHorizontal,
+    isVertical,
     getDirection,
     getDisplacement,
 });
