@@ -1,6 +1,5 @@
-import moment from "moment";
 import React from "react";
-import {LocaleUtil} from "../util/LocaleUtil";
+import moment from "moment";
 
 export interface Props {
     date: Date;
@@ -39,10 +38,7 @@ export class RelativeTime extends React.PureComponent<Props, State> {
     repaint = () => {
         clearTimeout(this.repaintTimeout);
 
-        const momentLocale = LocaleUtil.current() === "zh" ? "zh-cn" : "en";
-        const propsMoment = moment(this.props.date).locale(momentLocale);
-        const currentMoment = moment();
-        const elapsedText = propsMoment.from(currentMoment);
+        const elapsedText = moment(this.props.date).fromNow();
         this.setState({elapsedText});
 
         // Moment threshold uses 45 minutes for "an hour ago" and 45 seconds for "a minute ago".

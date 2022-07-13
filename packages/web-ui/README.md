@@ -21,6 +21,3 @@ To support this, please do both of following:
 
 - Add `new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),` to your webpack plugins.
 This line is to skip all locale imports by moment library itself.
-
-- If you want to support Chinese locale, add `require("moment/locale/zh-cn")` at the beginning of your application.
-This line is to enable Chinese calendar when current context locale is "zh".  

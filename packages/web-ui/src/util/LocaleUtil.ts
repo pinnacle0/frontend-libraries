@@ -20,6 +20,11 @@ class LocaleManager {
 
     setInitial(locale: Locale | "auto"): void {
         this.locale = locale === "auto" ? this.preferredLocale() : locale;
+        if (this.locale === "zh") {
+            // if tree-shaking (ref README) is enabled, only English locale is imported by default
+            // import Chinese locale on the fly, if the current app language is Chinese
+            require("moment/locale/zh-cn");
+        }
     }
 
     change(locale: Locale): void {
