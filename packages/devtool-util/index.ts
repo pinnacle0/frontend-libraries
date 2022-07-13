@@ -6,7 +6,6 @@
 // downloaded from NPM registry as a node_module.
 
 export * from "./src/APIGenerator";
-export * from "./src/IconFontGenerator";
 export * from "./src/IconGenerator";
 export * from "./src/ModuleGenerator";
 export * from "./src/NamingUtil";
