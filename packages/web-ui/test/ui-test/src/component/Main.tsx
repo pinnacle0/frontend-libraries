@@ -6,8 +6,6 @@ import {WebUINavigatorSide} from "./WebUINavigatorSide";
 import {WebUILogo} from "./WebUILogo";
 import "@pinnacle0/web-ui/css/global.less";
 
-require("moment/locale/zh-cn");
-
 const navigationService = new NavigationService();
 const badges = {
     "/core/button": 4000,

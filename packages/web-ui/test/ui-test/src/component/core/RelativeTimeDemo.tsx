@@ -6,17 +6,10 @@ import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 
 const RelativeTimeDisplay = (props: RelativeTimeProps) => {
-    const [initialRepaintTimeout, setInitialRepaintTimeout] = React.useState("-");
-    const ref = React.useRef<RelativeTime>(null);
-    useEffect(() => {
-        const timeout = setTimeout(() => setInitialRepaintTimeout(`${ref.current!["timeoutDuration"] / 1000}`), 10);
-        return () => clearTimeout(timeout);
-    }, []);
     return (
         <div>
             <div>{moment(props.date).format()}</div>
-            <div>Update in {initialRepaintTimeout} seconds</div>
-            <RelativeTime {...props} ref={ref} />
+            <RelativeTime {...props} />
         </div>
     );
 };
