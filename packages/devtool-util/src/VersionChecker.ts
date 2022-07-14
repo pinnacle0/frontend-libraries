@@ -69,7 +69,7 @@ export class VersionChecker {
                         });
                         const packageJSON = require(packagePath);
                         const installedVersion = packageJSON.version;
-                        if (expectedVersion !== installedVersion) {
+                        if (trim(expectedVersion) !== trim(installedVersion)) {
                             throw new Error(`[${packageName}] version not match, expected: ${expectedVersion}, installed: ${installedVersion}`);
                         }
                     });
@@ -78,4 +78,8 @@ export class VersionChecker {
             },
         ]);
     }
+}
+
+function trim(value: any): any {
+    return typeof value === "string" ? value.trim() : value;
 }
