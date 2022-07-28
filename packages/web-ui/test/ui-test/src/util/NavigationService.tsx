@@ -24,7 +24,6 @@ import {RenderErrorDemo} from "../component/admin/RenderErrorDemo";
 import {ConfigPageDemo} from "../component/admin/ConfigPageDemo";
 import {PermissionSelectorDemo} from "../component/admin/PermissionSelectorDemo";
 import {ResultPageDemo} from "../component/admin/ResultPageDemo";
-import {RichEditorDemo} from "../component/admin/RichEditorDemo";
 import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
@@ -179,11 +178,6 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
                         url: "/admin/result-page",
                         title: "Result Page",
                         componentType: ResultPageDemo,
-                    },
-                    {
-                        url: "/admin/rich-editor",
-                        title: "Rich Editor",
-                        componentType: RichEditorDemo,
                     },
                     {
                         url: "/admin/permission-selector",
