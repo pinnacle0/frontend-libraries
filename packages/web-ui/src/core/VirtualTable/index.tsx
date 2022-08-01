@@ -32,6 +32,7 @@ export interface VirtualTableProps<RowType extends object> {
     rowKey?: StringKey<RowType> | "index";
     headerHeight?: number;
     rowExpand?: VirtualTableRowExpand<RowType>;
+    horizontalScrollBarSize?: number;
 }
 
 export const VirtualTable = Object.assign(
@@ -50,6 +51,7 @@ export const VirtualTable = Object.assign(
         rowExpand,
         rowKey = "index",
         headerHeight = 50,
+        horizontalScrollBarSize = 20,
     }: VirtualTableProps<RowType>) {
         const size = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement>(null);
@@ -66,10 +68,12 @@ export const VirtualTable = Object.assign(
         const transformedColumns = useTransformColumn({columns, dataSource, rowSelection, rowKey, rowExpand});
 
         const isScrollable = totalSize > scrollY;
-        const tableHeight = scrollY + headerHeight;
-        const tableBodyHeight = scrollY;
-        const emptyElement = emptyPlaceholder || "暂无数据";
         const {scrollBarSize, stickyPosition, columnWidths, isScrollToEdge, isScrollToLeft, isScrollToRight} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
+
+        const isHorizontalScrollable = scrollContentRef.current ? columnWidths.reduce((acc, curr) => acc + curr, 0) > scrollContentRef.current.clientWidth : false;
+        const tableHeight = scrollY + headerHeight + (isHorizontalScrollable ? horizontalScrollBarSize : 0);
+        const tableBodyHeight = scrollY + (isHorizontalScrollable ? horizontalScrollBarSize : 0);
+        const emptyElement = emptyPlaceholder || "暂无数据";
 
         const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
 
