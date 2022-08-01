@@ -4,8 +4,10 @@ import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} fr
 import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/input/style";
 import "./index.less";
+import type {InputFocusOptions} from "antd/lib/input/Input";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
+export type FocusType = "cursor-at-start" | "cursor-at-last" | "select-all" | "prevent-scroll";
 
 export interface InputReadonlyProps extends Omit<InputProps, ExcludedAntInputKeys | "readonly" | "disabled" | "allowClear"> {
     value: string;
@@ -22,6 +24,8 @@ export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKey
 export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
 export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
+    selectAll?: boolean;
+    focus?: FocusType;
     inputRef?: React.RefObject<InputRef>;
 }
 
@@ -46,18 +50,35 @@ export class Input extends React.PureComponent<Props> {
 
     private antInputRef = React.createRef<InputRef>();
 
-    componentDidMount() {
-        if (this.props.autoFocus) {
-            (this.props.inputRef || this.antInputRef).current?.focus();
+    private getRef = () => this.props.inputRef ?? this.antInputRef;
+
+    private createFocusOptions(focus?: FocusType): InputFocusOptions | undefined {
+        const type = focus || this.props.focus;
+        if (!type) return undefined;
+        if (type === "prevent-scroll") {
+            return {preventScroll: true};
+        } else {
+            return {cursor: type === "cursor-at-start" ? "start" : type === "cursor-at-last" ? "end" : "all"};
         }
     }
 
-    blur = () => (this.props.inputRef || this.antInputRef).current?.blur();
+    private handleClick: React.MouseEventHandler<HTMLInputElement> = event => {
+        this.getRef().current?.focus(this.createFocusOptions());
+        this.props.onClick?.(event);
+    };
 
-    focus = () => (this.props.inputRef || this.antInputRef).current?.focus();
+    componentDidMount() {
+        if (this.props.autoFocus) {
+            this.getRef().current?.focus(this.createFocusOptions());
+        }
+    }
+
+    blur = () => this.getRef().current?.blur();
+
+    focus = (focusType?: FocusType) => (this.props.inputRef || this.antInputRef).current?.focus(this.createFocusOptions(focusType));
 
     render() {
-        const {onChange, autoFocus, inputRef, ...rest} = this.props;
-        return <AntInput {...rest} onChange={e => Input.onChange(e, onChange)} ref={inputRef || this.antInputRef} />;
+        const {onChange, autoFocus, inputRef, onClick, ...rest} = this.props;
+        return <AntInput {...rest} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange)} />;
     }
 }

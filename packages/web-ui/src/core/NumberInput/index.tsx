@@ -1,5 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
+import type {FocusType} from "../Input";
 import {Input} from "../Input";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
@@ -52,6 +53,8 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     prefix?: React.ReactChild;
     /** Optional Input Ref */
     inputRef?: React.RefObject<InputRef>;
+    /** select all the text when focus the input */
+    focus?: FocusType;
 }
 
 interface State {
@@ -153,7 +156,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, focus} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         return (
@@ -177,6 +180,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     inputMode="decimal"
                     className="count-input"
                     allowClear={allowClear}
+                    focus={focus}
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
                     &#xff0b;

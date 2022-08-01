@@ -1,17 +1,20 @@
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import {Input} from "@pinnacle0/web-ui/core/Input";
-import type {Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
-import type {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
 import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCodeInput";
 import {TagInput} from "@pinnacle0/web-ui/core/TagInput";
 import {AmountConditionInput, Operator} from "@pinnacle0/web-ui/core/AmountConditionInput";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {dummyEmptyCallback} from "../../../dummy/dummyCallback";
 import {withUncontrolledInitialValue} from "../../../util/withUncontrolledInitialValue";
-import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
+import type {Props as InputProps} from "@pinnacle0/web-ui/core/Input";
+import type {Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import type {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
+import type {InputRef} from "antd";
+import {Button} from "antd";
 
 const UncontrolledTagInput = () => {
     const parser = (text: string) => text.split(/[\n ,;]/g).filter(Boolean);
@@ -32,6 +35,24 @@ const RequiredNumberInput = ({initialValue, ...props}: Omit<NumberInputProps<fal
 const RequiredNumberInputPercentage = ({initialValue, ...props}: Omit<NumberInputPercentageProps<false>, "value" | "onChange" | "allowNull"> & {initialValue: number}) => {
     const [value, onChange] = React.useState<number>(initialValue);
     return <NumberInput.Percentage {...props} value={value} onChange={onChange} allowNull={false} />;
+};
+const FocusInputDemo = () => {
+    const [value, setValue] = React.useState<string>("same text inside");
+    const inputRef = React.createRef<Input>();
+
+    return (
+        <div>
+            <div style={{marginBottom: "20px"}}>
+                <Button onClick={() => inputRef.current?.focus("cursor-at-start")}>Cursor at start</Button>
+                <Button onClick={() => inputRef.current?.focus("cursor-at-last")}>Cursor at last</Button>
+                <Button onClick={() => inputRef.current?.focus("select-all")}>Select all text</Button>
+            </div>
+            <p>Select all text when focus</p>
+            <Input focus="select-all" selectAll ref={inputRef} value={value} onChange={setValue} />
+            <p>Cursor move to start when focus</p>
+            <RequiredNumberInput focus="cursor-at-start" initialValue={3} />
+        </div>
+    );
 };
 
 const UncontrolledInput = withUncontrolledInitialValue(Input);
@@ -61,6 +82,10 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Nullable Input",
         components: [<NullableInput initialValue={null} />],
+    },
+    {
+        title: "Focus Input",
+        components: [<FocusInputDemo />],
     },
     {
         title: "Required Number Input",
