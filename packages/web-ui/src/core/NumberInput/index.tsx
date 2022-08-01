@@ -53,7 +53,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     prefix?: React.ReactChild;
     /** Optional Input Ref */
     inputRef?: React.RefObject<InputRef>;
-    /** select all the text when focus the input */
+    /** Set cursor and input behaviour when focus  */
     focus?: FocusType;
 }
 
