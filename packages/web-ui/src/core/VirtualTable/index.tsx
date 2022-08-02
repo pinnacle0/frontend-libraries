@@ -70,7 +70,10 @@ export const VirtualTable = Object.assign(
         const isScrollable = totalSize > scrollY;
         const {scrollBarSize, stickyPosition, columnWidths, isScrollToEdge, isScrollToLeft, isScrollToRight} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
 
-        const isHorizontalScrollable = scrollContentRef.current ? columnWidths.reduce((acc, curr) => acc + curr, 0) - scrollBarSize > scrollContentRef.current.clientWidth : false;
+        const isHorizontalScrollable = React.useMemo(
+            () => (scrollContentRef.current ? columnWidths.reduce((acc, curr) => acc + curr, 0) > scrollContentRef.current.offsetWidth : false),
+            [columnWidths]
+        );
         const tableHeight = scrollY + headerHeight + (isHorizontalScrollable ? horizontalScrollBarSize : 0);
         const tableBodyHeight = scrollY + (isHorizontalScrollable ? horizontalScrollBarSize : 0);
         const emptyElement = emptyPlaceholder || "暂无数据";
