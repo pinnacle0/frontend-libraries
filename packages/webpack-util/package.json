@@ -54,5 +54,8 @@
     },
     "jest": {
         "preset": "ts-jest"
+    },
+    "publishConfig": {
+        "directory": "build"
     }
 }
