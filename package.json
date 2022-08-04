@@ -18,13 +18,6 @@
         "canadyarn": "canadyarn",
         "postinstall": "husky install"
     },
-    "checkSingleVersionDependencies": [
-        "@types/react",
-        "@types/react-dom",
-        "react",
-        "react-dom",
-        "rc-resize-observer"
-    ],
     "devDependencies": {
         "@jest/types": "28.1.0",
         "@types/eslint": "8.4.6",
@@ -70,7 +63,14 @@
     },
     "pnpmSingleVersion": {
         "include": [
-            "react"
+            "react",
+            "@types/react",
+            "@types/react-dom",
+            "react",
+            "react-dom",
+            "rc-resize-observer",
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser"
         ]
     }
 }
