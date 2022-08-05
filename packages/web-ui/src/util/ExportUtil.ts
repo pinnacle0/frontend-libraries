@@ -4,12 +4,14 @@ export type ExportColumn<T> = {
 };
 
 function exportTxt(filename: string, text: string) {
-    const element = document.createElement("a");
-    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
-    element.setAttribute("download", filename);
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const uri = `data:text/txt;charset=utf-8,\ufeff${text}`;
+    const downloadLink = document.createElement("a");
+    downloadLink.style.display = "none";
+    downloadLink.href = uri;
+    downloadLink.download = `${filename}.txt`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
 }
 
 function exportCsv<T>(columns: Array<ExportColumn<T>>, data: T[], extraRow?: string) {
