@@ -12,7 +12,6 @@ import {rule as moduleClassMethodDecorators} from "./module-class-method-decorat
 import {rule as noDeepNestedRelativeImports} from "./no-deep-nested-relative-imports";
 import {rule as noNamedImports} from "./no-named-imports";
 import {rule as noProcessEnv} from "./no-process-env";
-import {rule as noReactNodeType} from "./no-react-node-type";
 import {rule as noUglyRelativePath} from "./no-ugly-relative-path";
 import {rule as noUnnecessaryEndingIndex} from "./no-unnecessary-ending-index";
 import {rule as reactComponentDefaultPropsTyping} from "./react-component-default-props-typing";
@@ -32,7 +31,6 @@ export const rules: Record<string, TSESLint.RuleModule<string, any[], TSESLint.R
     "no-deep-nested-relative-imports": noDeepNestedRelativeImports,
     "no-named-imports": noNamedImports,
     "no-process-env": noProcessEnv,
-    "no-react-node-type": noReactNodeType,
     "no-ugly-relative-path": noUglyRelativePath,
     "no-unnecessary-ending-index": noUnnecessaryEndingIndex,
     "react-component-default-props-typing": reactComponentDefaultPropsTyping,
