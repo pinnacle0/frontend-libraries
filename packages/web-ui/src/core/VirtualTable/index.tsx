@@ -10,6 +10,8 @@ import type {SafeReactChild, StringKey} from "../../internal/type";
 import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
 import "./index.less";
 
+const HORIZONTAL_SCROLL_BAR_HEIGHT = 20;
+
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
@@ -72,8 +74,8 @@ export const VirtualTable = Object.assign(
             () => (scrollContentRef.current ? columnWidths.reduce((acc, curr) => acc + curr, 0) > scrollContentRef.current.offsetWidth : false),
             [columnWidths]
         );
-        const tableHeight = scrollY + headerHeight + (isHorizontalScrollable ? 16 : 0);
-        const tableBodyHeight = scrollY + (isHorizontalScrollable ? 16 : 0);
+        const tableHeight = scrollY + headerHeight + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0);
+        const tableBodyHeight = scrollY + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0);
         const emptyElement = emptyPlaceholder || "暂无数据";
 
         const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
