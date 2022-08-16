@@ -40,7 +40,7 @@ export class OverflowableText extends React.PureComponent<Props, States> {
 
     updateTextOverflow = () => {
         const {current} = this.textRef;
-        this.setState({overflow: (current && current.clientWidth > this.props.maxWidth) || false});
+        this.setState({overflow: (current && current.scrollWidth > this.props.maxWidth) || false});
     };
 
     render() {
@@ -57,7 +57,7 @@ export class OverflowableText extends React.PureComponent<Props, States> {
                 ) : (
                     <div style={{display: "inline-block", ...style}}>{children}</div>
                 )}
-                <div ref={this.textRef} className="shadow-text">
+                <div ref={this.textRef} style={{maxWidth}} className="shadow-text">
                     {children}
                 </div>
             </div>
