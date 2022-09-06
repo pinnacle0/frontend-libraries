@@ -1,6 +1,6 @@
 import React from "react";
-import type {TagColor} from "./Tag";
 import {Tag} from "./Tag";
+import type {TagColor} from "./Tag";
 
 export interface Props {
     items: React.ReactChild[];
@@ -10,6 +10,7 @@ export interface Props {
     onClose?: (index: number) => void;
     color?: TagColor | ((item: React.ReactChild, index: number) => TagColor);
     maxWidth?: number;
+    extraContent?: React.ReactChild;
 }
 
 export class Tags extends React.PureComponent<Props> {
@@ -29,7 +30,12 @@ export class Tags extends React.PureComponent<Props> {
     };
 
     render() {
-        const {items, maxWidth} = this.props;
-        return <div style={{maxWidth}}>{items.map(this.renderTag)}</div>;
+        const {items, maxWidth, extraContent} = this.props;
+        return (
+            <div style={{maxWidth}}>
+                {items.map(this.renderTag)}
+                {extraContent && extraContent}
+            </div>
+        );
     }
 }

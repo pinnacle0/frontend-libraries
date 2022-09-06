@@ -28,6 +28,8 @@ export interface Props<RowType extends object> extends ControlledFormValue<RowTy
     onPopoverFirstRender?: () => void;
     disabled?: "button" | "table";
     scrollY?: number;
+    popoverVisible?: boolean;
+    onPopoverVisibleChange?: (visible: boolean) => void;
 }
 
 export class MultipleSelector<RowType extends object> extends React.PureComponent<Props<RowType>> {
@@ -95,7 +97,15 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         return (
             <div className="g-multiple-selector">
                 {this.renderSelectedItems()}
-                <Popover placement={popoverPlacement || "bottomLeft"} trigger="click" content={this.renderPopover()} overlayClassName={popoverClassName} overlayStyle={popoverStyle}>
+                <Popover
+                    placement={popoverPlacement || "bottomLeft"}
+                    trigger="click"
+                    content={this.renderPopover()}
+                    overlayClassName={popoverClassName}
+                    overlayStyle={popoverStyle}
+                    visible={this.props.popoverVisible}
+                    onVisibleChange={this.props.onPopoverVisibleChange}
+                >
                     <Button color="wire-frame" disabled={disabled === "button"}>
                         {this.buttonText()}
                     </Button>
