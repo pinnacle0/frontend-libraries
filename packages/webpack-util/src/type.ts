@@ -170,11 +170,6 @@ export interface InternalCheckerOptions {
      */
     tsconfigFilePath: string;
     /**
-     * Root Directory of monorepo. Will be used for checking single version dependencies.
-     * Should contains `package.json`.
-     */
-    rootDirectory?: string;
-    /**
      * Directories that are transitively depended on by the application,
      * and should be also checked by static analysis tools along the application project folder.
      * Should contains `package.json`, `tsconfig.json`, `src/`.
