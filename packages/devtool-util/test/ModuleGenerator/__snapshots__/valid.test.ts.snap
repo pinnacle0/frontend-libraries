@@ -12,7 +12,7 @@ export const Main = ReactUtil.memo(\\"Main\\", () => {
 `;
 
 exports[`ModuleGenerator class generate files 2`] = `
-"import {useSelector} from \\"react-redux\\";
+"import {useSelector} from \\"core-fe\\";
 import type {RootState} from \\"type/state\\";
 
 export function useNewFeatureState<T>(fn: (state: RootState[\\"app\\"][\\"newFeature\\"]) => T): T {

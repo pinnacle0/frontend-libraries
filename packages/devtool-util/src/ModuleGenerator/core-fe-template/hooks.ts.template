@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useSelector} from "core-fe";
 import type {RootState} from "type/state";
 
 export function use{1}State<T>(fn: (state: RootState["app"]["{2}"]) => T): T {
