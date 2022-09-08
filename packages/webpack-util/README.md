@@ -26,14 +26,16 @@ new WebpackBuilder({
 ```
 
 - Checks if the project structure complies to convention described below.
-- Optional `rootDirectory` key can be included in monorepo projects. This is used to check if [`canadyarn`](https://www.npmjs.com/package/canadyarn) script exists in root's `package.json` and check if specified dependencies have single resolved version in `yarn.lock`.
 - Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
 - Run test if supported by `package.json` scripts.
 - Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 
+<<<<<<< HEAD
 - yarn
+=======
+>>>>>>> 10de22a ([REFACTOR]: all: updated readme)
 - TypeScript/JavaScript
 - CSS/LESS
 - eslint
@@ -73,7 +75,7 @@ The following structure can be used for a basic project setup.
 
 ## Monorepo Folder Structure
 
-The following structure can be used for a yarn workspace monorepo setup.
+The following structure can be used for a npm/yarn/pnpm workspace setup.
 
 ```text
 <workspaceRootDirectory>
@@ -112,5 +114,5 @@ The following structure can be used for a yarn workspace monorepo setup.
 ├── .eslintrc.js
 ├── prettier.config.js
 ├── stylelint.config.js
-└── package.json          (Yarn workspace manifest file)
+└── package.json    
 ```
