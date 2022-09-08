@@ -10,7 +10,7 @@
         "test": "jest --config config/jest.config.ts"
     },
     "dependencies": {
-        "@babel/core": "7.18.9",
+        "@babel/core": "7.19.0",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
         "@swc/core": "1.2.218",
         "autoprefixer": "10.4.7",
