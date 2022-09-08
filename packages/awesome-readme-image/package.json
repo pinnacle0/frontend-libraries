@@ -15,7 +15,7 @@
         "build": "parcel build src/build.tsx --no-source-maps && node dist/build.js"
     },
     "dependencies": {
-        "core-js": "3.25.1",
+        "core-js": "3.24.0",
         "react": "18.2.0",
         "react-dom": "18.2.0"
     },
