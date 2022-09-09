@@ -19,7 +19,8 @@
         "postinstall": "husky install"
     },
     "devDependencies": {
-        "@jest/types": "28.1.0",
+        "@commitlint/cli": "17.1.2",
+        "@commitlint/config-conventional": "17.1.0",
         "@types/eslint": "8.4.6",
         "@types/fs-extra": "9.0.13",
         "@types/jest": "28.1.6",
@@ -27,7 +28,6 @@
         "@types/yargs": "17.0.12",
         "@typescript-eslint/eslint-plugin": "5.36.2",
         "@typescript-eslint/parser": "5.36.2",
-        "canadyarn": "0.0.2",
         "chalk": "4.1.2",
         "eslint": "8.22.0",
         "eslint-config-prettier": "8.5.0",
