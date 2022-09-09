@@ -7,14 +7,15 @@ import {PromptUtil} from "@pinnacle0/web-ui/util/PromptUtil";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
 
-const DeclarativeModal = ({buttonClassName, title, ...modalProps}: Omit<ModalProps, "visible" | "onCancel" | "width" | "children"> & {buttonClassName?: string}) => {
-    const [visible, setVisible] = React.useState(false);
+// TODO/Alvis: Delete 'visible' later when visible is fully deprecated
+const DeclarativeModal = ({buttonClassName, title, ...modalProps}: Omit<ModalProps, "visible" | "open" | "onCancel" | "width" | "children"> & {buttonClassName?: string}) => {
+    const [opened, setOpened] = React.useState(false);
     return (
         <div>
-            <Button onClick={() => setVisible(true)} className={buttonClassName}>
+            <Button onClick={() => setOpened(true)} className={buttonClassName}>
                 {title}
             </Button>
-            <Modal title={`Modal: ${title}`} visible={visible} onCancel={() => setVisible(false)} width={400} {...modalProps}>
+            <Modal title={`Modal: ${title}`} open={opened} onCancel={() => setOpened(false)} width={400} {...modalProps}>
                 Test
             </Modal>
         </div>

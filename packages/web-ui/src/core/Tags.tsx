@@ -21,9 +21,8 @@ export class Tags extends React.PureComponent<Props> {
     renderTag = (item: React.ReactChild, index: number) => {
         const {color, onClose} = this.props;
         const tagColor = typeof color === "function" ? color(item, index) : color;
-        // we need to pass the visible property explicitly to avoid unexpected behavior when the tag is close
         return (
-            <Tag color={tagColor} key={index} style={this.singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)} visible>
+            <Tag color={tagColor} key={index} style={this.singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)}>
                 {item}
             </Tag>
         );

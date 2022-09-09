@@ -18,7 +18,7 @@ export class Modal extends React.PureComponent<Props> {
     static displayName = "Modal";
     static defaultProps: PickOptional<Props> = {
         centered: true,
-        visible: true,
+        open: true,
         footer: null,
         maskClosable: false,
         keyboard: false,
