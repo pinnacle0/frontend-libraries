@@ -1,6 +1,6 @@
-import type {Config} from "@jest/types";
+import type {Config} from "jest";
 
-const config: Config.InitialOptionsWithRootDir = {
+const config: Config = {
     // An array of file extensions your modules use
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 

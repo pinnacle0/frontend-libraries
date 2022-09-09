@@ -1,6 +1,6 @@
-import type {Config} from "@jest/types";
+import type {Config} from "jest";
 
-const config: Config.InitialOptionsWithRootDir = {
+const config: Config = {
     // Stop running tests after `n` failures
     bail: 1,
 
