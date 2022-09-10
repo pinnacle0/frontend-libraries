@@ -16,7 +16,7 @@
     },
     "scripts": {
         "canadyarn": "canadyarn",
-        "postinstall": "husky install"
+        "postinstall": "husky install && psv install"
     },
     "devDependencies": {
         "@commitlint/cli": "17.1.2",
@@ -40,7 +40,7 @@
         "jest": "28.1.3",
         "jest-environment-jsdom": "28.1.3",
         "lint-staged": "13.0.3",
-        "pnpm-single-version": "1.3.0",
+        "pnpm-single-version": "1.3.2",
         "postcss": "8.4.16",
         "postcss-less": "6.0.0",
         "prettier": "2.7.1",
@@ -69,6 +69,7 @@
             "react",
             "react-dom",
             "rc-resize-observer",
+            "eslint",
             "@typescript-eslint/eslint-plugin",
             "@typescript-eslint/parser"
         ]
