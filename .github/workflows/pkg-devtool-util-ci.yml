@@ -12,7 +12,6 @@ on:
             - pnpm-lock.yaml
             - pnpm-workspace.yaml
             - .github/workflows/pkg-devtool-util-ci.yml
-            - tsconfig.base.json
 
 jobs:
     build:
