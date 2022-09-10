@@ -12,6 +12,7 @@ on:
             - pnpm-lock.yaml
             - pnpm-workspace.yaml
             - .github/workflows/pkg-eslint-plugin-ci.yml
+            - tsconfig.base.json
 
 jobs:
     build:
