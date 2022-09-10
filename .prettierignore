@@ -18,6 +18,7 @@
 !.yarn/versions
 .pnp.*
 
+
 # Coverage Reports
 **/coverage/**
 
@@ -38,3 +39,7 @@
 # Awesome Readme Image
 /packages/awesome-readme-image/**/*.less
 /packages/awesome-readme-image/.babelrc
+
+# Tool script dir
+.psv
+.husky
