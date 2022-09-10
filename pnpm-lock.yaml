@@ -24,7 +24,7 @@ importers:
             jest: 28.1.3
             jest-environment-jsdom: 28.1.3
             lint-staged: 13.0.3
-            pnpm-single-version: 1.3.2
+            pnpm-single-version: 1.3.4
             postcss: 8.4.16
             postcss-less: 6.0.0
             prettier: 2.7.1
@@ -57,7 +57,7 @@ importers:
             jest: 28.1.3_tnjgtfvshbjaakxmfwf4wfzw7u
             jest-environment-jsdom: 28.1.3
             lint-staged: 13.0.3
-            pnpm-single-version: 1.3.2
+            pnpm-single-version: 1.3.4
             postcss: 8.4.16
             postcss-less: 6.0.0_postcss@8.4.16
             prettier: 2.7.1
@@ -837,15 +837,6 @@ packages:
             strip-json-comments: 3.1.1
         transitivePeerDependencies:
             - supports-color
-
-    /@fig/complete-commander/2.0.0_commander@9.4.0:
-        resolution: {integrity: sha512-lsaoLBGdiHWPvmF5DcIDnC8dikeZxgLJEYb2zQiAAk0l/1ComkbjO12aoBWHxfE4eygbK6UjDcO2bAL5UQjzvQ==}
-        peerDependencies:
-            commander: ^8.0.0
-        dependencies:
-            commander: 9.4.0
-            prettier: 2.7.1
-        dev: true
 
     /@gar/promisify/1.1.3:
         resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
@@ -7087,11 +7078,10 @@ packages:
         dependencies:
             find-up: 4.1.0
 
-    /pnpm-single-version/1.3.2:
-        resolution: {integrity: sha512-1sTpO7l/uyyObGFxBbq/hBNgztgk//UU2uAwkL13CX3kdHPPAsAe00JVL+4Xq7sVdlQwSxhwNpGoeTmKgARO0g==}
+    /pnpm-single-version/1.3.4:
+        resolution: {integrity: sha512-Dg7JgUyiYKSg5OffI+3LB5QW64fJsuxuEnY22UBHizyoqSZ+LZox6IUXl5shHYtJXTZ26MzJF6SW7+H7G33wUA==}
         hasBin: true
         dependencies:
-            "@fig/complete-commander": 2.0.0_commander@9.4.0
             "@pnpm/find-workspace-dir": 4.0.2
             "@pnpm/lockfile-file": 5.3.3_@pnpm+logger@4.0.0
             "@pnpm/lockfile-utils": 4.2.4
