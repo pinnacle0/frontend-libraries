@@ -50,7 +50,7 @@ function stack<T extends ListItemType>(key: string, value: T, maxSize: number = 
         } else {
             list.splice(0, 0, value);
             if (list.length > maxSize) {
-                list.splice(0, list.length - maxSize);
+                list.splice(list.length - 1, list.length - maxSize);
             }
         }
 
