@@ -40,7 +40,28 @@ function put<T extends ListItemType>(key: string, value: T, maxSize: number = 5)
     }
 }
 
+function stack<T extends ListItemType>(key: string, value: T, maxSize: number = 5): void {
+    try {
+        const list = get(key);
+        const existIndex = list.indexOf(value);
+        if (existIndex >= 0) {
+            list.splice(existIndex, 1);
+            list.splice(0, 0, value);
+        } else {
+            list.splice(0, 0, value);
+            if (list.length > maxSize) {
+                list.splice(0, list.length - maxSize);
+            }
+        }
+
+        localStorage.setItem(key, JSON.stringify(list));
+    } catch (e) {
+        // Do nothing
+    }
+}
+
 export const RecentUsedStorageUtil = Object.freeze({
     get,
     put,
+    stack,
 });
