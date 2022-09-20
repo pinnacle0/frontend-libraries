@@ -90,7 +90,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         if (!isEditing && value !== prevProps.value) {
             this.setState({editingValue: value === null ? "" : truncate(value, scale).toString()});
         }
-        const shouldCallOnChange = max !== prevProps.max || min !== prevProps.min || scale !== prevProps.scale;
+        const shouldCallOnChange = max < prevProps.max || min > prevProps.min || scale !== prevProps.scale;
         if (shouldCallOnChange) {
             value === null ? onChange(value) : onChange(clamp({value: truncate(value, scale), min, max}));
         }
