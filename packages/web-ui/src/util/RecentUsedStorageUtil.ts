@@ -20,37 +20,29 @@ function get<T extends ListItemType>(key: string, validator?: T[]): T[] {
     }
 }
 
-function put<T extends ListItemType>(key: string, value: T, maxSize: number = 5): void {
-    try {
-        const list = get(key);
-        const existIndex = list.indexOf(value);
-        if (existIndex >= 0) {
-            list.splice(existIndex, 1);
-            list.push(value);
-        } else {
-            list.push(value);
-            if (list.length > maxSize) {
-                list.splice(0, list.length - maxSize);
-            }
-        }
-
-        localStorage.setItem(key, JSON.stringify(list));
-    } catch (e) {
-        // Do nothing
-    }
+interface Option {
+    maxSize: number;
+    actionOnDuplicate: "keep" | "reorder";
+    actionOnInsert: "start" | "end";
 }
 
-function stack<T extends ListItemType>(key: string, value: T, maxSize: number = 5): void {
+function put<T extends ListItemType>(key: string, value: T, option: Partial<Option> = {}): void {
     try {
+        const maxSize = option.maxSize || 5;
+        const actionOnDuplicate = option.actionOnDuplicate || "reorder";
+        const actionOnInsert = option.actionOnInsert || "end";
         const list = get(key);
         const existIndex = list.indexOf(value);
         if (existIndex >= 0) {
-            list.splice(existIndex, 1);
-            list.splice(0, 0, value);
+            if (actionOnDuplicate === "reorder") {
+                list.splice(existIndex, 1);
+                list.push(value);
+            }
         } else {
-            list.splice(0, 0, value);
+            actionOnInsert === "end" ? list.push(value) : list.splice(0, 0, value);
             if (list.length > maxSize) {
-                list.splice(list.length - 1, list.length - maxSize);
+                const insertPositionIndex = actionOnInsert === "end" ? 0 : list.length - 1;
+                list.splice(insertPositionIndex, list.length - maxSize);
             }
         }
 
@@ -63,5 +55,4 @@ function stack<T extends ListItemType>(key: string, value: T, maxSize: number = 
 export const RecentUsedStorageUtil = Object.freeze({
     get,
     put,
-    stack,
 });
