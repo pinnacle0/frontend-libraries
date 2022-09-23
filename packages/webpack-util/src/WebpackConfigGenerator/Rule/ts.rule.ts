@@ -22,22 +22,8 @@ export function tsRule({tsconfigFilepath, fastRefresh}: Deps): webpack.RuleSetRu
     const babelLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("babel-loader"),
         options: {
-            plugins: [require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")), require.resolve("react-refresh/babel")],
-        },
-    };
-
-    // TODO/Alvis: Check whether ts-loader can be replaced by babel loader
-    const tsLoader: webpack.RuleSetUseItem = {
-        loader: require.resolve("ts-loader"),
-        options: {
-            colors: false,
-            configFile: tsconfigFilepath,
-            compilerOptions: {
-                module: "ESNext",
-                target: "ES5",
-                noEmit: false,
-            },
-            transpileOnly: true,
+            presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
+            plugins: [["@babel/plugin-proposal-decorators", {version: "legacy"}], require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")), require.resolve("react-refresh/babel")],
         },
     };
 
@@ -63,6 +49,6 @@ export function tsRule({tsconfigFilepath, fastRefresh}: Deps): webpack.RuleSetRu
 
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
-        use: fastRefresh ? [babelLoader, tsLoader] : [swcLoader],
+        use: fastRefresh ? [babelLoader] : [swcLoader],
     };
 }

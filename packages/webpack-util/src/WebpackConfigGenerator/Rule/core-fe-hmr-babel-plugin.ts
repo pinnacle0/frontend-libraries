@@ -8,7 +8,7 @@ interface State extends Pick<babel.PluginPass, "file" | "key" | "opts" | "cwd" |
  * Injects `if (module.hot) module.hot.decline()` code snippet in files that contains "core-fe" Module classes.
  *
  * This tells webpack HMR to force refresh the browser when a file containing "core-fe" Module classes is changed,
- * otherwise react loses refrence of the MainComponent created by `ModuleProxy` in "core-fe"
+ * otherwise react loses reference of the MainComponent created by `ModuleProxy` in "core-fe"
  * and throws a runtime error during development (which is bad for developer experience).
  */
 export default function ({types: t}: typeof babel): babel.PluginObj<State> {

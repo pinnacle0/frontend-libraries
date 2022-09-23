@@ -45,7 +45,7 @@ export class WebpackConfigGenerator {
         this.env = CoreUtil.currentEnv();
         this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
-        this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig");
+        this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
 
         this.enableProfiling = CoreUtil.profilingEnabled();
         this.isFastMode = CoreUtil.isFastMode();
@@ -196,6 +196,7 @@ export class WebpackConfigGenerator {
                 ...this.htmlWebpackPluginInstances,
                 Plugin.scriptTagCrossOriginPlugin(),
                 Plugin.ignoreMomentLocale(),
+                Plugin.typeChecker({tsconfigFilePath: this.tsconfigFilePath}),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 ...(this.enableProfiling ? [Plugin.webpack.progress({enableProfiling: true})] : []), // disable to not bloat up CI logs
                 Plugin.webpack.define(this.defineVars),
