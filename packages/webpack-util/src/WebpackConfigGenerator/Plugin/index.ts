@@ -2,6 +2,7 @@ import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin";
 import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin";
 import {ignoreMomentLocalePlugin} from "./moment.plugin";
 import {reactRefreshPlugin, terserPlugin} from "./ts.plugin";
+import {typeCheckerPlugin} from "./type-checker.plugin";
 import {webpackDefinePlugin, webpackProgressPlugin} from "./webpack.plugin";
 
 /**
@@ -15,6 +16,8 @@ export class Plugin {
     static readonly ignoreMomentLocale = ignoreMomentLocalePlugin;
 
     static readonly reactRefresh = reactRefreshPlugin;
+
+    static readonly typeChecker = typeCheckerPlugin;
 
     static readonly fileOutput = {
         html: htmlPlugin,

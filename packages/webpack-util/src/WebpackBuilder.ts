@@ -6,7 +6,6 @@ import {CoreUtil} from "./CoreUtil";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {CanadyarnRunner} from "./CanadyarnRunner";
 import {ProjectStructureChecker} from "./ProjectStructureChecker";
-import {TypescriptTypeChecker} from "./TypescriptTypeChecker";
 import {TestRunner} from "./TestRunner";
 import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
@@ -65,15 +64,10 @@ export class WebpackBuilder {
 
     run() {
         if (!this.isFastMode) {
-            // new CanadyarnRunner({
-            //     rootDirectory: this.rootDirectory,
-            // }).run();
-            new ProjectStructureChecker({
-                projectDirectory: this.projectDirectory,
-                extraCheckDirectories: this.extraCheckDirectories,
-                tsconfigFilePath: this.tsconfigFilePath,
+            new CanadyarnRunner({
+                rootDirectory: this.rootDirectory,
             }).run();
-            new TypescriptTypeChecker({
+            new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
                 tsconfigFilePath: this.tsconfigFilePath,
