@@ -22,7 +22,7 @@ export class WebpackConfigGenerator {
     private readonly env: string | null;
     private readonly projectDirectory: string;
     private readonly projectSrcDirectory: string;
-    private readonly tsconfigFilepath: string;
+    private readonly tsconfigFilePath: string;
     private readonly enableProfiling: boolean;
     private readonly maxEntryPointKiloByte: number;
     private readonly maxAssetKiloByte: number;
@@ -45,7 +45,7 @@ export class WebpackConfigGenerator {
         this.env = CoreUtil.currentEnv();
         this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
-        this.tsconfigFilepath = path.join(options.projectDirectory, "tsconfig.json");
+        this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig");
 
         this.enableProfiling = CoreUtil.profilingEnabled();
         this.isFastMode = CoreUtil.isFastMode();
@@ -119,7 +119,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, fastRefresh: true}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilePath, fastRefresh: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
@@ -185,7 +185,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({tsconfigFilepath: this.tsconfigFilepath, fastRefresh: false}),
+                    Rule.ts({tsconfigFilepath: this.tsconfigFilePath, fastRefresh: false}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),

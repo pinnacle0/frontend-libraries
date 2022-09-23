@@ -7,20 +7,13 @@ import type {InternalCheckerOptions} from "./type";
  */
 export class TypescriptTypeChecker {
     private readonly logger = Utility.createConsoleLogger("TypescriptTypeChecker");
-    private tsconfigPaths: string[] = [];
+    private tsconfigPaths: string;
 
-    constructor({projectDirectory, extraCheckDirectories}: InternalCheckerOptions) {
-        const checkableDirectories = [projectDirectory, ...(extraCheckDirectories ?? [])];
-        for (const directory of checkableDirectories) {
-            this.tsconfigPaths.push(path.join(directory, "tsconfig.json"));
-        }
+    constructor({projectDirectory, extraCheckDirectories, tsconfigFilePath}: InternalCheckerOptions) {
+        this.tsconfigPaths = tsconfigFilePath;
     }
 
     run() {
-        this.checkTypeScriptTyping();
-    }
-
-    private checkTypeScriptTyping() {
         this.logger.task("Checking TypeScript");
         for (const tsconfigPath of this.tsconfigPaths) {
             Utility.runCommand("tsc", ["--noEmit", "--emitDeclarationOnly", "false", "-P", tsconfigPath]);

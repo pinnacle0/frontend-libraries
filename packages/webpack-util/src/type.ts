@@ -60,6 +60,18 @@ export interface WebpackConfigGeneratorOptions {
      */
     webpackPublicPath?: string | ((env: string) => string);
     /**
+     * Name of tsconfig.json under project directory
+     * Set this if your tsconfig has another name from the original `tsconfig.json`
+     * The path of tsconfig will be: <projectDirectory>/<tsconfigFileName>
+     */
+    tsconfigFilename?: string | undefined;
+    /**
+     * Path of tsconfig.json.
+     * Set this if your tsconfig has another relative location from the project directory,
+     * Default: <projectDirectory>/tsconfig.json
+     */
+    tsconfigFilePath?: string | undefined;
+    /**
      * Name of main entry output.
      * Defaults to "index".
      */
@@ -151,6 +163,12 @@ export interface InternalCheckerOptions {
      * Should contains `package.json`, `tsconfig.json`, `src/`, `index.html` and a main entry.
      */
     projectDirectory: string;
+    /**
+     * Full path of tsconfig.json.
+     * Set this if your tsconfig has another name or relative location from the project directory,
+     * Default: <projectDirectory>/tsconfig.json
+     */
+    tsconfigFilePath: string;
     /**
      * Root Directory of monorepo. Will be used for checking single version dependencies.
      * Should contains `package.json`.

@@ -7,20 +7,20 @@ export class ProjectStructureChecker {
     private readonly projectDirectory: string;
     private readonly extraCheckDirectories: string[];
     private readonly packageJSONPath: string;
-    private readonly tsConfigPath: string;
+    private readonly tsConfigFilePath: string;
 
     constructor(private readonly options: InternalCheckerOptions) {
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.packageJSONPath = path.join(options.projectDirectory, "package.json");
-        this.tsConfigPath = path.join(options.projectDirectory, "tsconfig.json");
+        this.tsConfigFilePath = options.tsconfigFilePath;
     }
 
     run() {
         this.checkMainProjectDirectory();
         this.checkMainProjectSrcDirectory();
         this.checkExtraDirectories();
-        this.checkPackageJSON();
+        // this.checkPackageJSON();
         this.checkTSConfig();
 
         this.checkPrettierInstallation();
@@ -87,9 +87,9 @@ export class ProjectStructureChecker {
         const mainProjectSrcDirectory = path.join(this.projectDirectory, "src");
         // Checking the first-level of src/* is enough here
         const hasTSFiles = fs.readdirSync(mainProjectSrcDirectory).some(fileName => fileName.endsWith(".ts") || fileName.endsWith(".tsx"));
-        const hasTSConfigFile = fs.existsSync(this.tsConfigPath) && fs.statSync(this.tsConfigPath).isFile();
+        const hasTSConfigFile = fs.existsSync(this.tsConfigFilePath) && fs.statSync(this.tsConfigFilePath).isFile();
         if (hasTSFiles && !hasTSConfigFile) {
-            throw new Error(`Cannot find tsconfig.json at "${this.tsConfigPath}".`);
+            throw new Error(`Cannot find tsconfig.json: "${this.tsConfigFilePath}".`);
         }
     }
 

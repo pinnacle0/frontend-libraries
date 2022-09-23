@@ -12,7 +12,7 @@ import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
-export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, InternalCheckerOptions {
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {
     onSuccess?: () => void;
 }
 
@@ -38,6 +38,7 @@ export class WebpackBuilder {
     private readonly projectProfilingJSONOutputPath: string;
     private readonly outputDirectory: string;
     private readonly webpackConfig: webpack.Configuration;
+    private readonly tsconfigFilePath: string;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
     private readonly onSuccess?: (() => void) | undefined;
@@ -53,6 +54,7 @@ export class WebpackBuilder {
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
         this.projectProfilingJSONOutputPath = path.join(this.projectDirectory, "profile.json");
         this.outputDirectory = path.join(this.projectDirectory, "build/dist");
+        this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
 
         this.isFastMode = CoreUtil.isFastMode();
         this.enableProfiling = CoreUtil.profilingEnabled();
@@ -63,24 +65,28 @@ export class WebpackBuilder {
 
     run() {
         if (!this.isFastMode) {
-            new CanadyarnRunner({
-                rootDirectory: this.rootDirectory,
-            }).run();
+            // new CanadyarnRunner({
+            //     rootDirectory: this.rootDirectory,
+            // }).run();
             new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
+                tsconfigFilePath: this.tsconfigFilePath,
             }).run();
             new TypescriptTypeChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
+                tsconfigFilePath: this.tsconfigFilePath,
             }).run();
             new TestRunner({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
+                tsconfigFilePath: this.tsconfigFilePath,
             }).run();
             new CodeStyleChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,
+                tsconfigFilePath: this.tsconfigFilePath,
             }).run();
         }
         this.cleanDistFolder();

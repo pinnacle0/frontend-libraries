@@ -14,8 +14,8 @@ new WebpackServerStarter({
 }).run();
 ```
 
--   Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
--   Starts a `localhost` https server in `1234` port.
+- Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
+- Starts a `localhost` https server in `1234` port.
 
 ## `WebpackBuilder`
 
@@ -25,20 +25,20 @@ new WebpackBuilder({
 }).run();
 ```
 
--   Checks if the project structure complies to convention described below.
--   Optional `rootDirectory` key can be included in monorepo projects. This is used to check if [`canadyarn`](https://www.npmjs.com/package/canadyarn) script exists in root's `package.json` and check if specified dependencies have single resolved version in `yarn.lock`.
--   Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
--   Run test if supported by `package.json` scripts.
--   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
+- Checks if the project structure complies to convention described below.
+- Optional `rootDirectory` key can be included in monorepo projects. This is used to check if [`canadyarn`](https://www.npmjs.com/package/canadyarn) script exists in root's `package.json` and check if specified dependencies have single resolved version in `yarn.lock`.
+- Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+- Run test if supported by `package.json` scripts.
+- Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 
--   yarn
--   TypeScript/JavaScript
--   CSS/LESS
--   eslint
--   stylelint
--   prettier
+- yarn
+- TypeScript/JavaScript
+- CSS/LESS
+- eslint
+- stylelint
+- prettier
 
 Note: CSS/LESS only website also supported, without any JavaScript.
 
