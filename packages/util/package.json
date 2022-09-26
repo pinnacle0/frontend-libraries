@@ -19,11 +19,5 @@
         "format": "yarn run-script script/format.ts",
         "lint": "yarn run-script script/lint.ts",
         "test": "jest --config config/jest.config.ts --coverage"
-    },
-    "dependencies": {},
-    "peerDependencies": {},
-    "devDependencies": {
-        "@types/react": "18.0.18",
-        "react": "18.2.0"
     }
 }
