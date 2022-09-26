@@ -1,6 +1,6 @@
 import React from "react";
 
-export const useWhyDidYouUpdate: typeof _useWhyDidYouUpdate = process.env.NODE_ENV === "production" ? () => {} : _useWhyDidYouUpdate;
+export const useWhyDidYouUpdate: typeof _useWhyDidYouUpdate = "_self" in React.createElement("div") ? () => {} : _useWhyDidYouUpdate;
 
 /**
  * Logs in console the diff in props between renders.
