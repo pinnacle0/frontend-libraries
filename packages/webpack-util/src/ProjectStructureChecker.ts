@@ -9,7 +9,7 @@ export class ProjectStructureChecker {
     private readonly packageJSONPath: string;
     private readonly tsConfigFilePath: string;
 
-    constructor(private readonly options: InternalCheckerOptions) {
+    constructor(options: InternalCheckerOptions) {
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.packageJSONPath = path.join(options.projectDirectory, "package.json");
@@ -20,7 +20,7 @@ export class ProjectStructureChecker {
         this.checkMainProjectDirectory();
         this.checkMainProjectSrcDirectory();
         this.checkExtraDirectories();
-        // this.checkPackageJSON();
+        this.checkPackageJSON();
         this.checkTSConfig();
 
         this.checkPrettierInstallation();
