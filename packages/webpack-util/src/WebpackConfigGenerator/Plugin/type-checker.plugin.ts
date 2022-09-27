@@ -19,6 +19,10 @@ export function typeCheckerPlugin({tsconfigFilePath}: Options): webpack.WebpackP
         configOverwrite: {
             references: [],
         },
+        diagnosticOptions: {
+            semantic: true,
+            syntactic: true,
+        },
     };
 
     return WebpackConfigSerializationUtil.serializablePlugin("TerserWebpackPlugin", ForkTsCheckerWebpackPlugin, {

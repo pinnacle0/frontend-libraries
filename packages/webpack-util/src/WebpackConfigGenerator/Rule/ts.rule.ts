@@ -23,7 +23,11 @@ export function tsRule({tsconfigFilepath, fastRefresh}: Deps): webpack.RuleSetRu
         loader: require.resolve("babel-loader"),
         options: {
             presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
-            plugins: [["@babel/plugin-proposal-decorators", {version: "legacy"}], require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")), require.resolve("react-refresh/babel")],
+            plugins: [
+                [require.resolve("@babel/plugin-proposal-decorators"), {version: "legacy"}],
+                require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")),
+                require.resolve("react-refresh/babel"),
+            ],
         },
     };
 
