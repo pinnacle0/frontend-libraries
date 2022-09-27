@@ -18,7 +18,7 @@ export class Markdown extends React.PureComponent<Props> {
     static displayName = "Markdown";
 
     renderBold = (content: string, index: number) => {
-        const splitContents = content.split("__");
+        const splitContents = content.split(/__|\*\*/);
         return <React.Fragment key={index}>{splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <b key={"bold" + segmentIndex}>{_}</b> : _))}</React.Fragment>;
     };
 
