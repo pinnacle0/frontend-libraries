@@ -2,7 +2,6 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import type {Application as ExpressApplication} from "express";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import type WebpackDevServer from "webpack-dev-server";
@@ -18,7 +17,7 @@ export interface WebpackServerStarterOptions
         target: string;
         context: string[];
     };
-    interceptExpressApp?: (app: ExpressApplication) => void;
+    interceptExpressApp?: (app: DevServer["app"]) => void;
 }
 
 /**
