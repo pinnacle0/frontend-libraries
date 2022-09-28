@@ -24,7 +24,7 @@ interface State {
 class RouterAwareMenu extends React.PureComponent<Props, State> {
     static displayName = "Menu";
     static contextType = AdminAppContext;
-    declare context: React.ContextType<typeof AdminAppContext>;
+    context!: React.ContextType<typeof AdminAppContext>;
 
     private readonly soundEnabledKey = "admin-sound-enabled";
 

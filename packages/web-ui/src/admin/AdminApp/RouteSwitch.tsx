@@ -18,7 +18,7 @@ interface Props {
 export class RouteSwitch extends React.PureComponent<Props> {
     static displayName = "RouteSwitch";
     static contextType = AdminAppContext;
-    declare context: React.ContextType<typeof AdminAppContext>;
+    context!: React.ContextType<typeof AdminAppContext>;
 
     private readonly navigationModules: NavigationModuleItem<any, any>[];
 

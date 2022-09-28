@@ -25,7 +25,7 @@ interface State {
 class RouterAwareNavigator extends React.PureComponent<Props, State> {
     static displayName = "Navigator";
     static contextType = AdminAppContext;
-    declare context: React.ContextType<typeof AdminAppContext>;
+    context!: React.ContextType<typeof AdminAppContext>;
 
     constructor(props: Props) {
         super(props);

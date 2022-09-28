@@ -24,7 +24,7 @@ interface State {
 export class Item extends React.PureComponent<Props, State> {
     static displayName = "Form.Item";
     static contextType = FormValidationContext;
-    declare context: React.ContextType<typeof FormValidationContext>;
+    context!: React.ContextType<typeof FormValidationContext>;
 
     private readonly overlayStyle: React.CSSProperties = {color: "red"};
 
