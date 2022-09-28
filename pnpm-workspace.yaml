@@ -1,6 +1,2 @@
 packages:
-    - "packages/eslint-plugin"
-    - "packages/devtool-util"
-    - "packages/util"
-    - "packages/web-ui"
-    - "packages/webpack-util"
+    - "packages/*"
