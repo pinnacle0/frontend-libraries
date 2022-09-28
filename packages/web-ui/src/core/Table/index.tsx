@@ -1,28 +1,30 @@
 import React from "react";
-import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
 import AntTable from "antd/lib/table";
-import type {TableRowSelection} from "antd/lib/table/interface";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
-import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
-import type {GetComponentProps, RenderedCell} from "rc-table/lib/interface";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import "antd/lib/table/style";
 import "./index.less";
+import type {RowProps} from "antd";
+import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
+import type {TableRowSelection} from "antd/lib/table/interface";
+import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
 
 enum SortOrder {
     DESC = "DESC",
     ASC = "ASC",
 }
 
+type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
+
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | React.ReactChild;
-    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
+    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType>; // Using name render leads to type incompatibility
     align?: "left" | "right" | "center";
     colSpan?: number;
     width?: string | number;
@@ -32,7 +34,7 @@ export interface TableColumn<RowType extends object, OrderByFieldType = undefine
     onHeaderClick?: () => void;
     display?: "default" | "hidden";
     customizedKey?: string;
-    onCell?: GetComponentProps<RowType>;
+    onCell?: (data: RowType, index?: number) => React.HTMLAttributes<any> | React.TdHTMLAttributes<any>;
 }
 
 export type TableColumns<RowType extends object, OrderByFieldType = undefined> = Array<TableColumn<RowType, OrderByFieldType>>;
@@ -108,7 +110,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
             onHeaderCell: onHeaderClick ? () => ({onClick: onHeaderClick}) : undefined,
-            render: (data: any, record: RowType, index: number) => renderData(record, index),
+            render: (_: any, record: RowType, index: number) => renderData(record, index),
             ...restColumnProps,
         };
     };

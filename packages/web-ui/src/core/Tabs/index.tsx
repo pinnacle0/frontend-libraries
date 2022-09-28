@@ -3,7 +3,6 @@ import AntTabs from "antd/lib/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import type {TabsProps} from "antd/lib/tabs";
-import type {TabBarExtraMap} from "rc-tabs/lib/interface";
 import type {PickOptional, SafeReactChildren} from "../../internal/type";
 import "antd/lib/tabs/style";
 import "./index.less";
@@ -60,7 +59,7 @@ export class Tabs extends React.PureComponent<Props> {
         const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type, animated, ...restProps} = this.props;
 
         // Passing {} or {left:undefined} to <AntTabs tabBarExtraContent> will lead to error
-        let tabBarExtraContent: TabBarExtraMap | undefined;
+        let tabBarExtraContent: TabsProps["tabBarExtraContent"];
         if (tabBarPrefix || tabBarSuffix) {
             tabBarExtraContent = {};
             if (tabBarPrefix) tabBarExtraContent.left = tabBarPrefix;

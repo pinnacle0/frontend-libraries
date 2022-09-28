@@ -69,8 +69,6 @@
             "react",
             "react-dom",
             "rc-resize-observer",
-            "rc-table",
-            "rc-tabs",
             "eslint",
             "@typescript-eslint/eslint-plugin",
             "@typescript-eslint/parser"
