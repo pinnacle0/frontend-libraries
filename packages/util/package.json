@@ -22,7 +22,7 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@types/react": "18.0.21"
+        "@types/react": "18.0.18"
     },
     "publishConfig": {
         "directory": "build"
