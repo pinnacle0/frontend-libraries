@@ -1,6 +1,6 @@
 import "core-js";
 import {Fragment} from "react";
-import * as ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import {UglyImage} from "./ugly-image";
 import {dimensions} from "./values";
 
@@ -19,4 +19,4 @@ const DevPreviewApp = () => (
     </Fragment>
 );
 
-ReactDOM.render(<DevPreviewApp />, document.getElementById("root"));
+ReactDOM.createRoot(document.getElementById("root")!).render(<DevPreviewApp />);

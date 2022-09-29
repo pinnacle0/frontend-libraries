@@ -1,9 +1,11 @@
 import {writeFileSync} from "fs";
-import {join} from "path";
+import path from "path";
 import {renderToStaticMarkup} from "react-dom/server";
+import {fileURLToPath} from "url";
 import {UglyImage} from "./ugly-image";
 
-const outputFilepath = join(__dirname, "../../../README_LOGO.svg");
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+const outputFilepath = path.join(dirname, "../../../README_LOGO.svg");
 
 const contents = renderToStaticMarkup(<UglyImage />);
 

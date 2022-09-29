@@ -1,14 +1,17 @@
 import {Fragment} from "react";
 import {colors, dimensions, durations} from "./values";
+import background from "./background.png";
+import dogo from "./doge.png";
+import uglyImageStyle from "./ugly-image.less?inline";
 
 type UglyImageProps = {style?: React.CSSProperties};
 
 export const UglyImage = ({style}: UglyImageProps) => (
     <Svg viewBoxWidth={dimensions.width} viewBoxHeight={dimensions.height} style={style}>
-        <style>{require("bundle-text:./ugly-image.less")}</style>
+        <style>{uglyImageStyle}</style>
         <defs>
             <pattern id="bgImg" patternUnits="userSpaceOnUse" width={dimensions.width} height={dimensions.height}>
-                <image href={require("data-url:./background.png")} />
+                <image href={background} />
             </pattern>
             <linearGradient id="gradientGold">
                 <stop offset="0" stopColor={colors.gradientGoldStart} />
@@ -61,7 +64,7 @@ const ObnoxiousText = ({className, x, y, children}: ObnoxiousTextProps) => (
 const Doge = () => (
     <g className="doge">
         <g className="doge-look-dir">
-            <image href={require("data-url:./doge.png")} />
+            <image href={dogo} />
         </g>
     </g>
 );
