@@ -22,6 +22,7 @@ export type MarkAsNullable<T, K extends keyof T> = Omit<T, K> & {[P in K]: T[P] 
  */
 export type StrictRequired<T> = {[K in keyof T]-?: Exclude<T[K], null | undefined>};
 
+// TODO/Alvis: removed later, with eslint rules, web-ui internal
 export type SafeReactChild = React.ReactChild | boolean | null;
 export type SafeReactChildren = SafeReactChild | SafeReactChild[];
 

@@ -19,5 +19,8 @@
         "format": "yarn run-script script/format.ts",
         "lint": "yarn run-script script/lint.ts",
         "test": "jest --config config/jest.config.ts --coverage"
+    },
+    "devDependencies": {
+        "@types/react": "18.0.21"
     }
 }
