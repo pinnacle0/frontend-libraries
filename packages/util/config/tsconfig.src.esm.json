@@ -8,7 +8,6 @@
         "rootDir": "../src/",
 
         "isolatedModules": true,
-        "jsx": "react",
         "suppressImplicitAnyIndexErrors": true
     },
     "include": ["../src/"]
