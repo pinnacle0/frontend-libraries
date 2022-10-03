@@ -53,6 +53,8 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     prefix?: React.ReactChild;
     /** Optional Input Ref */
     inputRef?: React.RefObject<InputRef>;
+    /** Auto focus when input first shown */
+    autoFocus?: boolean;
     /** Set cursor and input behaviour when focus  */
     focus?: FocusType;
 }
@@ -156,7 +158,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, focus} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
         return (
@@ -181,6 +183,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     className="count-input"
                     allowClear={allowClear}
                     focus={focus}
+                    autoFocus={autoFocus}
                 />
                 <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
                     &#xff0b;
