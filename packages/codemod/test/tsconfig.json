@@ -1,0 +1,9 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "noEmit": true,
+        "allowJs": true,
+        "types": ["jest", "node"]
+    },
+    "exclude": ["__testfixtures__"]
+}
