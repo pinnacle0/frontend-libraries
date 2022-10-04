@@ -10,9 +10,11 @@
         ".": "./build/index.js"
     },
     "scripts": {
+        "run-script": "ts-node --project ./script/tsconfig.json ",
         "test": "jest --config config/jest.config.ts --coverage",
         "build": "tsc --project ./tsconfig.json",
-        "new-codemod": "ts-node --project ./script/tsconfig.json ./script/new-codemod.ts"
+        "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
+        "codegen": "pnpm run run-script ./script/codegen.ts"
     },
     "keywords": [],
     "author": "Alvis Tse",

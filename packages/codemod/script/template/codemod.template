@@ -1,0 +1,16 @@
+import type {FileInfo, API, Options} from "jscodeshift";
+
+/**
+ * {Explain briefly what this codemod is going to do}
+ */
+
+export default function (fileInfo: FileInfo, api: API, options: Options) {
+    const j = api.jscodeshift;
+    const source = j(fileInfo.source);
+
+    // codemod logic here
+
+    return source.toSource();
+}
+
+export const parser = "tsx";

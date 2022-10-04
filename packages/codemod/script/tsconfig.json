@@ -1,0 +1,10 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": ["ES2021"],
+        "module": "CommonJS",
+        "target": "ES2015",
+        "noEmit": true
+    },
+    "exclude": ["./template"]
+}

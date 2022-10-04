@@ -1,0 +1,7 @@
+import {createInlineTest, createTest} from "./createTest";
+
+// Put your tests here
+describe("Testing // {{KEBAB_CASE_CODEMOD_NAME}} codemod", () => {
+    test.todo("use createTest to write the test");
+});
+
