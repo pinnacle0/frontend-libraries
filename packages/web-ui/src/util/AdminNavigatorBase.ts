@@ -63,7 +63,6 @@ export abstract class AdminNavigatorBase<Feature extends string, Field extends s
         private currentFieldPermission?: Field[]
     ) {}
 
-    @Memo()
     groups(showHidden: boolean): Array<NavigationGroupItem<Feature, Field>> {
         return this.allGroups()
             .map(_ => {
@@ -73,7 +72,6 @@ export abstract class AdminNavigatorBase<Feature extends string, Field extends s
             .filter(_ => _) as Array<NavigationGroupItem<Feature, Field>>;
     }
 
-    @Memo()
     modules(): Array<NavigationModuleItem<Feature, Field>> {
         const list: Array<NavigationModuleItem<Feature, Field>> = [];
         this.groups(true).forEach(_ => list.push(..._.modules));
