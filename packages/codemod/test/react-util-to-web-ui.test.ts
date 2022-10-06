@@ -28,7 +28,7 @@ import { ReactUtil } from "@pinnacle0/web-ui/util/ReactUtil";`,
 
 describe("Testing react-util-to-web-ui codemod", () => {
     for (const {input, output, title} of testSet) {
-        createInlineTest("react-util-to-web-ui", input, output, title);
+        createInlineTest("react-util-to-web-ui", title, input, output);
     }
 
     createTest("react-util-to-web-ui", "template1");
