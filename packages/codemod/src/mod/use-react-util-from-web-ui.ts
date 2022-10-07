@@ -1,10 +1,10 @@
-import type {FileInfo, API, Options} from "jscodeshift";
+import type {FileInfo, API} from "jscodeshift";
 
 /**
  * {Explain briefly what this codemod is going to do}
  */
 
-export default function (fileInfo: FileInfo, api: API, options: Options) {
+export default function (fileInfo: FileInfo, api: API) {
     const j = api.jscodeshift;
     const source = j(fileInfo.source);
 
