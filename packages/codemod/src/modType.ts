@@ -4,4 +4,4 @@
                           Do not modify by hand
 -----------------------------------------------------------------------------
 */
-export type ModType = "react-util-to-web-ui";
+export type ModType = "use-react-util-from-web-ui";
