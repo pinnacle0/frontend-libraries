@@ -20,16 +20,16 @@
     "author": "Alvis Tse",
     "license": "ISC",
     "dependencies": {
-        "@babel/core": "7.19.0",
-        "@babel/preset-env": "7.19.1",
+        "@babel/core": "7.19.3",
+        "@babel/preset-env": "7.19.3",
         "glob": "8.0.3",
-        "jscodeshift": "0.13.1"
+        "jscodeshift": "0.14.0"
     },
     "devDependencies": {
         "@babel/generator": "7.19.3",
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/glob": "8.0.0",
         "@types/jscodeshift": "0.11.5",
-        "yargs": "17.5.1"
+        "yargs": "17.6.0"
     }
 }

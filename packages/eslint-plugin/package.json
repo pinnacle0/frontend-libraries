@@ -27,13 +27,13 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@rollup/plugin-commonjs": "22.0.2",
+        "@rollup/plugin-commonjs": "23.0.0",
         "@rollup/plugin-json": "4.1.0",
-        "@rollup/plugin-node-resolve": "14.0.1",
+        "@rollup/plugin-node-resolve": "14.1.0",
         "eslint": "8.25.0",
-        "rollup": "2.79.0",
-        "rollup-plugin-typescript2": "0.33.0",
-        "typescript": "4.8.3"
+        "rollup": "2.79.1",
+        "rollup-plugin-typescript2": "0.34.1",
+        "typescript": "4.8.4"
     },
     "optionalDependencies": {
         "eslint-plugin-jest": "^27.0.2",

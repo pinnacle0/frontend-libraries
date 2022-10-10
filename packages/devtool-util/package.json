@@ -12,13 +12,13 @@
         "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files"
     },
     "dependencies": {
-        "axios": "0.27.2",
+        "axios": "1.1.2",
         "fantasticon": "1.2.3",
-        "yargs": "17.5.1"
+        "yargs": "17.6.0"
     },
     "peerDependencies": {
-        "prettier": ">=2.6.0",
-        "eslint": "^8.0.0"
+        "eslint": "^8.0.0",
+        "prettier": ">=2.6.0"
     },
     "engines": {
         "node": ">=16.0.0"
