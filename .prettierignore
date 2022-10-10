@@ -18,6 +18,9 @@
 !.yarn/versions
 .pnp.*
 
+# pnpm
+pnpm-lock.yaml
+
 
 # Coverage Reports
 **/coverage/**
