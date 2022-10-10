@@ -2,10 +2,12 @@
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["DOM", "ES2020"],
+        "rootDir": "../test",
         "module": "CommonJS",
         "target": "ES2015",
         "noEmit": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "types": ["node", "jest"]
     },
     "include": ["../test/"]
 }

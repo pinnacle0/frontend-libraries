@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`core-fe-hmr-babel-plugin sanity test for some react component files 1`] = `
-"import React from \\"react\\";
-import { ReactUtil } from \\"@pinnacle0/util\\";
-export const Main = ReactUtil.memo(\\"Main\\", () => {
-  return React.createElement(\\"div\\", {});
+"import React from \"react\";
+import { ReactUtil } from \"@pinnacle0/util\";
+export const Main = ReactUtil.memo(\"Main\", () => {
+  return React.createElement(\"div\", {});
 });"
 `;
 
 exports[`core-fe-hmr-babel-plugin should ignore when non core-fe source files 1`] = `
-"import { Module } from \\"not-core-fe\\";
-import { Main } from \\"./component/Main\\";
+"import { Module } from \"not-core-fe\";
+import { Main } from \"./component/Main\";
 const initialState = {};
 
 class FeatureModule extends Module {}
 
-const featureModule = register(new FeatureModule(\\"feature\\", initialState));
+const featureModule = register(new FeatureModule(\"feature\", initialState));
 export const actions = featureModule.getActions();
 export const MainComponent = featureModule.attachLifecycle(Main);"
 `;

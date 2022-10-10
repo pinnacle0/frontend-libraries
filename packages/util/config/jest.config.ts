@@ -4,16 +4,6 @@ const config: Config = {
     // Stop running tests after `n` failures
     bail: 1,
 
-    // A preset that is used as a base for Jest's configuration
-    preset: "ts-jest",
-
-    // A set of global variables that need to be available in all test environments
-    globals: {
-        "ts-jest": {
-            tsconfig: "<rootDir>/config/tsconfig.test.json",
-        },
-    },
-
     // The root directory that Jest should scan for tests and modules within
     rootDir: "../",
 
@@ -22,7 +12,12 @@ const config: Config = {
 
     // A map from regular expressions to paths to transformers
     transform: {
-        [String.raw`\.(ts|tsx)$`]: "ts-jest",
+        [String.raw`\.(ts|tsx)$`]: [
+            "ts-jest",
+            {
+                tsconfig: "<rootDir>/config/tsconfig.test.json",
+            },
+        ],
     },
 
     // Indicates whether each individual test should be reported during the run
