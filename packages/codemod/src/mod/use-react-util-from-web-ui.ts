@@ -2,10 +2,10 @@ import type {NodePath} from "@babel/traverse";
 import type {ImportDeclaration} from "@babel/types";
 import type {Transform} from "../type";
 
-/**
- * Since @pinnacle0/util@1.1.4 ReactUtil is moved to @pinnacle0/web-ui/util/ReactUtil
- * This codemod is aim at refactoring the usages of `ReactUtil` imported from @pinnacle0/util
- */
+export const description = `
+Since @pinnacle0/util@1.1.4 ReactUtil is moved to @pinnacle0/web-ui/util/ReactUtil
+This codemod is aim at refactoring the usages of "ReactUtil" imported from @pinnacle0/util
+`;
 
 const transform: Transform = (source, api) => {
     const ast = api.parse(source);

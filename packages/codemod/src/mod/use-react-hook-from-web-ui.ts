@@ -2,10 +2,10 @@ import type {NodePath} from "@babel/traverse";
 import type {ImportDeclaration} from "@babel/types";
 import type {Transform} from "../type";
 
-/**
- * Since @pinnacle0/util@1.1.4 moved all react hooks to @pinnacle0/web-ui
- * This mod aim at refactoring the usages of all hooks imported from @pinnacle0/util
- */
+export const description = `
+Since @pinnacle0/util@1.1.4 all react hooks are moved to @pinnacle0/web-ui
+This mod aim at refactoring the usages of all hooks imported from @pinnacle0/util
+`;
 
 const hookName = ["useDidMountEffect", "useWillUnmountEffect", "useAPI", "useBool", "useForceUpdate", "useSwipe", "usePrevious", "useThunk", "useTransform", "useWhyDidYouUpdate"];
 

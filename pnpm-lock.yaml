@@ -103,6 +103,7 @@ importers:
       '@types/glob': 8.0.0
       fs-extra: 10.1.0
       glob: 8.0.3
+      yargs: 17.6.0
     dependencies:
       '@babel/generator': 7.19.3
       '@babel/parser': 7.19.3
@@ -110,6 +111,7 @@ importers:
       '@babel/types': 7.19.3
       fs-extra: 10.1.0
       glob: 8.0.3
+      yargs: 17.6.0
     devDependencies:
       '@pinnacle0/devtool-util': link:../devtool-util
       '@types/babel__generator': 7.6.4
