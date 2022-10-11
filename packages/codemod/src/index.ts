@@ -1,11 +1,11 @@
 import fs from "fs-extra";
-import glob from "glob";
 import chalk from "chalk";
 import type {ModType} from "./modType";
-import {createApi, resolveCodemod} from "./util";
+import {createApi, globPromise, resolveCodemod} from "./util";
+import path from "path";
 
 export interface Options {
-    dry: true;
+    dry: boolean;
 }
 
 export interface Stats {
@@ -13,26 +13,22 @@ export interface Stats {
     transformed: string[];
 }
 
-function globPromise(path: string): Promise<string[]> {
-    return new Promise<string[]>((resolve, reject) => {
-        glob(path, (error, matches) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(matches);
-            }
-        });
-    });
-}
-
 export async function run(type: ModType, paths: string[] | string, options: Options): Promise<Stats | null> {
     let matchedPaths: string[] = [];
     const transform = resolveCodemod(type);
 
     if (Array.isArray(paths)) {
-        matchedPaths = paths;
+        matchedPaths = paths.map(_ => (path.isAbsolute(_) ? _ : path.resolve(process.cwd(), _)));
     } else {
-        matchedPaths = await globPromise(paths);
+        matchedPaths = await globPromise(paths, {cwd: process.cwd()});
+    }
+
+    for (const matchedPath of matchedPaths) {
+        try {
+            await fs.access(matchedPath);
+        } catch {
+            throw new Error("File does not exist: " + matchedPath);
+        }
     }
 
     if (!transform || matchedPaths.length < 1) return null;
