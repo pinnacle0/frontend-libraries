@@ -1,8 +1,17 @@
-import type {JSCodeShiftOptions} from "./runner";
-import {runner} from "./runner";
-import path from "path";
+import fs from "fs-extra";
 import glob from "glob";
+import chalk from "chalk";
 import type {ModType} from "./modType";
+import {createApi, resolveCodemod} from "./util";
+
+export interface Options {
+    dry: true;
+}
+
+export interface Stats {
+    all: string[];
+    transformed: string[];
+}
 
 function globPromise(path: string): Promise<string[]> {
     return new Promise<string[]>((resolve, reject) => {
@@ -16,17 +25,30 @@ function globPromise(path: string): Promise<string[]> {
     });
 }
 
-export async function run(type: ModType, paths: string[] | string, options: JSCodeShiftOptions) {
-    let matches: string[];
+export async function run(type: ModType, paths: string[] | string, options: Options): Promise<Stats | null> {
+    let matchedPaths: string[] = [];
+    const transform = resolveCodemod(type);
+
     if (Array.isArray(paths)) {
-        matches = paths;
+        matchedPaths = paths;
     } else {
-        try {
-            matches = await globPromise(paths);
-        } catch (e) {
-            console.error(e);
-            return;
+        matchedPaths = await globPromise(paths);
+    }
+
+    if (!transform || matchedPaths.length < 1) return null;
+
+    const transformed: string[] = [];
+    for (const path of matchedPaths) {
+        console.info("transforming: " + path);
+        const content = await fs.readFile(path, {encoding: "utf8"});
+        const result = transform(content, createApi());
+        if (result) {
+            transformed.push(path);
+            options.dry ? console.info(result) : await fs.writeFile(path, result, {encoding: "utf8"});
         }
     }
-    return runner(path.join(__dirname, "mod", type + ".js"), matches, options);
+
+    console.info(`transformed: ${chalk.green(transformed.length)}, Unmodified: ${chalk.yellow(matchedPaths.length - transformed.length)}`);
+
+    return {all: matchedPaths, transformed};
 }

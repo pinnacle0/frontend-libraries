@@ -5,8 +5,10 @@
         "outDir": "./build",
         "rootDir": "./src",
         "module": "CommonJS",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         "types": ["node"],
         "declaration": true
     },
-    "include": ["./src", "./script"]
+    "include": ["./src"]
 }

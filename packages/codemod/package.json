@@ -17,19 +17,20 @@
         "codegen": "pnpm run run-script ./script/codegen.ts"
     },
     "keywords": [],
-    "author": "Alvis Tse",
-    "license": "ISC",
+    "license": "MIT",
+    "author": "Pinnacle",
     "dependencies": {
-        "@babel/core": "7.19.3",
-        "@babel/preset-env": "7.19.3",
-        "glob": "8.0.3",
-        "jscodeshift": "0.14.0"
+        "@babel/parser": "7.19.3",
+        "@babel/traverse": "7.19.3",
+        "@babel/types": "7.19.3",
+        "@babel/generator": "7.19.3",
+        "fs-extra": "10.1.0",
+        "glob": "8.0.3"
     },
     "devDependencies": {
-        "@babel/generator": "7.19.3",
         "@pinnacle0/devtool-util": "workspace:*",
-        "@types/glob": "8.0.0",
-        "@types/jscodeshift": "0.11.5",
-        "yargs": "17.6.0"
+        "@types/babel__generator": "7.6.4",
+        "@types/babel__traverse": "7.18.2",
+        "@types/glob": "8.0.0"
     }
 }

@@ -1,46 +1,45 @@
-import type {FileInfo, API} from "jscodeshift";
+import type {NodePath} from "@babel/traverse";
+import type {ImportDeclaration} from "@babel/types";
+import type {Transform} from "../type";
 
 /**
- * {Explain briefly what this codemod is going to do}
+ * Since @pinnacle0/util@1.1.4 ReactUtil is moved to @pinnacle0/web-ui/util/ReactUtil
+ * This codemod is aim at refactoring the usages of `ReactUtil` imported from @pinnacle0/util
  */
 
-export default function (fileInfo: FileInfo, api: API) {
-    const j = api.jscodeshift;
-    const source = j(fileInfo.source);
+const transform: Transform = (source, api) => {
+    const ast = api.parse(source);
+    const b = api.builder;
 
-    const importDeclaration = source
-        .find(j.ImportDeclaration, declaration => declaration.source.type === "StringLiteral" && declaration.source.value === "@pinnacle0/util" && declaration.importKind === "value")
-        .filter(declaration =>
-            j(declaration)
-                .find(j.ImportSpecifier)
-                .some(specifier => specifier.value.imported.type === "Identifier" && specifier.value.imported.name === "ReactUtil")
-        );
+    let importDeclaration: NodePath<ImportDeclaration> | undefined;
+    api.traverse(ast, {
+        ImportDeclaration(declaration) {
+            if (declaration.node.source.value === "@pinnacle0/util" && declaration.node.importKind === "value" && declaration.node.specifiers && declaration.node.specifiers.length > 0) {
+                importDeclaration = declaration;
+            }
+        },
+    });
 
-    if (importDeclaration.length < 1) {
-        return source.toSource();
+    if (importDeclaration === undefined) return;
+
+    api.traverse(
+        importDeclaration.node,
+        {
+            ImportSpecifier(specifier) {
+                if (specifier.node.imported.type === "Identifier" && specifier.node.imported.name === "ReactUtil") {
+                    importDeclaration!.insertAfter(b.importDeclaration([b.importSpecifier(b.identifier("ReactUtil"), b.identifier("ReactUtil"))], b.stringLiteral("@pinnacle0/web-ui/util/ReactUtil")));
+                    specifier.remove();
+                }
+            },
+        },
+        importDeclaration.scope
+    );
+
+    if (importDeclaration.node.specifiers.length === 0) {
+        importDeclaration.remove();
     }
 
-    const newImport = j.importDeclaration.from({
-        specifiers: [
-            j.importSpecifier.from({
-                imported: j.identifier("ReactUtil"),
-            }),
-        ],
-        source: j.stringLiteral("@pinnacle0/web-ui/util/ReactUtil"),
-    });
+    return api.generate(ast).code;
+};
 
-    importDeclaration.forEach(declaration => {
-        if (declaration.value.specifiers!.length === 1) {
-            declaration.replace(newImport);
-        } else {
-            j(declaration)
-                .find(j.ImportSpecifier, specifier => specifier.imported.type === "Identifier" && specifier.imported.name === "ReactUtil")
-                .forEach(_ => _.replace());
-            declaration.insertAfter(newImport);
-        }
-    });
-
-    return source.toSource();
-}
-
-export const parser = "tsx";
+export default transform;
