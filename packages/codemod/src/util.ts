@@ -40,7 +40,7 @@ export async function resolveCodemodPath(modType: string): Promise<string | null
 export async function resolveCodemod(type: ModType): Promise<Transform | null> {
     const modPath = await resolveCodemodPath(type);
     if (modPath) {
-        return require(modPath) as Promise<Transform>;
+        return require(modPath).default as Promise<Transform>;
     } else {
         return null;
     }
