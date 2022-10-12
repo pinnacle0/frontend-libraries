@@ -11,3 +11,7 @@ export interface API {
 }
 
 export type Transform = (source: string, api: API) => string | undefined;
+
+export const Codemod = ["use-react-hook-from-web-ui", "use-react-util-from-web-ui"] as const;
+
+export type Codemod = typeof Codemod[number];

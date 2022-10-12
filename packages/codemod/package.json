@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Provide codemod by using JSCodeShift",
     "main": "build/index.js",
+    "bin": {
+        "pinnale-codemod": "./build/bin/index.js"
+    },
     "files": [
         "build"
     ],
@@ -11,6 +14,7 @@
     },
     "scripts": {
         "run-script": "ts-node --project ./script/tsconfig.json ",
+        "bin": "ts-node --project ./tsconfig.json ./src/bin/index.ts",
         "test": "jest --config config/jest.config.ts --coverage",
         "build": "tsc --project ./tsconfig.json",
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
@@ -20,12 +24,13 @@
     "license": "MIT",
     "author": "Pinnacle",
     "dependencies": {
+        "@babel/generator": "7.19.3",
         "@babel/parser": "7.19.3",
         "@babel/traverse": "7.19.3",
         "@babel/types": "7.19.3",
-        "@babel/generator": "7.19.3",
         "fs-extra": "10.1.0",
-        "glob": "8.0.3"
+        "glob": "8.0.3",
+        "yargs": "17.6.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",

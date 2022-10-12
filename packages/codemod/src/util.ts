@@ -5,8 +5,7 @@ import glob from "glob";
 import {parse} from "@babel/parser";
 import traverse from "@babel/traverse";
 import generate from "@babel/generator";
-import type {API, Transform} from "./type";
-import type {ModType} from "./modType";
+import type {API, Codemod, Transform} from "./type";
 
 export function createApi(): API {
     return {
@@ -37,7 +36,7 @@ export async function resolveCodemodPath(modType: string): Promise<string | null
     return null;
 }
 
-export async function resolveCodemod(type: ModType): Promise<Transform | null> {
+export async function resolveCodemod(type: Codemod): Promise<Transform | null> {
     const modPath = await resolveCodemodPath(type);
     if (modPath) {
         return require(modPath).default as Promise<Transform>;

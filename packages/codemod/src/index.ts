@@ -1,8 +1,8 @@
+import path from "path";
 import fs from "fs-extra";
 import chalk from "chalk";
-import type {ModType} from "./modType";
 import {createApi, globPromise, resolveCodemod} from "./util";
-import path from "path";
+import type {Codemod} from "./type";
 
 export interface Options {
     dry: boolean;
@@ -13,7 +13,7 @@ export interface Stats {
     transformed: string[];
 }
 
-export async function run(type: ModType, paths: string[] | string, options: Options) {
+export async function run(type: Codemod, paths: string[] | string, options: Options) {
     let matchedPaths: string[] = [];
     const transform = await resolveCodemod(type);
 
