@@ -1,5 +1,6 @@
 import path from "path";
 import * as t from "@babel/types";
+import fs from "fs-extra";
 import glob from "glob";
 import {parse} from "@babel/parser";
 import traverse from "@babel/traverse";
@@ -21,11 +22,26 @@ export function createApi(): API {
     };
 }
 
-export function resolveCodemod(type: ModType): Transform | null {
-    try {
-        const modPath = require.resolve(path.join(__dirname, "./mod/" + type));
-        return require(modPath).default;
-    } catch (e) {
+export async function resolveCodemodPath(modType: string): Promise<string | null> {
+    const postfixList = [".js", ".ts", "jsx", ".tsx", "/index.js", "/index.ts", "/index.jsx", "/index.tsx"];
+
+    for (const postfix of postfixList) {
+        try {
+            const realPath = path.resolve(__dirname, "./mod", modType + postfix);
+            await fs.access(realPath);
+            return realPath;
+        } catch {
+            // do nothing
+        }
+    }
+    return null;
+}
+
+export async function resolveCodemod(type: ModType): Promise<Transform | null> {
+    const modPath = await resolveCodemodPath(type);
+    if (modPath) {
+        return require(modPath) as Promise<Transform>;
+    } else {
         return null;
     }
 }

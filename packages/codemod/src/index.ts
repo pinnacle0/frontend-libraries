@@ -13,9 +13,9 @@ export interface Stats {
     transformed: string[];
 }
 
-export async function run(type: ModType, paths: string[] | string, options: Options): Promise<Stats | null> {
+export async function run(type: ModType, paths: string[] | string, options: Options) {
     let matchedPaths: string[] = [];
-    const transform = resolveCodemod(type);
+    const transform = await resolveCodemod(type);
 
     if (Array.isArray(paths)) {
         matchedPaths = paths.map(_ => (path.isAbsolute(_) ? _ : path.resolve(process.cwd(), _)));
@@ -31,20 +31,28 @@ export async function run(type: ModType, paths: string[] | string, options: Opti
         }
     }
 
-    if (!transform || matchedPaths.length < 1) return null;
+    if (!transform) {
+        console.info(chalk.red(`Unable to find codemod: ${chalk.bold(type)}`));
+        return;
+    }
+
+    if (matchedPaths.length < 1) {
+        console.info(chalk.red("No file found"));
+        return;
+    }
 
     const transformed: string[] = [];
     for (const path of matchedPaths) {
-        console.info("transforming: " + path);
         const content = await fs.readFile(path, {encoding: "utf8"});
         const result = transform(content, createApi());
         if (result) {
+            console.info(`${chalk.bgGreen(" TRANSFORM ")}  ${path}`);
             transformed.push(path);
             options.dry ? console.info(result) : await fs.writeFile(path, result, {encoding: "utf8"});
+        } else {
+            console.info(`${chalk.bgYellow(" UNMODIFIED ")}  ${path}`);
         }
     }
 
     console.info(`transformed: ${chalk.green(transformed.length)}, Unmodified: ${chalk.yellow(matchedPaths.length - transformed.length)}`);
-
-    return {all: matchedPaths, transformed};
 }
