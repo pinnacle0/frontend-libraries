@@ -1,25 +1,7 @@
 import path from "path";
-import * as t from "@babel/types";
 import fs from "fs-extra";
 import glob from "glob";
-import {parse} from "@babel/parser";
-import traverse from "@babel/traverse";
-import generate from "@babel/generator";
-import type {API, Codemod, Transform} from "./type";
-
-export function createApi(): API {
-    return {
-        parse: (source: string) =>
-            parse(source, {
-                sourceType: "module",
-                attachComment: true,
-                plugins: ["jsx", "typescript", "decorators-legacy"],
-            }),
-        builder: t,
-        traverse,
-        generate,
-    };
-}
+import type {Codemod, Transform} from "./type";
 
 export async function resolveCodemodPath(modType: string): Promise<string | null> {
     const postfixList = [".js", ".ts", "jsx", ".tsx", "/index.js", "/index.ts", "/index.jsx", "/index.tsx"];

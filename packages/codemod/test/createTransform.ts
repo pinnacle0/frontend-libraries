@@ -1,4 +1,4 @@
-import {createApi} from "../src/util";
+import {createToolkit} from "../src/toolkit";
 import type {Codemod} from "../src/type";
 
 /**
@@ -12,7 +12,7 @@ export function createTransform(type: Codemod) {
         throw new Error("Unable to find codemod: " + type);
     }
     return (source: string) => {
-        const result = transform(source, createApi());
+        const result = transform(source, createToolkit());
         return result ?? source;
     };
 }
