@@ -16,8 +16,8 @@ export interface CreateToolkitOptions {
 
 export type {NodePath} from "ast-types/lib/node-path";
 
-export type Transform = (source: string, toolkit: Toolkit) => string | undefined;
+export type Transform = (source: string, toolkit: Toolkit) => string | void;
 
-export const Codemod = ["use-react-hook-from-web-ui", "use-react-util-from-web-ui"] as const;
+export const Codemod = ["use-react-hook-from-web-ui", "use-react-util-from-web-ui", "object-freeze-to-class-static"] as const;
 
 export type Codemod = typeof Codemod[number];
