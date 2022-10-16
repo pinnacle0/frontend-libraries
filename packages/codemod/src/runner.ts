@@ -62,7 +62,7 @@ export async function runner(type: Codemod, paths: string[] | string, options: O
         }
     }
 
-    mergedOptions.dry && mergedOptions?.afterAll?.(transformed);
+    !mergedOptions.dry && mergedOptions?.afterAll?.(transformed);
 
     console.info(`transformed: ${chalk.green(transformed.length)}, Unmodified: ${chalk.yellow(matchedPaths.length - transformed.length)}`);
 }
