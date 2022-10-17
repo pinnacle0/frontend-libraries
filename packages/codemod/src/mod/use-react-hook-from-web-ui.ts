@@ -1,21 +1,20 @@
+import type {namedTypes} from "ast-types";
 import type {Transform} from "../type";
-import {namedTypes} from "ast-types";
-import ImportDeclaration = namedTypes.ImportDeclaration;
 import type {NodePath} from "ast-types/lib/node-path";
+
+const hookName = ["useDidMountEffect", "useWillUnmountEffect", "useAPI", "useBool", "useForceUpdate", "useSwipe", "usePrevious", "useThunk", "useTransform", "useWhyDidYouUpdate"];
 
 export const description = `
 Since @pinnacle0/util@1.1.4 all react hooks are moved to @pinnacle0/web-ui
 This mod aim at refactoring the usages of all hooks imported from @pinnacle0/util
 `;
 
-const hookName = ["useDidMountEffect", "useWillUnmountEffect", "useAPI", "useBool", "useForceUpdate", "useSwipe", "usePrevious", "useThunk", "useTransform", "useWhyDidYouUpdate"];
-
-const transform: Transform = function (source, toolkit) {
+export const transform: Transform = function (source, toolkit) {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
 
-    let utilImport: NodePath<ImportDeclaration> | undefined;
-    let usedWebUIHookImport: NodePath<ImportDeclaration> | undefined;
+    let utilImport: NodePath<namedTypes.ImportDeclaration> | undefined;
+    let usedWebUIHookImport: NodePath<namedTypes.ImportDeclaration> | undefined;
 
     toolkit.visit(ast, {
         visitImportDeclaration(declaration) {
@@ -58,5 +57,3 @@ const transform: Transform = function (source, toolkit) {
 
     return toolkit.generate(ast).code;
 };
-
-export default transform;

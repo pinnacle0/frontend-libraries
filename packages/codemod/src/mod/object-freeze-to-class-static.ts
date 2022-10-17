@@ -1,15 +1,15 @@
 import {builders} from "ast-types";
 import type {Scope} from "ast-types/lib/scope";
-import type {Transform, NodePath, Toolkit} from "../type";
 import type {ASTNode, namedTypes} from "ast-types";
+import type {Transform, NodePath, Toolkit} from "../type";
+
+type Referred = NodePath<namedTypes.VariableDeclarator> | NodePath<namedTypes.FunctionDeclaration>;
 
 export const description = `
 Change exported Object.freeze to export class with static property and method 
 `;
 
-type Referred = NodePath<namedTypes.VariableDeclarator> | NodePath<namedTypes.FunctionDeclaration>;
-
-const transform: Transform = (source, toolkit) => {
+export const transform: Transform = (source, toolkit) => {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
 
@@ -306,5 +306,3 @@ function remove(path: NodePath) {
         path.replace();
     }
 }
-
-export default transform;

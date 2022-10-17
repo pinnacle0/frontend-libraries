@@ -1,18 +1,17 @@
 import type {NodePath, Transform} from "../type";
-import {namedTypes} from "ast-types";
-import ImportDeclaration = namedTypes.ImportDeclaration;
+import type {namedTypes} from "ast-types";
 
 export const description = `
 Since @pinnacle0/util@1.1.4 ReactUtil is moved to @pinnacle0/web-ui/util/ReactUtil
 This codemod is aim at refactoring the usages of "ReactUtil" imported from @pinnacle0/util
 `;
 
-const transform: Transform = (source, toolkit) => {
+export const transform: Transform = (source, toolkit) => {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
     let changed = false;
 
-    let importDeclaration: NodePath<ImportDeclaration> | undefined;
+    let importDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
     toolkit.visit(ast, {
         visitImportDeclaration(declaration) {
             if (declaration.node.source.value === "@pinnacle0/util" && declaration.node.importKind === "value" && declaration.node.specifiers && declaration.node.specifiers.length > 0) {
@@ -41,5 +40,3 @@ const transform: Transform = (source, toolkit) => {
 
     return changed ? toolkit.generate(ast).code : undefined;
 };
-
-export default transform;
