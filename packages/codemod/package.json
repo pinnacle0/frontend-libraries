@@ -16,9 +16,9 @@
         "run-script": "ts-node --project ./script/tsconfig.json ",
         "bin": "ts-node --project ./tsconfig.json ./src/bin.ts",
         "test": "jest --config config/jest.config.ts --coverage",
-        "build": "tsc --project ./tsconfig.json",
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
-        "codegen": "pnpm run run-script ./script/codegen.ts"
+        "codegen": "pnpm run run-script ./script/codegen.ts",
+        "build": "pnpm test && tsc --project ./tsconfig.json"
     },
     "keywords": [],
     "license": "MIT",

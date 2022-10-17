@@ -1,4 +1,4 @@
-name: "@pinnacle0/devtool-util CI"
+name: "@pinnacle0/codemod CI"
 
 env:
     CI: true
@@ -7,11 +7,12 @@ on:
     push:
         branches: [master]
         paths:
-            - packages/devtool-util/**
+            - packages/codemod/**
             - package.json
             - pnpm-lock.yaml
             - pnpm-workspace.yaml
-            - .github/workflows/pkg-devtool-util-ci.yml
+            - tsconfig.base.json
+            - .github/workflows/pkg-codemod-ci.yml
 
 jobs:
     build:
@@ -36,4 +37,4 @@ jobs:
               run: pnpm install
 
             - name: Build
-              run: pnpm --filter @pinnacle0/devtool-util run build
+              run: pnpm --filter @pinnacle0/codemod run build
