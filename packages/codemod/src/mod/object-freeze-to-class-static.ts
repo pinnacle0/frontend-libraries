@@ -43,7 +43,7 @@ export const transform: Transform = (source, toolkit) => {
 
     if (!exportObjectFreezeDeclaration || !exportedName || !objectExpression) return;
 
-    const {classDeclaration, referredList} = createClass(exportedName, exportObjectFreezeDeclaration, objectExpression, toolkit);
+    const {classDeclaration, referredList} = createClass(exportedName, exportObjectFreezeDeclaration, objectExpression);
 
     // updated all reference
     referredList.forEach(path => {
@@ -175,10 +175,9 @@ function createClassBodyFromObjectFreeze(
 function createClass(
     name: string,
     exportObjectFreezeDeclaration: NodePath<namedTypes.ExportNamedDeclaration>,
-    expression: namedTypes.ObjectExpression,
-    toolkit: Toolkit
+    expression: namedTypes.ObjectExpression
 ): {classDeclaration: namedTypes.ClassDeclaration; referredList: Array<Referred>} {
-    const b = toolkit.builders;
+    const b = builders;
     const {body, referredList} = createClassBodyFromObjectFreeze(exportObjectFreezeDeclaration, expression);
     return {
         classDeclaration: b.classDeclaration.from({
