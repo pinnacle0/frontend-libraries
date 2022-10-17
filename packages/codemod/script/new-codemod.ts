@@ -7,7 +7,6 @@ import path from "path";
 const Paths = {
     modDirectory: path.join(__dirname, "../src/mod"),
     testDirectory: path.join(__dirname, "../test"),
-    modTypes: path.join(__dirname, "../src/modType.ts"),
     template: path.join(__dirname, "../script/template"),
 };
 

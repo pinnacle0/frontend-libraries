@@ -18,6 +18,7 @@ export type {NodePath} from "ast-types/lib/node-path";
 
 export type Transform = (source: string, toolkit: Toolkit) => string | void;
 
-export const Codemod = ["use-react-hook-from-web-ui", "use-react-util-from-web-ui", "object-freeze-to-class-static"] as const;
+// Please do not modify this manually, use `codegen` and `new-codemod` script to automatically generate codemod list
+export const Codemod = ["object-freeze-to-class-static", "use-react-hook-from-web-ui", "use-react-util-from-web-ui"] as const;
 
 export type Codemod = typeof Codemod[number];
