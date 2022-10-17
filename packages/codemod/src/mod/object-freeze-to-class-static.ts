@@ -1,8 +1,7 @@
-import {builders, namedTypes} from "ast-types";
-import ClassBody = namedTypes.ClassBody;
+import {builders} from "ast-types";
 import type {Scope} from "ast-types/lib/scope";
 import type {Transform, NodePath, Toolkit} from "../type";
-import type {ASTNode} from "ast-types";
+import type {ASTNode, namedTypes} from "ast-types";
 
 export const description = `
 Change exported Object.freeze to export class with static property and method 
@@ -60,7 +59,7 @@ const transform: Transform = (source, toolkit) => {
         })
     );
 
-    const privateMethodOrProperty: ClassBody["body"] = [];
+    const privateMethodOrProperty: namedTypes.ClassBody["body"] = [];
     toolkit.visit(ast, {
         visitVariableDeclarator(path) {
             if (path.parent.parent.node.type === "Program" && path.parent.node.type === "VariableDeclaration" && !path.parent.node.declare && path.node.id.type === "Identifier") {
