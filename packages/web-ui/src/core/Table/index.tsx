@@ -10,7 +10,6 @@ import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import "antd/lib/table/style";
 import "./index.less";
-import type {RowProps} from "antd";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
 import type {TableRowSelection} from "antd/lib/table/interface";
 import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
@@ -206,7 +205,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                 <AntTable
                     tableLayout="auto"
                     locale={{emptyText: emptyTextNode}}
-                    onRow={this.props.onRowClick ? this.onRow : undefined}
+                    onRow={this.onRow}
                     loading={loading ? {indicator: <LoadingOutlined />} : false}
                     pagination={false}
                     columns={tableColumns}
