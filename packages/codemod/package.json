@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/codemod",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Provide codemod by using JSCodeShift",
     "main": "build/index.js",
     "bin": {
@@ -26,6 +26,7 @@
     "dependencies": {
         "@babel/parser": "7.19.3",
         "ast-types": "0.14.2",
+        "chalk": "4.1.2",
         "fs-extra": "10.1.0",
         "glob": "8.0.3",
         "recast": "0.21.5",
