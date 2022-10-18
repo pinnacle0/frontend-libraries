@@ -1,8 +1,8 @@
-import axios from "axios";
 import fs from "fs";
 import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
+import {fetch} from "./fetch";
 import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition} from "./type";
 import {TypeScriptDefinitionGenerator} from "./TypeScriptDefinitionGenerator";
 
@@ -34,16 +34,7 @@ export class APIGeneratorBase {
     private async fetchAPIDefinition() {
         this.logger.task(["Fetching API meta data", this.metadataEndpointURL]);
 
-        const response = await axios.get<APIDefinition>(this.metadataEndpointURL, {httpsAgent: new Agent({rejectUnauthorized: false})});
-        const contentType = response.headers["content-type"];
-        let api: APIDefinition;
-
-        if (contentType && contentType.startsWith("application/json")) {
-            api = response.data;
-        } else {
-            throw new Error(`Unexpected contentType: ${contentType}`);
-        }
-
+        const api = await fetch<APIDefinition>(this.metadataEndpointURL);
         if (api?.services && api?.types) {
             return api;
         } else {
