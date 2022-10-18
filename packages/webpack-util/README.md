@@ -1,4 +1,4 @@
-# `@pinnacle0/webpack-util`
+# @pinnacle0/webpack-util
 
 This project is to provide two helpers, based on `webpack`:
 
@@ -32,14 +32,16 @@ new WebpackBuilder({
 
 ## Project Tech Stack Requirement
 
-<<<<<<< HEAD
-- yarn
-=======
->>>>>>> 10de22a ([REFACTOR]: all: updated readme)
+
+
 - TypeScript/JavaScript
+
 - CSS/LESS
+
 - eslint
+
 - stylelint
+
 - prettier
 
 Note: CSS/LESS only website also supported, without any JavaScript.
