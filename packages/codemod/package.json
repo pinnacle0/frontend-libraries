@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/codemod",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Provide codemod by using JSCodeShift",
     "main": "build/index.js",
     "bin": {
