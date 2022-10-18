@@ -56,7 +56,7 @@ use `codgen` script to auto update the codemod list and type.
 
 The main reason of using `recast` instead of  `@babel/travse` and `@babel/generator`  is the former tries to preserve the style of original code as much as possible wherer later do not.
 
-## Know issues
+## Known issues
 
 - Unable to preserve code style of JSX 
 
