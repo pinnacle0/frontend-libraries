@@ -25,7 +25,7 @@
     "license": "MIT",
     "author": "Pinnacle",
     "dependencies": {
-        "@babel/parser": "7.19.3",
+        "@babel/parser": "7.19.4",
         "ast-types": "0.14.2",
         "chalk": "4.1.2",
         "fs-extra": "10.1.0",
