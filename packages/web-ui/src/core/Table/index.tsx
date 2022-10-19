@@ -23,7 +23,7 @@ type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsP
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | React.ReactChild;
-    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType>; // Using name render leads to type incompatibility
+    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
     align?: "left" | "right" | "center";
     colSpan?: number;
     width?: string | number;
