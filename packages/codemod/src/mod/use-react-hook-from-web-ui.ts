@@ -12,6 +12,7 @@ This mod aim at refactoring the usages of all hooks imported from @pinnacle0/uti
 export const transform: Transform = function (source, toolkit) {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
+    let haveImport = false;
 
     let utilImport: NodePath<namedTypes.ImportDeclaration> | undefined;
     let usedWebUIHookImport: NodePath<namedTypes.ImportDeclaration> | undefined;
@@ -36,6 +37,7 @@ export const transform: Transform = function (source, toolkit) {
     toolkit.visit(utilImport.node, {
         visitImportSpecifier(specifier) {
             if (specifier.node.imported.type === "Identifier" && hookName.includes(specifier.node.imported.name)) {
+                haveImport = true;
                 const newSpecifier = b.importSpecifier.from({
                     imported: b.identifier(specifier.node.imported.name),
                     local: b.identifier(specifier.node.imported.name),
@@ -46,6 +48,8 @@ export const transform: Transform = function (source, toolkit) {
             this.traverse(specifier);
         },
     });
+
+    if (!haveImport) return;
 
     if (!usedWebUIHookImport && webUIHookImportNode.specifiers && webUIHookImportNode.specifiers.length >= 1) {
         utilImport.insertAfter(webUIHookImportNode);
