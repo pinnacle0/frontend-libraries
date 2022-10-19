@@ -13,7 +13,7 @@ const FilePath = {
     projectESLintRc: path.join(__dirname, "../.eslintrc.js"),
     workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
     jestConfig: path.join(__dirname, "../config/jest.config.ts"),
-    rollupConfig: path.join(__dirname, "../config/rollup.config.js"),
+    rollupConfig: path.join(__dirname, "../config/rollup.config.ts"),
     projectPackageJSON: path.join(__dirname, "../package.json"),
     projectReadMe: path.join(__dirname, "../README.md"),
     projectLicense: path.join(__dirname, "../LICENSE.md"),
@@ -56,7 +56,7 @@ new TaskRunner("build").execute([
     {
         name: "compile with rollup",
         execute: () => {
-            Utility.runCommand("rollup", ["--config", FilePath.rollupConfig]);
+            Utility.runCommand("rollup", ["--config", FilePath.rollupConfig, "--bundleConfigAsCjs"]);
         },
     },
     {

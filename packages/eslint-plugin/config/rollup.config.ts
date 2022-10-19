@@ -1,7 +1,7 @@
+import * as path from "path";
 import rollupPluginCommonjs from "@rollup/plugin-commonjs";
 import rollupPluginJson from "@rollup/plugin-json";
 import rollupPluginNodeResolve from "@rollup/plugin-node-resolve";
-import * as path from "path";
 import rollupPluginTypescript2 from "rollup-plugin-typescript2";
 
 const FilePath = {
