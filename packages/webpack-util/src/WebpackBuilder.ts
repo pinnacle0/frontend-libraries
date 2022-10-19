@@ -9,6 +9,7 @@ import {TestRunner} from "./TestRunner";
 import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import {CanadyarnRunner} from "./CanadyarnRunner";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {
     onSuccess?: () => void;
@@ -30,6 +31,7 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Om
  */
 export class WebpackBuilder {
     private readonly projectDirectory: string;
+    private readonly rootDirectory: string;
     private readonly extraCheckDirectories: string[];
     private readonly projectStaticDirectory: string;
     private readonly projectProfilingJSONOutputPath: string;
@@ -46,6 +48,7 @@ export class WebpackBuilder {
         const webpackConfigGenerator = new WebpackConfigGenerator(options);
 
         this.projectDirectory = options.projectDirectory;
+        this.rootDirectory = options.rootDirectory ? options.rootDirectory : this.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
         this.projectProfilingJSONOutputPath = path.join(this.projectDirectory, "profile.json");
@@ -61,6 +64,9 @@ export class WebpackBuilder {
 
     run() {
         if (!this.isFastMode) {
+            new CanadyarnRunner({
+                rootDirectory: this.rootDirectory,
+            }).run();
             new ProjectStructureChecker({
                 projectDirectory: this.projectDirectory,
                 extraCheckDirectories: this.extraCheckDirectories,

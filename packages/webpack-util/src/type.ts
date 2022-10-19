@@ -72,6 +72,11 @@ export interface WebpackConfigGeneratorOptions {
      */
     tsconfigFilePath?: string | undefined;
     /**
+     * Root Directory of monorepo. Will be used for checking single version dependencies.
+     * Should contains `package.json`.
+     */
+    rootDirectory?: string;
+    /**
      * Name of main entry output.
      * Defaults to "index".
      */
