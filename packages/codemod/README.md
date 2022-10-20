@@ -2,6 +2,8 @@
 
 This package provide various codemod to refactor code related to other pinnacle published packages.
 
+Codemod does not guarantee 100% accuracy, please double check your source file after transform.
+
 ## Installation
 
 ```shell
@@ -23,12 +25,8 @@ There to two way to execute the code: using command line and through JavaScript 
 ```bash
 # list all avaliable codemod
 pinnacle-codemod list
-
-
-# Transform file
+# Transform file, add --dry flat to dry-run
 pinnacle-codemod transform <codemod> <path> 
-
-
 # Help for advanced usage
 pinnacle-codemod --help
 ```

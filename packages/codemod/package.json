@@ -1,7 +1,7 @@
 {
     "name": "@pinnacle0/codemod",
     "version": "1.0.4",
-    "description": "Provide codemod by using JSCodeShift",
+    "description": "Provide codemod by using babel and recast",
     "main": "build/index.js",
     "bin": {
         "pinnacle-codemod": "./build/bin.js",
