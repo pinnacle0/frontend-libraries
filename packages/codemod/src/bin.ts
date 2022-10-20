@@ -18,10 +18,6 @@ export async function list() {
     }
 }
 
-export async function transform(modType: string, path: string, dry: boolean = false) {
-    await runner(modType as Codemod, path, {dry});
-}
-
 const main = async () => {
     await yargs(hideBin(process.argv))
         .version(packageJson.version)
@@ -34,7 +30,7 @@ const main = async () => {
                     description: "dry run",
                 },
             },
-            args => transform(args.modType as string, args.target as string, args.dry)
+            args => runner(args.modType as Codemod, args.target as string, {dry: args.dry ?? false})
         )
         .command("list", "list all available codemod", {}, list)
         .parse();

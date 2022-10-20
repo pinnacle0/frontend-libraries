@@ -47,7 +47,14 @@ export async function runner(type: Codemod, paths: string[] | string, options: O
     const transformed: string[] = [];
     for (const path of matchedPaths) {
         const content = await fs.readFile(path, {encoding: "utf8"});
-        const result = transform(content, createToolkit({generate: options.generate, parse: options.parse}));
+        let result: string | void;
+        try {
+            result = transform(content, createToolkit({generate: options.generate, parse: options.parse}));
+        } catch (error) {
+            console.info(`${chalk.bgRed(" Failed ")} ${path}`);
+            console.error(error);
+            break;
+        }
         if (result) {
             console.info(`${chalk.bgGreen(" TRANSFORM ")}  ${path}`);
             transformed.push(path);
