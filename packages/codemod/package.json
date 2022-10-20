@@ -1,10 +1,11 @@
 {
     "name": "@pinnacle0/codemod",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Provide codemod by using JSCodeShift",
     "main": "build/index.js",
     "bin": {
-        "pinnacle-codemod": "./build/bin.js"
+        "pinnacle-codemod": "./build/bin.js",
+        "pmod": "./build/bin.js"
     },
     "files": [
         "build"
