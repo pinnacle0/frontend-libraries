@@ -12,6 +12,7 @@
         "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files"
     },
     "dependencies": {
+        "chalk": "4.1.2",
         "fantasticon": "1.2.3",
         "yargs": "17.6.0"
     },
