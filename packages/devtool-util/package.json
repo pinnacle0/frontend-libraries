@@ -24,5 +24,8 @@
     },
     "publishConfig": {
         "directory": "build"
+    },
+    "devDependencies": {
+        "@types/yargs": "17.0.13"
     }
 }
