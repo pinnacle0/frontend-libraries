@@ -27,6 +27,8 @@
         "directory": "build"
     },
     "devDependencies": {
-        "@types/yargs": "17.0.13"
+        "@types/fs-extra": "9.0.13",
+        "@types/yargs": "17.0.13",
+        "fs-extra": "10.1.0"
     }
 }

@@ -110,16 +110,20 @@ importers:
 
   packages/devtool-util:
     specifiers:
+      '@types/fs-extra': 9.0.13
       '@types/yargs': 17.0.13
       chalk: 4.1.2
       fantasticon: 1.2.3
+      fs-extra: 10.1.0
       yargs: 17.6.0
     dependencies:
       chalk: 4.1.2
       fantasticon: 1.2.3
       yargs: 17.6.0
     devDependencies:
+      '@types/fs-extra': 9.0.13
       '@types/yargs': 17.0.13
+      fs-extra: 10.1.0
     publishDirectory: build
 
   packages/eslint-plugin:
