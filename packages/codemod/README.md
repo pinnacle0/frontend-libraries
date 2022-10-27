@@ -52,7 +52,7 @@ use `codgen` script to auto update the codemod list and type.
 
 `@babel/parser` is used to parse the source code to AST, and use `recast` to travel and transform the tree node. 
 
-The main reason of using `recast` instead of  `@babel/travse` and `@babel/generator`  is the former tries to preserve the style of original code as much as possible wherer later do not.
+The main reason of using `recast` instead of  `@babel/travse` and `@babel/generator`  is the former tries to preserve the style of original code as much as possible where later do not.
 
 ## Known issues
 
