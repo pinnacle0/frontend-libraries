@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.3.67",
+    "version": "0.3.68",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -21,7 +21,8 @@
         "start": "pnpm run run-script script/start.ts",
         "start:mobile": "pnpm run run-script script/start-mobile.ts",
         "format": "pnpm run run-script script/format.ts",
-        "test": "jest --config config/jest.config.ts"
+        "test": "jest --config config/jest.config.ts",
+        "prepublish": "pnpm build"
     },
     "dependencies": {
         "@ant-design/icons": "4.7.0",
