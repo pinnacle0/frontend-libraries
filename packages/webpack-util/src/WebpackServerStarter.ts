@@ -17,7 +17,7 @@ export interface WebpackServerStarterOptions
         target: string;
         context: string[];
     };
-    interceptExpressApp?: (app: DevServer["app"]) => void;
+    interceptExpressApp?: (app: NonNullable<DevServer["app"]>) => void;
 }
 
 /**
