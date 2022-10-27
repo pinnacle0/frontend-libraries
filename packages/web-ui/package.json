@@ -41,6 +41,7 @@
         "@babel/core": "7.19.3",
         "@babel/runtime": "7.19.4",
         "@pinnacle0/devtool-util": "workspace:*",
+        "@pinnacle0/webpack-util": "workspace:*",
         "@testing-library/dom": "8.19.0",
         "@testing-library/jest-dom": "5.16.5",
         "@testing-library/react": "13.4.0",
