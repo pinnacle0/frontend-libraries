@@ -15,6 +15,7 @@ export interface Props {
     onFinish: () => void;
     onReset?: () => void;
     children: SafeReactChildren;
+    errorDisplayMode?: FormErrorDisplayMode;
     extraElements?: SafeReactChildren;
     expandedArea?: React.ReactElement; // If undefined, the Filter cannot be expanded
     loading?: boolean;
@@ -28,7 +29,7 @@ interface State {
 export class Filter extends React.PureComponent<Props, State> {
     static displayName = "AdminPage.Filter";
 
-    private readonly errorDisplayMode: FormErrorDisplayMode = {type: "popover", placement: "top"};
+    private readonly defaultErrorDisplayMode: FormErrorDisplayMode = {type: "popover", placement: "top"};
     private readonly storageKey: string;
 
     constructor(props: Props) {
@@ -44,12 +45,12 @@ export class Filter extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {onFinish, onReset, extraElements, reminder, loading, children, expandedArea} = this.props;
+        const {onFinish, onReset, extraElements, reminder, loading, children, expandedArea, errorDisplayMode} = this.props;
         const {expanded} = this.state;
         const t = i18n();
 
         return (
-            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline" errorDisplayMode={this.errorDisplayMode} buttonRenderer={null}>
+            <Form className="g-admin-page-filter" onFinish={onFinish} layout="inline" errorDisplayMode={errorDisplayMode || this.defaultErrorDisplayMode} buttonRenderer={null}>
                 {children}
                 <Space>
                     {reminder && <WithExplanation explanation={reminder} />}
