@@ -1,53 +1,27 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {VirtualItem} from "react-virtual";
-import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, StickyPosition} from "./type";
+import type {VirtualItem} from "@tanstack/react-virtual";
+import type {VirtualTableColumn, StickyPosition} from "./type";
 
 interface Props<RowType extends object> {
     data: RowType;
     columns: VirtualTableColumn<RowType>[];
-    virtualItem: VirtualItem;
+    virtualItem: VirtualItem<HTMLDivElement>;
     columnWidths: number[];
     rowHeight: number;
-    lastShownColumnIndex: number;
     scrollBarSize: number;
-    stickyPosition: Record<number, StickyPosition>;
-    getFixedColumnClassNames: (fixed: ColumnFixedPosition | undefined, columnIndex: number) => (string | undefined)[];
+    stickyPositionMap: Record<number, StickyPosition>;
     rowClassName?: string;
     onRowClick?: (record: RowType, rowIndex: number) => void;
-    rowExpand?: VirtualTableRowExpand<RowType>;
 }
 
 export const TableRow = Object.assign(
-    function <RowType extends object>({
-        virtualItem,
-        getFixedColumnClassNames,
-        data,
-        columns,
-        columnWidths,
-        rowHeight,
-        scrollBarSize,
-        stickyPosition,
-        lastShownColumnIndex,
-        rowClassName,
-        onRowClick,
-        rowExpand,
-    }: Props<RowType>) {
-        const rowRef = React.useRef<HTMLDivElement>(null);
-        const [isExpanded, setIsExpanded] = React.useState(rowExpand?.isDefaultExpanded || false);
+    function <RowType extends object>({virtualItem, data, columns, columnWidths, rowHeight, scrollBarSize, stickyPositionMap, rowClassName, onRowClick}: Props<RowType>) {
         const rowIndex = virtualItem.index;
-
-        const toggleExpendRow = React.useCallback(() => setIsExpanded(!isExpanded), [isExpanded]);
-
-        React.useEffect(() => {
-            if (rowRef.current) {
-                virtualItem.measureRef(rowRef.current);
-            }
-        }, [isExpanded, virtualItem]);
+        const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
 
         return (
             <div
-                ref={rowRef}
                 key={rowIndex}
                 className={classNames("table-row", rowClassName, rowIndex % 2 ? "odd" : "even")}
                 style={{transform: `translateY(${virtualItem.start}px)`}}
@@ -58,23 +32,22 @@ export const TableRow = Object.assign(
                     // handle colspan > 1
                     const cellWidth = colSpan > 1 ? columnWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : columnWidths[columnIndex] || column.width;
 
-                    const renderData =
-                        column.display !== "hidden" && (rowExpand && columnIndex === columns.length - 1 ? <rowExpand.ExpandButton onClick={toggleExpendRow} /> : column.renderData(data, rowIndex));
+                    const renderData = column.display !== "hidden" && column.renderData(data, rowIndex);
                     // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                     const isLastShownColumn = lastShownColumnIndex === columnIndex;
-                    const stickyPositionValue = stickyPosition[columnIndex]?.value || 0;
+                    const stickyPosition = stickyPositionMap[columnIndex];
 
                     return (
                         renderData && (
                             <div
-                                className={classNames("table-cell", ...getFixedColumnClassNames(column.fixed, columnIndex))}
+                                className={classNames("table-cell", {fixed: column.fixed, left: column.fixed === "left", right: column.fixed === "right", last: stickyPosition?.isLast})}
                                 key={columnIndex}
                                 style={{
                                     height: rowHeight,
                                     width: cellWidth - (isLastShownColumn ? scrollBarSize : 0),
                                     textAlign: column.align,
-                                    left: column.fixed === "left" ? stickyPositionValue : undefined,
-                                    right: column.fixed === "right" ? stickyPositionValue - (isLastShownColumn ? 0 : scrollBarSize) : undefined,
+                                    left: column.fixed === "left" ? stickyPosition?.value : undefined,
+                                    right: column.fixed === "right" ? stickyPosition?.value - (isLastShownColumn ? 0 : scrollBarSize) : undefined,
                                 }}
                             >
                                 {renderData}
@@ -82,7 +55,6 @@ export const TableRow = Object.assign(
                         )
                     );
                 })}
-                {rowExpand && <div className={classNames("expand-row", {expanded: isExpanded})}>{rowExpand.renderExpandRow(data, rowIndex)}</div>}
             </div>
         );
     },

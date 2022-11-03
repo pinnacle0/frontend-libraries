@@ -1,145 +1,122 @@
 import React from "react";
-import {useVirtual} from "react-virtual";
+import {useVirtualizer, observeElementRect} from "@tanstack/react-virtual";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
-import {useLayout} from "./hooks/useLayout";
-import {useTransformColumn} from "./hooks/useTransformColumn";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
 import type {SafeReactChild, StringKey} from "../../internal/type";
-import type {ColumnFixedPosition, VirtualTableColumn, VirtualTableRowExpand, VirtualTableRowSelection} from "./type";
+import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
+import {useRowSelection} from "./hooks/useRowSelection";
+import {useColumns} from "./hooks/useColumns";
+import {useScroll} from "./hooks/useScroll";
 import "./index.less";
 
-const HORIZONTAL_SCROLL_BAR_HEIGHT = 20;
+const HORIZONTAL_SCROLL_BAR_HEIGHT = 15;
 
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
-    scrollY: number;
     rowHeight: number;
     className?: string;
     rowClassName?: string;
     /**
-     * if scrollX is not provided, width: 100% will be used
-     * if width: 100% is used, please wrap the table with a container
+     * if scrollX and scrollY is not provided, height: 100% and width: 100% will be used and please wrap the table with a container
      */
+    scrollY?: number;
     scrollX?: number;
     loading?: boolean;
     emptyPlaceholder?: SafeReactChild;
-    rowSelection?: VirtualTableRowSelection<RowType>;
     onRowClick?: (record: RowType, rowIndex: number) => void;
     /**
      * Default: index
      */
     rowKey?: StringKey<RowType> | "index";
     headerHeight?: number;
-    rowExpand?: VirtualTableRowExpand<RowType>;
+    rowSelection?: VirtualTableRowSelection<RowType>;
 }
 
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
         columns,
         rowHeight,
-        scrollY,
         dataSource,
         className,
         rowClassName,
         loading,
         emptyPlaceholder,
-        rowSelection,
         onRowClick,
+        scrollY,
         scrollX,
-        rowExpand,
-        rowKey = "index",
+        rowSelection,
         headerHeight = 50,
+        rowKey = "index",
     }: VirtualTableProps<RowType>) {
-        const size = dataSource.length;
-        const scrollContentRef = React.useRef<HTMLDivElement>(null);
-        const headersRef = React.useRef<HTMLDivElement>(null);
-        const estimateSize = React.useCallback(() => rowHeight, [rowHeight]);
-        const overscan = rowExpand ? Math.floor(scrollY / rowHeight) : 1;
-
-        const {virtualItems, totalSize} = useVirtual({
-            size,
-            parentRef: scrollContentRef,
-            estimateSize,
-            overscan,
-        });
-        const transformedColumns = useTransformColumn({columns, dataSource, rowSelection, rowKey, rowExpand});
-
-        const isScrollable = totalSize > scrollY;
-        const {scrollBarSize, stickyPosition, columnWidths, isScrollToEdge, isScrollToLeft, isScrollToRight} = useLayout({headersRef, scrollContentRef, isScrollable, columns: transformedColumns});
-
-        const isHorizontalScrollable = React.useMemo(
-            () => (scrollContentRef.current ? columnWidths.reduce((acc, curr) => acc + curr, 0) > scrollContentRef.current.offsetWidth : false),
-            [columnWidths]
-        );
-        const tableHeight = scrollY + headerHeight + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0);
-        const tableBodyHeight = scrollY + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0);
+        const count = dataSource.length;
+        const scrollContentRef = React.useRef<HTMLDivElement | null>(null);
+        const headerRef = React.useRef<HTMLDivElement | null>(null);
+        const totalSize = count * rowHeight;
+        const isVerticalScrollable = scrollContentRef.current ? totalSize > scrollContentRef.current.clientHeight : false;
+        const isHorizontalScrollable = scrollContentRef.current ? scrollContentRef.current.scrollWidth > scrollContentRef.current.offsetWidth : false;
+        const containerHeight = scrollY ? scrollY + headerHeight + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0) : "100%";
         const emptyElement = emptyPlaceholder || "暂无数据";
 
-        const lastShownColumnIndex: number = React.useMemo(() => transformedColumns.length - 1 - [...transformedColumns].reverse().findIndex(_ => _.display !== "hidden"), [transformedColumns]);
-
-        // handle the edge position & shadow of the fixed columns
-        const getFixedColumnClassNames = React.useCallback(
-            (fixed: ColumnFixedPosition | undefined, columnIndex: number): (string | undefined)[] => {
-                const isFixedClassName = fixed ? "fixed" : "";
-                const isLastFixedClassName = fixed && stickyPosition[columnIndex]?.isLast ? "last" : "";
-                const fixedPositionClassName = fixed;
-                const hideShadowClassName = (fixed === "left" && isScrollToLeft) || (fixed === "right" && isScrollToRight) ? "hide-shadow" : "";
-                return [isFixedClassName, isLastFixedClassName, fixedPositionClassName, hideShadowClassName];
+        const transformedColumns = useRowSelection({columns, dataSource, rowKey, rowSelection});
+        const rowVirtualizer = useVirtualizer({
+            count,
+            getScrollElement: () => scrollContentRef.current,
+            estimateSize: () => rowHeight,
+            observeElementRect: (instance, cb) => {
+                observeElementRect(instance, cb);
+                getColumnWidths();
             },
-            [isScrollToLeft, isScrollToRight, stickyPosition]
-        );
+        });
+        const {isReady, columnWidths, getColumnWidths, stickyPositionMap, scrollBarSize} = useColumns({headerRef, columns: transformedColumns, scrollContentRef, isScrollable: isVerticalScrollable});
+        const {isScrollToLeft, isScrollToRight, onScroll} = useScroll({scrollContentRef, headerRef, isReady});
 
-        const onScroll = React.useCallback(() => {
-            requestAnimationFrame(() => {
-                // only trigger in horizontal direction
-                if (!scrollContentRef.current || !headersRef.current || scrollContentRef.current.scrollLeft === headersRef.current.scrollLeft) return;
-
-                isScrollToEdge();
-                // sync scrolling in header
-                headersRef.current.scrollLeft = scrollContentRef.current.scrollLeft;
-            });
-        }, [isScrollToEdge]);
+        // TODO/David: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
+        const virtualizerRef = React.useRef(rowVirtualizer);
+        virtualizerRef.current = rowVirtualizer;
+        React.useLayoutEffect(() => {
+            const v = virtualizerRef.current;
+            v._didMount()();
+            v._willUpdate();
+        }, [dataSource.length]);
 
         return (
-            <div className={classNames("g-virtual-table", className)} style={{width: scrollX || "100%", height: tableHeight}}>
+            <div className={classNames("g-virtual-table", className)} style={{width: scrollX || "100%", height: containerHeight}}>
                 {loading && (
                     <div className="mask">
                         <Spin spinning={loading} />
                     </div>
                 )}
-                <div className="scroll-content" ref={scrollContentRef} style={{height: tableBodyHeight, top: headerHeight}} onScroll={onScroll}>
+                <div
+                    className={classNames("scroll-content", {"scroll-to-left": isScrollToLeft, "scroll-to-right": isScrollToRight})}
+                    ref={scrollContentRef}
+                    style={{height: `calc(100% - ${headerHeight}px)`, top: headerHeight}}
+                    onScroll={onScroll}
+                >
                     <div className="table" style={{height: totalSize}}>
-                        <TableHeader
-                            headersRef={headersRef}
-                            headerHeight={headerHeight}
-                            columns={transformedColumns}
-                            stickyPosition={stickyPosition}
-                            getFixedColumnClassNames={getFixedColumnClassNames}
-                        />
+                        <TableHeader headerRef={headerRef} headerHeight={headerHeight} columns={transformedColumns} stickyPositionMap={stickyPositionMap} />
                         <div className="table-body">
                             {dataSource.length === 0
                                 ? emptyElement
-                                : columnWidths.length > 0 &&
-                                  virtualItems.map(virtualItem => (
-                                      <TableRow
-                                          key={virtualItem.index}
-                                          rowHeight={rowHeight}
-                                          onRowClick={onRowClick}
-                                          virtualItem={virtualItem}
-                                          data={dataSource[virtualItem.index]}
-                                          columns={transformedColumns}
-                                          columnWidths={columnWidths}
-                                          scrollBarSize={scrollBarSize}
-                                          stickyPosition={stickyPosition}
-                                          lastShownColumnIndex={lastShownColumnIndex}
-                                          rowClassName={rowClassName}
-                                          getFixedColumnClassNames={getFixedColumnClassNames}
-                                          rowExpand={rowExpand}
-                                      />
-                                  ))}
+                                : isReady &&
+                                  rowVirtualizer
+                                      .getVirtualItems()
+                                      .map(virtualItem => (
+                                          <TableRow
+                                              key={virtualItem.key}
+                                              rowHeight={rowHeight}
+                                              onRowClick={onRowClick}
+                                              virtualItem={virtualItem}
+                                              data={dataSource[virtualItem.index]}
+                                              columns={transformedColumns}
+                                              columnWidths={columnWidths.current}
+                                              scrollBarSize={scrollBarSize}
+                                              stickyPositionMap={stickyPositionMap}
+                                              rowClassName={rowClassName}
+                                          />
+                                      ))}
                         </div>
                     </div>
                 </div>
