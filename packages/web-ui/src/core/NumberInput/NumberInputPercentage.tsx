@@ -82,7 +82,17 @@ export class NumberInputPercentage<AllowNull extends boolean> extends React.Pure
     };
 
     render() {
-        const {percentageScale, percentageStep, min, max, value, onChange, className, ...restProps} = this.props;
+        const {
+            percentageScale,
+            percentageStep,
+            min,
+            max,
+            value,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
+            onChange,
+            className,
+            ...restProps
+        } = this.props;
         const percentageValue = (typeof value === "number" ? value * 100 : value) as AllowNull extends true ? number | null : number;
         const percentageMin = min! * 100;
         const percentageMax = max! * 100;

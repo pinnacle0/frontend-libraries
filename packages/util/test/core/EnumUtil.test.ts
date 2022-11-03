@@ -19,7 +19,7 @@ enum NumEnum {
 
 describe("EnumUtil.toRecord", () => {
     test("empty enum", () => {
-        expect(EnumUtil.toRecord(EmptyEnum, _ => 0)).toStrictEqual({});
+        expect(EnumUtil.toRecord(EmptyEnum, () => 0)).toStrictEqual({});
     });
     test("enum with identical key/value pairs", () => {
         const record = EnumUtil.toRecord(KVIdenticalStringEnum, _ => _.toLowerCase());
@@ -39,7 +39,7 @@ describe("EnumUtil.toRecord", () => {
     });
     test("enum with numeric key/value pairs", () => {
         // @ts-expect-error
-        EnumUtil.toRecord(NumEnum, _ => 0);
+        EnumUtil.toRecord(NumEnum, () => 0);
     });
 });
 

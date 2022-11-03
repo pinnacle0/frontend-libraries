@@ -28,7 +28,15 @@ export class Slider extends React.PureComponent<Props> {
     };
 
     render() {
-        const {showButton, onChange, value, step, className, ...rest} = this.props;
+        const {
+            showButton,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
+            onChange,
+            value,
+            step,
+            className,
+            ...restProps
+        } = this.props;
         const safeStep = step || 1;
 
         return (
@@ -38,7 +46,7 @@ export class Slider extends React.PureComponent<Props> {
                         <span>{"<"}</span>
                     </Button>
                 )}
-                <AntSlider range={false} value={value} onChange={this.onChange} step={safeStep} {...rest} />
+                <AntSlider range={false} value={value} onChange={this.onChange} step={safeStep} {...restProps} />
                 {showButton && (
                     <Button className="increase-button" onClick={() => this.onChange(value + safeStep)}>
                         <span>{">"}</span>

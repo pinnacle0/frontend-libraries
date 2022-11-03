@@ -1,6 +1,5 @@
 import type React from "react";
 import {matchPath} from "react-router-dom";
-import {Memo} from "../internal/Memo";
 
 /**
  * Module accessibility is determined by <Feature> permission only.

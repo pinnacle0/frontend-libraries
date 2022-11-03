@@ -258,11 +258,11 @@ describe("ArrayUtil.toObject", () => {
     type MapperCallback = (item: any, index: number) => [string, any];
     type TestEachRowSchema = {array: any[]; mapperCallback: MapperCallback; expected: object};
     test.each`
-        _id  | array               | mapperCallback                                                       | expected
-        ${0} | ${[]}               | ${((item, index) => [index.toString(), item]) as MapperCallback}     | ${{}}
-        ${1} | ${[1, 2, "a", "b"]} | ${((item, index) => [index.toString(), item]) as MapperCallback}     | ${{0: 1, 1: 2, 2: "a", 3: "b"}}
-        ${2} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), index]) as MapperCallback}     | ${{1: 0, 2: 1, a: 2, b: 3}}
-        ${3} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), {a: item}]) as MapperCallback} | ${{1: {a: 1}, 2: {a: 2}, a: {a: "a"}, b: {a: "b"}}}
+        _id  | array               | mapperCallback                                                   | expected
+        ${0} | ${[]}               | ${((item, index) => [index.toString(), item]) as MapperCallback} | ${{}}
+        ${1} | ${[1, 2, "a", "b"]} | ${((item, index) => [index.toString(), item]) as MapperCallback} | ${{0: 1, 1: 2, 2: "a", 3: "b"}}
+        ${2} | ${[1, 2, "a", "b"]} | ${((item, index) => [item.toString(), index]) as MapperCallback} | ${{1: 0, 2: 1, a: 2, b: 3}}
+        ${3} | ${[1, 2, "a", "b"]} | ${(item => [item.toString(), {a: item}]) as MapperCallback}      | ${{1: {a: 1}, 2: {a: 2}, a: {a: "a"}, b: {a: "b"}}}
     `("returns expected array from toObject()", ({array, mapperCallback, expected}: TestEachRowSchema) => {
         expect(ArrayUtil.toObject(array, mapperCallback)).toStrictEqual(expected);
     });
@@ -356,7 +356,7 @@ describe("ArrayUtil.compactMap", () => {
 
     test("does not remove anything before mapping", () => {
         expect.assertions(2);
-        const mapToTrue = (_: any) => true;
+        const mapToTrue = () => true;
         const createTest = (arrayInput: any[]) => ({
             run: () => expect(ArrayUtil.compactMap(arrayInput, mapToTrue)).toStrictEqual(arrayInput.map(() => true)),
         });

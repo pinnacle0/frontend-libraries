@@ -110,7 +110,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         this.setState({editingValue: uncheckedValue});
 
         const typeSafeProps = this.typeSafeProps;
-        const {onChange, scale, allowNull} = typeSafeProps;
+        const {onChange, scale} = typeSafeProps;
         const checkedValue = rectifyInputIfValid(uncheckedValue, typeSafeProps);
         // if `null` is not allowed, `checkedValue` will be invalid
         if (checkedValue === "@@INVALID") {

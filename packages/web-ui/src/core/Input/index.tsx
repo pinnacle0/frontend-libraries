@@ -78,7 +78,15 @@ export class Input extends React.PureComponent<Props> {
     focus = (focusType?: FocusType) => (this.props.inputRef || this.antInputRef).current?.focus(this.createFocusOptions(focusType));
 
     render() {
-        const {onChange, autoFocus, inputRef, onClick, ...rest} = this.props;
-        return <AntInput {...rest} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange)} />;
+        const {
+            onChange,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
+            autoFocus,
+            inputRef,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
+            onClick,
+            ...restProps
+        } = this.props;
+        return <AntInput {...restProps} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange)} />;
     }
 }

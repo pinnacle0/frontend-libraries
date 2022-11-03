@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars -- test type */
 import type {
     ArrayElement,
     KeysOfType,
@@ -6,8 +7,6 @@ import type {
     PickNonNullable,
     PickOptional,
     MarkAsRequired,
-    SafeReactChild,
-    SafeReactChildren,
     MarkAsOptional,
     MarkAsNullable,
     MarkAsNonNullable,

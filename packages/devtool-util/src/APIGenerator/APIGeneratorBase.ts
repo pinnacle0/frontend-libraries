@@ -1,5 +1,4 @@
 import fs from "fs";
-import {Agent} from "https";
 import {PrettierUtil} from "../PrettierUtil";
 import {Utility} from "../Utility";
 import {fetch} from "./fetch";

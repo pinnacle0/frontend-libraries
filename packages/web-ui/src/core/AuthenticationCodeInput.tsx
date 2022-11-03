@@ -72,7 +72,17 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {sendButtonText, onSend, autoSendOnMount, nextSendInterval, className, ...inputProps} = this.props;
+        const {
+            sendButtonText,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
+            onSend,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
+            autoSendOnMount,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
+            nextSendInterval,
+            className,
+            ...inputProps
+        } = this.props;
         const {isSending, nextSendRemainingSecond} = this.state;
         const t = i18n();
         const sendButton = (

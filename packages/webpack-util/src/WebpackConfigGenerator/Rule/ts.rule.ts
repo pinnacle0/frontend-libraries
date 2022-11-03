@@ -3,7 +3,6 @@ import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
-    tsconfigFilepath: string;
     fastRefresh: boolean;
 }
 
@@ -18,7 +17,7 @@ interface Deps {
  * @see https://github.com/TypeStrong/ts-loader
  * @see https://github.com/pmmmwh/react-refresh-webpack-plugin
  */
-export function tsRule({tsconfigFilepath, fastRefresh}: Deps): webpack.RuleSetRule {
+export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
     const babelLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("babel-loader"),
         options: {

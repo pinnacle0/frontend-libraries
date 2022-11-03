@@ -157,8 +157,21 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
     };
 
     render() {
-        // Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
-        const {sortConfig, loading, columns, onRowClick, rowKey, scrollX, scrollY, emptyPlaceholder, emptyIcon, emptyText, ...restProps} = this.props;
+        //
+        const {
+            sortConfig,
+            loading,
+            columns,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
+            onRowClick,
+            rowKey,
+            scrollX,
+            scrollY,
+            emptyPlaceholder,
+            emptyIcon,
+            emptyText,
+            ...restProps
+        } = this.props;
         const t = i18n();
         const emptyTextNode = loading ? (
             <div />

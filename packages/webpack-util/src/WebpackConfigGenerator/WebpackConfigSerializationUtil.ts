@@ -8,7 +8,7 @@ interface SerializableWebpackPluginDescriptor {
 }
 
 export class WebpackConfigSerializationUtil {
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new () => T): webpack.WebpackPluginInstance;
+    static serializablePlugin<T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new () => T): webpack.WebpackPluginInstance;
     static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_: OptType) => T, options: OptType): webpack.WebpackPluginInstance;
     static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_?: OptType) => T, options?: OptType): webpack.WebpackPluginInstance {
         const plugin = new PluginConstructor(options);

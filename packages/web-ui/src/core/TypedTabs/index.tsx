@@ -25,7 +25,13 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
     static displayName = "TypedTabs";
 
     render() {
-        const {tabs, children, onChange, ...restProps} = this.props;
+        const {
+            tabs,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
+            children,
+            onChange,
+            ...restProps
+        } = this.props;
         const tabList = Array.isArray(tabs) ? tabs : Object.entries<TabData>(tabs).map(([key, item]) => ({key, ...item}));
 
         return (
