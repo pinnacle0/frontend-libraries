@@ -1,9 +1,7 @@
-import React, {useEffect} from "react";
-import {ResizeObserver} from "./ResizeObserver";
-import {useVirtualizer, defaultRangeExtractor, observeElementOffset as defaultObserveElementOffset, observeElementRect as defaultObserveElementRect} from "@tanstack/react-virtual";
-import type {Range, VirtualizerOptions} from "@tanstack/react-virtual";
-import type {ReactNode, ComponentType} from "react";
-import type {SizeInfo} from "./ResizeObserver";
+import React from "react";
+import {useVirtualizer, observeElementOffset as defaultObserveElementOffset, observeElementRect as defaultObserveElementRect} from "@tanstack/react-virtual";
+import type {VirtualizerOptions} from "@tanstack/react-virtual";
+import type {ComponentType} from "react";
 import type {StringKey} from "../internal/type";
 
 const DEFAULT_ITEM_SIZE = 100;

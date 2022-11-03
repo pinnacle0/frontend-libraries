@@ -53,7 +53,6 @@ export const VirtualTable = Object.assign(
     }: VirtualTableProps<RowType>) {
         const count = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement | null>(null);
-        const headerRef = React.useRef<HTMLDivElement | null>(null);
         const totalSize = count * rowHeight;
         const isVerticalScrollable = scrollContentRef.current ? totalSize > scrollContentRef.current.clientHeight : false;
         const isHorizontalScrollable = scrollContentRef.current ? scrollContentRef.current.scrollWidth > scrollContentRef.current.offsetWidth : false;
@@ -70,8 +69,8 @@ export const VirtualTable = Object.assign(
                 getColumnWidths();
             },
         });
-        const {isReady, columnWidths, getColumnWidths, stickyPositionMap, scrollBarSize} = useColumns({headerRef, columns: transformedColumns, scrollContentRef, isScrollable: isVerticalScrollable});
-        const {isScrollToLeft, isScrollToRight, onScroll} = useScroll({scrollContentRef, headerRef, isReady});
+        const {headerRef, columnWidths, getColumnWidths, stickyPositionMap, scrollBarSize} = useColumns({columns: transformedColumns, scrollContentRef, isScrollable: isVerticalScrollable});
+        const {isScrollToLeft, isScrollToRight, onScroll, tableBodyRef} = useScroll({scrollContentRef, headerRef});
 
         // TODO/David: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
         const virtualizerRef = React.useRef(rowVirtualizer);
@@ -97,27 +96,28 @@ export const VirtualTable = Object.assign(
                 >
                     <div className="table" style={{height: totalSize}}>
                         <TableHeader headerRef={headerRef} headerHeight={headerHeight} columns={transformedColumns} stickyPositionMap={stickyPositionMap} />
-                        <div className="table-body">
-                            {dataSource.length === 0
-                                ? emptyElement
-                                : isReady &&
-                                  rowVirtualizer
-                                      .getVirtualItems()
-                                      .map(virtualItem => (
-                                          <TableRow
-                                              key={virtualItem.key}
-                                              rowHeight={rowHeight}
-                                              onRowClick={onRowClick}
-                                              virtualItem={virtualItem}
-                                              data={dataSource[virtualItem.index]}
-                                              columns={transformedColumns}
-                                              columnWidths={columnWidths.current}
-                                              scrollBarSize={scrollBarSize}
-                                              stickyPositionMap={stickyPositionMap}
-                                              rowClassName={rowClassName}
-                                          />
-                                      ))}
-                        </div>
+                        {columnWidths.length > 0 && (
+                            <div className="table-body" ref={tableBodyRef}>
+                                {dataSource.length === 0
+                                    ? emptyElement
+                                    : rowVirtualizer
+                                          .getVirtualItems()
+                                          .map(virtualItem => (
+                                              <TableRow
+                                                  key={virtualItem.key}
+                                                  rowHeight={rowHeight}
+                                                  onRowClick={onRowClick}
+                                                  virtualItem={virtualItem}
+                                                  data={dataSource[virtualItem.index]}
+                                                  columns={transformedColumns}
+                                                  columnWidths={columnWidths}
+                                                  scrollBarSize={scrollBarSize}
+                                                  stickyPositionMap={stickyPositionMap}
+                                                  rowClassName={rowClassName}
+                                              />
+                                          ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

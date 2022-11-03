@@ -1,25 +1,55 @@
 import React from "react";
+import {useDebounce} from "../../../hooks/useDebounce";
 import {ArrayUtil} from "../../../internal/ArrayUtil";
 import type {VirtualTableColumn, StickyPosition} from "../type";
 
 interface Props<RowType extends object> {
     columns: VirtualTableColumn<RowType>[];
-    headerRef: React.RefObject<HTMLDivElement>;
     scrollContentRef: React.RefObject<HTMLDivElement>;
     isScrollable: boolean;
 }
 
-export function useColumns<RowType extends object>({columns, headerRef, scrollContentRef, isScrollable}: Props<RowType>) {
-    const {columnWidths, isColumnWidthsReady, getColumnWidths} = useColumnWidths(headerRef);
-    const stickyPositionMap = useStickyPosition(columns, isColumnWidthsReady ? columnWidths.current : []);
-    const scrollBarSize = useScrollBar(scrollContentRef, isColumnWidthsReady, isScrollable);
+export function useColumns<RowType extends object>({columns, scrollContentRef, isScrollable}: Props<RowType>) {
+    const {columnWidths, headerRef, getColumnWidths} = useColumnWidths();
+    const stickyPositionMap = useStickyPosition(columns, columnWidths);
+    const {scrollBarSize, calculateScrollBarSize} = useScrollBar(scrollContentRef);
+
+    const debouncedGetColumnWidths = useDebounce(getColumnWidths);
+    const debouncedCalculateScrollBarSize = useDebounce(calculateScrollBarSize);
+
+    const handler = React.useCallback(
+        (event: TransitionEvent | AnimationEvent) => {
+            if (event.currentTarget && "querySelector" in event.currentTarget && headerRef.current) {
+                const element = event.currentTarget as HTMLElement;
+                const result = element.querySelector(".g-virtual-table");
+                if (result) {
+                    debouncedGetColumnWidths();
+                    debouncedCalculateScrollBarSize();
+                }
+            }
+        },
+        [headerRef, debouncedGetColumnWidths, debouncedCalculateScrollBarSize]
+    );
+
+    React.useEffect(() => {
+        document.body.addEventListener("transitionend", handler);
+        document.body.addEventListener("animationend", handler);
+        return () => {
+            document.body.removeEventListener("transitionend", handler);
+            document.body.removeEventListener("animationend", handler);
+        };
+    }, [handler]);
+
+    React.useEffect(() => {
+        calculateScrollBarSize();
+    }, [isScrollable, columnWidths, calculateScrollBarSize]);
 
     return {
-        isReady: isColumnWidthsReady,
         columnWidths,
         getColumnWidths,
         stickyPositionMap,
         scrollBarSize,
+        headerRef,
     };
 }
 
@@ -31,23 +61,21 @@ export function useColumns<RowType extends object>({columns, headerRef, scrollCo
  *
  */
 
-export const useColumnWidths = (headerRef: React.RefObject<HTMLDivElement>) => {
-    const [isColumnWidthsReady, setIsColumnWidthsReady] = React.useState(false);
-    const columnWidths = React.useRef<number[]>([]);
+export const useColumnWidths = () => {
+    const headerRef = React.useRef<HTMLDivElement | null>(null);
+    const [columnWidths, setColumnWidths] = React.useState<number[]>([]);
 
     const getColumnWidths = React.useCallback(() => {
-        if (headerRef.current) {
-            setIsColumnWidthsReady(false);
-            const headers = headerRef.current.querySelectorAll(".table-header");
-            columnWidths.current = Array.prototype.slice.call(headers).map(header => {
-                const {width} = header.getBoundingClientRect();
-                return width;
-            });
-            setIsColumnWidthsReady(true);
-        }
+        if (!headerRef.current) return;
+        const headers = headerRef.current.querySelectorAll(".table-header");
+        const widths: number[] = Array.prototype.slice.call(headers).map(header => {
+            const {width} = header.getBoundingClientRect();
+            return width;
+        });
+        setColumnWidths(widths);
     }, [headerRef]);
 
-    return {columnWidths, isColumnWidthsReady, getColumnWidths};
+    return {columnWidths, getColumnWidths, headerRef};
 };
 
 export const useStickyPosition = <RowType extends object>(columns: VirtualTableColumn<RowType>[], columnWidths: number[]): Record<number, StickyPosition> => {
@@ -76,7 +104,7 @@ export const useStickyPosition = <RowType extends object>(columns: VirtualTableC
     }, [columnWidths, columns]);
 };
 
-export const useScrollBar = (scrollContentRef: React.RefObject<HTMLDivElement>, isReady: boolean, isScrollable: boolean) => {
+export const useScrollBar = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
     const [scrollBarSize, setScrollBarSize] = React.useState<number>(0);
 
     const calculateScrollBarSize = React.useCallback(() => {
@@ -86,11 +114,8 @@ export const useScrollBar = (scrollContentRef: React.RefObject<HTMLDivElement>, 
         }
     }, [scrollContentRef, setScrollBarSize]);
 
-    React.useEffect(() => {
-        if (isReady) {
-            calculateScrollBarSize();
-        }
-    }, [isScrollable, isReady, calculateScrollBarSize]);
-
-    return scrollBarSize;
+    return {
+        scrollBarSize,
+        calculateScrollBarSize,
+    };
 };

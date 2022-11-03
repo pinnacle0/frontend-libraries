@@ -3,11 +3,15 @@ import React from "react";
 interface Props {
     scrollContentRef: React.RefObject<HTMLDivElement>;
     headerRef: React.RefObject<HTMLDivElement>;
-    isReady: boolean;
 }
 
-export const useScroll = ({scrollContentRef, headerRef, isReady}: Props) => {
-    const {isScrollToLeft, isScrollToRight, checkIsScrollToEdge} = useScrollToEdge(scrollContentRef, isReady);
+export const useScroll = ({scrollContentRef, headerRef}: Props) => {
+    const tableBodyRef = (node: HTMLDivElement) => {
+        if (node) {
+            checkIsScrollToEdge();
+        }
+    };
+    const {isScrollToLeft, isScrollToRight, checkIsScrollToEdge} = useScrollToEdge(scrollContentRef);
     const onScroll = React.useCallback(() => {
         requestAnimationFrame(() => {
             if (scrollContentRef.current && headerRef.current && scrollContentRef.current.scrollLeft !== headerRef.current.scrollLeft) {
@@ -21,10 +25,11 @@ export const useScroll = ({scrollContentRef, headerRef, isReady}: Props) => {
         onScroll,
         isScrollToLeft,
         isScrollToRight,
+        tableBodyRef,
     };
 };
 
-export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement>, isReady: boolean) => {
+export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
     const [isScrollToLeft, setIsScrollToLeft] = React.useState(false);
     const [isScrollToRight, setIsScrollToRight] = React.useState(false);
 
@@ -35,12 +40,6 @@ export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement
             setIsScrollToRight(scrollLeft >= scrollWidth - offsetWidth);
         }
     }, [scrollContentRef]);
-
-    React.useEffect(() => {
-        if (isReady) {
-            checkIsScrollToEdge();
-        }
-    }, [isReady, checkIsScrollToEdge]);
 
     return {
         isScrollToLeft,
