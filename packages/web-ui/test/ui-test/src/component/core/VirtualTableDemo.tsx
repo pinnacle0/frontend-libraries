@@ -1,10 +1,11 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {VirtualTableColumn, VirtualTableRowSelection, VirtualTableRowExpand} from "@pinnacle0/web-ui/core/VirtualTable/type";
+import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable/type";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
 import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
+import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
 
 interface Profile {
     name: string;
@@ -12,7 +13,7 @@ interface Profile {
     address: string;
 }
 
-const data: Profile[] = Array.from({length: 10000}, () => ({
+const data: Profile[] = Array.from({length: 1000}, () => ({
     name: "John Brown",
     age: 32,
     address: "New York No. 1 Lake Park",
@@ -128,8 +129,8 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
         selectedRowKeys,
     };
 
-    const addOneData = () => setData([...data, singleData]);
-    const addTenData = () => setData([...data, ...Array.from({length: 10}, () => singleData)]);
+    const addOneData = () => setData([...data, {...singleData}]);
+    const addTenData = () => setData([...data, ...Array.from({length: 10}, () => ({...singleData}))]);
     const deleteLastData = () => setData(data.slice(0, data.length - 1));
     const deleteLastTenData = () => setData(data.slice(0, data.length - 10));
 
@@ -147,7 +148,7 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
 };
 
 const VirtualTableWithFixedColumns = () => {
-    return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} />;
+    return <VirtualTable rowKey="index" rowHeight={50} dataSource={data.slice(0, 8)} scrollY={400} scrollX={800} columns={getColumns(true)} />;
 };
 
 const VirtualTableInModal = () => {
@@ -167,18 +168,25 @@ const VirtualTableInModal = () => {
     );
 };
 
-const VirtualTableWithExpand = () => {
-    const ExpandButton = React.useCallback(({onClick}: {onClick: () => void}) => {
-        return <Button onClick={onClick}>Click Me</Button>;
-    }, []);
+const VirtualTableWithDynamicSize = () => {
+    const [height, setHeight] = React.useState(300);
+    const [width, setWidth] = React.useState(300);
 
-    const rowExpand: VirtualTableRowExpand<Profile> = {
-        width: 140,
-        renderExpandRow: (record, rowIndex) => <div style={{padding: 30}}>Data {rowIndex + 1}</div>,
-        ExpandButton,
-        fixed: true,
-    };
-    return <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns(true)} rowExpand={rowExpand} />;
+    return (
+        <div>
+            <div>
+                Change Height
+                <EnumSelect list={[300, 500, 700]} value={height} onChange={setHeight} />
+            </div>
+            <div>
+                Change Width
+                <EnumSelect list={[300, 500, 700]} value={width} onChange={setWidth} />
+            </div>
+            <div style={{height}}>
+                <VirtualTable rowHeight={50} dataSource={data.slice(0, 9)} scrollX={width} columns={getColumns(true)} />
+            </div>
+        </div>
+    );
 };
 
 const groups: DemoHelperGroupConfig[] = [
@@ -213,11 +221,6 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<VirtualTableInModal />],
     },
     {
-        title: "VirtualTable with expand",
-        showPropsHint: false,
-        components: [<VirtualTableWithExpand />],
-    },
-    {
         title: "VirtualTable without Data",
         showPropsHint: false,
         components: [<VirtualTableWithData />],
@@ -226,6 +229,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Loading VirtualTable",
         showPropsHint: false,
         components: [<LoadingVirtualTable />],
+    },
+    {
+        title: "Virtual Table With Dynamic Size",
+        showPropsHint: false,
+        components: [<VirtualTableWithDynamicSize />],
     },
 ];
 

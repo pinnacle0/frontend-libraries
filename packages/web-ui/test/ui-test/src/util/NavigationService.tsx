@@ -29,6 +29,7 @@ import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
 import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigatorBase";
+import {Memo} from "@pinnacle0/web-ui/internal/Memo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -54,6 +55,7 @@ export class NavigationService extends AdminNavigatorBase<TestFeaturePermission,
         super(TestFeaturePermission.ROOT_PERMISSION, [TestFeaturePermission.ROOT_PERMISSION], TestFieldPermission.ROOT_PERMISSION, [TestFieldPermission.ROOT_PERMISSION]);
     }
 
+    @Memo()
     protected allGroups(): Array<NavigationGroupItem<TestFeaturePermission, TestFieldPermission>> {
         return [
             {
