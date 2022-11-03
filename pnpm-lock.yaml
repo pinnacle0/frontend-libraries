@@ -208,6 +208,7 @@ importers:
       '@ant-design/icons': 4.7.0
       '@babel/core': 7.19.3
       '@babel/runtime': 7.19.4
+      '@juggle/resize-observer': 3.4.0
       '@pinnacle0/devtool-util': workspace:*
       '@pinnacle0/webpack-util': workspace:*
       '@tanstack/react-virtual': 3.0.0-beta.18
@@ -234,6 +235,7 @@ importers:
       typescript: 4.8.4
     dependencies:
       '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
+      '@juggle/resize-observer': 3.4.0
       '@tanstack/react-virtual': 3.0.0-beta.18_react@18.2.0
       antd: 4.23.6_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
@@ -2396,6 +2398,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@juggle/resize-observer/3.4.0:
+    resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+    dev: false
 
   /@leichtgewicht/ip-codec/2.0.4:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
