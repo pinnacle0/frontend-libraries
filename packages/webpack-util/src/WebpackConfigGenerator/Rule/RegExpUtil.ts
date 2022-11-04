@@ -9,7 +9,7 @@ export class RegExpUtil {
     }
 
     static webpackNotExclude(values: string[]): RegExp {
-        const escapedPatterns = values.filter(_ => _.length > 0).map(_ => _.replace("/", "\\/") + "$");
+        const escapedPatterns = values.filter(_ => _.length > 0).map(_ => _.replace("/", "\\/") + "(\\/|$)");
         if (escapedPatterns.length < 1) {
             return /node_modules/;
         }

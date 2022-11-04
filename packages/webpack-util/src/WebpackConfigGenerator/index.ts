@@ -188,7 +188,8 @@ export class WebpackConfigGenerator {
             module: {
                 rules: [
                     // prettier-format-preserve
-                    Rule.ts({nonES5Module: this.nonES5Module, fastRefresh: false}),
+                    Rule.ts({fastRefresh: false}),
+                    Rule.nonES5({nonES5Module: this.nonES5Module}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),

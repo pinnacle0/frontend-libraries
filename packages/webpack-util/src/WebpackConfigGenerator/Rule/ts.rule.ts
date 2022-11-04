@@ -4,7 +4,6 @@ import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
     fastRefresh: boolean;
-    nonES5Module?: string[];
 }
 
 /**
@@ -18,7 +17,7 @@ interface Deps {
  * @see https://github.com/TypeStrong/ts-loader
  * @see https://github.com/pmmmwh/react-refresh-webpack-plugin
  */
-export function tsRule({fastRefresh, nonES5Module}: Deps): webpack.RuleSetRule {
+export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
     const babelLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("babel-loader"),
         options: {
@@ -54,6 +53,5 @@ export function tsRule({fastRefresh, nonES5Module}: Deps): webpack.RuleSetRule {
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
         use: fastRefresh ? [babelLoader] : [swcLoader],
-        ...(!fastRefresh && nonES5Module ? {exclude: RegExpUtil.webpackNotExclude(nonES5Module)} : {}),
     };
 }
