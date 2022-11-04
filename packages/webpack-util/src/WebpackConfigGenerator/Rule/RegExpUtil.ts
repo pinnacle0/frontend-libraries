@@ -8,6 +8,14 @@ export class RegExpUtil {
         return new RegExp(`(${escapedExtensions.join("|")})$`);
     }
 
+    static webpackNotExclude(values: string[]): RegExp {
+        const escapedPatterns = values.filter(_ => _.length > 0).map(_ => _.replace("/", "\\/") + "$");
+        if (escapedPatterns.length < 1) {
+            return /node_modules/;
+        }
+        return new RegExp(`node_modules\\/(?!${escapedPatterns.join("|")})`);
+    }
+
     private static validateFileExtension(ext: string): void {
         if (ext.trim() === "") {
             throw new Error("Extension cannot be empty.");

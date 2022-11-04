@@ -86,6 +86,10 @@ export interface WebpackConfigGeneratorOptions {
      */
     extraEntries?: Record<string, string> | undefined;
     /**
+     * Give a list of non ES5 compatible dependencies. Will be transpiled to ES5 code in production.
+     */
+    nonES5Module?: string[] | undefined;
+    /**
      * Maximum file size (in KB) allowed by an entry bundle.
      * Entry bundles exceeding the specified file size (KB) will be warned.
      */

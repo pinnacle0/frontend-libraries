@@ -38,6 +38,7 @@ export class WebpackConfigGenerator {
     private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
     private readonly outputPublicPath: string;
+    private readonly nonES5Module: string[];
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
@@ -54,6 +55,7 @@ export class WebpackConfigGenerator {
         this.verbose = options.verbose || false;
         this.defineVars = options.defineVars || {};
         this.extraExtensionsForOtherRule = options.extraExtensionsForOtherRule || [];
+        this.nonES5Module = options.nonES5Module ?? [];
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -185,11 +187,11 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({fastRefresh: false}),
+                    // prettier-format-preserve
+                    Rule.ts({nonES5Module: this.nonES5Module, fastRefresh: false}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    // prettier-format-preserve
                 ],
             },
             plugins: [
