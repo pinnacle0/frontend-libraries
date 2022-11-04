@@ -1,4 +1,4 @@
-import React, {Children} from "react";
+import React from "react";
 import type {CascaderDataNode as MultipleCascaderDataNode} from "@pinnacle0/web-ui/core/MultipleCascader";
 import type {CascaderDataNode} from "@pinnacle0/web-ui/core/Cascader";
 import {Cascader} from "@pinnacle0/web-ui/core/Cascader";

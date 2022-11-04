@@ -1,10 +1,10 @@
 import React from "react";
 import {classNames} from "@pinnacle0/web-ui/util/ClassNames";
-import {Input} from "@pinnacle0/web-ui/core/Input";
-import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList";
+/* import {Input} from "@pinnacle0/web-ui/core/Input"; */
+/* import {VirtualFlatList} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList"; */
 import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {fetchData} from "./fetch";
-import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type";
+/* import type {VirtualFlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/VirtualFlatList/type"; */
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 import "./index.less";
 
@@ -48,56 +48,56 @@ const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
     );
 });
 
-const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => {
-    const {data, index, measure} = props;
-    const [expand, setExpand] = React.useState(false);
-    const [value, setValue] = React.useState("");
-    const ref = React.useRef<HTMLDivElement>(null);
-    const measureRef = React.useRef(measure);
-    measureRef.current = measure;
-
-    React.useEffect(() => {
-        if (ref.current) {
-            measureRef.current(ref.current);
-        }
-    }, [expand]);
-
-    return (
-        <div className={classNames(`item ${index}`, {expand})}>
-            <h4>
-                {data}
-                <div>index: {index}</div>
-            </h4>
-            <Input value={value} onChange={setValue} />
-            <button onClick={() => setExpand(_ => !_)}>toggle</button>
-            {expand && (
-                <div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                    <div>item 1</div>
-                </div>
-            )}
-        </div>
-    );
-});
+/* const Item: React.FC<VirtualFlatListItemProps<string>> = React.memo(props => { */
+/*     const {data, index, measure} = props; */
+/*     const [expand, setExpand] = React.useState(false); */
+/*     const [value, setValue] = React.useState(""); */
+/*     const ref = React.useRef<HTMLDivElement>(null); */
+/*     const measureRef = React.useRef(measure); */
+/*     measureRef.current = measure; */
+/**/
+/*     React.useEffect(() => { */
+/*         if (ref.current) { */
+/*             measureRef.current(ref.current); */
+/*         } */
+/*     }, [expand]); */
+/**/
+/*     return ( */
+/*         <div className={classNames(`item ${index}`, {expand})}> */
+/*             <h4> */
+/*                 {data} */
+/*                 <div>index: {index}</div> */
+/*             </h4> */
+/*             <Input value={value} onChange={setValue} /> */
+/*             <button onClick={() => setExpand(_ => !_)}>toggle</button> */
+/*             {expand && ( */
+/*                 <div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                     <div>item 1</div> */
+/*                 </div> */
+/*             )} */
+/*         </div> */
+/*     ); */
+/* }); */
 
 export const FlatListDemo = () => {
     const [data, setData] = React.useState<string[]>([]);

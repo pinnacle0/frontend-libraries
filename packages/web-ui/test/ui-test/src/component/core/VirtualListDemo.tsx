@@ -1,11 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {VirtualList} from "@pinnacle0/web-ui/core/VirtualList";
 import {EnumRadio} from "@pinnacle0/web-ui/core/EnumRadio";
-import {ArrayUtil} from "@pinnacle0/web-ui/internal/ArrayUtil";
-import {profile} from "console";
 import {Space} from "@pinnacle0/web-ui/core/Space";
 
 interface Profile {
@@ -35,7 +33,7 @@ const largeData = generateProfile(10000);
 const FixedHeightList = () => {
     return (
         <div style={{width: 500, height: 400}}>
-            <VirtualList data={largeData} renderData={({data, index}) => <div style={{height: 100, width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
+            <VirtualList data={largeData} renderData={({index}) => <div style={{height: 100, width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
         </div>
     );
 };
@@ -43,11 +41,7 @@ const FixedHeightList = () => {
 const FixedWidthList = () => {
     return (
         <div style={{width: 700, height: 150}}>
-            <VirtualList
-                direction="horizontal"
-                data={largeData}
-                renderData={({data, index}) => <div style={{height: "100%", width: 200, background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>}
-            />
+            <VirtualList direction="horizontal" data={largeData} renderData={({index}) => <div style={{height: "100%", width: 200, background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
         </div>
     );
 };
@@ -140,7 +134,7 @@ const DataMutation = () => {
                     initialRect={{width, height}}
                     overscan={1}
                     data={data}
-                    renderData={({data, index, measure}) => (
+                    renderData={({data, index}) => (
                         <div style={{width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>
                             <Profile profile={data} />
                         </div>

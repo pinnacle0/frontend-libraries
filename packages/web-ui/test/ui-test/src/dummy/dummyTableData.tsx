@@ -37,7 +37,7 @@ export const dummyTableColumns: TableColumns<MockTableData> = [
     },
     {
         title: "Actions",
-        renderData: _ => <Button onClick={() => alert("Alert !")}>Dummy Button</Button>,
+        renderData: () => <Button onClick={() => alert("Alert !")}>Dummy Button</Button>,
     },
 ];
 

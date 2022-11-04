@@ -24,13 +24,13 @@ const DemoPagedList = () => {
 };
 
 const DemoBreadcrumb = () => {
-    const renderItem = (item: {name: string}, index: number) => <div>{item.name}</div>;
+    const renderItem = (item: {name: string}) => <div>{item.name}</div>;
 
     const data = new Array(5).fill(0).map((_, index) => ({
         name: "test0" + index,
     }));
 
-    return <Breadcrumb data={data} onClick={(_, index) => alert(_.name)} renderItem={renderItem} itemKey="name" />;
+    return <Breadcrumb data={data} onClick={_ => alert(_.name)} renderItem={renderItem} itemKey="name" />;
 };
 
 const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "button" | "table"}) => {

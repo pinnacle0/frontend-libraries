@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import moment from "moment";
 import type {Props as RelativeTimeProps} from "@pinnacle0/web-ui/core/RelativeTime";
 import {RelativeTime} from "@pinnacle0/web-ui/core/RelativeTime";
@@ -17,11 +17,7 @@ const RelativeTimeDisplay = (props: RelativeTimeProps) => {
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "RelativeTime",
-        components: [
-            <RelativeTimeDisplay date={new Date()} />,
-            <RelativeTimeDisplay date={new Date("2020-08-13T14:00:00+08:00")} />,
-            //
-        ],
+        components: [<RelativeTimeDisplay date={new Date()} />, <RelativeTimeDisplay date={new Date("2020-08-13T14:00:00+08:00")} />],
     },
 ];
 

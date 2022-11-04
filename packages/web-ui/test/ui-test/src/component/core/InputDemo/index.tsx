@@ -9,11 +9,9 @@ import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {dummyEmptyCallback} from "../../../dummy/dummyCallback";
 import {withUncontrolledInitialValue} from "../../../util/withUncontrolledInitialValue";
 import {DemoHelper} from "../../DemoHelper";
-import type {Props as InputProps} from "@pinnacle0/web-ui/core/Input";
 import type {Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import type {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
-import type {InputRef} from "antd";
 import {Button} from "antd";
 
 const UncontrolledTagInput = () => {
@@ -65,8 +63,10 @@ const TextArea = withUncontrolledInitialValue(Input.TextArea);
 
 const NullableTextArea = withUncontrolledInitialValue(Input.NullableTextArea);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- for demo
 const onNumberRangeChange = (_: [number, number]) => {};
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- for demo
 const onNullableNumberRangeChange = (_: [number | null, number | null]) => {};
 
 const groups: DemoHelperGroupConfig[] = [

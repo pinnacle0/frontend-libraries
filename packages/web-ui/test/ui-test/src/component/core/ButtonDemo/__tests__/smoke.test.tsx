@@ -42,30 +42,3 @@ describe("Custom Button (smoke test)", () => {
         expect(screen.getByRole("button")?.classList).toContain("jumbo");
     });
 });
-
-describe("Button (type test)", () => {
-    // type CustomColor = ButtonColor | "new-color";
-    // type CustomSize = ButtonSize | "jumbo";
-
-    test.skip("button", () => {
-        const Wrapper = () => {
-            return (
-                <React.Fragment>
-                    <Button color="primary" />
-                    <Button color="green" />
-                    <Button color="wire-frame" />;
-                    <Button size="small" />
-                    <Button size="medium" />
-                </React.Fragment>
-            );
-
-            // // @ts-expect-error
-            // return <Button color="bad" />;
-
-            // // @ts-expect-error
-            // return <Button size="bad" />;
-        };
-    });
-
-    // test.todo("Custom  Button");
-});
