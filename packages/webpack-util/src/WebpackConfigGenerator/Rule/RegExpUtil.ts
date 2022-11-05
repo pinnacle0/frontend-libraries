@@ -8,8 +8,8 @@ export class RegExpUtil {
         return new RegExp(`(${escapedExtensions.join("|")})$`);
     }
 
-    static webpackNotExclude(values: string[]): RegExp {
-        const escapedPatterns = values.filter(_ => _.length > 0).map(_ => _.replace("/", "\\/") + "(\\/|$)");
+    static webpackExclude({nonES5Module}: {nonES5Module: string[]}): RegExp {
+        const escapedPatterns = nonES5Module.filter(_ => _.length > 0).map(_ => _.replace("/", "\\/") + "(\\/|$)");
         if (escapedPatterns.length < 1) {
             return /node_modules/;
         }

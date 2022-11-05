@@ -33,6 +33,6 @@ export function nonES5({nonES5Module}: Deps): webpack.RuleSetRule {
     return {
         test: RegExpUtil.fileExtension(".js", ".jsx"),
         use: [swcLoader],
-        exclude: RegExpUtil.webpackNotExclude(nonES5Module),
+        exclude: RegExpUtil.webpackExclude({nonES5Module}),
     };
 }

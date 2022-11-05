@@ -26,6 +26,6 @@ describe("RegExpUtil testing", () => {
         ${["@scoped/core"]}               | ${"/nested-path/ub/node_modules/@scoped/core/udm/bundle.pro.js"} | ${true}
         ${["@scoped/other"]}              | ${"/nested-path/ub/node_modules/@scoped/core/udm/bundle.pro.js"} | ${false}
     `("test path $test when RegExpUtil.fileExtension($notExcludedModule)", ({notExcludedModule, path, notExcluded}) => {
-        expect(!RegExpUtil.webpackNotExclude(notExcludedModule).test(path)).toBe(notExcluded);
+        expect(!RegExpUtil.webpackExclude({nonES5Module: notExcludedModule}).test(path)).toBe(notExcluded);
     });
 });
