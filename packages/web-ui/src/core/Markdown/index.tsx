@@ -9,8 +9,11 @@ import "./index.less";
  *
  * Nested usage not supported yet.
  */
+type MarkdownSymbol = "**" | "__" | "`";
+
 export interface Props {
     children: string;
+    whitelist?: MarkdownSymbol[];
     style?: React.CSSProperties;
 }
 
@@ -18,12 +21,18 @@ export class Markdown extends React.PureComponent<Props> {
     static displayName = "Markdown";
 
     renderBold = (content: string, index: number) => {
-        const splitContents = content.split(/__|\*\*/);
+        const {whitelist} = this.props;
+        const whiteListRegex = ["\\*\\*", "__"];
+
+        const regexStr = (whitelist?.filter(x => x !== "`").map(this.whiteListRegexPart) || whiteListRegex).join("|");
+        const splitContents = content.split(new RegExp(regexStr));
         return <React.Fragment key={index}>{splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <b key={"bold" + segmentIndex}>{_}</b> : _))}</React.Fragment>;
     };
 
     renderLine = (content: string, index: number) => {
-        const splitContents = content.split("`");
+        const {whitelist} = this.props;
+
+        const splitContents = !whitelist || whitelist.includes("`") ? content.split("`") : [content];
         return (
             <div className="line" key={index}>
                 {splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <em key={segmentIndex}>{_}</em> : this.renderBold(_, segmentIndex)))}
@@ -39,4 +48,12 @@ export class Markdown extends React.PureComponent<Props> {
             </div>
         );
     }
+
+    private whiteListRegexPart = (symbol: MarkdownSymbol): string => {
+        if (symbol === "**") {
+            return "\\*\\*";
+        }
+
+        return symbol;
+    };
 }
