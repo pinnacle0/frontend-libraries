@@ -20,19 +20,6 @@ export interface Props {
 export class Markdown extends React.PureComponent<Props> {
     static displayName = "Markdown";
 
-    processLine = (content: string, index: number, symbols: MarkdownSymbol[]): React.ReactNode[] => {
-        switch (symbols[0]) {
-            case "**":
-                return this.renderBold(content.split(/\*\*/g), symbols);
-            case "__":
-                return this.renderBold(content.split(/__/g), symbols);
-            case "`":
-                return this.renderEmphasis(content.split(/`/g), symbols);
-            default:
-                return [<React.Fragment key={index}>{content}</React.Fragment>];
-        }
-    };
-
     render() {
         const {children, style, whitelist} = this.props;
         const symbols = whitelist || ["**", "__", "`"];
@@ -47,6 +34,19 @@ export class Markdown extends React.PureComponent<Props> {
             </div>
         );
     }
+
+    private processLine = (content: string, index: number, symbols: MarkdownSymbol[]): React.ReactNode[] => {
+        switch (symbols[0]) {
+            case "**":
+                return this.renderBold(content.split(/\*\*/g), symbols);
+            case "__":
+                return this.renderBold(content.split(/__/g), symbols);
+            case "`":
+                return this.renderEmphasis(content.split(/`/g), symbols);
+            default:
+                return [<React.Fragment key={index}>{content}</React.Fragment>];
+        }
+    };
 
     private renderBold(splitContents: string[], symbols: MarkdownSymbol[]) {
         return splitContents.map((_, segmentIndex) => {
