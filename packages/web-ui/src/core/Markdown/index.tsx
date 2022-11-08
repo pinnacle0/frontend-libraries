@@ -20,40 +20,45 @@ export interface Props {
 export class Markdown extends React.PureComponent<Props> {
     static displayName = "Markdown";
 
-    renderBold = (content: string, index: number) => {
-        const {whitelist} = this.props;
-        const whiteListRegex = ["\\*\\*", "__"];
-
-        const regexStr = (whitelist?.filter(x => x !== "`").map(this.whiteListRegexPart) || whiteListRegex).join("|");
-        const splitContents = content.split(new RegExp(regexStr));
-        return <React.Fragment key={index}>{splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <b key={"bold" + segmentIndex}>{_}</b> : _))}</React.Fragment>;
-    };
-
-    renderLine = (content: string, index: number) => {
-        const {whitelist} = this.props;
-
-        const splitContents = !whitelist || whitelist.includes("`") ? content.split("`") : [content];
-        return (
-            <div className="line" key={index}>
-                {splitContents.map((_, segmentIndex) => (segmentIndex % 2 === 1 ? <em key={segmentIndex}>{_}</em> : this.renderBold(_, segmentIndex)))}
-            </div>
-        );
+    processLine = (content: string, index: number, symbols: MarkdownSymbol[]): React.ReactNode[] => {
+        switch (symbols[0]) {
+            case "**":
+                return this.renderBold(content.split(/\*\*/g), symbols);
+            case "__":
+                return this.renderBold(content.split(/__/g), symbols);
+            case "`":
+                return this.renderEmphasis(content.split(/`/g), symbols);
+            default:
+                return [<React.Fragment key={index}>{content}</React.Fragment>];
+        }
     };
 
     render() {
-        const {children, style} = this.props;
+        const {children, style, whitelist} = this.props;
+        const symbols = whitelist || ["**", "__", "`"];
+
         return (
             <div className="g-markdown" style={style}>
-                {children.split("\n").map(this.renderLine)}
+                {children.split("\n").map((line, index) => (
+                    <div className="line" key={index}>
+                        {this.processLine(line, index, symbols)}
+                    </div>
+                ))}
             </div>
         );
     }
 
-    private whiteListRegexPart = (symbol: MarkdownSymbol): string => {
-        if (symbol === "**") {
-            return "\\*\\*";
-        }
+    private renderBold(splitContents: string[], symbols: MarkdownSymbol[]) {
+        return splitContents.map((_, segmentIndex) => {
+            const text = this.processLine(_, segmentIndex, symbols.slice(1));
+            return segmentIndex % 2 === 1 ? <b key={`bold${segmentIndex}`}>{text}</b> : text;
+        });
+    }
 
-        return symbol;
-    };
+    private renderEmphasis(splitContents: string[], symbols: MarkdownSymbol[]) {
+        return splitContents.map((_, segmentIndex) => {
+            const text = this.processLine(_, segmentIndex, symbols.slice(1));
+            return segmentIndex % 2 === 1 ? <em key={`emphasis${segmentIndex}`}>{text}</em> : text;
+        });
+    }
 }

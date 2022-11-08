@@ -123,7 +123,7 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Markdown",
         components: [
             <Markdown>
-                {"This is Markdown style syntax\nIt supports __bold__ and `highlight` text\n__Whole line in bold__\n`Whole line in highlight`\n__Bold text__ and `highlight text` mixed"}
+                {"This is Markdown style syntax\nIt supports **bold** and __bold__ and `highlight` text\n__Whole line in bold__\n`Whole line in highlight`\n__Bold text__ and `highlight text` mixed"}
             </Markdown>,
         ],
     },
