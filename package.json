@@ -3,14 +3,6 @@
     "version": "1.0.0",
     "license": "MIT",
     "private": true,
-    "workspaces": {
-        "packages": [
-            "packages/*"
-        ],
-        "nohoist": [
-            "packages/*"
-        ]
-    },
     "engines": {
         "node": ">=16.0.0"
     },
