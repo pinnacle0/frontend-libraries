@@ -1,4 +1,3 @@
-import path from "path";
 import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
 
@@ -18,18 +17,6 @@ interface Deps {
  * @see https://github.com/pmmmwh/react-refresh-webpack-plugin
  */
 export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
-    const babelLoader: webpack.RuleSetUseItem = {
-        loader: require.resolve("babel-loader"),
-        options: {
-            presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"].map(_ => require.resolve(_)),
-            plugins: [
-                [require.resolve("@babel/plugin-proposal-decorators"), {version: "legacy"}],
-                require.resolve(path.join(__dirname, "./core-fe-hmr-babel-plugin")),
-                require.resolve("react-refresh/babel"),
-            ],
-        },
-    };
-
     const swcLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("swc-loader"),
         options: {
@@ -42,9 +29,13 @@ export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
                 transform: {
                     react: {
                         runtime: "classic",
+                        refresh: fastRefresh,
                     },
                     legacyDecorator: true,
                     decoratorMetadata: true,
+                },
+                experimental: {
+                    plugins: [[require.resolve("swc-plugin-core-fe-hmr"), {}]],
                 },
             },
         },
@@ -52,6 +43,6 @@ export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
 
     return {
         test: RegExpUtil.fileExtension(".ts", ".tsx"),
-        use: fastRefresh ? [babelLoader] : [swcLoader],
+        use: [swcLoader],
     };
 }
