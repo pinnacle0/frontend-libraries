@@ -3,6 +3,10 @@ import {useVirtualizer, observeElementOffset as defaultObserveElementOffset, obs
 import type {VirtualizerOptions} from "@tanstack/react-virtual";
 import type {ComponentType} from "react";
 import type {StringKey} from "../internal/type";
+import {PolyfillUtil} from "../util/PolyfillUtil";
+
+// polyfill of window.ResizeObserver
+PolyfillUtil.ResizeObserver();
 
 const DEFAULT_ITEM_SIZE = 100;
 
