@@ -1,0 +1,8 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "types": ["jest"]
+    },
+    "references": [{"path": "../src"}]
+}
