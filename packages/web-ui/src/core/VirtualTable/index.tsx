@@ -70,7 +70,7 @@ export const VirtualTable = Object.assign(
             },
         });
         const {headerRef, columnWidths, getColumnWidths, stickyPositionMap, scrollBarSize} = useColumns({columns: transformedColumns, scrollContentRef, isScrollable: isVerticalScrollable});
-        const {isScrollToLeft, isScrollToRight, onScroll, tableBodyRef} = useScroll({scrollContentRef, headerRef});
+        const {onScroll, tableBodyRef} = useScroll({scrollContentRef, headerRef});
 
         // TODO/David: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
         const virtualizerRef = React.useRef(rowVirtualizer);
@@ -88,12 +88,7 @@ export const VirtualTable = Object.assign(
                         <Spin spinning={loading} />
                     </div>
                 )}
-                <div
-                    className={classNames("scroll-content", {"scroll-to-left": isScrollToLeft, "scroll-to-right": isScrollToRight})}
-                    ref={scrollContentRef}
-                    style={{height: `calc(100% - ${headerHeight}px)`, top: headerHeight}}
-                    onScroll={onScroll}
-                >
+                <div className="scroll-content" ref={scrollContentRef} style={{height: `calc(100% - ${headerHeight}px)`, top: headerHeight}} onScroll={onScroll}>
                     <div className="table" style={{height: totalSize}}>
                         <TableHeader headerRef={headerRef} headerHeight={headerHeight} columns={transformedColumns} stickyPositionMap={stickyPositionMap} />
                         {columnWidths.length > 0 && (

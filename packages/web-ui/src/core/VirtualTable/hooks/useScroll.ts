@@ -6,12 +6,8 @@ interface Props {
 }
 
 export const useScroll = ({scrollContentRef, headerRef}: Props) => {
-    const tableBodyRef = (node: HTMLDivElement) => {
-        if (node) {
-            checkIsScrollToEdge();
-        }
-    };
-    const {isScrollToLeft, isScrollToRight, checkIsScrollToEdge} = useScrollToEdge(scrollContentRef);
+    const checkIsScrollToEdge = useScrollToEdge(scrollContentRef);
+
     const onScroll = React.useCallback(() => {
         requestAnimationFrame(() => {
             if (scrollContentRef.current && headerRef.current && scrollContentRef.current.scrollLeft !== headerRef.current.scrollLeft) {
@@ -21,29 +17,28 @@ export const useScroll = ({scrollContentRef, headerRef}: Props) => {
         });
     }, [scrollContentRef, headerRef, checkIsScrollToEdge]);
 
+    const tableBodyRef = (node: HTMLDivElement) => {
+        if (node) {
+            checkIsScrollToEdge();
+        }
+    };
+
     return {
         onScroll,
-        isScrollToLeft,
-        isScrollToRight,
         tableBodyRef,
     };
 };
 
 export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
-    const [isScrollToLeft, setIsScrollToLeft] = React.useState(false);
-    const [isScrollToRight, setIsScrollToRight] = React.useState(false);
-
     const checkIsScrollToEdge = React.useCallback(() => {
         if (scrollContentRef.current) {
             const {scrollLeft, scrollWidth, offsetWidth} = scrollContentRef.current;
-            setIsScrollToLeft(scrollLeft <= 1);
-            setIsScrollToRight(scrollLeft >= scrollWidth - offsetWidth);
+            const isScrollToLeft = scrollLeft <= 1;
+            const isScrollToRight = scrollLeft >= scrollWidth - offsetWidth;
+            scrollContentRef.current.classList.toggle("scroll-to-left", isScrollToLeft);
+            scrollContentRef.current.classList.toggle("scroll-to-right", isScrollToRight);
         }
     }, [scrollContentRef]);
 
-    return {
-        isScrollToLeft,
-        isScrollToRight,
-        checkIsScrollToEdge,
-    };
+    return checkIsScrollToEdge;
 };
