@@ -7,6 +7,7 @@ export const transform: Transform = function (source, toolkit) {
     const b = toolkit.builders;
 
     const oldType = ["SafeReactChildren", "SafeReactChild"];
+    let changed = false;
     toolkit.visit(ast, {
         visitImportDeclaration(path) {
             if (
@@ -22,6 +23,7 @@ export const transform: Transform = function (source, toolkit) {
                     })
                 );
                 path.node.specifiers = specifiers;
+                changed = true;
             }
             this.traverse(path);
         },
@@ -32,6 +34,7 @@ export const transform: Transform = function (source, toolkit) {
                 } else {
                     path.replace();
                 }
+                changed = true;
             }
             this.traverse(path);
         },
@@ -43,10 +46,13 @@ export const transform: Transform = function (source, toolkit) {
                         right: b.identifier("ReactNode"),
                     })
                 );
+                changed = true;
             }
             this.traverse(path);
         },
     });
 
-    return toolkit.generate(ast).code;
+    if (changed) {
+        return toolkit.generate(ast).code;
+    }
 };
