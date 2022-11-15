@@ -57,7 +57,7 @@ export const transform: Transform = function (source, toolkit) {
                                 b.tsTypeReference(
                                     b.tsQualifiedName.from({
                                         left: b.identifier("React"),
-                                        right: b.identifier("ReactNode"),
+                                        right: b.identifier("ReactElement"),
                                     })
                                 ),
                                 b.tsStringKeyword(),
