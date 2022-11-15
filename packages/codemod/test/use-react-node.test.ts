@@ -4,15 +4,12 @@ const transform = createTransform("use-react-node");
 
 const testCases = [
     {
-        title: "only import (SafeReactChild)",
+        title: "Return type",
         input: `
-import React from "react";
-import { SafeReactChild } from "@pinnacle0/util";
-const a: SafeReactChild = <div>hi</div>;
+type A = () => SafeReactChildren
 `,
         output: `
-import React from "react";
-const a: React.ReactNode = <div>hi</div>;
+type A = () => React.ReactNode
 `,
     },
     {

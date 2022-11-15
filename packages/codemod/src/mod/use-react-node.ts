@@ -40,12 +40,32 @@ export const transform: Transform = function (source, toolkit) {
         },
         visitTSTypeReference(path) {
             if (path.node.typeName.type === "Identifier" && oldType.includes(path.node.typeName.name)) {
-                path.replace(
-                    b.tsQualifiedName.from({
-                        left: b.identifier("React"),
-                        right: b.identifier("ReactNode"),
-                    })
-                );
+                if (path.node.typeName.name === "SafeReactChildren") {
+                    path.replace(
+                        b.tsTypeReference.from({
+                            typeName: b.tsQualifiedName.from({
+                                left: b.identifier("React"),
+                                right: b.identifier("ReactNode"),
+                            }),
+                        })
+                    );
+                } else if (path.node.typeName.name === "SafeReactChild") {
+                    path.replace(
+                        b.tsUnionType.from({
+                            types: [
+                                b.tsTypeReference(
+                                    b.tsQualifiedName.from({
+                                        left: b.identifier("React"),
+                                        right: b.identifier("ReactNode"),
+                                    })
+                                ),
+                                b.tsStringKeyword(),
+                                b.tsNumberKeyword(),
+                            ],
+                        })
+                    );
+                }
+
                 changed = true;
             }
             this.traverse(path);
