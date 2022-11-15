@@ -197,10 +197,8 @@ importers:
   packages/util:
     specifiers:
       '@pinnacle0/devtool-util': workspace:*
-      '@types/react': 18.0.21
     devDependencies:
       '@pinnacle0/devtool-util': link:../devtool-util
-      '@types/react': 18.0.21
     publishDirectory: build
 
   packages/web-ui:

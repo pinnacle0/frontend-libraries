@@ -1,5 +1,3 @@
-import type React from "react";
-
 export type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType[number];
 
 export type PickOptional<T> = Pick<T, {[K in keyof T]-?: {} extends {[P in K]: T[K]} ? K : never}[keyof T]>;
@@ -21,10 +19,6 @@ export type MarkAsNullable<T, K extends keyof T> = Omit<T, K> & {[P in K]: T[P] 
  * @desc Return an interface where optional, nullable and undefinable are not allowed
  */
 export type StrictRequired<T> = {[K in keyof T]-?: Exclude<T[K], null | undefined>};
-
-// TODO/Alvis: removed later, with eslint rules, web-ui internal
-export type SafeReactChild = React.ReactChild | boolean | null;
-export type SafeReactChildren = SafeReactChild | SafeReactChild[];
 
 export interface ControlledFormValue<T> {
     value: T;
