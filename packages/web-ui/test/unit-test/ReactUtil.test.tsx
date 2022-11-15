@@ -1,6 +1,5 @@
 import React from "react";
 import {ReactUtil} from "../../src/util/ReactUtil";
-import type {SafeReactChildren} from "../../src/internal/type";
 
 describe("ReactUtil.memo", () => {
     const someNullable = {apiData: ""} as {apiData: string} | null;
@@ -19,7 +18,7 @@ describe("ReactUtil.memo", () => {
     });
 
     test("test2", () => {
-        type TabContainerProps = {title: string; children: SafeReactChildren};
+        type TabContainerProps = {title: string; children: React.ReactNode};
         const TabContainer = ReactUtil.memo("TabContainer", (props: TabContainerProps) => {
             return (
                 someNullable && (
