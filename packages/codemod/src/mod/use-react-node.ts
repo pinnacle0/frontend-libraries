@@ -11,6 +11,7 @@ export const transform: Transform = function (source, toolkit) {
     toolkit.visit(ast, {
         visitImportDeclaration(path) {
             if (
+                path.node.importKind !== "type" &&
                 path.node.source.type === "StringLiteral" &&
                 path.node.source.value === "react" &&
                 path.node.specifiers &&

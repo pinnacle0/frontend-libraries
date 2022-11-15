@@ -63,6 +63,24 @@ import { OtherImport } from "@pinnacle0/util";
 const a: React.ReactNode = <div>hi</div>;
 `,
     },
+    {
+        title: "added import",
+        input: `
+import { useEffect } from 'react'
+`,
+        output: `
+import React, { useEffect } from "react";
+`,
+    },
+    {
+        title: "ignore type import",
+        input: `
+import type { useEffect } from "react";
+`,
+        output: `
+import type { useEffect } from "react";
+`,
+    },
 ];
 
 // Put your tests here
