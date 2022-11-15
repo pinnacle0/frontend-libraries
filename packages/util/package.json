@@ -18,7 +18,8 @@
         "build": "pnpm run run-script script/build.ts",
         "format": "pnpm run run-script script/format.ts",
         "lint": "pnpm run run-script script/lint.ts",
-        "test": "jest --config config/jest.config.ts --coverage"
+        "test": "jest --config config/jest.config.ts --coverage",
+        "prepublishOnly": "pnpm build"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*"
