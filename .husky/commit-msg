@@ -1,4 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-pnpm commitlint --config commitlint.config.js --edit $HUSKY_GIT_PARAMS
