@@ -1,6 +1,5 @@
 import React from "react";
 import {Slider} from "@pinnacle0/web-ui/core/Slider";
-import type {SafeReactChildren} from "@pinnacle0/web-ui/internal/type";
 import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialValue";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
@@ -10,7 +9,7 @@ const UncontrolledSlider = withUncontrolledInitialValue(Slider);
 const UncontrolledRangeSlider = withUncontrolledInitialValue(Slider.Range);
 
 // <Slider> will fill parent's width if unspecified
-const HasWidth = ({children, width = 200}: {children: SafeReactChildren; width?: number}) => <div style={{width}}>{children}</div>;
+const HasWidth = ({children, width = 200}: {children: React.ReactNode; width?: number}) => <div style={{width}}>{children}</div>;
 
 const groups: DemoHelperGroupConfig[] = [
     {
