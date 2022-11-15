@@ -15,7 +15,7 @@ export interface Props {
 }
 
 export interface DescriptionsItemProps {
-    label: React.ReactNode | string | number;
+    label: React.ReactElement | string | number;
     children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;

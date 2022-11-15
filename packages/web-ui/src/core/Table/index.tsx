@@ -22,7 +22,7 @@ enum SortOrder {
 type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
-    title: React.ReactElement | React.ReactChild;
+    title: React.ReactElement | string | number;
     renderData: (record: RowType, index: number) => React.ReactNode | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
     align?: "left" | "right" | "center";
     colSpan?: number;
@@ -57,8 +57,8 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     scrollY?: number;
     loading?: boolean;
     // if emptyPlaceholder is provided, emptyIcon and emptyText will be ignored
-    emptyPlaceholder?: React.ReactNode | string | number;
-    emptyIcon?: React.ReactNode | string | number;
+    emptyPlaceholder?: React.ReactElement | string | number;
+    emptyIcon?: React.ReactElement | string | number;
     emptyText?: string;
     sortConfig?: TableSorter<OrderByFieldType>;
     /**

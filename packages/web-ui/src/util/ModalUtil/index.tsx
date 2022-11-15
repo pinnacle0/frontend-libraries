@@ -30,7 +30,7 @@ export interface ModalConfig {
     autoFocusButton?: "ok" | "cancel" | null;
     hideButtons?: boolean;
     addInnerPadding?: boolean;
-    footerExtra?: React.ReactNode | string | number;
+    footerExtra?: React.ReactElement | string | number;
 }
 
 let modalInstance: Omit<ModalStaticFunctions, "warn"> | null = null;

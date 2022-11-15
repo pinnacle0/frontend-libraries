@@ -6,10 +6,10 @@ import {FormValidationContext} from "./context";
 export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
-    children: React.ReactNode | string | number;
-    label?: React.ReactNode | string | number;
+    children: React.ReactElement | string | number | null;
+    label?: React.ReactElement | string | number | null;
     required?: boolean;
-    extra?: React.ReactNode | string | number;
+    extra?: React.ReactElement | string | number | null;
     validator?: FormValidator;
     className?: string;
     labelStyle?: React.CSSProperties;

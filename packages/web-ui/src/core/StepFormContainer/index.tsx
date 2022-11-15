@@ -9,7 +9,7 @@ import "./index.less";
 
 export interface StepItem {
     title: string;
-    content: React.ReactNode | string | number;
+    content: React.ReactElement | string | number;
     description?: string;
 }
 

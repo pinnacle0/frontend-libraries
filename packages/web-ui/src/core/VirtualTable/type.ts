@@ -22,11 +22,11 @@ export type VirtualTableRowSelection<RowType extends object> = {
      * Attention:
      * If title is provided, the select all checkbox wil be overridden
      */
-    title?: React.ReactNode | string | number;
+    title?: React.ReactElement | string | number | null;
 };
 
 export type VirtualTableColumn<RowType extends object> = {
-    title: React.ReactNode | string | number;
+    title: React.ReactElement | string | number;
     width: number;
     /**
      * Attention:

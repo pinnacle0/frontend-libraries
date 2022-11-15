@@ -3,11 +3,11 @@ import {classNames} from "../../util/ClassNames";
 import "./index.less";
 
 export interface Props {
-    title: React.ReactNode | string | number;
+    title: React.ReactElement | string | number;
     children: React.ReactNode;
     expanded: boolean;
     onExpansionChange: (expanded: boolean) => void;
-    titleRight?: React.ReactNode | string | number;
+    titleRight?: React.ReactElement | string | number | null;
     className?: string;
     style?: React.CSSProperties;
 }

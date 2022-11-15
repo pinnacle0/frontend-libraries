@@ -7,7 +7,7 @@ import {i18n} from "../../internal/i18n/core";
 type NullType = "@@NULL";
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum | null> {
-    nullText?: React.ReactChild;
+    nullText?: React.ReactElement | string | number | null;
     nullPositionIndex?: number;
 }
 

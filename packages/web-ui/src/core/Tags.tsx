@@ -3,14 +3,14 @@ import {Tag} from "./Tag";
 import type {TagColor} from "./Tag";
 
 export interface Props {
-    items: React.ReactChild[];
+    items: Array<React.ReactElement | string | number | null>;
     /**
      * If undefined, tags are not closable.
      */
     onClose?: (index: number) => void;
-    color?: TagColor | ((item: React.ReactChild, index: number) => TagColor);
+    color?: TagColor | ((item: React.ReactElement | string | number | null, index: number) => TagColor);
     maxWidth?: number;
-    extraContent?: React.ReactChild;
+    extraContent?: React.ReactElement | string | number | null;
 }
 
 export class Tags extends React.PureComponent<Props> {
@@ -18,7 +18,7 @@ export class Tags extends React.PureComponent<Props> {
 
     private readonly singleTagStyle: React.CSSProperties = {marginRight: 5, marginBottom: 4};
 
-    renderTag = (item: React.ReactChild, index: number) => {
+    renderTag = (item: React.ReactElement | string | number | null, index: number) => {
         const {color, onClose} = this.props;
         const tagColor = typeof color === "function" ? color(item, index) : color;
         return (

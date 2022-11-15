@@ -9,7 +9,7 @@ interface Props<T> extends ControlledFormValue<T[]> {
     className?: (item: T) => string;
     style?: React.CSSProperties;
     disabled?: boolean;
-    placeholder?: React.ReactNode | string | number;
+    placeholder?: React.ReactElement | string | number | null;
     autoFocus?: boolean;
 }
 

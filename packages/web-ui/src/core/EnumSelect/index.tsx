@@ -9,7 +9,7 @@ import "./index.less";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
-    translator?: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactElement | string | number | null;
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;

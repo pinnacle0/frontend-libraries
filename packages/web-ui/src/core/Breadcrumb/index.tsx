@@ -5,7 +5,7 @@ import "./index.less";
 export interface Props<T extends object> {
     data: T[];
     onClick: (item: T, index: number) => void;
-    renderItem: (item: T, index: number) => React.ReactNode | string | number;
+    renderItem: (item: T, index: number) => React.ReactElement | string | number;
     itemKey: StringKey<T> | ((item: T, index?: number) => string) | "index";
     lastClickable?: boolean;
     className?: string;

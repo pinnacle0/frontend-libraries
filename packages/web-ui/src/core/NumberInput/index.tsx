@@ -48,9 +48,9 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     /** Additional style for input field */
     inputStyle?: React.CSSProperties;
     /** Additional component to render after input field */
-    suffix?: React.ReactChild;
+    suffix?: React.ReactElement | string | number | null;
     /** Additional component to render before input field */
-    prefix?: React.ReactChild;
+    prefix?: React.ReactElement | string | number | null;
     /** Optional Input Ref */
     inputRef?: React.RefObject<InputRef>;
     /** Auto focus when input first shown */

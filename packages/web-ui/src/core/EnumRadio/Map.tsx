@@ -4,7 +4,7 @@ import {EnumRadio} from "./index";
 import type {ControlledFormValue} from "../../internal/type";
 
 export interface Props<Enum extends string> extends Omit<BaseProps<any>, "list" | "translator">, ControlledFormValue<Enum> {
-    map: Record<Enum, React.ReactChild>;
+    map: Record<Enum, React.ReactElement | string | number | null>;
 }
 
 export class Map<Enum extends string> extends React.PureComponent<Props<Enum>> {

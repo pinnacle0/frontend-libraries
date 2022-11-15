@@ -4,7 +4,7 @@ import {classNames} from "../util/ClassNames";
 import type {LocationDescriptorObject} from "history";
 
 export interface Props {
-    children: React.ReactNode | string | number;
+    children: React.ReactElement | string | number;
     to?: string | (() => void) | LocationDescriptorObject<any>;
     className?: string; // class "g-text-link" will be added if children is pure string
     style?: React.CSSProperties;

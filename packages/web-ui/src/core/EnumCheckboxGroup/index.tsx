@@ -4,7 +4,7 @@ import type {ControlledFormValue} from "../../internal/type";
 
 interface Props<Enum extends string | boolean | number> extends ControlledFormValue<Enum[]> {
     list: readonly Enum[];
-    translator?: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactElement | string | number | null;
     disabledItems?: Enum[] | "all";
 }
 

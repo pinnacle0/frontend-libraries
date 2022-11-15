@@ -29,7 +29,7 @@ export interface VirtualTableProps<RowType extends object> {
     scrollY?: number;
     scrollX?: number;
     loading?: boolean;
-    emptyPlaceholder?: React.ReactNode | string | number;
+    emptyPlaceholder?: React.ReactElement | string | number;
     onRowClick?: (record: RowType, rowIndex: number) => void;
     /**
      * Default: index

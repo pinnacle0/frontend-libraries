@@ -8,7 +8,7 @@ import {Map} from "./Map";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
-    translator?: (enumValue: Enum) => React.ReactChild;
+    translator?: (enumValue: Enum) => React.ReactElement | string | number | null;
     useButtonMode?: boolean;
     disabled?: boolean;
     className?: string;

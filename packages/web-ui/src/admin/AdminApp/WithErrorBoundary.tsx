@@ -3,7 +3,7 @@ import {AdminPage} from "../AdminPage";
 
 interface Props {
     onLifecycleError?: (error: unknown, componentStack: string) => void;
-    children: React.ReactChild;
+    children: React.ReactElement | string | number | null;
 }
 
 interface State {

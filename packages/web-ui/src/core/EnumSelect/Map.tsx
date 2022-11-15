@@ -4,7 +4,7 @@ import {EnumSelect} from "./index";
 import type {ControlledFormValue} from "../../internal/type";
 
 export interface Props<T extends string> extends Omit<BaseProps<any>, "list" | "translator">, ControlledFormValue<T> {
-    map: Record<T, React.ReactChild>;
+    map: Record<T, React.ReactElement | string | number | null>;
 }
 
 export class Map<T extends string> extends React.PureComponent<Props<T>> {
