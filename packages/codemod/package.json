@@ -26,13 +26,13 @@
     "license": "MIT",
     "author": "Pinnacle",
     "dependencies": {
-        "@babel/parser": "7.19.4",
+        "@babel/parser": "7.20.3",
         "ast-types": "0.14.2",
         "chalk": "4.1.2",
         "fs-extra": "10.1.0",
         "glob": "8.0.3",
         "recast": "0.21.5",
-        "yargs": "17.6.0"
+        "yargs": "17.6.2"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
