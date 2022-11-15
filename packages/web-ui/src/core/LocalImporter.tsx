@@ -1,5 +1,4 @@
 import React from "react";
-import type {SafeReactChildren} from "../internal/type";
 import AntUpload from "antd/lib/upload";
 import {i18n} from "../internal/i18n/core";
 import {TextUtil} from "../internal/TextUtil";
@@ -9,7 +8,7 @@ import "antd/lib/upload/style";
 export interface Props {
     type: "txt" | "csv";
     onImport: (file: File) => Promise<void> | void;
-    children?: SafeReactChildren;
+    children?: React.ReactNode;
     className?: string;
     disabled?: boolean;
     style?: React.CSSProperties;

@@ -1,14 +1,13 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
-    title: SafeReactChild;
-    children: SafeReactChildren;
+    title: React.ReactNode | string | number;
+    children: React.ReactNode;
     expanded: boolean;
     onExpansionChange: (expanded: boolean) => void;
-    titleRight?: SafeReactChild;
+    titleRight?: React.ReactNode | string | number;
     className?: string;
     style?: React.CSSProperties;
 }

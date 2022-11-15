@@ -1,11 +1,10 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
-import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 interface Props {
-    children: SafeReactChildren;
+    children: React.ReactNode;
     maxWidth: number;
     className?: string;
     style?: React.CSSProperties;

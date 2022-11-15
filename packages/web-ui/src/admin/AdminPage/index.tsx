@@ -5,11 +5,10 @@ import {Summary} from "./Summary";
 import {SaveBar} from "./SaveBar";
 import {Result} from "./Result";
 import {TopBar} from "./TopBar";
-import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
-    children: SafeReactChildren;
+    children: React.ReactNode;
     className?: string;
 }
 

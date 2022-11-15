@@ -1,7 +1,7 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
-import type {PickOptional, SafeReactChildren} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import type {TooltipPlacement} from "../Tooltip";
 import "./index.less";
 
@@ -9,11 +9,11 @@ export interface Props {
     /**
      * If there are multiple children, they should handle inline display by self.
      */
-    children?: SafeReactChildren;
+    children?: React.ReactNode;
     /**
      * If falsy, tooltip icon will hide.
      */
-    explanation?: SafeReactChildren;
+    explanation?: React.ReactNode;
     placement?: TooltipPlacement;
     iconPosition?: "left" | "right";
 }

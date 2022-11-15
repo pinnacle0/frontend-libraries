@@ -5,7 +5,6 @@ import {classNames} from "../../util/ClassNames";
 import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
 import {WithExplanation} from "../../core/WithExplanation";
-import type {SafeReactChildren} from "../../internal/type";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {i18n} from "../../internal/i18n/admin";
 import type {FormErrorDisplayMode} from "../../core/Form/context";
@@ -14,9 +13,9 @@ import {Space} from "../../core/Space";
 export interface Props {
     onFinish: () => void;
     onReset?: () => void;
-    children: SafeReactChildren;
+    children: React.ReactNode;
     errorDisplayMode?: FormErrorDisplayMode;
-    extraElements?: SafeReactChildren;
+    extraElements?: React.ReactNode;
     expandedArea?: React.ReactElement; // If undefined, the Filter cannot be expanded
     loading?: boolean;
     reminder?: string;

@@ -1,11 +1,11 @@
 import React from "react";
-import type {SafeReactChild, StringKey} from "../../internal/type";
+import type {StringKey} from "../../internal/type";
 import "./index.less";
 
 export interface Props<T extends object> {
     data: T[];
     onClick: (item: T, index: number) => void;
-    renderItem: (item: T, index: number) => SafeReactChild;
+    renderItem: (item: T, index: number) => React.ReactNode | string | number;
     itemKey: StringKey<T> | ((item: T, index?: number) => string) | "index";
     lastClickable?: boolean;
     className?: string;

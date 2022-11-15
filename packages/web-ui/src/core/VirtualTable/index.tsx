@@ -4,7 +4,7 @@ import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
-import type {SafeReactChild, StringKey} from "../../internal/type";
+import type {StringKey} from "../../internal/type";
 import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 import {useRowSelection} from "./hooks/useRowSelection";
 import {useColumns} from "./hooks/useColumns";
@@ -29,7 +29,7 @@ export interface VirtualTableProps<RowType extends object> {
     scrollY?: number;
     scrollX?: number;
     loading?: boolean;
-    emptyPlaceholder?: SafeReactChild;
+    emptyPlaceholder?: React.ReactNode | string | number;
     onRowClick?: (record: RowType, rowIndex: number) => void;
     /**
      * Default: index

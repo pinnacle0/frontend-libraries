@@ -3,13 +3,13 @@ import AntTabs from "antd/lib/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import type {TabsProps} from "antd/lib/tabs";
-import type {PickOptional, SafeReactChildren} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import "antd/lib/tabs/style";
 import "./index.less";
 
 export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {
-    tabBarPrefix?: SafeReactChildren;
-    tabBarSuffix?: SafeReactChildren;
+    tabBarPrefix?: React.ReactNode;
+    tabBarSuffix?: React.ReactNode;
     /**
      * Attention:
      *  - Should be at least 1

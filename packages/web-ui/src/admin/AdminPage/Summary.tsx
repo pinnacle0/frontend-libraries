@@ -1,8 +1,7 @@
 import React from "react";
-import type {SafeReactChildren} from "../../internal/type";
 
 export interface Props {
-    children: SafeReactChildren;
+    children: React.ReactNode;
 }
 
 export class Summary extends React.PureComponent<Props> {

@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import type {SafeReactChildren} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
-    children: SafeReactChildren;
+    children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
 }

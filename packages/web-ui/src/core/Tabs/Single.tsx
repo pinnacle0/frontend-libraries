@@ -1,11 +1,10 @@
 import React from "react";
 import {Tabs} from "./index";
-import type {SafeReactChildren} from "../../internal/type";
 import type {Props as TabsProps} from "./index";
 
 export interface Props extends Omit<TabsProps, "activeKey" | "onChange" | "defaultActiveKey"> {
     title: string;
-    children: SafeReactChildren;
+    children: React.ReactNode;
 }
 
 export class Single extends React.PureComponent<Props> {

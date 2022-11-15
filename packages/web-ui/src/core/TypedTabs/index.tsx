@@ -1,12 +1,11 @@
 import React from "react";
 import type {Props as TabsProps} from "../Tabs";
-import type {SafeReactChildren} from "../../internal/type";
 import {Tabs} from "../Tabs";
 import "./index.less";
 
 export interface TabData {
     title: React.ReactElement | string;
-    content: SafeReactChildren;
+    content: React.ReactNode;
     display?: "default" | "hidden";
     disabled?: boolean;
 }

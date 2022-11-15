@@ -2,13 +2,12 @@ import React from "react";
 import type {UploadChangeParam} from "antd/lib/upload";
 import type {HttpRequestHeader} from "antd/lib/upload/interface";
 import AntUpload from "antd/lib/upload";
-import type {SafeReactChildren} from "../internal/type";
 import type {UploaderProps, UploadLogInfo} from "../util/UploadUtil/type";
 import {Spin} from "./Spin";
 import "antd/lib/upload/style";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
-    children: SafeReactChildren;
+    children: React.ReactNode;
     /**
      * Please follow W3C standard for HTML accept string.
      * Ref:

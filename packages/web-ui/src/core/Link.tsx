@@ -2,10 +2,9 @@ import React from "react";
 import {NavLink as ReactRouterLink} from "react-router-dom";
 import {classNames} from "../util/ClassNames";
 import type {LocationDescriptorObject} from "history";
-import type {SafeReactChild} from "../internal/type";
 
 export interface Props {
-    children: SafeReactChild;
+    children: React.ReactNode | string | number;
     to?: string | (() => void) | LocationDescriptorObject<any>;
     className?: string; // class "g-text-link" will be added if children is pure string
     style?: React.CSSProperties;

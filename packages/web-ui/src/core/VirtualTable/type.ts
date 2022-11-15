@@ -1,5 +1,3 @@
-import type {SafeReactChild, SafeReactChildren} from "../../internal/type";
-
 export type ColumnFixedPosition = "left" | "right";
 
 export interface StickyPosition {
@@ -24,17 +22,17 @@ export type VirtualTableRowSelection<RowType extends object> = {
      * Attention:
      * If title is provided, the select all checkbox wil be overridden
      */
-    title?: SafeReactChild;
+    title?: React.ReactNode | string | number;
 };
 
 export type VirtualTableColumn<RowType extends object> = {
-    title: SafeReactChild;
+    title: React.ReactNode | string | number;
     width: number;
     /**
      * Attention:
      * If renderData return null, the corresponding table cell will not render
      */
-    renderData: (record: RowType, rowIndex: number) => SafeReactChildren | undefined;
+    renderData: (record: RowType, rowIndex: number) => React.ReactNode | undefined;
     align?: "left" | "right" | "center";
     display?: "default" | "hidden";
     fixed?: "left" | "right";

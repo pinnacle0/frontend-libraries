@@ -12,7 +12,7 @@ import "antd/lib/table/style";
 import "./index.less";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
 import type {TableRowSelection} from "antd/lib/table/interface";
-import type {PickOptional, SafeReactChild, SafeReactChildren, StringKey} from "../../internal/type";
+import type {PickOptional, StringKey} from "../../internal/type";
 
 enum SortOrder {
     DESC = "DESC",
@@ -23,7 +23,7 @@ type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsP
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | React.ReactChild;
-    renderData: (record: RowType, index: number) => SafeReactChildren | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
+    renderData: (record: RowType, index: number) => React.ReactNode | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
     align?: "left" | "right" | "center";
     colSpan?: number;
     width?: string | number;
@@ -57,8 +57,8 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     scrollY?: number;
     loading?: boolean;
     // if emptyPlaceholder is provided, emptyIcon and emptyText will be ignored
-    emptyPlaceholder?: SafeReactChild;
-    emptyIcon?: SafeReactChild;
+    emptyPlaceholder?: React.ReactNode | string | number;
+    emptyIcon?: React.ReactNode | string | number;
     emptyText?: string;
     sortConfig?: TableSorter<OrderByFieldType>;
     /**

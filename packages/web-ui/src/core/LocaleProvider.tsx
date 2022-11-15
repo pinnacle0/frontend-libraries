@@ -2,13 +2,12 @@ import AntConfigProvider from "antd/lib/config-provider";
 import chineseLocale from "antd/lib/locale/zh_CN";
 import englishLocale from "antd/lib/locale/en_US";
 import React from "react";
-import type {SafeReactChildren} from "../internal/type";
 import type {Locale} from "../util/LocaleUtil";
 import {LocaleContext, LocaleUtil} from "../util/LocaleUtil";
 
 export interface Props {
     locale: Locale | "auto";
-    children: SafeReactChildren;
+    children: React.ReactNode;
 }
 
 export class LocaleProvider extends React.PureComponent<Props> {

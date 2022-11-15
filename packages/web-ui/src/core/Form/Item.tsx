@@ -2,15 +2,14 @@ import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
 import {FormValidationContext} from "./context";
-import type {SafeReactChild} from "../../internal/type";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
-    children: SafeReactChild;
-    label?: SafeReactChild;
+    children: React.ReactNode | string | number;
+    label?: React.ReactNode | string | number;
     required?: boolean;
-    extra?: SafeReactChild;
+    extra?: React.ReactNode | string | number;
     validator?: FormValidator;
     className?: string;
     labelStyle?: React.CSSProperties;

@@ -4,7 +4,7 @@ import Modal from "antd/lib/modal";
 import type {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
 import "antd/lib/modal/style";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
-import type {PickOptional, SafeReactChild, SafeReactChildren} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import {TextUtil} from "../../internal/TextUtil";
 import {i18n} from "../../internal/i18n/util";
 import "./index.less";
@@ -16,8 +16,8 @@ export type ModalConfigWithoutEvent = Omit<ModalConfig, "onOk" | "onCancel">;
 export type CreateAsyncModalPromise<WithCloseHandling extends boolean> = WithCloseHandling extends true ? Promise<"ok" | "cancel" | "close"> : Promise<boolean>;
 
 export interface ModalConfig {
-    body: SafeReactChildren; // Use array for multiple rows
-    title?: React.ReactChild;
+    body: React.ReactNode; // Use array for multiple rows
+    title?: React.ReactElement | string;
     closable?: boolean;
     width?: number;
     className?: string;
@@ -30,7 +30,7 @@ export interface ModalConfig {
     autoFocusButton?: "ok" | "cancel" | null;
     hideButtons?: boolean;
     addInnerPadding?: boolean;
-    footerExtra?: SafeReactChild;
+    footerExtra?: React.ReactNode | string | number;
 }
 
 let modalInstance: Omit<ModalStaticFunctions, "warn"> | null = null;
@@ -52,7 +52,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
     }
 
     const getTitle = (remainingSecond?: number) => {
-        const titleNode: SafeReactChildren = [mergedConfig.title!];
+        const titleNode: Array<React.ReactElement | string> = [mergedConfig.title!];
         if (remainingSecond) {
             titleNode.push(` (${TextUtil.interpolate(t.autoClose, remainingSecond.toString())})`);
         }
@@ -130,7 +130,7 @@ function createAsync<WithCloseHandling extends boolean = false>(
     }) as CreateAsyncModalPromise<WithCloseHandling>;
 }
 
-function confirm(body: SafeReactChildren, title?: string): Promise<boolean> {
+function confirm(body: React.ReactNode, title?: string): Promise<boolean> {
     const t = i18n();
     return createAsync({
         /**

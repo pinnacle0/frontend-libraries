@@ -3,13 +3,13 @@ import AntModal from "antd/lib/modal";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import type {ModalProps} from "antd/lib/modal";
-import type {PickOptional, SafeReactChildren} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import "antd/lib/modal/style";
 import "./index.less";
 
 export interface Props extends ModalProps {
     width: number | string; // Do not use "auto"
-    children: SafeReactChildren;
+    children: React.ReactNode;
     loading?: boolean;
     addInnerPadding?: boolean;
 }

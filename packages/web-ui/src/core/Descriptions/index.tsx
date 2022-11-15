@@ -1,11 +1,11 @@
 import React from "react";
 import AntDescriptions from "antd/lib/descriptions";
 import "antd/lib/descriptions/style";
-import type {SafeReactChild, SafeReactChildren, PickOptional} from "../../internal/type";
+import type {PickOptional} from "../../internal/type";
 import "./index.less";
 
 export interface Props {
-    children: SafeReactChildren;
+    children: React.ReactNode;
     horizontal?: boolean;
     title?: string;
     column?: number; // If undefined, column length will be same as children's length
@@ -15,8 +15,8 @@ export interface Props {
 }
 
 export interface DescriptionsItemProps {
-    label: SafeReactChild;
-    children: SafeReactChildren;
+    label: React.ReactNode | string | number;
+    children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
     span?: number;

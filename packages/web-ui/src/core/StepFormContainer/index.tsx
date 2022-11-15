@@ -5,12 +5,11 @@ import {Button} from "../Button";
 import {Form} from "../Form";
 import {Space} from "../Space";
 import {Steps} from "../Steps";
-import type {SafeReactChild} from "../../internal/type";
 import "./index.less";
 
 export interface StepItem {
     title: string;
-    content: SafeReactChild;
+    content: React.ReactNode | string | number;
     description?: string;
 }
 

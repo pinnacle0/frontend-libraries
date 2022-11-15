@@ -1,6 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {ControlledFormValue, PickOptional, SafeReactChild} from "../../internal/type";
+import type {ControlledFormValue, PickOptional} from "../../internal/type";
 import "./index.less";
 
 interface Props<T> extends ControlledFormValue<T[]> {
@@ -9,7 +9,7 @@ interface Props<T> extends ControlledFormValue<T[]> {
     className?: (item: T) => string;
     style?: React.CSSProperties;
     disabled?: boolean;
-    placeholder?: SafeReactChild;
+    placeholder?: React.ReactNode | string | number;
     autoFocus?: boolean;
 }
 
@@ -79,7 +79,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
                     return (
                         <div className={classNames("g-tag-input-label", className?.(tag))} key={index}>
                             {renderTag!(tag)}
-                            <i onClick={() => this.removeTag(index)}>&times;</i>
+                            <i onClick={() => this.removeTag(index)}>×</i>
                         </div>
                     );
                 })}
