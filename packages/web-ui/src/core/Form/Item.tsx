@@ -6,7 +6,7 @@ import {FormValidationContext} from "./context";
 export type FormValidator = () => string | null | Promise<string | null>;
 
 export interface Props {
-    children: React.ReactElement | string | number | null;
+    children: React.ReactNode;
     label?: React.ReactElement | string | number | null;
     required?: boolean;
     extra?: React.ReactElement | string | number | null;
