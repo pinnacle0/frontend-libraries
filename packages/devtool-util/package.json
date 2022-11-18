@@ -9,7 +9,8 @@
         "compile": "tsc --project config/tsconfig.src.json",
         "game": "ts-node --project config/tsconfig.test.json ./script/game.ts",
         "copy-static-files": "node script/copyStaticFiles.js",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files"
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files",
+        "prepublishOnly": "pnpm build"
     },
     "dependencies": {
         "chalk": "4.1.2",
