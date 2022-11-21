@@ -8,7 +8,8 @@
         "codegen": "pnpm run run-script script/codegen.ts",
         "format": "pnpm run run-script script/format.ts",
         "new-rule": "pnpm run run-script script/new-rule.ts",
-        "test": "jest --config config/jest.config.ts"
+        "test": "jest --config config/jest.config.ts",
+        "prepublishOnly": "pnpm build"
     },
     "dependencies": {
         "@typescript-eslint/eslint-plugin": "5.43.0",

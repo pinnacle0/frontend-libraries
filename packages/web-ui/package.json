@@ -22,7 +22,7 @@
         "start:mobile": "pnpm run run-script script/start-mobile.ts",
         "format": "pnpm run run-script script/format.ts",
         "test": "jest --config config/jest.config.ts",
-        "prepublish": "pnpm build"
+        "prepublishOnly": "pnpm build"
     },
     "dependencies": {
         "@ant-design/icons": "4.8.0",

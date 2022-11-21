@@ -20,7 +20,7 @@
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
         "codegen": "pnpm run run-script ./script/codegen.ts",
         "build": "pnpm test && tsc --project ./tsconfig.json",
-        "prepublish": "pnpm run build"
+        "prepublishOnly": "pnpm run build"
     },
     "keywords": [],
     "license": "MIT",

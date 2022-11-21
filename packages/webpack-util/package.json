@@ -8,7 +8,7 @@
         "build": "pnpm run run-script script/build.ts",
         "format": "pnpm run run-script script/format.ts",
         "test": "jest --config config/jest.config.ts",
-        "prepublish": "pnpm build"
+        "prepublishOnly": "pnpm build"
     },
     "dependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
