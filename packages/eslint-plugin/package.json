@@ -18,7 +18,7 @@
         "eslint-config-prettier": "8.5.0",
         "eslint-plugin-eslint-comments": "3.2.0",
         "eslint-plugin-import": "2.26.0",
-        "eslint-plugin-react": "7.31.10",
+        "eslint-plugin-react": "7.31.11",
         "eslint-plugin-react-hooks": "4.6.0"
     },
     "peerDependencies": {
@@ -31,7 +31,7 @@
         "@rollup/plugin-json": "5.0.1",
         "@rollup/plugin-node-resolve": "15.0.1",
         "@types/yargs": "17.0.13",
-        "eslint": "8.27.0",
+        "eslint": "8.28.0",
         "rollup": "3.3.0",
         "rollup-plugin-typescript2": "0.34.1",
         "typescript": "4.8.4",
