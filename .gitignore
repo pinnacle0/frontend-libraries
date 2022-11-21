@@ -40,3 +40,6 @@
 
 # Worktrees
 .worktrees/**
+
+# swc plugins
+**/.swc/**
