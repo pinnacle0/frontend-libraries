@@ -1,6 +1,7 @@
 import React from "react";
-import moment from "moment";
-import AntTimePicker from "antd/lib/time-picker";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
+import {AntDatePicker} from "../AntDatePicker";
 import type {ControlledFormValue} from "../../internal/type";
 import "antd/lib/time-picker/style";
 import "./index.less";
@@ -17,7 +18,7 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
 
     private readonly timeFormatter = "HH:mm:ss";
 
-    onChange = (dates: [moment.Moment | null, moment.Moment | null] | null) => {
+    onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [string | null, string | null]) => void;
         if (dates && dates[0] && dates[1]) {
             typedOnChange([dates[0].format(this.timeFormatter), dates[1].format(this.timeFormatter)]);
@@ -29,9 +30,11 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
     render() {
         const {value, disabled, className, allowNull, order} = this.props;
         return (
-            <AntTimePicker.RangePicker
+            <AntDatePicker.RangePicker
+                picker="time"
+                mode={undefined}
                 className={className}
-                value={value[0] && value[1] ? [moment(value[0], this.timeFormatter), moment(value[1], this.timeFormatter)] : [null, null]}
+                value={value[0] && value[1] ? [dayjs(value[0], this.timeFormatter), dayjs(value[1], this.timeFormatter)] : [null, null]}
                 onChange={this.onChange}
                 disabled={disabled}
                 allowClear={allowNull}

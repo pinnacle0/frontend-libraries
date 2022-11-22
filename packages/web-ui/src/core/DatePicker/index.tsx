@@ -1,9 +1,8 @@
-import AntDatePicker from "antd/lib/date-picker";
-import type {Moment} from "moment";
-import moment from "moment";
 import React from "react";
+import {AntDatePicker} from "../AntDatePicker";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/date-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {
@@ -16,7 +15,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
 export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DatePicker";
 
-    isDateDisabled = (current: moment.Moment): boolean => {
+    isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
             return false;
         }
@@ -32,7 +31,7 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
         return false;
     };
 
-    onChange = (date: Moment | null, dateString: string) => {
+    onChange = (date: Dayjs | null, dateString: string) => {
         const {onChange, allowNull} = this.props;
         if (dateString || allowNull) {
             const typedOnChange = onChange as (value: string | null) => void;
@@ -48,7 +47,7 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
                 showTime={false}
                 disabledDate={this.isDateDisabled}
                 placeholder={placeholder}
-                value={value ? moment(value) : null}
+                value={value ? dayjs(value) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}

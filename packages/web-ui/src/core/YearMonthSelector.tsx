@@ -1,8 +1,12 @@
 import React from "react";
-import moment from "moment";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import type {ControlledFormValue} from "../internal/type";
-import type {Moment} from "moment";
-import AntDatePicker from "antd/lib/date-picker";
+import {AntDatePicker} from "./AntDatePicker";
+import arraySupport from "dayjs/plugin/arraySupport";
+
+// load plugin when component is imported
+dayjs.extend(arraySupport);
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [number, number] : [number, number] | null> {
     allowNull: T;
@@ -14,7 +18,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
 export class YearMonthSelector<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DatePicker";
 
-    isDateDisabled = (current: moment.Moment): boolean => {
+    isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
             return false;
         }
@@ -28,11 +32,11 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
             return true;
         }
 
-        const diffMonthToThisMonth = Math.floor(current.diff(moment().startOf("month"), "month", true));
+        const diffMonthToThisMonth = Math.floor(current.diff(dayjs().startOf("month"), "month", true));
         return this.props.disabledRange?.(diffMonthToThisMonth, current.toDate()) || false;
     };
 
-    onChange = (date: Moment | null, dateString: string) => {
+    onChange = (date: Dayjs | null, dateString: string) => {
         const {onChange, allowNull} = this.props;
         if (dateString || allowNull) {
             const typedOnChange = onChange as (value: [number, number] | null) => void;
@@ -46,7 +50,7 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
             <AntDatePicker
                 className={className}
                 disabledDate={this.isDateDisabled}
-                value={value ? moment([value[0], value[1] - 1]) : null}
+                value={value ? dayjs([value[0], value[1] - 1]) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}

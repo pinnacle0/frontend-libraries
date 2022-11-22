@@ -1,12 +1,15 @@
 import React from "react";
-import AntCalendar from "antd/lib/calendar";
 import type {HeaderRender} from "antd/lib/calendar/generateCalendar";
-import type {Moment} from "moment";
-import moment from "moment";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
+import generateCalendar from "antd/es/calendar/generateCalendar";
+import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
 import type {ControlledFormValue} from "../internal/type";
 import {Select} from "./Select";
 import {Space} from "./Space";
 import "antd/lib/calendar/style";
+
+const AntCalendar = generateCalendar<Dayjs>(dayjsGenerateConfig);
 
 interface Props extends ControlledFormValue<string> {}
 
@@ -15,9 +18,9 @@ export class DateCalendar extends React.PureComponent<Props> {
 
     private readonly headerStyle: React.CSSProperties = {padding: 8};
 
-    private readonly now = moment();
+    private readonly now = dayjs();
 
-    isDateDisabled = (current: moment.Moment): boolean => {
+    isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
             return false;
         }
@@ -33,9 +36,9 @@ export class DateCalendar extends React.PureComponent<Props> {
         return false;
     };
 
-    onChange = (date: Moment) => this.props.onChange(moment(date).format("YYYY-MM-DD"));
+    onChange = (date: Dayjs) => this.props.onChange(dayjs(date).format("YYYY-MM-DD"));
 
-    renderHeader: HeaderRender<Moment> = ({value, onChange}) => {
+    renderHeader: HeaderRender<Dayjs> = ({value, onChange}) => {
         const start = 0;
         const end = 12;
         const monthOptions = [];
@@ -105,6 +108,6 @@ export class DateCalendar extends React.PureComponent<Props> {
     };
 
     render() {
-        return <AntCalendar disabledDate={this.isDateDisabled} headerRender={this.renderHeader} value={moment(this.props.value, "YYYY-MM-DD")} fullscreen={false} onChange={this.onChange} />;
+        return <AntCalendar disabledDate={this.isDateDisabled} headerRender={this.renderHeader} value={dayjs(this.props.value, "YYYY-MM-DD")} fullscreen={false} onChange={this.onChange} />;
     }
 }

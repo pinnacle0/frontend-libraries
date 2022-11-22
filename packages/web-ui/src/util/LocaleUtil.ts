@@ -1,4 +1,6 @@
 import React from "react";
+import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
 import {LocalStorageUtil} from "./LocalStorageUtil";
 
 /**
@@ -23,8 +25,10 @@ class LocaleManager {
         if (this.locale === "zh") {
             // if tree-shaking (ref README) is enabled, only English locale is imported by default
             // import Chinese locale on the fly, if the current app language is Chinese
-            require("moment/locale/zh-cn");
+            require("dayjs/locale/zh-cn");
+            dayjs.locale("zh-cn");
         }
+        dayjs.extend(localeData);
     }
 
     change(locale: Locale): void {

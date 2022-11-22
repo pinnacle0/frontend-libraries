@@ -1,8 +1,8 @@
-import AntDatePicker from "antd/lib/date-picker";
-import moment from "moment";
+import {AntDatePicker} from "../AntDatePicker";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import React from "react";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/date-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? Date : Date | null> {
@@ -17,7 +17,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
 export class DateTimePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DateTimePicker";
 
-    isDateDisabled = (current: moment.Moment): boolean => {
+    isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
             return false;
         }
@@ -31,13 +31,11 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
             return true;
         }
 
-        // moment will truncate the result to zero decimal places
-        // ref: https://momentjs.com/docs/#/displaying/difference/
-        const diffHourToToday = Math.floor(current.diff(moment().startOf("hour"), "hour", true));
+        const diffHourToToday = Math.floor(current.diff(dayjs().startOf("hour"), "hour", true));
         return this.props.disabledRange?.(diffHourToToday, current.toDate()) || false;
     };
 
-    onChange = (date: moment.Moment | null) => {
+    onChange = (date: Dayjs | null) => {
         const typedOnChange = this.props.onChange as (value: Date | null) => void;
         if (date) {
             typedOnChange(date.toDate());
@@ -53,7 +51,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
                 className={className}
                 placeholder={placeholder}
                 disabledDate={this.isDateDisabled}
-                value={value ? moment(value) : null}
+                value={value ? dayjs(value) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}

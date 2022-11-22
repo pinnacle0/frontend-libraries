@@ -1,9 +1,8 @@
-import AntTimePicker from "antd/lib/time-picker";
-import type {Moment} from "moment";
-import moment from "moment";
+import {AntDatePicker} from "../AntDatePicker";
+import type {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import React from "react";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/time-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {
@@ -18,7 +17,7 @@ export class TimePicker<T extends boolean> extends React.PureComponent<Props<T>>
 
     private readonly timeFormatter = "HH:mm:ss";
 
-    onTimeChange = (time: Moment | null) => {
+    onTimeChange = (time: Dayjs | null) => {
         const {onChange} = this.props;
         const typedOnChange = onChange as (value: string | null) => void;
         if (time) {
@@ -31,10 +30,12 @@ export class TimePicker<T extends boolean> extends React.PureComponent<Props<T>>
     render() {
         const {value, allowNull, placeholder, disabled, className} = this.props;
         return (
-            <AntTimePicker
+            <AntDatePicker
+                picker="time"
+                mode={undefined}
                 className={className}
                 placeholder={placeholder}
-                value={value ? moment(value, this.timeFormatter) : null}
+                value={value ? dayjs(value, this.timeFormatter) : null}
                 onChange={this.onTimeChange}
                 allowClear={allowNull}
                 disabled={disabled}
