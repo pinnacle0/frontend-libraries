@@ -1,9 +1,9 @@
+import {ResizeObserver} from "@juggle/resize-observer"
+
 export class PolyfillUtil {
-    static async ResizeObserver() {
+    static ResizeObserver() {
         if ("ResizeObserver" in window === false) {
-            // Loads polyfill asynchronously, only if required.
-            const module = await import("@juggle/resize-observer");
-            window.ResizeObserver = module.ResizeObserver;
+            window.ResizeObserver = ResizeObserver
         }
     }
 }
