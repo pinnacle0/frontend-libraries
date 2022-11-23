@@ -15,9 +15,3 @@ If you want to use existing library color, `import "@pinnacle0/web-ui/css/variba
 
 - Do not import anything from `@pinnacle0/web-ui/internal/*`.
 
-## Moment Local Tree-shaking Issue
-
-To support this, please do both of following:
-
-- Add `new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),` to your webpack plugins.
-This line is to skip all locale imports by moment library itself.

@@ -1,6 +1,5 @@
 import React from "react";
 import dayjs from "dayjs";
-import localeData from "dayjs/plugin/localeData";
 import {LocalStorageUtil} from "./LocalStorageUtil";
 
 /**
@@ -28,7 +27,6 @@ class LocaleManager {
             require("dayjs/locale/zh-cn");
             dayjs.locale("zh-cn");
         }
-        dayjs.extend(localeData);
     }
 
     change(locale: Locale): void {

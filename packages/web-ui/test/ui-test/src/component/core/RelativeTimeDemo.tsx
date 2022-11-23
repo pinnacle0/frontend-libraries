@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import type {Props as RelativeTimeProps} from "@pinnacle0/web-ui/core/RelativeTime";
 import {RelativeTime} from "@pinnacle0/web-ui/core/RelativeTime";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
@@ -8,7 +8,7 @@ import {DemoHelper} from "../DemoHelper";
 const RelativeTimeDisplay = (props: RelativeTimeProps) => {
     return (
         <div>
-            <div>{moment(props.date).format()}</div>
+            <div>{dayjs(props.date).format()}</div>
             <RelativeTime {...props} />
         </div>
     );

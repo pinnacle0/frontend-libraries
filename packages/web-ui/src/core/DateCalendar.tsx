@@ -1,13 +1,17 @@
 import React from "react";
-import type {HeaderRender} from "antd/lib/calendar/generateCalendar";
-import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
 import generateCalendar from "antd/es/calendar/generateCalendar";
 import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
-import type {ControlledFormValue} from "../internal/type";
+import localeData from "dayjs/plugin/localeData";
 import {Select} from "./Select";
 import {Space} from "./Space";
+import type {ControlledFormValue} from "../internal/type";
+import type {HeaderRender} from "antd/lib/calendar/generateCalendar";
+import type {Dayjs} from "dayjs";
 import "antd/lib/calendar/style";
+
+// load plugin when component is imported
+dayjs.extend(localeData);
 
 const AntCalendar = generateCalendar<Dayjs>(dayjsGenerateConfig);
 
