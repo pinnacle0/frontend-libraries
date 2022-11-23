@@ -130,7 +130,6 @@ export class WebpackConfigGenerator {
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
-                Plugin.ignoreMomentLocale(),
                 Plugin.reactRefresh(),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
@@ -198,7 +197,6 @@ export class WebpackConfigGenerator {
             plugins: [
                 ...this.htmlWebpackPluginInstances,
                 Plugin.scriptTagCrossOriginPlugin(),
-                Plugin.ignoreMomentLocale(),
                 Plugin.typeChecker({tsconfigFilePath: this.tsconfigFilePath}),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 ...(this.enableProfiling ? [Plugin.webpack.progress({enableProfiling: true})] : []), // disable to not bloat up CI logs
