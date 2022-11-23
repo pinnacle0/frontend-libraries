@@ -9,10 +9,8 @@ import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 import {useRowSelection} from "./hooks/useRowSelection";
 import {useColumns} from "./hooks/useColumns";
 import {useScroll} from "./hooks/useScroll";
-import {PolyfillUtil} from "../../util/PolyfillUtil";
+import "../internal/polyfill/ResizeObserver";
 import "./index.less";
-
-PolyfillUtil.ResizeObserver();
 
 const HORIZONTAL_SCROLL_BAR_HEIGHT = 15;
 
