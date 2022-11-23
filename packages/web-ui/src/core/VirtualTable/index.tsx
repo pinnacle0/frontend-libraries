@@ -12,7 +12,6 @@ import {useScroll} from "./hooks/useScroll";
 import {PolyfillUtil} from "../../util/PolyfillUtil";
 import "./index.less";
 
-// polyfill of window.ResizeObserver
 PolyfillUtil.ResizeObserver();
 
 const HORIZONTAL_SCROLL_BAR_HEIGHT = 15;
