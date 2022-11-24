@@ -27,13 +27,13 @@
         "pnpm-single-version": "1.4.0",
         "postcss": "8.4.19",
         "postcss-less": "6.0.0",
-        "prettier": "2.7.1",
+        "prettier": "2.8.0",
         "stylelint": "14.15.0",
         "stylelint-config-prettier": "9.0.4",
         "stylelint-config-standard": "29.0.0",
         "ts-jest": "29.0.3",
         "ts-node": "10.9.1",
-        "typescript": "4.8.4"
+        "typescript": "4.9.3"
     },
     "pnpmSingleVersion": {
         "includes": [
