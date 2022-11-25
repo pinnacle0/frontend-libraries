@@ -1,7 +1,7 @@
 import React from "react";
-import Progress from "antd/lib/progress";
-import type {ProgressProps} from "antd/lib/progress";
-import "antd/lib/progress/style";
+import Progress from "antd/es/progress";
+import type {ProgressProps} from "antd/es/progress";
+import "antd/es/progress/style";
 
 interface Props extends ProgressProps {}
 

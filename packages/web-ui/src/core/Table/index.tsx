@@ -1,5 +1,5 @@
 import React from "react";
-import AntTable from "antd/lib/table";
+import AntTable from "antd/es/table";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 import SettingOutlined from "@ant-design/icons/SettingOutlined";
@@ -8,10 +8,10 @@ import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import "antd/lib/table/style";
+import "antd/es/table/style";
 import "./index.less";
-import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/lib/table";
-import type {TableRowSelection} from "antd/lib/table/interface";
+import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/es/table";
+import type {TableRowSelection} from "antd/es/table/interface";
 import type {PickOptional, StringKey} from "../../internal/type";
 
 enum SortOrder {

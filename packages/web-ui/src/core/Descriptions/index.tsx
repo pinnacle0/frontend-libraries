@@ -1,6 +1,6 @@
 import React from "react";
-import AntDescriptions from "antd/lib/descriptions";
-import "antd/lib/descriptions/style";
+import AntDescriptions from "antd/es/descriptions";
+import "antd/es/descriptions/style";
 import type {PickOptional} from "../../internal/type";
 import "./index.less";
 

@@ -1,5 +1,5 @@
 import {Row, Col} from "antd";
-import "antd/lib/grid/style";
+import "antd/es/grid/style";
 
 export const Grid = Object.freeze({
     Row,

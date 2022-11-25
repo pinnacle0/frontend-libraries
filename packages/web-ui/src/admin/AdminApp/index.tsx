@@ -1,5 +1,5 @@
 import React from "react";
-import AntLayout from "antd/lib/layout";
+import AntLayout from "antd/es/layout";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
@@ -14,7 +14,7 @@ import {AdminAppContext} from "./context";
 import {RouteSwitch} from "./RouteSwitch";
 import {Menu} from "./Menu";
 import {Navigator} from "./Navigator";
-import "antd/lib/layout/style";
+import "antd/es/layout/style";
 import "./index.less";
 
 export interface Props {

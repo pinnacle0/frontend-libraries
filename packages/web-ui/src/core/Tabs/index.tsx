@@ -1,10 +1,10 @@
 import React from "react";
-import AntTabs from "antd/lib/tabs";
+import AntTabs from "antd/es/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
-import type {TabsProps} from "antd/lib/tabs";
+import type {TabsProps} from "antd/es/tabs";
 import type {PickOptional} from "../../internal/type";
-import "antd/lib/tabs/style";
+import "antd/es/tabs/style";
 import "./index.less";
 
 export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {

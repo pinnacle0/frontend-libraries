@@ -1,7 +1,7 @@
-import type {CardProps} from "antd/lib/card";
-import AntCard from "antd/lib/card";
+import type {CardProps} from "antd/es/card";
+import AntCard from "antd/es/card";
 import React from "react";
-import "antd/lib/card/style";
+import "antd/es/card/style";
 
 export interface Props extends CardProps {}
 

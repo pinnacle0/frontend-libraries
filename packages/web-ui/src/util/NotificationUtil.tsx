@@ -1,7 +1,7 @@
 import React from "react";
-import type {ArgsProps as NotificationOptions, NotificationInstance} from "antd/lib/notification";
-import notification from "antd/lib/notification";
-import "antd/lib/notification/style";
+import type {ArgsProps as NotificationOptions, NotificationInstance} from "antd/es/notification";
+import notification from "antd/es/notification";
+import "antd/es/notification/style";
 
 let notificationInstance: NotificationInstance | null = null;
 

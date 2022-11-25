@@ -1,7 +1,7 @@
-import type {BadgeProps as AntBadgeProps} from "antd/lib/badge";
-import AntBadge from "antd/lib/badge";
+import type {BadgeProps as AntBadgeProps} from "antd/es/badge";
+import AntBadge from "antd/es/badge";
 import React from "react";
-import "antd/lib/badge/style";
+import "antd/es/badge/style";
 import "./index.less";
 
 export interface Props extends AntBadgeProps {}

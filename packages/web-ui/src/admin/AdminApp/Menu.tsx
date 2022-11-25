@@ -1,13 +1,13 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
-import AntMenu from "antd/lib/menu";
+import AntMenu from "antd/es/menu";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {Badge} from "../../core/Badge";
 import {AdminAppContext} from "./context";
 import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
 import type {RouteComponentProps} from "react-router-dom";
-import "antd/lib/menu/style";
+import "antd/es/menu/style";
 
 interface Props extends RouteComponentProps {
     siteName: string;

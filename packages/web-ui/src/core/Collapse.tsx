@@ -1,7 +1,7 @@
 import React from "react";
-import AntdCollapse from "antd/lib/collapse";
-import type {CollapseProps, CollapsePanelProps} from "antd/lib/collapse";
-import "antd/lib/collapse/style";
+import AntdCollapse from "antd/es/collapse";
+import type {CollapseProps, CollapsePanelProps} from "antd/es/collapse";
+import "antd/es/collapse/style";
 
 /** Will be remove in future, replaced by Foldable and Accordion */
 export interface Props extends CollapseProps {}

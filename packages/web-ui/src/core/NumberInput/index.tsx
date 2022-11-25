@@ -4,7 +4,7 @@ import type {FocusType} from "../Input";
 import {Input} from "../Input";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
-import type {InputRef as AntInputRef} from "antd/lib";
+import type {InputRef as AntInputRef} from "antd/es";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 

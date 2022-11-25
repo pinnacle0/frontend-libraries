@@ -1,6 +1,6 @@
 import React from "react";
-import type {SliderRangeProps} from "antd/lib/slider";
-import AntSlider from "antd/lib/slider";
+import type {SliderRangeProps} from "antd/es/slider";
+import AntSlider from "antd/es/slider";
 import type {ControlledFormValue} from "../../internal/type";
 
 interface RangeProps extends Omit<SliderRangeProps, "range" | "value" | "onChange">, ControlledFormValue<[number, number]> {

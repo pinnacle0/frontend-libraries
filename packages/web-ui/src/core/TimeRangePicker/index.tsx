@@ -3,7 +3,7 @@ import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
 import {AntDatePicker} from "../AntDatePicker";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/time-picker/style";
+import "antd/es/time-picker/style";
 import "./index.less";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [string, string] : [string | null, string | null]> {

@@ -1,9 +1,9 @@
 import React from "react";
-import type {DefaultOptionType} from "antd/lib/cascader";
-import AntCascader from "antd/lib/cascader";
+import type {DefaultOptionType} from "antd/es/cascader";
+import AntCascader from "antd/es/cascader";
 import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/cascader/style";
+import "antd/es/cascader/style";
 import "./index.less";
 
 /**

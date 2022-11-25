@@ -1,8 +1,8 @@
 import React from "react";
-import type {ModalFuncProps} from "antd/lib/modal";
-import Modal from "antd/lib/modal";
-import type {ModalFunc, ModalStaticFunctions} from "antd/lib/modal/confirm";
-import "antd/lib/modal/style";
+import type {ModalFuncProps} from "antd/es/modal";
+import Modal from "antd/es/modal";
+import type {ModalFunc, ModalStaticFunctions} from "antd/es/modal/confirm";
+import "antd/es/modal/style";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import type {PickOptional} from "../../internal/type";
 import {TextUtil} from "../../internal/TextUtil";

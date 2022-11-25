@@ -1,8 +1,8 @@
 import React from "react";
-import AntSpin from "antd/lib/spin";
+import AntSpin from "antd/es/spin";
 import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
-import type {SpinProps as AntSpinProps, SpinSize as AntSpinSize, SpinIndicator as AntSpinIndicator} from "antd/lib/spin";
-import "antd/lib/spin/style";
+import type {SpinProps as AntSpinProps, SpinSize as AntSpinSize, SpinIndicator as AntSpinIndicator} from "antd/es/spin";
+import "antd/es/spin/style";
 
 export interface Props extends Omit<AntSpinProps, "spinning"> {
     spinning: boolean;

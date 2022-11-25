@@ -1,10 +1,10 @@
 import React from "react";
-import type {UploadChangeParam} from "antd/lib/upload";
-import type {HttpRequestHeader} from "antd/lib/upload/interface";
-import AntUpload from "antd/lib/upload";
+import type {UploadChangeParam} from "antd/es/upload";
+import type {HttpRequestHeader} from "antd/es/upload/interface";
+import AntUpload from "antd/es/upload";
 import type {UploaderProps, UploadLogInfo} from "../util/UploadUtil/type";
 import {Spin} from "./Spin";
-import "antd/lib/upload/style";
+import "antd/es/upload/style";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     children: React.ReactNode;

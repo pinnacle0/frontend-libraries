@@ -1,7 +1,7 @@
-import type {ImageProps} from "antd/lib/image";
-import AntImage from "antd/lib/image";
+import type {ImageProps} from "antd/es/image";
+import AntImage from "antd/es/image";
 import React from "react";
-import "antd/lib/image/style";
+import "antd/es/image/style";
 
 export interface Props extends ImageProps {}
 

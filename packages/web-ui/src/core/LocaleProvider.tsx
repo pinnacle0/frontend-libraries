@@ -1,6 +1,6 @@
-import AntConfigProvider from "antd/lib/config-provider";
-import chineseLocale from "antd/lib/locale/zh_CN";
-import englishLocale from "antd/lib/locale/en_US";
+import AntConfigProvider from "antd/es/config-provider";
+import chineseLocale from "antd/es/locale/zh_CN";
+import englishLocale from "antd/es/locale/en_US";
 import React from "react";
 import type {Locale} from "../util/LocaleUtil";
 import {LocaleContext, LocaleUtil} from "../util/LocaleUtil";

@@ -1,7 +1,7 @@
 import React from "react";
-import type {SkeletonProps} from "antd/lib/skeleton";
-import AntSkeleton from "antd/lib/skeleton";
-import "antd/lib/skeleton/style";
+import type {SkeletonProps} from "antd/es/skeleton";
+import AntSkeleton from "antd/es/skeleton";
+import "antd/es/skeleton/style";
 
 export interface Props extends SkeletonProps {}
 

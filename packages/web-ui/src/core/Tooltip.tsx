@@ -1,6 +1,6 @@
-import type {TooltipPlacement, TooltipProps} from "antd/lib/tooltip";
-import AntTooltip from "antd/lib/tooltip";
-import "antd/lib/tooltip/style";
+import type {TooltipPlacement, TooltipProps} from "antd/es/tooltip";
+import AntTooltip from "antd/es/tooltip";
+import "antd/es/tooltip/style";
 import React from "react";
 
 // Cannot use interface extends here because TooltipProps is a type union

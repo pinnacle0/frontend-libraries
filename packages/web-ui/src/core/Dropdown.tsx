@@ -1,8 +1,8 @@
-import AntdDropdown from "antd/lib/dropdown";
-import type {DropdownProps} from "antd/lib/dropdown";
-import "antd/lib/dropdown/style";
+import AntdDropdown from "antd/es/dropdown";
+import type {DropdownProps} from "antd/es/dropdown";
+import "antd/es/dropdown/style";
 
-export type {DropdownButtonProps, DropdownButtonType} from "antd/lib/dropdown";
+export type {DropdownButtonProps, DropdownButtonType} from "antd/es/dropdown";
 export interface Props extends DropdownProps {}
 
 export class Dropdown {

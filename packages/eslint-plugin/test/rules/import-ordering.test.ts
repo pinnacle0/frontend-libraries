@@ -9,7 +9,7 @@ ruleTester.run(name, rule, {
         `
         import React from "react";
         import {ObjectUtil} from "@pinnacle0/util";
-        import AntButton from "antd/lib/Button";
+        import AntButton from "antd/es/Button";
         import {SomethingUtil} from "../util/SomethingUtil";
         import type {ButtonProps} from "./type";
         `,
@@ -28,13 +28,13 @@ ruleTester.run(name, rule, {
             import {Filter} from "./Filter";
             import "../index.less";
             import React from "react";
-            import "antd/lib/Drawer/css";
+            import "antd/es/Drawer/css";
             `,
             errors: [{line: 2, messageId: "importOrdering"}],
             output: `
             import React from "react";
             import {Filter} from "./Filter";
-            import "antd/lib/Drawer/css";
+            import "antd/es/Drawer/css";
             import "../index.less";
             `,
         },
@@ -54,13 +54,13 @@ ruleTester.run(name, rule, {
             import React from "react";
             import {Filter} from "./Filter";
             import "../index.less";
-            import "antd/lib/Drawer/css"
+            import "antd/es/Drawer/css"
             `,
             errors: [{line: 4, messageId: "importOrderingLast"}],
             output: `
             import React from "react";
             import {Filter} from "./Filter";
-            import "antd/lib/Drawer/css"
+            import "antd/es/Drawer/css"
             import "../index.less";
             `,
         },
@@ -72,7 +72,7 @@ ruleTester.run(name, rule, {
             import type {SafeChild} from "@pinnacle0/util";
             import type {CSSProperties} from "react";
             import "../index.less";
-            import "antd/lib/Drawer/css";
+            import "antd/es/Drawer/css";
             `,
             errors: [{line: 2, messageId: "importOrdering"}],
             output: `
@@ -81,7 +81,7 @@ ruleTester.run(name, rule, {
             import {Filter} from "./Filter";
             import type {CSSProperties} from "react";
             import type {SafeChild} from "@pinnacle0/util";
-            import "antd/lib/Drawer/css";
+            import "antd/es/Drawer/css";
             import "../index.less";
             `,
         },

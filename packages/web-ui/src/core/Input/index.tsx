@@ -1,10 +1,10 @@
 import React from "react";
-import AntInput from "antd/lib/input";
-import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} from "antd/lib/input";
+import AntInput from "antd/es/input";
+import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} from "antd/es/input";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/lib/input/style";
+import "antd/es/input/style";
 import "./index.less";
-import type {InputFocusOptions} from "antd/lib/input/Input";
+import type {InputFocusOptions} from "antd/es/input/Input";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 export type FocusType = "cursor-at-start" | "cursor-at-last" | "select-all" | "prevent-scroll";
