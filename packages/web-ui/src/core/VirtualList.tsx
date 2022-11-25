@@ -1,9 +1,9 @@
+import "../internal/polyfill/ResizeObserver";
 import React from "react";
 import {useVirtualizer, observeElementOffset as defaultObserveElementOffset, observeElementRect as defaultObserveElementRect} from "@tanstack/react-virtual";
 import type {VirtualizerOptions} from "@tanstack/react-virtual";
 import type {ComponentType} from "react";
 import type {StringKey} from "../internal/type";
-import "../internal/polyfill/ResizeObserver";
 
 const DEFAULT_ITEM_SIZE = 100;
 

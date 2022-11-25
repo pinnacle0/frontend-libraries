@@ -1,3 +1,4 @@
+import "../../internal/polyfill/ResizeObserver";
 import React from "react";
 import {useVirtualizer, observeElementRect} from "@tanstack/react-virtual";
 import {classNames} from "../../util/ClassNames";
@@ -9,7 +10,6 @@ import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 import {useRowSelection} from "./hooks/useRowSelection";
 import {useColumns} from "./hooks/useColumns";
 import {useScroll} from "./hooks/useScroll";
-import "../../internal/polyfill/ResizeObserver";
 import "./index.less";
 
 const HORIZONTAL_SCROLL_BAR_HEIGHT = 15;

@@ -1,3 +1,4 @@
+import "../../../internal/polyfill/ResizeObserver";
 import React from "react";
 import {defaultRangeExtractor, useVirtual} from "react-virtual";
 import {classNames} from "../../../util/ClassNames";
