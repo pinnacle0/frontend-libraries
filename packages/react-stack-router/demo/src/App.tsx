@@ -1,34 +1,25 @@
-import {StackRoute, StackRouter, Link} from "@pinnacle0/react-stack-router/src";
+import {Link, Route, Router} from "@pinnacle0/react-stack-router/src";
+import {Home} from "./Home";
 
 export default function App() {
     return (
-        <StackRouter base={Home}>
-            <StackRoute path="about" component={About} />
-            <StackRoute path="game" component={About}>
-                <StackRoute path=":id" component={About} />
-                <StackRoute path="monday" component={About} />
-                <StackRoute path="tuesday" component={About} />
-            </StackRoute>
-        </StackRouter>
+        <Router>
+            <Route path="/" component={Home} />
+            <Route path="about" component={About} />
+            <Route path="game" component={About}>
+                <Route path=":id" component={About} />
+                <Route path="monday" component={About} />
+                <Route path="tuesday" component={About} />
+            </Route>
+        </Router>
     );
 }
-
-export const Home = () => {
-    return (
-        <div>
-            <p>This is Home page</p>
-            <p>
-                <Link to="/about">Go To about</Link>
-            </p>
-        </div>
-    );
-};
 
 export const About = () => {
     return (
         <div>
-            <p>This is about page</p>
-            <Link to="/">Go To Home</Link>
+            <h3>About Page</h3>
+            <Link to="/">Back to Home</Link>
         </div>
     );
 };
