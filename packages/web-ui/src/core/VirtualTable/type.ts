@@ -1,9 +1,13 @@
+type ColumnIndex = number;
+
 export type ColumnFixedPosition = "left" | "right";
 
 export interface StickyPosition {
     value: number;
     isLast: boolean;
 }
+
+export type ColumnsStickyPosition = Record<ColumnIndex, StickyPosition>;
 
 /**
  * Similar usage of Antd Table but only support partial features: fixed columns, row selection, on row click

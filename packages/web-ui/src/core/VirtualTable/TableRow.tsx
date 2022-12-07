@@ -2,7 +2,7 @@ import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 import {classNames} from "../../util/ClassNames";
 import type {VirtualItem} from "@tanstack/react-virtual";
-import type {VirtualTableColumn, StickyPosition} from "./type";
+import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 
 interface Props<RowType extends object> {
     data: RowType;
@@ -11,14 +11,14 @@ interface Props<RowType extends object> {
     columnWidths: number[];
     rowHeight: number;
     scrollBarSize: number;
-    stickyPositionMap: Record<number, StickyPosition>;
+    columnsStickyPosition: ColumnsStickyPosition;
     rowClassName?: string;
     onRowClick?: (record: RowType, rowIndex: number) => void;
 }
 
 export const TableRow = ReactUtil.memo("TableRow", function <
     RowType extends object
->({virtualItem, data, columns, columnWidths, rowHeight, scrollBarSize, stickyPositionMap, rowClassName, onRowClick}: Props<RowType>) {
+>({virtualItem, data, columns, columnWidths, rowHeight, scrollBarSize, columnsStickyPosition, rowClassName, onRowClick}: Props<RowType>) {
     const rowIndex = virtualItem.index;
     const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
 
@@ -37,7 +37,7 @@ export const TableRow = ReactUtil.memo("TableRow", function <
                 const renderData = column.display !== "hidden" && column.renderData(data, rowIndex);
                 // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                 const isLastShownColumn = lastShownColumnIndex === columnIndex;
-                const stickyPosition = stickyPositionMap[columnIndex];
+                const stickyPosition = columnsStickyPosition[columnIndex];
 
                 return (
                     renderData && (

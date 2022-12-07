@@ -3,10 +3,12 @@ import React from "react";
 interface Props {
     scrollContentRef: React.RefObject<HTMLDivElement>;
     headerRef: React.RefObject<HTMLDivElement>;
+    isScrollable: boolean;
 }
 
-export const useScroll = ({scrollContentRef, headerRef}: Props) => {
+export const useScroll = ({scrollContentRef, headerRef, isScrollable}: Props) => {
     const checkIsScrollToEdge = useScrollToEdge(scrollContentRef);
+    const {scrollBarSize, calculateScrollBarSize} = useScrollBarSize(scrollContentRef, isScrollable);
 
     const onScroll = React.useCallback(() => {
         requestAnimationFrame(() => {
@@ -20,15 +22,18 @@ export const useScroll = ({scrollContentRef, headerRef}: Props) => {
     const tableBodyRef = (node: HTMLDivElement) => {
         if (node) {
             checkIsScrollToEdge();
+            calculateScrollBarSize();
         }
     };
 
     return {
         onScroll,
+        scrollBarSize,
         tableBodyRef,
     };
 };
 
+// for the box shadow transition of the fixed columns
 export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
     const checkIsScrollToEdge = React.useCallback(() => {
         if (scrollContentRef.current) {
@@ -41,4 +46,24 @@ export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement
     }, [scrollContentRef]);
 
     return checkIsScrollToEdge;
+};
+
+export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElement>, isScrollable: boolean) => {
+    const [scrollBarSize, setScrollBarSize] = React.useState<number>(0);
+
+    const calculateScrollBarSize = React.useCallback(() => {
+        if (scrollContentRef.current) {
+            const {clientWidth, offsetWidth} = scrollContentRef.current;
+            setScrollBarSize(offsetWidth - clientWidth);
+        }
+    }, [scrollContentRef, setScrollBarSize]);
+
+    React.useEffect(() => {
+        calculateScrollBarSize();
+    }, [calculateScrollBarSize, isScrollable]);
+
+    return {
+        scrollBarSize,
+        calculateScrollBarSize,
+    };
 };

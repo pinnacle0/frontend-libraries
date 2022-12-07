@@ -1,20 +1,20 @@
 import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 import {classNames} from "../../util/ClassNames";
-import type {VirtualTableColumn, StickyPosition} from "./type";
+import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 
 interface Props<RowType extends object> {
     headerRef: React.MutableRefObject<HTMLDivElement | null>;
     headerHeight: number;
     columns: VirtualTableColumn<RowType>[];
-    stickyPositionMap: Record<number, StickyPosition>;
+    columnsStickyPosition: ColumnsStickyPosition;
 }
 
-export const TableHeader = ReactUtil.memo("TableHeader", function <RowType extends object>({headerRef, headerHeight, columns, stickyPositionMap}: Props<RowType>) {
+export const TableHeader = ReactUtil.memo("TableHeader", function <RowType extends object>({headerRef, headerHeight, columns, columnsStickyPosition}: Props<RowType>) {
     return (
         <div className="table-headers" ref={headerRef} style={{height: headerHeight, width: scrollX || "100%"}}>
             {columns.map(({title, width, align, fixed, display}, columnIndex) => {
-                const stickyPosition = stickyPositionMap[columnIndex];
+                const stickyPosition = columnsStickyPosition[columnIndex];
                 return (
                     <div
                         className={classNames("table-header", {fixed, left: fixed === "left", right: fixed === "right", last: stickyPosition?.isLast})}

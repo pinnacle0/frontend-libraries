@@ -70,8 +70,8 @@ export const VirtualTable = Object.assign(
                 getColumnWidths();
             },
         });
-        const {headerRef, columnWidths, getColumnWidths, stickyPositionMap, scrollBarSize} = useColumns({columns: transformedColumns, scrollContentRef, isScrollable: isVerticalScrollable});
-        const {onScroll, tableBodyRef} = useScroll({scrollContentRef, headerRef});
+        const {headerRef, columnWidths, getColumnWidths, columnsStickyPosition} = useColumns({columns: transformedColumns});
+        const {onScroll, scrollBarSize, tableBodyRef} = useScroll({scrollContentRef, headerRef, isScrollable: isVerticalScrollable});
 
         // TODO/David: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
         const virtualizerRef = React.useRef(rowVirtualizer);
@@ -91,7 +91,7 @@ export const VirtualTable = Object.assign(
                 )}
                 <div className="scroll-content" ref={scrollContentRef} style={{height: `calc(100% - ${headerHeight}px)`, top: headerHeight}} onScroll={onScroll}>
                     <div className="table" style={{height: totalSize}}>
-                        <TableHeader headerRef={headerRef} headerHeight={headerHeight} columns={transformedColumns} stickyPositionMap={stickyPositionMap} />
+                        <TableHeader headerRef={headerRef} headerHeight={headerHeight} columns={transformedColumns} columnsStickyPosition={columnsStickyPosition} />
                         {columnWidths.length > 0 && (
                             <div className="table-body" ref={tableBodyRef}>
                                 {dataSource.length === 0
@@ -108,7 +108,7 @@ export const VirtualTable = Object.assign(
                                                   columns={transformedColumns}
                                                   columnWidths={columnWidths}
                                                   scrollBarSize={scrollBarSize}
-                                                  stickyPositionMap={stickyPositionMap}
+                                                  columnsStickyPosition={columnsStickyPosition}
                                                   rowClassName={rowClassName}
                                               />
                                           ))}
