@@ -19,12 +19,15 @@ export const useScroll = ({scrollContentRef, headerRef, isScrollable}: Props) =>
         });
     }, [scrollContentRef, headerRef, checkIsScrollToEdge]);
 
-    const tableBodyRef = (node: HTMLDivElement) => {
-        if (node) {
-            checkIsScrollToEdge();
-            calculateScrollBarSize();
-        }
-    };
+    const tableBodyRef = React.useCallback(
+        (node: HTMLDivElement) => {
+            if (node) {
+                checkIsScrollToEdge();
+                calculateScrollBarSize();
+            }
+        },
+        [calculateScrollBarSize, checkIsScrollToEdge]
+    );
 
     return {
         onScroll,
