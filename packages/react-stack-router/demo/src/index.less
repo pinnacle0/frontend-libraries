@@ -2,6 +2,20 @@
     margin: 0;
 }
 
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overscroll-behavior: none;
+}
+
+#root {
+    height: 100%;
+}
+
 .g-stack-router-page {
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
@@ -10,5 +24,5 @@
     width: 100%;
     height: 300px;
     margin-bottom: 30px;
-    background-color: purple;
+    background-color: black;
 }

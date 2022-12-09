@@ -1,4 +1,5 @@
-import {Link, Route, Router} from "@pinnacle0/react-stack-router/src";
+import {Route, Router} from "@pinnacle0/react-stack-router/src";
+import {About} from "./About";
 import {Home} from "./Home";
 
 export default function App() {
@@ -14,12 +15,3 @@ export default function App() {
         </Router>
     );
 }
-
-export const About = () => {
-    return (
-        <div>
-            <h3>About Page</h3>
-            <Link to="/">Back to Home</Link>
-        </div>
-    );
-};
