@@ -42,8 +42,8 @@
         "react-router-dom": ">=5.2.0 <6.0.0"
     },
     "devDependencies": {
-        "@babel/core": "7.20.2",
-        "@babel/runtime": "7.20.1",
+        "@babel/core": "7.20.5",
+        "@babel/runtime": "7.20.6",
         "@pinnacle0/devtool-util": "workspace:*",
         "@pinnacle0/webpack-util": "workspace:*",
         "@testing-library/dom": "8.19.0",
