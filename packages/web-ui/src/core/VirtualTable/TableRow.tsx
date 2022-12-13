@@ -7,7 +7,7 @@ import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 interface Props<RowType extends object> {
     data: RowType;
     columns: VirtualTableColumn<RowType>[];
-    virtualItem: VirtualItem<HTMLDivElement>;
+    virtualItem: VirtualItem;
     columnWidths: number[];
     rowHeight: number;
     scrollBarSize: number;

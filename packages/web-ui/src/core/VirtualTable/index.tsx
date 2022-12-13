@@ -73,15 +73,6 @@ export const VirtualTable = Object.assign(
         const {headerRef, columnWidths, getColumnWidths, columnsStickyPosition} = useColumns({columns: transformedColumns});
         const {onScroll, scrollBarSize, tableBodyRef} = useScroll({scrollContentRef, headerRef, isScrollable: isVerticalScrollable});
 
-        // TODO/David: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
-        const virtualizerRef = React.useRef(rowVirtualizer);
-        virtualizerRef.current = rowVirtualizer;
-        React.useLayoutEffect(() => {
-            const v = virtualizerRef.current;
-            v._didMount()();
-            v._willUpdate();
-        }, [dataSource.length]);
-
         return (
             <div className={classNames("g-virtual-table", className)} style={{width: scrollX || "100%", height: containerHeight}}>
                 {loading && (

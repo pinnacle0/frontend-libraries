@@ -12,7 +12,6 @@ type Direction = "horizontal" | "vertical";
 export interface ItemProps<T extends object> {
     index: number;
     data: T;
-    measure: (element: HTMLElement | null) => void;
 }
 
 export interface Props<T extends object> {
@@ -23,8 +22,8 @@ export interface Props<T extends object> {
     direction?: Direction;
     fixedSize?: (index: number) => number;
     overscan?: number;
-    observeElementRect?: VirtualizerOptions<HTMLElement | null, HTMLElement>["observeElementRect"];
-    observeElementOffset?: VirtualizerOptions<HTMLElement | null, HTMLElement>["observeElementOffset"];
+    observeElementRect?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementRect"];
+    observeElementOffset?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementOffset"];
 }
 
 export function VirtualList<T extends object>({
@@ -42,7 +41,7 @@ export function VirtualList<T extends object>({
     const parentRef = React.useRef<HTMLDivElement | null>(null);
     const horizontal = direction === "horizontal";
     const sizeStyle: React.CSSProperties = horizontal ? {height: "100%"} : {width: "100%"};
-    const virtualizer = useVirtualizer<HTMLElement | null, HTMLElement>({
+    const virtualizer = useVirtualizer<HTMLElement, HTMLElement>({
         initialRect,
         horizontal,
         count: data.length,
@@ -55,13 +54,6 @@ export function VirtualList<T extends object>({
 
     const virtualizerRef = React.useRef(virtualizer);
     virtualizerRef.current = virtualizer;
-
-    // TODO/Alvis: This is temporary fix of issue: https://github.com/TanStack/virtual/issues/363, please remove the code after update
-    React.useLayoutEffect(() => {
-        const v = virtualizerRef.current;
-        v._didMount()();
-        v._willUpdate();
-    }, [data.length]);
 
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
@@ -87,8 +79,8 @@ export function VirtualList<T extends object>({
                             ...sizeStyle,
                         }}
                     >
-                        <div className="g-virtual-list-item-wrapper" ref={virtualRow.measureElement} style={{...sizeStyle}}>
-                            <Item data={data[virtualRow.index]} index={virtualRow.index} measure={virtualRow.measureElement} />
+                        <div className="g-virtual-list-item-wrapper" data-index={virtualRow.index} ref={virtualizer.measureElement} style={{...sizeStyle}}>
+                            <Item data={data[virtualRow.index]} index={virtualRow.index} />
                         </div>
                     </div>
                 ))}
