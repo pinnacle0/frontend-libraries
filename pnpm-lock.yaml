@@ -201,7 +201,7 @@ importers:
       '@juggle/resize-observer': 3.4.0
       '@pinnacle0/devtool-util': workspace:*
       '@pinnacle0/webpack-util': workspace:*
-      '@tanstack/react-virtual': 3.0.0-beta.18
+      '@tanstack/react-virtual': 3.0.0-beta.30
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.4.0
@@ -227,7 +227,7 @@ importers:
     dependencies:
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@juggle/resize-observer': 3.4.0
-      '@tanstack/react-virtual': 3.0.0-beta.18_react@18.2.0
+      '@tanstack/react-virtual': 3.0.0-beta.30_react@18.2.0
       antd: 4.24.2_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       dayjs: 1.11.7
@@ -1552,19 +1552,17 @@ packages:
       '@swc/core-win32-x64-msvc': 1.3.19
     dev: false
 
-  /@tanstack/react-virtual/3.0.0-beta.18_react@18.2.0:
-    resolution: {integrity: sha512-mnyCZT6htcRNw1jVb+WyfMUMbd1UmXX/JWPuMf6Bmj92DB/V7Ogk5n5rby5Y5aste7c7mlsBeMF8HtpwERRvEQ==}
-    engines: {node: '>=12'}
+  /@tanstack/react-virtual/3.0.0-beta.30_react@18.2.0:
+    resolution: {integrity: sha512-Sn1SSbSjDwb++jVOtgiQ/OHFMdcXFg8Qx02/cn0eq9xxHIhm/SqrKDpywIeydgNdOsdfBomOfxm/4gqTLrY1gg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@tanstack/virtual-core': 3.0.0-beta.18
+      '@tanstack/virtual-core': 3.0.0-beta.30
       react: 18.2.0
     dev: false
 
-  /@tanstack/virtual-core/3.0.0-beta.18:
-    resolution: {integrity: sha512-tcXutY05NpN9lp3+AXI9Sn85RxSPV0EJC0XMim9oeQj/E7bjXoL0qZ4Er4wwnvIbv/hZjC91EmbIQGjgdr6nZg==}
-    engines: {node: '>=12'}
+  /@tanstack/virtual-core/3.0.0-beta.30:
+    resolution: {integrity: sha512-fewNoKiJeG5v0T4jg7UO99G+hUYDHig6AkiIeqvC1O2zEw96MlzR6DXw91aqxcsIPSVp83IPsgNa7su8yZWldw==}
     dev: false
 
   /@testing-library/dom/8.19.0:
