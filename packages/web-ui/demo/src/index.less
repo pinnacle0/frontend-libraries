@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    overscroll-behavior: none;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    color: #fff;
+    background-color: #0b1c2e;
+}
+
+#root {
+    font-family: Roboto, sans-serif;
+    height: 100%;
+}
+
+.app {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+
+    .header {
+        flex: 0 1 auto;
+        height: 50px;
+        padding: 30px 15px;
+        font-weight: 700;
+        font-size: 40px;
+    }
+
+    .footer {
+        flex: 0 1 auto;
+        font-size: 35px;
+        padding: 20px 15px;
+        text-align: right;
+
+        > button {
+            outline: 0;
+            border-radius: 6px;
+            padding: 10px 40px;
+            border: none;
+            background: #2dc68b;
+            font-size: 20px;
+            color: #fff;
+        }
+    }
+}
