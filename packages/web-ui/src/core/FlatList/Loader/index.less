@@ -1,0 +1,39 @@
+.g-flat-list-loader {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #c2c2c2;
+        animation-name: jumping;
+        animation-duration: 750ms;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+
+        .delay(@count) when (@count > 0) {
+            &:nth-of-type(@{count}) {
+                animation-delay: @count * 250ms;
+            }
+            .delay(@count - 1);
+        }
+
+        .delay(4);
+    }
+
+    @keyframes jumping {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.g-flat-list {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    overflow: hidden;
+
+    .g-flat-list-inner-wrapper {
+        display: flex;
+        flex-flow: column nowrap;
+        flex: 1;
+        max-height: 100%;
+        will-change: transform;
+        transition-timing-function: cubic-bezier(0, 0.89, 0.26, 1.02);
+        transition-duration: 800ms;
+
+        .g-flat-list-refresh {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            transform: translateY(-100%);
+        }
+
+        .g-flat-list-scrollable {
+            display: flex;
+            height: 100%;
+            overflow: auto;
+            overscroll-behavior: none;
+            flex-flow: column nowrap;
+
+            .g-flat-list-content {
+                height: 100%;
+            }
+        }
+    }
+}
