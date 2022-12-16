@@ -38,6 +38,7 @@ export interface SwipeHookConfig {
     ref?: React.RefCallback<HTMLElement> | React.MutableRefObject<HTMLElement | null>;
     threshold?: (state: SwipeState) => boolean;
     preventDefault?: boolean;
+    stopPropagation?: boolean;
 }
 
 export enum Direction {

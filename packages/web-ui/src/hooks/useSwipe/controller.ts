@@ -19,6 +19,7 @@ export class Controller {
     }
 
     private onTouchStart(e: React.TouchEvent) {
+        this.config.stopPropagation && e.stopPropagation();
         if (e.changedTouches[0] && !this.startTouch) {
             this.startTouch = e.changedTouches[0];
             this.startTime = Date.now();
