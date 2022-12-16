@@ -3,7 +3,7 @@ import AntLayout from "antd/es/layout";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
+import type {NavigationGroupItem} from "../../util/AdminNavigationUtil";
 import {SoundSwitch} from "./Default/SoundSwitch";
 import {SquareLogo} from "./Default/SquareLogo";
 import type {ExpandableProps} from "./Default/SquareLogo";
@@ -17,9 +17,11 @@ import {Navigator} from "./Navigator";
 import "antd/es/layout/style";
 import "./index.less";
 
-export interface Props {
+export interface Props<Feature, Field> {
     name: string;
-    navigationService: AdminNavigatorBase<any, any>;
+    permissions: Feature[];
+    superAdminPermission: Feature;
+    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
     LogoComponent?: React.ComponentType<ExpandableProps>;
     NavigatorSideComponent?: React.ComponentType;
     WelcomeComponent?: React.ComponentType;
@@ -34,7 +36,7 @@ interface State {
     menuExpanded: boolean;
 }
 
-export class AdminApp extends React.PureComponent<Props, State> {
+export class AdminApp<Feature, Field> extends React.PureComponent<Props<Feature, Field>, State> {
     static displayName = "AdminApp";
 
     static SquareLogo = SquareLogo;
@@ -42,16 +44,14 @@ export class AdminApp extends React.PureComponent<Props, State> {
     static NavigatorSide = NavigatorSide;
 
     private readonly menuExpandedKey = "admin-menu-expanded";
-    private readonly navigationModules: NavigationModuleItem<any, any>[];
     private readonly adminAppContext: AdminAppContextType;
     private registeredTitleUpdater: undefined | ((title: string | null) => void);
 
-    constructor(props: Props) {
+    constructor(props: Props<Feature, Field>) {
         super(props);
         this.state = {
             menuExpanded: LocalStorageUtil.getBool(this.menuExpandedKey, true),
         };
-        this.navigationModules = props.navigationService.modules();
         this.adminAppContext = {
             name: props.name,
             updateTitle: title => this.registeredTitleUpdater?.(title),
@@ -66,25 +66,45 @@ export class AdminApp extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {name, navigationService, WelcomeComponent, LogoComponent, NavigatorSideComponent, noBrowserRouter, badges, sideMenuWidth, onNotFound, onLifecycleError} = this.props;
+        const {
+            name,
+            navigationGroups,
+            permissions,
+            superAdminPermission,
+            WelcomeComponent,
+            LogoComponent,
+            NavigatorSideComponent,
+            noBrowserRouter,
+            badges,
+            sideMenuWidth,
+            onNotFound,
+            onLifecycleError,
+        } = this.props;
         const {menuExpanded} = this.state;
         const coreContent = (
             <AdminAppContext.Provider value={this.adminAppContext}>
                 <AntLayout id="admin-app">
                     <AntLayout.Sider collapsed={!menuExpanded} width={sideMenuWidth}>
                         {LogoComponent && <LogoComponent expanded={menuExpanded} />}
-                        <Menu navigationService={navigationService} menuExpanded={menuExpanded} siteName={name} badges={badges} />
+                        <Menu navigationGroups={navigationGroups} permissions={permissions} superAdminPermission={superAdminPermission} menuExpanded={menuExpanded} siteName={name} badges={badges} />
                         <div className="toggle-menu-icon" onClick={this.toggleMenuExpansion}>
                             {menuExpanded ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                         </div>
                     </AntLayout.Sider>
                     <AntLayout>
                         <AntLayout.Header>
-                            <Navigator navigationService={navigationService} />
+                            <Navigator navigationGroups={navigationGroups} permissions={permissions} superAdminPermission={superAdminPermission} />
                             {NavigatorSideComponent && <NavigatorSideComponent />}
                         </AntLayout.Header>
                         <AntLayout.Content>
-                            <RouteSwitch navigationService={navigationService} WelcomeComponent={WelcomeComponent} onLifecycleError={onLifecycleError} onNotFound={onNotFound} />
+                            <RouteSwitch
+                                navigationGroups={navigationGroups}
+                                permissions={permissions}
+                                superAdminPermission={superAdminPermission}
+                                WelcomeComponent={WelcomeComponent}
+                                onLifecycleError={onLifecycleError}
+                                onNotFound={onNotFound}
+                            />
                         </AntLayout.Content>
                     </AntLayout>
                 </AntLayout>

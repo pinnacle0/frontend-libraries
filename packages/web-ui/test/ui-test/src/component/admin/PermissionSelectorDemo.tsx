@@ -1,11 +1,12 @@
 import React from "react";
 import {AdminPermissionSelector} from "@pinnacle0/web-ui/admin/AdminPermissionSelector";
-import {NavigationService, TestFeaturePermission} from "../../util/NavigationService";
-import type {TestFieldPermission} from "../../util/NavigationService";
+import {NavigationData, TestFeaturePermission} from "../../util/NavigationData";
+import type {TestFieldPermission} from "../../util/NavigationData";
 import {DemoHelper} from "../DemoHelper";
+import {AdminNavigationUtil} from "@pinnacle0/web-ui/util/AdminNavigationUtil";
 
 export const PermissionSelectorDemo = () => {
-    const navigationGroups = React.useMemo(() => new NavigationService().groups(true), []);
+    const navigationGroups = React.useMemo(() => AdminNavigationUtil.groups(NavigationData, [TestFeaturePermission.ROOT_PERMISSION], TestFeaturePermission.ROOT_PERMISSION, true), []);
     const boundPermissionsCalculator = React.useCallback((permission: TestFeaturePermission) => (permission === TestFeaturePermission.TypeScript ? [TestFeaturePermission.JavaScript] : []), []);
     const [feature, setFeature] = React.useState<TestFeaturePermission[]>([]);
     const [field, setField] = React.useState<TestFieldPermission[]>([]);

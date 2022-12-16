@@ -3,9 +3,10 @@ import {Tabs} from "../../core/Tabs";
 import type {RouteComponentProps} from "react-router-dom";
 import {withRouter} from "react-router-dom";
 import {AdminAppContext} from "./context";
-import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
 import {i18n} from "../../internal/i18n/admin";
 import {Spin} from "../../core/Spin";
+import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
+import type {NavigationGroupItem, NavigationModuleItem} from "../../util/AdminNavigationUtil";
 
 interface NavigatorTabItem {
     url: string;
@@ -14,20 +15,22 @@ interface NavigatorTabItem {
     customTitle?: string | null;
 }
 
-interface Props extends RouteComponentProps {
-    navigationService: AdminNavigatorBase<any, any>;
+interface Props<Feature, Field> extends RouteComponentProps {
+    permissions: Feature[];
+    superAdminPermission: Feature;
+    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
 }
 
 interface State {
     tabs: NavigatorTabItem[];
 }
 
-class RouterAwareNavigator extends React.PureComponent<Props, State> {
+class RouterAwareNavigator<Feature, Field> extends React.PureComponent<Props<Feature, Field>, State> {
     static displayName = "Navigator";
     static contextType = AdminAppContext;
     context!: React.ContextType<typeof AdminAppContext>;
 
-    constructor(props: Props) {
+    constructor(props: Props<Feature, Field>) {
         super(props);
         this.state = {tabs: []};
     }
@@ -45,9 +48,9 @@ class RouterAwareNavigator extends React.PureComponent<Props, State> {
         });
 
         // Create initial tab, unless homepage or 404
-        const {location, navigationService} = this.props;
+        const {location, navigationGroups, permissions, superAdminPermission} = this.props;
         const url = location.pathname;
-        const targetModule = navigationService.moduleByURL(url);
+        const targetModule = AdminNavigationUtil.moduleByURL(url, navigationGroups, permissions, superAdminPermission);
         if (targetModule) {
             this.setState({
                 tabs: [
@@ -61,7 +64,7 @@ class RouterAwareNavigator extends React.PureComponent<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props<Feature, Field>) {
         if (prevProps.location !== this.props.location) {
             const {tabs} = this.state;
             const newTabs = [...tabs];
@@ -76,7 +79,7 @@ class RouterAwareNavigator extends React.PureComponent<Props, State> {
             }
 
             // Then determine whether create a new tab, or update the existing tab
-            const {location, navigationService} = this.props;
+            const {location, navigationGroups, permissions, superAdminPermission} = this.props;
             const newURL = location.pathname;
             const newHistoryState = location.state;
             const newIndex = this.computeIndexByURL(newURL);
@@ -87,7 +90,7 @@ class RouterAwareNavigator extends React.PureComponent<Props, State> {
             } else {
                 // If module exists, create a new tab
                 // Else, it means, the user goes to the homepage tab, so just do nothing
-                const targetModule = navigationService.moduleByURL(newURL);
+                const targetModule = AdminNavigationUtil.moduleByURL(newURL, navigationGroups, permissions, superAdminPermission);
                 if (targetModule) {
                     newTabs.push({
                         url: newURL,
@@ -104,9 +107,9 @@ class RouterAwareNavigator extends React.PureComponent<Props, State> {
 
     computeIndexByURL = (url: string): number => {
         // If url is null, then use current URL
-        const {navigationService} = this.props;
+        const {navigationGroups, permissions, superAdminPermission} = this.props;
         const {tabs} = this.state;
-        const matchedModule = navigationService.moduleByURL(url);
+        const matchedModule = AdminNavigationUtil.moduleByURL(url, navigationGroups, permissions, superAdminPermission);
         if (matchedModule) {
             if (matchedModule.separateTab) {
                 return tabs.findIndex(_ => _.url === url);

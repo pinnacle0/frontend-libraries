@@ -5,13 +5,16 @@ import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {Badge} from "../../core/Badge";
 import {AdminAppContext} from "./context";
-import type {AdminNavigatorBase, NavigationGroupItem} from "../../util/AdminNavigatorBase";
 import type {RouteComponentProps} from "react-router-dom";
 import "antd/es/menu/style";
+import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
+import type {NavigationGroupItem} from "../../util/AdminNavigationUtil";
 
-interface Props extends RouteComponentProps {
+interface Props<Feature, Field> extends RouteComponentProps {
     siteName: string;
-    navigationService: AdminNavigatorBase<any, any>;
+    permissions: Feature[];
+    superAdminPermission: Feature;
+    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
     menuExpanded: boolean;
     badges?: {[key: string]: number};
 }
@@ -21,19 +24,19 @@ interface State {
     currentSelectedMenuKey: string | null;
 }
 
-class RouterAwareMenu extends React.PureComponent<Props, State> {
+class RouterAwareMenu<Feature, Field> extends React.PureComponent<Props<Feature, Field>, State> {
     static displayName = "Menu";
     static contextType = AdminAppContext;
     context!: React.ContextType<typeof AdminAppContext>;
 
     private readonly soundEnabledKey = "admin-sound-enabled";
 
-    constructor(props: Props) {
+    constructor(props: Props<Feature, Field>) {
         super(props);
         this.state = this.calculateMenuKeyByURL();
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props<Feature, Field>) {
         const {location, menuExpanded, badges} = this.props;
         if (prevProps.location.pathname !== location.pathname || prevProps.menuExpanded !== menuExpanded || prevProps.badges !== badges) {
             this.setState(this.calculateMenuKeyByURL(prevProps.badges));
@@ -53,19 +56,20 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
     };
 
     calculateTotalBadge = (badges: {[key: string]: number}): number => {
+        const {navigationGroups, permissions, superAdminPermission} = this.props;
         let totalCount = 0;
-        this.props.navigationService.groups(false).forEach(({modules}) => {
+        AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, false).forEach(({modules}) => {
             modules.forEach(_ => (totalCount += badges[_.url] || 0));
         });
         return totalCount;
     };
 
     calculateMenuKeyByURL = (prevBadges?: {[key: string]: number}): State => {
-        const {location, menuExpanded, siteName, badges, navigationService} = this.props;
-        const allNavigationGroups = navigationService.groups(true);
+        const {location, menuExpanded, siteName, badges, navigationGroups, permissions, superAdminPermission} = this.props;
+        const allNavigationGroups = AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, true);
         let currentOpenedMenuKey: string | null = allNavigationGroups?.[0]?.title || null; // Fallback opened key
         let currentSelectedMenuKey = null;
-        const currentModule = navigationService.moduleByURL(location.pathname);
+        const currentModule = AdminNavigationUtil.moduleByURL(location.pathname, navigationGroups, permissions, superAdminPermission);
         const totalBadgeCount = badges ? this.calculateTotalBadge(badges) : 0;
         const titlePrefix = (totalBadgeCount > 0 ? `(${totalBadgeCount}) ` : "") + siteName;
         const soundEnabled = LocalStorageUtil.getBool(this.soundEnabledKey, true);
@@ -136,7 +140,7 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {navigationService} = this.props;
+        const {navigationGroups, permissions, superAdminPermission} = this.props;
         const {currentOpenedMenuKey, currentSelectedMenuKey} = this.state;
         return (
             <AntMenu
@@ -145,7 +149,7 @@ class RouterAwareMenu extends React.PureComponent<Props, State> {
                 openKeys={currentOpenedMenuKey ? [currentOpenedMenuKey] : []}
                 selectedKeys={currentSelectedMenuKey ? [currentSelectedMenuKey] : []}
                 onOpenChange={this.onMenuOpenChange as any}
-                items={navigationService.groups(false).map(this.renderMenuGroup)}
+                items={AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, false).map(this.renderMenuGroup)}
             />
         );
     }

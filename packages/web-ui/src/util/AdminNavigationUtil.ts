@@ -1,5 +1,6 @@
 import type React from "react";
 import {matchPath} from "react-router-dom";
+import {Memo} from "../internal/Memo";
 
 /**
  * Module accessibility is determined by <Feature> permission only.
@@ -51,46 +52,47 @@ export interface NavigationGroupItem<Feature, Field = never> {
     modules: Array<NavigationModuleItem<Feature, Field>>;
 }
 
-export abstract class AdminNavigatorBase<Feature extends string, Field extends string = never> {
-    /**
-     * If currentPermissions is undefined, it will behave like it owns all permissions.
-     */
-    protected constructor(
-        private superAdminFeaturePermission: Feature,
-        private currentFeaturePermissions?: Feature[],
-        private superAdminFieldPermission?: Field,
-        private currentFieldPermission?: Field[]
-    ) {}
-
-    groups(showHidden: boolean): Array<NavigationGroupItem<Feature, Field>> {
-        return this.allGroups()
+export class AdminNavigationUtil {
+    @Memo()
+    static groups<Feature, Field>(
+        navigationGroupItems: NavigationGroupItem<Feature, Field>[],
+        permissions: Feature[],
+        superAdminPermission: Feature,
+        showHidden: boolean
+    ): Array<NavigationGroupItem<Feature, Field>> {
+        return navigationGroupItems
             .map(_ => {
-                const availableModules = _.modules.filter(module => module.display !== "disabled" && (showHidden || module.display !== "hidden") && this.canAccessModule(module));
+                const availableModules = _.modules.filter(
+                    module => module.display !== "disabled" && (showHidden || module.display !== "hidden") && AdminNavigationUtil.canAccessModule(module, permissions, superAdminPermission)
+                );
                 return availableModules.length > 0 ? {..._, modules: availableModules} : null;
             })
             .filter(_ => _) as Array<NavigationGroupItem<Feature, Field>>;
     }
 
-    modules(): Array<NavigationModuleItem<Feature, Field>> {
+    @Memo()
+    static modules<Feature, Field>(navigationGroupItems: NavigationGroupItem<Feature, Field>[], permissions: Feature[], superAdminPermission: Feature): Array<NavigationModuleItem<Feature, Field>> {
         const list: Array<NavigationModuleItem<Feature, Field>> = [];
-        this.groups(true).forEach(_ => list.push(..._.modules));
+        AdminNavigationUtil.groups(navigationGroupItems, permissions, superAdminPermission, true).forEach(_ => list.push(..._.modules));
         return list;
     }
 
-    moduleByURL(url: string): NavigationModuleItem<Feature, Field> | undefined {
+    static moduleByURL<Feature, Field>(
+        url: string,
+        navigationGroupItems: NavigationGroupItem<Feature, Field>[],
+        permissions: Feature[],
+        superAdminPermission: Feature
+    ): NavigationModuleItem<Feature, Field> | undefined {
         const isMatched = (item: NavigationModuleItem<Feature, Field>) =>
             matchPath(url, {
                 path: item.routeParam ? item.url + item.routeParam : item.url,
                 exact: true,
                 strict: false,
             }) !== null;
-        return this.modules().find(isMatched);
+        return AdminNavigationUtil.modules(navigationGroupItems, permissions, superAdminPermission).find(isMatched);
     }
 
-    private canAccessModule(module: NavigationModuleItem<Feature, Field>): boolean {
-        const permissions = this.currentFeaturePermissions;
-        return !permissions || permissions.includes(this.superAdminFeaturePermission) || !module.featurePermissions || module.featurePermissions.some(_ => permissions.includes(_));
+    private static canAccessModule<Feature, Field>(module: NavigationModuleItem<Feature, Field>, permissions: Feature[], superAdminPermission: Feature): boolean {
+        return permissions.includes(superAdminPermission) || !module.featurePermissions || module.featurePermissions.some(_ => permissions.includes(_));
     }
-
-    protected abstract allGroups(): Array<NavigationGroupItem<Feature, Field>>;
 }

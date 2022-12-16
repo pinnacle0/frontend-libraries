@@ -1,5 +1,6 @@
 import React from "react";
-import type {AdminNavigatorBase, NavigationModuleItem} from "../../util/AdminNavigatorBase";
+import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
+import type {NavigationGroupItem, NavigationModuleItem} from "../../util/AdminNavigationUtil";
 import {Route, Switch} from "react-router-dom";
 import {WithErrorBoundary} from "./WithErrorBoundary";
 import {NotFound} from "./NotFound";
@@ -8,23 +9,25 @@ import {AdminPage} from "../AdminPage";
 import {TextUtil} from "../../internal/TextUtil";
 import {AdminAppContext} from "./context";
 
-interface Props {
-    navigationService: AdminNavigatorBase<any, any>;
+interface Props<Feature, Field> {
+    permissions: Feature[];
+    superAdminPermission: Feature;
+    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
     WelcomeComponent?: React.ComponentType;
     onLifecycleError?: (error: unknown, componentStack: string) => void;
     onNotFound?: (notFoundPath: string) => void;
 }
 
-export class RouteSwitch extends React.PureComponent<Props> {
+export class RouteSwitch<Feature, Field> extends React.PureComponent<Props<Feature, Field>> {
     static displayName = "RouteSwitch";
     static contextType = AdminAppContext;
     context!: React.ContextType<typeof AdminAppContext>;
 
     private readonly navigationModules: NavigationModuleItem<any, any>[];
 
-    constructor(props: Props) {
+    constructor(props: Props<Feature, Field>) {
         super(props);
-        this.navigationModules = props.navigationService.modules();
+        this.navigationModules = AdminNavigationUtil.modules(props.navigationGroups, props.permissions, props.superAdminPermission);
     }
 
     renderWelcome = () => {
