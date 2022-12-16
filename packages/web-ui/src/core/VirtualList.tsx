@@ -62,15 +62,17 @@ export function VirtualList<T extends object>({
             <div
                 className="g-virtual-list-inner"
                 style={{
+                    position: "relative",
                     height: horizontal ? "100%" : virtualizer.getTotalSize(),
                     width: horizontal ? virtualizer.getTotalSize() : "100%",
-                    position: "relative",
                 }}
             >
                 {virtualizer.getVirtualItems().map(virtualRow => (
                     <div
                         className="g-virtual-list-item"
                         key={getItemKey(virtualRow.index) as string | number}
+                        ref={virtualizer.measureElement}
+                        data-index={virtualRow.index}
                         style={{
                             position: "absolute",
                             top: 0,
@@ -79,7 +81,7 @@ export function VirtualList<T extends object>({
                             ...sizeStyle,
                         }}
                     >
-                        <div className="g-virtual-list-item-wrapper" data-index={virtualRow.index} ref={virtualizer.measureElement} style={{...sizeStyle}}>
+                        <div className="g-virtual-list-item-wrapper" style={{...sizeStyle}}>
                             <Item data={data[virtualRow.index]} index={virtualRow.index} />
                         </div>
                     </div>

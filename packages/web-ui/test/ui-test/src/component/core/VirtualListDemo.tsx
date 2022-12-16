@@ -13,11 +13,13 @@ interface Profile {
 }
 
 const Profile = ({profile}: {profile: Profile}) => (
-    <ul>
-        <li>name: {profile.name}</li>
-        <li>age: {profile.age}</li>
-        <li>address: {profile.address}</li>
-    </ul>
+    <React.Fragment>
+        <div style={{padding: 20}}>
+            <h4>name: {profile.name}</h4>
+            <p>age: {profile.age}</p>
+            <p>address: {profile.address}</p>
+        </div>
+    </React.Fragment>
 );
 
 const generateProfile = (size: number): Profile[] => {
@@ -46,7 +48,7 @@ const FixedWidthList = () => {
     );
 };
 
-const rowHeights = new Array(10000).fill(true).map(() => 60 + Math.round(Math.random() * 100));
+const rowHeights = new Array(10000).fill(true).map(() => 120 + Math.round(Math.random() * 100));
 
 const DynamicHeightList = () => {
     return (
@@ -55,6 +57,21 @@ const DynamicHeightList = () => {
                 data={largeData}
                 renderData={({data, index}) => (
                     <div style={{height: rowHeights[index], background: index % 2 ? "brown" : "#c2c2c2"}}>
+                        <Profile profile={data} />
+                    </div>
+                )}
+            />
+        </div>
+    );
+};
+
+const DynamicHeightListWithMargin = () => {
+    return (
+        <div style={{width: 500, height: 400}}>
+            <VirtualList
+                data={largeData}
+                renderData={({data, index}) => (
+                    <div style={{height: rowHeights[index], background: index % 2 ? "brown" : "#c2c2c2", margin: 20}}>
                         <Profile profile={data} />
                     </div>
                 )}
@@ -99,8 +116,8 @@ const ResizableVirtualList = () => {
             <div style={{width, height}}>
                 <VirtualList
                     data={largeData}
-                    renderData={({data, index, measure}) => (
-                        <div style={{background: index % 2 ? "brown" : "#c2c2c2"}} ref={measure}>
+                    renderData={({data, index}) => (
+                        <div style={{background: index % 2 ? "brown" : "#c2c2c2"}}>
                             <Profile profile={data} />
                         </div>
                     )}
@@ -165,6 +182,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VirtualList with dynamic width",
         showPropsHint: false,
         components: [<DynamicWidthList />],
+    },
+    {
+        title: "Dynamic height VirtualList, Item with margin",
+        showPropsHint: false,
+        components: [<DynamicHeightListWithMargin />],
     },
     {
         title: "Resizable VirtualList",
