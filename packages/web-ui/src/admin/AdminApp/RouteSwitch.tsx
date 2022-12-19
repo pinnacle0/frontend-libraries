@@ -27,7 +27,8 @@ export class RouteSwitch<Feature, Field> extends React.PureComponent<Props<Featu
 
     constructor(props: Props<Feature, Field>) {
         super(props);
-        this.navigationModules = AdminNavigationUtil.modules(props.navigationGroups, props.permissions, props.superAdminPermission);
+        const enabledNavigationGroups = AdminNavigationUtil.groups(props.navigationGroups, props.permissions, props.superAdminPermission, false);
+        this.navigationModules = AdminNavigationUtil.modules(enabledNavigationGroups);
     }
 
     renderWelcome = () => {

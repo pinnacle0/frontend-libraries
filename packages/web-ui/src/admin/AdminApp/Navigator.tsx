@@ -1,12 +1,12 @@
 import React from "react";
 import {Tabs} from "../../core/Tabs";
-import type {RouteComponentProps} from "react-router-dom";
-import {withRouter} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {AdminAppContext} from "./context";
 import {i18n} from "../../internal/i18n/admin";
 import {Spin} from "../../core/Spin";
 import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
 import type {NavigationGroupItem, NavigationModuleItem} from "../../util/AdminNavigationUtil";
+import {useDidMountEffect} from "../../hooks";
 
 interface NavigatorTabItem {
     url: string;
@@ -15,123 +15,46 @@ interface NavigatorTabItem {
     customTitle?: string | null;
 }
 
-interface Props<Feature, Field> extends RouteComponentProps {
+interface Props<Feature, Field> {
+    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
     permissions: Feature[];
     superAdminPermission: Feature;
-    navigationGroups: Array<NavigationGroupItem<Feature, Field>>;
 }
 
-interface State {
-    tabs: NavigatorTabItem[];
-}
+export function Navigator<Feature, Field>({permissions, superAdminPermission, navigationGroups}: Props<Feature, Field>) {
+    const [tabs, setTabs] = React.useState<NavigatorTabItem[]>([]);
+    const location = useLocation();
+    const history = useHistory();
+    const t = i18n();
+    const context = React.useContext(AdminAppContext);
+    const groups = React.useMemo(() => AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, true), [navigationGroups, permissions, superAdminPermission]);
+    const modules = React.useMemo(() => AdminNavigationUtil.modules(groups), [groups]);
 
-class RouterAwareNavigator<Feature, Field> extends React.PureComponent<Props<Feature, Field>, State> {
-    static displayName = "Navigator";
-    static contextType = AdminAppContext;
-    context!: React.ContextType<typeof AdminAppContext>;
-
-    constructor(props: Props<Feature, Field>) {
-        super(props);
-        this.state = {tabs: []};
-    }
-
-    componentDidMount() {
-        // Register context
-        this.context.registerTitleUpdater(title => {
-            const url = this.props.location.pathname;
-            const index = this.computeIndexByURL(url);
-            if (index >= 0) {
-                const newTabs = [...this.state.tabs];
-                newTabs[index].customTitle = title;
-                this.setState({tabs: newTabs});
-            }
-        });
-
-        // Create initial tab, unless homepage or 404
-        const {location, navigationGroups, permissions, superAdminPermission} = this.props;
-        const url = location.pathname;
-        const targetModule = AdminNavigationUtil.moduleByURL(url, navigationGroups, permissions, superAdminPermission);
-        if (targetModule) {
-            this.setState({
-                tabs: [
-                    {
-                        url,
-                        module: targetModule,
-                        historyState: location.state,
-                    },
-                ],
-            });
-        }
-    }
-
-    componentDidUpdate(prevProps: Props<Feature, Field>) {
-        if (prevProps.location !== this.props.location) {
-            const {tabs} = this.state;
-            const newTabs = [...tabs];
-
-            // Save the previous tab (both URL and history state)
-            const prevURL = prevProps.location.pathname;
-            const prevHistoryState = prevProps.location.state;
-            const prevItemIndex = this.computeIndexByURL(prevURL);
-            if (prevItemIndex >= 0) {
-                newTabs[prevItemIndex].url = prevURL;
-                newTabs[prevItemIndex].historyState = prevHistoryState;
-            }
-
-            // Then determine whether create a new tab, or update the existing tab
-            const {location, navigationGroups, permissions, superAdminPermission} = this.props;
-            const newURL = location.pathname;
-            const newHistoryState = location.state;
-            const newIndex = this.computeIndexByURL(newURL);
-            if (newIndex >= 0) {
-                // Update the existing tab
-                newTabs[newIndex].url = newURL;
-                newTabs[newIndex].historyState = newHistoryState;
-            } else {
-                // If module exists, create a new tab
-                // Else, it means, the user goes to the homepage tab, so just do nothing
-                const targetModule = AdminNavigationUtil.moduleByURL(newURL, navigationGroups, permissions, superAdminPermission);
-                if (targetModule) {
-                    newTabs.push({
-                        url: newURL,
-                        historyState: newHistoryState,
-                        module: targetModule,
-                    });
+    const computeIndexByURL = React.useCallback(
+        (url: string, tabs: NavigatorTabItem[]): number => {
+            // If url is null, then use current URL
+            const matchedModule = AdminNavigationUtil.moduleByURL(url, modules);
+            if (matchedModule) {
+                if (matchedModule.separateTab) {
+                    return tabs.findIndex(_ => _.url === url);
+                } else {
+                    return tabs.findIndex(_ => _.module === matchedModule);
                 }
-            }
-
-            // Finalize the component state
-            this.setState({tabs: newTabs});
-        }
-    }
-
-    computeIndexByURL = (url: string): number => {
-        // If url is null, then use current URL
-        const {navigationGroups, permissions, superAdminPermission} = this.props;
-        const {tabs} = this.state;
-        const matchedModule = AdminNavigationUtil.moduleByURL(url, navigationGroups, permissions, superAdminPermission);
-        if (matchedModule) {
-            if (matchedModule.separateTab) {
-                return tabs.findIndex(_ => _.url === url);
             } else {
-                return tabs.findIndex(_ => _.module === matchedModule);
+                return -1;
             }
-        } else {
-            return -1;
-        }
-    };
+        },
+        [modules]
+    );
 
-    onTabClose = (key: string | React.MouseEvent | React.KeyboardEvent) => {
-        const {history, location} = this.props;
-        const {tabs} = this.state;
-
+    const onTabClose = (key: string | React.MouseEvent | React.KeyboardEvent) => {
         const currentURL = location.pathname;
         const closedURL = key as string;
-        const closedIndex = this.computeIndexByURL(closedURL);
+        const closedIndex = computeIndexByURL(closedURL, tabs);
         if (closedIndex >= 0) {
             const newTabs = [...tabs];
             newTabs.splice(closedIndex, 1);
-            this.setState({tabs: newTabs});
+            setTabs(newTabs);
 
             if (currentURL === closedURL) {
                 // Close current tab, then re-open the previous tab, or the first tab
@@ -145,12 +68,11 @@ class RouterAwareNavigator<Feature, Field> extends React.PureComponent<Props<Fea
         }
     };
 
-    onTabChange = (url: string) => {
-        const {history} = this.props;
-        const index = this.computeIndexByURL(url);
+    const onTabChange = (url: string) => {
+        const index = computeIndexByURL(url, tabs);
         if (index >= 0) {
             // Trigger URL change, then the flow will go to componentDidUpdate
-            const existedItem = this.state.tabs[index];
+            const existedItem = tabs[index];
             history.push(existedItem.url, existedItem.historyState);
         } else {
             // Open homepage tab
@@ -158,32 +80,67 @@ class RouterAwareNavigator<Feature, Field> extends React.PureComponent<Props<Fea
         }
     };
 
-    render() {
-        const {location} = this.props;
-        const {tabs} = this.state;
-        const t = i18n();
-        return (
-            <Tabs className="navigator-bar" hideAdd onEdit={this.onTabClose} type="editable-card" activeKey={location.pathname} onChange={this.onTabChange}>
-                <Tabs.TabPane tab={t.homePageTitle} key="/" closable={false} />
-                {tabs.map(({customTitle, url, module}) => {
-                    let tab: React.ReactElement | string;
-                    if (customTitle) {
-                        tab = customTitle;
-                    } else if (module.separateTab) {
-                        tab = (
-                            <React.Fragment>
-                                {module.title}
-                                <Spin spinning size="small" />
-                            </React.Fragment>
-                        );
-                    } else {
-                        tab = module.title;
-                    }
-                    return <Tabs.TabPane tab={tab} key={url} closable />;
-                })}
-            </Tabs>
-        );
-    }
-}
+    useDidMountEffect(() => {
+        // Register context
+        context.registerTitleUpdater(title => {
+            const url = location.pathname;
+            const index = computeIndexByURL(url, tabs);
+            if (index >= 0) {
+                const newTabs = [...tabs];
+                newTabs[index].customTitle = title;
+                setTabs(newTabs);
+            }
+        });
+    });
 
-export const Navigator = withRouter(RouterAwareNavigator);
+    React.useEffect(() => {
+        setTabs(tabs => {
+            const newTabs = [...tabs];
+            // Determine whether create a new tab, or update the existing tab
+            const newURL = location.pathname;
+            const newHistoryState = location.state;
+            const matchedModule = AdminNavigationUtil.moduleByURL(newURL, modules);
+            const newIndex = computeIndexByURL(newURL, newTabs);
+
+            if (newIndex >= 0) {
+                // Update the existing tab
+                newTabs[newIndex].url = newURL;
+                newTabs[newIndex].historyState = newHistoryState;
+            } else {
+                // If module exists, create a new tab
+                // Else, it means, the user goes to the homepage tab, so just do nothing
+                const targetModule = AdminNavigationUtil.moduleByURL(newURL, modules);
+                if (targetModule) {
+                    newTabs.push({
+                        url: newURL,
+                        historyState: newHistoryState,
+                        module: targetModule,
+                    });
+                }
+            }
+            return newTabs;
+        });
+    }, [location, modules]);
+
+    return (
+        <Tabs className="navigator-bar" hideAdd onEdit={onTabClose} type="editable-card" activeKey={location.pathname} onChange={onTabChange}>
+            <Tabs.TabPane tab={t.homePageTitle} key="/" closable={false} />
+            {tabs.map(({customTitle, url, module}) => {
+                let tab: React.ReactElement | string;
+                if (customTitle) {
+                    tab = customTitle;
+                } else if (module.separateTab) {
+                    tab = (
+                        <React.Fragment>
+                            {module.title}
+                            <Spin spinning size="small" />
+                        </React.Fragment>
+                    );
+                } else {
+                    tab = module.title;
+                }
+                return <Tabs.TabPane tab={tab} key={url} closable />;
+            })}
+        </Tabs>
+    );
+}

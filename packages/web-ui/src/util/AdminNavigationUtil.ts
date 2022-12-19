@@ -1,6 +1,5 @@
 import type React from "react";
 import {matchPath} from "react-router-dom";
-import {Memo} from "../internal/Memo";
 
 /**
  * Module accessibility is determined by <Feature> permission only.
@@ -53,9 +52,8 @@ export interface NavigationGroupItem<Feature, Field = never> {
 }
 
 export class AdminNavigationUtil {
-    @Memo()
     static groups<Feature, Field>(
-        navigationGroupItems: NavigationGroupItem<Feature, Field>[],
+        navigationGroupItems: Array<NavigationGroupItem<Feature, Field>>,
         permissions: Feature[],
         superAdminPermission: Feature,
         showHidden: boolean
@@ -70,26 +68,20 @@ export class AdminNavigationUtil {
             .filter(_ => _) as Array<NavigationGroupItem<Feature, Field>>;
     }
 
-    @Memo()
-    static modules<Feature, Field>(navigationGroupItems: NavigationGroupItem<Feature, Field>[], permissions: Feature[], superAdminPermission: Feature): Array<NavigationModuleItem<Feature, Field>> {
+    static modules<Feature, Field>(navigationGroupItems: NavigationGroupItem<Feature, Field>[]): Array<NavigationModuleItem<Feature, Field>> {
         const list: Array<NavigationModuleItem<Feature, Field>> = [];
-        AdminNavigationUtil.groups(navigationGroupItems, permissions, superAdminPermission, true).forEach(_ => list.push(..._.modules));
+        navigationGroupItems.forEach(_ => list.push(..._.modules));
         return list;
     }
 
-    static moduleByURL<Feature, Field>(
-        url: string,
-        navigationGroupItems: NavigationGroupItem<Feature, Field>[],
-        permissions: Feature[],
-        superAdminPermission: Feature
-    ): NavigationModuleItem<Feature, Field> | undefined {
+    static moduleByURL<Feature, Field>(url: string, modules: Array<NavigationModuleItem<Feature, Field>>): NavigationModuleItem<Feature, Field> | undefined {
         const isMatched = (item: NavigationModuleItem<Feature, Field>) =>
             matchPath(url, {
                 path: item.routeParam ? item.url + item.routeParam : item.url,
                 exact: true,
                 strict: false,
             }) !== null;
-        return AdminNavigationUtil.modules(navigationGroupItems, permissions, superAdminPermission).find(isMatched);
+        return modules.find(isMatched);
     }
 
     private static canAccessModule<Feature, Field>(module: NavigationModuleItem<Feature, Field>, permissions: Feature[], superAdminPermission: Feature): boolean {
