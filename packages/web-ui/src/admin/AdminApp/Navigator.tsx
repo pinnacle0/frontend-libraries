@@ -99,7 +99,6 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
             // Determine whether create a new tab, or update the existing tab
             const newURL = location.pathname;
             const newHistoryState = location.state;
-            const matchedModule = AdminNavigationUtil.moduleByURL(newURL, modules);
             const newIndex = computeIndexByURL(newURL, newTabs);
 
             if (newIndex >= 0) {
@@ -120,7 +119,7 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
             }
             return newTabs;
         });
-    }, [location, modules]);
+    }, [location, modules, computeIndexByURL]);
 
     return (
         <Tabs className="navigator-bar" hideAdd onEdit={onTabClose} type="editable-card" activeKey={location.pathname} onChange={onTabChange}>
