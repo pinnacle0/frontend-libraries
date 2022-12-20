@@ -6,7 +6,6 @@ import {i18n} from "../../internal/i18n/admin";
 import {Spin} from "../../core/Spin";
 import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
 import type {NavigationGroupItem, NavigationModuleItem} from "../../util/AdminNavigationUtil";
-import {useDidMountEffect} from "../../hooks";
 
 interface NavigatorTabItem {
     url: string;
@@ -24,6 +23,8 @@ interface Props<Feature, Field> {
 export function Navigator<Feature, Field>({permissions, superAdminPermission, navigationGroups}: Props<Feature, Field>) {
     const [tabs, setTabs] = React.useState<NavigatorTabItem[]>([]);
     const location = useLocation();
+    const locationRef = React.useRef(location);
+    locationRef.current = location;
     const history = useHistory();
     const t = i18n();
     const context = React.useContext(AdminAppContext);
@@ -80,18 +81,19 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
         }
     };
 
-    useDidMountEffect(() => {
-        // Register context
+    React.useEffect(() => {
         context.registerTitleUpdater(title => {
-            const url = location.pathname;
-            const index = computeIndexByURL(url, tabs);
-            if (index >= 0) {
+            setTabs(tabs => {
+                const url = locationRef.current.pathname;
+                const index = computeIndexByURL(url, tabs);
                 const newTabs = [...tabs];
-                newTabs[index].customTitle = title;
-                setTabs(newTabs);
-            }
+                if (index >= 0) {
+                    newTabs[index].customTitle = title;
+                }
+                return newTabs;
+            });
         });
-    });
+    }, [computeIndexByURL, context]);
 
     React.useEffect(() => {
         setTabs(tabs => {
