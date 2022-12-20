@@ -26,6 +26,9 @@ export interface Props<T extends object> {
     observeElementOffset?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementOffset"];
 }
 
+/**
+ * Efficiently rendering large lists and tabular data
+ */
 export function VirtualList<T extends object>({
     data,
     rowKey = "index",
@@ -58,7 +61,7 @@ export function VirtualList<T extends object>({
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
     return (
-        <div className="g-virtual-list" ref={parentRef} style={{width: "100%", height: "100%", overflow: "auto"}}>
+        <div className="g-virtual-list" ref={parentRef} style={{flex: 1, width: "100%", height: "100%", overflow: "auto"}}>
             <div
                 className="g-virtual-list-inner"
                 style={{

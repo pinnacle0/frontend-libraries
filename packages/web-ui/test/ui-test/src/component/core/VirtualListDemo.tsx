@@ -11,6 +11,16 @@ interface Profile {
     age: number;
     address: string;
 }
+interface ContainerProps {
+    children: React.ReactNode;
+    width: number;
+    height: number;
+    horizontal?: boolean;
+}
+
+const Container = ({width, height, horizontal = false, children}: ContainerProps) => {
+    return <div style={{display: "flex", width, height, flexFlow: horizontal ? "row" : "column"}}>{children}</div>;
+};
 
 const Profile = ({profile}: {profile: Profile}) => (
     <React.Fragment>
@@ -34,17 +44,17 @@ const largeData = generateProfile(10000);
 
 const FixedHeightList = () => {
     return (
-        <div style={{width: 500, height: 400}}>
+        <Container width={500} height={400}>
             <VirtualList data={largeData} renderData={({index}) => <div style={{height: 100, width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
-        </div>
+        </Container>
     );
 };
 
 const FixedWidthList = () => {
     return (
-        <div style={{width: 700, height: 150}}>
+        <Container width={700} height={150} horizontal>
             <VirtualList direction="horizontal" data={largeData} renderData={({index}) => <div style={{height: "100%", width: 200, background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
-        </div>
+        </Container>
     );
 };
 
@@ -52,7 +62,7 @@ const rowHeights = new Array(10000).fill(true).map(() => 120 + Math.round(Math.r
 
 const DynamicHeightList = () => {
     return (
-        <div style={{width: 500, height: 400}}>
+        <Container width={500} height={400}>
             <VirtualList
                 data={largeData}
                 renderData={({data, index}) => (
@@ -61,13 +71,13 @@ const DynamicHeightList = () => {
                     </div>
                 )}
             />
-        </div>
+        </Container>
     );
 };
 
-const DynamicHeightListWithMargin = () => {
+const DynamicHeightItemWithMarginList = () => {
     return (
-        <div style={{width: 500, height: 400}}>
+        <Container width={500} height={400}>
             <VirtualList
                 data={largeData}
                 renderData={({data, index}) => (
@@ -76,13 +86,13 @@ const DynamicHeightListWithMargin = () => {
                     </div>
                 )}
             />
-        </div>
+        </Container>
     );
 };
 
 const DynamicWidthList = () => {
     return (
-        <div style={{width: 700, height: 150}}>
+        <Container width={700} height={150}>
             <VirtualList
                 direction="horizontal"
                 data={largeData}
@@ -92,7 +102,7 @@ const DynamicWidthList = () => {
                     </div>
                 )}
             />
-        </div>
+        </Container>
     );
 };
 
@@ -102,7 +112,7 @@ enum Size {
     Large = 800,
 }
 
-const ResizableVirtualList = () => {
+const ResizableList = () => {
     const [width, setWidth] = React.useState<Size>(Size.Small);
     const [height, setHeight] = React.useState<Size>(Size.Small);
     return (
@@ -113,7 +123,7 @@ const ResizableVirtualList = () => {
             <p style={{marginBottom: 20}}>
                 Height: <EnumRadio useButtonMode list={[200, 400, 800] as Size[]} value={height} onChange={setHeight} />
             </p>
-            <div style={{width, height}}>
+            <Container width={width} height={height}>
                 <VirtualList
                     data={largeData}
                     renderData={({data, index}) => (
@@ -122,12 +132,12 @@ const ResizableVirtualList = () => {
                         </div>
                     )}
                 />
-            </div>
+            </Container>
         </div>
     );
 };
 
-const DataMutation = () => {
+const DataMutationList = () => {
     const [width, setWidth] = React.useState<Size>(Size.Medium);
     const [height, setHeight] = React.useState<Size>(Size.Large);
     const [data, setData] = React.useState<Profile[]>(generateProfile(2));
@@ -146,7 +156,7 @@ const DataMutation = () => {
                     -
                 </Button>
             </Space>
-            <div style={{width, height}}>
+            <Container width={width} height={height}>
                 <VirtualList
                     initialRect={{width, height}}
                     overscan={1}
@@ -157,46 +167,46 @@ const DataMutation = () => {
                         </div>
                     )}
                 />
-            </div>
+            </Container>
         </div>
     );
 };
 
 const groups: DemoHelperGroupConfig[] = [
     {
-        title: "VirtualList with fixed height",
+        title: "Fixed height",
         showPropsHint: false,
         components: [<FixedHeightList />],
     },
     {
-        title: "VirtualList with fixed width",
+        title: "Fixed width",
         showPropsHint: false,
         components: [<FixedWidthList />],
     },
     {
-        title: "VirtualList with dynamic height",
+        title: "Dynamic height",
         showPropsHint: false,
         components: [<DynamicHeightList />],
     },
     {
-        title: "VirtualList with dynamic width",
+        title: "Dynamic width",
         showPropsHint: false,
         components: [<DynamicWidthList />],
     },
     {
-        title: "Dynamic height VirtualList, Item with margin",
+        title: "Dynamic height item with margin",
         showPropsHint: false,
-        components: [<DynamicHeightListWithMargin />],
+        components: [<DynamicHeightItemWithMarginList />],
     },
     {
-        title: "Resizable VirtualList",
+        title: "Resizable List",
         showPropsHint: false,
-        components: [<ResizableVirtualList />],
+        components: [<ResizableList />],
     },
     {
-        title: "VirtualList with Data Mutation",
+        title: "List with Data Mutation",
         showPropsHint: false,
-        components: [<DataMutation />],
+        components: [<DataMutationList />],
     },
 ];
 
