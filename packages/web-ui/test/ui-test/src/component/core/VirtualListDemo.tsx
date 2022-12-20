@@ -45,7 +45,7 @@ const largeData = generateProfile(10000);
 const FixedHeightList = () => {
     return (
         <Container width={500} height={400}>
-            <VirtualList data={largeData} renderData={({index}) => <div style={{height: 100, width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
+            <VirtualList data={largeData} renderItem={({index}) => <div style={{height: 100, width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
         </Container>
     );
 };
@@ -53,7 +53,7 @@ const FixedHeightList = () => {
 const FixedWidthList = () => {
     return (
         <Container width={700} height={150} horizontal>
-            <VirtualList direction="horizontal" data={largeData} renderData={({index}) => <div style={{height: "100%", width: 200, background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
+            <VirtualList direction="horizontal" data={largeData} renderItem={({index}) => <div style={{height: "100%", width: 200, background: index % 2 ? "brown" : "#c2c2c2"}}>Row {index}</div>} />
         </Container>
     );
 };
@@ -65,7 +65,7 @@ const DynamicHeightList = () => {
         <Container width={500} height={400}>
             <VirtualList
                 data={largeData}
-                renderData={({data, index}) => (
+                renderItem={({data, index}) => (
                     <div style={{height: rowHeights[index], background: index % 2 ? "brown" : "#c2c2c2"}}>
                         <Profile profile={data} />
                     </div>
@@ -80,7 +80,7 @@ const DynamicHeightItemWithMarginList = () => {
         <Container width={500} height={400}>
             <VirtualList
                 data={largeData}
-                renderData={({data, index}) => (
+                renderItem={({data, index}) => (
                     <div style={{height: rowHeights[index], background: index % 2 ? "brown" : "#c2c2c2", margin: 20}}>
                         <Profile profile={data} />
                     </div>
@@ -96,7 +96,7 @@ const DynamicWidthList = () => {
             <VirtualList
                 direction="horizontal"
                 data={largeData}
-                renderData={({data, index}) => (
+                renderItem={({data, index}) => (
                     <div style={{width: 200 + rowHeights[index], height: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>
                         <Profile profile={data} />
                     </div>
@@ -126,7 +126,7 @@ const ResizableList = () => {
             <Container width={width} height={height}>
                 <VirtualList
                     data={largeData}
-                    renderData={({data, index}) => (
+                    renderItem={({data, index}) => (
                         <div style={{background: index % 2 ? "brown" : "#c2c2c2"}}>
                             <Profile profile={data} />
                         </div>
@@ -161,7 +161,7 @@ const DataMutationList = () => {
                     initialRect={{width, height}}
                     overscan={1}
                     data={data}
-                    renderData={({data, index}) => (
+                    renderItem={({data, index}) => (
                         <div style={{width: "100%", background: index % 2 ? "brown" : "#c2c2c2"}}>
                             <Profile profile={data} />
                         </div>
