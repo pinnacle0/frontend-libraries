@@ -9,17 +9,17 @@ interface DataWithIndex<T> {
     i: number;
 }
 
-interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "Footer" | "endOfListMessage" | "onPullUpLoading"> {
+interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "Footer" | "endOfListMessage" | "onPullUpLoading" | "loadingThreshold"> {
     loading: boolean;
     hasNextPageMessage?: string;
 }
 
-export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loading, Footer, endOfListMessage, onPullUpLoading, hasNextPageMessage}: Props<T>) {
+export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loading, Footer, endOfListMessage, onPullUpLoading, hasNextPageMessage, loadingThreshold = 4}: Props<T>) {
     const Item = renderItem;
     const itemStyle = useGap(gap);
     const markerId = React.useRef(createKey());
     const loadedDataKey = React.useRef<string | null>(null);
-    const {first, second} = React.useMemo(() => splitByLast(data, 2), [data]);
+    const {first, second} = React.useMemo(() => splitByLast(data, loadingThreshold), [data, loadingThreshold]);
     const [dataKey, setDataKey] = React.useState(createKey());
 
     const previousMarker = React.useRef<HTMLDivElement | null>(null);

@@ -24,6 +24,7 @@ export const FlatList = function <T>({
     loading = false,
     onPullDownRefresh,
     onPullUpLoading,
+    loadingThreshold,
     emptyPlaceholder,
     Refresh,
     Footer,
@@ -119,6 +120,7 @@ export const FlatList = function <T>({
                         endOfListMessage={endOfListMessage}
                         hasNextPageMessage={pullUpMessage}
                         onPullUpLoading={onPullUpLoading}
+                        loadingThreshold={loadingThreshold}
                     />
                 </div>
             </div>
