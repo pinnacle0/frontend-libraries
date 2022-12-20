@@ -63,7 +63,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
                     {createItem(first)}
                     <div id={markerId.current} data-key={dataKey} />
                     {createItem(second)}
-                    {Footer ? (
+                    {Footer && data.length > 0 ? (
                         <Footer loading={loading} />
                     ) : (
                         <DefaultFooter loading={loading} hasNextPage={onPullUpLoading !== undefined} endOfListMessage={endOfListMessage} hasNextPageMessage={hasNextPageMessage} />

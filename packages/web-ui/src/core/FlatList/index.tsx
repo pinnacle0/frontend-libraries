@@ -104,7 +104,7 @@ export const FlatList = function <T>({
             <div className="g-flat-list-inner-wrapper" ref={animtedRef}>
                 {onPullDownRefresh && refreshing !== undefined && (
                     <div className="g-flat-list-refresh" ref={updateRefreshHeight}>
-                        {Refresh ? <Refresh loading={refreshing} /> : <DefaultRefresh loading={refreshing} message={onPullUpLoading ? pullDownMessage : undefined} />}
+                        {Refresh ? <Refresh loading={refreshing} /> : <DefaultRefresh loading={refreshing} message={pullDownMessage} />}
                     </div>
                 )}
                 <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined}} onScroll={onScroll}>
