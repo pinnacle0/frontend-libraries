@@ -55,9 +55,6 @@ export function VirtualList<T extends object>({
         overscan,
     });
 
-    const virtualizerRef = React.useRef(virtualizer);
-    virtualizerRef.current = virtualizer;
-
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
     return (
