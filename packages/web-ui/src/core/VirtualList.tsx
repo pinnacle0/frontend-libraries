@@ -17,7 +17,7 @@ export interface ItemProps<T extends object> {
 export interface Props<T extends object> {
     initialRect?: {width: number; height: number};
     data: T[];
-    renderData: ComponentType<ItemProps<T>>;
+    renderItem: ComponentType<ItemProps<T>>;
     rowKey?: StringKey<T> | "index";
     direction?: Direction;
     fixedSize?: (index: number) => number;
@@ -33,7 +33,7 @@ export function VirtualList<T extends object>({
     data,
     rowKey = "index",
     direction = "vertical",
-    renderData,
+    renderItem: renderData,
     overscan = 5,
     initialRect = {width: 0, height: 0},
     observeElementOffset,
