@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../util/ClassNames";
 import {Direction} from "../../hooks/useSwipe";
 import {useSwipe, useTransform} from "../../hooks";
 import {getBounaryFromStartDirection, isExceededBounary, isScrollBottom, isScrollTop} from "./util";
@@ -16,6 +17,8 @@ export const FlatList = function <T>({
     renderItem,
     data,
     rowKey,
+    id,
+    className,
     gap,
     refreshing,
     loading = false,
@@ -97,7 +100,7 @@ export const FlatList = function <T>({
     }, [refreshing]);
 
     return (
-        <div className="g-flat-list" {...bind}>
+        <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef}>
                 {onPullDownRefresh && refreshing !== undefined && (
                     <div className="g-flat-list-refresh" ref={updateRefreshHeight}>

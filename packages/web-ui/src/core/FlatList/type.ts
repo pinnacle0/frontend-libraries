@@ -79,4 +79,6 @@ export interface FlatListProps<T> {
      * Set margin for each item
      */
     gap?: Gap;
+    className?: string;
+    id?: string;
 }
