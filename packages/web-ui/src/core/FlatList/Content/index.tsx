@@ -22,29 +22,34 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
     const {first, second} = React.useMemo(() => splitByLast(data, 2), [data]);
     const [dataKey, setDataKey] = React.useState(createKey());
 
+    const previousMarker = React.useRef<HTMLDivElement | null>(null);
     const onPullUpLoadingRef = React.useRef(onPullUpLoading);
     onPullUpLoadingRef.current = onPullUpLoading;
 
+    const observer = React.useMemo(
+        () =>
+            new IntersectionObserver(mutations => {
+                const mutation = mutations[0];
+                if (!mutation.isIntersecting) return;
+
+                const currentDataKey = mutation.target.getAttribute("data-key");
+
+                if (loadedDataKey.current === currentDataKey) return;
+                loadedDataKey.current = currentDataKey;
+                onPullUpLoadingRef.current?.();
+            }),
+        []
+    );
+
+    const markerRef = (node: HTMLDivElement | null) => {
+        previousMarker.current && observer.unobserve(previousMarker.current);
+        if (node) {
+            observer.observe(node);
+            previousMarker.current = node;
+        }
+    };
+
     React.useEffect(() => setDataKey(createKey()), [data]);
-
-    React.useEffect(() => {
-        const marker = document.getElementById(markerId.current);
-        if (!marker) return;
-
-        const observer = new IntersectionObserver(mutations => {
-            const mutation = mutations[0];
-            if (!mutation.isIntersecting) return;
-
-            const currentDataKey = mutation.target.getAttribute("data-key");
-
-            if (loadedDataKey.current === currentDataKey) return;
-            loadedDataKey.current = currentDataKey;
-            onPullUpLoadingRef.current?.();
-        });
-        observer.observe(marker);
-
-        return () => observer.disconnect();
-    }, []);
 
     const createItem = (source: DataWithIndex<T>[]) => {
         return source.map(({d, i}) => (
@@ -61,7 +66,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
             ) : (
                 <React.Fragment>
                     {createItem(first)}
-                    <div id={markerId.current} data-key={dataKey} />
+                    <div ref={markerRef} id={markerId.current} data-key={dataKey} />
                     {createItem(second)}
                     {Footer && data.length > 0 ? (
                         <Footer loading={loading} />
