@@ -4,6 +4,7 @@ export type Boundary = "top" | "bottom";
 
 export type Gap =
     | number
+    | [number, number]
     | {
           top?: number;
           bottom?: number;

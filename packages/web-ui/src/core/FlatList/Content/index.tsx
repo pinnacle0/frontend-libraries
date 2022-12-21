@@ -70,11 +70,13 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
 
 function useGap(gap?: Gap): React.CSSProperties {
     if (!gap) return {};
-    if (typeof gap === "number") {
-        return {paddingTop: gap, paddingBottom: gap, paddingLeft: gap, paddingRight: gap};
+    if (Array.isArray(gap)) {
+        return {marginTop: gap[0], marginBottom: gap[0], marginLeft: gap[1], marginRight: gap[1]};
+    } else if (typeof gap === "number") {
+        return {marginTop: gap, marginBottom: gap, marginLeft: gap, marginRight: gap};
     } else {
         const {top, bottom, left, right} = gap;
-        return {paddingTop: top, paddingBottom: bottom, paddingLeft: left, paddingRight: right};
+        return {marginTop: top, marginBottom: bottom, marginLeft: left, marginRight: right};
     }
 }
 
