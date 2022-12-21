@@ -20,11 +20,11 @@ export const FlatList = function <T>({
     id,
     className,
     gap,
-    refreshing,
-    loading = false,
+    refreshing: exactRefreshing,
+    loading,
     onPullDownRefresh,
     onPullUpLoading,
-    loadingThreshold,
+    endReachThreshold,
     emptyPlaceholder,
     Refresh,
     Footer,
@@ -38,6 +38,7 @@ export const FlatList = function <T>({
     const refreshHeight = React.useRef<number>(0);
     const previousBoundary = React.useRef<Boundary | null>(null);
     const [startDelta, setStartDelta] = React.useState<number | null>(null);
+    const delayedRefreshing = useRefreshing(exactRefreshing ?? false, 1000);
 
     const transit = useTransform(animtedRef, {
         timingFunction: "cubic-bezier(0, 0.89, 0.26, 1.02)",
@@ -77,10 +78,13 @@ export const FlatList = function <T>({
             },
             onEnd: ({delta: [, y]}: SwipeState) => {
                 if (!startDelta) return;
-                if (previousBoundary.current === "top" && onPullDownRefresh && y - startDelta >= PULL_DOWN_REFRESH_THRESHOLD && !refreshing) {
+                if (previousBoundary.current === "top" && onPullDownRefresh && y - startDelta >= PULL_DOWN_REFRESH_THRESHOLD && !delayedRefreshing) {
                     onPullDownRefresh();
                 }
                 clear();
+                if (delayedRefreshing) {
+                    transit.to({y: refreshHeight.current});
+                }
             },
             onCancel: clear,
         },
@@ -92,20 +96,19 @@ export const FlatList = function <T>({
     const updateRefreshHeight = (node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height);
 
     React.useEffect(() => {
-        if (refreshing && previousBoundary.current === "top") {
-            previousBoundary.current === null;
+        if (delayedRefreshing && previousBoundary.current === "top") {
             transitRef.current.to({y: refreshHeight.current});
         } else {
             transitRef.current.clear();
         }
-    }, [refreshing]);
+    }, [delayedRefreshing]);
 
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef}>
-                {onPullDownRefresh && refreshing !== undefined && (
+                {onPullDownRefresh && exactRefreshing !== undefined && (
                     <div className="g-flat-list-refresh" ref={updateRefreshHeight}>
-                        {Refresh ? <Refresh loading={refreshing} /> : <DefaultRefresh loading={refreshing} message={pullDownMessage} />}
+                        {Refresh ? <Refresh loading={delayedRefreshing} /> : <DefaultRefresh loading={delayedRefreshing} message={pullDownMessage} />}
                     </div>
                 )}
                 <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined}} onScroll={onScroll}>
@@ -120,10 +123,40 @@ export const FlatList = function <T>({
                         endOfListMessage={endOfListMessage}
                         hasNextPageMessage={pullUpMessage}
                         onPullUpLoading={onPullUpLoading}
-                        loadingThreshold={loadingThreshold}
+                        endReachThreshold={endReachThreshold}
                     />
                 </div>
             </div>
         </div>
     );
 };
+
+/**
+ * Prevent flickering refreshing
+ * `PS`: This is totally different from prevent flickering loading, the hook make sure refreshing must remain `true` in a certain period of time
+ */
+function useRefreshing(refreshing: boolean, duration: number): boolean {
+    const [guarantee, setGuarantee] = React.useState(refreshing);
+    const timerId = React.useRef<number>();
+    const lastLoadingTime = React.useRef<number>(Date.now());
+
+    const durationRef = React.useRef(duration);
+    durationRef.current = duration;
+
+    React.useEffect(() => {
+        if (refreshing) {
+            lastLoadingTime.current = Date.now();
+            clearTimeout(timerId.current);
+            setGuarantee(true);
+        } else {
+            const remain = durationRef.current - (Date.now() - lastLoadingTime.current);
+            if (remain > 0) {
+                timerId.current = window.setTimeout(() => setGuarantee(false), remain);
+            } else {
+                setGuarantee(false);
+            }
+        }
+    }, [refreshing]);
+
+    return guarantee;
+}

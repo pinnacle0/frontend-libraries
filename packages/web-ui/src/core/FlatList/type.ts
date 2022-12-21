@@ -85,5 +85,5 @@ export interface FlatListProps<T> {
      * Determine number of items left outside of viewport of the list to trigger onPullUpLoading
      * Default: 4
      */
-    loadingThreshold?: number;
+    endReachThreshold?: number;
 }
