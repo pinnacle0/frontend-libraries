@@ -109,7 +109,7 @@ export const FlatList = function <T>({
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef} style={wrapperStyle}>
                 {showRefresh && (
-                    <div ref={updateRefreshHeight} className="g-flat-list-refresh">
+                    <div ref={updateRefreshHeight} className={classNames("g-flat-list-refresh", {refreshing: delayedRefreshing})}>
                         {delayedRefreshing ? <Loader /> : <span>{pullDownMessage ?? "release to refresh"}</span>}
                     </div>
                 )}

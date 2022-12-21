@@ -1,4 +1,5 @@
 import React from "react";
+import {classNames} from "../../../../util/ClassNames";
 import {Loader} from "../../Loader";
 import "./index.less";
 
@@ -14,7 +15,7 @@ export const Footer = ({loading, hasNextPage, hasNextPageMessage, endOfListMessa
     const next = hasNextPageMessage ?? "Pull up to load more";
 
     return (
-        <div ref={ref} className="g-flat-list-footer">
+        <div ref={ref} className={classNames("g-flat-list-footer", {loading})}>
             {loading ? <Loader /> : hasNextPage ? next : end}
         </div>
     );
