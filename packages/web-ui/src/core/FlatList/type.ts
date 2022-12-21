@@ -50,29 +50,17 @@ export interface FlatListProps<T> {
      */
     emptyPlaceholder?: string | React.ReactElement;
     /**
-     * if Provided, default `Footer` component will be replaced
-     */
-    Footer?: React.ComponentType<{loading: boolean}>;
-    /**
-     * `refresh` component will be shown when `refreshing` is equal `true`
-     * if Provided, default `Refresh` component will be replaced
-     */
-    Refresh?: React.ComponentType<{loading: boolean}>;
-    /**
      * `pullUpMessage` will be show in `Refresh` only if `onPullDownRefresh` is defined
-     * if Provided, this message will replace the pull down message in default `Refresh`
-     * if `Refresh` is provided, this props will be ignored
+     * if Provided, this message will replace the pull down message in `Refresh`
      */
     pullDownMessage?: string;
     /**
      * `pullUpMessage` will be show in `Footer` only if `onPullUpLoading` is defined
-     * if Provided, this message will replace end of list message in default `Footer`
-     * if `Footer` is provided, this props will be ignored
+     * if Provided, this message will replace end of list message in `Footer`
      */
     pullUpMessage?: string;
     /**
-     * if Provided, this message will replace end of list message in default `Footer`
-     * if `Footer` is provided, this props will be ignored
+     * if Provided, this message will replace end of list message in `Footer`
      */
     endOfListMessage?: string;
     /**

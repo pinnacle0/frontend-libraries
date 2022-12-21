@@ -3,11 +3,11 @@ import {classNames} from "../../util/ClassNames";
 import {Direction} from "../../hooks/useSwipe";
 import {useSwipe, useTransform} from "../../hooks";
 import {getBounaryFromStartDirection, isExceededBounary, isScrollBottom, isScrollTop} from "./util";
-import {Refresh as DefaultRefresh} from "./Refresh";
 import {Content} from "./Content";
 import type {Boundary, FlatListProps} from "./type";
 import type {SwipeState} from "../../hooks/useSwipe";
 import "./index.less";
+import {Loader} from "./Loader";
 
 export * from "./type";
 
@@ -26,8 +26,6 @@ export const FlatList = function <T>({
     onPullUpLoading,
     endReachThreshold,
     emptyPlaceholder,
-    Refresh,
-    Footer,
     pullDownMessage,
     pullUpMessage,
     endOfListMessage,
@@ -95,6 +93,8 @@ export const FlatList = function <T>({
 
     const updateRefreshHeight = (node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height);
 
+    const showRefresh = onPullDownRefresh && exactRefreshing !== undefined;
+
     React.useEffect(() => {
         if (delayedRefreshing && previousBoundary.current === "top") {
             transitRef.current.to({y: refreshHeight.current});
@@ -106,9 +106,9 @@ export const FlatList = function <T>({
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef}>
-                {onPullDownRefresh && exactRefreshing !== undefined && (
-                    <div className="g-flat-list-refresh" ref={updateRefreshHeight}>
-                        {Refresh ? <Refresh loading={delayedRefreshing} /> : <DefaultRefresh loading={delayedRefreshing} message={pullDownMessage} />}
+                {showRefresh && (
+                    <div ref={updateRefreshHeight} className="g-flat-list-refresh">
+                        {delayedRefreshing ? <Loader /> : <span>{pullDownMessage ?? "release to refresh"}</span>}
                     </div>
                 )}
                 <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined}} onScroll={onScroll}>
@@ -118,7 +118,6 @@ export const FlatList = function <T>({
                         renderItem={renderItem}
                         gap={gap}
                         emptyPlaceholder={emptyPlaceholder}
-                        Footer={Footer}
                         loading={loading}
                         endOfListMessage={endOfListMessage}
                         hasNextPageMessage={pullUpMessage}

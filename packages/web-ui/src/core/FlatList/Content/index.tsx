@@ -1,13 +1,13 @@
 import React from "react";
-import {Footer as DefaultFooter} from "./Footer";
+import {Footer} from "./Footer";
 import type {FlatListProps, FlatListItemProps, Gap} from "../type";
 import "../../../internal/polyfill/IntersectionObserver";
 
-interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "Footer" | "endOfListMessage" | "onPullUpLoading" | "endReachThreshold" | "loading"> {
+interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "endOfListMessage" | "onPullUpLoading" | "endReachThreshold" | "loading"> {
     hasNextPageMessage?: string;
 }
 
-export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loading = false, Footer, endOfListMessage, onPullUpLoading, hasNextPageMessage, endReachThreshold = 4}: Props<T>) {
+export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loading = false, endOfListMessage, onPullUpLoading, hasNextPageMessage, endReachThreshold = 4}: Props<T>) {
     const Item = renderItem;
     const itemStyle = useGap(gap);
     const markerId = React.useRef(createKey());
@@ -61,11 +61,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
                     {createItem(first)}
                     <div ref={markerRef} id={markerId.current} data-key={dataKey} />
                     {createItem(second)}
-                    {Footer && data.length > 0 ? (
-                        <Footer loading={loading} />
-                    ) : (
-                        <DefaultFooter loading={loading} hasNextPage={onPullUpLoading !== undefined} endOfListMessage={endOfListMessage} hasNextPageMessage={hasNextPageMessage} />
-                    )}
+                    {data.length > 0 && <Footer loading={loading} hasNextPage={onPullUpLoading !== undefined} endOfListMessage={endOfListMessage} hasNextPageMessage={hasNextPageMessage} />}
                 </React.Fragment>
             )}
         </div>
