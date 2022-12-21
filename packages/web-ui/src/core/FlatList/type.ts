@@ -67,11 +67,13 @@ export interface FlatListProps<T> {
      * Set margin for each item
      */
     gap?: Gap;
-    className?: string;
-    id?: string;
     /**
      * Determine number of items left outside of viewport of the list to trigger onPullUpLoading
      * Default: 4
      */
     endReachThreshold?: number;
+    className?: string;
+    id?: string;
+    style?: React.CSSProperties;
+    wrapperStyle?: React.CSSProperties;
 }

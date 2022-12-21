@@ -29,6 +29,8 @@ export const FlatList = function <T>({
     pullDownMessage,
     pullUpMessage,
     endOfListMessage,
+    style,
+    wrapperStyle,
 }: FlatListProps<T>) {
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
     const animtedRef = React.useRef<HTMLDivElement | null>(null);
@@ -105,13 +107,13 @@ export const FlatList = function <T>({
 
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
-            <div className="g-flat-list-inner-wrapper" ref={animtedRef}>
+            <div className="g-flat-list-inner-wrapper" ref={animtedRef} style={wrapperStyle}>
                 {showRefresh && (
                     <div ref={updateRefreshHeight} className="g-flat-list-refresh">
                         {delayedRefreshing ? <Loader /> : <span>{pullDownMessage ?? "release to refresh"}</span>}
                     </div>
                 )}
-                <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined}} onScroll={onScroll}>
+                <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined, ...style}} onScroll={onScroll}>
                     <Content
                         data={data}
                         rowKey={rowKey}
