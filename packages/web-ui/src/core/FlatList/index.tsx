@@ -99,6 +99,7 @@ export const FlatList = function <T>({
 
     React.useEffect(() => {
         if (delayedRefreshing && previousBoundary.current === "top") {
+            previousBoundary.current = null;
             transitRef.current.to({y: refreshHeight.current});
         } else {
             transitRef.current.clear();
