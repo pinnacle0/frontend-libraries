@@ -95,8 +95,6 @@ export const FlatList = function <T>({
 
     const updateRefreshHeight = (node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height);
 
-    const showRefresh = onPullDownRefresh && exactRefreshing !== undefined;
-
     React.useEffect(() => {
         if (delayedRefreshing && previousBoundary.current === "top") {
             previousBoundary.current = null;
@@ -109,7 +107,7 @@ export const FlatList = function <T>({
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef} style={wrapperStyle}>
-                {showRefresh && (
+                {exactRefreshing !== undefined && (
                     <div ref={updateRefreshHeight} className={classNames("g-flat-list-refresh", {refreshing: delayedRefreshing})}>
                         {delayedRefreshing ? <Loader /> : <span>{pullDownMessage ?? "release to refresh"}</span>}
                     </div>
