@@ -66,6 +66,8 @@ export interface FlatListProps<T> {
     endOfListMessage?: string;
     /**
      * Set margin for each item
+     * if you specify a number, the value is going to be use in top, bottom, left and right gap
+     * if you specify a tuple of 2 number: [number, number], first one represent top and bottom gap, second represent left and right gap
      */
     gap?: Gap;
     /**
