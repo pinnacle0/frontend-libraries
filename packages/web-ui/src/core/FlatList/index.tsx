@@ -71,23 +71,19 @@ export const FlatList = function <T>({
 
     const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height), []);
 
-    const animateLoader = React.useCallback(() => {
-        if (previousBoundary.current === "top") {
-            transitRef.current.to({y: refreshHeight.current});
-        } else if (previousBoundary.current === null) {
-            setShowFloatingLoader(true);
-        }
-    }, []);
-
     React.useEffect(() => {
         if (refreshing) {
-            animateLoader();
+            if (previousBoundary.current === "top") {
+                transitRef.current.to({y: refreshHeight.current});
+            } else {
+                setShowFloatingLoader(true);
+            }
         } else {
             previousBoundary.current = null;
             transitRef.current.clear();
             setShowFloatingLoader(false);
         }
-    }, [refreshing, animateLoader]);
+    }, [refreshing]);
 
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
