@@ -11,9 +11,9 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
     const Item = renderItem;
     const itemStyle = useGap(gap);
     const markerId = React.useRef(createKey());
-    const loadedDataKey = React.useRef<string | null>(null);
     const {first, second} = React.useMemo(() => splitByLast(data, endReachThreshold), [data, endReachThreshold]);
     const [dataKey, setDataKey] = React.useState(createKey());
+    const loadedDataKey = React.useRef<string>(createKey());
 
     const previousMarker = React.useRef<HTMLDivElement | null>(null);
     const onPullUpLoadingRef = React.useRef(onPullUpLoading);
@@ -25,7 +25,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
                 const mutation = mutations[0];
                 if (!mutation.isIntersecting) return;
 
-                const currentDataKey = mutation.target.getAttribute("data-key");
+                const currentDataKey = mutation.target.getAttribute("data-key")!;
 
                 if (loadedDataKey.current === currentDataKey) return;
                 loadedDataKey.current = currentDataKey;
@@ -59,7 +59,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
             ) : (
                 <React.Fragment>
                     {createItem(first)}
-                    <div ref={markerRef} id={markerId.current} data-key={dataKey} />
+                    <div key={markerId.current} ref={markerRef} id={markerId.current} data-key={dataKey} />
                     {createItem(second)}
                     {data.length > 0 && <Footer loading={loading} hasNextPage={onPullUpLoading !== undefined} endOfListMessage={endOfListMessage} hasNextPageMessage={hasNextPageMessage} />}
                 </React.Fragment>
