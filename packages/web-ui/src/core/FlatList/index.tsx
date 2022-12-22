@@ -104,7 +104,7 @@ export const FlatList = function <T>({
                         loading={loading}
                         endOfListMessage={endOfListMessage}
                         hasNextPageMessage={pullUpMessage}
-                        onPullUpLoading={onPullUpLoading}
+                        onPullUpLoading={!exactRefreshing ? onPullUpLoading : undefined}
                         endReachThreshold={endReachThreshold}
                     />
                 </div>
