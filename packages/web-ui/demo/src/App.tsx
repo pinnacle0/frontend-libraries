@@ -1,7 +1,8 @@
 import React from "react";
 import {FlatList} from "@pinnacle0/web-ui/src/core/FlatList";
-import type {User} from "./Profile";
 import {Profile} from "./Profile";
+import type {User} from "./Profile";
+import {Reload} from "./Reload";
 
 const genAvatar = () => `https://i.pravatar.cc/300?u=${Math.random()}`;
 const fakeLongFetch = () => new Promise(resolve => setTimeout(resolve, 500));
@@ -92,13 +93,15 @@ export function App() {
                 data={data}
                 rowKey="index"
                 renderItem={Profile}
-                gap={{top: 10, left: 15, bottom: 10, right: 15}}
                 refreshing={refreshing}
                 onPullDownRefresh={refresh}
                 loading={loading}
                 onPullUpLoading={data.length < 40 ? fetchMore : undefined}
+                gap={[10, 15]}
             />
-            <button className="add-btn">+</button>
+            <button onClick={refresh} className="add-btn">
+                <Reload />
+            </button>
         </div>
     );
 }

@@ -1,0 +1,28 @@
+.g-flat-list-floating-loader {
+    position: absolute;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 200ms ease-in-out, opacity 200ms ease-in;
+
+    .g-flat-list-loader {
+        justify-content: center;
+        align-items: center;
+        min-height: 30px;
+        padding: 0 20px;
+        border-radius: 15px;
+        background-color: rgb(0 0 0 / 40%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    &.show {
+        opacity: 1;
+        transform: translateY(20px);
+    }
+}

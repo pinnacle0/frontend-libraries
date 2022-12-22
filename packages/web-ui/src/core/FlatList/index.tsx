@@ -7,7 +7,9 @@ import {Content} from "./Content";
 import type {Boundary, FlatListProps} from "./type";
 import type {SwipeState} from "../../hooks/useSwipe";
 import "./index.less";
-import {Loader} from "./Loader";
+import {Loader} from "./shared/Loader";
+import {FloatingLoader} from "./FloatingLoader";
+import {Refresh} from "./Refresh";
 
 export * from "./type";
 
@@ -37,8 +39,10 @@ export const FlatList = function <T>({
 
     const refreshHeight = React.useRef<number>(0);
     const previousBoundary = React.useRef<Boundary | null>(null);
-    const [startDelta, setStartDelta] = React.useState<number | null>(null);
+
     const delayedRefreshing = useRefreshing(exactRefreshing ?? false, 1000);
+    const [startDelta, setStartDelta] = React.useState<number | null>(null);
+    const [showFloatingLoader, setShowFloatingLoader] = React.useState(delayedRefreshing);
 
     const transit = useTransform(animtedRef, {
         timingFunction: "cubic-bezier(0, 0.89, 0.26, 1.02)",
@@ -93,24 +97,34 @@ export const FlatList = function <T>({
 
     const onScroll = () => transit.clear();
 
-    const updateRefreshHeight = (node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height);
+    const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height), []);
+
+    const animateLoader = React.useCallback(() => {
+        if (previousBoundary.current === "top") {
+            transitRef.current.to({y: refreshHeight.current});
+        } else if (previousBoundary.current === null) {
+            setShowFloatingLoader(true);
+        }
+    }, []);
 
     React.useEffect(() => {
-        if (delayedRefreshing && previousBoundary.current === "top") {
-            previousBoundary.current = null;
-            transitRef.current.to({y: refreshHeight.current});
+        if (delayedRefreshing) {
+            animateLoader();
         } else {
+            previousBoundary.current = null;
             transitRef.current.clear();
+            setShowFloatingLoader(false);
         }
-    }, [delayedRefreshing]);
+    }, [delayedRefreshing, animateLoader]);
 
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
             <div className="g-flat-list-inner-wrapper" ref={animtedRef} style={wrapperStyle}>
                 {exactRefreshing !== undefined && (
-                    <div ref={updateRefreshHeight} className={classNames("g-flat-list-refresh", {refreshing: delayedRefreshing})}>
-                        {delayedRefreshing ? <Loader /> : <span>{pullDownMessage ?? "release to refresh"}</span>}
-                    </div>
+                    <React.Fragment>
+                        <FloatingLoader show={showFloatingLoader} />
+                        <Refresh ref={updateRefreshHeight} refreshing={delayedRefreshing} message={pullDownMessage} />
+                    </React.Fragment>
                 )}
                 <div className="g-flat-list-scrollable" ref={scrollRef} style={{overflow: startDelta ? "hidden" : undefined, ...style}} onScroll={onScroll}>
                     <Content

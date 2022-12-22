@@ -1,0 +1,25 @@
+.g-flat-list-refresh {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+    transform: translateY(-100%);
+
+    > span {
+        animation: fade-in 200ms ease-in;
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+}

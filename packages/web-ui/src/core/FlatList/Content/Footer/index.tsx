@@ -1,6 +1,6 @@
 import React from "react";
 import {classNames} from "../../../../util/ClassNames";
-import {Loader} from "../../Loader";
+import {Loader} from "../../shared/Loader";
 import "./index.less";
 
 interface Props {
@@ -15,7 +15,7 @@ export const Footer = ({loading, hasNextPage, hasNextPageMessage, endOfListMessa
     const next = hasNextPageMessage ?? "Pull up to load more";
 
     return (
-        <div ref={ref} className={classNames("g-flat-list-footer", {loading})}>
+        <div ref={ref} className={classNames("footer", {loading})}>
             {loading ? <Loader /> : hasNextPage ? next : end}
         </div>
     );
