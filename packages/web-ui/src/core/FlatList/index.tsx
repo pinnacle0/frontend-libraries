@@ -51,12 +51,15 @@ export const FlatList = function <T>({
 
     const bind = useScrollListSwipe({
         scrollElementRef: scrollRef,
-        onStart: ({bounary}) => (previousBoundary.current = bounary),
+        onStart: ({bounary}) => {
+            setShowFloatingLoader(false);
+            previousBoundary.current = bounary;
+        },
         onMove: ({delta}) => {
             transit.to({y: delta, immediate: true});
         },
         onEnd: ({delta}) => {
-            if (previousBoundary.current === "top" && onPullDownRefresh && delta >= PULL_DOWN_REFRESH_THRESHOLD && !refreshing) {
+            if (previousBoundary.current === "top" && onPullDownRefresh && delta >= PULL_DOWN_REFRESH_THRESHOLD && !refreshing && !loading) {
                 onPullDownRefresh();
             }
             transit.clear();
@@ -70,6 +73,13 @@ export const FlatList = function <T>({
     });
 
     const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height), []);
+
+    const handleScroll = () => {
+        transit.clear();
+        if (refreshing) {
+            setShowFloatingLoader(true);
+        }
+    };
 
     React.useEffect(() => {
         if (refreshing) {
@@ -94,7 +104,7 @@ export const FlatList = function <T>({
                         <Refresh ref={updateRefreshHeight} refreshing={refreshing} message={pullDownMessage} />
                     </React.Fragment>
                 )}
-                <div className="g-flat-list-scrollable" ref={scrollRef} style={style}>
+                <div className="g-flat-list-scrollable" ref={scrollRef} style={style} onScroll={handleScroll}>
                     <Content
                         data={data}
                         rowKey={rowKey}
