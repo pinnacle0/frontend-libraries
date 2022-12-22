@@ -41,6 +41,7 @@ export interface SwipeHookConfig {
     stopPropagation?: boolean;
 }
 
+// TODO/Alvis, do not use enum here
 export enum Direction {
     UP = "UP",
     DOWN = "DOWN",
