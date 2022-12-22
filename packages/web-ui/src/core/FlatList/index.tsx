@@ -55,9 +55,7 @@ export const FlatList = function <T>({
             setShowFloatingLoader(false);
             previousBoundary.current = bounary;
         },
-        onMove: ({delta}) => {
-            transit.to({y: delta, immediate: true});
-        },
+        onMove: ({delta}) => transit.to({y: delta, immediate: true}),
         onEnd: ({delta}) => {
             if (previousBoundary.current === "top" && onPullDownRefresh && delta >= PULL_DOWN_REFRESH_THRESHOLD && !refreshing && !loading) {
                 onPullDownRefresh();
@@ -67,9 +65,7 @@ export const FlatList = function <T>({
                 transit.to({y: refreshHeight.current});
             }
         },
-        onCancel: () => {
-            transit.clear();
-        },
+        onCancel: () => transit.clear(),
     });
 
     const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height), []);
