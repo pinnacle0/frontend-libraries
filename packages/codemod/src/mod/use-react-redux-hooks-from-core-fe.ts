@@ -13,23 +13,34 @@ export const transform: Transform = (source, toolkit) => {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
     let changed = false;
+    let reactReduxImportDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
+    let coreFeImportDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
 
-    let importDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
     toolkit.visit(ast, {
         visitImportDeclaration(path) {
             const node = path.node;
-            if (node.source.value === "react-redux" && node.specifiers && node.specifiers.length > 0) {
-                importDeclaration = path;
+            if (node.source.value === "react-redux" && node.importKind === "value" && node.specifiers && node.specifiers.length > 0) {
+                reactReduxImportDeclaration = path;
             }
             this.traverse(path);
         },
     });
 
-    if (!importDeclaration) {
+    if (!reactReduxImportDeclaration) {
         return;
     }
 
-    toolkit.visit(importDeclaration.node, {
+    toolkit.visit(ast, {
+        visitImportDeclaration(path) {
+            const node = path.node;
+            if (node.source.value === "core-fe" && node.specifiers && node.specifiers.length > 0) {
+                coreFeImportDeclaration = path;
+            }
+            this.traverse(path);
+        },
+    });
+
+    toolkit.visit(reactReduxImportDeclaration.node, {
         visitImportSpecifier(path) {
             const node = path.node;
             if (hooks.includes(node.imported.name)) {
@@ -41,17 +52,17 @@ export const transform: Transform = (source, toolkit) => {
     });
 
     if (importedHooks.length > 0) {
-        importDeclaration?.insertAfter(
-            b.importDeclaration(
-                importedHooks.map(hook => b.importSpecifier(b.identifier(hook))),
-                b.stringLiteral("core-fe")
-            )
-        );
+        const importSpecifiers = importedHooks.map(hook => b.importSpecifier(b.identifier(hook)));
+        if (coreFeImportDeclaration) {
+            importSpecifiers.forEach(_ => coreFeImportDeclaration && coreFeImportDeclaration.node.specifiers?.push(_));
+        } else {
+            reactReduxImportDeclaration?.insertAfter(b.importDeclaration(importSpecifiers, b.stringLiteral("core-fe")));
+        }
         changed = true;
     }
 
-    if (importDeclaration.node.specifiers?.length === 0) {
-        importDeclaration.replace();
+    if (reactReduxImportDeclaration.node.specifiers?.length === 0) {
+        reactReduxImportDeclaration.replace();
     }
 
     return changed ? toolkit.generate(ast).code : undefined;

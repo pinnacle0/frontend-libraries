@@ -23,6 +23,12 @@ import { useSelector } from "core-fe";`,
         input: `import { useSelector, useStore } from "react-redux";`,
         output: `import { useSelector, useStore } from "core-fe";`,
     },
+    {
+        title: "When have existed core-fe import",
+        input: `import { useSelector, useStore } from "react-redux";
+import { useOtherHook } from "core-fe"`,
+        output: `import { useOtherHook, useSelector, useStore } from "core-fe";`,
+    },
 ];
 
 // Put your tests here
