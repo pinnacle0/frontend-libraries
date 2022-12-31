@@ -21,7 +21,7 @@ export interface SwipeState {
     displacement: number;
     delta: Vector2;
     velocity: Vector2;
-    elpased: number;
+    elapsed: number;
     direction: Direction;
     cancel: () => void;
 }
@@ -42,7 +42,6 @@ export interface SwipeHookConfig {
     stopPropagation?: boolean;
 }
 
-// TODO/Alvis, do not use enum here
 export enum Direction {
     UP = "UP",
     DOWN = "DOWN",
