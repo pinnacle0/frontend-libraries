@@ -85,8 +85,8 @@ export const useScrollListSwipe = ({scrollElementRef, onStart, onMove, onEnd, on
                 onEnd(state);
                 clear();
             },
-            onCancel: ({delta: [, y]}) => {
-                const state = calculateState(y);
+            onCancel: s => {
+                const state = calculateState(s);
                 if (!state) return;
                 onCancel(state);
                 clear();
