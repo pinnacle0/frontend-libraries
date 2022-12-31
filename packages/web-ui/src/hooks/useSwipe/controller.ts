@@ -84,7 +84,7 @@ export class Controller {
         const s: Vector2 = [start.clientX, start.clientY];
         const e: Vector2 = [changed.clientX, changed.clientY];
         const delta: Vector2 = [e[0] - s[0], e[1] - s[1]];
-        const timeElapsed = Date.now() - this.startTime;
+        const elapsed = Date.now() - this.startTime;
         return {
             clientX: changed.clientX,
             clientY: changed.clientY,
@@ -93,7 +93,8 @@ export class Controller {
             direction: SwipeUtil.getDirection(s, e),
             displacement: SwipeUtil.getDisplacement(s, e),
             // TODO/Alvis, need to improve velocity calculation
-            velocity: [Math.abs(delta[0]) / timeElapsed, Math.abs(delta[1]) / timeElapsed],
+            velocity: [Math.abs(delta[0]) / elapsed, Math.abs(delta[1]) / elapsed],
+            elapsed,
             syntheticEvent: event,
             cancel: (() => this.cancel(event)).bind(this),
         };

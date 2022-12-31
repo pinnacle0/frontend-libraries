@@ -21,6 +21,7 @@ export interface SwipeState {
     displacement: number;
     delta: Vector2;
     velocity: Vector2;
+    elpased: number;
     direction: Direction;
     cancel: () => void;
 }
