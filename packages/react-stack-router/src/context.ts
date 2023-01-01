@@ -10,8 +10,6 @@ export const RouterContext = createContext({} as RouterContext);
 
 export interface RouteContext {
     param: {[key: string]: any};
-    pathname: string;
-    search: string;
     location: Location;
 }
 

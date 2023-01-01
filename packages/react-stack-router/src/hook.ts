@@ -4,8 +4,8 @@ import type {History, Location} from "history";
 
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {history: _, ...result} = useContext(RouterContext);
-    return result;
+    const {push, pop, reset, replace} = useContext(RouterContext);
+    return {push, pop, reset, replace};
 };
 
 export const useHistory = (): History => {
@@ -21,6 +21,6 @@ export const useLocation = (): Location => {
 };
 
 export const useSearch = <T extends Record<string, unknown>>(): T => {
-    const {search} = useContext(RouteContext);
+    const {search} = useLocation();
     return Object.fromEntries(new URLSearchParams(search)) as T;
 };
