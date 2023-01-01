@@ -12,7 +12,7 @@ export function StackRouter({router}: {router: Router}) {
     return (
         <div className="g-stack-router">
             {stack.map(({param, location, component: Component}) => (
-                <Screen key={location.key} param={param} search={location.search} pathname={location.pathname}>
+                <Screen key={location.key} param={param} search={location.search} pathname={location.pathname} location={location}>
                     <Component />
                 </Screen>
             ))}

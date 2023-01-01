@@ -2,16 +2,13 @@ import React from "react";
 import {RouteContext} from "../../context";
 import "./index.less";
 
-interface ScreenProps {
-    param: {[key: string]: any};
-    search: string;
-    pathname: string;
+interface ScreenProps extends RouteContext {
     children: React.ReactNode;
 }
 
-export const Screen = ({param, pathname, search, children}: ScreenProps) => {
+export const Screen = ({children, ...restProps}: ScreenProps) => {
     return (
-        <RouteContext.Provider value={{param, pathname, search}}>
+        <RouteContext.Provider value={restProps}>
             <div className="g-stack-router-screen">{children}</div>
         </RouteContext.Provider>
     );

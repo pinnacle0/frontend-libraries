@@ -1,6 +1,6 @@
 import {Action} from "history";
-import type {History, Location, To, Update} from "history";
 import {Route} from "./route";
+import type {History, Location, To, Update} from "history";
 
 export interface Stack {
     location: Location;

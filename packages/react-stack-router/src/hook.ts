@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import {RouteContext, RouterContext} from "./context";
-import type {History} from "history";
+import type {History, Location} from "history";
 
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
@@ -12,10 +12,15 @@ export const useHistory = (): History => {
     return useContext(RouterContext).history;
 };
 
-export const useParam = <T extends object>(): T => {
+export const useParam = <T extends Record<string, unknown>>(): T => {
     return useContext(RouteContext).param as T;
 };
 
-export const useSearch = (): string => {
-    return useContext(RouteContext).search;
+export const useLocation = (): Location => {
+    return useContext(RouteContext).location;
+};
+
+export const useSearch = <T extends Record<string, unknown>>(): T => {
+    const {search} = useContext(RouteContext);
+    return Object.fromEntries(new URLSearchParams(search)) as T;
 };
