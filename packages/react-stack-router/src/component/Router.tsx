@@ -1,15 +1,14 @@
 import React, {useEffect, useMemo} from "react";
 import {createBrowserHistory} from "history";
-import {invariant} from "../../util/invariant";
-import {Route} from "../../route";
-import {RouterContext} from "../../context";
-import {Route as RouteComponent} from "../Route";
-import {Router} from "../../router";
-import {StackRouter} from "../StackRouter";
+import {invariant} from "../util/invariant";
+import {Route} from "../route";
+import {RouterContext} from "../context";
+import {Route as RouteComponent} from "./Route";
+import {Router} from "../router";
+import {StackRouter} from "./StackRouter";
 import type {History} from "history";
 import type {ReactNode, ComponentType} from "react";
-import type {RouteProps as RouteComponentProps} from "../Route";
-import "./index.less";
+import type {RouteProps as RouteComponentProps} from "./Route";
 
 export interface Props {
     children: ReactNode;
