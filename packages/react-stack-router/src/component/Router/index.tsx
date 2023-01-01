@@ -1,19 +1,18 @@
-import React, {useMemo, useRef} from "react";
+import React, {useEffect, useMemo} from "react";
 import {createBrowserHistory} from "history";
 import {invariant} from "../../util/invariant";
 import {Route} from "../../route";
-import {useRouter} from "../../hook/useRouter";
 import {RouterContext} from "../../context";
 import {Route as RouteComponent} from "../Route";
-import {Page} from "../Page";
+import {Router} from "../../router";
+import {StackRouter} from "../StackRouter";
+import type {History} from "history";
 import type {ReactNode, ComponentType} from "react";
-import type {BrowserHistory} from "history";
 import type {RouteProps as RouteComponentProps} from "../Route";
 import "./index.less";
 
-interface Props {
+export interface Props {
     children: ReactNode;
-    history?: BrowserHistory;
 }
 
 type Component = ComponentType<any>;
@@ -39,24 +38,39 @@ const createChildrenRoute = (children: ReactNode, parrentPaths: string[] = [], r
     return route;
 };
 
-export const Router = ({children, history: userHistory}: Props) => {
-    const route = useMemo(() => createChildrenRoute(children), [children]);
-    const historyRef = useRef(userHistory ?? createBrowserHistory());
+export function createRouter(history?: History) {
+    const internalHistory = history ?? createBrowserHistory();
+    const router = new Router(internalHistory);
 
-    historyRef.current = userHistory ?? historyRef.current ?? createBrowserHistory();
-    const history = historyRef.current;
+    const push = router.push.bind(router);
+    const pop = router.pop.bind(router);
+    const replace = router.replace.bind(router);
+    const reset = router.reset.bind(router);
 
-    const router = useRouter(route, history);
+    const Container = ({children}: Props) => {
+        const route = useMemo(() => createChildrenRoute(children), [children]);
+        const historyRef = React.useRef(internalHistory);
+        historyRef.current = internalHistory;
 
-    return (
-        <RouterContext.Provider value={{history, ...router}}>
-            <div className="g-stack-router">
-                {router.stack.map(({param, location, component: Component}) => (
-                    <Page key={location.key} param={param} search={location.search} pathname={location.pathname}>
-                        <Component />
-                    </Page>
-                ))}
-            </div>
-        </RouterContext.Provider>
-    );
-};
+        router.updateRoute(route);
+
+        useEffect(() => {
+            router.initialize();
+        }, []);
+
+        return (
+            <RouterContext.Provider value={{history: historyRef.current, push, pop, replace, reset}}>
+                <StackRouter router={router} />
+            </RouterContext.Provider>
+        );
+    };
+
+    return {
+        Root: Container,
+        Route: RouteComponent,
+        push,
+        pop,
+        replace,
+        reset,
+    };
+}

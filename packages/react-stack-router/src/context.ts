@@ -1,14 +1,14 @@
 import {createContext} from "react";
 import type {History} from "history";
-import type {RouterHookResult} from "./hook/useRouter";
+import type {Router} from "./router";
 
-interface RouterContext extends Omit<RouterHookResult, "stack"> {
+export interface RouterContext extends Pick<Router, "push" | "replace" | "pop" | "reset"> {
     history: History;
 }
 
 export const RouterContext = createContext({} as RouterContext);
 
-interface RouteContext {
+export interface RouteContext {
     param: {[key: string]: any};
     pathname: string;
     search: string;

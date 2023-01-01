@@ -1,6 +1,6 @@
 import {Action} from "history";
 import type {History, Location, To, Update} from "history";
-import type {Route} from "./route";
+import {Route} from "./route";
 
 export interface Stack {
     location: Location;
@@ -13,33 +13,29 @@ export type Listener = (stack: Stack[]) => void;
 
 export class Router {
     private stack: Stack[] = [];
+    private initialized: boolean = false;
     private listeners: Set<Listener> = new Set();
-    private unlistenHistory: (() => void) | null = null;
+    private route: Route<React.ComponentType<any>> = new Route();
 
-    constructor(private route: Route<React.ComponentType<any>>, private history: History) {
+    constructor(private history: History) {
+        this.bindHistory(history);
+    }
+
+    initialize() {
+        if (this.initialized) return;
+        this.initialized = true;
         const {hash, search, pathname} = window.location;
         const state = window.history.state;
-
         if (pathname === BASE_URL) {
             this.pushToStack({pathname, key: "@@root", hash, search, state});
         } else {
             this.pushToStack({hash: "", search: "", pathname: BASE_URL, key: "@@root", state: {}});
             this.pushToStack({pathname, key: "@@first-enter", hash, search, state});
         }
-
-        this.listenHistory(history);
     }
 
-    getStack() {
-        return this.stack;
-    }
-
-    update(route: Route<React.ComponentType<any>>, history: History) {
+    updateRoute(route: Route<React.ComponentType<any>>) {
         this.route = route;
-        if (history !== this.history) {
-            this.history = history;
-            this.listenHistory(history);
-        }
     }
 
     listen(listener: Listener): () => void {
@@ -86,9 +82,8 @@ export class Router {
         this.pushToStack(location);
     }
 
-    private listenHistory(history: History): void {
-        this.unlistenHistory?.();
-        this.unlistenHistory = history.listen(this.handleHistoryChange.bind(this));
+    private bindHistory(history: History): void {
+        history.listen(this.handleHistoryChange.bind(this));
     }
 
     private handleHistoryChange({location, action}: Update) {

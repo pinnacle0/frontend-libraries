@@ -1,4 +1,14 @@
-.g-react-stack-router {
+.g-stack-router {
     position: relative;
     min-height: 100%;
+    display: flex;
+
+    > .g-stack-router-screen {
+        display: none;
+
+        &:nth-last-of-type(-n + 3) {
+            display: flex;
+            flex-flow: column nowrap;
+        }
+    }
 }
