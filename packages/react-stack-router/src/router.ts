@@ -8,6 +8,11 @@ export interface Stack {
     param: {[key: string]: string};
 }
 
+interface InternalHistoryState {
+    createAt: number;
+    state?: unknown;
+}
+
 export const BASE_URL = "/";
 export type Listener = (stack: Stack[]) => void;
 
@@ -25,7 +30,6 @@ export class Router {
         if (this.initialized) return;
         this.initialized = true;
         const {hash, search, pathname} = window.location;
-        const state = window.history.state;
         if (pathname === BASE_URL) {
             this.replace({pathname, search, hash});
         } else {
@@ -43,8 +47,8 @@ export class Router {
         return () => this.listeners.delete(listener);
     }
 
-    push(to: To, state?: any) {
-        this.history.push(to, state);
+    push(to: To, state?: InternalHistoryState) {
+        this.history.push(to, this.createHistoryState(state));
     }
 
     pop() {
@@ -59,6 +63,16 @@ export class Router {
 
     private notifiy() {
         this.listeners.forEach(_ => _(this.stack));
+    }
+
+    private createHistoryState(userState?: unknown): InternalHistoryState {
+        return {createAt: Date.now(), state: userState};
+    }
+
+    private isForwardPop(nextLocation: Location): boolean {
+        const currentState = this.stack[this.stack.length - 1].location.state as InternalHistoryState;
+        const nextState = nextLocation.state as InternalHistoryState;
+        return nextState.createAt > currentState.createAt;
     }
 
     private pushToStack(location: Location): void {
@@ -92,7 +106,7 @@ export class Router {
                 this.pushToStack(location);
                 break;
             case Action.Pop:
-                this.popStack();
+                this.isForwardPop(location) ? this.pushToStack(location) : this.popStack();
                 break;
             case Action.Replace:
                 this.replaceStack(location);
