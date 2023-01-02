@@ -1,6 +1,6 @@
 import React, {isValidElement, useLayoutEffect, useRef} from "react";
 import {invariant} from "../util/invariant";
-import {Motion} from "./Motion";
+import {Animated} from "./Animated";
 
 interface Props {
     children: React.ReactNode;
@@ -54,8 +54,8 @@ function getValidChildren(children: React.ReactNode): Array<React.ReactElement> 
 
     React.Children.forEach(children, element => {
         if (!isValidElement(element)) return;
-        invariant(element.type === Motion, `<${element.type}> is not a <Motion> component. All children of <AnimatePresence> should be <Motion>`);
-        invariant(element.key !== null, `<Motion> must have a specified key`);
+        invariant(element.type === Animated, `<${element.type}> is not a <Animated> component. All children of <AnimatePresence> should be <Animated>`);
+        invariant(element.key !== null, `<Animated> must have a specified key`);
 
         validElements.push(element as React.ReactElement);
     });

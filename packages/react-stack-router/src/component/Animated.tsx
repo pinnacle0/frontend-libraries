@@ -7,7 +7,7 @@ interface Props extends React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLDiv
     duration?: number;
 }
 
-export const Motion = (props: Props) => {
+export const Animated = (props: Props) => {
     const {
         children,
         onEnter,
@@ -68,7 +68,7 @@ export const Motion = (props: Props) => {
     }, [__removed]);
 
     return (
-        <div {...restProps} className={`g-motion ${className ?? ""}`} ref={compositedRef}>
+        <div {...restProps} className={`g-animated ${className ?? ""}`} ref={compositedRef}>
             {children}
         </div>
     );

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence} from "../AnimationPresence";
 import {RouteContext} from "../../context";
-import {Motion} from "../Motion";
+import {Animated} from "../Animated";
 import type {Router, Stack} from "../../router";
 import "./index.less";
 
@@ -16,7 +16,7 @@ export function StackRouter({router}: {router: Router}) {
         <div className="g-stack-router">
             <AnimatePresence>
                 {stack.map(({param, location, component: Component}) => (
-                    <Motion
+                    <Animated
                         className="g-stack-router-screen"
                         key={location.key}
                         onEnter={[{transform: `translateX(100%)`}, {transform: `translateX(0px)`}]}
@@ -26,7 +26,7 @@ export function StackRouter({router}: {router: Router}) {
                         <RouteContext.Provider value={{param, location}}>
                             <Component />
                         </RouteContext.Provider>
-                    </Motion>
+                    </Animated>
                 ))}
             </AnimatePresence>
         </div>
