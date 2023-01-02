@@ -25,23 +25,27 @@ export const Motion = (props: Props) => {
     const elementRef = useRef<HTMLDivElement | null>(null);
     const compositedRef = ref ? compositeRef(elementRef, ref) : elementRef;
 
-    const durationRef = useRef(duration);
-    durationRef.current = duration;
+    const onExitRef = useRef(__onExited);
+    onExitRef.current = __onExited;
 
-    const onEnterRef = useRef(onEnter);
-    onEnterRef.current = onEnter;
+    const animationRef = useRef({
+        duration,
+        onEnter,
+        onExit,
+    });
 
-    const onExitRef = useRef(onExit);
-    onExitRef.current = onExit;
-
-    const onAnimationEndRef = useRef(__onExited);
-    onAnimationEndRef.current = __onExited;
+    animationRef.current = {
+        duration,
+        onEnter,
+        onExit,
+    };
 
     useEffect(() => {
         const el = elementRef.current;
+        const {onEnter, duration} = animationRef.current;
         if (el) {
-            const animation = el.animate(onEnterRef.current, {
-                duration: durationRef.current,
+            const animation = el.animate(onEnter, {
+                duration,
                 fill: "forwards",
                 easing: "cubic-bezier(.05,.74,.3,1.01)",
             });
@@ -51,13 +55,14 @@ export const Motion = (props: Props) => {
 
     useEffect(() => {
         const el = elementRef.current;
+        const {onExit, duration} = animationRef.current;
         if (__removed && el) {
-            const animation = el.animate(onExitRef.current, {
-                duration: durationRef.current,
+            const animation = el.animate(onExit, {
+                duration,
                 easing: "cubic-bezier(.05,.74,.3,1.01)",
                 fill: "forwards",
             });
-            animation.onfinish = () => onAnimationEndRef.current?.();
+            animation.onfinish = () => onExitRef.current?.();
             return () => animation.cancel();
         }
     }, [__removed]);
