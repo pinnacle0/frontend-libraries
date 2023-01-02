@@ -27,10 +27,10 @@ export class Router {
         const {hash, search, pathname} = window.location;
         const state = window.history.state;
         if (pathname === BASE_URL) {
-            this.pushToStack({pathname, key: "@@root", hash, search, state});
+            this.replace({pathname, search, hash});
         } else {
-            this.pushToStack({hash: "", search: "", pathname: BASE_URL, key: "@@root", state: {}});
-            this.pushToStack({pathname, key: "@@first-enter", hash, search, state});
+            this.replace({pathname: BASE_URL});
+            this.push({hash, search, pathname});
         }
     }
 
