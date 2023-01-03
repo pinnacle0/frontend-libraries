@@ -1,7 +1,9 @@
-import {Action} from "history";
 import {Route} from "./route";
 import type {History, Location, To, Update} from "history";
-import type {Screen, ScreenTransitionType} from "./screen";
+
+export type ScreenTransitionType = "entering" | "exiting" | "both" | "none";
+
+export type Action = "push" | "pop" | "replace" | "reset";
 
 export interface InternalHistoryState {
     __createAt: number;
@@ -9,7 +11,13 @@ export interface InternalHistoryState {
     state?: unknown;
 }
 
-export type Listener = (stack: Screen[]) => void;
+export interface Screen {
+    location: Location;
+    component: React.ComponentType<any>;
+    param: {[key: string]: string};
+}
+
+export type Listener = (screens: Screen[]) => void;
 
 export interface PushOptions {
     /**
@@ -65,7 +73,8 @@ export class Router {
     }
 
     replace(to: To, options: ReplaceOptions = {}) {
-        this.history.replace(to, this.replaceHistoryState(options));
+        (this.history.location.state as InternalHistoryState).__transition = "none";
+        this.history.replace(to, this.createHistoryState({...options, transition: "exiting"}));
     }
 
     reset() {}
@@ -85,11 +94,6 @@ export class Router {
         return {__createAt: Date.now(), __transition: options?.transition ?? "both", state: options?.state};
     }
 
-    private replaceHistoryState(options: ReplaceOptions): InternalHistoryState {
-        const currentState = this.history.location.state as InternalHistoryState;
-        return {__createAt: currentState?.__createAt ?? Date.now(), __transition: "exiting", state: options.state};
-    }
-
     // Internal History Handler
 
     /**
@@ -103,14 +107,13 @@ export class Router {
         return nextState.__createAt > currentState.__createAt;
     }
 
-    private pushToStack(location: Location): void {
+    private pushStack(location: Location): void {
         const matched = this.route.lookup(location.pathname);
         if (!matched) return;
         this.screens.push({
             location,
             component: matched.payload,
             param: matched.param,
-            transition: (location.state as InternalHistoryState).__transition,
         });
 
         this.notifiy();
@@ -121,9 +124,9 @@ export class Router {
         this.notifiy();
     }
 
-    private replaceStack(location: Location): void {
+    private replaceTopScreen(location: Location): void {
         this.screens.pop();
-        this.pushToStack(location);
+        this.pushStack(location);
     }
 
     private bindHistory(history: History): void {
@@ -133,13 +136,13 @@ export class Router {
     private handleHistoryChange({location, action}: Update) {
         switch (action) {
             case Action.Push:
-                this.pushToStack(location);
+                this.pushStack(location);
                 break;
             case Action.Pop:
-                this.isForwardPop(location) ? this.pushToStack(location) : this.popStack();
+                this.isForwardPop(location) ? this.pushStack(location) : this.popStack();
                 break;
             case Action.Replace:
-                this.replaceStack(location);
+                this.replaceTopScreen(location);
                 break;
         }
     }

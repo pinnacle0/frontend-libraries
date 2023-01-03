@@ -1,10 +1,13 @@
 import React, {useEffect, useRef} from "react";
 
-interface Props extends React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    ref?: React.MutableRefObject<HTMLDivElement> | React.RefCallback<HTMLDivElement>;
-    onEnter?: Keyframe[] | PropertyIndexedKeyframes | null;
-    onExit?: Keyframe[] | PropertyIndexedKeyframes | null;
-    duration?: number;
+export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
+
+interface Props {
+    children: React.ReactNode;
+    duration: number;
+    onEnter: AnimationKeyFrame | (() => AnimationKeyFrame);
+    onExit: AnimationKeyFrame | (() => AnimationKeyFrame);
+    className?: string;
 }
 
 export const Animated = (props: Props) => {
@@ -12,29 +15,26 @@ export const Animated = (props: Props) => {
         children,
         onEnter,
         onExit,
-        ref,
         duration = 300,
         __removed,
         __onExited,
         className,
-        ...restProps
     } = props as Props & {
         __onExited?: () => void;
         __removed?: boolean;
     };
     const elementRef = useRef<HTMLDivElement | null>(null);
-    const compositedRef = ref ? compositeRef(elementRef, ref) : elementRef;
 
     const onExitRef = useRef(__onExited);
     onExitRef.current = __onExited;
 
-    const animationRef = useRef({
+    const animationConfig = useRef({
         duration,
         onEnter,
         onExit,
     });
 
-    animationRef.current = {
+    animationConfig.current = {
         duration,
         onEnter,
         onExit,
@@ -42,50 +42,41 @@ export const Animated = (props: Props) => {
 
     useEffect(() => {
         const el = elementRef.current;
-        const {onEnter, duration} = animationRef.current;
-        if (el && onEnter) {
-            const animation = el.animate(onEnter, {
-                duration,
-                fill: "forwards",
-                easing: "cubic-bezier(.05,.74,.3,1.01)",
-            });
-            return () => animation.cancel();
-        }
+        const {onEnter, duration} = animationConfig.current;
+        const keyframes = typeof onEnter === "function" ? onEnter() : onEnter;
+
+        if (!el || !keyframes) return;
+
+        const animation = el.animate(keyframes, {
+            duration,
+            fill: "forwards",
+            easing: "cubic-bezier(.05,.74,.3,1.01)",
+        });
+        return () => animation.cancel();
     }, []);
 
     useEffect(() => {
         const el = elementRef.current;
-        const {onExit, duration} = animationRef.current;
-        if (__removed && el) {
-            if (onExit) {
-                const animation = el.animate(onExit, {
-                    duration,
-                    easing: "cubic-bezier(.05,.74,.3,1.01)",
-                    fill: "forwards",
-                });
-                animation.onfinish = () => onExitRef.current?.();
-                return () => animation.cancel();
-            } else {
-                onExitRef.current?.();
-            }
+        const {onExit, duration} = animationConfig.current;
+        const keyframes = typeof onExit === "function" ? onExit() : onExit;
+        if (!__removed || !el) return;
+        if (!keyframes) {
+            onExitRef.current?.();
+            return;
         }
+
+        const animation = el.animate(keyframes, {
+            duration,
+            easing: "cubic-bezier(.05,.74,.3,1.01)",
+            fill: "forwards",
+        });
+        animation.onfinish = () => onExitRef.current?.();
+        return () => animation.cancel();
     }, [__removed]);
 
     return (
-        <div {...restProps} className={`g-animated ${className ?? ""}`} ref={compositedRef}>
+        <div ref={elementRef} className={`g-animated ${className ?? ""}`}>
             {children}
         </div>
     );
 };
-
-function compositeRef<T>(...refs: Array<React.RefCallback<T> | React.MutableRefObject<T | null>>) {
-    return (node: T | null) => {
-        refs.forEach(ref => {
-            if (typeof ref === "function") {
-                ref(node);
-            } else {
-                ref.current = node;
-            }
-        });
-    };
-}
