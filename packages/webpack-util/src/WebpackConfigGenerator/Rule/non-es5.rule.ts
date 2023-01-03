@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
 
@@ -31,7 +32,7 @@ export function nonES5({nonES5Module}: Deps): webpack.RuleSetRule {
     };
 
     return {
-        test: RegExpUtil.fileExtension(".js", ".jsx"),
+        test: RegExpUtil.fileExtension(".js", ".cjs", ".mjs", ".jsx"),
         use: [swcLoader],
         exclude: RegExpUtil.webpackExclude({nonES5Module}),
     };
