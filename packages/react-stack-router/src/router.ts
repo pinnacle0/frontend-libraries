@@ -1,11 +1,11 @@
 import {Action} from "history";
 import {Route} from "./route";
 import type {History, Location, To, Update} from "history";
-import type {Screen, ScreenTransition} from "./screen";
+import type {Screen, ScreenTransitionType} from "./screen";
 
 export interface InternalHistoryState {
     __createAt: number;
-    __transition: ScreenTransition;
+    __transition: ScreenTransitionType;
     state?: unknown;
 }
 
@@ -15,7 +15,7 @@ export interface PushOptions {
     /**
      * Default: 'both'
      */
-    transition?: ScreenTransition;
+    transition?: ScreenTransitionType;
     state?: any;
 }
 
@@ -87,7 +87,7 @@ export class Router {
 
     private replaceHistoryState(options: ReplaceOptions): InternalHistoryState {
         const currentState = this.history.location.state as InternalHistoryState;
-        return {__createAt: currentState.__createAt, __transition: "exiting", state: options.state};
+        return {__createAt: currentState?.__createAt ?? Date.now(), __transition: "exiting", state: options.state};
     }
 
     // Internal History Handler
