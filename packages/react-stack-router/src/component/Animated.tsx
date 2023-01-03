@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from "react";
 
 interface Props extends React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     ref?: React.MutableRefObject<HTMLDivElement> | React.RefCallback<HTMLDivElement>;
-    onEnter: Keyframe[] | PropertyIndexedKeyframes | null;
-    onExit: Keyframe[] | PropertyIndexedKeyframes | null;
+    onEnter?: Keyframe[] | PropertyIndexedKeyframes | null;
+    onExit?: Keyframe[] | PropertyIndexedKeyframes | null;
     duration?: number;
 }
 
@@ -43,7 +43,7 @@ export const Animated = (props: Props) => {
     useEffect(() => {
         const el = elementRef.current;
         const {onEnter, duration} = animationRef.current;
-        if (el) {
+        if (el && onEnter) {
             const animation = el.animate(onEnter, {
                 duration,
                 fill: "forwards",
@@ -57,13 +57,17 @@ export const Animated = (props: Props) => {
         const el = elementRef.current;
         const {onExit, duration} = animationRef.current;
         if (__removed && el) {
-            const animation = el.animate(onExit, {
-                duration,
-                easing: "cubic-bezier(.05,.74,.3,1.01)",
-                fill: "forwards",
-            });
-            animation.onfinish = () => onExitRef.current?.();
-            return () => animation.cancel();
+            if (onExit) {
+                const animation = el.animate(onExit, {
+                    duration,
+                    easing: "cubic-bezier(.05,.74,.3,1.01)",
+                    fill: "forwards",
+                });
+                animation.onfinish = () => onExitRef.current?.();
+                return () => animation.cancel();
+            } else {
+                onExitRef.current?.();
+            }
         }
     }, [__removed]);
 

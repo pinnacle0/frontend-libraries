@@ -2,27 +2,23 @@ import {useEffect, useState} from "react";
 import {AnimatePresence} from "../AnimationPresence";
 import {RouteContext} from "../../context";
 import {Animated} from "../Animated";
-import type {Router, Stack} from "../../router";
+import type {InternalHistoryState, Router} from "../../router";
+import {getScreenTransition} from "../../screen";
+import type {Screen} from "../../screen";
 import "./index.less";
 
 export function StackRouter({router}: {router: Router}) {
-    const [stack, setStack] = useState<Stack[]>([]);
+    const [screens, setScreens] = useState<Screen[]>([]);
 
     useEffect(() => {
-        return router.listen(_ => setStack([..._]));
+        return router.listen(_ => setScreens([..._]));
     }, [router]);
 
     return (
         <div className="g-stack-router">
             <AnimatePresence>
-                {stack.map(({param, location, component: Component}) => (
-                    <Animated
-                        className="g-stack-router-screen"
-                        key={location.key}
-                        onEnter={[{transform: `translateX(100%)`}, {transform: `translateX(0px)`}]}
-                        onExit={[{transform: "translateX(100%)"}]}
-                        duration={450}
-                    >
+                {screens.map(({param, location, component: Component}) => (
+                    <Animated className="g-stack-router-screen" key={location.key} duration={450} {...getScreenTransition((location.state as InternalHistoryState).__transition)}>
                         <RouteContext.Provider value={{param, location}}>
                             <Component />
                         </RouteContext.Provider>

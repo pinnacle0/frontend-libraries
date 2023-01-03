@@ -1,23 +1,32 @@
 import {Action} from "history";
 import {Route} from "./route";
 import type {History, Location, To, Update} from "history";
+import type {Screen, ScreenTransition} from "./screen";
 
-export interface Stack {
-    location: Location;
-    component: React.ComponentType<any>;
-    param: {[key: string]: string};
-}
-
-interface InternalHistoryState {
+export interface InternalHistoryState {
     __createAt: number;
-    [key: string]: unknown;
+    __transition: ScreenTransition;
+    state?: unknown;
 }
 
-export const BASE_URL = "/";
-export type Listener = (stack: Stack[]) => void;
+export type Listener = (stack: Screen[]) => void;
+
+export interface PushOptions {
+    /**
+     * Default: 'both'
+     */
+    transition?: ScreenTransition;
+    state?: any;
+}
+
+export interface ReplaceOptions {
+    state?: any;
+}
+
+const BASE_URL = "/";
 
 export class Router {
-    private stack: Stack[] = [];
+    private screens: Screen[] = [];
     private initialized: boolean = false;
     private listeners: Set<Listener> = new Set();
     private route: Route<React.ComponentType<any>> = new Route();
@@ -34,7 +43,7 @@ export class Router {
             this.replace({pathname, search, hash});
         } else {
             this.replace({pathname: BASE_URL});
-            this.push({hash, search, pathname});
+            this.push({hash, search, pathname}, {transition: "exiting"});
         }
     }
 
@@ -47,30 +56,49 @@ export class Router {
         return () => this.listeners.delete(listener);
     }
 
-    push(to: To, state?: InternalHistoryState) {
-        this.history.push(to, this.createHistoryState(state));
+    push(to: To, options: PushOptions = {}) {
+        this.history.push(to, this.createHistoryState(options));
     }
 
     pop() {
         this.history.back();
     }
 
-    replace(to: To, state?: any) {
-        this.history.replace(to, this.createHistoryState(state));
+    replace(to: To, options: ReplaceOptions = {}) {
+        this.history.replace(to, this.replaceHistoryState(options));
     }
 
     reset() {}
 
+    private getTopScreen(): Screen | null {
+        if (this.screens.length === 0) {
+            return null;
+        }
+        return this.screens[this.screens.length - 1];
+    }
+
     private notifiy() {
-        this.listeners.forEach(_ => _(this.stack));
+        this.listeners.forEach(_ => _(this.screens));
     }
 
-    private createHistoryState(userState?: Record<string, unknown>): InternalHistoryState {
-        return {__createAt: Date.now(), ...userState};
+    private createHistoryState(options: PushOptions): InternalHistoryState {
+        return {__createAt: Date.now(), __transition: options?.transition ?? "both", state: options?.state};
     }
 
+    private replaceHistoryState(options: ReplaceOptions): InternalHistoryState {
+        const currentState = this.history.location.state as InternalHistoryState;
+        return {__createAt: currentState.__createAt, __transition: "exiting", state: options.state};
+    }
+
+    // Internal History Handler
+
+    /**
+     * Determine a popState event is trigger by back or forward
+     */
     private isForwardPop(nextLocation: Location): boolean {
-        const currentState = this.stack[this.stack.length - 1].location.state as InternalHistoryState;
+        const top = this.getTopScreen();
+        if (!top) return false;
+        const currentState = top.location.state as InternalHistoryState;
         const nextState = nextLocation.state as InternalHistoryState;
         return nextState.__createAt > currentState.__createAt;
     }
@@ -78,21 +106,23 @@ export class Router {
     private pushToStack(location: Location): void {
         const matched = this.route.lookup(location.pathname);
         if (!matched) return;
-        this.stack.push({
+        this.screens.push({
             location,
             component: matched.payload,
             param: matched.param,
+            transition: (location.state as InternalHistoryState).__transition,
         });
 
         this.notifiy();
     }
 
     private popStack(): void {
-        this.stack.pop();
+        this.screens.pop();
         this.notifiy();
     }
+
     private replaceStack(location: Location): void {
-        this.stack.pop();
+        this.screens.pop();
         this.pushToStack(location);
     }
 
