@@ -9,8 +9,8 @@ export interface Stack {
 }
 
 interface InternalHistoryState {
-    createAt: number;
-    state?: unknown;
+    __createAt: number;
+    [key: string]: unknown;
 }
 
 export const BASE_URL = "/";
@@ -56,7 +56,7 @@ export class Router {
     }
 
     replace(to: To, state?: any) {
-        this.history.replace(to, state);
+        this.history.replace(to, this.createHistoryState(state));
     }
 
     reset() {}
@@ -65,14 +65,14 @@ export class Router {
         this.listeners.forEach(_ => _(this.stack));
     }
 
-    private createHistoryState(userState?: unknown): InternalHistoryState {
-        return {createAt: Date.now(), state: userState};
+    private createHistoryState(userState?: Record<string, unknown>): InternalHistoryState {
+        return {__createAt: Date.now(), ...userState};
     }
 
     private isForwardPop(nextLocation: Location): boolean {
         const currentState = this.stack[this.stack.length - 1].location.state as InternalHistoryState;
         const nextState = nextLocation.state as InternalHistoryState;
-        return nextState.createAt > currentState.createAt;
+        return nextState.__createAt > currentState.__createAt;
     }
 
     private pushToStack(location: Location): void {
