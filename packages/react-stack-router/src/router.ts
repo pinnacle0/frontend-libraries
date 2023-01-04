@@ -1,9 +1,8 @@
 import {Route} from "./route";
 import type {History, Location, To, Update} from "history";
+import {Action} from "history";
 
 export type ScreenTransitionType = "entering" | "exiting" | "both" | "none";
-
-export type Action = "push" | "pop" | "replace" | "reset";
 
 export interface InternalHistoryState {
     __createAt: number;
@@ -73,7 +72,9 @@ export class Router {
     }
 
     replace(to: To, options: ReplaceOptions = {}) {
-        (this.history.location.state as InternalHistoryState).__transition = "none";
+        if (this.isInternalState(this.history.location)) {
+            (this.history.location.state as InternalHistoryState).__transition = "none";
+        }
         this.history.replace(to, this.createHistoryState({...options, transition: "exiting"}));
     }
 
@@ -84,6 +85,13 @@ export class Router {
             return null;
         }
         return this.screens[this.screens.length - 1];
+    }
+
+    private isInternalState(location: Location): boolean {
+        if (!location.state) {
+            return false;
+        }
+        return "__createAt" in (location.state as object);
     }
 
     private notifiy() {
