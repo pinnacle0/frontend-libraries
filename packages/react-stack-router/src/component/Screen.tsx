@@ -10,7 +10,7 @@ interface Props {
     className?: string;
 }
 
-export const Animated = (props: Props) => {
+export const Screen = (props: Props) => {
     const {
         children,
         onEnter,
@@ -75,7 +75,7 @@ export const Animated = (props: Props) => {
     }, [__removed]);
 
     return (
-        <div ref={elementRef} className={`g-animated ${className ?? ""}`}>
+        <div ref={elementRef} className={`g-stack-router-screen ${className ?? ""}`}>
             {children}
         </div>
     );

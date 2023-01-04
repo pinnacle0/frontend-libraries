@@ -1,6 +1,7 @@
-import React, {isValidElement, useLayoutEffect, useRef} from "react";
-import {invariant} from "../util/invariant";
-import {Animated} from "./Animated";
+import React, {isValidElement, useRef} from "react";
+import {invariant} from "../../util/invariant";
+import {Screen} from "../Screen";
+import {useForceUpdate, usePrevious} from "./hook";
 
 interface Props {
     children: React.ReactNode;
@@ -14,54 +15,6 @@ interface ArrayElement {
 }
 
 type ElementStatusMap = Map<React.Key, {state: ElementState} & ArrayElement>;
-
-export function useForceUpdate() {
-    const [, setState] = React.useState<any>();
-    const forceUpdate = React.useCallback(() => setState({}), []);
-    return forceUpdate;
-}
-
-function usePrevious<T>(value: T): T {
-    const previous = useRef(value);
-
-    useLayoutEffect(() => {
-        previous.current = value;
-    }, [value]);
-
-    return previous.current;
-}
-
-function getKey(element: React.ReactElement): React.Key {
-    invariant(element.key !== null, "Child of AnimatePresence has neither defined or assigned key");
-    return element.key;
-}
-
-function calculateRemovedChildren(currentChldren: React.ReactElement[], previousChildren: React.ReactElement[]) {
-    const currentKeys = currentChldren.map(_ => _.key);
-    const removeds: ArrayElement[] = [];
-
-    for (const [index, element] of previousChildren.entries()) {
-        if (!currentKeys.includes(getKey(element))) {
-            removeds.push({element, index});
-        }
-    }
-
-    return removeds;
-}
-
-function getValidChildren(children: React.ReactNode): Array<React.ReactElement> {
-    const validElements: React.ReactElement[] = [];
-
-    React.Children.forEach(children, element => {
-        if (!isValidElement(element)) return;
-        invariant(element.type === Animated, `<${element.type}> is not a <Animated> component. All children of <AnimatePresence> should be <Animated>`);
-        invariant(element.key !== null, `<Animated> must have a specified key`);
-
-        validElements.push(element as React.ReactElement);
-    });
-
-    return validElements;
-}
 
 export const AnimatePresence = ({children}: Props) => {
     const validChildren = getValidChildren(children);
@@ -110,3 +63,35 @@ export const AnimatePresence = ({children}: Props) => {
 
     return <React.Fragment>{childrenToRender}</React.Fragment>;
 };
+
+function getKey(element: React.ReactElement): React.Key {
+    invariant(element.key !== null, "Child of AnimatePresence has neither defined or assigned key");
+    return element.key;
+}
+
+function calculateRemovedChildren(currentChldren: React.ReactElement[], previousChildren: React.ReactElement[]) {
+    const currentKeys = currentChldren.map(_ => _.key);
+    const removeds: ArrayElement[] = [];
+
+    for (const [index, element] of previousChildren.entries()) {
+        if (!currentKeys.includes(getKey(element))) {
+            removeds.push({element, index});
+        }
+    }
+
+    return removeds;
+}
+
+function getValidChildren(children: React.ReactNode): Array<React.ReactElement> {
+    const validElements: React.ReactElement[] = [];
+
+    React.Children.forEach(children, element => {
+        if (!isValidElement(element)) return;
+        invariant(element.type === Screen, `<${element.type}> is not a <Screen> component. All children of <AnimatePresence> should be <Screen>`);
+        invariant(element.key !== null, `<Screen> must have a specified key`);
+
+        validElements.push(element as React.ReactElement);
+    });
+
+    return validElements;
+}
