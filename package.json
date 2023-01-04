@@ -47,5 +47,10 @@
             "@typescript-eslint/eslint-plugin",
             "@typescript-eslint/parser"
         ]
+    },
+    "pnpm": {
+        "overrides": {
+            "json5": ">2.2.2"
+        }
     }
 }
