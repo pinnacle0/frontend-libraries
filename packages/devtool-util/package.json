@@ -29,7 +29,7 @@
     },
     "devDependencies": {
         "@types/fs-extra": "9.0.13",
-        "@types/yargs": "17.0.17",
+        "@types/yargs": "17.0.19",
         "fs-extra": "11.1.0"
     }
 }
