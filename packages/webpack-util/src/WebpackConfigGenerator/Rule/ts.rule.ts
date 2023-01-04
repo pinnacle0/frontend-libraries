@@ -2,21 +2,11 @@ import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
-    fastRefresh: boolean;
+    fastRefresh?: boolean;
+    nonES5Module?: string[];
 }
 
-/**
- * Handles dependency requests to typescript files
- * by compiling with `tsc`.
- *
- * To enable react fast refresh, set `withReactFastRefreshBabelPlugin` to true,
- * this requires "@pmmmwh/react-refresh-webpack-plugin" webpack plugin to work,
- * and should not be used in production.
- *
- * @see https://github.com/TypeStrong/ts-loader
- * @see https://github.com/pmmmwh/react-refresh-webpack-plugin
- */
-export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
+export function tsRule({fastRefresh = false, nonES5Module = []}: Deps): webpack.RuleSetRule {
     const swcLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("swc-loader"),
         options: {
@@ -35,14 +25,15 @@ export function tsRule({fastRefresh}: Deps): webpack.RuleSetRule {
                     decoratorMetadata: true,
                 },
                 experimental: {
-                    plugins: [[require.resolve("swc-plugin-core-fe-hmr"), {}]],
+                    plugins: fastRefresh ? [[require.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
                 },
             },
         },
     };
 
     return {
-        test: RegExpUtil.fileExtension(".ts", ".tsx"),
+        test: RegExpUtil.fileExtension(".js", ".mjs", ".cjs", ".ts", ".tsx"),
         use: [swcLoader],
+        exclude: fastRefresh ? /node_modules/ : RegExpUtil.webpackExclude({expect: nonES5Module}),
     };
 }
