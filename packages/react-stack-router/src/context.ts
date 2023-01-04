@@ -1,8 +1,8 @@
 import {createContext} from "react";
+import type {StackRouter} from "./StackRouter";
 import type {History, Location} from "history";
-import type {Router} from "./router";
 
-export interface RouterContext extends Pick<Router, "push" | "replace" | "pop" | "reset"> {
+export interface RouterContext extends Pick<StackRouter, "push" | "replace" | "pop" | "reset"> {
     history: History;
 }
 

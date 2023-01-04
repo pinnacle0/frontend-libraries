@@ -1,22 +1,16 @@
 import React, {useEffect, useMemo} from "react";
 import {createBrowserHistory} from "history";
-import {invariant} from "../util/invariant";
-import {Route} from "../route";
-import {RouterContext} from "../context";
-import {Route as RouteComponent} from "./Route";
-import {Router} from "../router";
-import {StackRouter} from "./StackRouter";
+import {invariant} from "./util/invariant";
+import {Route} from "./route";
+import {RouterContext} from "./context";
+import {Stack} from "./component/Stack";
+import {Route as RouteComponent} from "./component/Route";
 import type {History} from "history";
-import type {ReactNode, ComponentType} from "react";
-import type {RouteProps as RouteComponentProps} from "./Route";
+import type {RouteProps as RouteComponentProps} from "./component/Route";
+import {StackRouter} from "./StackRouter";
+import type {Router} from "./type";
 
-export interface Props {
-    children: ReactNode;
-}
-
-type Component = ComponentType<any>;
-
-const createChildrenRoute = (children: ReactNode, parrentPaths: string[] = [], route: Route<Component> = new Route()) => {
+const createChildrenRoute = (children: React.ReactNode, parrentPaths: string[] = [], route: Route<React.ComponentType<any>> = new Route()) => {
     React.Children.forEach(children, element => {
         invariant(React.isValidElement(element), `${element} is not valid element`);
         invariant(element.type === RouteComponent, `<${element.type}> is not a <Route> component. All children of <Route> should be <Route> as well`);
@@ -37,16 +31,16 @@ const createChildrenRoute = (children: ReactNode, parrentPaths: string[] = [], r
     return route;
 };
 
-export function createRouter(history?: History) {
+export function createRouter(history?: History): Router {
     const internalHistory = history ?? createBrowserHistory();
-    const router = new Router(internalHistory);
+    const router = new StackRouter(internalHistory);
 
     const push = router.push.bind(router);
     const pop = router.pop.bind(router);
     const replace = router.replace.bind(router);
     const reset = router.reset.bind(router);
 
-    const Container = ({children}: Props) => {
+    const Root = ({children}: React.PropsWithChildren) => {
         const route = useMemo(() => createChildrenRoute(children), [children]);
         const historyRef = React.useRef(internalHistory);
         historyRef.current = internalHistory;
@@ -59,13 +53,13 @@ export function createRouter(history?: History) {
 
         return (
             <RouterContext.Provider value={{history: historyRef.current, push, pop, replace, reset}}>
-                <StackRouter router={router} />
+                <Stack router={router} />
             </RouterContext.Provider>
         );
     };
 
     return {
-        Root: Container,
+        Root,
         Route: RouteComponent,
         push,
         pop,

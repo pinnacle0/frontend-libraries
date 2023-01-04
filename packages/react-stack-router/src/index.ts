@@ -1,3 +1,3 @@
-export {createRouter} from "./component/Router";
+export {createRouter} from "./createRouter";
 export {Link} from "./component/Link";
 export * from "./hook";
