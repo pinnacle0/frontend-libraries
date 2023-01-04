@@ -14,7 +14,7 @@
         "directory": "packages/web-ui"
     },
     "engines": {
-        "node": ">= 16.0.0"
+        "node": ">= 16.15.0"
     },
     "scripts": {
         "run-script": "ts-node --project config/tsconfig.script.json",

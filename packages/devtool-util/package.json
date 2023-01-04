@@ -22,7 +22,7 @@
         "prettier": ">=2.6.0"
     },
     "engines": {
-        "node": ">=16.0.0"
+        "node": ">=16.15.0"
     },
     "publishConfig": {
         "directory": "build"

@@ -44,7 +44,7 @@
         "eslint-plugin-testing-library": "^5.9.1"
     },
     "engines": {
-        "node": ">= 16.0.0"
+        "node": ">= 16.15.0"
     },
     "publishConfig": {
         "directory": "build"
