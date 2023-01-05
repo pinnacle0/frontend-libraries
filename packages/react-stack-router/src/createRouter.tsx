@@ -47,9 +47,7 @@ export function createRouter(history?: History): Router {
 
         router.updateRoute(route);
 
-        useEffect(() => {
-            router.initialize();
-        }, []);
+        useEffect(() => router.initialize(), []);
 
         return (
             <RouterContext.Provider value={{history: historyRef.current, push, pop, replace, reset}}>

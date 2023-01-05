@@ -7,10 +7,7 @@ import "./index.less";
 
 export function Stack({router}: {router: StackRouter}) {
     const [screens, setScreens] = useState<ScreenData[]>([]);
-
-    useEffect(() => {
-        return router.subscribe(_ => setScreens([..._]));
-    }, [router]);
+    useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
     return (
         <div className="g-stack-router">
