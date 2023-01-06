@@ -13,6 +13,7 @@ interface RouteNode<T> {
 interface Match<T> {
     param: {[key: string]: string};
     payload: T;
+    parents: RouteNode<T>[];
 }
 
 export class Route<T> {
@@ -59,11 +60,13 @@ export class Route<T> {
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
         let param: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
+        const parents: RouteNode<T>[] = [];
 
         for (const segment of segments) {
             const childNode = nextNode.children.get(segment);
-            if (childNode !== undefined) {
+            if (childNode) {
                 nextNode = childNode;
+                parents.push(nextNode);
             } else {
                 if (nextNode.parameterNode) {
                     nextNode = nextNode.parameterNode;
@@ -75,10 +78,12 @@ export class Route<T> {
                     return null;
                 }
 
+                // TODO: rename match.ts to matchPath.ts, matchPath can return param directly
                 const matched = matchPath(nextNode.pattern, segment);
                 if (!matched) {
                     return null;
                 }
+                parents.push(nextNode);
                 param = {...param, ...matched.param};
             }
         }
@@ -87,6 +92,7 @@ export class Route<T> {
             ? {
                   payload: nextNode.payload,
                   param,
+                  parents,
               }
             : null;
     }
