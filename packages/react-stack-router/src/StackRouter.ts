@@ -35,12 +35,13 @@ export class StackRouter {
     initialize() {
         if (this.initialized) return;
         this.initialized = true;
+
         const {hash, search, pathname} = window.location;
-        if (pathname === BASE_URL) {
-            this.replace({pathname, search, hash});
-        } else {
-            this.replace({pathname: BASE_URL});
-            this.push({hash, search, pathname}, {transition: "exiting"});
+        const matched = this.route.lookup(pathname);
+
+        this.replace({pathname: BASE_URL});
+        if (matched && pathname !== BASE_URL) {
+            matched.parents.forEach(() => this.push({hash, search, pathname}, {transition: "exiting"}));
         }
     }
 
@@ -95,7 +96,6 @@ export class StackRouter {
     }
 
     private popScreen() {
-        this.changeTopScreenTransition("both");
         this.screens.pop();
         this.notify();
     }
