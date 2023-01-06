@@ -8,6 +8,14 @@ export type State = Record<string, any>;
 export interface PushOption {
     transition: ScreenTransitionType;
     state?: State;
+    /**
+     * Run after enter animation of Screen
+     */
+    onAfterEnter?: () => void;
+    /**
+     * Run after exit animation of Screen
+     */
+    onAfterExit?: () => void;
 }
 
 export interface Router {
