@@ -1,5 +1,7 @@
 import {About} from "./page/About";
+import {Game} from "./page/Game";
 import {Home} from "./page/Home";
+import {NotFound} from "./page/NotFound";
 import {router} from "./router";
 
 const Root = router.Root;
@@ -10,11 +12,12 @@ export default function App() {
         <Root>
             <Route path="/" component={Home} />
             <Route path="about" component={About} />
-            <Route path="game" component={About}>
-                <Route path=":id" component={About} />
-                <Route path="monday" component={About} />
-                <Route path="tuesday" component={About} />
+            <Route path="game" component={Game}>
+                <Route path=":id" component={Game} />
+                <Route path="monday" component={Game} />
+                <Route path="tuesday" component={Game} />
             </Route>
+            <Route path="*" component={NotFound} />
         </Root>
     );
 }

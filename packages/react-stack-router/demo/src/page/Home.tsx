@@ -1,29 +1,31 @@
 import {useState} from "react";
-import {Link, useLocation} from "@pinnacle0/react-stack-router/src";
+import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router/src";
 import {router} from "../router";
 import {Back} from "../component/Back";
 
 export const Home = () => {
     const [count, setCount] = useState(0);
     const {pathname} = useLocation();
+    const {push} = useNavigate();
 
     return (
         <div style={{flex: 1, background: "teal"}}>
             <h3>Home Page</h3>
             <Back />
-            <h5>Counter</h5>
-            <p>Count: {count}</p>
-            <button onClick={() => setCount(_ => _ + 1)}>+</button>
-            <p>pathname: {pathname}</p>
+            <div style={{display: "flex", flexFlow: "row"}}>
+                <p>Count: {count}</p>
+                <button style={{marginLeft: 30}} onClick={() => setCount(_ => _ + 1)}>
+                    +
+                </button>
+            </div>
 
-            <button onClick={() => router.push("/game")}>Push /game using router.push</button>
-            <p>
-                <Link to="/about">Go To About</Link>
-            </p>
-            <div className="box" />
-            <div className="box" />
-            <div className="box" />
-            <div className="box" />
+            <p>pathname: {pathname}</p>
+            <Link to="/about">Go To About using Link</Link>
+            <div>
+                <button onClick={() => router.push("/about")}>Push /about using router.push()</button>
+                <button onClick={() => push("/game")}>Push /game using useNavigate()</button>
+                <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
+            </div>
         </div>
     );
 };
