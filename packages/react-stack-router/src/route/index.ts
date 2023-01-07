@@ -10,10 +10,15 @@ interface RouteNode<T> {
     wildcardNode?: RouteNode<T>;
 }
 
+interface Parent<T> {
+    node: RouteNode<T>;
+    matchedSegment: string;
+}
+
 interface Match<T> {
     param: {[key: string]: string};
     payload: T;
-    parents: RouteNode<T>[];
+    parents: Parent<T>[];
 }
 
 export class Route<T> {
@@ -60,13 +65,12 @@ export class Route<T> {
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
         let param: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
-        const parents: RouteNode<T>[] = [];
+        const parents: Parent<T>[] = [];
 
         for (const segment of segments) {
             const childNode = nextNode.children.get(segment);
             if (childNode) {
                 nextNode = childNode;
-                parents.push(nextNode);
             } else {
                 if (nextNode.parameterNode) {
                     nextNode = nextNode.parameterNode;
@@ -83,10 +87,14 @@ export class Route<T> {
                 if (!matched) {
                     return null;
                 }
-                parents.push(nextNode);
+
                 param = {...param, ...matched.param};
             }
+            parents.push({node: nextNode, matchedSegment: segment});
         }
+
+        // removed matched node itself
+        parents.pop();
 
         return nextNode.payload
             ? {
