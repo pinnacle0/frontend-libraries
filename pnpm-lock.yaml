@@ -201,7 +201,7 @@ importers:
   packages/react-stack-router/demo:
     specifiers:
       '@pinnacle0/react-stack-router': workspace:*
-      '@types/react': 18.0.25
+      '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.1.0
       react: 18.2.0
@@ -212,7 +212,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@types/react': 18.0.25
+      '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.1.0_vite@3.1.8
       vite: 3.1.8
@@ -2349,14 +2349,6 @@ packages:
     dependencies:
       '@types/history': 4.7.11
       '@types/react': 18.0.26
-    dev: true
-
-  /@types/react/18.0.25:
-    resolution: {integrity: sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.1
     dev: true
 
   /@types/react/18.0.26:
