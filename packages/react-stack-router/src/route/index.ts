@@ -1,4 +1,4 @@
-import {matchPath, patternType} from "./match";
+import {matchPath, patternType} from "./matchPath";
 
 interface RouteNode<T> {
     pattern: string;
@@ -82,13 +82,12 @@ export class Route<T> {
                     return null;
                 }
 
-                // TODO: rename match.ts to matchPath.ts, matchPath can return param directly
                 const matched = matchPath(nextNode.pattern, segment);
                 if (!matched) {
                     return null;
                 }
 
-                params = {...params, ...matched.param};
+                params = {...params, ...matched.params};
             }
             parents.push({node: nextNode, matchedSegment: segment});
         }

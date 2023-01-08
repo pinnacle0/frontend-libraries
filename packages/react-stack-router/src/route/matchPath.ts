@@ -14,7 +14,7 @@ export function patternType(path: string): PatternType {
 }
 
 interface MatchResult {
-    param: {[key: string]: string};
+    params: {[key: string]: string};
 }
 
 // This only match a single segments of path, it is not testable with string contains '/'.
@@ -25,17 +25,17 @@ export function matchPath(pattern: string, path: string, type?: PatternType): Ma
     const t = type ?? patternType(pattern);
     switch (t) {
         case "normal":
-            return pattern === path ? {param: {}} : null;
+            return pattern === path ? {params: {}} : null;
         case "parameter":
-            return {param: {[pattern.slice(1)]: path}};
+            return {params: {[pattern.slice(1)]: path}};
         case "wildcard":
-            return {param: {"*": path}};
+            return {params: {"*": path}};
         case "union": {
             const start = pattern.indexOf("(");
             const name = pattern.slice(1, start);
             try {
                 const matches = new RegExp(`^${pattern.slice(start)}$`).exec(path);
-                return matches ? {param: {[name]: matches[0]}} : null;
+                return matches ? {params: {[name]: matches[0]}} : null;
             } catch (e) {
                 throw new Error(`[react-stack-router]: Invalid union url pattern ${pattern}`);
             }
