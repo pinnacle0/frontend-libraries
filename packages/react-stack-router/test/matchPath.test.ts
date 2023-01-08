@@ -10,7 +10,7 @@ describe("match path segment testing", () => {
         ${"*"}           | ${"wildcard"}
         ${"("}           | ${"normal"}
         ${"#sdfsdfdsf"}  | ${"normal"}
-        ${"**"}          | ${"any"}
+        ${"**"}          | ${"fallback"}
         ${"***"}         | ${"normal"}
     `("patternType of $path should be '$expected'", ({path, expected}) => {
         expect(patternType(path)).toBe(expected);

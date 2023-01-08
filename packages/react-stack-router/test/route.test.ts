@@ -203,4 +203,24 @@ describe("RadixRoute testing", () => {
             payload: routeConfig["/service/other/:userId"],
         });
     });
+
+    test("fallback", () => {
+        const routeConfig = {
+            "**": "fallback-route",
+            "/": "root-route",
+            "*": "root-wildcard-route",
+            "/service": "service-route",
+        };
+
+        const route = setupRoute(routeConfig);
+
+        expect(() => route.insert("other/**", "non-root-fallback")).toThrow();
+        expect(() => route.insert("**/name", "fallback-before-normal-segment")).toThrow();
+
+        expectToMatch(route.lookup("/non-of-match"), {params: {}, parents: [], payload: routeConfig["*"]});
+        expectToMatch(route.lookup("/service/123"), {params: {}, parents: [], payload: routeConfig["**"]});
+        expectToMatch(route.lookup("/service"), {params: {}, parents: [], payload: routeConfig["/service"]});
+        expectToMatch(route.lookup("/non-of-match/nested"), {params: {}, parents: [], payload: routeConfig["**"]});
+        expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["/"]});
+    });
 });

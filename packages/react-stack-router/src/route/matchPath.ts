@@ -2,7 +2,7 @@ export type PatternType =
     | "parameter" // :abc
     | "union" // a|b|c
     | "wildcard" // *
-    | "any" // **
+    | "fallback" // **
     | "normal";
 
 export interface MatchResult {
@@ -17,7 +17,7 @@ export function patternType(pattern: string): PatternType {
     } else if (pattern === "*") {
         return "wildcard";
     } else if (pattern === "**") {
-        return "any";
+        return "fallback";
     } else {
         return "normal";
     }
@@ -36,7 +36,7 @@ export function matchPathSegment(pattern: string, pathSegment: string, type?: Pa
             return {param: {[pattern.slice(1)]: pathSegment}};
         case "wildcard":
             return {param: {}, wildcard: pathSegment};
-        case "any":
+        case "fallback":
             return {param: {}, any: pathSegment};
         case "union": {
             const start = pattern.indexOf("(");

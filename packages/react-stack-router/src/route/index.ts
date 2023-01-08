@@ -1,3 +1,4 @@
+import {invariant} from "../util/invariant";
 import {matchPathSegment, patternType} from "./matchPath";
 
 export interface RouteNode<T> {
@@ -5,6 +6,7 @@ export interface RouteNode<T> {
     children: Map<string, RouteNode<T>>;
     payload: T | null;
     parent: RouteNode<T> | null;
+    fallbackNode?: RouteNode<T>;
     parameterNode?: RouteNode<T>;
     unionNode?: RouteNode<T>;
     wildcardNode?: RouteNode<T>;
@@ -31,38 +33,23 @@ export class Route<T> {
         const formattedPath = formatPath(path);
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
 
-        let nextNode: RouteNode<T> = this.root;
+        let currentNode: RouteNode<T> = this.root;
         for (const segment of segments) {
-            const node = nextNode.children.get(segment);
+            const node = currentNode.children.get(segment);
             if (node !== undefined) {
-                nextNode = node;
+                currentNode = node;
             } else {
-                const type = patternType(segment);
-                const newNode = this.createRadixRoute(segment, nextNode);
-
-                nextNode.children.set(segment, newNode);
-
-                if (type === "parameter") {
-                    if (nextNode.parameterNode) {
-                        throw new Error(`[react-stack-router]: duplicate declaration of parametersnode ${segment} on existing node ${nextNode.parameterNode.pattern} `);
-                    }
-                    nextNode.parameterNode = newNode;
-                } else if (type === "wildcard") {
-                    nextNode.wildcardNode = newNode;
-                } else if (type === "union") {
-                    if (nextNode.unionNode) {
-                        throw new Error(`[react-stack-router]: duplicate declaration of union node ${segment} on existing node ${nextNode.unionNode.pattern} `);
-                    }
-                    nextNode.unionNode = newNode;
-                }
-                nextNode = newNode;
+                const newNode = this.createNode(segment, currentNode);
+                currentNode.children.set(segment, newNode);
+                currentNode = newNode;
             }
         }
 
-        nextNode.payload = payload;
+        currentNode.payload = payload;
     }
 
     lookup(path: string): Match<T> | null {
+        // console.log(this.root);
         const formattedPath = formatPath(path);
 
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
@@ -82,12 +69,12 @@ export class Route<T> {
                 } else if (nextNode.wildcardNode) {
                     nextNode = nextNode.wildcardNode;
                 } else {
-                    return null;
+                    return this.matchFallbackRoute();
                 }
 
                 const matched = matchPathSegment(nextNode.pattern, segment);
                 if (!matched) {
-                    return null;
+                    return this.matchFallbackRoute();
                 }
 
                 params = {...params, ...matched.param};
@@ -98,17 +85,47 @@ export class Route<T> {
         // removed matched node itself
         parents.pop();
 
-        return nextNode.payload
+        return this.createMatch(nextNode.payload, params, parents);
+    }
+
+    private createMatch(payload: T | null, params: Record<string, string>, parents: Parent<T>[]): Match<T> | null {
+        return payload
             ? {
-                  payload: nextNode.payload,
+                  payload,
                   params,
                   parents,
               }
             : null;
     }
 
-    private createRadixRoute(pattern: string, parent: RouteNode<T>): RouteNode<T> {
-        return {pattern, children: new Map(), payload: null, parent};
+    private matchFallbackRoute(): Match<T> | null {
+        return this.createMatch(this.root.fallbackNode?.payload ?? null, {}, []);
+    }
+
+    private createNode(segment: string, currentNode: RouteNode<T>): RouteNode<T> {
+        invariant(currentNode.pattern !== "**", "can not define any path after a fallback node");
+        const type = patternType(segment);
+        const newNode: RouteNode<T> = {pattern: segment, children: new Map(), payload: null, parent: currentNode};
+
+        switch (type) {
+            case "parameter":
+                invariant(currentNode.parameterNode === undefined, `duplicate declaration of parameter node ${segment} on existing node ${currentNode.parameterNode?.pattern}`);
+                currentNode.parameterNode = newNode;
+                return newNode;
+            case "wildcard":
+                currentNode.wildcardNode = newNode;
+                return newNode;
+            case "union":
+                invariant(currentNode.unionNode === undefined, `duplicate declaration of union node ${segment} on existing node ${currentNode.unionNode?.pattern}`);
+                currentNode.unionNode = newNode;
+                return newNode;
+            case "fallback":
+                invariant(currentNode.parent === null, "fallback node can be only define at root of route");
+                currentNode.fallbackNode = newNode;
+                return newNode;
+            case "normal":
+                return newNode;
+        }
     }
 }
 
