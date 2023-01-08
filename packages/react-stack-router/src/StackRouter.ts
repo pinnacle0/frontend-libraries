@@ -41,7 +41,16 @@ export class StackRouter {
 
         this.replace({pathname: BASE_URL});
         if (matched && pathname !== BASE_URL) {
-            matched.parents.forEach(() => this.push({hash, search, pathname}, {transition: "exiting"}));
+            matched.parents
+                .filter(_ => _.payload)
+                .forEach((_, index) => {
+                    const pathname = matched.parents
+                        .slice(0, index + 1)
+                        .map(_ => _.matchedSegment)
+                        .join("/");
+                    this.push({pathname}, {transition: "exiting"});
+                });
+            this.push({hash, search, pathname}, {transition: "exiting"});
         }
     }
 
