@@ -5,12 +5,6 @@ export type PatternType =
     | "any" // **
     | "normal";
 
-export interface Param {
-    "**": string;
-    "*": string;
-    [key: string]: string;
-}
-
 export interface MatchResult {
     param: {[key: string]: string};
     wildcard?: string;

@@ -1,6 +1,6 @@
 import {matchPathSegment, patternType} from "./matchPath";
 
-interface RouteNode<T> {
+export interface RouteNode<T> {
     pattern: string;
     children: Map<string, RouteNode<T>>;
     payload: T | null;
@@ -10,12 +10,12 @@ interface RouteNode<T> {
     wildcardNode?: RouteNode<T>;
 }
 
-interface Parent<T> {
+export interface Parent<T> {
     payload: T | null;
     matchedSegment: string;
 }
 
-interface Match<T> {
+export interface Match<T> {
     params: {[key: string]: string};
     payload: T;
     parents: Parent<T>[];
