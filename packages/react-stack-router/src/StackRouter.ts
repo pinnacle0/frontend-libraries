@@ -7,6 +7,7 @@ import type {History, Location, Update, To} from "history";
 import type {State, PushOption} from "./type";
 import type {ScreenTransitionType} from "./ScreenTransition";
 import type {StackHistory} from "./createStackHistory";
+import {invariant} from "./util/invariant";
 
 export interface ScreenData {
     component: React.ComponentType<any>;
@@ -16,8 +17,6 @@ export interface ScreenData {
 }
 
 export type Subscriber = (screens: ScreenData[]) => void;
-
-const BASE_URL = "/";
 
 export class StackRouter {
     private screens: ScreenData[] = [];
@@ -39,19 +38,19 @@ export class StackRouter {
         const {hash, search, pathname} = window.location;
         const matched = this.route.lookup(pathname);
 
-        this.replace({pathname: BASE_URL});
-        if (matched && pathname !== BASE_URL) {
-            matched.parents
+        invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
+
+        [
+            ...matched.parents
                 .filter(_ => _.payload)
-                .forEach((_, index) => {
-                    const pathname = matched.parents
+                .map((_, index) => ({
+                    pathname: matched.parents
                         .slice(0, index + 1)
                         .map(_ => _.matchedSegment)
-                        .join("/");
-                    this.push({pathname}, {transition: "exiting"});
-                });
-            this.push({hash, search, pathname}, {transition: "exiting"});
-        }
+                        .join("/"),
+                })),
+            {hash, search, pathname},
+        ].forEach((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transition: "exiting"})));
     }
 
     updateRoute(route: Route<React.ComponentType<any>>) {
