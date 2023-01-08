@@ -4,10 +4,10 @@ export type PatternType =
     | "wildcard" // *
     | "normal";
 
-export function patternType(path: string): PatternType {
-    if (path[0] === ":") {
-        return path.includes("(") && path[path.length - 1] === ")" ? "union" : "parameter";
-    } else if (path === "*") {
+export function patternType(pattern: string): PatternType {
+    if (pattern[0] === ":") {
+        return pattern.includes("(") && pattern[pattern.length - 1] === ")" ? "union" : "parameter";
+    } else if (pattern === "*") {
         return "wildcard";
     }
     return "normal";
