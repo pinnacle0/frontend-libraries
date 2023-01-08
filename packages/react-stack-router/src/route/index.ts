@@ -21,6 +21,9 @@ export interface Match<T> {
     parents: Parent<T>[];
 }
 
+/**
+ * A Lightweight route based on Prefix tree
+ */
 export class Route<T> {
     private root: RouteNode<T> = {pattern: "", parent: null, children: new Map(), payload: null};
 
