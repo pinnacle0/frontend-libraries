@@ -12,9 +12,9 @@ export function Stack({router}: {router: StackRouter}) {
     return (
         <div className="g-stack-router">
             <AnimatePresence>
-                {screens.map(({param, location, component: Component, transition}) => (
+                {screens.map(({params, location, component: Component, transition}) => (
                     <Screen className="g-stack-router-screen" key={location.key} duration={450} onEnter={() => transition.getEnteringKeyframes()} onExit={() => transition.getExitingKeyframes()}>
-                        <RouteContext.Provider value={{param, location}}>
+                        <RouteContext.Provider value={{params, location}}>
                             <Component />
                         </RouteContext.Provider>
                     </Screen>

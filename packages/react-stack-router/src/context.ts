@@ -9,7 +9,7 @@ export interface RouterContext extends Pick<StackRouter, "push" | "replace" | "p
 export const RouterContext = createContext({} as RouterContext);
 
 export interface RouteContext {
-    param: {[key: string]: any};
+    params: {[key: string]: any};
     location: Location;
 }
 

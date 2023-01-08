@@ -10,7 +10,7 @@ import type {StackHistory} from "./createStackHistory";
 
 export interface ScreenData {
     component: React.ComponentType<any>;
-    param: Record<string, string>;
+    params: Record<string, string>;
     location: Location;
     transition: ScreenTransition;
 }
@@ -89,7 +89,7 @@ export class StackRouter {
         this.screens.push({
             location,
             component: matched.payload,
-            param: matched.param,
+            params: matched.params,
             transition: new ScreenTransition(userSpecifiedTransition ?? transition),
         });
         this.notify();

@@ -16,7 +16,7 @@ interface Parent<T> {
 }
 
 interface Match<T> {
-    param: {[key: string]: string};
+    params: {[key: string]: string};
     payload: T;
     parents: Parent<T>[];
 }
@@ -63,7 +63,7 @@ export class Route<T> {
         const formattedPath = formatPath(path);
 
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
-        let param: Record<string, string> = {};
+        let params: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
         const parents: Parent<T>[] = [];
 
@@ -88,7 +88,7 @@ export class Route<T> {
                     return null;
                 }
 
-                param = {...param, ...matched.param};
+                params = {...params, ...matched.param};
             }
             parents.push({node: nextNode, matchedSegment: segment});
         }
@@ -99,7 +99,7 @@ export class Route<T> {
         return nextNode.payload
             ? {
                   payload: nextNode.payload,
-                  param,
+                  params,
                   parents,
               }
             : null;

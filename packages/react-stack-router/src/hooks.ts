@@ -12,8 +12,8 @@ export const useHistory = (): History => {
     return useContext(RouterContext).history;
 };
 
-export const useParam = <T extends Record<string, unknown>>(): T => {
-    return useContext(RouteContext).param as T;
+export const useParams = <T extends Record<string, unknown>>(): T => {
+    return useContext(RouteContext).params as T;
 };
 
 export const useLocation = (): Location => {
