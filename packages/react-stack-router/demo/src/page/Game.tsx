@@ -1,9 +1,9 @@
-import {Link, useLocation, useParam} from "@pinnacle0/react-stack-router/src";
+import {Link, useLocation, useParams} from "@pinnacle0/react-stack-router/src";
 import {Back} from "../component/Back";
 
 export const Game = () => {
     const {pathname} = useLocation();
-    const {id} = useParam<{id?: string}>();
+    const {id} = useParams<{id?: string}>();
 
     return (
         <div style={{flex: 1, background: "#fff"}}>
