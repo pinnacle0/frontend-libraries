@@ -1,4 +1,4 @@
-import {matchPath, patternType} from "./matchPath";
+import {matchPathSegment, patternType} from "./matchPath";
 
 interface RouteNode<T> {
     pattern: string;
@@ -11,7 +11,7 @@ interface RouteNode<T> {
 }
 
 interface Parent<T> {
-    node: RouteNode<T>;
+    payload: T | null;
     matchedSegment: string;
 }
 
@@ -82,14 +82,14 @@ export class Route<T> {
                     return null;
                 }
 
-                const matched = matchPath(nextNode.pattern, segment);
+                const matched = matchPathSegment(nextNode.pattern, segment);
                 if (!matched) {
                     return null;
                 }
 
-                params = {...params, ...matched.params};
+                params = {...params, ...matched.param};
             }
-            parents.push({node: nextNode, matchedSegment: segment});
+            parents.push({payload: nextNode.payload, matchedSegment: segment});
         }
 
         // removed matched node itself
