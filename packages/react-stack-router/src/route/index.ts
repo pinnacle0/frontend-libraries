@@ -41,7 +41,7 @@ export class Route<T> {
 
                 if (type === "parameter") {
                     if (nextNode.parameterNode) {
-                        throw new Error(`[react-stack-router]: duplicate declaration of paramenter node ${segment} on existing node ${nextNode.parameterNode.pattern} `);
+                        throw new Error(`[react-stack-router]: duplicate declaration of parametersnode ${segment} on existing node ${nextNode.parameterNode.pattern} `);
                     }
                     nextNode.parameterNode = newNode;
                 } else if (type === "wildcard") {
