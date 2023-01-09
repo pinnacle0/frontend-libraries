@@ -31,7 +31,7 @@ export const AnimatePresence = ({children}: Props) => {
             statusMap.set(key, {
                 ...elementStatus,
                 state: "entered",
-                element: React.cloneElement(element, {__visible: false, __onExited: undefined}),
+                element: React.cloneElement(element, {__removed: false, __onExited: undefined}),
             });
         } else {
             statusMap.set(key, {state: "entered", index, element});
@@ -46,7 +46,7 @@ export const AnimatePresence = ({children}: Props) => {
             state: "exiting",
             index: removed.index,
             element: React.cloneElement(removed.element, {
-                __visible: true,
+                __removed: true,
                 __onExited: () => {
                     statusMapRef.current.delete(key);
                     forceUpdate();
