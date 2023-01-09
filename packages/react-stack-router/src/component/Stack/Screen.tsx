@@ -17,12 +17,12 @@ export const Screen = (props: Props) => {
         onEnter,
         onExit,
         duration = 300,
-        __removed,
+        __visible,
         __onExited,
         className,
     } = props as Props & {
         __onExited?: () => void;
-        __removed?: boolean;
+        __visible?: boolean;
     };
     const elementRef = useRef<HTMLDivElement | null>(null);
 
@@ -60,7 +60,7 @@ export const Screen = (props: Props) => {
         const el = elementRef.current;
         const {onExit, duration} = animationConfig.current;
         const keyframes = typeof onExit === "function" ? onExit() : onExit;
-        if (!__removed || !el) return;
+        if (!__visible || !el) return;
         if (!keyframes) {
             onExitRef.current?.();
             return;
@@ -73,10 +73,10 @@ export const Screen = (props: Props) => {
         });
         animation.onfinish = () => onExitRef.current?.();
         return () => animation.cancel();
-    }, [__removed]);
+    }, [__visible]);
 
     return (
-        <div ref={elementRef} className={classNames("g-stack-router-screen", className, {exiting: __removed})}>
+        <div ref={elementRef} className={classNames("g-stack-router-screen", className, {exiting: __visible})}>
             {children}
         </div>
     );
