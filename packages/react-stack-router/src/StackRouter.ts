@@ -57,10 +57,6 @@ export class StackRouter {
         this.route = route;
     }
 
-    notify() {
-        this.subscribers.forEach(_ => _([...this.screens]));
-    }
-
     subscribe(subscriber: Subscriber): () => void {
         this.subscribers.add(subscriber);
         return () => {
@@ -82,6 +78,10 @@ export class StackRouter {
     }
 
     reset() {}
+
+    private notify() {
+        this.subscribers.forEach(_ => _([...this.screens]));
+    }
 
     private changeTopScreenTransition(transition: ScreenTransitionType) {
         const top = peek(this.screens);
