@@ -44,10 +44,12 @@ export class StackRouter {
             ...matched.parents
                 .filter(_ => _.payload)
                 .map((_, index) => ({
-                    pathname: matched.parents
-                        .slice(0, index + 1)
-                        .map(_ => _.matchedSegment)
-                        .join("/"),
+                    pathname:
+                        "/" +
+                        matched.parents
+                            .slice(0, index + 1)
+                            .map(_ => _.matchedSegment)
+                            .join("/"),
                 })),
             {hash, search, pathname},
         ].forEach((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transition: "exiting"})));
