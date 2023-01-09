@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from "react";
+import classNames from "classnames";
 
 export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
 
@@ -75,7 +76,7 @@ export const Screen = (props: Props) => {
     }, [__removed]);
 
     return (
-        <div ref={elementRef} className={`g-stack-router-screen ${className ?? ""}`}>
+        <div ref={elementRef} className={classNames("g-stack-router-screen", className, {exiting: __removed})}>
             {children}
         </div>
     );

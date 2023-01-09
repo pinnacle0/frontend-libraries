@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence} from "../AnimationPresence";
 import {RouteContext} from "../../context";
-import {Screen} from "../Screen";
+import {Screen} from "./Screen";
 import type {StackRouter, ScreenData} from "../../StackRouter";
 import "./index.less";
 
