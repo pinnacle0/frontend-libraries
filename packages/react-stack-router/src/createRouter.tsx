@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo} from "react";
 import {createBrowserHistory} from "history";
-import {invariant} from "./util/invariant";
+import {invariant} from "./invariant";
 import {Route} from "./route";
 import {RouterContext} from "./context";
 import {Stack} from "./component/Stack";

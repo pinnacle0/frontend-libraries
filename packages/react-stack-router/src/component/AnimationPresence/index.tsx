@@ -1,5 +1,5 @@
 import React, {isValidElement, useRef} from "react";
-import {invariant} from "../../util/invariant";
+import {invariant} from "../../invariant";
 import {Screen} from "../Stack/Screen";
 import {useForceUpdate, usePrevious} from "./hook";
 

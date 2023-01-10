@@ -3,7 +3,7 @@ import {Route} from "../route";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import {ScreenTransition} from "./screenTransition";
-import {invariant} from "../util/invariant";
+import {invariant} from "../invariant";
 import type React from "react";
 import type {History, Location, Update, To} from "history";
 import type {State, PushOption} from "../type";
