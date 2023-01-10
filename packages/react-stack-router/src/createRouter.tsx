@@ -7,7 +7,7 @@ import {Stack} from "./component/Stack";
 import {Route as RouteComponent} from "./component/Route";
 import type {History} from "history";
 import type {RouteProps as RouteComponentProps} from "./component/Route";
-import {StackRouter} from "./StackRouter";
+import {StackRouter} from "./stackRouter";
 import type {Router} from "./type";
 
 const createChildrenRoute = (children: React.ReactNode, parrentPaths: string[] = [], route: Route<React.ComponentType<any>> = new Route()) => {
