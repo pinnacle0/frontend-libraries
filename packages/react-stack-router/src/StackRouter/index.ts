@@ -25,6 +25,7 @@ export class StackRouter {
     private initialized = false;
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
+    // currently only work with push action
     private userSpecifiedTransitionQueue: Array<ScreenTransitionType | undefined> = [];
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
@@ -73,7 +74,7 @@ export class StackRouter {
     }
 
     push(to: To, option?: PushOption) {
-        this.userSpecifiedTransitionQueue.push(option?.transition as ScreenTransitionType | undefined);
+        this.userSpecifiedTransitionQueue.push(option?.transition);
         this.stackHistory.push(to, option?.state);
     }
 
@@ -96,9 +97,13 @@ export class StackRouter {
         top && top.transition.update(transition);
     }
 
+    private getUserSpecifyTransition(): ScreenTransitionType | undefined {
+        return this.userSpecifiedTransitionQueue.pop();
+    }
+
     private pushScreen(location: Location, transition: ScreenTransitionType): void {
         const matched = this.route.lookup(location.pathname);
-        const currentTranstion: ScreenTransitionType = this.userSpecifiedTransitionQueue.pop() ?? transition;
+        const currentTranstion: ScreenTransitionType = this.getUserSpecifyTransition() ?? transition;
 
         if (!matched) return;
         this.screens.push({
