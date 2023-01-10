@@ -2,5 +2,9 @@ import React from "react";
 import {router} from "../router";
 
 export const Back = () => {
-    return <button onClick={() => router.pop()}>Back</button>;
+    return (
+        <button style={{marginBottom: 30}} onClick={() => router.pop()}>
+            Back
+        </button>
+    );
 };

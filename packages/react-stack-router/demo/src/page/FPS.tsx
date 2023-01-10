@@ -1,4 +1,3 @@
-import React from "react";
 import {useLocation} from "../../../src";
 import {Back} from "../component/Back";
 
