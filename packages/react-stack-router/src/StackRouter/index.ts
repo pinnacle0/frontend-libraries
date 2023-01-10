@@ -93,7 +93,7 @@ export class StackRouter {
     }
 
     private changeTopScreenTransition(transition: ScreenTransitionType) {
-        const top = peek(this.screens);
+        const top = this.screens[this.screens.length - 1];
         top && top.transition.update(transition);
     }
 
@@ -140,11 +140,4 @@ export class StackRouter {
                 break;
         }
     }
-}
-
-function peek<T>(target: T[]): T | undefined {
-    if (target.length === 0) {
-        return undefined;
-    }
-    return target[target.length - 1];
 }
