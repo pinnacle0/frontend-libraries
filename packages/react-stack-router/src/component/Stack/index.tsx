@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {AnimatePresence} from "../AnimationPresence";
 import {RouteContext} from "../../context";
 import {Screen} from "./Screen";
