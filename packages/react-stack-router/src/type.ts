@@ -1,7 +1,7 @@
 import type React from "react";
 import type {To} from "history";
 import type {RouteProps} from "./component/Route";
-import type {ScreenTransitionType} from "./ScreenTransition";
+import type {ScreenTransitionType} from "./StackRouter/screenTransition";
 
 export type State = Record<string, any>;
 
