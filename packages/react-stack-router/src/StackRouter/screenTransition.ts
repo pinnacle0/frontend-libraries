@@ -11,7 +11,7 @@ export class ScreenTransition {
         switch (this.type) {
             case "both":
             case "entering":
-                return [{transform: `translateX(100%)`}, {transform: `translateX(0px)`}];
+                return [{transform: `translate3d(100%,0px,0px)`}, {transform: `translate3d(0px,0px,0px)`}];
             case "exiting":
             case "none":
             default:
@@ -23,7 +23,7 @@ export class ScreenTransition {
         switch (this.type) {
             case "both":
             case "exiting":
-                return [{transform: "translateX(100%)"}];
+                return [{transform: "translate3d(100%,0px,0px)"}];
             case "entering":
             case "none":
             default:

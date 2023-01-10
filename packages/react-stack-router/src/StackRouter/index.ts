@@ -1,13 +1,14 @@
 import {Action} from "history";
-import {Route} from "./route";
-import {createStackHistory} from "./createStackHistory";
-import {ScreenTransition} from "./ScreenTransition";
+import {Route} from "../route";
+import {createStackHistory} from "./stackHistory";
+import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
+import {ScreenTransition} from "./screenTransition";
+import {invariant} from "../util/invariant";
 import type React from "react";
 import type {History, Location, Update, To} from "history";
-import type {State, PushOption} from "./type";
-import type {ScreenTransitionType} from "./ScreenTransition";
-import type {StackHistory} from "./createStackHistory";
-import {invariant} from "./util/invariant";
+import type {State, PushOption} from "../type";
+import type {StackHistory} from "./stackHistory";
+import type {ScreenTransitionType} from "./screenTransition";
 
 export interface ScreenData {
     component: React.ComponentType<any>;
@@ -25,6 +26,7 @@ export class StackRouter {
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
     private userSpecifiedTransition: ScreenTransitionType | undefined = undefined;
+    private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
     constructor(history: History) {
         this.stackHistory = createStackHistory(history);
@@ -57,6 +59,10 @@ export class StackRouter {
 
     updateRoute(route: Route<React.ComponentType<any>>) {
         this.route = route;
+    }
+
+    attachSafariEdgeSwipeDetector() {
+        return this.safariEdgeSwipeDetector.attach();
     }
 
     subscribe(subscriber: Subscriber): () => void {

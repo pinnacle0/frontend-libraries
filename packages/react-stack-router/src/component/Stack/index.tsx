@@ -4,13 +4,19 @@ import {RouteContext} from "../../context";
 import {Screen} from "./Screen";
 import type {StackRouter, ScreenData} from "../../StackRouter";
 import "./index.less";
+import classNames from "classnames";
 
-export function Stack({router}: {router: StackRouter}) {
+interface StackProps {
+    router: StackRouter;
+    className?: string;
+}
+
+export function Stack({router, className}: StackProps) {
     const [screens, setScreens] = useState<ScreenData[]>([]);
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
     return (
-        <div className="g-stack-router">
+        <div className={classNames("g-stack-router", className)} {...router.attachSafariEdgeSwipeDetector()}>
             <AnimatePresence>
                 {screens.map(({params, location, component: Component, transition}) => (
                     <Screen className="g-stack-router-screen" key={location.key} duration={450} onEnter={() => transition.getEnteringKeyframes()} onExit={() => transition.getExitingKeyframes()}>

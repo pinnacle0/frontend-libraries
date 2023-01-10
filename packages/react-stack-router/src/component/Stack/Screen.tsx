@@ -17,9 +17,9 @@ export const Screen = (props: Props) => {
         onEnter,
         onExit,
         duration = 300,
+        className,
         __removed,
         __onExited,
-        className,
     } = props as Props & {
         __onExited?: () => void;
         __removed?: boolean;
@@ -76,8 +76,20 @@ export const Screen = (props: Props) => {
     }, [__removed]);
 
     return (
-        <div ref={elementRef} className={classNames("g-stack-router-screen", className, {exiting: __removed})}>
+        <div className={classNames("g-stack-router-screen", className, {exiting: __removed})} ref={elementRef}>
             {children}
         </div>
     );
 };
+
+/* function compositeRef<T extends HTMLElement>(refs: Array<React.MutableRefObject<T> | React.RefCallback<T>>) { */
+/*     return (node: T) => { */
+/*         refs.forEach(ref => { */
+/*             if (typeof ref === "function") { */
+/*                 ref(node); */
+/*             } else { */
+/*                 ref.current = node; */
+/*             } */
+/*         }); */
+/*     }; */
+/* } */
