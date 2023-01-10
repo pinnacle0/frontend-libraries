@@ -25,7 +25,7 @@ export class StackRouter {
     private initialized = false;
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
-    private userSpecifiedTransition: ScreenTransitionType | undefined = undefined;
+    private userSpecifiedTransitionQueue: Array<ScreenTransitionType | undefined> = [];
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
     constructor(history: History) {
@@ -73,7 +73,7 @@ export class StackRouter {
     }
 
     push(to: To, option?: PushOption) {
-        this.userSpecifiedTransition = option?.transition;
+        this.userSpecifiedTransitionQueue.push(option?.transition as ScreenTransitionType | undefined);
         this.stackHistory.push(to, option?.state);
     }
 
@@ -98,15 +98,14 @@ export class StackRouter {
 
     private pushScreen(location: Location, transition: ScreenTransitionType): void {
         const matched = this.route.lookup(location.pathname);
-        const userSpecifiedTransition = this.userSpecifiedTransition;
-        this.userSpecifiedTransition = undefined;
+        const currentTranstion: ScreenTransitionType = this.userSpecifiedTransitionQueue.pop() ?? transition;
 
         if (!matched) return;
         this.screens.push({
             location,
             component: matched.payload,
             params: matched.params,
-            transition: new ScreenTransition(userSpecifiedTransition ?? transition),
+            transition: new ScreenTransition(currentTranstion),
         });
         this.notify();
     }
@@ -125,9 +124,10 @@ export class StackRouter {
     private handler({action, location}: Update) {
         switch (action) {
             case Action.Push:
-                this.pushScreen(location, "both");
+                this.pushScreen(location, this.safariEdgeSwipeDetector.isForwardPop ? "exiting" : "both");
                 break;
             case Action.Pop:
+                this.safariEdgeSwipeDetector.isBackwardPop && this.changeTopScreenTransition("none");
                 this.popScreen();
                 break;
             case Action.Replace:
