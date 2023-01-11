@@ -8,7 +8,7 @@ interface InternalState {
 
 export type Listener = (update: Update) => void;
 
-export interface StackHistory<S extends Record<string, unknown>> {
+export interface StackHistory<S extends Record<string, any>> {
     listen: (listener: Listener) => () => void;
     push: (to: To, state?: S) => void;
     replace: (to: To, state?: S) => void;
@@ -16,7 +16,7 @@ export interface StackHistory<S extends Record<string, unknown>> {
     currentLocation: Location;
 }
 
-export const createStackHistory = <S extends Record<string, unknown>>(history: History): StackHistory<S> => {
+export const createStackHistory = <S extends Record<string, any>>(history: History): StackHistory<S> => {
     const listeners = new Set<Listener>();
     let timestamp = Date.now();
     let currentLocation = history.location;
