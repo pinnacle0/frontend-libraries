@@ -6,8 +6,8 @@ import type {ScreenTransitionType} from "./stackRouter/screenTransition";
 export type State = Record<string, any>;
 
 export interface PushOption {
-    transition: ScreenTransitionType;
-    state?: State;
+    transition?: ScreenTransitionType;
+    state?: HistoryState;
     /**
      * Run after enter animation of Screen
      */
