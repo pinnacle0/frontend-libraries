@@ -1,5 +1,6 @@
-import type {History, Location, To, Update} from "history";
 import {Action} from "history";
+import {IDGenerator} from "../util";
+import type {History, Location, To, Update} from "history";
 
 interface InternalState {
     __createAt: number;
@@ -14,13 +15,6 @@ export interface StackHistory<S extends Record<string, unknown>> {
     replace: (to: To, state?: S) => void;
     pop: () => void;
     currentLocation: Location;
-}
-
-export class IDGenerator {
-    private id = Date.now();
-    next(): number {
-        return ++this.id;
-    }
 }
 
 export const createStackHistory = <S extends Record<string, unknown>>(history: History): StackHistory<S> => {
