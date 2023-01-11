@@ -1,6 +1,6 @@
 import React, {isValidElement, useRef} from "react";
 import {invariant} from "../../invariant";
-import {Screen} from "../Stack/Screen";
+import {ScreenComponent} from "../Stack/ScreenComponent";
 import {useForceUpdate, usePrevious} from "./hook";
 
 interface Props {
@@ -87,7 +87,7 @@ function getValidChildren(children: React.ReactNode): Array<React.ReactElement> 
 
     React.Children.forEach(children, element => {
         if (!isValidElement(element)) return;
-        invariant(element.type === Screen, `<${element.type}> is not a <Screen> component. All children of <AnimatePresence> should be <Screen>`);
+        invariant(element.type === ScreenComponent, `<${element.type}> is not a <Screen> component. All children of <AnimatePresence> should be <Screen>`);
         invariant(element.key !== null, `<Screen> must have a specified key`);
 
         validElements.push(element as React.ReactElement);

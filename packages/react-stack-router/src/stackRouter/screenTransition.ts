@@ -1,13 +1,13 @@
 export type ScreenTransitionType = "entering" | "exiting" | "both" | "none";
 
 export class ScreenTransition {
-    constructor(private type: ScreenTransitionType) {}
+    constructor(private type: ScreenTransitionType, public duration: number) {}
 
     update(type: ScreenTransitionType) {
         this.type = type;
     }
 
-    getEnteringKeyframes(): Keyframe[] | null {
+    get enteringKeyframes(): Keyframe[] | null {
         switch (this.type) {
             case "both":
             case "entering":
@@ -19,7 +19,7 @@ export class ScreenTransition {
         }
     }
 
-    getExitingKeyframes(): Keyframe[] | null {
+    get exitingKeyframes(): Keyframe[] | null {
         switch (this.type) {
             case "both":
             case "exiting":

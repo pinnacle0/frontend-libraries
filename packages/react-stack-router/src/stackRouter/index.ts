@@ -2,31 +2,23 @@ import {Action} from "history";
 import {Route} from "../route";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
-import {ScreenTransition} from "./screenTransition";
 import {invariant} from "../invariant";
 import type React from "react";
 import type {History, Location, Update, To} from "history";
-import type {State, PushOption} from "../type";
+import type {HistoryState, PushOption} from "../type";
 import type {StackHistory} from "./stackHistory";
 import type {ScreenTransitionType} from "./screenTransition";
+import {Screen} from "./screen";
 
-export interface ScreenData {
-    component: React.ComponentType<any>;
-    params: Record<string, string>;
-    location: Location;
-    transition: ScreenTransition;
-}
-
-export type Subscriber = (screens: ScreenData[]) => void;
+export type Subscriber = (screens: Screen[]) => void;
 
 export class StackRouter {
-    private screens: ScreenData[] = [];
-    private stackHistory: StackHistory<State>;
     private initialized = false;
+    private screens: Screen[] = [];
+    private stackHistory: StackHistory<HistoryState>;
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
-    // currently only work with push action
-    private userSpecifiedTransitionQueue: Array<ScreenTransitionType | undefined> = [];
+    private pushOptionQueue: Array<PushOption | undefined> = [];
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
     constructor(history: History) {
@@ -74,7 +66,8 @@ export class StackRouter {
     }
 
     push(to: To, option?: PushOption) {
-        this.userSpecifiedTransitionQueue.push(option?.transition);
+        this.pushOptionQueue.push(option);
+        // this.userSpecifiedTransitionQueue.push(option?.transition);
         this.stackHistory.push(to, option?.state);
     }
 
@@ -82,7 +75,7 @@ export class StackRouter {
         this.stackHistory.pop();
     }
 
-    replace(to: To, state?: State) {
+    replace(to: To, state?: Record<string, any>) {
         this.stackHistory.replace(to, state);
     }
 
@@ -92,26 +85,37 @@ export class StackRouter {
         this.subscribers.forEach(_ => _([...this.screens]));
     }
 
-    private changeTopScreenTransition(transition: ScreenTransitionType) {
+    private updateTopScreenTransition(transition: ScreenTransitionType) {
         const top = this.screens[this.screens.length - 1];
         top && top.transition.update(transition);
     }
 
-    private getUserSpecifyTransition(): ScreenTransitionType | undefined {
-        return this.userSpecifiedTransitionQueue.pop();
+    private getCurrentPushOption(): PushOption | undefined {
+        return this.pushOptionQueue.pop();
     }
 
     private pushScreen(location: Location, transition: ScreenTransitionType): void {
         const matched = this.route.lookup(location.pathname);
-        const currentTranstion: ScreenTransitionType = this.getUserSpecifyTransition() ?? transition;
-
+        const userOption = this.getCurrentPushOption();
         if (!matched) return;
-        this.screens.push({
-            location,
-            component: matched.payload,
-            params: matched.params,
-            transition: new ScreenTransition(currentTranstion),
+
+        const screen = new Screen({
+            content: matched.payload,
+            history: {
+                location,
+                params: matched.params,
+            },
+            transition: {
+                type: userOption?.transition ?? transition,
+                duration: 400,
+            },
+            hooks: {
+                onDidEnter: userOption?.onDidEnter,
+                onDidExit: userOption?.onDidExit,
+            },
         });
+
+        this.screens.push(screen);
         this.notify();
     }
 
@@ -121,7 +125,7 @@ export class StackRouter {
     }
 
     private replaceScreen(location: Location) {
-        this.changeTopScreenTransition("none");
+        this.updateTopScreenTransition("none");
         this.screens.pop();
         this.pushScreen(location, "exiting");
     }
@@ -132,7 +136,7 @@ export class StackRouter {
                 this.pushScreen(location, this.safariEdgeSwipeDetector.isForwardPop ? "exiting" : "both");
                 break;
             case Action.Pop:
-                this.safariEdgeSwipeDetector.isBackwardPop && this.changeTopScreenTransition("none");
+                this.safariEdgeSwipeDetector.isBackwardPop && this.updateTopScreenTransition("none");
                 this.popScreen();
                 break;
             case Action.Replace:

@@ -2,20 +2,13 @@ import type React from "react";
 import type {To} from "history";
 import type {RouteProps} from "./component/Route";
 import type {ScreenTransitionType} from "./stackRouter/screenTransition";
+import type {ScreenHooks} from "./stackRouter/screen";
 
-export type State = Record<string, any>;
+export type HistoryState = Record<string, any>;
 
-export interface PushOption {
+export interface PushOption extends ScreenHooks {
     transition?: ScreenTransitionType;
     state?: HistoryState;
-    /**
-     * Run after enter animation of Screen
-     */
-    onAfterEnter?: () => void;
-    /**
-     * Run after exit animation of Screen
-     */
-    onAfterExit?: () => void;
 }
 
 export interface Router {
@@ -23,6 +16,6 @@ export interface Router {
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => void;
     pop: () => void;
-    replace: (to: To, state?: State) => void;
+    replace: (to: To, state?: Record<string, any>) => void;
     reset: () => void;
 }
