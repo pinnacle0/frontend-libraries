@@ -1,5 +1,4 @@
 import {Action} from "history";
-import {IDGenerator} from "../util";
 import type {History, Location, To, Update} from "history";
 
 interface InternalState {
@@ -19,11 +18,11 @@ export interface StackHistory<S extends Record<string, unknown>> {
 
 export const createStackHistory = <S extends Record<string, unknown>>(history: History): StackHistory<S> => {
     const listeners = new Set<Listener>();
-    const id = new IDGenerator();
+    let timestamp = Date.now();
     let currentLocation = history.location;
 
     const createInternalState = (state?: S): InternalState => {
-        return {__createAt: id.next(), ...(state ?? {})};
+        return {__createAt: timestamp++, ...(state ?? {})};
     };
 
     const push = (to: To, state?: S) => {
