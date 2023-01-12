@@ -100,7 +100,10 @@ export class APIGeneratorBase {
 
         const classDeclaration = (service: ServiceDefinition) => {
             const {name, operations} = service;
-            const methods = operations.map(methodDeclaration).join("\n");
+            const methods = operations
+                .filter(_ => !_.deprecated)
+                .map(methodDeclaration)
+                .join("\n");
             return `export class ${name} { ${methods} }`;
         };
 

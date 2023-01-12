@@ -15,6 +15,8 @@ export interface ServiceOperation {
     pathParams: {name: string; type: string}[];
     responseType: string;
     requestType: null | string;
+    optional: boolean;
+    deprecated: boolean;
 }
 
 export interface TypeDefinition {
