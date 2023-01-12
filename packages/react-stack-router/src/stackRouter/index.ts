@@ -109,10 +109,6 @@ export class StackRouter {
                 type: userOption?.transition ?? transition,
                 duration: 400,
             },
-            hooks: {
-                onDidEnter: userOption?.onDidEnter,
-                onDidExit: userOption?.onDidExit,
-            },
         });
 
         this.screens.push(screen);

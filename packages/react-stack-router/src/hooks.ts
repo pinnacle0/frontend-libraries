@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History, Location} from "history";
 
@@ -23,4 +23,36 @@ export const useLocation = (): Location => {
 export const useSearch = <T extends Record<string, unknown>>(): T => {
     const {search} = useLocation();
     return Object.fromEntries(new URLSearchParams(search)) as T;
+};
+
+export const useWillEnterEffect = (callback: () => any) => {
+    const {lifecycle} = useContext(RouteContext);
+
+    useEffect(() => {
+        return lifecycle.attach("willEnter", callback);
+    }, [callback, lifecycle]);
+};
+
+export const useDidEnterEffect = (callback: () => any) => {
+    const {lifecycle} = useContext(RouteContext);
+
+    useEffect(() => {
+        return lifecycle.attach("didEnter", callback);
+    }, [callback, lifecycle]);
+};
+
+export const useWillExitEffect = (callback: () => any) => {
+    const {lifecycle} = useContext(RouteContext);
+
+    useEffect(() => {
+        return lifecycle.attach("willExit", callback);
+    }, [callback, lifecycle]);
+};
+
+export const useDidExitEffect = (callback: () => any) => {
+    const {lifecycle} = useContext(RouteContext);
+
+    useEffect(() => {
+        return lifecycle.attach("didExit", callback);
+    }, [callback, lifecycle]);
 };

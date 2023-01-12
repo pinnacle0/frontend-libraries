@@ -2,11 +2,10 @@ import type React from "react";
 import type {To} from "history";
 import type {RouteProps} from "./component/Route";
 import type {ScreenTransitionType} from "./stackRouter/screenTransition";
-import type {ScreenHooks} from "./stackRouter/screen";
 
 export type HistoryState = Record<string, any>;
 
-export interface PushOption extends ScreenHooks {
+export interface PushOption {
     transition?: ScreenTransitionType;
     state?: HistoryState;
 }

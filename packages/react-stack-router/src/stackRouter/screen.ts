@@ -1,4 +1,5 @@
 import type {Location} from "history";
+import {ScreenLifecycle} from "./screenLifecycle";
 import type {ScreenTransitionType} from "./screenTransition";
 import {ScreenTransition} from "./screenTransition";
 
@@ -12,35 +13,15 @@ export interface ScreenTransitionSettings {
     type: ScreenTransitionType;
 }
 
-export interface ScreenHooks {
-    /**
-     * Run before enter animation start
-     */
-    onWillEnter?: (() => void) | undefined;
-    /**
-     * Run after enter animation
-     */
-    onDidEnter?: (() => void) | undefined;
-    /**
-     * Run before exit animation start
-     */
-    onWillExit?: (() => void) | undefined;
-    /**
-     * Run after exit animation
-     */
-    onDidExit?: (() => void) | undefined;
-}
-
 export class Screen {
-    content: React.ComponentType<any>;
-    history: HistoryInfo;
-    hooks: ScreenHooks;
-    transition: ScreenTransition;
+    readonly content: React.ComponentType<any>;
+    readonly history: HistoryInfo;
+    readonly transition: ScreenTransition;
+    readonly lifecycle = new ScreenLifecycle();
 
-    constructor(config: {content: React.ComponentType<any>; history: HistoryInfo; transition: ScreenTransitionSettings; hooks: ScreenHooks}) {
-        this.content = config.content;
-        this.history = config.history;
-        this.hooks = config.hooks;
-        this.transition = new ScreenTransition(config.transition.type, config.transition.duration);
+    constructor({content, history, transition}: {content: React.ComponentType<any>; history: HistoryInfo; transition: ScreenTransitionSettings}) {
+        this.content = content;
+        this.history = history;
+        this.transition = new ScreenTransition(transition.type, transition.duration);
     }
 }

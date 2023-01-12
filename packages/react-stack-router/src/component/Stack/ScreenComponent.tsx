@@ -25,10 +25,14 @@ export const ScreenComponent = (props: Props) => {
     useEffect(() => {
         const el = elementRef.current;
         if (!el) return;
-        const {transition} = screenRef.current;
+        const {transition, lifecycle} = screenRef.current;
         const keyframes = transition.enteringKeyframes;
 
-        if (!keyframes) return;
+        lifecycle.trigger("willEnter");
+        if (!keyframes) {
+            lifecycle.trigger("didEnter");
+            return;
+        }
 
         const animation = el.animate(keyframes, {
             duration: transition.duration,
@@ -36,17 +40,20 @@ export const ScreenComponent = (props: Props) => {
             easing: "cubic-bezier(.05,.74,.3,1.01)",
         });
 
+        animation.onfinish = () => lifecycle.trigger("didEnter");
         return () => animation.cancel();
     }, []);
 
     useEffect(() => {
         const el = elementRef.current;
         if (!el || !__removed) return;
-        const {transition} = screenRef.current;
+        const {transition, lifecycle} = screenRef.current;
         const keyframes = transition.exitingKeyframes;
 
+        lifecycle.trigger("willExit");
         if (!keyframes) {
             onExitRef.current?.();
+            lifecycle.trigger("didExit");
             return;
         }
 
@@ -58,6 +65,7 @@ export const ScreenComponent = (props: Props) => {
 
         animation.onfinish = () => {
             onExitRef.current?.();
+            lifecycle.trigger("didExit");
         };
 
         return () => animation.cancel();
@@ -65,7 +73,7 @@ export const ScreenComponent = (props: Props) => {
 
     return (
         <div className={classNames("g-stack-router-screen", className, {exiting: __removed})} ref={elementRef}>
-            <RouteContext.Provider value={{params: screen.history.params, location: screen.history.location}}>
+            <RouteContext.Provider value={{params: screen.history.params, location: screen.history.location, lifecycle: screen.lifecycle}}>
                 <screen.content />
             </RouteContext.Provider>
         </div>
