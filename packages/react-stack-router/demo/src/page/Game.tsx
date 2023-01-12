@@ -1,5 +1,6 @@
-import {Link, useLocation, useParams} from "@pinnacle0/react-stack-router/src";
+import {Link, useDidExitEffect, useLocation, useParams, useWillEnterEffect} from "@pinnacle0/react-stack-router/src";
 import {Back} from "../component/Back";
+import {router} from "../router";
 
 export const Game = () => {
     const {pathname} = useLocation();
@@ -11,6 +12,9 @@ export const Game = () => {
             <h3>pathname: {pathname}</h3>
             <h3>{id ? `have id ${id}` : "no id given"}</h3>
             <Back />
+            <div>
+                <button onClick={() => router.push("/game")}>Push game with no entering transition</button>
+            </div>
             <div>
                 <Link to="/game">To Game </Link>
             </div>
