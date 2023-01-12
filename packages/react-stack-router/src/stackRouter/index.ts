@@ -1,4 +1,5 @@
 import {Action} from "history";
+import type {Match} from "../route";
 import {Route} from "../route";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
@@ -32,8 +33,7 @@ export class StackRouter {
         this.initialized = true;
 
         const {hash, search, pathname} = window.location;
-        const matched = this.route.lookup(pathname);
-
+        const matched = this.matchRoute(pathname);
         invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
 
         [
@@ -68,17 +68,18 @@ export class StackRouter {
 
     async push(to: To, option?: PushOption): Promise<void> {
         const wait = new Promise<void>(resolve => (this.pushResolver = resolve));
+        if (!this.matchRoute(to)) return;
         this.pushOptionQueue.push(option);
         this.stackHistory.push(to, option?.state);
 
         return wait;
     }
-
     pop() {
         this.stackHistory.pop();
     }
 
     replace(to: To, state?: Record<string, any>) {
+        if (!this.matchRoute(to)) return;
         this.stackHistory.replace(to, state);
     }
 
@@ -97,8 +98,13 @@ export class StackRouter {
         return this.pushOptionQueue.pop();
     }
 
+    private matchRoute(to: To) {
+        const pathname = typeof to === "string" ? to : to.pathname;
+        return this.route.lookup(pathname ?? window.location.pathname);
+    }
+
     private pushScreen(location: Location, transition: ScreenTransitionType): void {
-        const matched = this.route.lookup(location.pathname);
+        const matched = this.matchRoute(location.pathname);
         const userOption = this.getCurrentPushOption();
         const currentResolver = this.pushResolver;
         this.pushResolver = null;
@@ -112,7 +118,7 @@ export class StackRouter {
             },
             transition: {
                 type: userOption?.transition ?? transition,
-                duration: 2000,
+                duration: 400,
             },
         });
 
