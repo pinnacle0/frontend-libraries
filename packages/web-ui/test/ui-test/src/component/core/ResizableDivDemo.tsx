@@ -1,0 +1,17 @@
+import React from "react";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {DemoHelper} from "../DemoHelper";
+import {Resizable} from "@pinnacle0/web-ui/core/Resizable";
+
+const groups: DemoHelperGroupConfig[] = [
+    {
+        title: "Test",
+        components: [
+            <Resizable height={200} width={200}>
+                I am resizable
+            </Resizable>,
+        ],
+    },
+];
+
+export const ResizableDivDemo = () => <DemoHelper groups={groups} />;

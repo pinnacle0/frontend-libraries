@@ -32,7 +32,15 @@ function roundingToString(value: number, algorithm: "round" | "ceil" | "floor", 
     return rounding(value, algorithm, scale).toFixed(scale);
 }
 
+function clamp(value: number, min: number, max: number): number {
+    if (min > max) {
+        throw new Error(`[util] NumberUtil.clamp min(${min}) must be <= max(${max})`);
+    }
+    return Math.max(min, Math.min(max, value));
+}
+
 export const NumberUtil = Object.freeze({
     rounding,
     roundingToString,
+    clamp,
 });
