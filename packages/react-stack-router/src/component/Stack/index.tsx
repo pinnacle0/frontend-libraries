@@ -4,7 +4,7 @@ import {ScreenComponent} from "./ScreenComponent";
 import type {StackRouter} from "../../stackRouter";
 import "./index.less";
 import classNames from "classnames";
-import type {Screen} from "../../stackRouter/screen";
+import type {Screen} from "../../screen";
 
 interface StackProps {
     router: StackRouter;

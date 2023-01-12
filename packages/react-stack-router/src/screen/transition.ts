@@ -1,9 +1,9 @@
-export type ScreenTransitionType = "entering" | "exiting" | "both" | "none";
+export type TransitionType = "entering" | "exiting" | "both" | "none";
 
-export class ScreenTransition {
-    constructor(private type: ScreenTransitionType, public duration: number) {}
+export class Transition {
+    constructor(private type: TransitionType, public duration: number) {}
 
-    update(type: ScreenTransitionType) {
+    update(type: TransitionType) {
         this.type = type;
     }
 

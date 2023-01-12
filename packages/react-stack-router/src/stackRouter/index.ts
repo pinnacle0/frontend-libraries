@@ -1,14 +1,14 @@
 import {Action} from "history";
 import {Route} from "../route";
+import {Screen} from "../screen";
+import {invariant} from "../invariant";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
-import {invariant} from "../invariant";
 import type React from "react";
 import type {History, Location, Update, To} from "history";
 import type {HistoryState, PushOption} from "../type";
 import type {StackHistory} from "./stackHistory";
-import type {ScreenTransitionType} from "./screenTransition";
-import {Screen} from "./screen";
+import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
@@ -89,7 +89,7 @@ export class StackRouter {
         this.subscribers.forEach(_ => _([...this.screens]));
     }
 
-    private updateTopScreenTransition(transition: ScreenTransitionType) {
+    private updateTopScreenTransition(transition: TransitionType) {
         const top = this.screens[this.screens.length - 1];
         top && top.transition.update(transition);
     }
@@ -103,7 +103,7 @@ export class StackRouter {
         return this.route.lookup(pathname ?? window.location.pathname);
     }
 
-    private pushScreen(location: Location, transition: ScreenTransitionType): void {
+    private pushScreen(location: Location, transition: TransitionType): void {
         const matched = this.matchRoute(location.pathname);
         const userOption = this.getCurrentPushOption();
         const currentResolver = this.pushResolver;

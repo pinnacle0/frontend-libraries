@@ -1,12 +1,24 @@
 import type React from "react";
 import type {To} from "history";
 import type {RouteProps} from "./component/Route";
-import type {ScreenTransitionType} from "./stackRouter/screenTransition";
+import type {TransitionType} from "./screen/transition";
 
 export type HistoryState = Record<string, any>;
 
-export interface PushOption {
-    transition?: ScreenTransitionType;
+interface TransitionOption {
+    transition?: TransitionType;
+    duration?: number;
+}
+
+export interface PushOption extends TransitionOption {
+    state?: HistoryState;
+}
+
+export type PopOption = TransitionOption;
+
+export interface ReplaceOption {
+    remove: TransitionOption;
+    add: TransitionOption;
     state?: HistoryState;
 }
 
@@ -14,7 +26,7 @@ export interface Router {
     Root: React.ComponentType<React.PropsWithChildren>;
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
-    pop: () => void;
+    pop: (option?: PopOption) => void;
     replace: (to: To, state?: Record<string, any>) => void;
     reset: () => void;
 }

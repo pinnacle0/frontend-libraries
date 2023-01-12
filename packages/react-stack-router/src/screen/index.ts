@@ -1,7 +1,7 @@
 import type {Location} from "history";
-import {ScreenLifecycle} from "./screenLifecycle";
-import type {ScreenTransitionType} from "./screenTransition";
-import {ScreenTransition} from "./screenTransition";
+import {Lifecycle} from "./lifecycle";
+import type {TransitionType} from "./transition";
+import {Transition} from "./transition";
 
 export interface HistoryInfo {
     location: Location;
@@ -10,18 +10,18 @@ export interface HistoryInfo {
 
 export interface ScreenTransitionSettings {
     duration: number;
-    type: ScreenTransitionType;
+    type: TransitionType;
 }
 
 export class Screen {
     readonly content: React.ComponentType<any>;
     readonly history: HistoryInfo;
-    readonly transition: ScreenTransition;
-    readonly lifecycle = new ScreenLifecycle();
+    readonly transition: Transition;
+    readonly lifecycle = new Lifecycle();
 
     constructor({content, history, transition}: {content: React.ComponentType<any>; history: HistoryInfo; transition: ScreenTransitionSettings}) {
         this.content = content;
         this.history = history;
-        this.transition = new ScreenTransition(transition.type, transition.duration);
+        this.transition = new Transition(transition.type, transition.duration);
     }
 }
