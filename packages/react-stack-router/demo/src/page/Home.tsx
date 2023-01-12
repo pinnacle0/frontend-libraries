@@ -25,6 +25,17 @@ export const Home = () => {
                 <button onClick={() => router.push("/about")}>Push /about using router.push()</button>
                 <button onClick={() => push("/game")}>Push /game using useNavigate()</button>
                 <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
+                <button
+                    onClick={async () => {
+                        console.info("before enter");
+                        await push("/game/123");
+                        await push("/game/456");
+                        await push("/game/7809");
+                        console.info("after enter");
+                    }}
+                >
+                    Push /game/3 using useNavigate() with async
+                </button>
             </div>
         </div>
     );

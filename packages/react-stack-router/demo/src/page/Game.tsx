@@ -1,4 +1,4 @@
-import {Link, useDidExitEffect, useLocation, useParams, useWillEnterEffect} from "@pinnacle0/react-stack-router/src";
+import {Link, useLocation, useParams} from "@pinnacle0/react-stack-router/src";
 import {Back} from "../component/Back";
 import {router} from "../router";
 
