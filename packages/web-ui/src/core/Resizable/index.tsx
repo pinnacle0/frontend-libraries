@@ -1,6 +1,7 @@
 import React from "react";
-import type {DragState} from "../../hooks/useDrag/type";
 import {Resizer} from "./Resizer";
+import {classNames} from "../../util/ClassNames";
+import type {DragState} from "../../hooks/useDrag/type";
 import "./index.less";
 
 interface Rect {
@@ -15,13 +16,15 @@ interface Rect {
 interface Props {
     height: number;
     width: number;
+    id?: string;
+    className?: string;
     minHeight?: number;
     minWidth?: number;
     gap?: number;
     children?: React.ReactNode;
 }
 
-export const Resizable = React.forwardRef<HTMLDivElement, Props>(({height, width, gap, children, minHeight = 0, minWidth = 0}, ref) => {
+export const Resizable = React.forwardRef<HTMLDivElement, Props>(({height, width, className, id, gap, children, minHeight = 0, minWidth = 0}, ref) => {
     const resizableDivRef = React.useRef<HTMLDivElement | null>(null);
     const startRect = React.useRef<Rect>({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
 
@@ -90,7 +93,7 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(({height, width
     };
 
     return (
-        <div className="resizable" ref={combineRef} style={{height, width}}>
+        <div className={classNames("resizable", className)} id={id} ref={combineRef} style={{height, width}}>
             <Resizer className="top" onResizeStart={onResizeStart} onResize={onResizeTop} gap={gap} />
             <Resizer
                 className="top-right"
@@ -131,56 +134,6 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(({height, width
                     onResizeLeft(state);
                 }}
             />
-            {/* <div className="top resize-edge" {...useDraggable({onDragStart, onDrag: onResizeTop, target: resizableDivRef, disabled: true})} />
-            <div
-                className="top-right resize-edge"
-                {...useDraggable({
-                    onDragStart,
-                    onDrag: state => {
-                        onResizeTop(state);
-                        onResizeRight(state);
-                    },
-                    target: resizableDivRef,
-                })}
-            />
-            <div className="right resize-edge" {...useDraggable({onDragStart, onDrag: onResizeRight, target: resizableDivRef, disabled: true})} />
-            <div
-                className="bottom-right resize-edge"
-                {...useDraggable({
-                    onDragStart,
-                    onDrag: state => {
-                        onResizeRight(state);
-                        onResizeBottom(state);
-                    },
-                    target: resizableDivRef,
-                    disabled: true,
-                })}
-            />
-            <div className="bottom resize-edge" {...useDraggable({onDragStart, onDrag: onResizeBottom, target: resizableDivRef, disabled: true})} />
-            <div
-                className="bottom-left resize-edge"
-                {...useDraggable({
-                    onDragStart,
-                    onDrag: state => {
-                        onResizeBottom(state);
-                        onResizeLeft(state);
-                    },
-                    target: resizableDivRef,
-                })}
-            />
-            <div className="left resize-edge" {...useDraggable({onDragStart, onDrag: onResizeLeft, target: resizableDivRef})} />
-            <div
-                className="top-left resize-edge"
-                {...useDraggable({
-                    onDragStart,
-                    onDrag: state => {
-                        onResizeTop(state);
-                        onResizeLeft(state);
-                    },
-                    target: resizableDivRef,
-                    disabled: true,
-                })}
-            /> */}
             {children}
         </div>
     );
