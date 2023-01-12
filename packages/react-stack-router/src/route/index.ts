@@ -27,9 +27,11 @@ export interface Match<T> {
  * A Lightweight route based on Prefix tree
  */
 export class Route<T> {
+    private cache = new Map<string, Match<T> | null>();
     private root: RouteNode<T> = {pattern: "", parent: null, children: new Map(), payload: null};
 
     insert(path: string, payload: T): void {
+        this.cache.clear();
         const formattedPath = formatPath(path);
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
 
@@ -49,7 +51,17 @@ export class Route<T> {
     }
 
     lookup(path: string): Match<T> | null {
-        // console.log(this.root);
+        const cachedMatched = this.cache.get(path);
+        if (cachedMatched) {
+            return cachedMatched;
+        } else {
+            const match = this.freshlookup(path);
+            this.cache.set(path, match);
+            return match;
+        }
+    }
+
+    private freshlookup(path: string): Match<T> | null {
         const formattedPath = formatPath(path);
 
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
