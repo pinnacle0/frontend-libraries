@@ -78,7 +78,11 @@ export class APIGeneratorBase {
 
         const typesImportStatement = (service: ServiceDefinition) => {
             const primitiveTypes = ["void", "number", "string", "boolean"];
-            const requireTypes = service.operations.flatMap(extractTypes).filter(Boolean).map(TypeScriptDefinitionGenerator.javaToTSType);
+            const requireTypes = service.operations
+                .filter(_ => !_.deprecated)
+                .flatMap(extractTypes)
+                .filter(Boolean)
+                .map(TypeScriptDefinitionGenerator.javaToTSType);
             const customTypes = [...differenceSet(requireTypes, primitiveTypes)];
 
             return customTypes.length ? `import type { ${customTypes.join(",")} } from "${platformInfo.typeFileImportPath}";` : "";
