@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence} from "../AnimationPresence";
-import {RouteContext} from "../../context";
 import {ScreenComponent} from "./ScreenComponent";
 import type {StackRouter} from "../../stackRouter";
 import "./index.less";
@@ -22,11 +21,7 @@ export function Stack({router, className}: StackProps) {
         <div className={classNames("g-stack-router", className)}>
             <AnimatePresence>
                 {screens.map(screen => (
-                    <ScreenComponent className="g-stack-router-screen" key={screen.history.location.key} screen={screen}>
-                        <RouteContext.Provider value={{params: screen.history.params, location: screen.history.location}}>
-                            <screen.content />
-                        </RouteContext.Provider>
-                    </ScreenComponent>
+                    <ScreenComponent className="g-stack-router-screen" key={screen.history.location.key} screen={screen} />
                 ))}
             </AnimatePresence>
         </div>

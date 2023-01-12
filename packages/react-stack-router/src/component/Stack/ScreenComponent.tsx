@@ -1,17 +1,17 @@
 import React, {useEffect, useRef} from "react";
 import classNames from "classnames";
 import type {Screen} from "../../stackRouter/screen";
+import {RouteContext} from "../../context";
 
 export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
 
 interface Props {
     screen: Screen;
     className: string;
-    children: React.ReactNode;
 }
 
 export const ScreenComponent = (props: Props) => {
-    const {screen, className, children, __removed, __onExited} = props as Props & {
+    const {screen, className, __removed, __onExited} = props as Props & {
         __onExited?: () => void;
         __removed?: boolean;
     };
@@ -25,21 +25,16 @@ export const ScreenComponent = (props: Props) => {
     useEffect(() => {
         const el = elementRef.current;
         if (!el) return;
-        const {transition, hooks} = screenRef.current;
+        const {transition} = screenRef.current;
         const keyframes = transition.enteringKeyframes;
 
-        hooks.onWillEnter?.();
-        if (!keyframes) {
-            hooks.onDidEnter?.();
-            return;
-        }
+        if (!keyframes) return;
 
         const animation = el.animate(keyframes, {
             duration: transition.duration,
             fill: "forwards",
             easing: "cubic-bezier(.05,.74,.3,1.01)",
         });
-        animation.onfinish = hooks.onDidEnter ?? null;
 
         return () => animation.cancel();
     }, []);
@@ -47,13 +42,11 @@ export const ScreenComponent = (props: Props) => {
     useEffect(() => {
         const el = elementRef.current;
         if (!el || !__removed) return;
-        const {transition, hooks} = screenRef.current;
+        const {transition} = screenRef.current;
         const keyframes = transition.exitingKeyframes;
 
-        hooks.onWillExit?.();
         if (!keyframes) {
             onExitRef.current?.();
-            hooks.onDidExit?.();
             return;
         }
 
@@ -65,7 +58,6 @@ export const ScreenComponent = (props: Props) => {
 
         animation.onfinish = () => {
             onExitRef.current?.();
-            hooks.onDidExit?.();
         };
 
         return () => animation.cancel();
@@ -73,7 +65,9 @@ export const ScreenComponent = (props: Props) => {
 
     return (
         <div className={classNames("g-stack-router-screen", className, {exiting: __removed})} ref={elementRef}>
-            {children}
+            <RouteContext.Provider value={{params: screen.history.params, location: screen.history.location}}>
+                <screen.content />
+            </RouteContext.Provider>
         </div>
     );
 };
