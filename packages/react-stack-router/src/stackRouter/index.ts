@@ -1,5 +1,4 @@
 import {Action} from "history";
-import type {Match} from "../route";
 import {Route} from "../route";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
@@ -74,6 +73,7 @@ export class StackRouter {
 
         return wait;
     }
+
     pop() {
         this.stackHistory.pop();
     }
