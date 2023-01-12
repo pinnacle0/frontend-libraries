@@ -17,6 +17,14 @@ export class Lifecycle {
         };
     }
 
+    attachOnce(type: Hook, callback: Callback) {
+        const wrapper = () => {
+            callback();
+            this.callbacks[type].delete(callback);
+        };
+        this.callbacks[type].add(wrapper.bind(this));
+    }
+
     trigger(type: Hook) {
         this.callbacks[type].forEach(_ => _());
     }

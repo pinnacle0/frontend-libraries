@@ -19,8 +19,9 @@ export class StackRouter {
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
     private pushOptionQueue: Array<PushOption | undefined> = [];
-    private pushResolver: (() => void) | null = null;
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
+
+    private resolve: (() => void) | null = null;
 
     constructor(history: History) {
         this.stackHistory = createStackHistory(history);
@@ -66,7 +67,7 @@ export class StackRouter {
     }
 
     async push(to: To, option?: PushOption): Promise<void> {
-        const wait = new Promise<void>(resolve => (this.pushResolver = resolve));
+        const wait = new Promise<void>(resolve => (this.resolve = resolve));
         if (!this.matchRoute(to)) return;
         this.pushOptionQueue.push(option);
         this.stackHistory.push(to, option?.state);
@@ -106,8 +107,8 @@ export class StackRouter {
     private pushScreen(location: Location, transition: TransitionType): void {
         const matched = this.matchRoute(location.pathname);
         const userOption = this.getCurrentPushOption();
-        const currentResolver = this.pushResolver;
-        this.pushResolver = null;
+        const resolve = this.resolve;
+        this.resolve = null;
         if (!matched) return;
 
         const screen = new Screen({
@@ -122,12 +123,7 @@ export class StackRouter {
             },
         });
 
-        if (currentResolver) {
-            const unattch = screen.lifecycle.attach("didEnter", () => {
-                currentResolver?.();
-                unattch();
-            });
-        }
+        if (resolve) screen.lifecycle.attachOnce("didEnter", resolve);
 
         this.screens.push(screen);
         this.notify();
