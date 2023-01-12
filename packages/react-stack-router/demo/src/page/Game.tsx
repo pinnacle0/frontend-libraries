@@ -13,9 +13,6 @@ export const Game = () => {
             <h3>{id ? `have id ${id}` : "no id given"}</h3>
             <Back />
             <div>
-                <button onClick={() => router.push("/game")}>Push game with no entering transition</button>
-            </div>
-            <div>
                 <Link to="/game">To Game </Link>
             </div>
             <div>

@@ -22,6 +22,7 @@ export const Home = () => {
             <p>pathname: {pathname}</p>
             <Link to="/about">Go To About using Link</Link>
             <div>
+                <button onClick={() => router.push("/not-found")}>to Not Found </button>
                 <button onClick={() => router.push("/about")}>Push /about using router.push()</button>
                 <button onClick={() => push("/game")}>Push /game using useNavigate()</button>
                 <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
