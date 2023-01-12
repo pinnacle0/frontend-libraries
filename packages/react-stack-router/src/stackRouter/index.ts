@@ -19,6 +19,7 @@ export class StackRouter {
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
     private pushOptionQueue: Array<PushOption | undefined> = [];
+    private pushResolver: (() => void) | null = null;
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
     constructor(history: History) {
@@ -65,10 +66,12 @@ export class StackRouter {
         };
     }
 
-    push(to: To, option?: PushOption) {
+    async push(to: To, option?: PushOption): Promise<void> {
+        const wait = new Promise<void>(resolve => (this.pushResolver = resolve));
         this.pushOptionQueue.push(option);
-        // this.userSpecifiedTransitionQueue.push(option?.transition);
         this.stackHistory.push(to, option?.state);
+
+        return wait;
     }
 
     pop() {
@@ -107,9 +110,18 @@ export class StackRouter {
             },
             transition: {
                 type: userOption?.transition ?? transition,
-                duration: 400,
+                duration: 2000,
             },
         });
+
+        const currentResolver = this.pushResolver;
+        this.pushResolver = null;
+        if (currentResolver) {
+            const unattch = screen.lifecycle.attach("didEnter", () => {
+                currentResolver?.();
+                unattch();
+            });
+        }
 
         this.screens.push(screen);
         this.notify();
