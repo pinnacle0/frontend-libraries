@@ -100,6 +100,8 @@ export class StackRouter {
     private pushScreen(location: Location, transition: ScreenTransitionType): void {
         const matched = this.route.lookup(location.pathname);
         const userOption = this.getCurrentPushOption();
+        const currentResolver = this.pushResolver;
+        this.pushResolver = null;
         if (!matched) return;
 
         const screen = new Screen({
@@ -114,8 +116,6 @@ export class StackRouter {
             },
         });
 
-        const currentResolver = this.pushResolver;
-        this.pushResolver = null;
         if (currentResolver) {
             const unattch = screen.lifecycle.attach("didEnter", () => {
                 currentResolver?.();
