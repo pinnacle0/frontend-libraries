@@ -8,30 +8,24 @@
         position: relative;
         width: 100%;
 
-        &.horizontal {
-            width: auto;
-            height: 100%;
-        }
-
         .g-virtual-list-item {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
 
-            &.horizontal {
-                width: auto;
-                height: 100%;
-            }
-
             .g-virtual-list-item-wrapper {
                 width: 100%;
-
-                &.horizontal {
-                    width: auto;
-                    height: 100%;
-                }
             }
+        }
+    }
+
+    &.horizontal {
+        .g-virtual-list-inner,
+        .g-virtual-list-item,
+        .g-virtual-list-item-wrapper {
+            width: auto;
+            height: 100%;
         }
     }
 }

@@ -73,17 +73,17 @@ export function VirtualList<T extends object>({
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
     return (
-        <div className={classNames("g-virtual-list", className)} ref={parentRef}>
-            <div className={classNames("g-virtual-list-inner", {horizontal})} style={horizontal ? {width: virtualizer.getTotalSize()} : {height: virtualizer.getTotalSize()}}>
+        <div className={classNames("g-virtual-list", className, {horizontal})} ref={parentRef}>
+            <div className="g-virtual-list-inner" style={horizontal ? {width: virtualizer.getTotalSize()} : {height: virtualizer.getTotalSize()}}>
                 {virtualizer.getVirtualItems().map(virtualRow => (
                     <div
-                        className={classNames("g-virtual-list-item", {horizontal})}
+                        className="g-virtual-list-item"
                         key={getItemKey(virtualRow.index) as string | number}
                         ref={virtualizer.measureElement}
                         data-index={virtualRow.index}
                         style={{transform: horizontal ? `translateX(${virtualRow.start}px)` : `translateY(${virtualRow.start}px)`}}
                     >
-                        <div className={classNames("g-virtual-list-item-wrapper", {horizontal})}>
+                        <div className="g-virtual-list-item-wrapper">
                             <Item data={data[virtualRow.index]} index={virtualRow.index} />
                         </div>
                     </div>
