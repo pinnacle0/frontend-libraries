@@ -25,6 +25,9 @@ export const Game = () => {
                     Replace Game with ID 12344
                 </Link>
             </div>
+            <div>
+                <button onClick={() => router.push("/game/3333", {transition: "none"})}>Push with no animation</button>
+            </div>
         </div>
     );
 };

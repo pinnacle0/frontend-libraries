@@ -11,7 +11,11 @@ const DEFAULT_ITEM_SIZE = 100;
 
 export type Direction = "horizontal" | "vertical";
 
-export interface VirtualListHandler extends Pick<Virtualizer<HTMLElement, HTMLElement>, "scrollElement" | "scrollToIndex" | "scrollToOffset" | "measure" | "getVirtualItems"> {}
+export interface VirtualListHandler
+    extends Pick<
+        Virtualizer<HTMLElement, HTMLElement>,
+        "scrollElement" | "scrollToIndex" | "scrollToOffset" | "measure" | "getVirtualItems" | "range" | "indexFromElement" | "getTotalSize" | "scrollElement"
+    > {}
 
 export interface ItemProps<T extends object> {
     index: number;
@@ -68,6 +72,9 @@ export function VirtualList<T extends object>({
         measure: virtualizer.measure,
         scrollToIndex: virtualizer.scrollToIndex,
         scrollToOffset: virtualizer.scrollToOffset,
+        getTotalSize: virtualizer.getTotalSize,
+        indexFromElement: virtualizer.indexFromElement,
+        range: virtualizer.range,
     }));
 
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
