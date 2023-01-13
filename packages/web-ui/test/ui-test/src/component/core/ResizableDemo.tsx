@@ -7,11 +7,11 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Test",
         components: [
-            <Resizable height={200} width={200}>
+            <Resizable height={200} width={200} maxHeight={500} maxWidth={500}>
                 I am resizable
             </Resizable>,
         ],
     },
 ];
 
-export const ResizableDivDemo = () => <DemoHelper groups={groups} />;
+export const ResizableDemo = () => <DemoHelper groups={groups} />;

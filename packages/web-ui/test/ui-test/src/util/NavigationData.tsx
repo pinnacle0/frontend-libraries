@@ -28,7 +28,7 @@ import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
 import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigationUtil";
-import {ResizableDivDemo} from "../component/core/ResizableDivDemo";
+import {ResizableDemo} from "../component/core/ResizableDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -159,7 +159,7 @@ export const NavigationData: NavigationGroupItem<TestFeaturePermission, TestFiel
             {
                 url: "/core/resizable-div",
                 title: "Resizable Div",
-                componentType: ResizableDivDemo,
+                componentType: ResizableDemo,
             },
         ],
     },
