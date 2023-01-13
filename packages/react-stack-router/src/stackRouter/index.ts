@@ -8,7 +8,7 @@ import type React from "react";
 import type {History, Location, Update, To} from "history";
 import type {HistoryState, PushOption} from "../type";
 import type {StackHistory} from "./stackHistory";
-import type {TransitionType} from "../screen/transition";
+import type {Transition, TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
@@ -18,9 +18,9 @@ export class StackRouter {
     private stackHistory: StackHistory<HistoryState>;
     private subscribers = new Set<Subscriber>();
     private route = new Route<React.ComponentType<any>>();
-    private pushOptionQueue: Array<PushOption | undefined> = [];
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
+    private pushOption: PushOption | undefined = undefined;
     private resolve: (() => void) | null = null;
 
     constructor(history: History) {
@@ -69,7 +69,7 @@ export class StackRouter {
     async push(to: To, option?: PushOption): Promise<void> {
         const wait = new Promise<void>(resolve => (this.resolve = resolve));
         if (!this.matchRoute(to)) return;
-        this.pushOptionQueue.push(option);
+        option && (this.pushOption = option);
         this.stackHistory.push(to, option?.state);
 
         return wait;
@@ -95,41 +95,42 @@ export class StackRouter {
         top && top.transition.update(transition);
     }
 
-    private getCurrentPushOption(): PushOption | undefined {
-        return this.pushOptionQueue.pop();
-    }
-
     private matchRoute(to: To) {
         const pathname = typeof to === "string" ? to : to.pathname;
         return this.route.lookup(pathname ?? window.location.pathname);
     }
 
-    private pushScreen(location: Location, transition: TransitionType): void {
+    private createScreen(location: Location, transitionType: TransitionType): Screen | null {
         const matched = this.matchRoute(location.pathname);
-        const userOption = this.getCurrentPushOption();
-        const resolve = this.resolve;
-        this.resolve = null;
-        if (!matched) return;
-
-        const screen = new Screen({
+        if (!matched) return null;
+        return new Screen({
             content: matched.payload,
             history: {
                 location,
                 params: matched.params,
             },
             transition: {
-                type: userOption?.transition ?? transition,
+                type: transitionType,
                 duration: 400,
             },
         });
+    }
 
+    private pushScreen(location: Location, transition: TransitionType): void {
+        const option = this.pushOption;
+        this.pushOption = undefined;
+        const resolve = this.resolve;
+        this.resolve = null;
+
+        const screen = this.createScreen(location, option?.transition ?? transition);
+        if (!screen) return;
         if (resolve) screen.lifecycle.attachOnce("didEnter", resolve);
-
         this.screens.push(screen);
         this.notify();
     }
 
-    private popScreen() {
+    private popScreen(transition?: TransitionType) {
+        transition && this.updateTopScreenTransition(transition);
         this.screens.pop();
         this.notify();
     }
@@ -137,17 +138,20 @@ export class StackRouter {
     private replaceScreen(location: Location) {
         this.updateTopScreenTransition("none");
         this.screens.pop();
-        this.pushScreen(location, "exiting");
+
+        const screen = this.createScreen(location, "exiting");
+        if (!screen) return;
+        this.screens.push(screen);
+        this.notify();
     }
 
     private handler({action, location}: Update) {
         switch (action) {
             case Action.Push:
-                this.pushScreen(location, this.safariEdgeSwipeDetector.isForwardPop ? "exiting" : "both");
+                this.pushScreen(location, this.safariEdgeSwipeDetector.isForwardPop ? "none" : "both");
                 break;
             case Action.Pop:
-                this.safariEdgeSwipeDetector.isBackwardPop && this.updateTopScreenTransition("none");
-                this.popScreen();
+                this.popScreen(this.safariEdgeSwipeDetector.isBackwardPop ? "none" : "both");
                 break;
             case Action.Replace:
                 this.replaceScreen(location);
