@@ -31,7 +31,12 @@ export const useDraggable = ({target, disabled, onDragStart, onDrag, onDragEnd, 
             if (target.current) {
                 const {left, right, bottom, top} = target.current.getBoundingClientRect();
                 start.current = [left, top];
-                bounds.current = {x: [-left + gap, window.innerWidth - right - gap], y: [-top + gap, window.innerHeight - bottom - gap]};
+                const minX = Math.min(0, -left + gap);
+                const maxX = Math.max(0, window.innerWidth - right - gap);
+                const minY = Math.min(0, -top + gap);
+                const maxY = Math.max(0, window.innerHeight - bottom - gap);
+                bounds.current = {x: [minX, maxX], y: [minY, maxY]};
+                target.current.style.willChange = "transform";
                 onDragStart?.(state);
             }
         },
@@ -50,6 +55,7 @@ export const useDraggable = ({target, disabled, onDragStart, onDrag, onDragEnd, 
                     target.current.style.top = `${start.current[1] + delta[1]}px`;
                 }
                 transit.to({x: 0, y: 0, immediate: true});
+                target.current.style.willChange = "";
                 onDragEnd?.({...state, delta});
             }
         },
