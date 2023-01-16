@@ -25,6 +25,7 @@ export interface VirtualTableProps<RowType extends object> {
      */
     scrollY?: number;
     scrollX?: number;
+    overscan?: number;
     loading?: boolean;
     emptyPlaceholder?: React.ReactElement | string | number;
     onRowClick?: (record: RowType, rowIndex: number) => void;
@@ -48,6 +49,7 @@ export const VirtualTable = Object.assign(
         onRowClick,
         scrollY,
         scrollX,
+        overscan,
         rowSelection,
         headerHeight = 50,
         rowKey = "index",
@@ -69,6 +71,7 @@ export const VirtualTable = Object.assign(
                 observeElementRect(instance, cb);
                 getColumnWidths();
             },
+            overscan,
         });
         const {headerRef, columnWidths, getColumnWidths, columnsStickyPosition} = useColumns({columns: transformedColumns});
         const {onScroll, scrollBarSize, tableBodyRef} = useScroll({scrollContentRef, headerRef, isScrollable: isVerticalScrollable});
