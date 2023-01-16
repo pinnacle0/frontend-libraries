@@ -157,8 +157,8 @@ export const NavigationData: NavigationGroupItem<TestFeaturePermission, TestFiel
                 componentType: UploaderImporterDemo,
             },
             {
-                url: "/core/resizable-div",
-                title: "Resizable Div",
+                url: "/core/resizable",
+                title: "Resizable",
                 componentType: ResizableDemo,
             },
         ],

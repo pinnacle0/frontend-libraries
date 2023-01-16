@@ -28,7 +28,7 @@ interface Props {
 
 export const Resizable = React.forwardRef<HTMLDivElement, Props>(
     ({height, width, className, id, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0}, ref) => {
-        const resizableDivRef = React.useRef<HTMLDivElement | null>(null);
+        const resizableRef = React.useRef<HTMLDivElement | null>(null);
         const startRect = React.useRef<Rect>({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
 
         const combineRef = (node: HTMLDivElement) => {
@@ -36,62 +36,62 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(
                 if (ref) {
                     typeof ref === "function" ? ref(node) : (ref.current = node);
                 }
-                resizableDivRef.current = node;
+                resizableRef.current = node;
             }
         };
 
         const onResizeStart = () => {
-            if (resizableDivRef.current) {
-                const {top, right, bottom, left, width, height} = resizableDivRef.current.getBoundingClientRect();
+            if (resizableRef.current) {
+                const {top, right, bottom, left, width, height} = resizableRef.current.getBoundingClientRect();
                 startRect.current = {top, right, bottom, left, width, height};
             }
         };
 
         const onResizeTop = (state: DragState) => {
-            if (resizableDivRef.current) {
+            if (resizableRef.current) {
                 const {top, height} = startRect.current;
                 const deltaY = state.delta[1];
                 const transformedHeight = height - deltaY;
                 if (transformedHeight < minHeight || transformedHeight > maxHeight) {
                     return;
                 }
-                resizableDivRef.current.style.top = `${top + deltaY}px`;
-                resizableDivRef.current.style.height = `${transformedHeight}px`;
+                resizableRef.current.style.top = `${top + deltaY}px`;
+                resizableRef.current.style.height = `${transformedHeight}px`;
             }
         };
 
         const onResizeRight = (state: DragState) => {
-            if (resizableDivRef.current) {
+            if (resizableRef.current) {
                 const {width} = startRect.current;
                 const transformedWidth = width + state.delta[0];
                 if (transformedWidth < minWidth || transformedWidth > maxWidth) {
                     return;
                 }
-                resizableDivRef.current.style.width = `${transformedWidth}px`;
+                resizableRef.current.style.width = `${transformedWidth}px`;
             }
         };
 
         const onResizeBottom = (state: DragState) => {
-            if (resizableDivRef.current) {
+            if (resizableRef.current) {
                 const {height} = startRect.current;
                 const transformedHeight = height + state.delta[1];
                 if (transformedHeight < minHeight || transformedHeight > maxHeight) {
                     return;
                 }
-                resizableDivRef.current.style.height = `${transformedHeight}px`;
+                resizableRef.current.style.height = `${transformedHeight}px`;
             }
         };
 
         const onResizeLeft = (state: DragState) => {
-            if (resizableDivRef.current) {
+            if (resizableRef.current) {
                 const {left, width} = startRect.current;
                 const deltaX = state.delta[0];
                 const transformedWidth = width - deltaX;
                 if (transformedWidth < minWidth || transformedWidth > maxWidth) {
                     return;
                 }
-                resizableDivRef.current.style.left = `${left + deltaX}px`;
-                resizableDivRef.current.style.width = `${transformedWidth}px`;
+                resizableRef.current.style.left = `${left + deltaX}px`;
+                resizableRef.current.style.width = `${transformedWidth}px`;
             }
         };
 

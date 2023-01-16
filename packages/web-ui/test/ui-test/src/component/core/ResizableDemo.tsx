@@ -7,7 +7,7 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Test",
         components: [
-            <Resizable height={200} width={200} maxHeight={500} maxWidth={500}>
+            <Resizable height={200} width={200} maxHeight={800} maxWidth={800}>
                 I am resizable
             </Resizable>,
         ],
