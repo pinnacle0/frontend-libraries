@@ -13,9 +13,9 @@ interface Rect {
     height: number;
 }
 
-interface Props {
-    id?: string;
-    className?: string;
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+    x: number;
+    y: number;
     height: number;
     width: number;
     minHeight?: number;
@@ -23,11 +23,10 @@ interface Props {
     maxHeight?: number;
     maxWidth?: number;
     gap?: number;
-    children?: React.ReactNode;
 }
 
 export const Resizable = React.forwardRef<HTMLDivElement, Props>(
-    ({height, width, className, id, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0}, ref) => {
+    ({height, width, x, y, className, id, style, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0, ...restProps}, ref) => {
         const resizableRef = React.useRef<HTMLDivElement | null>(null);
         const startRect = React.useRef<Rect>({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
 
@@ -96,7 +95,7 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(
         };
 
         return (
-            <div className={classNames("resizable", className)} id={id} ref={combineRef} style={{height, width}}>
+            <div className={classNames("resizable", className)} id={id} ref={combineRef} style={{...style, height, width, top: y, left: x}} {...restProps}>
                 <Resizer className="top" onResizeStart={onResizeStart} onResize={onResizeTop} gap={gap} />
                 <Resizer
                     className="top-right"
