@@ -28,6 +28,26 @@ export const Game = () => {
             <div>
                 <button onClick={() => router.push("/game/3333", {transition: "none"})}>Push with no animation</button>
             </div>
+            <div>
+                <button
+                    onClick={async () => {
+                        await router.pop();
+                        alert("popped");
+                    }}
+                >
+                    Pop with async
+                </button>
+            </div>
+            <div>
+                <button
+                    onClick={async () => {
+                        await router.replace("/game/replaced");
+                        alert("replaced");
+                    }}
+                >
+                    Replace with async
+                </button>
+            </div>
         </div>
     );
 };
