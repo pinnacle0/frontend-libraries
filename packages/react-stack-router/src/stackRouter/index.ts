@@ -8,7 +8,7 @@ import type React from "react";
 import type {History, Location, Update, To} from "history";
 import type {HistoryState, PushOption} from "../type";
 import type {StackHistory} from "./stackHistory";
-import type {Transition, TransitionType} from "../screen/transition";
+import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
@@ -20,8 +20,8 @@ export class StackRouter {
     private route = new Route<React.ComponentType<any>>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
-    private pushOption: PushOption | undefined = undefined;
-    private resolve: (() => void) | null = null;
+    private pushOption = new BurnAfterRead<PushOption>();
+    private resolve = new BurnAfterRead<() => void>();
 
     constructor(history: History) {
         this.stackHistory = createStackHistory(history);
@@ -67,21 +67,27 @@ export class StackRouter {
     }
 
     async push(to: To, option?: PushOption): Promise<void> {
-        const wait = new Promise<void>(resolve => (this.resolve = resolve));
         if (!this.matchRoute(to)) return;
-        option && (this.pushOption = option);
+
+        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
+        this.pushOption.set(option ?? null);
         this.stackHistory.push(to, option?.state);
 
         return wait;
     }
 
-    pop() {
+    async pop(): Promise<void> {
+        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
         this.stackHistory.pop();
+        return wait;
     }
 
-    replace(to: To, state?: Record<string, any>) {
+    async replace(to: To, state?: Record<string, any>): Promise<void> {
         if (!this.matchRoute(to)) return;
+
+        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
         this.stackHistory.replace(to, state);
+        return wait;
     }
 
     reset() {}
@@ -90,9 +96,9 @@ export class StackRouter {
         this.subscribers.forEach(_ => _([...this.screens]));
     }
 
-    private updateTopScreenTransition(transition: TransitionType) {
+    private getTopScreen(): Screen | null {
         const top = this.screens[this.screens.length - 1];
-        top && top.transition.update(transition);
+        return top ?? null;
     }
 
     private matchRoute(to: To) {
@@ -117,30 +123,44 @@ export class StackRouter {
     }
 
     private pushScreen(location: Location, transition: TransitionType): void {
-        const option = this.pushOption;
-        this.pushOption = undefined;
-        const resolve = this.resolve;
-        this.resolve = null;
+        const option = this.pushOption.get();
+        const resolve = this.resolve.get();
 
         const screen = this.createScreen(location, option?.transition ?? transition);
-        if (!screen) return;
-        if (resolve) screen.lifecycle.attachOnce("didEnter", resolve);
+        if (!screen) {
+            resolve?.();
+            return;
+        }
+
+        resolve && screen.lifecycle.attachOnce("didEnter", resolve);
         this.screens.push(screen);
         this.notify();
     }
 
-    private popScreen(transition?: TransitionType) {
-        transition && this.updateTopScreenTransition(transition);
+    private popScreen(transition: TransitionType) {
+        const resolve = this.resolve.get();
+        const top = this.getTopScreen();
+
+        top?.transition.update(transition);
+        top ? top.lifecycle.attachOnce("didExit", () => resolve?.()) : resolve?.();
         this.screens.pop();
         this.notify();
     }
 
     private replaceScreen(location: Location) {
-        this.updateTopScreenTransition("none");
+        const resolve = this.resolve.get();
+        const top = this.getTopScreen();
+
+        top?.transition.update("none");
         this.screens.pop();
 
         const screen = this.createScreen(location, "exiting");
-        if (!screen) return;
+        if (!screen) {
+            resolve?.();
+            return;
+        }
+
+        resolve && screen.lifecycle.attachOnce("didEnter", resolve);
         this.screens.push(screen);
         this.notify();
     }
@@ -157,5 +177,19 @@ export class StackRouter {
                 this.replaceScreen(location);
                 break;
         }
+    }
+}
+
+class BurnAfterRead<T> {
+    constructor(private value: T | null = null) {}
+
+    set(newValue: T | null) {
+        this.value = newValue;
+    }
+
+    get(): T | null {
+        const current = this.value;
+        this.value = null;
+        return current;
     }
 }
