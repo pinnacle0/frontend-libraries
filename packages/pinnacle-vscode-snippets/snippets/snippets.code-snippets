@@ -53,7 +53,7 @@
         "prefix": "rumemo",
         "body": [
             "import React from 'react';",
-            "import {ReactUtil} from '@pinnacle0/util';",
+            "import {ReactUtil} from '@pinnacle0/web-ui/util/ReactUtil';",
             "",
             "export const ${1:${TM_FILEPATH/^.*[\\/\\\\]([^\\/\\\\].+)[\\/\\\\]index\\.tsx?$|.*[\\/\\\\](.+)\\.tsx?$/$1$2/}} = ReactUtil.memo('$1', () => {",
             "\t",
