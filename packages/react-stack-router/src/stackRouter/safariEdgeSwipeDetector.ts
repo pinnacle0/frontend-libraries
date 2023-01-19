@@ -5,12 +5,12 @@
  * therefore, if there are any popstate event fired within 300ms after above scenarios, it recognized as a native swipe back pop event
  */
 export function createSafariEdgeSwipeDetector() {
-    const isForwordSwipe = new TimeoutFalseValue(200);
+    let isForwordSwipe = false;
     const isBackwardSwipe = new TimeoutFalseValue(200);
 
     return {
         get isForwardPop(): boolean {
-            return isForwordSwipe.value;
+            return isForwordSwipe;
         },
 
         get isBackwardPop(): boolean {
@@ -19,15 +19,15 @@ export function createSafariEdgeSwipeDetector() {
 
         attach(): () => void {
             const start = (event: TouchEvent) => {
-                if (Array.from(event.changedTouches).some(touch => window.innerWidth - touch.clientX < 20)) isForwordSwipe.value = true;
+                if (Array.from(event.changedTouches).some(touch => window.innerWidth - touch.clientX < 20)) isForwordSwipe = true;
             };
             const end = (event: TouchEvent) => {
-                isForwordSwipe.value = false;
+                isForwordSwipe = false;
                 if (Array.from(event.changedTouches).some(touch => touch.clientX < 0)) isBackwardSwipe.value = true;
             };
 
             const cancel = () => {
-                isForwordSwipe.value = false;
+                isForwordSwipe = false;
                 isBackwardSwipe.value = false;
             };
 
