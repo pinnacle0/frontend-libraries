@@ -1,5 +1,5 @@
 import React from "react";
-import type {DragHandler} from "../../hooks/useDrag/type";
+import type {DragHandler} from "../../hooks/useDraggable/type";
 import {useDraggable} from "../../hooks/useDraggable";
 import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";

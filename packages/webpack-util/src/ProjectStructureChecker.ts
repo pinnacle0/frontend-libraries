@@ -67,17 +67,21 @@ export class ProjectStructureChecker {
     }
 
     private checkPackageJSON() {
+        const startWithDigit = /^\d/;
+        const startWithWorkSpace = /^workspace:/;
         if (!(fs.existsSync(this.packageJSONPath) && fs.statSync(this.packageJSONPath).isFile())) {
             throw new Error(`Cannot find package.json at "${this.packageJSONPath}".`);
         }
         const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(this.packageJSONPath, {encoding: "utf8"}));
         for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.dependencies || {})) {
-            if (!/^\d/.test(depVersion)) {
+            if (startWithWorkSpace.test(depVersion)) continue;
+            if (!startWithDigit.test(depVersion)) {
                 throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
             }
         }
         for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.devDependencies || {})) {
-            if (!/^\d/.test(depVersion)) {
+            if (startWithWorkSpace.test(depVersion)) continue;
+            if (!startWithDigit.test(depVersion)) {
                 throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
             }
         }

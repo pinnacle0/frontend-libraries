@@ -1,7 +1,7 @@
 import React from "react";
 import {Resizer} from "./Resizer";
 import {classNames} from "../../util/ClassNames";
-import type {DragState} from "../../hooks/useDrag/type";
+import type {DragState} from "../../hooks/useDraggable/type";
 import "./index.less";
 
 interface Rect {
@@ -16,8 +16,8 @@ interface Rect {
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     x: number;
     y: number;
-    height: number;
-    width: number;
+    initialHeight: number;
+    initialWidth: number;
     minHeight?: number;
     minWidth?: number;
     maxHeight?: number;
@@ -26,11 +26,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Resizable = React.forwardRef<HTMLDivElement, Props>(
-    ({height, width, x, y, className, id, style, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0, ...restProps}, ref) => {
+    ({initialHeight, initialWidth, x, y, className, style, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0, ...restProps}, ref) => {
         const resizableRef = React.useRef<HTMLDivElement | null>(null);
         const startRect = React.useRef<Rect>({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
 
-        const combineRef = (node: HTMLDivElement) => {
+        const compositeRef = (node: HTMLDivElement) => {
             if (node) {
                 if (ref) {
                     typeof ref === "function" ? ref(node) : (ref.current = node);
@@ -95,7 +95,7 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(
         };
 
         return (
-            <div className={classNames("resizable", className)} id={id} ref={combineRef} style={{...style, height, width, top: y, left: x}} {...restProps}>
+            <div className={classNames("g-resizable", className)} ref={compositeRef} style={{...style, height: initialHeight, width: initialWidth, top: y, left: x}} {...restProps}>
                 <Resizer className="top" onResizeStart={onResizeStart} onResize={onResizeTop} gap={gap} />
                 <Resizer
                     className="top-right"
@@ -136,7 +136,7 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(
                         onResizeLeft(state);
                     }}
                 />
-                {children}
+                <div className="g-resizable-body">{children}</div>
             </div>
         );
     }
