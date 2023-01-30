@@ -37,6 +37,7 @@ export const ScreenComponent = (props: Props) => {
         const animation = el.animate(keyframes, {
             duration: transition.duration,
             easing: "cubic-bezier(.05,.74,.3,1.01)",
+            fill: "forwards",
         });
 
         animation.onfinish = () => lifecycle.trigger("didEnter");
@@ -59,6 +60,7 @@ export const ScreenComponent = (props: Props) => {
         const animation = el.animate(keyframes, {
             duration: transition.duration,
             easing: "cubic-bezier(.05,.74,.3,1.01)",
+            fill: "forwards",
         });
 
         animation.onfinish = () => {
