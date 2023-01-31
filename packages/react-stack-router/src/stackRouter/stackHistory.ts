@@ -21,8 +21,8 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
     let timestamp = Date.now();
     let currentLocation = history.location;
 
-    const createInternalState = (state?: S): InternalState => {
-        return {__createAt: timestamp++, ...(state ?? {})};
+    const createInternalState = (state?: S, createAt?: number): InternalState => {
+        return {__createAt: createAt ?? timestamp++, ...(state ?? {})};
     };
 
     const push = (to: To, state?: S) => {
@@ -34,7 +34,7 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
     };
 
     const replace = (to: To, state?: S) => {
-        history.replace(to, createInternalState(state));
+        history.replace(to, createInternalState(state, (currentLocation.state as InternalState)?.__createAt));
     };
 
     const listen = (listener: Listener) => {
