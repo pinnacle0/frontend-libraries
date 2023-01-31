@@ -5,6 +5,7 @@
 # Artifacts
 **/build/**
 **/dist/**
+**/lib/**
 !/packages/eslint-plugin/dist/**
 
 # Dependencies

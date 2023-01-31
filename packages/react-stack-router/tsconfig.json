@@ -5,6 +5,7 @@
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "jsx": "react-jsx",
         "rootDir": "./src",
+        "outDir": "./lib",
         "types": []
     },
     "include": ["./src"]
