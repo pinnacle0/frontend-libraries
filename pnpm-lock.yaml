@@ -197,6 +197,7 @@ importers:
       less: 4.1.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    publishDirectory: .
 
   packages/react-stack-router/demo:
     specifiers:
