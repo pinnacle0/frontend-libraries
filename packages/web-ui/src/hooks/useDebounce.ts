@@ -2,7 +2,7 @@ import React from "react";
 
 type Callback<T extends any[]> = (...args: T) => void;
 
-export const useDebounce = function <Param extends any[]>(callback: Callback<Param>) {
+export const useDebounce = function <Param extends any[]>(callback: Callback<Param>, wait: number) {
     const idRef = React.useRef<number>();
     const callbackRef = React.useRef(callback);
     callbackRef.current = callback;
@@ -12,10 +12,10 @@ export const useDebounce = function <Param extends any[]>(callback: Callback<Par
             clearTimeout(idRef.current);
             idRef.current = window.setTimeout(() => {
                 callbackRef.current(...args);
-            }, 100);
+            }, wait);
         };
-    }, []);
+    }, [wait]);
 
     React.useEffect(() => () => clearTimeout(idRef.current), []);
-    return React.useMemo(() => debounce(), [debounce]);
+    return debounce;
 };
