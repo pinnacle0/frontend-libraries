@@ -17,5 +17,5 @@ export const useDebounce = function <Param extends any[]>(callback: Callback<Par
     }, [wait]);
 
     React.useEffect(() => () => clearTimeout(idRef.current), []);
-    return debounce;
+    return React.useMemo(() => debounce(), [debounce]);
 };
