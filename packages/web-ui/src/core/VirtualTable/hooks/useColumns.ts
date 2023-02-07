@@ -21,7 +21,7 @@ interface Props<RowType extends object> {
 export function useColumns<RowType extends object>({columns}: Props<RowType>) {
     const {columnWidths, headerRef, getColumnWidths} = useColumnWidths();
     const columnsStickyPosition = useColumnsStickyPosition(columns, columnWidths);
-    const debouncedGetColumnWidths = useDebounce(getColumnWidths);
+    const debouncedGetColumnWidths = useDebounce(getColumnWidths, 100);
 
     const handler = React.useCallback(
         (event: TransitionEvent | AnimationEvent) => {
