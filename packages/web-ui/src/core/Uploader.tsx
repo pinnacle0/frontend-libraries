@@ -104,7 +104,6 @@ export class Uploader<SuccessResponseType, ErrorResponseType> extends React.Pure
                 action={uploadURL}
                 onChange={this.onUpload}
                 disabled={this.state.uploading || disabled}
-                height={Number(style?.height)}
                 beforeUpload={beforeUpload}
                 headers={this.uploadHeader}
             >
