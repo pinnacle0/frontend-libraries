@@ -32,6 +32,7 @@ export interface Props<T extends object> {
     overscan?: number;
     observeElementRect?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementRect"];
     observeElementOffset?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementOffset"];
+    id?: string;
     className?: string;
     listRef?: React.Ref<VirtualListHandler>;
 }
@@ -49,6 +50,7 @@ export function VirtualList<T extends object>({
     observeElementOffset,
     fixedSize,
     observeElementRect,
+    id,
     className,
     listRef,
 }: Props<T>) {
@@ -80,7 +82,7 @@ export function VirtualList<T extends object>({
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
     return (
-        <div className={classNames("g-virtual-list", className, {horizontal})} ref={parentRef}>
+        <div id={id} className={classNames("g-virtual-list", className, {horizontal})} ref={parentRef}>
             <div className="g-virtual-list-inner" style={horizontal ? {width: virtualizer.getTotalSize()} : {height: virtualizer.getTotalSize()}}>
                 {virtualizer.getVirtualItems().map(virtualRow => (
                     <div
