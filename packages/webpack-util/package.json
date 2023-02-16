@@ -43,7 +43,7 @@
         "@types/fs-extra": "9.0.13",
         "@types/html-webpack-plugin": "3.2.6",
         "@types/yargs": "17.0.19",
-        "typescript": "4.9.4"
+        "typescript": "4.9.5"
     },
     "engines": {
         "node": ">= 16.15.0"
