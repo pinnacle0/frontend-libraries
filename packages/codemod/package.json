@@ -36,8 +36,8 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@types/fs-extra": "9.0.13",
-        "@types/glob": "8.0.0",
-        "@types/yargs": "17.0.19"
+        "@types/fs-extra": "11.0.1",
+        "@types/glob": "8.0.1",
+        "@types/yargs": "17.0.22"
     }
 }

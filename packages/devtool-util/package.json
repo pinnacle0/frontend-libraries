@@ -28,8 +28,8 @@
         "directory": "build"
     },
     "devDependencies": {
-        "@types/fs-extra": "9.0.13",
-        "@types/yargs": "17.0.19",
+        "@types/fs-extra": "11.0.1",
+        "@types/yargs": "17.0.22",
         "fs-extra": "11.1.0"
     }
 }
