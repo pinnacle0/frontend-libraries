@@ -3,7 +3,7 @@
 /** @type {import("stylelint").Config} */
 module.exports = {
     customSyntax: "postcss-less",
-    extends: ["stylelint-config-standard", "stylelint-config-prettier"],
+    extends: ["stylelint-config-standard"],
     rules: {
         "no-descending-specificity": null,
         "rule-empty-line-before": ["always", {except: ["first-nested", "after-single-line-comment"]}],
