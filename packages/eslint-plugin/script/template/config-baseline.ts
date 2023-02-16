@@ -127,6 +127,7 @@ export const baseline: ESLint.Linter.Config = {
         "no-useless-computed-key": ["error"],
         "no-useless-rename": ["error"],
         "no-var": ["error"],
+        "no-constant-condition": ["error", { "checkLoops": false }],
         "object-shorthand": ["error"],
         "prefer-const": ["error"],
         "require-yield": "off",
