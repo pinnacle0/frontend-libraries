@@ -2,14 +2,14 @@ import React from "react";
 
 export function usePrevious<T>(value: T) {
     const ref = React.useRef({
-        lastest: value,
+        latest: value,
         previous: value,
     });
 
-    if (value !== ref.current.lastest) {
+    if (value !== ref.current.latest) {
         ref.current = {
-            lastest: value,
-            previous: ref.current.lastest,
+            latest: value,
+            previous: ref.current.latest,
         };
     }
 
