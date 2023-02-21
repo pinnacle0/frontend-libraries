@@ -11,8 +11,8 @@ import React from "react";
  */
 export function useBool(initialValue: boolean = false): [boolean, () => void, () => void] {
     const [value, setValue] = React.useState(initialValue);
-    const setValueToTrue = React.useCallback(() => setValue(true), [setValue]);
-    const setValueToFalse = React.useCallback(() => setValue(false), [setValue]);
+    const setValueToTrue = React.useCallback(() => setValue(true), []);
+    const setValueToFalse = React.useCallback(() => setValue(false), []);
 
     return [value, setValueToTrue, setValueToFalse];
 }
