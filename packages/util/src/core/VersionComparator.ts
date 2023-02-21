@@ -17,7 +17,6 @@ function compare(currentVersion: string, latestVersion: string): ComparisonResul
     }
 
     // Patch Version might be undefined
-    // TODO/Jamyth update test and release
     const [currentMajor, currentMinor, currentPatch = 0] = currentVersion.split(".").map(Number) as [number, number, number?];
     const [latestMajor, latestMinor, latestPatch = 0] = latestVersion.split(".").map(Number) as [number, number, number?];
 
