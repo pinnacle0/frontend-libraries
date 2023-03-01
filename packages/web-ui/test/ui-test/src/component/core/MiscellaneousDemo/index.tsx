@@ -9,11 +9,11 @@ import {WithTooltipList} from "@pinnacle0/web-ui/core/WithTooltipList";
 import {Breadcrumb} from "@pinnacle0/web-ui/core/Breadcrumb";
 import {MultipleSelector} from "@pinnacle0/web-ui/core/MultipleSelector";
 import {Pagination} from "@pinnacle0/web-ui/core/Pagination";
+import type {MockTableData} from "../../../dummy/dummyTableData";
 import {dummyTableColumns, generateDummyTableData} from "../../../dummy/dummyTableData";
 import {generateDummyStrings} from "../../../dummy/dummyList";
-import type {MockTableData} from "../../../dummy/dummyTableData";
-import {DemoHelper} from "../../DemoHelper";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
+import {DemoHelper} from "../../DemoHelper";
 import {TagInputDemo} from "./TagInputDemo";
 
 const DemoPagedList = () => {
@@ -107,16 +107,20 @@ const groups: DemoHelperGroupConfig[] = [
         title: "VerticalMarquee",
         showPropsHint: false,
         components: [
-            <VerticalMarquee height={100}>
-                {generateDummyStrings(10).map(entry => {
-                    return <div key={entry}>{entry}</div>;
-                })}
-            </VerticalMarquee>,
-            <VerticalMarquee height={80}>
-                {generateDummyStrings(5).map(entry => {
-                    return <div key={entry}>{entry}</div>;
-                })}
-            </VerticalMarquee>,
+            <div style={{height: 100}}>
+                <VerticalMarquee>
+                    {generateDummyStrings(10).map(entry => {
+                        return <div key={entry}>{entry}</div>;
+                    })}
+                </VerticalMarquee>
+            </div>,
+            <div style={{height: 80}}>
+                <VerticalMarquee>
+                    {generateDummyStrings(5).map(entry => {
+                        return <div key={entry}>{entry}</div>;
+                    })}
+                </VerticalMarquee>
+            </div>,
         ],
     },
     {

@@ -4,7 +4,6 @@ import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props {
-    height: number;
     children: React.ReactNode;
     className?: string;
     styles?: React.CSSProperties;
@@ -16,9 +15,11 @@ export interface State {
     paused: boolean;
 }
 
-export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: extraClassName, speed, height, styles, children}: Props) => {
+export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: extraClassName, speed, styles, children}: Props) => {
     const [contentHeight, setContentHeight] = React.useState(0);
     const animationSpeed = contentHeight / (speed || 30);
+
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     const marqueeInnerRef = React.useCallback((node: HTMLDivElement | null) => {
         if (!node) {
@@ -35,13 +36,15 @@ export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: ex
         [animationSpeed, contentHeight]
     );
 
-    const pageSize = contentHeight / height;
+    const pageSize = contentHeight / (containerRef.current?.offsetHeight || 1);
 
     return (
-        <div className={classNames("g-marquee", extraClassName)} style={{...styles, height}}>
-            <div ref={marqueeInnerRef} className="inner" style={pageSize > 1 ? marqueeInnerAnimationStyle : undefined}>
-                {children}
-                {children}
+        <div ref={containerRef} className="g-marquee-container">
+            <div className={classNames("g-marquee", extraClassName)} style={{...styles, height: containerRef.current?.offsetHeight}}>
+                <div ref={marqueeInnerRef} className="inner" style={pageSize > 1 ? marqueeInnerAnimationStyle : undefined}>
+                    {children}
+                    {children}
+                </div>
             </div>
         </div>
     );

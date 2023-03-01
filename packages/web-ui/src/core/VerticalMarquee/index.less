@@ -4,10 +4,14 @@
     }
 }
 
-.g-marquee {
-    overflow: hidden;
+.g-marquee-container {
+    height: 100%;
 
-    .inner:hover {
-        animation-play-state: paused !important;
+    > .g-marquee {
+        overflow: hidden;
+
+        .inner:hover {
+            animation-play-state: paused !important;
+        }
     }
 }
