@@ -4,14 +4,12 @@
     }
 }
 
-.g-marquee-container {
+.g-marquee {
     height: 100%;
+    flex: 1;
+    overflow: hidden;
 
-    > .g-marquee {
-        overflow: hidden;
-
-        .inner:hover {
-            animation-play-state: paused !important;
-        }
+    .inner:hover {
+        animation-play-state: paused !important;
     }
 }

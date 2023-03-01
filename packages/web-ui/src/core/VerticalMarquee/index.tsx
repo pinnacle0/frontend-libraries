@@ -1,7 +1,8 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
+import "../../internal/polyfill/ResizeObserver";
+import "./index.less";
 
 export interface Props {
     children: React.ReactNode;
@@ -16,17 +17,20 @@ export interface State {
 }
 
 export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: extraClassName, speed, styles, children}: Props) => {
+    const [containerHeight, setContainerHeight] = React.useState(0);
     const [contentHeight, setContentHeight] = React.useState(0);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const animationSpeed = contentHeight / (speed || 30);
 
-    const containerRef = React.useRef<HTMLDivElement>(null);
-
-    const marqueeInnerRef = React.useCallback((node: HTMLDivElement | null) => {
-        if (!node) {
-            return;
-        }
-        setContentHeight(node?.clientHeight);
+    const getContainerHeight = React.useCallback(() => {
+        if (!containerRef.current) return;
+        setContainerHeight(containerRef.current.clientHeight);
     }, []);
+
+    const marqueeInnerRef = (node: HTMLDivElement | null) => {
+        if (!node) return;
+        setContentHeight(node?.clientHeight);
+    };
 
     const marqueeInnerAnimationStyle: React.CSSProperties = React.useMemo(
         () => ({
@@ -36,15 +40,26 @@ export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: ex
         [animationSpeed, contentHeight]
     );
 
-    const pageSize = contentHeight / (containerRef.current?.offsetHeight || 1);
+    const pageSize = contentHeight / containerHeight;
+
+    React.useEffect(() => {
+        if (containerRef.current) {
+            getContainerHeight();
+
+            const observer = new ResizeObserver(entries => {
+                const target = entries.find(entry => entry.target === containerRef.current);
+                target && getContainerHeight();
+            });
+            observer.observe(containerRef.current);
+            return observer.disconnect;
+        }
+    }, [getContainerHeight]);
 
     return (
-        <div ref={containerRef} className="g-marquee-container">
-            <div className={classNames("g-marquee", extraClassName)} style={{...styles, height: containerRef.current?.offsetHeight}}>
-                <div ref={marqueeInnerRef} className="inner" style={pageSize > 1 ? marqueeInnerAnimationStyle : undefined}>
-                    {children}
-                    {children}
-                </div>
+        <div className={classNames("g-marquee", extraClassName)} ref={containerRef} style={styles}>
+            <div ref={marqueeInnerRef} className="inner" style={pageSize > 1 ? marqueeInnerAnimationStyle : undefined}>
+                {children}
+                {children}
             </div>
         </div>
     );
