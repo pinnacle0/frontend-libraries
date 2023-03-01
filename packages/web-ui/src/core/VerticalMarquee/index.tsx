@@ -51,7 +51,7 @@ export const VerticalMarquee = ReactUtil.memo("VerticalMarquee", ({className: ex
                 target && getContainerHeight();
             });
             observer.observe(containerRef.current);
-            return observer.disconnect;
+            return () => observer.disconnect();
         }
     }, [getContainerHeight]);
 
