@@ -15,6 +15,7 @@ import {generateDummyStrings} from "../../../dummy/dummyList";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
 import {TagInputDemo} from "./TagInputDemo";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 
 const DemoPagedList = () => {
     const data = new Array(15).fill(0).map((_, index) => ({a: index}));
@@ -31,6 +32,25 @@ const DemoBreadcrumb = () => {
     }));
 
     return <Breadcrumb data={data} onClick={_ => alert(_.name)} renderItem={renderItem} itemKey="name" />;
+};
+
+const VerticalMarqueeDemo = () => {
+    const [data, setData] = React.useState(generateDummyStrings(10));
+
+    const onButtonClick = () => setData(data => [...data, ...generateDummyStrings(10)]);
+
+    return (
+        <React.Fragment>
+            <Button onClick={onButtonClick}>add 10 items</Button>
+            <div style={{height: 150, width: 250}}>
+                <VerticalMarquee>
+                    {data.map(entry => {
+                        return <div key={entry}>{entry}</div>;
+                    })}
+                </VerticalMarquee>
+            </div>
+        </React.Fragment>
+    );
 };
 
 const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "button" | "table"}) => {
@@ -106,22 +126,7 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "VerticalMarquee",
         showPropsHint: false,
-        components: [
-            <div style={{height: 100}}>
-                <VerticalMarquee>
-                    {generateDummyStrings(10).map(entry => {
-                        return <div key={entry}>{entry}</div>;
-                    })}
-                </VerticalMarquee>
-            </div>,
-            <div style={{height: 80}}>
-                <VerticalMarquee>
-                    {generateDummyStrings(5).map(entry => {
-                        return <div key={entry}>{entry}</div>;
-                    })}
-                </VerticalMarquee>
-            </div>,
-        ],
+        components: [<VerticalMarqueeDemo />],
     },
     {
         title: "Markdown",
