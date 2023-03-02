@@ -86,7 +86,7 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
         const {isSending, nextSendRemainingSecond} = this.state;
         const t = i18n();
         const sendButton = (
-            <Button className="g-auth-code-input-send-button" size="small" disabled={nextSendRemainingSecond !== null || isSending} onClick={this.onSend}>
+            <Button className="g-auth-code-input-send-button" size="small" disabled={inputProps.disabled || nextSendRemainingSecond !== null || isSending} onClick={this.onSend}>
                 {nextSendRemainingSecond ? TextUtil.interpolate(t.waitResendAuthCode, nextSendRemainingSecond.toString()) : sendButtonText || t.sendAuthCode}
             </Button>
         );
