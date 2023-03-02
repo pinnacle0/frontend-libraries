@@ -4,7 +4,7 @@ import "antd/es/popover/style";
 import React from "react";
 import "./index.less";
 
-interface Props extends PopoverProps {}
+export interface Props extends PopoverProps {}
 
 export class Popover extends React.PureComponent<Props> {
     static displayName = "Popover";
