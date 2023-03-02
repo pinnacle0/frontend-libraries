@@ -7,7 +7,6 @@
         "node": ">=16.15.0"
     },
     "scripts": {
-        "canadyarn": "canadyarn",
         "postinstall": "psv check"
     },
     "devDependencies": {
