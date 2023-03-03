@@ -41,7 +41,7 @@ function openVideo(url: string) {
     });
 }
 
-function playAudio(url: string, amplitude: number = 1) {
+function playAudio(url: string) {
     try {
         /**
          * Attention:
@@ -49,13 +49,6 @@ function playAudio(url: string, amplitude: number = 1) {
          * (2) For modern browsers, if the user never has interaction with the page, play() will reject.
          */
         const elementSource = new Audio(url);
-        elementSource.crossOrigin = "anonymous";
-        const audioCtx = new AudioContext();
-        const source = audioCtx.createMediaElementSource(elementSource);
-        const gainNode = audioCtx.createGain();
-        gainNode.gain.value = amplitude;
-        source.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
         elementSource.play().catch(() => {});
     } catch (e) {
         // Do nothing
