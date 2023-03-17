@@ -9,14 +9,17 @@ export function useDelayedWhen<T>(value: T, when: (value: T) => boolean, exceede
     const whenRef = React.useRef(when);
     whenRef.current = when;
 
+    const exceededRef = React.useRef(exceeded);
+    exceededRef.current = exceeded;
+
     React.useEffect(() => {
-        if (value === whenRef.current(value)) {
-            const id = window.setTimeout(() => setDelayed(value), exceeded);
+        if (whenRef.current(value)) {
+            const id = window.setTimeout(() => setDelayed(value), exceededRef.current);
             return () => window.clearTimeout(id);
         } else {
             setDelayed(value);
         }
-    }, [value, exceeded]);
+    }, [value]);
 
     return delayed;
 }
