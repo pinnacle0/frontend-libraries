@@ -20,8 +20,8 @@ export class TestRunner {
             const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(packageJSONPath, {encoding: "utf8"}));
 
             if (packageJSONContents?.scripts?.test) {
-                this.logger.task("Running `yarn test` at " + directory);
-                Utility.runCommand("yarn", ["--cwd", directory, "test"]);
+                this.logger.task("Running `pnpm run test` at " + directory);
+                Utility.runCommand("pnpm", ["--dir", directory, "run", "test"]);
             }
         }
     }
