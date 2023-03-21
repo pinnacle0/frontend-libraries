@@ -29,15 +29,15 @@
         "@babel/parser": "7.21.3",
         "ast-types": "0.14.2",
         "chalk": "4.1.2",
-        "fs-extra": "11.1.0",
+        "fs-extra": "11.1.1",
         "glob": "8.1.0",
         "recast": "0.22.0",
-        "yargs": "17.6.2"
+        "yargs": "17.7.1"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/fs-extra": "11.0.1",
         "@types/glob": "8.0.1",
-        "@types/yargs": "17.0.22"
+        "@types/yargs": "17.0.23"
     }
 }
