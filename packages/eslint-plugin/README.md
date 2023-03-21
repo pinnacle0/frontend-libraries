@@ -12,7 +12,7 @@ all these plugins and presets ("peer dependencies").
 1.  Install @pinnacle0/eslint-plugin and the required peer dependencies:
 
     ```sh
-    $ yarn add --dev --exact \
+    $ pnpm install --dev \
       @pinnacle/eslint-plugin \
       eslint \
       @typescript-eslint/parser \
@@ -22,7 +22,7 @@ all these plugins and presets ("peer dependencies").
       eslint-plugin-react-hooks \
       eslint-plugin-import \
       eslint-plugin-eslint-comments
-    
+
     ```
 
 2.  Create `.eslintrc.js` at the project root directory:
@@ -47,7 +47,7 @@ all these plugins and presets ("peer dependencies").
 
 4.  Run linter:
     ```sh
-    $ yarn lint
+    $ pnpm lint
     ```
 
 ## Upgrading
@@ -57,7 +57,7 @@ It is recommended to use the latest version of all packages.
 1. To upgrade, run (use arrow keys and space to select packages):
 
     ```sh
-    $ yarn upgrade-interactive --latest
+    $ pnpm up -iLr
     ```
 
 2. Commit your changes:
@@ -66,13 +66,7 @@ It is recommended to use the latest version of all packages.
     $ git commit -am "Upgraded dependencies"
     ```
 
-3. To make sure transitive dependencies locked by `yarn.lock` can also be upgraded, run:
-
-    ```sh
-    $ npx yarn-deduplicate
-    ```
-
-4. Review the changes of `yarn.lock` if they make sense, then commit your changes:
+3. Review the changes of `pnpm-lock.yaml` if they make sense, then commit your changes:
     ```sh
     $ git commit -a --amend --no-edit
     ```

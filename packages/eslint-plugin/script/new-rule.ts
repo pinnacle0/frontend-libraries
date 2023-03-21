@@ -12,7 +12,7 @@ const directory = {
 
 const newRuleName = yargs.parseSync()._[0];
 if (typeof newRuleName !== "string") {
-    throw new Error("Missing positional cli argument (new rule name), usage: yarn new-rule custom-new-eslint-rule-name");
+    throw new Error("Missing positional cli argument (new rule name), usage: pnpm new-rule custom-new-eslint-rule-name");
 }
 const newRuleFile = path.join(directory.srcRules, `${newRuleName}.ts`);
 const newTestFile = path.join(directory.testRules, `${newRuleName}.test.ts`);
