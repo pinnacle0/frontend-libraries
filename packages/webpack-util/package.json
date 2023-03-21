@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-        "@swc/core": "1.3.41",
+        "@swc/core": "1.3.38",
         "autoprefixer": "10.4.14",
         "css-loader": "6.7.3",
         "css-minimizer-webpack-plugin": "4.2.2",
