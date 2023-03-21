@@ -93,7 +93,11 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         super(props);
         const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
         const defaultConfig = ArrayUtil.toObject(columnsCustomizedKeyList, key => [key, true]);
-        const savedConfig = LocalStorageUtil.getObject(this.storageKey, defaultConfig, item => columnsCustomizedKeyList.some(_ => item[_] !== undefined));
+        const savedConfig = LocalStorageUtil.getObject(
+            this.storageKey,
+            defaultConfig,
+            item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<any, any>)[_] !== undefined)
+        );
 
         this.canCustomized = Object.keys(defaultConfig).length > 0;
         this.state = {customizationConfig: savedConfig};
