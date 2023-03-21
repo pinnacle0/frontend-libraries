@@ -10,13 +10,13 @@
         "postinstall": "psv check"
     },
     "devDependencies": {
-        "@types/eslint": "8.21.1",
+        "@types/eslint": "8.21.3",
         "@types/jest": "29.4.0",
         "@types/node": "18.13.0",
-        "@typescript-eslint/eslint-plugin": "5.52.0",
-        "@typescript-eslint/parser": "5.52.0",
-        "eslint": "8.34.0",
-        "eslint-config-prettier": "8.6.0",
+        "@typescript-eslint/eslint-plugin": "5.56.0",
+        "@typescript-eslint/parser": "5.56.0",
+        "eslint": "8.36.0",
+        "eslint-config-prettier": "8.8.0",
         "eslint-plugin-eslint-comments": "3.2.0",
         "eslint-plugin-import": "2.27.5",
         "eslint-plugin-react": "7.32.2",
