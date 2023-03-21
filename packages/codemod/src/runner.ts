@@ -1,9 +1,10 @@
 import chalk from "chalk";
 import fs from "fs-extra";
+import {glob} from "glob";
 import path from "path";
-import {globPromise, resolveCodemod} from "./util";
-import type {Codemod, CreateToolkitOptions} from "./type";
+import {resolveCodemod} from "./util";
 import {createToolkit} from "./toolkit";
+import type {Codemod, CreateToolkitOptions} from "./type";
 
 export interface Options extends CreateToolkitOptions {
     dry?: boolean;
@@ -23,7 +24,7 @@ export async function runner(type: Codemod, paths: string[] | string, options: O
     if (Array.isArray(paths)) {
         matchedPaths = paths.map(_ => (path.isAbsolute(_) ? _ : path.resolve(process.cwd(), _)));
     } else {
-        matchedPaths = await globPromise(paths, {});
+        matchedPaths = await glob(paths, {});
     }
 
     for (const matchedPath of matchedPaths) {
