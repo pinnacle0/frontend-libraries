@@ -26,15 +26,3 @@ export async function resolveCodemod(type: Codemod): Promise<Transform | null> {
         return null;
     }
 }
-
-export function globPromise(path: string, options: glob.IOptions): Promise<string[]> {
-    return new Promise<string[]>((resolve, reject) => {
-        glob(path, options, (error, matches) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(matches);
-            }
-        });
-    });
-}
