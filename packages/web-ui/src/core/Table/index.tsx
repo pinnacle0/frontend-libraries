@@ -96,7 +96,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         const savedConfig = LocalStorageUtil.getObject(
             this.storageKey,
             defaultConfig,
-            item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<any, any>)[_] !== undefined)
+            item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<string, any>)[_] !== undefined)
         );
 
         this.canCustomized = Object.keys(defaultConfig).length > 0;
