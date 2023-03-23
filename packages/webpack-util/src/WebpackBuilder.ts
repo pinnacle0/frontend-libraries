@@ -89,7 +89,9 @@ export class WebpackBuilder {
 
     private copyStatic() {
         this.logger.task("Copying static assets to build dist folder");
-        fs.copySync(this.projectStaticDirectory, this.outputDirectory, {dereference: true});
+        if (fs.existsSync(this.projectStaticDirectory)) {
+            fs.copySync(this.projectStaticDirectory, this.outputDirectory, {dereference: true});
+        }
     }
 
     private bundleByWebpack() {
