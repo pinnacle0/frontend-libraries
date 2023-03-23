@@ -13,7 +13,7 @@ export class RegExpUtil {
         if (escapedPatterns.length < 1) {
             return /node_modules/;
         }
-        return new RegExp(`node_modules\\/(?!${escapedPatterns.join("|")})`);
+        return new RegExp(`node_modules\\/(?!.*(${escapedPatterns.join("|")})).*`);
     }
 
     private static validateFileExtension(ext: string): void {
