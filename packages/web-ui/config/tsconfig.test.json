@@ -9,7 +9,6 @@
         "isolatedModules": true,
         "jsx": "react",
         "sourceMap": true,
-        "suppressImplicitAnyIndexErrors": true,
         "exactOptionalPropertyTypes": false,
         "baseUrl": "../test",
         "paths": {

@@ -7,8 +7,7 @@
         "outDir": "../build/esm/",
         "rootDir": "../src/",
         "declaration": true,
-        "isolatedModules": true,
-        "suppressImplicitAnyIndexErrors": true
+        "isolatedModules": true
     },
     "include": ["../src/"]
 }
