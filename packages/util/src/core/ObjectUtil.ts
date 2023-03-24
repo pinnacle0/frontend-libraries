@@ -11,7 +11,7 @@ function firstKey<T extends object>(object: T): keyof T | null {
  * - Null-case Handling
  * - implement own Object.assign, prevent different behavior of Object.assign in old version browser
  */
-function safeAssign<T extends object | undefined | null>(object: T, updatedFields: Partial<NonNullable<T>> | undefined | null): T {
+function safeAssign<T extends Record<any, any> | undefined | null>(object: T, updatedFields: Partial<NonNullable<T>> | undefined | null): T {
     if (object && updatedFields) {
         for (const key of Object.keys(updatedFields)) {
             object[key] = updatedFields[key];
@@ -25,8 +25,11 @@ function safeAssign<T extends object | undefined | null>(object: T, updatedField
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
-function toObject<T extends object, V>(object: T, mapperCallback: (key: keyof T, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): Record<keyof T, WithoutUndefined<V>> {
-    const newObject = {};
+function toObject<T extends Record<any, any>, V>(
+    object: T,
+    mapperCallback: (key: keyof T, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>
+): Record<keyof T, WithoutUndefined<V>> {
+    const newObject: Record<any, any> = {};
     Object.keys(object).forEach((key, index) => {
         if (object[key] !== undefined) {
             const mappedValue = mapperCallback(key as keyof T & string, object[key], index);
@@ -42,7 +45,7 @@ function toObject<T extends object, V>(object: T, mapperCallback: (key: keyof T,
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
-function toArray<T extends object, V>(object: T, mapperCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): WithoutUndefined<V>[] {
+function toArray<T extends Record<any, any>, V>(object: T, mapperCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => WithoutUndefined<V>): WithoutUndefined<V>[] {
     const result: WithoutUndefined<V>[] = [];
     Object.keys(object).forEach((key, index) => object[key] !== undefined && result.push(mapperCallback(key as keyof T & string, object[key], index)));
     return result;
@@ -55,7 +58,7 @@ function toArray<T extends object, V>(object: T, mapperCallback: (key: keyof T &
  * Undefined object values will be ignored.
  * E.g: {a: 10, b: undefined} is treated as {a: 10}.
  */
-function forEach<T extends object>(object: T, forEachCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => any): void {
+function forEach<T extends Record<any, any>>(object: T, forEachCallback: (key: keyof T & string, value: WithoutUndefined<T[keyof T]>, index: number) => any): void {
     const objKeys = Object.keys(object);
     for (let i = 0; i < objKeys.length; i++) {
         const currentKey = objKeys[i];

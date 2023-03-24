@@ -16,7 +16,7 @@ export function Memo(memoKeyGenerator: (args: any[]) => string = defaultMemoKeyG
          */
         const realDescriptor = descriptor || (target as any).descriptor;
         const fn = realDescriptor.value!;
-        const cache = {};
+        const cache: Record<string, any> = {};
         realDescriptor.value = function (...args: any[]) {
             const paramKey = memoKeyGenerator(args);
             if (!cache[paramKey]) {

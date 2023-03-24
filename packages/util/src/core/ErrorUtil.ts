@@ -9,7 +9,7 @@ function serialize(error: unknown): string {
                 if (error.name === "AggregateError") {
                     // Special case, for Promise.any() error.message is fixed: "All Promises rejected"
                     // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError
-                    const errors: unknown[] = error["errors"];
+                    const errors = "errors" in error ? (error.errors as unknown[]) : [];
                     return `[AggregateError]: ${error.message}\n${errors.map(_ => `- ${serialize(_)}`).join("\n")}`;
                 } else {
                     return `[${error.name}]: ${error.message}`;
