@@ -1,43 +1,55 @@
 import {ExpirableLocalStorageUtil} from "@pinnacle0/web-ui/util/ExpirableLocalStorageUtil";
 
 describe("ExpirableLocalStorageUtil", () => {
-    [
-        ["Bool", true, false],
-        ["String", "abc", ""],
-        ["Number", 123, 0],
-    ].forEach(([type, value, defaultValue]) => {
-        test(type as string, () => {
-            const currentTimestamp = new Date().getTime();
-            const nonExpiredTimestamp = currentTimestamp + 1000;
-            const expiredTimestamp = currentTimestamp - 10;
+    test("Bool", () => {
+        const type = "Bool";
+        const value = true;
+        const defaultValue = false;
 
-            switch (type) {
-                case "Bool":
-                    ExpirableLocalStorageUtil.setBool(type, value as boolean, nonExpiredTimestamp);
-                    expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
-                    expect(ExpirableLocalStorageUtil.getBool(type, defaultValue as boolean)).toEqual(value);
-                    ExpirableLocalStorageUtil.setBool(type, value as boolean, expiredTimestamp);
-                    expect(ExpirableLocalStorageUtil.getBool(type, defaultValue as boolean)).toEqual(defaultValue);
-                    break;
-                case "String":
-                    ExpirableLocalStorageUtil.setString(type, value as string, nonExpiredTimestamp);
-                    expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
-                    expect(ExpirableLocalStorageUtil.getString(type, defaultValue as string)).toEqual(value);
-                    ExpirableLocalStorageUtil.setString(type, value as string, expiredTimestamp);
-                    expect(ExpirableLocalStorageUtil.getString(type, defaultValue as string)).toEqual(defaultValue);
-                    break;
-                case "Number":
-                    ExpirableLocalStorageUtil.setNumber(type, value as number, nonExpiredTimestamp);
-                    expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
-                    expect(ExpirableLocalStorageUtil.getNumber(type, defaultValue as number)).toEqual(value);
-                    ExpirableLocalStorageUtil.setNumber(type, value as number, expiredTimestamp);
-                    expect(ExpirableLocalStorageUtil.getNumber(type, defaultValue as number)).toEqual(defaultValue);
-                    break;
-            }
+        const currentTimestamp = new Date().getTime();
+        const nonExpiredTimestamp = currentTimestamp + 1000;
+        const expiredTimestamp = currentTimestamp - 10;
 
-            // pruned key because the new expiredTimestamp is expired
-            expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(false);
-        });
+        ExpirableLocalStorageUtil.setBool(type, value, nonExpiredTimestamp);
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
+        expect(ExpirableLocalStorageUtil.getBool(type, defaultValue)).toEqual(value);
+        ExpirableLocalStorageUtil.setBool(type, value, expiredTimestamp);
+        expect(ExpirableLocalStorageUtil.getBool(type, defaultValue)).toEqual(defaultValue);
+
+        // pruned key because the new expiredTimestamp is expired
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(false);
+    });
+
+    test("Number", () => {
+        const type = "String";
+        const value = 123;
+        const defaultValue = 0;
+
+        const currentTimestamp = new Date().getTime();
+        const nonExpiredTimestamp = currentTimestamp + 1000;
+        const expiredTimestamp = currentTimestamp - 10;
+
+        ExpirableLocalStorageUtil.setNumber(type, value, nonExpiredTimestamp);
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
+        expect(ExpirableLocalStorageUtil.getNumber(type, defaultValue)).toEqual(value);
+        ExpirableLocalStorageUtil.setNumber(type, value, expiredTimestamp);
+        expect(ExpirableLocalStorageUtil.getNumber(type, defaultValue)).toEqual(defaultValue);
+    });
+
+    test("String", () => {
+        const type = "Number";
+        const value = "abc";
+        const defaultValue = "";
+
+        const currentTimestamp = new Date().getTime();
+        const nonExpiredTimestamp = currentTimestamp + 1000;
+        const expiredTimestamp = currentTimestamp - 10;
+
+        ExpirableLocalStorageUtil.setString(type, value, nonExpiredTimestamp);
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${type}`)).toEqual(true);
+        expect(ExpirableLocalStorageUtil.getString(type, defaultValue)).toEqual(value);
+        ExpirableLocalStorageUtil.setString(type, value, expiredTimestamp);
+        expect(ExpirableLocalStorageUtil.getString(type, defaultValue)).toEqual(defaultValue);
     });
 
     test("Object", () => {
