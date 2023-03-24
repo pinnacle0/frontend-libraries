@@ -1,6 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import {useTransform} from "../../hooks";
+import {useTransform} from "../../hooks/useTransform";
 import {useScrollListSwipe} from "./hook/useScrollListSwipe";
 import {Content} from "./Content";
 import {FloatingLoader} from "./FloatingLoader";
