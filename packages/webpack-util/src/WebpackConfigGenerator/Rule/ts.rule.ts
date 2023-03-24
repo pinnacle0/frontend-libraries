@@ -3,11 +3,10 @@ import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
     fastRefresh?: boolean;
-    nonES5Module?: string[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- temp disable
-export function tsRule({fastRefresh = false, nonES5Module = []}: Deps): webpack.RuleSetRule {
+export function tsRule({fastRefresh = false}: Deps = {}): webpack.RuleSetRule {
     const swcLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("swc-loader"),
         options: {
@@ -35,7 +34,6 @@ export function tsRule({fastRefresh = false, nonES5Module = []}: Deps): webpack.
     return {
         test: RegExpUtil.fileExtension(".js", ".mjs", ".cjs", ".ts", ".tsx"),
         use: [swcLoader],
-        // exclude: fastRefresh ? /node_modules/ : RegExpUtil.webpackExclude({expect: nonES5Module}),
-        exclude: fastRefresh ? /node_modules/ : () => false,
+        exclude: fastRefresh ? /node_modules/ : [],
     };
 }
