@@ -1,18 +1,32 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
-import type webpack from "webpack";
+import {browserslistToTargets} from "lightningcss";
+import browserslist from "browserslist";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import type webpack from "webpack";
+import type {Targets} from "lightningcss/node/targets";
+import type {BasePluginOptions, DefinedDefaultMinimizerAndOptions} from "css-minimizer-webpack-plugin";
 
 interface ExtractCssPluginOptions {
     enableProfiling: boolean;
 }
+
+new CssMinimizerWebpackPlugin({
+    minify: CssMinimizerWebpackPlugin.lightningCssMinify,
+});
 
 /**
  * Applies CssNano to minimize stylesheets
  * after bundles/chunks are built.
  */
 export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin("CssMinimizerWebpackPlugin", CssMinimizerWebpackPlugin);
+    return WebpackConfigSerializationUtil.serializablePlugin<BasePluginOptions & DefinedDefaultMinimizerAndOptions<{targets: Targets}>>("CssMinimizerWebpackPlugin", CssMinimizerWebpackPlugin, {
+        parallel: true,
+        minify: CssMinimizerWebpackPlugin.lightningCssMinify,
+        minimizerOptions: {
+            targets: browserslistToTargets(browserslist("cover 99.5%")),
+        },
+    });
 }
 
 /**

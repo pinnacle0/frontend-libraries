@@ -7,10 +7,12 @@ interface SerializableWebpackPluginDescriptor {
     pluginOptions: any;
 }
 
+type WebpackPluginConstructor<T> = new (options: T) => {apply(..._: any[]): void};
+
 export class WebpackConfigSerializationUtil {
-    static serializablePlugin<T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new () => T): webpack.WebpackPluginInstance;
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_: OptType) => T, options: OptType): webpack.WebpackPluginInstance;
-    static serializablePlugin<OptType, T extends {apply(..._: any[]): void}>(name: string, PluginConstructor: new (_?: OptType) => T, options?: OptType): webpack.WebpackPluginInstance {
+    static serializablePlugin(name: string, PluginConstructor: WebpackPluginConstructor<never>): webpack.WebpackPluginInstance;
+    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType>, options: OptType): webpack.WebpackPluginInstance;
+    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType | undefined>, options?: OptType): webpack.WebpackPluginInstance {
         const plugin = new PluginConstructor(options);
         return Object.defineProperty(plugin, "toWebpackConfigSerializableType", {
             value(): SerializableWebpackPluginDescriptor {
