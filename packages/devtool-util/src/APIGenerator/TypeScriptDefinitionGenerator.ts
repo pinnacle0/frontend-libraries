@@ -89,7 +89,7 @@ const generate = (types: TypeDefinition[]): string[] => {
             }
         };
 
-        return `export ${exportType} ${name} {${getExportDefinitionContent()}\n}`;
+        return `export ${exportType} ${name} {${getExportDefinitionContent()}\n}\n`;
     });
 };
 
