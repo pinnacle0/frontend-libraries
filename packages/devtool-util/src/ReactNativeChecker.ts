@@ -85,7 +85,7 @@ export class ReactNativeChecker {
                 execute: () => {
                     [this.projectDirectory, ...this.extraCheckDirectories].forEach(directory => {
                         if (fs.existsSync(`${directory}/tsconfig.json`)) {
-                            Utility.runCommand("tsc", ["--project", path.join(directory, "tsconfig.json"), "--noEmit"]);
+                            Utility.runCommand("tsc", ["--build", path.join(directory, "tsconfig.json"), "--noEmit"]);
                         }
                     });
                 },

@@ -64,7 +64,7 @@ new TaskRunner("build").execute([
     {
         name: "compile with tsc",
         execute: () => {
-            Utility.runCommand("tsc", ["--project", FilePath.tsConfigForSrc]);
+            Utility.runCommand("tsc", ["--build", FilePath.tsConfigForSrc]);
         },
     },
     {
