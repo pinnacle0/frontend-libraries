@@ -128,7 +128,7 @@ importers:
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
-        version: link:../devtool-util/build
+        version: link:../devtool-util
       '@types/fs-extra':
         specifier: 11.0.1
         version: 11.0.1
@@ -207,7 +207,7 @@ importers:
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
-        version: link:../devtool-util/build
+        version: link:../devtool-util
       '@rollup/plugin-commonjs':
         specifier: 24.0.1
         version: 24.0.1(rollup@3.20.0)
@@ -294,7 +294,7 @@ importers:
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
-        version: link:../devtool-util/build
+        version: link:../devtool-util
     publishDirectory: build
 
   packages/web-ui:
@@ -338,7 +338,7 @@ importers:
         version: 7.21.0
       '@pinnacle0/devtool-util':
         specifier: workspace:*
-        version: link:../devtool-util/build
+        version: link:../devtool-util
       '@pinnacle0/webpack-util':
         specifier: workspace:*
         version: link:../webpack-util/build
@@ -503,7 +503,7 @@ importers:
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
-        version: link:../devtool-util/build
+        version: link:../devtool-util
       '@types/fs-extra':
         specifier: 11.0.1
         version: 11.0.1
