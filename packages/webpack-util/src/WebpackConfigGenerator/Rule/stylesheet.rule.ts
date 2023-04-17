@@ -1,6 +1,6 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import type webpack from "webpack";
 import {RegExpUtil} from "./RegExpUtil";
+import type webpack from "webpack";
 
 interface StylesheetRuleDeps {
     minimize: boolean;
@@ -32,20 +32,6 @@ function miniCssExtractPluginLoader(): webpack.RuleSetUseItem {
     };
 }
 
-function postcssLoader(): webpack.RuleSetUseItem {
-    return {
-        loader: require.resolve("postcss-loader"),
-        options: {
-            postcssOptions: {
-                plugins: [
-                    [require.resolve("autoprefixer")],
-                    // prettier-format-preserve
-                ],
-            },
-        },
-    };
-}
-
 function styleLoader(): webpack.RuleSetUseItem {
     return {
         loader: require.resolve("style-loader"),
@@ -55,7 +41,7 @@ function styleLoader(): webpack.RuleSetUseItem {
 /**
  * Handles dependency requests to stylesheet assets (".css", ".less")
  * with `minimize: true` by `lessc` -> transform to js module -> inject to DOM as <style> tag,
- * or with `minimize: false` by `lessc` -> `autoprefixer` with `postcss` -> transform to js module -> extract to stylesheet
+ * or with `minimize: false` by `lessc` -> transform to js module -> extract to stylesheet
  *
  * @see https://webpack.js.org/loaders/css-loader/
  * @see https://webpack.js.org/loaders/less-loader/
@@ -67,8 +53,7 @@ export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetR
     const use: webpack.RuleSetUseItem[] = minimize
         ? [
               miniCssExtractPluginLoader(),
-              cssLoader(2),
-              postcssLoader(),
+              cssLoader(1),
               lessLoader(),
               // prettier-format-preserve
           ]
