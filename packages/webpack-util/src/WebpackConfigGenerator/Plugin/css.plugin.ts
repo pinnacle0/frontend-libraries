@@ -18,7 +18,7 @@ interface ExtractCssPluginOptions {
 export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin("CssMinimizerWebpackPlugin", CssMinimizerWebpackPlugin, {
         parallel: true,
-        minify: lightningCssMinifyWithPrettifyError,
+        minify: lightningcssMinifyWithPrettifyError,
         minimizerOptions: {
             targets: lightningcss.browserslistToTargets(browserslist("cover 99.5%")),
         },
@@ -40,7 +40,11 @@ export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions)
     });
 }
 
-const lightningCssMinifyWithPrettifyError: BasicMinimizerImplementation<{targets: Targets}> = (...args) => {
+/**
+ * Add Vendor prefix and minify css with lightningcss.
+ * Prettify error message to show the code snippet where the error occurs.
+ */
+const lightningcssMinifyWithPrettifyError: BasicMinimizerImplementation<{targets: Targets}> = (...args) => {
     const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
     return CssMinimizerWebpackPlugin.lightningCssMinify(...args).catch((e: unknown) => {
         if (e instanceof Error) {
