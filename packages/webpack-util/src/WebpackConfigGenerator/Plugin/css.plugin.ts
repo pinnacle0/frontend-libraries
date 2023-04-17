@@ -20,7 +20,7 @@ export function cssMinimizerPlugin(): webpack.WebpackPluginInstance {
         parallel: true,
         minify: lightningcssMinifyWithPrettifyError,
         minimizerOptions: {
-            targets: lightningcss.browserslistToTargets(browserslist("cover 99.5%")),
+            targets: lightningcss.browserslistToTargets(browserslist("cover 97.5%")),
         },
     });
 }
