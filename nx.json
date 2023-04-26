@@ -1,0 +1,21 @@
+{
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "nx/tasks-runners/default",
+            "options": {
+                "cacheableOperations": ["build", "test", "lint"]
+            }
+        }
+    },
+    "namedInputs": {
+        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "production": ["default"],
+        "sharedGlobals": ["lockfile"],
+        "jest": ["default", "{projectRoot}/config/jest.config.ts"],
+        "eslint": ["default", "{workspaceRoot}/.eslintrc.js", "{workspaceRoot}/.eslintignore"],
+        "tsconfig": ["{workspaceRoot}/tsconfig.base.json", "{projectRoot}/tsconfig.json"],
+        "lockfile": ["{workspaceRoot}/pnpm-lock.yaml"]
+    },
+    "defaultBase": "master"
+}
