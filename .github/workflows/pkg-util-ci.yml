@@ -5,7 +5,7 @@ env:
 
 on:
     push:
-        branches: [master]
+        branches: [nx]
         paths:
             - packages/util/**
             - package.json
@@ -36,4 +36,4 @@ jobs:
               run: pnpm install
 
             - name: Build
-              run: pnpm --filter @pinnacle0/util run build
+              run: npx nx run util:build

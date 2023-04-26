@@ -1,9 +1,6 @@
 import type {Config} from "jest";
 
 const config: Config = {
-    // Stop running tests after `n` failures
-    bail: 1,
-
     // The root directory that Jest should scan for tests and modules within
     rootDir: "../",
 

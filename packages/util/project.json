@@ -1,0 +1,29 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "inputs": ["eslint"],
+            "options": {
+                "lintFilePatterns": ["packages/util/src/*.{ts,tsx,js,jsx}", "packages/util/test/*.{ts,tsx,js,jsx}"],
+                "eslintConfig": ".eslintrc.js",
+                "ignorePath": ".eslintignore",
+                "fix": false
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "inputs": ["jest"],
+            "options": {
+                "jestConfig": "packages/util/config/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+        "build": {
+            "command": "tsc -P packages/util/config/tsconfig.src.cjs.json && tsc -P packages/util/config/tsconfig.src.esm.json",
+            "inputs": ["default"],
+            "outputs": ["packages/util/dist"],
+            "dependsOn": ["lint", "test"]
+        }
+    }
+}

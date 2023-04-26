@@ -8,8 +8,7 @@
         "url": "https://github.com/pinnacle0/frontend-libraries.git",
         "directory": "packages/util"
     },
-    "main": "cjs/index.js",
-    "module": "esm/index.js",
+    "main": "./src/index.ts",
     "engines": {
         "node": ">= 16.15.0"
     },
@@ -18,13 +17,18 @@
         "build": "pnpm run run-script script/build.ts",
         "format": "pnpm run run-script script/format.ts",
         "lint": "pnpm run run-script script/lint.ts",
-        "test": "jest --config config/jest.config.ts --coverage",
         "prepublishOnly": "pnpm build"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*"
     },
     "publishConfig": {
-        "directory": "build"
+        "files": [
+            "dist",
+            "src"
+        ],
+        "main": "dist/cjs/index.js",
+        "module": "dist/esm/index.js",
+        "linkDirectory": false
     }
 }
