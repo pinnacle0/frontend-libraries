@@ -14,3 +14,4 @@ export * from "./src/ReactNativeChecker";
 export * from "./src/TaskRunner";
 export * from "./src/Utility";
 export * from "./src/VersionChecker";
+export * from "./src/TypeReplacer";
