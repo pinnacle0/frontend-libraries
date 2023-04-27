@@ -107,7 +107,7 @@ export class WebpackServerStarter {
                 host: "0.0.0.0",
                 port: this.port,
                 static: {
-                    directory: this.devServerConfigContentBase,
+                    directory: this.devServerConfigContentBase, // it's okay if folder not exist
                 },
                 historyApiFallback: true,
                 server: {
