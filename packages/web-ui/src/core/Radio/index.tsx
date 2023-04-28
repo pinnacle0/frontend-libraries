@@ -8,7 +8,6 @@ export interface Props extends RadioProps {}
 export class Radio extends React.PureComponent<Props> {
     static displayName = "Radio";
 
-    // TODO/Alvis: export type
     static Button = AntRadio.Button;
 
     static Group = AntRadio.Group;

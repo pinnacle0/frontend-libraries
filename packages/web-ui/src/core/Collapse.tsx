@@ -8,7 +8,6 @@ export interface Props extends CollapseProps {}
 export class Collapse extends React.PureComponent<Props> {
     static displayName = "Collapse";
 
-    // TODO/Alvis: export type
     static Panel = AntdCollapse.Panel;
 
     render() {
