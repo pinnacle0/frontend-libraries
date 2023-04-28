@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs-extra";
-import glob from "glob";
 import type {Codemod, Transform} from "./type";
 
 export async function resolveCodemodPath(modType: string): Promise<string | null> {
