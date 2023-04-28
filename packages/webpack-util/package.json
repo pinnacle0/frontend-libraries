@@ -33,7 +33,7 @@
         "terser-webpack-plugin": "5.3.7",
         "webpack": "5.81.0",
         "webpack-dev-server": "4.13.3",
-        "yargs": "17.7.1"
+        "yargs": "17.7.2"
     },
     "peerDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
@@ -43,7 +43,7 @@
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/fs-extra": "11.0.1",
         "@types/html-webpack-plugin": "3.2.6",
-        "@types/yargs": "17.0.23",
+        "@types/yargs": "17.0.24",
         "typescript": "5.0.4"
     },
     "engines": {

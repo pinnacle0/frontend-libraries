@@ -31,12 +31,12 @@
         "@rollup/plugin-commonjs": "24.1.0",
         "@rollup/plugin-json": "6.0.0",
         "@rollup/plugin-node-resolve": "15.0.2",
-        "@types/yargs": "17.0.23",
+        "@types/yargs": "17.0.24",
         "eslint": "8.39.0",
         "rollup": "3.21.0",
         "rollup-plugin-typescript2": "0.34.1",
         "typescript": "5.0.4",
-        "yargs": "17.7.1"
+        "yargs": "17.7.2"
     },
     "optionalDependencies": {
         "eslint-plugin-jest": "^27.2.0",

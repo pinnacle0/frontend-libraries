@@ -15,7 +15,7 @@
     "dependencies": {
         "chalk": "4.1.2",
         "fantasticon": "2.0.0",
-        "yargs": "17.7.1"
+        "yargs": "17.7.2"
     },
     "optionalDependencies": {
         "eslint": "^8.0.0",
@@ -30,7 +30,7 @@
     },
     "devDependencies": {
         "@types/fs-extra": "11.0.1",
-        "@types/yargs": "17.0.23",
+        "@types/yargs": "17.0.24",
         "fs-extra": "11.1.1"
     }
 }

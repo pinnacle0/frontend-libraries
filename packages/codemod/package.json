@@ -30,13 +30,13 @@
         "ast-types": "0.14.2",
         "chalk": "4.1.2",
         "fs-extra": "11.1.1",
-        "glob": "9.3.1",
+        "glob": "10.2.2",
         "recast": "0.22.0",
-        "yargs": "17.7.1"
+        "yargs": "17.7.2"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/fs-extra": "11.0.1",
-        "@types/yargs": "17.0.23"
+        "@types/yargs": "17.0.24"
     }
 }
