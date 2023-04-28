@@ -1,7 +1,6 @@
 import type {CarouselProps as AntCarouselProps, CarouselRef} from "antd/es/carousel";
 import AntCarousel from "antd/es/carousel";
 import React from "react";
-import "antd/es/carousel/style";
 
 export type {CarouselRef} from "antd/es/carousel";
 

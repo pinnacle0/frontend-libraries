@@ -1,7 +1,6 @@
 import React from "react";
 import type {SpaceProps} from "antd/es/space";
 import AntSpace from "antd/es/space";
-import "antd/es/space/style";
 
 interface Props extends SpaceProps {}
 

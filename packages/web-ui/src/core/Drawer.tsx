@@ -1,7 +1,6 @@
 import React from "react";
 import AntdDrawer from "antd/es/drawer";
 import type {DrawerProps, PushState} from "antd/es/drawer";
-import "antd/es/drawer/style";
 
 export interface Props extends DrawerProps {}
 

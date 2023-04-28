@@ -4,7 +4,6 @@ import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import type {ModalProps} from "antd/es/modal";
 import type {PickOptional} from "../../internal/type";
-import "antd/es/modal/style";
 import "./index.less";
 
 export interface Props extends ModalProps {

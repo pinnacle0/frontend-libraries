@@ -6,7 +6,6 @@ import {MediaUtil} from "../../util/MediaUtil";
 import {Badge} from "../../core/Badge";
 import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
 import type {NavigationGroupItem} from "../../util/AdminNavigationUtil";
-import "antd/es/menu/style";
 
 interface Badges {
     [key: string]: number;

@@ -1,6 +1,5 @@
 import React from "react";
 import AntResult from "antd/es/result";
-import "antd/es/result/style";
 import {Button} from "../../core/Button";
 import {i18n} from "../../internal/i18n/admin";
 

@@ -2,7 +2,6 @@ import AntSwitch from "antd/es/switch";
 import React from "react";
 import type {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
-import "antd/es/switch/style";
 
 export interface Props extends ControlledFormValue<boolean> {
     trueText?: string;

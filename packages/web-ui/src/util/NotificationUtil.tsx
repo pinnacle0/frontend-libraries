@@ -1,7 +1,6 @@
 import React from "react";
 import notification from "antd/es/notification";
 import type {ArgsProps as NotificationOptions, NotificationInstance} from "antd/es/notification/interface";
-import "antd/es/notification/style";
 
 let notificationInstance: NotificationInstance | null = null;
 

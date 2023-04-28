@@ -1,6 +1,5 @@
 import type {PopoverProps} from "antd/es/popover";
 import AntPopover from "antd/es/popover";
-import "antd/es/popover/style";
 import React from "react";
 import "./index.less";
 

@@ -3,7 +3,6 @@ import AntUpload from "antd/es/upload";
 import {i18n} from "../internal/i18n/core";
 import {TextUtil} from "../internal/TextUtil";
 import {Spin} from "./Spin";
-import "antd/es/upload/style";
 
 export interface Props {
     type: "txt" | "csv";

@@ -4,7 +4,6 @@ import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import type {TabsProps} from "antd/es/tabs";
 import type {PickOptional} from "../../internal/type";
-import "antd/es/tabs/style";
 import "./index.less";
 
 export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {

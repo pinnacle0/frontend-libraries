@@ -14,7 +14,6 @@ import {AdminAppContext} from "./context";
 import {RouteSwitch} from "./RouteSwitch";
 import {Menu} from "./Menu";
 import {Navigator} from "./Navigator";
-import "antd/es/layout/style";
 import "./index.less";
 
 export interface Props<Feature, Field> {

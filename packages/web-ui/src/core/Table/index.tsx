@@ -8,11 +8,10 @@ import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import "antd/es/table/style";
-import "./index.less";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
 import type {PickOptional, StringKey} from "../../internal/type";
+import "./index.less";
 
 enum SortOrder {
     DESC = "DESC",

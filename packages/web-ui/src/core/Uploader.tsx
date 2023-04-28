@@ -4,7 +4,6 @@ import type {HttpRequestHeader} from "antd/es/upload/interface";
 import AntUpload from "antd/es/upload";
 import type {UploaderProps, UploadLogInfo} from "../util/UploadUtil/type";
 import {Spin} from "./Spin";
-import "antd/es/upload/style";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     children: React.ReactNode;

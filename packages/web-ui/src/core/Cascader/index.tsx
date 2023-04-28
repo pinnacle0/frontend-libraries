@@ -4,7 +4,6 @@ import type {DefaultOptionType} from "antd/es/cascader";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
-import "antd/es/cascader/style";
 import "./index.less";
 
 /**

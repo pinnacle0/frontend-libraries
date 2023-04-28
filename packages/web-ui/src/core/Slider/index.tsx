@@ -5,7 +5,6 @@ import {Button} from "../Button";
 import {RangeSlider} from "./RangeSlider";
 import type {SliderSingleProps} from "antd/es/slider";
 import type {ControlledFormValue} from "../../internal/type";
-import "antd/es/slider/style";
 import "./index.less";
 
 interface Props extends Omit<SliderSingleProps, "range" | "value" | "onChange">, ControlledFormValue<number> {

@@ -2,7 +2,6 @@ import React from "react";
 import AntPagination from "antd/es/pagination";
 import {i18n} from "../../internal/i18n/core";
 import {TextUtil} from "../../internal/TextUtil";
-import "antd/es/pagination/style";
 import "./index.less";
 
 export interface Props {

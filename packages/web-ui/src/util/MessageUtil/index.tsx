@@ -1,7 +1,6 @@
 import type React from "react";
 import type {ArgsProps} from "antd/es/message";
 import message from "antd/es/message";
-import "antd/es/message/style";
 import "./index.less";
 
 function success(content: string | React.ReactElement) {

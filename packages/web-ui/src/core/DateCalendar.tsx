@@ -8,7 +8,6 @@ import {Space} from "./Space";
 import type {ControlledFormValue} from "../internal/type";
 import type {HeaderRender} from "antd/es/calendar/generateCalendar";
 import type {Dayjs} from "dayjs";
-import "antd/es/calendar/style";
 
 // load plugin when component is imported
 dayjs.extend(localeData);
