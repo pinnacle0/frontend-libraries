@@ -1,7 +1,7 @@
-import {AntDatePicker} from "../AntDatePicker";
-import type {Dayjs} from "dayjs";
-import dayjs from "dayjs";
 import React from "react";
+import DatePicker from "antd/es/date-picker";
+import dayjs from "dayjs";
+import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 
@@ -47,7 +47,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
     render() {
         const {value, allowNull, disabled, showNow, className, placeholder} = this.props;
         return (
-            <AntDatePicker
+            <DatePicker
                 className={className}
                 placeholder={placeholder}
                 disabledDate={this.isDateDisabled}

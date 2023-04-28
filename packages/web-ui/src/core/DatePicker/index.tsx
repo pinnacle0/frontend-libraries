@@ -1,5 +1,5 @@
 import React from "react";
-import {AntDatePicker} from "../AntDatePicker";
+import AntDatePicker from "antd/es/date-picker";
 import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";

@@ -1,8 +1,8 @@
 import React from "react";
-import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
+import DatePicker from "antd/es/date-picker";
+import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../internal/type";
-import {AntDatePicker} from "./AntDatePicker";
 import arraySupport from "dayjs/plugin/arraySupport";
 
 // load plugin when component is imported
@@ -47,14 +47,14 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
     render() {
         const {value, allowNull, disabled, className} = this.props;
         return (
-            <AntDatePicker
+            <DatePicker
+                picker="month"
                 className={className}
                 disabledDate={this.isDateDisabled}
                 value={value ? dayjs([value[0], value[1] - 1]) : null}
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
-                picker="month"
             />
         );
     }
