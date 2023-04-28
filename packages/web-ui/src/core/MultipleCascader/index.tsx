@@ -97,7 +97,7 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
             <AntCascader
                 multiple
                 className={classNames("g-multiple-cascader", className)}
-                dropdownClassName="g-multiple-cascader-popup"
+                popupClassName="g-multiple-cascader-popup"
                 style={style}
                 value={this.getAntValue()}
                 onChange={this.onChange}

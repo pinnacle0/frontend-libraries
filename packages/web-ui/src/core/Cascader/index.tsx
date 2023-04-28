@@ -75,7 +75,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
             <AntCascader
                 multiple={false}
                 className={`g-cascader ${className || ""}`}
-                dropdownClassName="g-cascader-popup"
+                popupClassName="g-cascader-popup"
                 style={style}
                 changeOnSelect={canSelectAnyLevel}
                 value={this.getAntValue()}
