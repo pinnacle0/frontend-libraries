@@ -1,6 +1,6 @@
 import React from "react";
-import "./index.less";
 import {classNames} from "../../util/ClassNames";
+import "./index.less";
 
 /**
  * In most cases, preset size/color styles may not match your real requirement.
@@ -33,7 +33,7 @@ export interface Props<Color extends string, Size extends string = ButtonSize> e
 
 export function Button<Color extends string, Size extends string = ButtonSize>({children, color, size, className = "", type = "button", ...restProps}: Props<Color, Size>) {
     return (
-        <button className={classNames("g-button", {color: color ?? "primary", size: size ?? "medium"}, className)} type={type} {...restProps}>
+        <button className={classNames("g-button", color ?? "primary", size ?? "medium", className)} type={type} {...restProps}>
             {children}
         </button>
     );
