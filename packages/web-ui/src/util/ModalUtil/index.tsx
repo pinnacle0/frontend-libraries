@@ -76,7 +76,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
             </React.Fragment>
         ),
         width: mergedConfig.width,
-        className: `${mergedConfig.className} ${mergedConfig.hideButtons ? "hide-modal-btns" : ""} ${mergedConfig.addInnerPadding ? "" : "no-padding"}`,
+        className: `g-modal ${mergedConfig.className} ${mergedConfig.hideButtons ? "hide-modal-btns" : ""} ${mergedConfig.addInnerPadding ? "" : "no-padding"}`,
         okText: mergedConfig.okText,
         cancelText: mergedConfig.cancelText,
         onOk: mergedConfig.onOk,

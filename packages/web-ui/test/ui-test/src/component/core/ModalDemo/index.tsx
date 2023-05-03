@@ -28,7 +28,6 @@ const groups: DemoHelperGroupConfig[] = [
         components: [
             <DeclarativeModal title="Default" buttonClassName="modal-demo-declarative-modal-default" />,
             <DeclarativeModal title="With Loading" loading />,
-            <DeclarativeModal title="Extra Title" />,
             <DeclarativeModal title="Un-closable & No Padding" closable={false} addInnerPadding={false} />,
         ],
     },

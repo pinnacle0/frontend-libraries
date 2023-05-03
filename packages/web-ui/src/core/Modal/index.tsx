@@ -28,7 +28,7 @@ export class Modal extends React.PureComponent<Props> {
     render() {
         const {children, loading, title, className, addInnerPadding, ...restProps} = this.props;
         return (
-            <AntModal title={title} className={classNames(className, {"no-padding": !addInnerPadding})} {...restProps}>
+            <AntModal title={title} className={classNames("g-modal", className, {"no-padding": !addInnerPadding})} {...restProps}>
                 <Spin spinning={loading || false}>{children}</Spin>
             </AntModal>
         );

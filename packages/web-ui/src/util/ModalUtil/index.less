@@ -1,83 +1,84 @@
 @import url("../../css/variable.less");
 
-.ant-modal-confirm {
-    .ant-modal-body {
-        padding: 0 !important;
+.g-modal {
+    &.ant-modal-confirm {
+        .ant-modal-body {
+            .ant-modal-confirm-title {
+                background: @lib-background-gray;
+                padding: 12px 20px;
+                border-radius: 8px 8px 0 0;
+                color: inherit;
 
-        .ant-modal-confirm-title {
-            background: @lib-background-gray;
-            padding: 12px 20px;
-
-            > span {
-                font-weight: bold;
-                font-size: 20px;
-            }
-
-            > .anticon-close {
-                color: #666;
-                position: absolute;
-                right: 10px;
-                top: 16px;
-                cursor: pointer;
-
-                &:hover {
-                    color: #000;
-                }
-            }
-        }
-
-        .ant-modal-confirm-content {
-            margin: 0 !important;
-            padding: 18px 20px;
-
-            > .footer {
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-        }
-
-        .ant-modal-confirm-btns {
-            margin: 0 auto 20px;
-            text-align: center;
-            float: none;
-
-            .ant-btn {
-                min-width: 120px;
-                border-radius: 2px;
-                cursor: pointer;
-                padding: 0;
-                font-size: 14px;
-                line-height: 30px;
-                height: 32px;
-                outline: none;
-                background-color: transparent;
-                border: 1px solid @lib-main-blue;
-                color: @lib-main-blue;
-
-                &:hover {
-                    opacity: 0.82;
+                > span {
+                    font-size: 20px;
                 }
 
-                &:last-child {
-                    background: @lib-main-blue;
-                    color: #fff;
+                > .anticon-close {
+                    color: #666;
+                    position: absolute;
+                    top: 17px;
+                    right: 17px;
+
+                    &:hover {
+                        color: #000;
+                    }
+                }
+            }
+
+            .ant-modal-confirm-content {
+                margin: 0 !important;
+                padding: 18px 20px;
+                color: inherit;
+
+                > .footer {
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+
+            .ant-modal-confirm-btns {
+                margin: 0 auto 20px;
+                text-align: center;
+                float: none;
+
+                .ant-btn {
+                    min-width: 120px;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    padding: 0;
+                    font-size: 14px;
+                    line-height: 30px;
+                    height: 32px;
+                    outline: none;
+                    background-color: transparent;
                     border: 1px solid @lib-main-blue;
+                    color: @lib-main-blue;
+
+                    &:hover {
+                        opacity: 0.82;
+                    }
+
+                    &:last-child {
+                        background: @lib-main-blue;
+                        color: #fff;
+                        border: 1px solid @lib-main-blue;
+                    }
                 }
             }
         }
-    }
 
-    &.hide-modal-btns {
-        .ant-modal-confirm-btns {
-            display: none;
+        &.hide-modal-btns {
+            .ant-modal-confirm-btns {
+                display: none;
+            }
         }
-    }
 
-    &.no-padding {
-        .ant-modal-confirm-content {
-            padding: 0;
+        &.no-padding {
+            .ant-modal-confirm-content {
+                padding: 0;
+            }
         }
     }
 }

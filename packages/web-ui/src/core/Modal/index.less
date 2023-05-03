@@ -1,57 +1,50 @@
 @import url("../../css/variable.less");
 
-.ant-modal {
-    .ant-modal-header {
-        background: @lib-background-gray;
-        padding: 12px 20px;
+.g-modal {
+    &.ant-modal {
+        color: inherit;
 
-        .ant-modal-title {
-            > .extra-title {
-                font-size: 13px;
-                font-weight: lighter;
-                margin-left: 15px;
+        .ant-modal-header {
+            background: @lib-background-gray;
+            padding: 12px 20px;
+        }
+
+        .ant-modal-close {
+            color: #666;
+            position: absolute;
+            top: 12px;
+            height: 24px;
+
+            &:hover {
+                color: #000;
+            }
+
+            .ant-modal-close-x {
+                font-size: 20px;
+                font-weight: bold;
             }
         }
-    }
 
-    .ant-modal-close {
-        color: #666;
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-
-        .ant-modal-close-x {
-            font-size: 20px;
-            line-height: 47px;
-            height: 47px;
-            font-weight: bold;
+        .ant-modal-content {
+            padding: 0;
         }
-    }
 
-    .ant-modal-body {
-        padding: 0;
-
-        > .ant-spin-nested-loading {
-            > .ant-spin-container {
-                padding: 24px;
-            }
-        }
-    }
-
-    &.no-padding {
         .ant-modal-body {
             > .ant-spin-nested-loading {
                 > .ant-spin-container {
-                    padding: 0;
+                    padding: 24px;
+                }
+            }
+        }
+
+        &.no-padding {
+            .ant-modal-body {
+                > .ant-spin-nested-loading {
+                    > .ant-spin-container {
+                        padding: 0;
+                    }
                 }
             }
         }
     }
-}
-
-.ant-modal,
-.ant-modal-confirm-body .ant-modal-confirm-content,
-.ant-modal-confirm-body .ant-modal-confirm-title {
-    color: inherit;
 }
