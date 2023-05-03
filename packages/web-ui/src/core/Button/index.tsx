@@ -1,6 +1,6 @@
 import React from "react";
-import {Link} from "../Link";
 import "./index.less";
+import {classNames} from "../../util/ClassNames";
 
 /**
  * In most cases, preset size/color styles may not match your real requirement.
@@ -25,35 +25,16 @@ type ExtendableColor<ExtraColor extends string> = ButtonColor extends ExtraColor
 type ExtendableSize<ExtraSize extends string> = ButtonSize extends ExtraSize ? ExtraSize | ButtonSize : ButtonSize;
 
 export interface Props<Color extends string, Size extends string = ButtonSize> extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    /** Set link to open when clicked. If set, use a `<Link />` instead of a `<button />` */
-    link?: string;
-    /** Whether the link should be opened in a new tab */
-    linkInNewTab?: boolean;
     /** Color of button */
     color?: ExtendableColor<Color>;
     /** Size of button */
     size?: ExtendableSize<Size>;
 }
 
-export class Button<Color extends string, Size extends string = ButtonSize> extends React.PureComponent<Props<Color, Size>> {
-    static displayName = "Button";
-
-    render() {
-        const {children, link, linkInNewTab, color = "primary", size = "medium", className = "", type = "button", ...restProps} = this.props;
-        const buttonNode = (
-            <button className={`g-button ${color} ${size} ${className}`} type={type} {...restProps}>
-                {children}
-            </button>
-        );
-
-        if (link) {
-            return (
-                <Link to={link} newTab={linkInNewTab}>
-                    {buttonNode}
-                </Link>
-            );
-        } else {
-            return buttonNode;
-        }
-    }
+export function Button<Color extends string, Size extends string = ButtonSize>({children, color, size, className = "", type = "button", ...restProps}: Props<Color, Size>) {
+    return (
+        <button className={classNames("g-button", {color: color ?? "primary", size: size ?? "medium"}, className)} type={type} {...restProps}>
+            {children}
+        </button>
+    );
 }
