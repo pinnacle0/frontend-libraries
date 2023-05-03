@@ -1,6 +1,7 @@
 import React from "react";
 import AntResult from "antd/es/result";
 import {Button} from "../../core/Button";
+import {Link} from "../../core/Link";
 import {i18n} from "../../internal/i18n/admin";
 
 interface Props {
@@ -22,7 +23,10 @@ export class Result extends React.PureComponent<Props> {
         return (
             !hideButton && (
                 <div style={this.buttonContainerStyle}>
-                    <Button link="/">{t.goHome}</Button>
+                    <Link to="/">
+                        <Button>{t.goHome}</Button>
+                    </Link>
+
                     {secondaryButton && (
                         <Button color="wire-frame" onClick={secondaryButton.onClick}>
                             {secondaryButton.label}

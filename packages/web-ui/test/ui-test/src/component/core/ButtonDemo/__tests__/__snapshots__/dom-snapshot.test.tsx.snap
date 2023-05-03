@@ -3,7 +3,7 @@
 exports[`Button (dom snapshot test) render with children: "button children text" 1`] = `
 <div>
   <button
-    class="g-button primary medium "
+    class="g-button primary medium"
     type="button"
   >
     button children text
