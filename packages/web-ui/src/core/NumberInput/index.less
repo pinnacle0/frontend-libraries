@@ -13,10 +13,9 @@
         }
     }
 
-    input {
+    .ant-input.count-input {
         vertical-align: middle;
         display: inline-block;
-        border-radius: 0;
         height: 32px;
         background-color: transparent;
         outline: none;
@@ -73,9 +72,14 @@
         }
     }
 
+    &.stepper-always {
+        .input-border-radius(0);
+    }
+
     &.stepper-none {
-        input {
-            border-radius: 2px;
+        .input-border-radius(5px);
+
+        .ant-input.count-input {
             text-align: left;
         }
 
@@ -92,6 +96,8 @@
     }
 
     &.stepper-hover {
+        .input-border-radius(5px);
+
         button {
             opacity: 0;
         }
@@ -99,6 +105,17 @@
         &:hover {
             button {
                 opacity: 1;
+            }
+
+            .input-border-radius(0);
+        }
+    }
+
+    .input-border-radius(@x) {
+        .count-input {
+            &.ant-input-affix-wrapper,
+            &.ant-input {
+                border-radius: @x;
             }
         }
     }
