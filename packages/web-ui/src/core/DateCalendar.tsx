@@ -46,12 +46,10 @@ export class DateCalendar extends React.PureComponent<Props> {
         const end = 12;
         const monthOptions = [];
 
-        const current = value.clone();
         const localeData = this.now.localeData();
         const months = [];
         for (let i = 0; i < 12; i++) {
-            current.month(i);
-            months.push(localeData.monthsShort(current));
+            months.push(localeData.monthsShort(value.month(i)));
         }
 
         for (let index = start; index < end; index++) {
@@ -79,29 +77,12 @@ export class DateCalendar extends React.PureComponent<Props> {
             <div style={this.headerStyle}>
                 <Space>
                     <div>
-                        <Select
-                            size="small"
-                            dropdownMatchSelectWidth={false}
-                            onChange={newYear => {
-                                const now = value.clone().year(newYear);
-                                onChange(now);
-                            }}
-                            value={year}
-                        >
+                        <Select size="small" dropdownMatchSelectWidth={false} onChange={newYear => onChange(value.year(newYear))} value={year}>
                             {options}
                         </Select>
                     </div>
                     <div>
-                        <Select
-                            size="small"
-                            dropdownMatchSelectWidth={false}
-                            value={month}
-                            onChange={selectedMonth => {
-                                const newValue = value.clone();
-                                newValue.month(selectedMonth);
-                                onChange(newValue);
-                            }}
-                        >
+                        <Select size="small" dropdownMatchSelectWidth={false} value={month} onChange={selectedMonth => onChange(value.month(selectedMonth))}>
                             {monthOptions}
                         </Select>
                     </div>
