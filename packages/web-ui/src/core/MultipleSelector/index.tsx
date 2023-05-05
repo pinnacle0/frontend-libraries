@@ -106,9 +106,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
                     open={this.props.popoverOpen}
                     onOpenChange={this.props.onPopoverOpenChange}
                 >
-                    <Button color="wire-frame" disabled={disabled === "button"}>
-                        {this.buttonText()}
-                    </Button>
+                    <Button disabled={disabled === "button"}>{this.buttonText()}</Button>
                 </Popover>
             </div>
         );

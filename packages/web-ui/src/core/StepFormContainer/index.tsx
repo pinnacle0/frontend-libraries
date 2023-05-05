@@ -37,7 +37,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
         const {currentStep, buttonRenderer = (prevButton, nextButton) => (currentStep > 0 ? [prevButton, nextButton] : nextButton)} = this.props;
         const t = i18n();
         const prevButton = (
-            <Button color="wire-frame" onClick={this.goToPrevStep} disabled={isValidating} key="prevButton">
+            <Button onClick={this.goToPrevStep} disabled={isValidating} key="prevButton">
                 {t.prevStep}
             </Button>
         );

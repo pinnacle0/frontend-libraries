@@ -1,15 +1,15 @@
 import React from "react";
-import type {ButtonColor, ButtonSize} from "@pinnacle0/web-ui/core/Button";
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
+import type {ButtonSize, ButtonType} from "@pinnacle0/web-ui/core/Button";
+import type {DemoHelperGroupConfig} from "../../DemoHelper";
 
-const colors: ButtonColor[] = ["primary", "wire-frame", "green", "red"];
+const types: ButtonType[] = ["primary", "default", "link", "text", "dashed", "ghost"];
 
-const coloredButtons = (size: ButtonSize): React.ReactElement[] => {
-    const buttons = colors.map(color => (
-        <Button size={size} color={color}>
-            {color}
+const coloredButtons = (size: ButtonSize, isDanger: boolean = false): React.ReactElement[] => {
+    const buttons = types.map(type => (
+        <Button size={size} type={type} danger={isDanger}>
+            {type}
         </Button>
     ));
     buttons.push(
@@ -27,11 +27,15 @@ const groups: DemoHelperGroupConfig[] = [
             // prettier-reserve
             ...coloredButtons("small"),
             "-",
-            ...coloredButtons("medium"),
+            ...coloredButtons("small", true),
+            "-",
+            ...coloredButtons("middle"),
+            "-",
+            ...coloredButtons("middle", true),
             "-",
             ...coloredButtons("large"),
             "-",
-            ...coloredButtons("x-large"),
+            ...coloredButtons("large", true),
         ],
     },
 ];

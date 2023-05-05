@@ -19,11 +19,11 @@ export class SaveBar extends React.PureComponent<Props> {
                 <div className="left">{leftNode}</div>
                 <div className="right">
                     {onReset && (
-                        <Button size="large" color="wire-frame" onClick={onReset}>
+                        <Button size="large" onClick={onReset}>
                             {t.reset}
                         </Button>
                     )}
-                    <Button size="large" onClick={onSave}>
+                    <Button type="primary" size="large" onClick={onSave}>
                         {t.save}
                     </Button>
                 </div>

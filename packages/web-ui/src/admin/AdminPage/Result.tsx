@@ -24,14 +24,10 @@ export class Result extends React.PureComponent<Props> {
             !hideButton && (
                 <div style={this.buttonContainerStyle}>
                     <Link to="/">
-                        <Button>{t.goHome}</Button>
+                        <Button type="primary">{t.goHome}</Button>
                     </Link>
 
-                    {secondaryButton && (
-                        <Button color="wire-frame" onClick={secondaryButton.onClick}>
-                            {secondaryButton.label}
-                        </Button>
-                    )}
+                    {secondaryButton && <Button onClick={secondaryButton.onClick}>{secondaryButton.label}</Button>}
                 </div>
             )
         );

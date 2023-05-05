@@ -1,6 +1,5 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import {Spin} from "../Spin";
 import {Button} from "../Button";
 import {FormValidationContext} from "./context";
 import {i18n} from "../../internal/i18n/core";
@@ -83,14 +82,14 @@ export class Form extends React.PureComponent<Props, State> {
     };
 
     renderSubmitButton() {
-        const {loading, buttonRenderer: defaultButtonRenderer, buttonDisabled, buttonStyle, buttonText} = this.props;
+        const {loading, buttonRenderer: defaultButtonRenderer, buttonStyle, buttonText} = this.props;
         const {isValidating} = this.state;
         const buttonRenderer = defaultButtonRenderer === undefined ? (submitButton: React.ReactElement) => submitButton : defaultButtonRenderer;
         const t = i18n();
 
         const submitButton = (
-            <Button className={classNames("g-form-submit-button", {"button-disabled": buttonDisabled})} type="submit" style={buttonStyle} disabled={isValidating || loading || buttonDisabled}>
-                {isValidating || loading ? <Spin spinning size="small" /> : buttonText || t.submit}
+            <Button className="g-form-submit-button" htmlType="submit" type="primary" style={buttonStyle} loading={isValidating || loading}>
+                {buttonText || t.submit}
             </Button>
         );
 

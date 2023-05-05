@@ -37,7 +37,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
-                <Button id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
+                <Button type="primary" id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
                     <UserOutlined />
                 </Button>
                 <Drawer width={350} open={showDrawer} closable={false} onClose={this.closeDrawer}>
@@ -56,7 +56,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                             })}
                         </div>
                         <div className="bottom">
-                            <Button size="large" onClick={onLogout}>
+                            <Button type="primary" size="large" onClick={onLogout}>
                                 {t.logout}
                             </Button>
                         </div>

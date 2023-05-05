@@ -53,11 +53,11 @@ export class Filter extends React.PureComponent<Props, State> {
                 {children}
                 <Space>
                     {reminder && <WithExplanation explanation={reminder} />}
-                    <Button type="submit" disabled={loading}>
+                    <Button type="primary" htmlType="submit" disabled={loading}>
                         {t.search}
                     </Button>
                     {onReset && (
-                        <Button color="wire-frame" onClick={onReset} disabled={loading}>
+                        <Button type="primary" onClick={onReset} disabled={loading}>
                             {t.reset}
                         </Button>
                     )}
