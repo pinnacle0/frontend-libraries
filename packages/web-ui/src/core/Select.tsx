@@ -1,7 +1,6 @@
 import AntSelect from "antd/es/select";
-import type {SelectProps, SelectValue, DefaultOptionType, OptionProps as SelectOptionProps} from "antd/es/select";
 import React from "react";
-import "./index.less";
+import type {SelectProps, SelectValue, DefaultOptionType, OptionProps as SelectOptionProps} from "antd/es/select";
 
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
     options?: Array<DefaultOptionType>;

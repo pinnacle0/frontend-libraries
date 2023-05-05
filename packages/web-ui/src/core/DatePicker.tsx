@@ -2,8 +2,7 @@ import React from "react";
 import AntDatePicker from "antd/es/date-picker";
 import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
-import type {ControlledFormValue} from "../../internal/type";
-import "./index.less";
+import type {ControlledFormValue} from "../internal/type";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {
     allowNull: T;
