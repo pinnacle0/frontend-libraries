@@ -26,9 +26,10 @@ export class Modal extends React.PureComponent<Props> {
     };
 
     render() {
-        const {children, loading, title, className, addInnerPadding, ...restProps} = this.props;
+        const {children, loading, title, className, addInnerPadding, footer, ...restProps} = this.props;
         return (
-            <AntModal title={title} className={classNames("g-modal", className, {"no-padding": !addInnerPadding})} {...restProps}>
+            // footer === undefined will render default buttons from antd, but in our case, it will never be undefined as the default is null
+            <AntModal title={title} className={classNames("g-modal", className, {"no-padding": !addInnerPadding, "no-footer": footer === null})} footer={footer} {...restProps}>
                 <Spin spinning={loading || false}>{children}</Spin>
             </AntModal>
         );

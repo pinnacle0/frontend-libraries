@@ -7,8 +7,7 @@ import {PromptUtil} from "@pinnacle0/web-ui/util/PromptUtil";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import {DemoHelper} from "../../DemoHelper";
 
-// TODO/Alvis: Delete 'visible' later when visible is fully deprecated
-const DeclarativeModal = ({buttonClassName, title, ...modalProps}: Omit<ModalProps, "visible" | "open" | "onCancel" | "width" | "children"> & {buttonClassName?: string}) => {
+const DeclarativeModal = ({buttonClassName, title, ...modalProps}: Omit<ModalProps, "open" | "onCancel" | "width" | "children"> & {buttonClassName?: string}) => {
     const [opened, setOpened] = React.useState(false);
     return (
         <div>
@@ -29,6 +28,8 @@ const groups: DemoHelperGroupConfig[] = [
             <DeclarativeModal title="Default" buttonClassName="modal-demo-declarative-modal-default" />,
             <DeclarativeModal title="With Loading" loading />,
             <DeclarativeModal title="Un-closable & No Padding" closable={false} addInnerPadding={false} />,
+            <DeclarativeModal title="With String Footer" footer="some text" />,
+            <DeclarativeModal title="With Non-String Footer" footer={[<Button key="1">Button 1</Button>, <Button key="2">Button 2</Button>]} />,
         ],
     },
     {

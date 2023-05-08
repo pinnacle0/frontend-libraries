@@ -1,6 +1,8 @@
 @import url("../../css/variable.less");
 
 .g-modal {
+    @content-padding: 24px;
+
     &.ant-modal {
         color: inherit;
 
@@ -32,9 +34,14 @@
         .ant-modal-body {
             > .ant-spin-nested-loading {
                 > .ant-spin-container {
-                    padding: 24px;
+                    padding: @content-padding;
                 }
             }
+        }
+
+        .ant-modal-footer {
+            margin-top: 0;
+            padding: 0 @content-padding 16px;
         }
 
         &.no-padding {
