@@ -52,6 +52,7 @@ export const baseline: ESLint.Linter.Config = {
             "error",
             {
                 prefer: "type-imports",
+                fixStyle: "separate-type-imports",
                 disallowTypeAnnotations: false,
             },
         ],
