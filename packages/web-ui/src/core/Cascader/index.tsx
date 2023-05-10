@@ -25,6 +25,7 @@ export interface BaseProps<T extends string | number> {
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
+    prefix?: React.ReactNode;
 }
 
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T> {}
@@ -65,12 +66,20 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         return getAntChildren(this.props.data);
     };
 
-    displayRender = (labels: React.ReactNode[]) => <React.Fragment>{labels.join("/")}</React.Fragment>;
+    displayRender = (labels: React.ReactNode[]) =>
+        this.props.prefix ? (
+            <div className="prefixed-label-wrapper">
+                {this.props.prefix}
+                {labels.join("/")}
+            </div>
+        ) : (
+            labels.join("/")
+        );
 
     onChange = (antValue: Array<string | number>) => this.props.onChange(antValue[antValue.length - 1] as T);
 
     render() {
-        const {canSelectAnyLevel, placeholder, disabled, style, className} = this.props;
+        const {canSelectAnyLevel, placeholder, disabled, style, className, prefix} = this.props;
         return (
             <AntCascader
                 multiple={false}
@@ -84,7 +93,16 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
                 allowClear={false}
                 expandTrigger="hover"
                 displayRender={this.displayRender}
-                placeholder={placeholder}
+                placeholder={
+                    prefix ? (
+                        <div className="prefixed-placeholder-wrapper">
+                            {prefix}
+                            {placeholder}
+                        </div>
+                    ) : (
+                        placeholder
+                    )
+                }
                 disabled={disabled}
             />
         );

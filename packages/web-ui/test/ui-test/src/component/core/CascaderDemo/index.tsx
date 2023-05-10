@@ -115,6 +115,11 @@ const groups: DemoHelperGroupConfig[] = [
         showPropsHint: false,
         components: [<UncontrolledMultipleCascader data={multipleCascaderData} initialValue={[]} placeholder="Placeholder here" />],
     },
+    {
+        title: "Cascader With Prefix",
+        showPropsHint: false,
+        components: [<InitialNullableCascader data={cascaderData} initialValue={null} placeholder="Placeholder here" prefix={<div>prefix</div>} />],
+    },
 ];
 
 export const CascaderDemo = () => <DemoHelper groups={groups} />;
