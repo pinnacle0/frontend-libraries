@@ -14,6 +14,7 @@ export interface BaseProps<Enum extends string | boolean | number> {
     className?: string;
     style?: React.CSSProperties;
     placeholder?: string;
+    prefix?: React.ReactNode;
     suffixIcon?: React.ReactNode;
 }
 
@@ -38,7 +39,15 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
 
         const {translator} = this.props;
         const antValue = value.toString();
-        const antLabel = translator ? translator(value) : antValue;
+        let antLabel = translator ? translator(value) : antValue;
+        if (this.props.prefix) {
+            antLabel = (
+                <div className="prefixed-label-wrapper">
+                    {this.props.prefix}
+                    {antLabel}
+                </div>
+            );
+        }
         return {
             value: antValue,
             label: antLabel,
@@ -51,7 +60,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className = "", style, placeholder, suffixIcon} = this.props;
+        const {list, translator, disabled, className = "", style, placeholder, suffixIcon, prefix} = this.props;
         return (
             <Select<LabeledValue>
                 disabled={disabled}
@@ -60,7 +69,16 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 onChange={this.onChange}
                 className={`g-enum-select ${className}`}
                 style={style}
-                placeholder={placeholder}
+                placeholder={
+                    prefix ? (
+                        <div className="prefixed-placeholder-wrapper">
+                            {prefix}
+                            {placeholder}
+                        </div>
+                    ) : (
+                        placeholder
+                    )
+                }
                 suffixIcon={suffixIcon}
             >
                 {list.map(_ => (

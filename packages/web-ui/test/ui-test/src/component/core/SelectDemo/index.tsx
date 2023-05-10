@@ -136,6 +136,21 @@ const groups: DemoHelperGroupConfig[] = [
             />,
         ],
     },
+    {
+        title: "Enum Dropdown with Prefix",
+        components: [
+            <UncontrolledEnumSelectInitialNullable
+                list={["apple🍏", "banana🍌", "canadian🍁", "donki🐧"]}
+                initialValue={null}
+                placeholder="Please select ..."
+                translator={_ => String(_).toUpperCase()}
+                style={{
+                    width: 200,
+                }}
+                prefix={<div>prefix</div>}
+            />,
+        ],
+    },
 ];
 
 export const SelectDemo = () => <DemoHelper groups={groups} />;
