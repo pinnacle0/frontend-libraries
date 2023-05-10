@@ -23,29 +23,12 @@ export interface Props<Enum extends string | boolean | number> extends BaseProps
 export class EnumSelect<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
     private readonly trueValue = "@@TRUE";
     private readonly falseValue = "@@FALSE";
-    private readonly allPrefixedLabeledValues: LabeledValue[] = [];
 
     static displayName = "EnumSelect";
 
     static Nullable = Nullable;
     static InitialNullable = InitialNullable;
     static Map = Map;
-
-    override componentDidMount(): void {
-        const {list, prefix} = this.props;
-
-        if (prefix) {
-            list.forEach(_ => {
-                const value = _;
-                const antValue = value.toString();
-                const antLabel = this.getAntLabel(value);
-                this.allPrefixedLabeledValues.push({
-                    value: antValue,
-                    label: antLabel,
-                });
-            });
-        }
-    }
 
     getAntSelectValue = (): LabeledValue | undefined => {
         const value = this.props.value as Enum;
@@ -54,8 +37,17 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
             return undefined;
         }
 
+        const {translator, prefix} = this.props;
         const antValue = value.toString();
-        const antLabel = this.getAntLabel(value);
+        let antLabel = translator ? translator(value) : antValue;
+        if (prefix) {
+            antLabel = (
+                <div className="prefixed-label-wrapper">
+                    {this.props.prefix}
+                    {antLabel}
+                </div>
+            );
+        }
         return {
             value: antValue,
             label: antLabel,
@@ -69,13 +61,12 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
 
     render() {
         const {list, translator, disabled, className = "", style, placeholder, suffixIcon, prefix} = this.props;
-        const value: LabeledValue | null | undefined = prefix ? this.allPrefixedLabeledValues.find(x => x.value === this.props.value) || this.getAntSelectValue() : this.getAntSelectValue();
 
         return (
             <Select<LabeledValue>
                 disabled={disabled}
                 labelInValue
-                value={value}
+                value={this.getAntSelectValue()}
                 onChange={this.onChange}
                 className={`g-enum-select ${className}`}
                 style={style}
@@ -92,31 +83,15 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 suffixIcon={suffixIcon}
                 optionLabelProp={prefix ? "label" : undefined}
             >
-                {list.map(_ => (
-                    <Select.Option
-                        key={_.toString()}
-                        value={_ === true ? this.trueValue : _ === false ? this.falseValue : _}
-                        label={prefix ? this.allPrefixedLabeledValues.find(x => x.value === _)?.label : undefined}
-                    >
-                        {translator ? translator(_) : _.toString()}
-                    </Select.Option>
-                ))}
+                {list.map(_ => {
+                    const label = translator ? translator(_) : _.toString();
+                    return (
+                        <Select.Option key={_.toString()} value={_ === true ? this.trueValue : _ === false ? this.falseValue : _} label={label}>
+                            {label}
+                        </Select.Option>
+                    );
+                })}
             </Select>
         );
-    }
-
-    private getAntLabel(value: Enum): string | number | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
-        const {translator, prefix} = this.props;
-        const antValue = value.toString();
-        let antLabel = translator ? translator(value) : antValue;
-        if (prefix) {
-            antLabel = (
-                <div className="prefixed-label-wrapper">
-                    {this.props.prefix}
-                    {antLabel}
-                </div>
-            );
-        }
-        return antLabel;
     }
 }
