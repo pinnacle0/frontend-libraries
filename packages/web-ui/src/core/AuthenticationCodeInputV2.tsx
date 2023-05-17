@@ -88,7 +88,6 @@ export class AuthenticationCodeInputV2 extends React.PureComponent<Props, State>
         const groupStyle: React.CSSProperties = {display: "flex", alignItems: "center"};
         const sendTextStyle: React.CSSProperties = {
             color: disabled ? "#b2c2cf" : "#3d9cf1",
-            textDecoration: "underline",
             whiteSpace: "nowrap",
             fontSize: 12,
             cursor: disabled ? "not-allowed" : "pointer",
