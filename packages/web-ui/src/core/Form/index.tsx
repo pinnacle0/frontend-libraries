@@ -18,6 +18,7 @@ export interface Props {
     loading?: boolean;
     onFinish?: () => void;
     buttonText?: string;
+    buttonIcon?: React.ReactNode;
     buttonDisabled?: boolean;
     buttonStyle?: React.CSSProperties;
     buttonRenderer?: ((submitButton: React.ReactElement, isValidating: boolean, loading?: boolean) => React.ReactElement) | null;
@@ -82,13 +83,13 @@ export class Form extends React.PureComponent<Props, State> {
     };
 
     renderSubmitButton() {
-        const {loading, buttonRenderer: defaultButtonRenderer, buttonStyle, buttonText} = this.props;
+        const {loading, buttonRenderer: defaultButtonRenderer, buttonStyle, buttonText, buttonIcon} = this.props;
         const {isValidating} = this.state;
         const buttonRenderer = defaultButtonRenderer === undefined ? (submitButton: React.ReactElement) => submitButton : defaultButtonRenderer;
         const t = i18n();
 
         const submitButton = (
-            <Button className="g-form-submit-button" htmlType="submit" type="primary" style={buttonStyle} loading={isValidating || loading}>
+            <Button className="g-form-submit-button" htmlType="submit" type="primary" style={buttonStyle} loading={isValidating || loading} icon={buttonIcon}>
                 {buttonText || t.submit}
             </Button>
         );
