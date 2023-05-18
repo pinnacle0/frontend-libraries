@@ -32,7 +32,13 @@ export interface ModalConfig {
     footerExtra?: React.ReactElement | string | number;
 }
 
+export interface RootProps {
+    config?: PickOptional<ModalConfig>;
+}
+
 let modalInstance: Omit<ModalStaticFunctions, "warn"> | null = null;
+
+let userModalConfig: PickOptional<ModalConfig> = {};
 
 function createSync(config: ModalConfig): CreateModalReturnType {
     const t = i18n();
@@ -45,7 +51,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
         autoFocusButton: "ok",
         addInnerPadding: true,
     };
-    const mergedConfig: ModalConfig = {...defaultModalConfig, ...config};
+    const mergedConfig: ModalConfig = {...defaultModalConfig, ...userModalConfig, ...config};
     if (Array.isArray(mergedConfig.body)) {
         mergedConfig.body = mergedConfig.body.map((rowContent, index) => <div key={index}>{rowContent}</div>);
     }
@@ -144,8 +150,9 @@ function confirm(body: React.ReactNode, title?: string): Promise<boolean> {
     });
 }
 
-function Root(): React.ReactElement {
+function Root({config}: RootProps): React.ReactElement {
     const [apiInstance, contextHolder] = Modal.useModal();
+    userModalConfig = config ?? {};
     React.useEffect(
         () => {
             if (modalInstance) {
