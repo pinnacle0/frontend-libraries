@@ -7,6 +7,7 @@ import type {PickOptional} from "../../internal/type";
 import {TextUtil} from "../../internal/TextUtil";
 import {i18n} from "../../internal/i18n/util";
 import "./index.less";
+import type {ButtonProps} from "antd/es/button";
 
 export type CreateModalReturnType = ReturnType<ModalFunc>;
 
@@ -30,6 +31,7 @@ export interface ModalConfig {
     hideButtons?: boolean;
     addInnerPadding?: boolean;
     footerExtra?: React.ReactElement | string | number;
+    cancelButtonProps?: ButtonProps;
 }
 
 export interface RootProps {
@@ -91,6 +93,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
         keyboard: false,
         autoFocusButton: mergedConfig.autoFocusButton,
         icon: null,
+        cancelButtonProps: mergedConfig.cancelButtonProps,
     };
 
     const instance = modalInstance || Modal;
@@ -152,13 +155,13 @@ function confirm(body: React.ReactNode, title?: string): Promise<boolean> {
 
 function Root({config}: RootProps): React.ReactElement {
     const [apiInstance, contextHolder] = Modal.useModal();
-    userModalConfig = config ?? {};
     React.useEffect(
         () => {
             if (modalInstance) {
                 throw new Error("[web-ui] ModalUtil.Root cannot be mounted more than once");
             }
             modalInstance = apiInstance;
+            userModalConfig = config ?? {};
             return () => {
                 modalInstance = null;
             };
