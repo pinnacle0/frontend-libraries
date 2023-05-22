@@ -22,7 +22,6 @@ export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKey
 export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
 export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
-    selectAll?: boolean;
     focus?: FocusType;
     inputRef?: React.RefObject<InputRef>;
 }
