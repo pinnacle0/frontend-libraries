@@ -1,122 +1,25 @@
 .g-number-input {
     user-select: none;
-    display: inline-block;
 
-    .ant-input-affix-wrapper,
-    .ant-input-group-wrapper {
-        width: initial;
-        vertical-align: middle;
-        padding: 0 10px;
-
-        > input {
-            height: 30px;
-        }
-    }
-
-    .ant-input.count-input {
-        vertical-align: middle;
-        display: inline-block;
-        height: 32px;
-        background-color: transparent;
-        outline: none;
-        text-align: center;
-        font-size: 14px;
+    .ant-input {
         width: 90px;
-        padding: 4px 11px;
-        border: 1px solid #ccc;
-
-        &[disabled] {
-            cursor: not-allowed;
-            color: #b6bad1;
-            background-color: #ecedf3;
-        }
     }
 
-    button {
-        vertical-align: middle;
-        display: inline-block;
-        width: 30px;
-        height: 32px;
-        line-height: 30px;
-        font-size: 20px;
-        text-align: center;
-        border: 1px solid #ccc;
+    .ant-btn {
+        flex: 0 0 auto;
         padding: 0;
-
-        &:hover {
-            cursor: pointer;
-            background-color: #202c3a;
-            border-color: #202c3a;
-            color: #fff;
-        }
-
-        &[disabled] {
-            background: #eee;
-            border-color: #eee;
-            color: #ccc;
-
-            &:hover {
-                background: #eee;
-                cursor: not-allowed;
-            }
-        }
-
-        &.minus {
-            border-right: none;
-            border-radius: 5px 0 0 5px;
-        }
-
-        &.add {
-            border-left: none;
-            border-radius: 0 5px 5px 0;
-        }
+        width: 32px;
     }
 
     &.stepper-always {
-        .input-border-radius(0);
+        .ant-input {
+            text-align: center;
+        }
     }
 
     &.stepper-none {
-        .input-border-radius(5px);
-
         .ant-input.count-input {
             text-align: left;
-        }
-
-        button {
-            display: none;
-        }
-    }
-
-    &.stepper-hover.disabled {
-        // In hover mode, disabled means no stepper
-        button {
-            display: none;
-        }
-    }
-
-    &.stepper-hover {
-        .input-border-radius(5px);
-
-        button {
-            opacity: 0;
-        }
-
-        &:hover {
-            button {
-                opacity: 1;
-            }
-
-            .input-border-radius(0);
-        }
-    }
-
-    .input-border-radius(@x) {
-        .count-input {
-            &.ant-input-affix-wrapper,
-            &.ant-input {
-                border-radius: @x;
-            }
         }
     }
 }

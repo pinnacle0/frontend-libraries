@@ -2,6 +2,8 @@ import React from "react";
 import {classNames} from "../../util/ClassNames";
 import type {FocusType} from "../Input";
 import {Input} from "../Input";
+import {Button} from "../Button";
+import {Space} from "../Space";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
 import type {InputRef as AntInputRef} from "antd/es";
@@ -12,7 +14,7 @@ import "./index.less";
 // The type argument on `Props<AllowNull extends boolean>` allows better type-inference for consumers of this component.
 // However it breaks type-inference inside the component class :(
 
-type DefaultPropsKeys = "scale" | "min" | "max" | "editable" | "stepperMode";
+type DefaultPropsKeys = "scale" | "min" | "max" | "editable" | "stepperMode" | "compact";
 
 type PropsWithDefault<AllowNull extends boolean = true> = {
     [K in Exclude<keyof Props<AllowNull>, DefaultPropsKeys>]: Props<AllowNull>[K];
@@ -34,7 +36,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     /** Whether the input field should be editable */
     editable?: boolean;
     /** Set the increment/decrement stepper display options */
-    stepperMode?: "none" | "always" | "hover";
+    stepperMode?: "none" | "always";
     /** Set the interval to increment/decrement with stepper */
     step?: number;
     /** Callback function to render value onBlur */
@@ -57,6 +59,9 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     autoFocus?: boolean;
     /** Set cursor and input behaviour when focus  */
     focus?: FocusType;
+    /** Whether to separate the buttons and input */
+    compact?: boolean;
+    noBorder?: boolean;
 }
 
 interface State {
@@ -75,6 +80,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         max: 99_999_999,
         editable: true,
         stepperMode: "none",
+        compact: true,
     };
 
     static Percentage = NumberInputPercentage;
@@ -158,14 +164,18 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus, compact, noBorder} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
-        return (
-            <div className={classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className)} onClick={this.stopPropagation}>
-                <button type="button" className="minus" disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})} onClick={this.onMinusClick}>
-                    &#65293;
-                </button>
+        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className);
+        const shouldRenderBtn = stepperMode === "always";
+        const content = (
+            <React.Fragment>
+                {shouldRenderBtn && (
+                    <Button type={noBorder ? "text" : "default"} className="minus" disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})} onClick={this.onMinusClick}>
+                        &#65293;
+                    </Button>
+                )}
                 <Input
                     inputRef={inputRef || this.inputRef}
                     style={inputStyle}
@@ -180,15 +190,27 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     suffix={suffix}
                     prefix={prefix}
                     inputMode="decimal"
-                    className="count-input"
                     allowClear={allowClear}
                     focus={focus}
                     autoFocus={autoFocus}
+                    bordered={!noBorder}
                 />
-                <button type="button" className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
-                    &#xff0b;
-                </button>
-            </div>
+                {shouldRenderBtn && (
+                    <Button type={noBorder ? "text" : "default"} className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
+                        &#xff0b;
+                    </Button>
+                )}
+            </React.Fragment>
+        );
+
+        return compact ? (
+            <Space.Compact className={containerClassName} onClick={this.stopPropagation}>
+                {content}
+            </Space.Compact>
+        ) : (
+            <Space className={containerClassName} onClick={this.stopPropagation}>
+                {content}
+            </Space>
         );
     }
 

@@ -46,7 +46,7 @@ const FocusInputDemo = () => {
                 <Button onClick={() => inputRef.current?.focus("select-all")}>Select all text</Button>
             </div>
             <p>Select all text when focus</p>
-            <Input focus="select-all" selectAll ref={inputRef} value={value} onChange={setValue} />
+            <Input focus="select-all" ref={inputRef} value={value} onChange={setValue} />
             <p>Cursor move to start when focus</p>
             <RequiredNumberInput focus="cursor-at-start" initialValue={3} />
         </div>
@@ -95,17 +95,29 @@ const groups: DemoHelperGroupConfig[] = [
             <RequiredNumberInput scale={1} stepperMode="always" step={0.2} initialValue={10} />,
             <RequiredNumberInput scale={2} min={0} max={100} stepperMode="always" step={0.05} initialValue={3.88} />,
             "-",
+            <p>separate the buttons and input</p>,
+            "-",
+            <RequiredNumberInput scale={0} editable={false} stepperMode="always" step={1} initialValue={10} compact={false} />,
+            <RequiredNumberInput scale={0} stepperMode="always" step={1} initialValue={10} compact={false} />,
+            <RequiredNumberInput scale={1} stepperMode="always" step={0.2} initialValue={10} compact={false} />,
+            <RequiredNumberInput scale={2} min={0} max={100} stepperMode="always" step={0.05} initialValue={3.88} compact={false} />,
+            "-",
+            <p>no border</p>,
+            "-",
+            <RequiredNumberInput scale={0} editable={false} stepperMode="always" step={1} initialValue={10} compact={false} noBorder />,
+            <RequiredNumberInput scale={0} stepperMode="always" step={1} initialValue={10} compact={false} noBorder />,
+            <RequiredNumberInput scale={1} stepperMode="always" step={0.2} initialValue={10} compact={false} noBorder />,
+            <RequiredNumberInput scale={2} min={0} max={100} stepperMode="always" step={0.05} initialValue={3.88} compact={false} noBorder />,
+            "-",
             <RequiredNumberInput scale={2} stepperMode="always" step={0.05} initialValue={4} displayRenderer={_ => "<" + _ + ">"} />,
             <RequiredNumberInput scale={2} initialValue={4} suffix={<FileSearchOutlined />} />,
             <RequiredNumberInput scale={2} stepperMode="always" step={0.05} initialValue={4} suffix="After" />,
-            <RequiredNumberInput scale={2} stepperMode="hover" step={0.05} initialValue={4} suffix="After" />,
         ],
     },
     {
         title: "Nullable Number Input",
         components: [
             <NullableNumberInput scale={0} stepperMode="always" />,
-            <NullableNumberInput scale={0} stepperMode="hover" />,
             <NullableNumberInput scale={3} />,
             <NullableNumberInput scale={0} disabled />,
             <NullableNumberInput scale={0} placeholder="Here..." />,
@@ -117,7 +129,6 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Percentage Number Input",
         components: [
             <RequiredNumberInputPercentage initialValue={0.4} percentageScale={0} stepperMode="none" />,
-            <RequiredNumberInputPercentage initialValue={0.5} percentageScale={1} stepperMode="hover" />,
             <RequiredNumberInputPercentage initialValue={0.6} percentageScale={2} stepperMode="always" />,
         ],
     },
