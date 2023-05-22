@@ -7,6 +7,8 @@ interface Props extends SpaceProps {}
 export class Space extends React.PureComponent<Props> {
     static displayName = "Space";
 
+    static Compact = AntSpace.Compact;
+
     render() {
         return <AntSpace {...this.props} />;
     }
