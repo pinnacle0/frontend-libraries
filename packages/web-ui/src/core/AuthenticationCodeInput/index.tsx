@@ -1,11 +1,12 @@
 import React from "react";
-import {Button} from "./Button";
-import {classNames} from "../util/ClassNames";
-import {i18n} from "../internal/i18n/core";
-import {TextUtil} from "../internal/TextUtil";
-import {Input} from "./Input";
-import type {Props as InputProps} from "./Input";
-import type {PickOptional} from "../internal/type";
+import {Button} from "../Button";
+import {classNames} from "../../util/ClassNames";
+import {i18n} from "../../internal/i18n/core";
+import {TextUtil} from "../../internal/TextUtil";
+import {Input} from "../Input";
+import type {Props as InputProps} from "../Input";
+import type {PickOptional} from "../../internal/type";
+import "./index.less";
 
 export interface Props extends Omit<InputProps, "suffix"> {
     onSend: () => Promise<boolean>;
@@ -86,7 +87,7 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
         const {isSending, nextSendRemainingSecond} = this.state;
         const t = i18n();
         const sendButton = (
-            <Button type="primary" className="g-auth-code-input-send-button" size="small" disabled={inputProps.disabled || nextSendRemainingSecond !== null || isSending} onClick={this.onSend}>
+            <Button type="primary" ghost className="g-auth-code-input-send-button" size="small" disabled={inputProps.disabled || nextSendRemainingSecond !== null || isSending} onClick={this.onSend}>
                 {nextSendRemainingSecond ? TextUtil.interpolate(t.waitResendAuthCode, nextSendRemainingSecond.toString()) : sendButtonText || t.sendAuthCode}
             </Button>
         );
