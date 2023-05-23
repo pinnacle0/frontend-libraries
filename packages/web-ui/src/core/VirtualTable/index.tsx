@@ -37,6 +37,7 @@ export interface VirtualTableProps<RowType extends object> {
     rowSelection?: VirtualTableRowSelection<RowType>;
 }
 
+//  TODO: timeout 1s visibiity = hidden
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
         columns,
@@ -75,6 +76,11 @@ export const VirtualTable = Object.assign(
         });
         const {headerRef, columnWidths, getColumnWidths, columnsStickyPosition} = useColumns({columns: transformedColumns});
         const {onScroll, scrollBarSize, tableBodyRef} = useScroll({scrollContentRef, headerRef, isScrollable: isVerticalScrollable});
+
+        React.useEffect(() => {
+            // avoid the table content get pressed together on mount
+            setTimeout(() => scrollContentRef.current && (scrollContentRef.current.style.visibility = "visible"), 1000);
+        }, []);
 
         return (
             <div className={classNames("g-virtual-table", className)} style={{width: scrollX || "100%", height: containerHeight}}>
