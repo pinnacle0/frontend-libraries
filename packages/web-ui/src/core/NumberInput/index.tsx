@@ -57,7 +57,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     inputRef?: React.RefObject<InputRef>;
     /** Auto focus when input first shown */
     autoFocus?: boolean;
-    /** Set cursor and input behaviour when focus  */
+    /** Set cursor and input behavior when focus  */
     focus?: FocusType;
     /** Whether to separate the buttons and input */
     compact?: boolean;
@@ -167,7 +167,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus, compact, noBorder} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
-        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className);
+        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {"no-border": noBorder}, {disabled}, className);
         const shouldRenderBtn = stepperMode === "always";
         const content = (
             <React.Fragment>
