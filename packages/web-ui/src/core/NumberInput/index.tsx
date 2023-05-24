@@ -162,7 +162,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
-        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className);
+        const containerClassName = classNames("g-number-input", stepperMode, {disabled}, className);
         const content = (
             <React.Fragment>
                 {stepperMode && (
