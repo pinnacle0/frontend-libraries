@@ -134,7 +134,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     render() {
         const {dataSource, shouldRenderIfUpdate, scrollX, scrollY, bordered} = this.props;
         return (
-            <div ref={this.ref}>
+            <div className="g-mutable-table-wrapper" ref={this.ref}>
                 <Table
                     className="g-mutable-table"
                     scrollX={scrollX}
