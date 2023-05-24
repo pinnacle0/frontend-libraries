@@ -3,6 +3,16 @@
 
     .ant-input {
         width: 90px;
+
+        &.ant-input-status-error {
+            z-index: 3;
+        }
+    }
+
+    .ant-input-affix-wrapper {
+        &.ant-input-affix-wrapper-status-error {
+            z-index: 3;
+        }
     }
 
     .ant-btn {
@@ -11,15 +21,10 @@
         width: 32px;
     }
 
-    &.stepper-always {
+    &.stepper-no-border,
+    &.stepper-outlined {
         .ant-input {
             text-align: center;
-        }
-    }
-
-    &.stepper-none {
-        .ant-input.count-input {
-            text-align: left;
         }
     }
 }

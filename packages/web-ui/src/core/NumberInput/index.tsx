@@ -14,7 +14,7 @@ import "./index.less";
 // The type argument on `Props<AllowNull extends boolean>` allows better type-inference for consumers of this component.
 // However it breaks type-inference inside the component class :(
 
-type DefaultPropsKeys = "scale" | "min" | "max" | "editable" | "stepperMode" | "compact";
+type DefaultPropsKeys = "scale" | "min" | "max" | "editable";
 
 type PropsWithDefault<AllowNull extends boolean = true> = {
     [K in Exclude<keyof Props<AllowNull>, DefaultPropsKeys>]: Props<AllowNull>[K];
@@ -36,7 +36,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     /** Whether the input field should be editable */
     editable?: boolean;
     /** Set the increment/decrement stepper display options */
-    stepperMode?: "none" | "always";
+    stepperMode?: "outlined" | "no-border";
     /** Set the interval to increment/decrement with stepper */
     step?: number;
     /** Callback function to render value onBlur */
@@ -59,9 +59,6 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     autoFocus?: boolean;
     /** Set cursor and input behavior when focus  */
     focus?: FocusType;
-    /** Whether to separate the buttons and input */
-    compact?: boolean;
-    noBorder?: boolean;
 }
 
 interface State {
@@ -79,8 +76,6 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         min: -99_999_999,
         max: 99_999_999,
         editable: true,
-        stepperMode: "none",
-        compact: true,
     };
 
     static Percentage = NumberInputPercentage;
@@ -164,15 +159,19 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus, compact, noBorder} = this.typeSafeProps;
+        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus} = this.typeSafeProps;
         const {editingValue, isEditing} = this.state;
 
-        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {"no-border": noBorder}, {disabled}, className);
-        const shouldRenderBtn = stepperMode === "always";
+        const containerClassName = classNames("g-number-input", `stepper-${stepperMode}`, {disabled}, className);
         const content = (
             <React.Fragment>
-                {shouldRenderBtn && (
-                    <Button type={noBorder ? "text" : "default"} className="minus" disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})} onClick={this.onMinusClick}>
+                {stepperMode && (
+                    <Button
+                        type={stepperMode === "no-border" ? "text" : "default"}
+                        className="minus"
+                        disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})}
+                        onClick={this.onMinusClick}
+                    >
                         &#65293;
                     </Button>
                 )}
@@ -193,22 +192,27 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     allowClear={allowClear}
                     focus={focus}
                     autoFocus={autoFocus}
-                    bordered={!noBorder}
+                    bordered={stepperMode === "no-border" ? false : true}
                 />
-                {shouldRenderBtn && (
-                    <Button type={noBorder ? "text" : "default"} className="add" disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})} onClick={this.onAddClick}>
+                {stepperMode && (
+                    <Button
+                        type={stepperMode === "no-border" ? "text" : "default"}
+                        className="add"
+                        disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})}
+                        onClick={this.onAddClick}
+                    >
                         &#xff0b;
                     </Button>
                 )}
             </React.Fragment>
         );
 
-        return compact ? (
+        return stepperMode === "outlined" ? (
             <Space.Compact className={containerClassName} onClick={this.stopPropagation}>
                 {content}
             </Space.Compact>
         ) : (
-            <Space className={containerClassName} onClick={this.stopPropagation}>
+            <Space className={containerClassName} onClick={this.stopPropagation} size={0}>
                 {content}
             </Space>
         );
