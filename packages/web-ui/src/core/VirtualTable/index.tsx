@@ -37,7 +37,6 @@ export interface VirtualTableProps<RowType extends object> {
     rowSelection?: VirtualTableRowSelection<RowType>;
 }
 
-//  TODO: timeout 1s visibiity = hidden
 export const VirtualTable = Object.assign(
     function <RowType extends object>({
         columns,
