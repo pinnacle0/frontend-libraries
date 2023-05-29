@@ -59,7 +59,7 @@ const FormItems = () => {
                 <NumberInput value={30} scale={0} allowNull={false} onChange={dummyEmptyCallback} prefix="<" suffix="$" />
             </Form.Item>
             <Form.Item label="Number 3">
-                <NumberInput value={24} scale={2} step={0.05} stepperMode="always" allowNull={false} onChange={dummyEmptyCallback} />
+                <NumberInput value={24} scale={2} step={0.05} stepperMode="outlined" allowNull={false} onChange={dummyEmptyCallback} />
             </Form.Item>
             <Form.Item label=">Number<" widthMode="shrink">
                 <NumberInput value={30} scale={0} allowNull={false} onChange={dummyEmptyCallback} prefix="<" suffix="$" />
