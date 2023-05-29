@@ -83,13 +83,21 @@ export class Form extends React.PureComponent<Props, State> {
     };
 
     renderSubmitButton() {
-        const {loading, buttonRenderer: defaultButtonRenderer, buttonStyle, buttonText, buttonIcon} = this.props;
+        const {loading, buttonRenderer: defaultButtonRenderer, buttonStyle, buttonText, buttonIcon, buttonDisabled} = this.props;
         const {isValidating} = this.state;
         const buttonRenderer = defaultButtonRenderer === undefined ? (submitButton: React.ReactElement) => submitButton : defaultButtonRenderer;
         const t = i18n();
 
         const submitButton = (
-            <Button className="g-form-submit-button" htmlType="submit" type="primary" style={buttonStyle} loading={isValidating || loading} icon={buttonIcon}>
+            <Button
+                className="g-form-submit-button"
+                htmlType="submit"
+                type="primary"
+                style={buttonStyle}
+                loading={isValidating || loading}
+                icon={buttonIcon}
+                disabled={buttonDisabled || isValidating || loading}
+            >
                 {buttonText || t.submit}
             </Button>
         );
