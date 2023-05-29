@@ -57,7 +57,7 @@ export class Filter extends React.PureComponent<Props, State> {
                         {t.search}
                     </Button>
                     {onReset && (
-                        <Button type="primary" onClick={onReset} disabled={loading}>
+                        <Button type="default" onClick={onReset} disabled={loading}>
                             {t.reset}
                         </Button>
                     )}
