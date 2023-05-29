@@ -51,7 +51,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
 
         return (
             <div className={classNames("g-step-form-container", className)} id={id} style={style}>
-                <Steps current={currentStep} labelPlacement={stepLabelPlacement}>
+                <Steps current={currentStep} labelPlacement={stepLabelPlacement} responsive={stepLabelPlacement !== "horizontal"}>
                     {steps.map((_, key) => (
                         <Steps.Step key={key} title={_.title} description={_.description} />
                     ))}
