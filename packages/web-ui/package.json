@@ -27,8 +27,8 @@
         "demo": "cd demo && pnpm start"
     },
     "dependencies": {
-        "@ant-design/cssinjs": "^1.9.1",
-        "@ant-design/icons": "5.0.1",
+        "@ant-design/cssinjs": "1.9.1",
+        "@ant-design/icons": "5.1.2",
         "@juggle/resize-observer": "3.4.0",
         "@tanstack/react-virtual": "3.0.0-beta.30",
         "antd": "5.5.1",
