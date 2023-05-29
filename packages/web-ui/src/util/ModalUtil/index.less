@@ -51,6 +51,10 @@
                     min-width: 120px;
                 }
             }
+
+            .ant-modal-confirm-title + .ant-modal-confirm-content {
+                max-width: unset;
+            }
         }
 
         &.hide-modal-btns {
@@ -62,10 +66,6 @@
         &.no-padding {
             .ant-modal-confirm-content {
                 padding: 0;
-            }
-
-            .ant-modal-confirm-body .ant-modal-confirm-title + .ant-modal-confirm-content {
-                max-width: unset;
             }
         }
     }
