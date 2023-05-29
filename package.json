@@ -38,7 +38,7 @@
             "react",
             "@types/react",
             "@types/react-dom",
-            "@ant-design/icons",
+            "@ant-design/*",
             "react",
             "react-dom",
             "rc-resize-observer",
