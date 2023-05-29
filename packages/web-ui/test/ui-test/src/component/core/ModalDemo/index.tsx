@@ -40,6 +40,7 @@ const groups: DemoHelperGroupConfig[] = [
                 Default
             </Button>,
             <Button onClick={() => ModalUtil.createSync({body: "A simple string", title: "My title", subTitle: "Subtitle", okText: "OKAY"})}>Custom Text</Button>,
+            <Button onClick={() => ModalUtil.createSync({body: "A simple string", title: "My title", subTitle: "Subtitle", okText: "OKAY", addInnerPadding: false})}>No Padding</Button>,
             <Button onClick={() => ModalUtil.createSync({body: "A simple string", cancelText: "Cancel", onOk: () => alert("OK"), onCancel: byClose => alert(`Closed (${byClose})`)})}>
                 OK/Cancel Event
             </Button>,
