@@ -52,7 +52,7 @@ export const baseline: ESLint.Linter.Config = {
             "error",
             {
                 prefer: "type-imports",
-                fixStyle: "separate-type-imports",
+                fixStyle: "inline-type-imports",
                 disallowTypeAnnotations: false,
             },
         ],
@@ -124,6 +124,7 @@ export const baseline: ESLint.Linter.Config = {
         "import/no-dynamic-require": ["error"],
         "import/no-useless-path-segments": ["error", {noUselessIndex: false}],
         "import/prefer-default-export": "off",
+        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
 
         eqeqeq: ["error", "always", {null: "ignore"}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
