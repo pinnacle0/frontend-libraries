@@ -108,7 +108,6 @@ export const baseline: ESLint.Linter.Config = {
         "import/no-dynamic-require": ["error"],
         "import/no-useless-path-segments": ["error", {noUselessIndex: false}],
         "import/prefer-default-export": "off",
-        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
 
         eqeqeq: ["error", "always", {null: "ignore"}],
         "no-console": ["error", {allow: ["info", "warn", "error"]}],
