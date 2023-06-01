@@ -147,7 +147,7 @@ function confirm(body: React.ReactNode, title?: string): Promise<boolean> {
          */
         title: title || t.defaultTitle,
         body,
-        width: 480,
+        width: userModalConfig.width || 480,
         okText: t.defaultConfirm,
         cancelText: t.defaultCancel,
     });
