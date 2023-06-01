@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "license": "MIT",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pinnacle0/frontend-libraries"
+    },
     "engines": {
         "node": ">=16.15.0"
     },
