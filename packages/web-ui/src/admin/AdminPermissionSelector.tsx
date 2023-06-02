@@ -124,7 +124,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         const enabledPercentage = ArrayUtil.intersectionPercentage(extraPermissions, featureValue);
 
         const titleNode = (
-            <Checkbox value={enabledPercentage > 0} indeterminate={enabledPercentage > 0 && enabledPercentage < 100} onChange={value => this.triggerChangeEvent(extraPermissions, value, false)}>
+            <Checkbox value={enabledPercentage === 100} indeterminate={enabledPercentage > 0 && enabledPercentage < 100} onChange={value => this.triggerChangeEvent(extraPermissions, value, false)}>
                 {t.extraPermission}
             </Checkbox>
         );
@@ -161,7 +161,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
 
         const titleNode = editable ? (
             <Checkbox
-                value={enabledPercentage > 0}
+                value={enabledPercentage === 100}
                 indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
                 onChange={value => this.triggerChangeEvent(isFieldPermission ? permissions : permissions.flatMap(_ => this.recursivelyGetBoundPermissions(_)), value, isFieldPermission)}
             >
@@ -219,7 +219,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         const navigationModuleItemContainer = (
             <div style={this.navigationModuleItemContainerStyle}>
                 <Checkbox
-                    value={enabledPercentage > 0}
+                    value={enabledPercentage === 100}
                     indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
                     onChange={value => {
                         this.triggerChangeEvent(moduleFieldPermissions, value, true);
@@ -267,7 +267,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
 
         const titleNode = (
             <Checkbox
-                value={enabledPercentage > 0}
+                value={enabledPercentage === 100}
                 indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
                 onChange={value => {
                     this.triggerChangeEvent(groupFeaturePermissions, value, false);
