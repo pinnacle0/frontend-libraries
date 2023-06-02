@@ -3,6 +3,7 @@ import {NumberInput} from "./NumberInput";
 import {Input} from "./Input";
 import type {ControlledFormValue, PickOptional} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
+import {Space} from "./Space";
 
 export type AmountRangeValue<T extends boolean> = T extends true ? [number | null, number | null] : [number, number];
 
@@ -32,13 +33,11 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
 
     onMaxAmountChange = (value: number | null) => this.props.onChange([this.props.value[0], value] as any);
 
-    onConnectorInputChange = () => {};
-
     render() {
         const {value, scale, disabled, min, shouldNotEqual, allowNull, style, inputStyle} = this.props;
         const t = i18n();
         return (
-            <Input.Group compact style={style}>
+            <Space.Compact block style={style}>
                 <NumberInput
                     disabled={disabled}
                     allowNull={allowNull!}
@@ -49,7 +48,7 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
                     onChange={this.onMinAmountChange}
                     inputStyle={{...this.minInputStyle, ...inputStyle}}
                 />
-                <Input style={this.connectorStyle} disabled value="~" onChange={this.onConnectorInputChange} />
+                <Input.Readonly style={this.connectorStyle} value="~" />
                 <NumberInput
                     disabled={disabled}
                     allowNull={allowNull!}
@@ -60,7 +59,7 @@ export class AmountRangeInput<T extends boolean> extends React.PureComponent<Pro
                     onChange={this.onMaxAmountChange}
                     inputStyle={{...this.maxInputStyle, ...inputStyle}}
                 />
-            </Input.Group>
+            </Space.Compact>
         );
     }
 }

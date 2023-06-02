@@ -17,6 +17,7 @@ import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 import {Amount} from "../../../../../src/core/Amount";
+import {Space} from "antd";
 
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
 const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);
@@ -83,16 +84,16 @@ const FormItems = () => {
                 <UncontrolledInputTextArea initialValue="Test" />
             </Form.Item>
             <Form.Item label="Multiple" validator={() => "test"} widthMode="shrink">
-                <Input.Group>
+                <Space.Compact block>
                     <UncontrolledInputPassword initialValue="password" />
                     <UncontrolledDateTimePicker initialValue={new Date()} allowNull={false} />
-                </Input.Group>
+                </Space.Compact>
             </Form.Item>
             <Form.Item label="Flag">
                 <UncontrolledBoolSwitch initialValue={false} />
             </Form.Item>
             <Form.Item label="Checkbox">
-                <UncontrolledCheckbox initialValue={false} />
+                <UncontrolledCheckbox initialValue={false}>test</UncontrolledCheckbox>
             </Form.Item>
             <Form.Item label="Radio">
                 <UncontrolledEnumRadio initialValue="+" list={["+", "-", "*", "/"]} />

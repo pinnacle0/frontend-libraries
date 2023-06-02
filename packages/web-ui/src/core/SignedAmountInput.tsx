@@ -1,6 +1,6 @@
 import React from "react";
+import {Space} from "./Space";
 import {NumberInput} from "./NumberInput";
-import {Input} from "./Input";
 import {Select} from "./Select";
 import type {ControlledFormValue} from "../internal/type";
 import {i18n} from "../internal/i18n/core";
@@ -43,7 +43,7 @@ export class SignedAmountInput extends React.PureComponent<Props> {
         const safeScale = scale || 2;
         const min = Number(Math.pow(0.1, safeScale).toFixed(safeScale));
         return (
-            <Input.Group compact>
+            <Space.Compact>
                 <Select onChange={this.onSelectChange} value={value.isIncrease ? "+" : "-"} style={this.selectStyle}>
                     <Select.Option key="+" value="+">
                         {labels[0] || t.depositPositive + " (+)"}
@@ -53,7 +53,7 @@ export class SignedAmountInput extends React.PureComponent<Props> {
                     </Select.Option>
                 </Select>
                 <NumberInput allowNull value={value.amount} min={min} max={max} scale={scale} onChange={this.onInputChange} inputStyle={this.inputStyle} />
-            </Input.Group>
+            </Space.Compact>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from "react";
+import {Space} from "./Space";
 import {NumberInput} from "./NumberInput";
-import {Input} from "./Input";
 import {EnumSelect} from "./EnumSelect";
 import type {ControlledFormValue} from "../internal/type";
 
@@ -54,10 +54,10 @@ export class AmountConditionInput extends React.PureComponent<Props> {
     render() {
         const {scale, value} = this.props;
         return (
-            <Input.Group compact>
+            <Space.Compact block>
                 <EnumSelect value={value.condition} onChange={this.onConditionChange} translator={this.operatorTranslator} list={this.operators} style={this.selectStyle} />
                 <NumberInput allowNull scale={scale} value={value.amount} onChange={this.onAmountChange} inputStyle={this.inputStyle} />
-            </Input.Group>
+            </Space.Compact>
         );
     }
 }
