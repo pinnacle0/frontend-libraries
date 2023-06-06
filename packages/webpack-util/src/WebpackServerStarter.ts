@@ -30,7 +30,7 @@ export interface WebpackServerStarterOptions
 
 export class WebpackServerStarter {
     private readonly devServerConfigContentBase: string;
-    private readonly onBeforeSetupMiddleware: WebpackDevServer.Configuration["onBeforeSetupMiddleware"];
+    private readonly setupMiddlewares: WebpackDevServer.Configuration["setupMiddlewares"];
     private readonly port: number;
     private readonly apiProxy:
         | {
@@ -68,7 +68,12 @@ export class WebpackServerStarter {
                   },
               ]
             : undefined;
-        this.onBeforeSetupMiddleware = interceptExpressApp ? devServer => (devServer.app ? interceptExpressApp(devServer.app) : undefined) : undefined;
+        this.setupMiddlewares =
+            interceptExpressApp &&
+            ((middlewares, devServer) => {
+                devServer.app && interceptExpressApp(devServer.app);
+                return middlewares;
+            });
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
             dynamicPathResolvers,
@@ -120,7 +125,7 @@ export class WebpackServerStarter {
                         errors: true,
                     },
                 },
-                onBeforeSetupMiddleware: this.onBeforeSetupMiddleware,
+                setupMiddlewares: this.setupMiddlewares,
                 devMiddleware: {
                     stats: {
                         colors: true,
