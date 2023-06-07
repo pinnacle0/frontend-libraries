@@ -2,17 +2,10 @@ import React from "react";
 import {OrientationUtil} from "../util/OrientationUtil";
 import type {OrientationType} from "../util/OrientationUtil";
 
-export function useOrientationMode(): OrientationType {
-    const [mode, setMode] = React.useState<OrientationType>(OrientationUtil.mode());
+export function useOrientation(): OrientationType {
+    const [orientation, setOrientation] = React.useState<OrientationType>(OrientationUtil.current());
 
-    React.useEffect(() => {
-        const handler = () => setMode(OrientationUtil.mode());
-        OrientationUtil.onOrientationChange(handler);
+    React.useEffect(() => OrientationUtil.subscribe(setOrientation), []);
 
-        return () => {
-            OrientationUtil.removeOnChange(handler);
-        };
-    }, []);
-
-    return mode;
+    return orientation;
 }
