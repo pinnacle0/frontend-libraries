@@ -78,7 +78,6 @@ describe("ReactUtil.statics", () => {
         expect((Wrapped.B as any).type.displayName).toBe("B");
         expect((Wrapped.C as any).type.displayName).toBe("C");
 
-        // @ts-expect-error
         ReactUtil.statics("Wrapped", {A, B, C, NotAComponent});
     });
 });
