@@ -11,41 +11,34 @@
 
 export type OrientationType = "portrait" | "landscape";
 
-function mode(): OrientationType {
+export type Subscriber = (orientation: OrientationType) => void;
+
+const supportScreenOrientationAPI = typeof window.screen.orientation !== "undefined";
+
+function subscribe(subscriber: Subscriber): () => void {
+    const handler = () => subscriber(current());
+    if (supportScreenOrientationAPI) {
+        window.screen.orientation.addEventListener("change", handler);
+        return () => window.screen.orientation.removeEventListener("change", handler);
+    } else {
+        window.addEventListener("orientationchange", handler);
+        return () => window.removeEventListener("orientationchange", handler, false);
+    }
+}
+
+function current(): OrientationType {
     try {
-        if (!window.screen.orientation && typeof window.orientation !== undefined) {
+        if (supportScreenOrientationAPI) {
+            return window.screen.orientation.angle === 0 ? "portrait" : "landscape";
+        } else {
             return window.orientation === 0 ? "portrait" : "landscape";
         }
-
-        if (window.screen.availHeight > window.screen.availWidth) {
-            return "portrait";
-        }
-        return "landscape";
     } catch (e) {
-        return "landscape";
-    }
-}
-
-function onOrientationChange(callback: () => void): void {
-    if (window.screen.orientation?.addEventListener) {
-        // some Android browser may not support this method
-        window.screen.orientation.addEventListener("change", callback);
-    } else {
-        window.addEventListener("orientationchange", callback);
-    }
-}
-
-function removeOnChange(callback: () => void): void {
-    if (window.screen.orientation?.removeEventListener) {
-        // some Android browser may not support this method
-        window.screen.orientation.removeEventListener("change", callback);
-    } else {
-        window.removeEventListener("orientationchange", callback);
+        return "portrait";
     }
 }
 
 export const OrientationUtil = Object.freeze({
-    mode,
-    onOrientationChange,
-    removeOnChange,
+    subscribe,
+    current,
 });
