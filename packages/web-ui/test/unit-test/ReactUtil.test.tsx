@@ -69,7 +69,6 @@ describe("ReactUtil.statics", () => {
         // Passes too, even if `const A = {A1, A2}` here
         const B = ReactUtil.memo("B", () => <div />);
         const C = ReactUtil.memo("C", () => <div />);
-        const NotAComponent = () => 4;
 
         const Wrapped = ReactUtil.statics("Wrapped", {A, B, C});
         expect(Object.keys(Wrapped.A)).toEqual(["A1", "A2"]);
@@ -78,6 +77,7 @@ describe("ReactUtil.statics", () => {
         expect((Wrapped.B as any).type.displayName).toBe("B");
         expect((Wrapped.C as any).type.displayName).toBe("C");
 
-        ReactUtil.statics("Wrapped", {A, B, C, NotAComponent});
+        // @ts-expect-error
+        ReactUtil.statics("Wrapped", {A, B, C, a: 123});
     });
 });
