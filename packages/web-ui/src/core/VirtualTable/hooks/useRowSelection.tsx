@@ -58,6 +58,7 @@ export const useRowSelection = function <RowType extends object>({columns, dataS
 
         const rowSelectionColumn: VirtualTableColumn<RowType> = {
             width,
+            align: "center",
             fixed: fixed ? "left" : undefined,
             title: title || <Checkbox disabled={isAllSelectionDisabled} indeterminate={isIndeterminate} onChange={onSelectAll} value={isAllSelected} />,
             renderData: (data, rowIndex) => {
