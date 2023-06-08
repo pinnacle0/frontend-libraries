@@ -48,6 +48,7 @@ export const TableRow = ReactUtil.memo("TableRow", function <
                                 height: rowHeight,
                                 width: cellWidth - (isLastShownColumn ? scrollBarSize : 0),
                                 justifyContent: column.align === "center" ? "center" : column.align === "right" ? "flex-end" : "flex-start",
+                                textAlign: column.align,
                                 left: column.fixed === "left" ? stickyPosition?.value : undefined,
                                 right: column.fixed === "right" ? stickyPosition?.value - (isLastShownColumn ? 0 : scrollBarSize) : undefined,
                             }}

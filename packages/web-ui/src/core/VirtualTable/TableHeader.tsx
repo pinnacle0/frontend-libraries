@@ -23,6 +23,7 @@ export const TableHeader = ReactUtil.memo("TableHeader", function <RowType exten
                             display: display !== "hidden" ? "flex" : "none",
                             flex: `1 0 ${width}px`,
                             justifyContent: align === "center" ? "center" : align === "right" ? "flex-end" : "flex-start",
+                            textAlign: align,
                             left: fixed === "left" ? stickyPosition?.value : undefined,
                             right: fixed === "right" ? stickyPosition?.value : undefined,
                         }}
