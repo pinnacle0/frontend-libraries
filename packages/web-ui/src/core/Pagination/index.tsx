@@ -5,6 +5,7 @@ import {TextUtil} from "../../internal/TextUtil";
 import "./index.less";
 
 export interface Props {
+    disabled?: boolean;
     onChange: (pageIndex: number) => void;
     totalCount: number;
     totalPage: number;
@@ -33,7 +34,7 @@ export class Pagination extends React.PureComponent<Props> {
     };
 
     render() {
-        const {onShowSizeChange, totalPage, pageIndex, totalCount, small, renderSummary = this.renderSummary, pageSize = 10, pageSizeOptions} = this.props;
+        const {disabled, onShowSizeChange, totalPage, pageIndex, totalCount, small, renderSummary = this.renderSummary, pageSize = 10, pageSizeOptions} = this.props;
         // If last page is divisible by pageSize that it is full page, otherwise only use reminder as last page size.
         const lastPageSize = totalCount % pageSize === 0 ? pageSize : totalCount % pageSize;
         const totalAvailableRecords = pageSize * (totalPage - 1) + lastPageSize;
@@ -42,6 +43,7 @@ export class Pagination extends React.PureComponent<Props> {
                 <div className="g-pagination">
                     {renderSummary !== "none" && renderSummary(totalCount, pageIndex, totalPage)}
                     <AntPagination
+                        disabled={disabled}
                         showSizeChanger={onShowSizeChange !== undefined}
                         onShowSizeChange={onShowSizeChange}
                         size={small ? "small" : "default"}

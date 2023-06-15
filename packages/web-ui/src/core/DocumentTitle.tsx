@@ -8,7 +8,7 @@ import React from "react";
  */
 export interface Props {
     title?: string | null;
-    children: React.ReactElement;
+    children: React.ReactNode;
 }
 
 interface BaseOption {
