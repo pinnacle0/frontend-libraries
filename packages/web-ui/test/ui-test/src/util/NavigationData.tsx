@@ -27,8 +27,9 @@ import {ResultPageDemo} from "../component/admin/ResultPageDemo";
 import {TablePageDemo} from "../component/admin/TablePageDemo";
 import {NavigationHistoryDemo} from "../component/admin/NavigationHistoryDemo";
 import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
-import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigationUtil";
 import {ResizableDemo} from "../component/core/ResizableDemo";
+import {AnimationDemo} from "../component/core/AnimationDemo";
+import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigationUtil";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -160,6 +161,11 @@ export const NavigationData: NavigationGroupItem<TestFeaturePermission, TestFiel
                 url: "/core/resizable",
                 title: "Resizable",
                 componentType: ResizableDemo,
+            },
+            {
+                url: "/core/animation",
+                title: "Animation",
+                componentType: AnimationDemo,
             },
         ],
     },
