@@ -55,6 +55,7 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
         {
             title: "action",
             width: 140,
+            align: "right",
             fixed: horizontalScroll ? "right" : undefined,
             renderData: () => <Button>Click Me</Button>,
         },

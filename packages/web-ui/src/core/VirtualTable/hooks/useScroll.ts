@@ -3,12 +3,12 @@ import React from "react";
 interface Props {
     scrollContentRef: React.RefObject<HTMLDivElement>;
     headerRef: React.RefObject<HTMLDivElement>;
-    isScrollable: boolean;
+    totalSize: number;
 }
 
-export const useScroll = ({scrollContentRef, headerRef, isScrollable}: Props) => {
+export const useScroll = ({scrollContentRef, headerRef, totalSize}: Props) => {
     const checkIsScrollToEdge = useScrollToEdge(scrollContentRef);
-    const {scrollBarSize, calculateScrollBarSize} = useScrollBarSize(scrollContentRef, isScrollable);
+    const {scrollBarSize} = useScrollBarSize(scrollContentRef, totalSize);
 
     const onScroll = React.useCallback(() => {
         requestAnimationFrame(() => {
@@ -19,20 +19,12 @@ export const useScroll = ({scrollContentRef, headerRef, isScrollable}: Props) =>
         });
     }, [scrollContentRef, headerRef, checkIsScrollToEdge]);
 
-    const tableBodyRef = React.useCallback(
-        (node: HTMLDivElement) => {
-            if (node) {
-                checkIsScrollToEdge();
-                calculateScrollBarSize();
-            }
-        },
-        [calculateScrollBarSize, checkIsScrollToEdge]
-    );
+    const tableBodyRef = React.useCallback((node: HTMLDivElement) => node && checkIsScrollToEdge(), [checkIsScrollToEdge]);
 
     return {
         onScroll,
-        scrollBarSize,
         tableBodyRef,
+        scrollBarSize,
     };
 };
 
@@ -51,7 +43,7 @@ export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement
     return checkIsScrollToEdge;
 };
 
-export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElement>, isScrollable: boolean) => {
+export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElement>, totalSize: number) => {
     const [scrollBarSize, setScrollBarSize] = React.useState<number>(0);
 
     const calculateScrollBarSize = React.useCallback(() => {
@@ -63,10 +55,9 @@ export const useScrollBarSize = (scrollContentRef: React.RefObject<HTMLDivElemen
 
     React.useEffect(() => {
         calculateScrollBarSize();
-    }, [calculateScrollBarSize, isScrollable]);
+    }, [calculateScrollBarSize, totalSize]);
 
     return {
         scrollBarSize,
-        calculateScrollBarSize,
     };
 };

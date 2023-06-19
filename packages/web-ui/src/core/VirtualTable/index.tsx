@@ -57,7 +57,6 @@ export const VirtualTable = Object.assign(
         const count = dataSource.length;
         const scrollContentRef = React.useRef<HTMLDivElement | null>(null);
         const totalSize = count * rowHeight;
-        const isVerticalScrollable = scrollContentRef.current ? totalSize > scrollContentRef.current.clientHeight : false;
         const isHorizontalScrollable = scrollContentRef.current ? scrollContentRef.current.scrollWidth > scrollContentRef.current.offsetWidth : false;
         const containerHeight = scrollY ? scrollY + headerHeight + (isHorizontalScrollable ? HORIZONTAL_SCROLL_BAR_HEIGHT : 0) : "100%";
         const emptyElement = emptyPlaceholder || "暂无数据";
@@ -74,7 +73,7 @@ export const VirtualTable = Object.assign(
             overscan,
         });
         const {headerRef, columnWidths, getColumnWidths, columnsStickyPosition} = useColumns({columns: transformedColumns});
-        const {onScroll, scrollBarSize, tableBodyRef} = useScroll({scrollContentRef, headerRef, isScrollable: isVerticalScrollable});
+        const {onScroll, tableBodyRef, scrollBarSize} = useScroll({scrollContentRef, headerRef, totalSize});
 
         React.useEffect(() => {
             // avoid the table content get pressed together on mount
