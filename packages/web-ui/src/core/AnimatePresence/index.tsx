@@ -1,6 +1,7 @@
 import React from "react";
 import {usePrevious} from "../../hooks/usePrevious";
 import {useForceUpdate} from "../../hooks/useForceUpdate";
+import {animated} from "./Animated";
 
 interface Props {
     children: React.ReactNode;
@@ -15,11 +16,15 @@ interface ArrayElement {
 
 type ElementStatusMap = Map<React.Key, {state: ElementState} & ArrayElement>;
 
+/**
+ * Presence exit animation of the element
+ * All direct children of AnimatePresence must be <Animated />
+ */
 export const AnimatePresence = ({children}: Props) => {
     const validChildren = getValidChildren(children);
-    const ereviousValidChildren = usePrevious(validChildren);
-    const statusMapRef = React.useRef<ElementStatusMap>(new Map());
-    const forceUpdate = useForceUpdate();
+    const previousValidChildren = usePrevious(validChildren);
+    // const statusMapRef = React.useRef<ElementStatusMap>(new Map());
+    // const forceUpdate = useForceUpdate();
 
     return <div className="g-animate-presence">{children}</div>;
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import {DemoHelper} from "../DemoHelper";
-import {AnimatePresence} from "../../../../../src/core/AnimatePresence";
-import {Space} from "../../../../../src/core/Space";
-import {Input} from "../../../../../src/core/Input";
-import {Button} from "../../../../../src/core/Button";
-import type {DemoHelperGroupConfig} from "../DemoHelper";
-import {Animated} from "@pinnacle0/web-ui/core/AnimatePresence/Animated";
+import {AnimatePresence} from "@pinnacle0/web-ui/core/AnimatePresence";
+import {animated} from "@pinnacle0/web-ui/core/AnimatePresence/Animated";
+import {Button} from "@pinnacle0/web-ui/core/Button";
+import {Input} from "@pinnacle0/web-ui/core/Input";
+import {Space} from "@pinnacle0/web-ui/core/Space";
 import {CloseCircleFilled} from "@ant-design/icons";
+import type {DemoHelperGroupConfig} from "../DemoHelper";
 
 const AnimatedList = () => {
     const [list, setList] = React.useState<string[]>(["1", "122", "123", "1333"]);
@@ -18,12 +18,12 @@ const AnimatedList = () => {
         <Space direction="vertical" size={20}>
             <AnimatePresence>
                 {list.map((_, index) => (
-                    <Animated.div key={index}>
+                    <animated.div key={index}>
                         <Space size={15}>
                             <Button type="ghost" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                             <span>{_}</span>
                         </Space>
-                    </Animated.div>
+                    </animated.div>
                 ))}
             </AnimatePresence>
             <Space>
