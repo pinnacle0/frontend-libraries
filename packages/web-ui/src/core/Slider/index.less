@@ -10,21 +10,29 @@
     > .increase-button {
         width: 18px;
         height: 18px;
-        line-height: 18px;
-        min-width: 18px;
         margin-top: 7px;
         padding: 0;
-        display: inline-block;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
 
-        > span {
-            display: inline-block;
-            transform: scaleY(1.6) scaleX(0.6) translateY(-2px);
-            font-weight: 300;
+        > svg {
+            fill: #d9d9d9;
+            stroke: #d9d9d9;
+            transition: fill 0.3s, stroke 0.3s;
+        }
+
+        &:hover {
+            > svg {
+                fill: #3d9cf1;
+                stroke: #3d9cf1;
+            }
         }
     }
 
     > .decrease-button {
         margin-right: 5px;
+        transform: rotate(180deg);
     }
 
     > .increase-button {

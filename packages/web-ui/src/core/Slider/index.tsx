@@ -42,13 +42,25 @@ export class Slider extends React.PureComponent<Props> {
             <span className={classNames("g-slider", className)}>
                 {showButton && (
                     <Button className="decrease-button" onClick={() => this.onChange(value - safeStep)}>
-                        <span>{"<"}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="4.073" height="7.802" viewBox="0 0 4.073 7.802">
+                            <path
+                                data-name="路径 12"
+                                d="M-5.76.578a.365.365 0 0 1 .052-.5.332.332 0 0 1 .479.055l2.3 2.982a.472.472 0 0 1 0 .572l-2.3 2.982a.332.332 0 0 1-.479.055.365.365 0 0 1-.052-.5L-3.586 3.4z"
+                                transform="translate(6.381 .501)"
+                            />
+                        </svg>
                     </Button>
                 )}
                 <AntSlider range={false} value={value} onChange={this.onChange} step={safeStep} {...restProps} />
                 {showButton && (
                     <Button className="increase-button" onClick={() => this.onChange(value + safeStep)}>
-                        <span>{">"}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="4.073" height="7.802" viewBox="0 0 4.073 7.802">
+                            <path
+                                data-name="路径 12"
+                                d="M-5.76.578a.365.365 0 0 1 .052-.5.332.332 0 0 1 .479.055l2.3 2.982a.472.472 0 0 1 0 .572l-2.3 2.982a.332.332 0 0 1-.479.055.365.365 0 0 1-.052-.5L-3.586 3.4z"
+                                transform="translate(6.381 .501)"
+                            />
+                        </svg>
                     </Button>
                 )}
             </span>
