@@ -1,6 +1,6 @@
 import React from "react";
 import {ReactUtil} from "../util/ReactUtil";
-import AntdConfigProvider, {ConfigProviderProps} from "antd/es/config-provider";
+import AntdConfigProvider, {type ConfigProviderProps} from "antd/es/config-provider";
 import type {ThemeConfig} from "antd";
 
 export type Theme = ThemeConfig;
