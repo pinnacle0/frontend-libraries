@@ -38,9 +38,9 @@ export const AnimatePresence = ({children}: Props) => {
         }
     });
 
-    const removeds = calculateRemovedChildren(validChildren, previousValidChildren);
+    const removedChildren = calculateRemovedChildren(validChildren, previousValidChildren);
 
-    removeds.forEach(removed => {
+    removedChildren.forEach(removed => {
         const key = getKey(removed.element);
         statusMap.set(key, {
             state: "exiting",
@@ -69,17 +69,17 @@ function getKey(element: React.ReactElement): React.Key {
     return element.key;
 }
 
-function calculateRemovedChildren(currentChldren: React.ReactElement[], previousChildren: React.ReactElement[]) {
-    const currentKeys = currentChldren.map(_ => _.key);
-    const removeds: ArrayElement[] = [];
+function calculateRemovedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]) {
+    const currentKeys = currentChildren.map(_ => _.key);
+    const removedChildren: ArrayElement[] = [];
 
     for (const [index, element] of previousChildren.entries()) {
         if (!currentKeys.includes(getKey(element))) {
-            removeds.push({element, index});
+            removedChildren.push({element, index});
         }
     }
 
-    return removeds;
+    return removedChildren;
 }
 
 function getValidChildren(children: React.ReactNode): Array<React.ReactElement> {
