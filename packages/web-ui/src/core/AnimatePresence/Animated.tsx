@@ -1,47 +1,82 @@
 import React from "react";
 
 type UnionIntrinsicElementProps = React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements] & AnimatedBaseProps;
+interface AnimationKeyframe {
+    frames: Keyframe[] | PropertyIndexedKeyframes;
+    options?: KeyframeAnimationOptions;
+}
+interface AnimatedBaseProps {
+    enter?: AnimationKeyframe;
+    exit?: AnimationKeyframe;
+    onEntering?: () => void;
+    onEntered?: () => void;
+    onExiting?: () => void;
+    onExited?: () => void;
+}
 
 function createAnimatedComponent(element: keyof React.JSX.IntrinsicElements): React.FunctionComponent<any> {
     function Animated(props: UnionIntrinsicElementProps) {
-        const {children, ref: userRef, enter, exit, enterOptions, exitOptions, ...restProps} = props;
-        const elementRef = React.useRef<Element | null>(null);
-        const ref = compositeRef(elementRef, typeof userRef === "string" ? null : userRef);
-        const frames = React.useRef({
-            enter,
-            exit,
-            enterOptions,
-            exitOptions,
-        });
-
-        frames.current = {
-            enter,
-            exit,
-            enterOptions,
-            exitOptions,
+        const {children, ref, enter, exit, onEntered, onEntering, onExited, onExiting, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps & {
+            __removed?: boolean;
+            __onExited?: () => void;
         };
+        const exited = () => {
+            __onExited?.();
+            onExited?.();
+        };
+        const animationSettings = {enter, exit, onEntered, onEntering, onExiting, exited};
+        const elementRef = React.useRef<Element | null>(null);
+        const compositeRef = useCompositeRef(elementRef, typeof ref === "string" ? null : ref);
+
+        const animationSettingsRef = React.useRef(animationSettings);
+        animationSettingsRef.current = animationSettings;
 
         React.useLayoutEffect(() => {
             const element = elementRef.current;
             if (!element) return;
-            const animation = element.animate(frames.current.enter ?? null, frames.current.enterOptions);
 
-            return () => animation.cancel();
+            const {enter, onEntered, onEntering} = animationSettingsRef.current;
+            if (!enter || !enter.frames) {
+                onEntered?.();
+                return;
+            }
+
+            onEntering?.();
+            const animation = element.animate(enter.frames, enter.options);
+            if (onEntered) animation.onfinish = onEntered;
+
+            return () => {
+                animation.onfinish = null;
+                animation.cancel();
+            };
         }, []);
 
-        return React.createElement(element, {...(restProps as any), ref}, children);
+        React.useLayoutEffect(() => {
+            const element = elementRef.current;
+            if (typeof __removed !== "boolean" || __removed === false || !element) return;
+
+            const {exit, onExiting, exited} = animationSettingsRef.current;
+            if (!exit || !exit.frames) {
+                exited();
+                return;
+            }
+
+            onExiting?.();
+            const animation = element.animate(exit.frames, exit.options);
+            if (exited) animation.onfinish = exited;
+
+            return () => {
+                animation.cancel();
+                animation.onfinish = null;
+            };
+        }, [__removed]);
+
+        return React.createElement(element, {...(restProps as any), ref: compositeRef}, children);
     }
 
     Animated.$isAnimatedComponent = true;
 
     return Animated;
-}
-
-interface AnimatedBaseProps {
-    enter?: Keyframe[] | PropertyIndexedKeyframes;
-    enterOptions?: KeyframeAnimationOptions;
-    exit?: Keyframe[] | PropertyIndexedKeyframes;
-    exitOptions?: KeyframeAnimationOptions;
 }
 
 export type AnimatedType<T extends keyof React.JSX.IntrinsicElements = keyof React.JSX.IntrinsicElements> = {
@@ -65,7 +100,7 @@ export const RawAnimated: any = new Proxy(
 
 export const animated: AnimatedType = RawAnimated as AnimatedType;
 
-function compositeRef(...refs: Array<React.MutableRefObject<any> | React.RefCallback<any> | undefined | null>) {
+function useCompositeRef(...refs: Array<React.MutableRefObject<any> | React.RefCallback<any> | undefined | null>) {
     return (node: Node) => {
         refs.forEach(ref => {
             if (!ref) return;
