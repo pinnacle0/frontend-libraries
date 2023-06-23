@@ -13,56 +13,41 @@ export interface Props {
 /**
  * Presence exit animation of the element
  * All direct children of AnimatePresence must be <Animated />, and each one must have a unique key (index will NOT work)
+ * Caveat: insert and remove element by index during animation do not work as expected
  */
 export const AnimatePresence = ({children}: Props) => {
     const validChildren = getValidChildren(children);
     const previousValidChildren = usePrevious(validChildren);
-    const elementStatusMapRef = React.useRef(new Map<React.Key, ArrayElement>());
+    const renderedListKey = React.useRef<React.Key[]>(validChildren.map(_ => getKey(_)));
+    const elementMapRef = React.useRef(new Map<React.Key, React.ReactElement>());
     const forceUpdate = useForceUpdate();
 
-    const elementStatusMap = elementStatusMapRef.current;
-    validChildren.forEach((element, index) => {
-        const key = getKey(element);
-        const elementStatus = elementStatusMap.get(key);
-        if (elementStatus) {
-            elementStatusMap.set(key, {
-                ...elementStatus,
-                // __removed exist to prevent re-trigger hook when exiting
-                element: React.cloneElement(element, {__removed: false, __onExited: undefined}),
-            });
-        } else {
-            elementStatusMap.set(key, {index, element: React.cloneElement(element, {__removed: false, __onExited: undefined})});
-        }
-    });
+    const elementMap = elementMapRef.current;
+
+    validChildren.map(element => elementMap.set(getKey(element), React.cloneElement(element, {__removed: false, __onExited: undefined})));
 
     const removedChildren = calculateRemovedChildren(validChildren, previousValidChildren);
-
-    removedChildren.forEach(removed => {
-        const key = getKey(removed.element);
-        elementStatusMap.set(key, {
-            index: removed.index,
-            element: React.cloneElement(removed.element, {
+    removedChildren.map(element => {
+        const key = getKey(element);
+        elementMap.set(
+            key,
+            React.cloneElement(element, {
                 __removed: true,
                 __onExited: () => {
-                    elementStatusMapRef.current.delete(key);
+                    elementMapRef.current.delete(key);
+                    renderedListKey.current = renderedListKey.current.filter(_ => _ !== key);
                     forceUpdate();
                 },
-            }),
-        });
+            })
+        );
     });
 
-    const childrenToRender: React.ReactElement[] = [];
+    const addedChildren = calculateAddedChildren(validChildren, previousValidChildren);
+    addedChildren.forEach(({element, index}) => {
+        renderedListKey.current.splice(index, 0, getKey(element));
+    });
 
-    console.log("\n\n");
-    console.log("elementStatusMap ---------");
-    for (const [, {index, element}] of elementStatusMap) {
-        console.log(index, element);
-        childrenToRender.splice(index, 0, element);
-    }
-    console.log("elementStatusMap ---------- end");
-
-    console.log("childrenToRender", childrenToRender);
-    console.log("\n\n");
+    const childrenToRender: React.ReactElement[] = renderedListKey.current.map(key => elementMap.get(key)!);
 
     return <div className="g-animate-presence">{childrenToRender}</div>;
 };
@@ -72,17 +57,30 @@ function getKey(element: React.ReactElement): React.Key {
     return element.key;
 }
 
-function calculateRemovedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]) {
+function calculateRemovedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]): React.ReactElement[] {
     const currentKeys = new Set(currentChildren.map(_ => _.key));
-    const removedChildren: ArrayElement[] = [];
+    const removedChildren: React.ReactElement[] = [];
 
-    for (const [index, element] of previousChildren.entries()) {
+    for (const [, element] of previousChildren.entries()) {
         if (!currentKeys.has(getKey(element))) {
-            removedChildren.push({element, index});
+            removedChildren.push(element);
         }
     }
 
     return removedChildren;
+}
+
+function calculateAddedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]): ArrayElement[] {
+    const previousKeys = new Set(previousChildren.map(_ => _.key));
+    const addedChildren: ArrayElement[] = [];
+
+    for (const [index, element] of currentChildren.entries()) {
+        if (!previousKeys.has(getKey(element))) {
+            addedChildren.push({element, index});
+        }
+    }
+
+    return addedChildren;
 }
 
 function getValidChildren(children: React.ReactNode): Array<React.ReactElement> {

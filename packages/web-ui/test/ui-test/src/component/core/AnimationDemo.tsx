@@ -7,10 +7,12 @@ import {Input} from "@pinnacle0/web-ui/core/Input";
 import {Space} from "@pinnacle0/web-ui/core/Space";
 import {CloseCircleFilled} from "@ant-design/icons";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
+import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 
 const AnimatedList = () => {
     const [list, setList] = React.useState<string[]>(["1", "2", "3", "4"]);
     const [value, setValue] = React.useState("");
+    const [index, setIndex] = React.useState<number | null>(null);
 
     const remove = (index: number) => setList(list => list.filter((_, i) => i !== index));
 
@@ -47,11 +49,18 @@ const AnimatedList = () => {
             </Button>
             <Space>
                 <Input value={value} onChange={setValue} placeholder="Add new item" />
-
+                <NumberInput allowNull value={index} onChange={setIndex} placeholder="inset at" />
                 <Button
                     onClick={() => {
-                        setList(_ => [..._, value]);
+                        if (index === null) {
+                            setList(_ => [..._, value]);
+                        } else {
+                            const newList = [...list];
+                            newList.splice(index, 0, value);
+                            setList(newList);
+                        }
                         setValue("");
+                        setIndex(null);
                     }}
                 >
                     Add
