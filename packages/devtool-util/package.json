@@ -7,7 +7,6 @@
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
         "test": "jest --config config/jest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "game": "ts-node --build config/tsconfig.test.json ./script/game.ts",
         "copy-static-files": "node script/copyStaticFiles.js",
         "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files",
         "prepublishOnly": "pnpm build"
