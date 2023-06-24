@@ -1,12 +1,13 @@
 import path from "path";
 import {ModuleGeneratorBase} from "./ModuleGeneratorBase";
 import type {PlatformSpecificModuleGeneratorOptions} from "./type";
+import {Utility} from "../Utility";
 
 export class WebModuleGenerator extends ModuleGeneratorBase {
     constructor(options: PlatformSpecificModuleGeneratorOptions) {
         super({
             ...options,
-            templateDirectory: path.join(__dirname, "./core-fe-template"),
+            templateDirectory: Utility.getTemplatePath("core-fe"),
             generateImportStatementForNewModuleState({moduleStateName, partialModulePath}) {
                 return `import type {State as ${moduleStateName}} from "module/${partialModulePath}/type";`;
             },

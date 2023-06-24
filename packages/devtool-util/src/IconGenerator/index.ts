@@ -10,7 +10,7 @@ export class IconGenerator {
     private readonly fontFamily: string;
     private readonly svgDirectory: string;
 
-    private readonly templateDirectory = path.join(__dirname, "./icon-template");
+    private readonly templateDirectory = Utility.getTemplatePath("icon");
     private readonly logger = Utility.createConsoleLogger("IconGenerator");
 
     private cssContent: string = "";
