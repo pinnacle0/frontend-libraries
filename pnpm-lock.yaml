@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -159,15 +159,9 @@ importers:
         specifier: '>=2.6.0'
         version: 2.8.8
     devDependencies:
-      '@types/fs-extra':
-        specifier: 11.0.1
-        version: 11.0.1
       '@types/yargs':
         specifier: 17.0.24
         version: 17.0.24
-      fs-extra:
-        specifier: 11.1.1
-        version: 11.1.1
     publishDirectory: build
 
   packages/eslint-plugin:
