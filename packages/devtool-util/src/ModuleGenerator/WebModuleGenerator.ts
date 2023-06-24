@@ -1,4 +1,3 @@
-import path from "path";
 import {ModuleGeneratorBase} from "./ModuleGeneratorBase";
 import type {PlatformSpecificModuleGeneratorOptions} from "./type";
 import {Utility} from "../Utility";
