@@ -11,8 +11,7 @@
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
         "test": "jest --config config/jest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "copy-static-files": "node script/copyStaticFiles.js",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile && pnpm run copy-static-files",
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
