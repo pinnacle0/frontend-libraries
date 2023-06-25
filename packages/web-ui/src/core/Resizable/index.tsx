@@ -3,6 +3,7 @@ import {Resizer} from "./Resizer";
 import {classNames} from "../../util/ClassNames";
 import type {DragState} from "../../hooks/useDraggable/type";
 import "./index.less";
+import {useCompositeRef} from "../../hooks/useCompositeRef";
 
 interface Rect {
     top: number;
@@ -29,15 +30,7 @@ export const Resizable = React.forwardRef<HTMLDivElement, Props>(
     ({initialHeight, initialWidth, x, y, className, style, gap, children, maxHeight = window.innerHeight, maxWidth = window.innerWidth, minHeight = 0, minWidth = 0, ...restProps}, ref) => {
         const resizableRef = React.useRef<HTMLDivElement | null>(null);
         const startRect = React.useRef<Rect>({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
-
-        const compositeRef = (node: HTMLDivElement) => {
-            if (node) {
-                if (ref) {
-                    typeof ref === "function" ? ref(node) : (ref.current = node);
-                }
-                resizableRef.current = node;
-            }
-        };
+        const compositeRef = useCompositeRef(resizableRef, ref);
 
         const onResizeStart = () => {
             if (resizableRef.current) {
