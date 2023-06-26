@@ -4,11 +4,11 @@
         "lib": ["ES2020"],
         "module": "CommonJS",
         "target": "ES5",
-        "outDir": "../build/",
-        "rootDir": "../",
+        "outDir": "../build",
+        "rootDir": "../src",
         "declaration": true,
         "isolatedModules": true
     },
-    "include": ["../index.ts", "../src/"],
+    "include": ["../src"],
     "exclude": ["**/__fixtures__/"]
 }

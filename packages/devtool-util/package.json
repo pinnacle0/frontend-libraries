@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "1.2.7",
+    "version": "1.2.6",
     "main": "./src/index.ts",
     "license": "MIT",
     "files": [
@@ -12,7 +12,7 @@
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
         "test": "jest --config config/jest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && pnpm run compile",
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -r ./build && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
@@ -28,7 +28,6 @@
         "node": ">=16.15.0"
     },
     "publishConfig": {
-        "directory": "build",
         "main": "./build/index.js",
         "linkDirectory": false
     },
