@@ -38,6 +38,7 @@ export class WebpackConfigGenerator {
     private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
     private readonly outputPublicPath: string;
+    private readonly stage3Decorator: boolean;
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
@@ -54,6 +55,7 @@ export class WebpackConfigGenerator {
         this.verbose = options.verbose || false;
         this.defineVars = options.defineVars || {};
         this.extraExtensionsForOtherRule = options.extraExtensionsForOtherRule || [];
+        this.stage3Decorator = options.stage3Decorators ?? false;
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -119,7 +121,7 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    Rule.ts({fastRefresh: true}),
+                    Rule.ts({fastRefresh: true, stage3Decorators: this.stage3Decorator}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
@@ -185,7 +187,7 @@ export class WebpackConfigGenerator {
             module: {
                 rules: [
                     // prettier-format-preserve
-                    Rule.ts(),
+                    Rule.ts({stage3Decorators: this.stage3Decorator}),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),

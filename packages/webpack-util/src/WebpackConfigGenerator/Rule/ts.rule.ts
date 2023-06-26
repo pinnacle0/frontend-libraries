@@ -3,10 +3,11 @@ import {RegExpUtil} from "./RegExpUtil";
 
 interface Deps {
     fastRefresh?: boolean;
+    stage3Decorators?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- temp disable
-export function tsRule({fastRefresh = false}: Deps = {}): webpack.RuleSetRule {
+export function tsRule({fastRefresh = false, stage3Decorators}: Deps = {}): webpack.RuleSetRule {
     const swcLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("swc-loader"),
         options: {
@@ -21,8 +22,7 @@ export function tsRule({fastRefresh = false}: Deps = {}): webpack.RuleSetRule {
                         runtime: "classic",
                         refresh: fastRefresh,
                     },
-                    legacyDecorator: true,
-                    decoratorMetadata: true,
+                    decoratorVersion: stage3Decorators ? "2022-03" : "2021-12",
                 },
                 experimental: {
                     plugins: fastRefresh ? [[require.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,

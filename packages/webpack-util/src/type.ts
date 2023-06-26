@@ -104,6 +104,10 @@ export interface WebpackConfigGeneratorOptions {
     defineVars?: {[key: string]: string} | undefined;
     onSuccess?: () => void;
     extraExtensionsForOtherRule?: string[] | undefined;
+    /**
+     * To enable stage 3 decorators transform. (remove in future version to make it default)
+     */
+    stage3Decorators?: boolean | undefined;
 }
 
 export interface EntryDescriptor {
