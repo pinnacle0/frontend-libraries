@@ -9,7 +9,7 @@ const componentCache = new Map<string, Function>();
 export const RawAnimated: any = new Proxy(
     {},
     {
-        get(target, key: string) {
+        get(_, key: string) {
             let component = componentCache.get(key);
             if (!component) {
                 component = createAnimatedComponent(key as any);
@@ -21,9 +21,10 @@ export const RawAnimated: any = new Proxy(
 );
 
 /**
- * Why favour <animated.div/> over <Animated variant="div" /> ?
+ * Why favour <Animated.div/> over <Animated variant="div" /> ?
  * LATER ONE IS SLOW. The intellisense (code completion) will be so slow that it completely destroy DX, especially in IDEA
  * Seem like the LSP will try to calculate the props type base on all key of React.JSX.IntrinsicElements
  * Don't know exactly why. But it's slow as hell
  */
-export const animated: AnimatedType = RawAnimated as AnimatedType;
+export const Animated: AnimatedType = RawAnimated as AnimatedType;
+export {AnimatePresence} from "./AnimatePresence";

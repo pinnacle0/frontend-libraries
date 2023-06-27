@@ -1,7 +1,6 @@
 import React from "react";
 import {DemoHelper} from "../DemoHelper";
-import {AnimatePresence} from "@pinnacle0/web-ui/core/AnimatePresence";
-import {animated} from "@pinnacle0/web-ui/core/AnimatePresence/Animated";
+import {AnimatePresence, Animated} from "@pinnacle0/web-ui/core/Animated";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {Space} from "@pinnacle0/web-ui/core/Space";
@@ -20,7 +19,7 @@ const AnimatedList = () => {
         <Space direction="vertical" size={20}>
             <AnimatePresence>
                 {list.map((_, index) => (
-                    <animated.div
+                    <Animated.div
                         key={_}
                         enter={{
                             frames: [
@@ -41,7 +40,7 @@ const AnimatedList = () => {
                             <Button type="ghost" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                             <span>{_}</span>
                         </Space>
-                    </animated.div>
+                    </Animated.div>
                 ))}
             </AnimatePresence>
             <Button type="primary" onClick={() => setList([])}>
