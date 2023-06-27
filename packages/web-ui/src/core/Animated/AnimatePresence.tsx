@@ -45,7 +45,7 @@ export const AnimatePresence = ({children}: Props) => {
     const addedChildren = calculateAddedChildren(validChildren, previousValidChildren);
     addedChildren.forEach(({element, index}) => {
         const key = getKey(element);
-        if (elementMap.has(key)) return;
+        if (renderedListKey.current.includes(key)) return;
         renderedListKey.current.splice(index, 0, getKey(element));
     });
 
