@@ -9,12 +9,14 @@ export function Throttle<This, Args extends any[], Fn extends (this: This, ...ar
     let lastTime = 0;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- keep context for type inference
     return (target: Fn, context: ClassMethodDecoratorContext<any, Fn>) => {
-        return function (this: This, ...args: Args) {
+        const replacement = function (this: This, ...args: Args) {
             const currentTime = Date.now();
             if (currentTime > lastTime + millisecond) {
                 target.apply(this, args);
                 lastTime = currentTime;
             }
         };
+
+        return replacement as Fn;
     };
 }
