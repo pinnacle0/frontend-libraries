@@ -3,18 +3,24 @@ import {Memo} from "../../src/decorator/Memo";
 test("@Memo", () => {
     const mock = jest.fn();
     class Person {
-        constructor(private name: string) {}
+        constructor(private name: string, private age: number) {}
         @Memo
         getName(...args: any[]) {
             mock();
             return {args, name: this.name};
         }
+
+        @Memo
+        getAge(...args: any[]) {
+            mock();
+            return {args, age: this.age};
+        }
     }
 
-    const mary = new Person("Mary");
+    const mary = new Person("Mary", 18);
 
     // void
-    let result = mary.getName();
+    let result: any = mary.getName();
     expect(mock).toBeCalledTimes(1);
     expect(result).toStrictEqual({args: [], name: "Mary"});
 
@@ -48,4 +54,8 @@ test("@Memo", () => {
     result = mary.getName(object);
     expect(mock).toBeCalledTimes(4);
     expect(result).toStrictEqual({args: [{a: 1, b: 2}], name: "Mary"});
+
+    result = mary.getAge(123);
+    expect(mock).toBeCalledTimes(5);
+    expect(result).toStrictEqual({args: [123], age: 18});
 });

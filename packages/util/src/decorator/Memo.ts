@@ -6,18 +6,26 @@
  */
 const MemoCacheKey = Symbol("MemoCacheKey");
 const defaultMemoKeyGenerator = (args: any[]) => (args.length ? JSON.stringify(args) : "");
+type FunctionResultCacheStore<Fn> = Map<Fn, Map<string, any>>;
 
 export function Memo<Args extends any[], Return, Fn extends (...args: Args) => Return>(fn: Fn, context: ClassMethodDecoratorContext<any, Fn>) {
     context.addInitializer(function (this) {
-        this[MemoCacheKey] = {};
+        this[MemoCacheKey] = new Map();
     });
     return function (this: any, ...args: Args) {
         const paramKey = defaultMemoKeyGenerator(args);
-        let cache = this[MemoCacheKey][paramKey];
-        if (!cache) {
-            cache = fn.apply(this, args);
-            this[MemoCacheKey][paramKey] = cache;
+        const store: FunctionResultCacheStore<Fn> = this[MemoCacheKey];
+
+        let functionCache = store.get(fn);
+        if (!functionCache) {
+            functionCache = new Map();
+            store.set(fn, functionCache);
         }
-        return cache;
+
+        if (!functionCache.has(paramKey)) {
+            functionCache.set(paramKey, fn.apply(this, args));
+        }
+
+        return functionCache.get(paramKey);
     };
 }
