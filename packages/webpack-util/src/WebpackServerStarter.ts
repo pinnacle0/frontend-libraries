@@ -10,15 +10,7 @@ export interface WebpackServerStarterOptions
     extends Pick<
         WebpackConfigGeneratorOptions,
         // prettier-reserve
-        | "projectDirectory"
-        | "dynamicPathResolvers"
-        | "extraEntries"
-        | "prioritizedExtensionPrefixes"
-        | "defineVars"
-        | "extraExtensionsForOtherRule"
-        | "tsconfigFilePath"
-        | "tsconfigFilename"
-        | "stage3Decorators"
+        "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "defineVars" | "extraExtensionsForOtherRule" | "tsconfigFilePath" | "tsconfigFilename"
     > {
     port: number;
     apiProxy?: {
@@ -63,7 +55,6 @@ export class WebpackServerStarter {
         extraExtensionsForOtherRule,
         tsconfigFilePath,
         tsconfigFilename,
-        stage3Decorators,
     }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -92,7 +83,6 @@ export class WebpackServerStarter {
             extraExtensionsForOtherRule,
             tsconfigFilePath,
             tsconfigFilename,
-            stage3Decorators,
         }).development();
     }
 
