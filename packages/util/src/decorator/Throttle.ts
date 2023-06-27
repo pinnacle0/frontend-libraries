@@ -1,27 +1,20 @@
-import type {VoidFunctionDecorator} from "./type";
+// import type {VoidFunctionDecorator} from "./type";
 
 /**
  * For void functions:
  *
  * Limit the call frequency to max 1 time during @millisecond。
  */
-export function Throttle(millisecond: number): VoidFunctionDecorator {
-    return (target, propertyKey, descriptor) => {
-        /**
-         * For latest decorator spec, there is only one "target" parameter, which has "descriptor" property.
-         *      https://tc39.github.io/proposal-decorators/#sec-decorator-functions-element-descriptor
-         *      https://github.com/tc39/proposal-decorators/blob/master/METAPROGRAMMING.md
-         */
-        const realDescriptor = descriptor || (target as any).descriptor;
-        const fn = realDescriptor.value!;
-        let lastTime = 0;
-        realDescriptor.value = function (...args: any[]) {
+export function Throttle<This, Args extends any[], Fn extends (this: This, ...args: Args) => void>(millisecond: number) {
+    let lastTime = 0;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- keep context for type inference
+    return (target: Fn, context: ClassMethodDecoratorContext<any, Fn>) => {
+        return function (this: This, ...args: Args) {
             const currentTime = Date.now();
             if (currentTime > lastTime + millisecond) {
-                fn.apply(this, args);
+                target.apply(this, args);
                 lastTime = currentTime;
             }
         };
-        return descriptor || target;
     };
 }

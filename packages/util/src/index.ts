@@ -19,6 +19,5 @@ export {VersionComparator} from "./core/VersionComparator";
 
 export {Memo} from "./decorator/Memo";
 export {Throttle} from "./decorator/Throttle";
-export type {AnyFunctionDecorator, VoidFunctionDecorator} from "./decorator/type";
 
 export * from "./type";
