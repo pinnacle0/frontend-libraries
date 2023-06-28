@@ -18,7 +18,7 @@ export interface Props {
 export const AnimatePresence = ({children}: Props) => {
     const validChildren = getValidChildren(children);
     const previousValidChildren = usePrevious(validChildren);
-    const renderedListKey = React.useRef<React.Key[]>(validChildren.map(_ => getKey(_)));
+    const renderedKeyList = React.useRef<React.Key[]>(validChildren.map(_ => getKey(_)));
     const elementMapRef = React.useRef(new Map<React.Key, React.ReactElement>());
     const forceUpdate = useForceUpdate();
 
@@ -35,7 +35,7 @@ export const AnimatePresence = ({children}: Props) => {
                 __removed: true,
                 __onExited: () => {
                     elementMapRef.current.delete(key);
-                    renderedListKey.current = renderedListKey.current.filter(_ => _ !== key);
+                    renderedKeyList.current = renderedKeyList.current.filter(_ => _ !== key);
                     forceUpdate();
                 },
             })
@@ -45,11 +45,11 @@ export const AnimatePresence = ({children}: Props) => {
     const addedChildren = calculateAddedChildren(validChildren, previousValidChildren);
     addedChildren.forEach(({element, index}) => {
         const key = getKey(element);
-        if (renderedListKey.current.includes(key)) return;
-        renderedListKey.current.splice(index, 0, getKey(element));
+        if (renderedKeyList.current.includes(key)) return;
+        renderedKeyList.current.splice(index, 0, getKey(element));
     });
 
-    const childrenToRender: React.ReactElement[] = renderedListKey.current.map(key => elementMap.get(key)!);
+    const childrenToRender: React.ReactElement[] = renderedKeyList.current.map(key => elementMap.get(key)!);
 
     return <div className="g-animate-presence">{childrenToRender}</div>;
 };
