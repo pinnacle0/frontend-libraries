@@ -51,7 +51,7 @@ export const AnimatePresence = ({children}: Props) => {
 
     const childrenToRender: React.ReactElement[] = renderedKeyList.current.map(key => elementMap.get(key)!);
 
-    return <div className="g-animate-presence">{childrenToRender}</div>;
+    return <React.Fragment>{childrenToRender}</React.Fragment>;
 };
 
 function getKey(element: React.ReactElement): React.Key {
