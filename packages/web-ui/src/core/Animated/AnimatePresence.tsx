@@ -27,7 +27,7 @@ export const AnimatePresence = ({children}: Props) => {
     validChildren.map(element => elementMap.set(getKey(element), React.cloneElement(element, {__removed: false, __onExited: undefined})));
 
     const removedChildren = calculateRemovedChildren(validChildren, previousValidChildren);
-    removedChildren.map(element => {
+    removedChildren.forEach(element => {
         const key = getKey(element);
         elementMap.set(
             key,
@@ -42,11 +42,22 @@ export const AnimatePresence = ({children}: Props) => {
         );
     });
 
+    const removedChildrenRenderListIndex: number[] = [];
+    elementMapRef.current.forEach((element, key) => {
+        if (element.props.__removed) {
+            const index = renderedKeyList.current.findIndex(_ => _ === key);
+            if (index !== -1) {
+                removedChildrenRenderListIndex.push(index);
+            }
+        }
+    });
+
     const addedChildren = calculateAddedChildren(validChildren, previousValidChildren);
     addedChildren.forEach(({element, index}) => {
         const key = getKey(element);
         if (renderedKeyList.current.includes(key)) return;
-        renderedKeyList.current.splice(index, 0, getKey(element));
+        const numOfRemovedChildrenBefore = removedChildrenRenderListIndex.filter(_ => _ <= index).length;
+        renderedKeyList.current.splice(index + numOfRemovedChildrenBefore, 0, getKey(element));
     });
 
     const childrenToRender: React.ReactElement[] = renderedKeyList.current.map(key => elementMap.get(key)!);

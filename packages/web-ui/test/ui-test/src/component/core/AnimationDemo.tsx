@@ -132,6 +132,44 @@ const NestedAnimatedList = () => {
     );
 };
 
+const AnimatedSlicedList = () => {
+    const [list, setList] = React.useState<string[]>(["1", "2", "3", "4"]);
+
+    const remove = (index: number) => setList(list => list.filter((_, i) => i !== index));
+
+    return (
+        <Space direction="vertical" size={20}>
+            <AnimatePresence>
+                {list.slice(Math.max(list.length - 5, 0)).map((_, index) => (
+                    <Animated.div
+                        key={_}
+                        enter={{
+                            frames: [
+                                {transform: "translateY(-10px)", opacity: 0},
+                                {transform: "translateY(0px)", opacity: 1},
+                            ],
+                            options: {duration: 3000, easing: "ease-out"},
+                        }}
+                        exit={{
+                            frames: [
+                                {transform: "translateX(0px)", opacity: 1},
+                                {transform: "translateX(20px)", opacity: 0},
+                            ],
+                            options: {duration: 5000, easing: "ease-out", fill: "forwards"},
+                        }}
+                    >
+                        <Space size={15}>
+                            <Button type="ghost" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
+                            <span>{_}</span>
+                        </Space>
+                    </Animated.div>
+                ))}
+            </AnimatePresence>
+            <AnimatedListOperators list={list} onChange={setList} />
+        </Space>
+    );
+};
+
 const groups: DemoHelperGroupConfig[] = [
     {
         title: "Animated List",
@@ -144,6 +182,10 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Animated inside Animated",
         components: [<NestedAnimatedList />],
+    },
+    {
+        title: "Animated Sliced List",
+        components: [<AnimatedSlicedList />],
     },
 ];
 
