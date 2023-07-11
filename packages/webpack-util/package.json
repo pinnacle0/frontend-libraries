@@ -29,7 +29,6 @@
         "react-refresh": "0.14.0",
         "style-loader": "3.3.3",
         "swc-loader": "0.2.3",
-        "swc-plugin-core-fe-hmr": "1.0.2",
         "terser-webpack-plugin": "5.3.9",
         "webpack": "5.88.1",
         "webpack-dev-server": "4.15.1",

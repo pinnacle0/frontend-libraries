@@ -23,9 +23,6 @@ export function tsRule({fastRefresh = false}: Deps = {}): webpack.RuleSetRule {
                     },
                     decoratorVersion: "2022-03",
                 },
-                experimental: {
-                    plugins: fastRefresh ? [[require.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
-                },
             },
         },
     };
