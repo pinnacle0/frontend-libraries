@@ -27,15 +27,15 @@
         "demo": "cd demo && pnpm start"
     },
     "dependencies": {
-        "@ant-design/cssinjs": "1.10.1",
+        "@ant-design/cssinjs": "1.11.1",
         "@ant-design/icons": "5.1.4",
         "@juggle/resize-observer": "3.4.0",
         "@tanstack/react-virtual": "3.0.0-beta.30",
-        "antd": "5.5.2",
+        "antd": "5.6.4",
         "classnames": "2.3.2",
-        "dayjs": "1.11.8",
+        "dayjs": "1.11.9",
         "intersection-observer": "0.12.2",
-        "rc-picker": "3.7.4",
+        "rc-picker": "3.8.2",
         "rc-resize-observer": "1.3.1"
     },
     "peerDependencies": {
@@ -54,8 +54,8 @@
         "@testing-library/user-event": "14.4.3",
         "@types/fs-extra": "11.0.1",
         "@types/history": "4.7.11",
-        "@types/react": "18.2.8",
-        "@types/react-dom": "18.2.4",
+        "@types/react": "18.2.14",
+        "@types/react-dom": "18.2.6",
         "@types/react-router": "5.1.20",
         "@types/react-router-dom": "5.3.3",
         "fs-extra": "11.1.1",
