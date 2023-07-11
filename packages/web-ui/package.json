@@ -44,11 +44,11 @@
         "react-router-dom": ">=5.2.0 <6.0.0"
     },
     "devDependencies": {
-        "@babel/core": "7.22.1",
-        "@babel/runtime": "7.22.3",
+        "@babel/core": "7.22.8",
+        "@babel/runtime": "7.22.6",
         "@pinnacle0/devtool-util": "workspace:*",
         "@pinnacle0/webpack-util": "workspace:*",
-        "@testing-library/dom": "9.2.0",
+        "@testing-library/dom": "9.3.1",
         "@testing-library/jest-dom": "5.16.5",
         "@testing-library/react": "14.0.0",
         "@testing-library/user-event": "14.4.3",
