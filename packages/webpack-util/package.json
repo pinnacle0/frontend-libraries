@@ -32,7 +32,8 @@
         "terser-webpack-plugin": "5.3.9",
         "webpack": "5.88.1",
         "webpack-dev-server": "4.15.1",
-        "yargs": "17.7.2"
+        "yargs": "17.7.2",
+        "swc-plugin-core-fe-hmr": "1.0.3"
     },
     "peerDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",

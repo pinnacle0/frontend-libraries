@@ -25,7 +25,7 @@ export class WebpackConfigSerializationUtil {
         });
     }
 
-    static configToString(config: webpack.Configuration): string {
+    static async configToString(config: webpack.Configuration): Promise<string> {
         const configString = prettyFormat(config, {
             callToJSON: true,
             escapeRegex: false,

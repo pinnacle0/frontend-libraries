@@ -41,7 +41,7 @@ export class WebpackConfigGenerator {
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
-    constructor(private readonly options: WebpackConfigGeneratorOptions) {
+    constructor(readonly options: WebpackConfigGeneratorOptions) {
         this.env = CoreUtil.currentEnv();
         this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
@@ -143,7 +143,7 @@ export class WebpackConfigGenerator {
         };
         if (this.verbose || CoreUtil.verbose()) {
             this.logger.info("Full webpack config:");
-            console.info(WebpackConfigSerializationUtil.configToString(config));
+            WebpackConfigSerializationUtil.configToString(config).then(console.info);
         }
         return config;
     }
@@ -203,7 +203,7 @@ export class WebpackConfigGenerator {
         };
         if (this.verbose || CoreUtil.verbose()) {
             this.logger.info("Full webpack config:");
-            console.info(WebpackConfigSerializationUtil.configToString(config));
+            WebpackConfigSerializationUtil.configToString(config).then(console.info);
         }
         return config;
     }
