@@ -55,13 +55,13 @@ export class Route<T> {
         if (cachedMatched) {
             return cachedMatched;
         } else {
-            const match = this.freshlookup(path);
+            const match = this.freshLookup(path);
             this.cache.set(path, match);
             return match;
         }
     }
 
-    private freshlookup(path: string): Match<T> | null {
+    private freshLookup(path: string): Match<T> | null {
         const formattedPath = formatPath(path);
 
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");

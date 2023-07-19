@@ -10,13 +10,13 @@ import type {RouteProps as RouteComponentProps} from "./component/Route";
 import {StackRouter} from "./stackRouter";
 import type {Router} from "./type";
 
-const createChildrenRoute = (children: React.ReactNode, parrentPaths: string[] = [], route: Route<React.ComponentType<any>> = new Route()) => {
+const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = [], route: Route<React.ComponentType<any>> = new Route()) => {
     React.Children.forEach(children, element => {
         invariant(React.isValidElement(element), `${element} is not valid element`);
         invariant(element.type === RouteComponent, `<${element.type}> is not a <Route> component. All children of <Route> should be <Route> as well`);
 
         const props = element.props as RouteComponentProps;
-        const paths = [...parrentPaths];
+        const paths = [...parentPaths];
         paths.push(props.path);
 
         if (props.component) {

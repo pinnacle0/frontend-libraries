@@ -11,7 +11,7 @@ interface Props extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<
 
 export const Link = forwardRef<HTMLAnchorElement, Props>(({to, children, target, onClick, replace: isReplace, state, ...restProps}, ref) => {
     const {push, replace} = useContext(RouterContext);
-    const herf = useMemo(() => (typeof to === "string" ? to : createPath(to)), [to]);
+    const href = useMemo(() => (typeof to === "string" ? to : createPath(to)), [to]);
     const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
         event.preventDefault();
         isReplace ? replace(to, state) : push(to, state);
@@ -19,7 +19,7 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({to, children, target,
     };
 
     return (
-        <a {...restProps} ref={ref} href={herf} onClick={handleClick} target={to ? "_self" : target}>
+        <a {...restProps} ref={ref} href={href} onClick={handleClick} target={to ? "_self" : target}>
             {children}
         </a>
     );

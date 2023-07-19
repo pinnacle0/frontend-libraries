@@ -9,5 +9,5 @@ export interface RouteProps {
 }
 
 export const Route: FunctionComponent<RouteProps> = () => {
-    invariant(false, "Route should be wrappered by <Router> and should not be render directly");
+    invariant(false, "Route should be wrapped by <Router> and should not be render directly");
 };
