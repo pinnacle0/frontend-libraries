@@ -52,19 +52,19 @@ test("Object Safe Assign", () => {
 });
 
 test("Map To Object", () => {
-    expect(ObjectUtil.toObject({a: 1, b: 2, c: 3}, (key, item, index) => index)).toEqual({a: 0, b: 1, c: 2});
-    expect(ObjectUtil.toObject({a: "a", b: 2, c: 3}, (key, item) => item)).toEqual({a: "a", b: 2, c: 3});
+    expect(ObjectUtil.toObject({a: 1, b: 2, c: 3}, (_key, _item, index) => index)).toEqual({a: 0, b: 1, c: 2});
+    expect(ObjectUtil.toObject({a: "a", b: 2, c: 3}, (_, item) => item)).toEqual({a: "a", b: 2, c: 3});
     expect(ObjectUtil.toObject({a: 1, b: 2, c: 3}, key => key)).toEqual({a: "a", b: "b", c: "c"});
-    expect(ObjectUtil.toObject({a: 1, b: 2, c: undefined}, (key, item) => item)).not.toHaveProperty("c");
-    expect(ObjectUtil.toObject({a: 1, b: 2}, (key, item) => item)).not.toHaveProperty("c");
+    expect(ObjectUtil.toObject({a: 1, b: 2, c: undefined}, (_, item) => item)).not.toHaveProperty("c");
+    expect(ObjectUtil.toObject({a: 1, b: 2}, (_, item) => item)).not.toHaveProperty("c");
 });
 
 test("Map To Array", () => {
     const object = {a: "a", b: "b", 1: "c", 2: "d", j: undefined};
 
     expect(ObjectUtil.toArray(object, key => key)).toEqual(["1", "2", "a", "b"]);
-    expect(ObjectUtil.toArray(object, (key, item) => item)).toEqual(["c", "d", "a", "b"]);
-    expect(ObjectUtil.toArray(object, (key, item, index) => index)).toEqual([0, 1, 2, 3]);
+    expect(ObjectUtil.toArray(object, (_, item) => item)).toEqual(["c", "d", "a", "b"]);
+    expect(ObjectUtil.toArray(object, (_key, _item, index) => index)).toEqual([0, 1, 2, 3]);
     // @ts-expect-error
     ObjectUtil.toArray(object, () => undefined);
 
@@ -76,8 +76,8 @@ test("Map To Array", () => {
     const fullMap: {[key in TestEnum]: string | null} = {[TestEnum.A]: "AAA", [TestEnum.B]: "BBB", [TestEnum.C]: null};
     const partialMap: {[key in TestEnum]?: string | null} = {[TestEnum.A]: "AAA"};
     // Item here is strict "string" type, no undefined
-    expect(ObjectUtil.toArray(fullMap, (key, item) => (item === null ? "NULL" : item.toLowerCase()))).toEqual(["aaa", "bbb", "NULL"]);
-    expect(ObjectUtil.toArray(partialMap, (key, item) => (item === null ? "NULL" : item.toLowerCase()))).toEqual(["aaa"]);
+    expect(ObjectUtil.toArray(fullMap, (_key, item) => (item === null ? "NULL" : item.toLowerCase()))).toEqual(["aaa", "bbb", "NULL"]);
+    expect(ObjectUtil.toArray(partialMap, (_key, item) => (item === null ? "NULL" : item.toLowerCase()))).toEqual(["aaa"]);
 });
 
 test("Check Is Empty", () => {
@@ -170,7 +170,7 @@ test("For each stop when callback return false", () => {
     const object = {a: "a", b: "b", c: "c"};
     let lastVal: string = "";
 
-    ObjectUtil.forEach(object, (key, value) => {
+    ObjectUtil.forEach(object, (_key, value) => {
         lastVal = value;
         if (value === "a") {
             return false;
@@ -178,7 +178,7 @@ test("For each stop when callback return false", () => {
     });
     expect(lastVal).toEqual("a");
 
-    ObjectUtil.forEach(object, (key, value) => {
+    ObjectUtil.forEach(object, (_key, value) => {
         lastVal = value;
         if (value === "b") {
             return false;
@@ -186,6 +186,6 @@ test("For each stop when callback return false", () => {
     });
     expect(lastVal).toEqual("b");
 
-    ObjectUtil.forEach(object, (key, value) => (lastVal = value));
+    ObjectUtil.forEach(object, (_key, value) => (lastVal = value));
     expect(lastVal).toEqual("c");
 });

@@ -1,7 +1,7 @@
 import {PromiseUtil} from "../../src/core/PromiseUtil";
 
 const sleep = <T>(ms: number, resolvedValue: T) => new Promise<T>(resolve => setTimeout(() => resolve(resolvedValue), ms));
-const sleepThenReject = <T>(ms: number, rejectedValue: T) => new Promise<T>((resolve, reject) => setTimeout(() => reject(rejectedValue), ms));
+const sleepThenReject = <T>(ms: number, rejectedValue: T) => new Promise<T>((_, reject) => setTimeout(() => reject(rejectedValue), ms));
 
 /**
  * Return statement is required for promise-based tests.
