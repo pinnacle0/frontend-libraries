@@ -203,7 +203,7 @@ export class SomeUtil {
 ];
 
 describe("Testing object-freeze-to-class-static codemod", () => {
-    test.each(testSet)("$title", ({title, input, output}) => {
+    test.each(testSet)("$title", ({input, output}) => {
         expect(transform(input)).toBe(output);
     });
 });
