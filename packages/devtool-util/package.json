@@ -12,7 +12,7 @@
         "lint": "eslint --ext .js,.ts --ignore-path ../../.eslintignore .",
         "test": "jest --config config/jest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -r ./build && pnpm run compile",
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./build && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
