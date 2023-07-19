@@ -26,7 +26,7 @@ export interface Router {
     Root: React.ComponentType<React.PropsWithChildren>;
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
-    pop: (option?: PopOption) => Promise<void>;
+    pop: () => Promise<void>;
     replace: (to: To, state?: Record<string, any>) => Promise<void>;
     reset: () => void;
 }
