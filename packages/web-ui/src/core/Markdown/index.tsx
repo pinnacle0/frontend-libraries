@@ -34,7 +34,7 @@ export class Markdown extends React.PureComponent<Props> {
         });
     };
 
-    processLine = (content: string, index: number, symbols: MarkdownSymbol[]): React.ReactNode => {
+    processLine = (content: string, _: number, symbols: MarkdownSymbol[]): React.ReactNode => {
         switch (symbols[0]) {
             case "**":
                 return this.renderBold(content.split(/\*\*/g), symbols);
