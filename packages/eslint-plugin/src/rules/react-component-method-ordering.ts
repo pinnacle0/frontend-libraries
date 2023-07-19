@@ -99,7 +99,7 @@ function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Optio
         const group = (prev[method.groupLabel] || []).concat([method]);
         return Object.assign(prev, {[method.groupLabel]: group});
     }, {});
-    Object.entries(groupedMethods).forEach(([groupLabel, methodGroup]) => {
+    Object.entries(groupedMethods).forEach(([, methodGroup]) => {
         checkClassMethodList(context, methodGroup);
     });
 }
