@@ -36,19 +36,22 @@ export class StackRouter {
         const matched = this.matchRoute(pathname);
         invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
 
-        [
-            ...matched.parents
-                .filter(_ => _.payload)
-                .map((_, index) => ({
-                    pathname:
-                        "/" +
-                        matched.parents
-                            .slice(0, index + 1)
-                            .map(_ => _.matchedSegment)
-                            .join("/"),
-                })),
-            {hash, search, pathname},
-        ].forEach((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transition: "exiting"})));
+        if (pathname === "/") {
+            this.replace({pathname, search, hash});
+            return;
+        }
+
+        const stackPaths = matched.parents.reduce((paths, curr) => {
+            if (curr.payload) {
+                return [...paths, (paths[paths.length - 1] ?? "") + "/" + curr.matchedSegment];
+            }
+            return paths;
+        }, [] as To[]);
+
+        stackPaths.push({hash, search, pathname});
+
+        this.replace("/");
+        stackPaths.forEach(to => this.push(to));
     }
 
     updateRoute(route: Route<React.ComponentType<any>>) {
