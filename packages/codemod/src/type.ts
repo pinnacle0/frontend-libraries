@@ -21,4 +21,4 @@ export type Transform = (source: string, toolkit: Toolkit) => string | void;
 // Please do not modify this manually, use `codegen` and `new-codemod` script to automatically generate codemod list
 export const Codemod = ["object-freeze-to-class-static", "use-react-hook-from-web-ui", "use-react-node", "use-react-util-from-web-ui", "use-react-redux-hooks-from-core-fe"] as const;
 
-export type Codemod = typeof Codemod[number];
+export type Codemod = (typeof Codemod)[number];

@@ -1,7 +1,10 @@
 export type TransitionType = "entering" | "exiting" | "both" | "none";
 
 export class Transition {
-    constructor(private type: TransitionType, public duration: number) {}
+    constructor(
+        private type: TransitionType,
+        public duration: number
+    ) {}
 
     update(type: TransitionType) {
         this.type = type;

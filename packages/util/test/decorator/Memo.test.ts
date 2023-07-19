@@ -4,7 +4,10 @@ describe("@Memo", () => {
     test("should memoize function result when parameter is the same", () => {
         const mock = jest.fn();
         class Person {
-            constructor(private name: string, private age: number) {}
+            constructor(
+                private name: string,
+                private age: number
+            ) {}
             @Memo
             getName(...args: any[]) {
                 mock();

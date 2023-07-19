@@ -17,7 +17,7 @@ interface Props<RowType extends object> {
 }
 
 export const TableRow = ReactUtil.memo("TableRow", function <
-    RowType extends object
+    RowType extends object,
 >({virtualItem, data, columns, columnWidths, rowHeight, scrollBarSize, columnsStickyPosition, rowClassName, onRowClick}: Props<RowType>) {
     const rowIndex = virtualItem.index;
     const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
