@@ -20,8 +20,8 @@ const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = 
         const paths = [...parentPaths];
         paths.push(props.path);
 
-        if (props.component) {
-            route.insert(paths.join("/"), {component: props.component, singlePageOnload: props.singlePageOnload ?? true});
+        if ("component" in props) {
+            route.insert(paths.join("/"), {component: props.component, singlePageOnload: props.singlePageOnload ?? false});
         }
 
         if (props.children) {
