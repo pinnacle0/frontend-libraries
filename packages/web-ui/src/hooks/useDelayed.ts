@@ -1,27 +1,30 @@
 import React from "react";
+import {usePrevious} from "./usePrevious";
+import {useForceUpdate} from "./useForceUpdate";
 
 /**
  * delay value update when value meet condition `when`
  */
 export function useDelayedWhen<T>(value: T, when: (value: T) => boolean, exceeded: number = 120): T {
-    const [delayed, setDelayed] = React.useState(value);
+    const forceUpdate = useForceUpdate();
+    const idRef = React.useRef<number | undefined>(undefined);
+    const delayedRef = React.useRef<T>(value);
+    const previous = usePrevious(value);
 
-    const whenRef = React.useRef(when);
-    whenRef.current = when;
-
-    const exceededRef = React.useRef(exceeded);
-    exceededRef.current = exceeded;
-
-    React.useEffect(() => {
-        if (whenRef.current(value)) {
-            const id = window.setTimeout(() => setDelayed(value), exceededRef.current);
-            return () => window.clearTimeout(id);
+    if (value !== previous) {
+        window.clearTimeout(idRef.current);
+        if (when(value)) {
+            idRef.current = window.setTimeout(() => {
+                idRef.current = undefined;
+                delayedRef.current = value;
+                forceUpdate();
+            }, exceeded);
         } else {
-            setDelayed(value);
+            delayedRef.current = value;
         }
-    }, [value]);
+    }
 
-    return delayed;
+    return delayedRef.current;
 }
 
 export function useDelayed<T>(value: T, exceeded: number): T {
