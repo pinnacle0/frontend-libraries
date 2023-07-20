@@ -94,6 +94,18 @@ export class Route<T> {
             parents.push({payload: nextNode.payload, matchedSegment: segment});
         }
 
+        // if matched node do not have payload, lookup parent wildcard
+        if (nextNode.payload === null) {
+            if (nextNode.parent?.wildcardNode) {
+                nextNode = nextNode.parent.wildcardNode;
+            }
+        }
+
+        // if matched node still do not have payload, lookup fallback node
+        if (nextNode.payload === null) {
+            return this.matchFallbackRoute();
+        }
+
         // removed matched node itself
         parents.pop();
 

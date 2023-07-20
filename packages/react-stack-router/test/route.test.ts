@@ -223,4 +223,47 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/non-of-match/nested"), {params: {}, parents: [], payload: routeConfig["**"]});
         expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["/"]});
     });
+
+    test.only("should not match empty payload", () => {
+        const routeConfig = {
+            "/a/b/c": "a-b-c",
+            "/a/b/d": "a-b-c",
+        };
+        const route = setupRoute(routeConfig);
+        expectToMatch(route.lookup("/a/b/c"), {
+            params: {},
+            parents: [
+                {payload: null, matchedSegment: "a"},
+                {payload: null, matchedSegment: "b"},
+            ],
+            payload: "a-b-c",
+        });
+
+        expectToMatch(route.lookup("/a/b"), null);
+
+        route.insert("/a/*", "wildcard");
+        expectToMatch(route.lookup("/a/b"), {
+            params: {},
+            parents: [{payload: null, matchedSegment: "a"}],
+            payload: "wildcard",
+        });
+
+        route.insert("**", "fallback");
+        expectToMatch(route.lookup("/a/b"), {
+            params: {},
+            parents: [{payload: null, matchedSegment: "a"}],
+            payload: "wildcard",
+        });
+        expectToMatch(route.lookup("/a"), {
+            params: {},
+            parents: [],
+            payload: "fallback",
+        });
+
+        expectToMatch(route.lookup("/a/b/abc"), {
+            params: {},
+            parents: [],
+            payload: "fallback",
+        });
+    });
 });
