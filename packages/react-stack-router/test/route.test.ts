@@ -179,7 +179,7 @@ describe("RadixRoute testing", () => {
             "/service/other/:userId": "service-other-match-with-user-id",
         };
         const route = setupRoute(routeConfig);
-        expectToMatch(route.lookup("/service"), null);
+        expectToMatch(route.lookup("/service"), {params: {}, parents: [], payload: routeConfig["*"]});
         expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["*"]});
         expectToMatch(route.lookup("/service/wildcard"), {
             params: {},
@@ -224,7 +224,7 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["/"]});
     });
 
-    test.only("should not match empty payload", () => {
+    test("should not match empty payload", () => {
         const routeConfig = {
             "/a/b/c": "a-b-c",
             "/a/b/d": "a-b-c",
