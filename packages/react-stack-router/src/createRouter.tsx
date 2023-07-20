@@ -5,12 +5,13 @@ import {Route} from "./route";
 import {RouterContext} from "./context";
 import {Stack} from "./component/Stack";
 import {Route as RouteComponent} from "./component/Route";
+import {StackRouter} from "./stackRouter";
 import type {History} from "history";
 import type {RouteProps as RouteComponentProps} from "./component/Route";
-import {StackRouter} from "./stackRouter";
+import type {StackRoutePayload} from "./stackRouter";
 import type {Router} from "./type";
 
-const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = [], route: Route<React.ComponentType<any>> = new Route()) => {
+const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = [], route: Route<StackRoutePayload> = new Route()) => {
     React.Children.forEach(children, element => {
         invariant(React.isValidElement(element), `${element} is not valid element`);
         invariant(element.type === RouteComponent, `<${element.type}> is not a <Route> component. All children of <Route> should be <Route> as well`);
@@ -20,7 +21,7 @@ const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = 
         paths.push(props.path);
 
         if (props.component) {
-            route.insert(paths.join("/"), props.component);
+            route.insert(paths.join("/"), {component: props.component, singlePageOnload: props.singlePageOnload ?? true});
         }
 
         if (props.children) {

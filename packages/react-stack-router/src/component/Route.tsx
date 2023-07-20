@@ -3,7 +3,7 @@ import {invariant} from "../invariant";
 
 export interface RouteProps {
     path: string;
-    dependOnParent?: boolean;
+    singlePageOnload?: boolean;
     component?: ComponentType<any>;
     children?: ReactNode;
 }

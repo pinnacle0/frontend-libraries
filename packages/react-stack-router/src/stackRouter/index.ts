@@ -1,4 +1,5 @@
 import {Action} from "history";
+import type {Match} from "../route";
 import {Route} from "../route";
 import {Screen} from "../screen";
 import {invariant} from "../invariant";
@@ -12,12 +13,17 @@ import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
+export type StackRoutePayload = {
+    component: React.ComponentType<any>;
+    singlePageOnload: boolean;
+};
+
 export class StackRouter {
     private initialized = false;
     private screens: Screen[] = [];
     private stackHistory: StackHistory<HistoryState>;
     private subscribers = new Set<Subscriber>();
-    private route = new Route<React.ComponentType<any>>();
+    private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
     private pushOption = new BurnAfterRead<PushOption>();
@@ -34,10 +40,9 @@ export class StackRouter {
 
         const {hash, search, pathname} = window.location;
         const matched = this.matchRoute(pathname);
-        invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
 
-        if (pathname === "/") {
-            this.replace({pathname, search, hash});
+        if (matched.payload.singlePageOnload) {
+            this.replace({pathname, search, hash}, {transition: "none"});
             return;
         }
 
@@ -49,12 +54,11 @@ export class StackRouter {
         }, [] as To[]);
 
         stackPaths.push({hash, search, pathname});
-
         this.replace("/");
         stackPaths.forEach(to => this.push(to, {transition: "exiting"}));
     }
 
-    updateRoute(route: Route<React.ComponentType<any>>) {
+    updateRoute(route: Route<StackRoutePayload>) {
         this.route = route;
     }
 
@@ -104,16 +108,18 @@ export class StackRouter {
         return top ?? null;
     }
 
-    private matchRoute(to: To) {
+    private matchRoute(to: To): Match<StackRoutePayload> {
         const pathname = typeof to === "string" ? to : to.pathname;
-        return this.route.lookup(pathname ?? window.location.pathname);
+        const matched = this.route.lookup(pathname ?? window.location.pathname);
+        invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
+        return matched;
     }
 
     private createScreen(location: Location, transitionType: TransitionType): Screen | null {
         const matched = this.matchRoute(location.pathname);
         if (!matched) return null;
         return new Screen({
-            content: matched.payload,
+            content: matched.payload.component,
             history: {
                 location,
                 params: matched.params,
