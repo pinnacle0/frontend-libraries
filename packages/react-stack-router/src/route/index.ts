@@ -32,8 +32,7 @@ export class Route<T> {
 
     insert(path: string, payload: T): void {
         this.cache.clear();
-        const formattedPath = formatPath(path);
-        const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
+        const segments = pathToSegments(path);
 
         let currentNode: RouteNode<T> = this.root;
         for (const segment of segments) {
@@ -62,9 +61,8 @@ export class Route<T> {
     }
 
     private freshLookup(path: string): Match<T> | null {
-        const formattedPath = formatPath(path);
+        const segments = pathToSegments(path);
 
-        const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
         let params: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
         const parents: Parent<T>[] = [];
@@ -141,6 +139,19 @@ export class Route<T> {
     }
 }
 
+export function pathToSegments(path: string): string[] {
+    let formattedPath = formatPath(path);
+
+    const segments = [];
+    if (formattedPath.startsWith("/")) {
+        segments.push("/");
+        formattedPath = formattedPath.substring(1);
+    }
+
+    formattedPath.split("/").forEach(_ => _.length > 0 && segments.push(_));
+    return segments;
+}
+
 export function formatPath(path: string): string {
     let formatted = path.replaceAll(/[/]+/g, "/");
 
@@ -149,11 +160,6 @@ export function formatPath(path: string): string {
     // removed trailing '/'
     if (formatted[formatted.length - 1] === "/") {
         formatted = formatted.slice(0, -1);
-    }
-
-    // removed leading '/'
-    if (formatted[0] === "/") {
-        formatted = formatted.slice(1);
     }
 
     return formatted;
