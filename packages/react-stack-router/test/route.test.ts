@@ -1,5 +1,5 @@
 import type {Match} from "../src/route";
-import {formatPath, pathToSegments, Route} from "../src/route";
+import {formatPath, Route} from "../src/route";
 
 const setupRoute = (config: Record<string, string>): Route<string> => {
     const route = new Route<string>();
@@ -17,25 +17,10 @@ describe("RadixRoute testing", () => {
         ${"//"}             | ${"/"}
         ${"///"}            | ${"/"}
         ${"////"}           | ${"/"}
-        ${"//video//:id"}   | ${"/video/:id"}
-        ${"//video////:id"} | ${"/video/:id"}
-        ${"video//:id"}     | ${"video/:id"}
-        ${"video////:id"}   | ${"video/:id"}
+        ${"//video//:id"}   | ${"video/:id"}
+        ${"//video////:id"} | ${"video/:id"}
     `("returns $expected when formatPath $path", ({path, expected}) => {
         expect(formatPath(path)).toBe(expected);
-    });
-
-    test.each`
-        path                | expected
-        ${"//"}             | ${["/"]}
-        ${"///"}            | ${["/"]}
-        ${"////"}           | ${["/"]}
-        ${"//video//:id"}   | ${["/", "video", ":id"]}
-        ${"//video////:id"} | ${["/", "video", ":id"]}
-        ${"video//:id"}     | ${["video", ":id"]}
-        ${"video////:id"}   | ${["video", ":id"]}
-    `("returns $expected when pathToSegments $path", ({path, expected}) => {
-        expect(pathToSegments(path)).toStrictEqual(expected);
     });
 
     test("basic", () => {
@@ -43,35 +28,20 @@ describe("RadixRoute testing", () => {
             "/service": "service-route",
             "/service/regular": "service-regular-route",
             "/service/:regular": "service-regular-parameter",
-            service: "service-without-root",
-            "service/regular": "service-regular-without-root",
         } satisfies Record<string, string>;
         const route = setupRoute(routeConfig);
         route.insert("/service/regular", "service-regular-reassign");
 
         expect(() => route.insert("/service/:bbbb/nested", "duplicated")).toThrow();
         expectToMatch(route.lookup("/"), null);
-        expectToMatch(route.lookup("service"), {params: {}, parents: [], payload: routeConfig["service"]});
-        expectToMatch(route.lookup("service/regular"), {params: {}, parents: [{payload: routeConfig["service"], matchedSegment: "service"}], payload: routeConfig["service/regular"]});
         expectToMatch(route.lookup("/service/other/nested"), null);
-        expectToMatch(route.lookup("/service//"), {params: {}, parents: [{payload: null, matchedSegment: "/"}], payload: routeConfig["/service"]});
-        expectToMatch(route.lookup("/service/regular"), {
-            params: {},
-            parents: [
-                {payload: null, matchedSegment: "/"},
-                {payload: routeConfig["/service"], matchedSegment: "service"},
-            ],
-            payload: "service-regular-reassign",
-        });
+        expectToMatch(route.lookup("/service//"), {params: {}, parents: [], payload: routeConfig["/service"]});
+        expectToMatch(route.lookup("/service/regular"), {params: {}, parents: [{payload: routeConfig["/service"], matchedSegment: "service"}], payload: "service-regular-reassign"});
         expectToMatch(route.lookup("/service/other/"), {
             params: {
                 regular: "other",
             },
             parents: [
-                {
-                    payload: null,
-                    matchedSegment: "/",
-                },
                 {
                     payload: routeConfig["/service"],
                     matchedSegment: "service",
@@ -85,7 +55,7 @@ describe("RadixRoute testing", () => {
         const routeConfig = {
             "/service/regular/:name": "service-regular",
             "/service/regular/:name/nested/:more": "service-regular-nested",
-        };
+        } satisfies Record<string, string>;
         const route = setupRoute(routeConfig);
 
         expectToMatch(route.lookup("/service/regular"), null);
@@ -96,7 +66,6 @@ describe("RadixRoute testing", () => {
                 name: "123",
             },
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: null, matchedSegment: "service"},
                 {payload: null, matchedSegment: "regular"},
             ],
@@ -108,7 +77,6 @@ describe("RadixRoute testing", () => {
                 more: "456",
             },
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: null, matchedSegment: "service"},
                 {payload: null, matchedSegment: "regular"},
                 {payload: routeConfig["/service/regular/:name"], matchedSegment: "123"},
@@ -130,10 +98,6 @@ describe("RadixRoute testing", () => {
             params: {type: "about"},
             parents: [
                 {
-                    payload: null,
-                    matchedSegment: "/",
-                },
-                {
                     payload: routeConfig["/service"],
                     matchedSegment: "service",
                 },
@@ -144,10 +108,6 @@ describe("RadixRoute testing", () => {
             params: {type: "contact"},
             parents: [
                 {
-                    payload: null,
-                    matchedSegment: "/",
-                },
-                {
                     payload: routeConfig["/service"],
                     matchedSegment: "service",
                 },
@@ -157,7 +117,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/game"), {
             params: {type: "game"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {
                     payload: routeConfig["/service"],
                     matchedSegment: "service",
@@ -168,7 +127,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/order"), {
             params: {type: "order"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {
                     payload: routeConfig["/service"],
                     matchedSegment: "service",
@@ -185,7 +143,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/about/nested/route"), {
             params: {type: "about"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: routeConfig["/service"], matchedSegment: "service"},
                 {payload: routeConfig["/service/:type(about|contact|game|order)"], matchedSegment: "about"},
                 {payload: null, matchedSegment: "nested"},
@@ -195,7 +152,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/order/nested/route"), {
             params: {type: "order"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: routeConfig["/service"], matchedSegment: "service"},
                 {payload: routeConfig["/service/:type(about|contact|game|order)"], matchedSegment: "order"},
                 {payload: null, matchedSegment: "nested"},
@@ -205,7 +161,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/first/nested/route"), {
             params: {},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: routeConfig["/service"], matchedSegment: "service"},
                 {payload: null, matchedSegment: "first"},
                 {payload: null, matchedSegment: "nested"},
@@ -218,26 +173,22 @@ describe("RadixRoute testing", () => {
 
     test("wildcard", () => {
         const routeConfig = {
-            "/*": "service-wildcard",
+            "*": "service-wildcard",
             "/service/*": "service-wildcard",
             "/service/*/:userId": "service-wildcard-with-user-id",
             "/service/other/:userId": "service-other-match-with-user-id",
         };
         const route = setupRoute(routeConfig);
         expectToMatch(route.lookup("/service"), null);
-        expectToMatch(route.lookup("/"), null);
+        expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["*"]});
         expectToMatch(route.lookup("/service/wildcard"), {
             params: {},
-            parents: [
-                {payload: null, matchedSegment: "/"},
-                {payload: null, matchedSegment: "service"},
-            ],
+            parents: [{payload: null, matchedSegment: "service"}],
             payload: routeConfig["/service/*"],
         });
         expectToMatch(route.lookup("/service/game/f521312f1213213"), {
             params: {userId: "f521312f1213213"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: null, matchedSegment: "service"},
                 {payload: routeConfig["/service/*"], matchedSegment: "game"},
             ],
@@ -246,7 +197,6 @@ describe("RadixRoute testing", () => {
         expectToMatch(route.lookup("/service/other/f521312f1213213"), {
             params: {userId: "f521312f1213213"},
             parents: [
-                {payload: null, matchedSegment: "/"},
                 {payload: null, matchedSegment: "service"},
                 {payload: null, matchedSegment: "other"},
             ],
@@ -258,7 +208,7 @@ describe("RadixRoute testing", () => {
         const routeConfig = {
             "**": "fallback-route",
             "/": "root-route",
-            "/*": "root-wildcard-route",
+            "*": "root-wildcard-route",
             "/service": "service-route",
         };
 
@@ -267,21 +217,9 @@ describe("RadixRoute testing", () => {
         expect(() => route.insert("other/**", "non-root-fallback")).toThrow();
         expect(() => route.insert("**/name", "fallback-before-normal-segment")).toThrow();
 
-        expectToMatch(route.lookup("/non-of-match"), {
-            params: {},
-            parents: [{payload: routeConfig["/"], matchedSegment: "/"}],
-            payload: routeConfig["/*"],
-        });
-        expectToMatch(route.lookup("/service/123"), {
-            params: {},
-            parents: [],
-            payload: routeConfig["**"],
-        });
-        expectToMatch(route.lookup("/service"), {
-            params: {},
-            parents: [{payload: routeConfig["/"], matchedSegment: "/"}],
-            payload: routeConfig["/service"],
-        });
+        expectToMatch(route.lookup("/non-of-match"), {params: {}, parents: [], payload: routeConfig["*"]});
+        expectToMatch(route.lookup("/service/123"), {params: {}, parents: [], payload: routeConfig["**"]});
+        expectToMatch(route.lookup("/service"), {params: {}, parents: [], payload: routeConfig["/service"]});
         expectToMatch(route.lookup("/non-of-match/nested"), {params: {}, parents: [], payload: routeConfig["**"]});
         expectToMatch(route.lookup("/"), {params: {}, parents: [], payload: routeConfig["/"]});
     });
