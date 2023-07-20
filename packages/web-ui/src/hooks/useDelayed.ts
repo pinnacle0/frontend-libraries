@@ -1,5 +1,4 @@
 import React from "react";
-import {usePrevious} from "./usePrevious";
 import {useForceUpdate} from "./useForceUpdate";
 
 /**
@@ -9,9 +8,9 @@ export function useDelayedWhen<T>(value: T, when: (value: T) => boolean, exceede
     const forceUpdate = useForceUpdate();
     const idRef = React.useRef<number | undefined>(undefined);
     const delayedRef = React.useRef<T>(value);
-    const previous = usePrevious(value);
+    const previous = React.useRef(value);
 
-    if (value !== previous) {
+    if (value !== previous.current) {
         window.clearTimeout(idRef.current);
         if (when(value)) {
             idRef.current = window.setTimeout(() => {
@@ -24,6 +23,7 @@ export function useDelayedWhen<T>(value: T, when: (value: T) => boolean, exceede
         }
     }
 
+    previous.current = value;
     return delayedRef.current;
 }
 
