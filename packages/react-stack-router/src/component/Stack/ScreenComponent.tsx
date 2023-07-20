@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import classNames from "classnames";
 import {RouteContext} from "../../context";
+import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
 
 export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
@@ -8,6 +9,7 @@ export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
 interface Props {
     screen: Screen;
     className: string;
+    style: CSSProperties;
 }
 
 export const ScreenComponent = (props: Props) => {
@@ -72,7 +74,7 @@ export const ScreenComponent = (props: Props) => {
     }, [__removed]);
 
     return (
-        <div className={classNames("g-stack-router-screen", className, {exiting: __removed})} ref={elementRef}>
+        <div className={classNames("g-stack-router-screen", className, {exiting: __removed})} style={props.style} ref={elementRef}>
             <RouteContext.Provider value={{params: screen.history.params, location: screen.history.location, lifecycle: screen.lifecycle}}>
                 <screen.content />
             </RouteContext.Provider>
