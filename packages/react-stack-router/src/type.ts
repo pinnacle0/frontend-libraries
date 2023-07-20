@@ -5,7 +5,7 @@ import type {TransitionType} from "./screen/transition";
 
 export type HistoryState = Record<string, any>;
 
-interface TransitionOption {
+export interface TransitionOption {
     transition?: TransitionType;
     duration?: number;
 }
@@ -13,8 +13,6 @@ interface TransitionOption {
 export interface PushOption extends TransitionOption {
     state?: HistoryState;
 }
-
-export type PopOption = TransitionOption;
 
 export interface ReplaceOption {
     remove: TransitionOption;

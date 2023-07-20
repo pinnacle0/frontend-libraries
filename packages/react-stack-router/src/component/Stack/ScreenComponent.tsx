@@ -1,7 +1,7 @@
-import React, {useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import classNames from "classnames";
-import type {Screen} from "../../screen";
 import {RouteContext} from "../../context";
+import type {Screen} from "../../screen";
 
 export type AnimationKeyFrame = Keyframe[] | PropertyIndexedKeyframes | null;
 
