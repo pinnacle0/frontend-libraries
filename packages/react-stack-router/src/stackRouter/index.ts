@@ -51,7 +51,7 @@ export class StackRouter {
         stackPaths.push({hash, search, pathname});
 
         this.replace("/");
-        stackPaths.forEach(to => this.push(to));
+        stackPaths.forEach(to => this.push(to, {transition: "exiting"}));
     }
 
     updateRoute(route: Route<React.ComponentType<any>>) {
