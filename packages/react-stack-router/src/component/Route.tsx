@@ -3,8 +3,7 @@ import {invariant} from "../invariant";
 
 export interface PathRouteProps {
     path: string;
-    component: ComponentType<any>;
-    hildren: ReactNode;
+    children: ReactNode;
 }
 
 export interface ComponentRouteProps {
