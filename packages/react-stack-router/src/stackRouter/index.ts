@@ -26,8 +26,8 @@ export class StackRouter {
     private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
 
-    private pushOption = new BurnAfterRead<PushOption>();
-    private resolve = new BurnAfterRead<() => void>();
+    private pushOption = new Snapshot<PushOption>();
+    private resolve = new Snapshot<() => void>();
 
     constructor(history: History) {
         this.stackHistory = createStackHistory(history);
@@ -76,15 +76,15 @@ export class StackRouter {
     async push(to: To, option?: PushOption): Promise<void> {
         if (!this.matchRoute(to)) return;
 
-        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
-        this.pushOption.set(option ?? null);
+        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
+        this.pushOption.value = option ?? null;
         this.stackHistory.push(to, option?.state);
 
         return wait;
     }
 
     async pop(): Promise<void> {
-        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
+        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.stackHistory.pop();
         return wait;
     }
@@ -92,7 +92,7 @@ export class StackRouter {
     async replace(to: To, state?: Record<string, any>): Promise<void> {
         if (!this.matchRoute(to)) return;
 
-        const wait = new Promise<void>(resolve => this.resolve.set(resolve));
+        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.stackHistory.replace(to, state);
         return wait;
     }
@@ -132,8 +132,8 @@ export class StackRouter {
     }
 
     private pushScreen(location: Location, transition: TransitionType): void {
-        const option = this.pushOption.get();
-        const resolve = this.resolve.get();
+        const option = this.pushOption.value;
+        const resolve = this.resolve.value;
 
         const screen = this.createScreen(location, option?.transition ?? transition);
         if (!screen) {
@@ -147,7 +147,7 @@ export class StackRouter {
     }
 
     private popScreen(transition: TransitionType) {
-        const resolve = this.resolve.get();
+        const resolve = this.resolve.value;
         const top = this.getTopScreen();
 
         top?.transition.update(transition);
@@ -157,7 +157,7 @@ export class StackRouter {
     }
 
     private replaceScreen(location: Location) {
-        const resolve = this.resolve.get();
+        const resolve = this.resolve.value;
         const top = this.getTopScreen();
 
         top?.transition.update("none");
@@ -189,16 +189,17 @@ export class StackRouter {
     }
 }
 
-class BurnAfterRead<T> {
-    constructor(private value: T | null = null) {}
+// Turn value to null after read
+class Snapshot<T> {
+    constructor(private _value: T | null = null) {}
 
-    set(newValue: T | null) {
-        this.value = newValue;
+    get value() {
+        const current = this._value;
+        this._value = null;
+        return current;
     }
 
-    get(): T | null {
-        const current = this.value;
-        this.value = null;
-        return current;
+    set value(newValue: T | null) {
+        this._value = newValue;
     }
 }
