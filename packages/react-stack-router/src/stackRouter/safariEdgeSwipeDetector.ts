@@ -1,16 +1,16 @@
 /**
- * Aim at detect popstate event tirggered by Safari edge swipe gesture
- * for left edge swipe (back): clientX of touchend event is always be a native value
+ * Aim at detect popstate event triggered by Safari edge swipe gesture
+ * for left edge swipe (back): clientX of touchend event is always be a negative value
  * for right edge swipe (forward): popstate event fired with only touchstart triggered
  * therefore, if there are any popstate event fired within 300ms after above scenarios, it recognized as a native swipe back pop event
  */
 export function createSafariEdgeSwipeDetector() {
-    let isForwordSwipe = false;
+    let isForwardSwipe = false;
     const isBackwardSwipe = new TimeoutFalseValue(200);
 
     return {
         get isForwardPop(): boolean {
-            return isForwordSwipe;
+            return isForwardSwipe;
         },
 
         get isBackwardPop(): boolean {
@@ -19,15 +19,15 @@ export function createSafariEdgeSwipeDetector() {
 
         attach(): () => void {
             const start = (event: TouchEvent) => {
-                if (Array.from(event.changedTouches).some(touch => window.innerWidth - touch.clientX < 20)) isForwordSwipe = true;
+                if (Array.from(event.changedTouches).some(touch => window.innerWidth - touch.clientX < 20)) isForwardSwipe = true;
             };
             const end = (event: TouchEvent) => {
-                isForwordSwipe = false;
+                isForwardSwipe = false;
                 if (Array.from(event.changedTouches).some(touch => touch.clientX < 0)) isBackwardSwipe.value = true;
             };
 
             const cancel = () => {
-                isForwordSwipe = false;
+                isForwardSwipe = false;
                 isBackwardSwipe.value = false;
             };
 
