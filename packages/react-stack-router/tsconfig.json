@@ -3,6 +3,8 @@
     "compilerOptions": {
         "target": "ESNext",
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "declaration": true,
+        "declarationMap": true,
         "jsx": "react-jsx",
         "rootDir": "./src",
         "outDir": "./lib",
