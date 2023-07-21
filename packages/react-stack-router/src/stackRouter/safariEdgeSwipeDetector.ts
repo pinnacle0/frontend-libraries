@@ -58,7 +58,7 @@ class TimeoutFalseValue {
     set value(newValue: boolean) {
         if (newValue) {
             this.bool = true;
-            setTimeout(() => (this.bool = false), this.timeout);
+            window.setTimeout(() => (this.bool = false), this.timeout);
         } else {
             this.bool = false;
         }
