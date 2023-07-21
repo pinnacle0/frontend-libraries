@@ -1,10 +1,14 @@
 {
     "name": "@pinnacle0/react-stack-router",
-    "version": "0.1.1",
+    "version": "0.1.3-beta.3",
     "author": "Pinnacle",
     "license": "MIT",
     "main": "./src/index.ts",
     "types": "./src/index.ts",
+    "files": [
+        "src",
+        "lib"
+    ],
     "sideEffects": [
         "*.less",
         "*.css"
@@ -21,7 +25,8 @@
         "run-script": "ts-node --project config/tsconfig.script.json",
         "demo": "cd demo && pnpm dev",
         "test": "jest --config ./config/jest.config.ts",
-        "build": "pnpm test && tsc"
+        "build": "pnpm test && rm -rf lib && tsc",
+        "prepublishOnly": "pnpm build"
     },
     "peerDependencies": {
         "react": ">=17.0.0"
@@ -41,8 +46,11 @@
         "directory": ".",
         "main": "lib/index.js",
         "types": "lib/index.d.ts",
-        "export": {
-            ".": "lib/index.js"
+        "exports": {
+            ".": {
+                "import": "lib/index.js",
+                "types": "lib/index.d.ts"
+            }
         }
     }
 }
