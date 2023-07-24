@@ -14,18 +14,22 @@ export interface Props {
  * Presence exit animation of the element
  * All direct children of AnimatePresence must be <Animated />, and each one must have a unique key (index will NOT work)
  * Caveat: insert and remove element by index during animation do not work as expected
+ * PS: This component will most likely have bugs, so please fix them if you find any. ⛑️
  */
 export const AnimatePresence = ({children}: Props) => {
     const validChildren = getValidChildren(children);
     const previousValidChildren = usePrevious(validChildren);
+    // render key of current rendered children, order matters
     const renderedKeyList = React.useRef<React.Key[]>(validChildren.map(_ => getKey(_)));
     const elementMapRef = React.useRef(new Map<React.Key, React.ReactElement>());
     const forceUpdate = useForceUpdate();
 
     const elementMap = elementMapRef.current;
 
+    // update the element map, update element by key, it there are any revert of element removal, it will be updated here
     validChildren.map(element => elementMap.set(getKey(element), React.cloneElement(element, {__removed: false, __onExited: undefined})));
 
+    // calculate removed children of this render cycle, and update the their props of the element element map
     const removedChildren = calculateRemovedChildren(validChildren, previousValidChildren);
     removedChildren.forEach(element => {
         const key = getKey(element);
@@ -42,6 +46,7 @@ export const AnimatePresence = ({children}: Props) => {
         );
     });
 
+    // loop through the element map find the index of all removed element in current rendered children (according to the renderedKeyList)
     const removedChildrenRenderListIndex: number[] = [];
     elementMapRef.current.forEach((element, key) => {
         if (element.props.__removed) {
@@ -52,6 +57,8 @@ export const AnimatePresence = ({children}: Props) => {
         }
     });
 
+    // calculate added children and insert they into the renderedKeyList, the insert index is depend the number of removed children before it
+    // eg. A element is added at index 2 in the original children, if there are 2 removed children before it, it will be inserted at index 4
     const addedChildren = calculateAddedChildren(validChildren, previousValidChildren);
     addedChildren.forEach(({element, index}) => {
         const key = getKey(element);
@@ -60,6 +67,7 @@ export const AnimatePresence = ({children}: Props) => {
         renderedKeyList.current.splice(index + numOfRemovedChildrenBefore, 0, getKey(element));
     });
 
+    // render the children according to the renderedKeyList
     const childrenToRender: React.ReactElement[] = renderedKeyList.current.map(key => elementMap.get(key)!);
 
     return <React.Fragment>{childrenToRender}</React.Fragment>;
