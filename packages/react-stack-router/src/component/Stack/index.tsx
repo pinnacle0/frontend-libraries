@@ -35,8 +35,6 @@ export function Stack({router, className, style}: StackProps) {
 
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
-    useEffect(() => router.attachSafariEdgeSwipeDetector(), [router]);
-
     return (
         <div className={classNames("g-stack-router", className)} style={{...style, ...routerStyle}}>
             <AnimatePresence>

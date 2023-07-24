@@ -57,6 +57,8 @@ export function createRouter(history?: History): Router {
 
         router.updateRoute(route);
 
+        useEffect(() => router.attachSafariEdgeSwipeDetector(), []);
+
         useEffect(() => {
             router.initialize().then(() => setInitialized(true));
         }, []);
