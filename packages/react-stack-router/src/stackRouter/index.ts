@@ -1,6 +1,6 @@
 import {Action} from "history";
 import type {Match} from "../route";
-import {Route} from "../route";
+import {Route, formatPath} from "../route";
 import {Screen} from "../screen";
 import {invariant} from "../invariant";
 import {createStackHistory} from "./stackHistory";
@@ -13,9 +13,15 @@ import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
+export type StackRoutePattern = {
+    pattern: string;
+    parent: StackRoutePattern | null;
+    hasComponent: boolean;
+};
+
 export type StackRoutePayload = {
     component: React.ComponentType<any>;
-    singlePageOnload: boolean;
+    pattern: StackRoutePattern;
 };
 
 export class StackRouter {
@@ -34,28 +40,36 @@ export class StackRouter {
         this.stackHistory.listen(this.handler.bind(this));
     }
 
-    initialize() {
+    async initialize() {
         if (this.initialized) return;
         this.initialized = true;
 
-        const {hash, search, pathname} = window.location;
+        const {pathname, hash, search} = window.location;
         const matched = this.matchRoute(pathname);
 
-        if (matched.payload.singlePageOnload) {
-            this.replace({pathname, search, hash}, {transition: "none"});
-            return;
+        let numOfParentComponent = 0;
+        let parentPattern: StackRoutePattern | null = matched.payload.pattern.parent;
+        while (parentPattern) {
+            if (parentPattern.hasComponent) {
+                numOfParentComponent++;
+            }
+            parentPattern = parentPattern.parent;
         }
 
-        const stackPaths = matched.parents.reduce((paths, curr) => {
-            if (curr.payload) {
-                return [...paths, (paths[paths.length - 1] ?? "") + "/" + curr.matchedSegment];
-            }
-            return paths;
-        }, [] as To[]);
+        const stack: To[] = [{pathname, hash, search}];
+        const segments = ["/", ...matched.matchedSegments];
 
-        stackPaths.push({hash, search, pathname});
-        this.replace("/");
-        stackPaths.forEach(to => this.push(to, {transition: "exiting"}));
+        while (numOfParentComponent !== 0 && segments.length !== 0) {
+            const pathname = formatPath(segments.join("/"));
+            const matched = this.route.lookup(pathname);
+            if (!matched?.fallback) {
+                stack.unshift(pathname);
+                numOfParentComponent--;
+            }
+            segments.pop();
+        }
+
+        return Promise.all(stack.map((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transition: "exiting"}))));
     }
 
     updateRoute(route: Route<StackRoutePayload>) {

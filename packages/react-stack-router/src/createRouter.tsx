@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {createBrowserHistory} from "history";
 import {invariant} from "./invariant";
 import {Route} from "./route";
@@ -8,24 +8,32 @@ import {Route as RouteComponent} from "./component/Route";
 import {StackRouter} from "./stackRouter";
 import type {History} from "history";
 import type {RouteProps as RouteComponentProps} from "./component/Route";
-import type {StackRoutePayload} from "./stackRouter";
+import type {StackRoutePattern, StackRoutePayload} from "./stackRouter";
 import type {Router} from "./type";
 
-const createChildrenRoute = (children: React.ReactNode, parentPaths: string[] = [], route: Route<StackRoutePayload> = new Route()) => {
+const createChildrenRoute = (children: React.ReactNode, parentPattern: StackRoutePattern | null, route: Route<StackRoutePayload> = new Route()) => {
     React.Children.forEach(children, element => {
         invariant(React.isValidElement(element), `${element} is not valid element`);
         invariant(element.type === RouteComponent, `<${element.type}> is not a <Route> component. All children of <Route> should be <Route> as well`);
 
         const props = element.props as RouteComponentProps;
-        const paths = [...parentPaths];
-        paths.push(props.path);
+
+        const patterns: string[] = [];
+        let parent = parentPattern;
+        while (parent) {
+            patterns.unshift(parent.pattern);
+            parent = parent.parent;
+        }
+
+        const pattern: StackRoutePattern = {pattern: props.path, parent: parentPattern, hasComponent: false};
 
         if ("component" in props) {
-            route.insert(paths.join("/"), {component: props.component, singlePageOnload: props.singlePageOnload ?? false});
+            pattern.hasComponent = true;
+            route.insert([...patterns, props.path].join("/"), {pattern, component: props.component});
         }
 
         if (props.children) {
-            createChildrenRoute(props.children, paths, route);
+            createChildrenRoute(props.children, pattern, route);
         }
     });
 
@@ -42,17 +50,20 @@ export function createRouter(history?: History): Router {
     const reset = router.reset.bind(router);
 
     const Root = ({children}: React.PropsWithChildren) => {
-        const route = useMemo(() => createChildrenRoute(children), [children]);
+        const route = useMemo(() => createChildrenRoute(children, null), [children]);
+        const [initialized, setInitialized] = useState(false);
         const historyRef = React.useRef(internalHistory);
         historyRef.current = internalHistory;
 
         router.updateRoute(route);
 
-        useEffect(() => router.initialize(), []);
+        useEffect(() => {
+            router.initialize().then(() => setInitialized(true));
+        }, []);
 
         return (
             <RouterContext.Provider value={{history: historyRef.current, push, pop, replace, reset}}>
-                <Stack router={router} />
+                <Stack router={router} style={{visibility: initialized ? "visible" : "hidden"}} />
             </RouterContext.Provider>
         );
     };
