@@ -12,15 +12,10 @@ export interface RouteNode<T> {
     wildcardNode?: RouteNode<T>;
 }
 
-export interface Parent<T> {
-    payload: T | null;
-    matchedSegment: string;
-}
-
 export interface Match<T> {
     params: {[key: string]: string};
     payload: T;
-    parents: Parent<T>[];
+    matchedSegments: string[];
 }
 
 /**
@@ -32,8 +27,7 @@ export class Route<T> {
 
     insert(path: string, payload: T): void {
         this.cache.clear();
-        const formattedPath = formatPath(path);
-        const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
+        const segments = pathToSegments(path);
 
         let currentNode: RouteNode<T> = this.root;
         for (const segment of segments) {
@@ -62,12 +56,10 @@ export class Route<T> {
     }
 
     private freshLookup(path: string): Match<T> | null {
-        const formattedPath = formatPath(path);
-
-        const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
+        const segments = pathToSegments(path);
         let params: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
-        const parents: Parent<T>[] = [];
+        const matchedSegments: string[] = [];
 
         for (const segment of segments) {
             const childNode = nextNode.children.get(segment);
@@ -91,7 +83,7 @@ export class Route<T> {
 
                 params = {...params, ...matched.param};
             }
-            parents.push({payload: nextNode.payload, matchedSegment: segment});
+            matchedSegments.push(segment);
         }
 
         // if matched node do not have payload, lookup parent wildcard
@@ -107,17 +99,17 @@ export class Route<T> {
         }
 
         // removed matched node itself
-        parents.pop();
+        matchedSegments.pop();
 
-        return this.createMatch(nextNode.payload, params, parents);
+        return this.createMatch(nextNode.payload, params, matchedSegments);
     }
 
-    private createMatch(payload: T | null, params: Record<string, string>, parents: Parent<T>[]): Match<T> | null {
+    private createMatch(payload: T | null, params: Record<string, string>, matchedSegments: string[]): Match<T> | null {
         return payload
             ? {
                   payload,
                   params,
-                  parents,
+                  matchedSegments,
               }
             : null;
     }
@@ -150,6 +142,16 @@ export class Route<T> {
             case "normal":
                 return newNode;
         }
+    }
+}
+
+export function pathToSegments(path: string): string[] {
+    const formattedPath = formatPath(path);
+
+    if (formattedPath === "/") {
+        return ["/"];
+    } else {
+        return formattedPath.split("/");
     }
 }
 
