@@ -16,6 +16,7 @@ export interface Match<T> {
     params: {[key: string]: string};
     payload: T;
     matchedSegments: string[];
+    fallback: boolean;
 }
 
 /**
@@ -104,18 +105,19 @@ export class Route<T> {
         return this.createMatch(nextNode.payload, params, matchedSegments);
     }
 
-    private createMatch(payload: T | null, params: Record<string, string>, matchedSegments: string[]): Match<T> | null {
+    private createMatch(payload: T | null, params: Record<string, string>, matchedSegments: string[], fallback = false): Match<T> | null {
         return payload
             ? {
                   payload,
                   params,
                   matchedSegments,
+                  fallback,
               }
             : null;
     }
 
     private matchFallbackRoute(): Match<T> | null {
-        return this.createMatch(this.root.fallbackNode?.payload ?? null, {}, []);
+        return this.createMatch(this.root.fallbackNode?.payload ?? null, {}, [], true);
     }
 
     private createNode(segment: string, currentNode: RouteNode<T>): RouteNode<T> {
