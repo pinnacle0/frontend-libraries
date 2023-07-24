@@ -19,6 +19,8 @@ describe("RadixRoute testing", () => {
         ${"////"}           | ${"/"}
         ${"//video//:id"}   | ${"video/:id"}
         ${"//video////:id"} | ${"video/:id"}
+        ${"abc/abc"}        | ${"abc/abc"}
+        ${"abc/abc/"}       | ${"abc/abc"}
     `("returns $expected when formatPath $path", ({path, expected}) => {
         expect(formatPath(path)).toBe(expected);
     });
