@@ -12,9 +12,15 @@ export interface RouteNode<T> {
     wildcardNode?: RouteNode<T>;
 }
 
+export interface Parent<T> {
+    payload: T | null;
+    matchedSegment: string;
+}
+
 export interface Match<T> {
     params: {[key: string]: string};
     payload: T;
+    parents: Parent<T>[];
 }
 
 /**
@@ -61,6 +67,7 @@ export class Route<T> {
         const segments = formattedPath === "/" ? ["/"] : formattedPath.split("/");
         let params: Record<string, string> = {};
         let nextNode: RouteNode<T> = this.root;
+        const parents: Parent<T>[] = [];
 
         for (const segment of segments) {
             const childNode = nextNode.children.get(segment);
@@ -84,6 +91,7 @@ export class Route<T> {
 
                 params = {...params, ...matched.param};
             }
+            parents.push({payload: nextNode.payload, matchedSegment: segment});
         }
 
         // if matched node do not have payload, lookup parent wildcard
@@ -98,20 +106,24 @@ export class Route<T> {
             return this.matchFallbackRoute();
         }
 
-        return this.createMatch(nextNode.payload, params);
+        // removed matched node itself
+        parents.pop();
+
+        return this.createMatch(nextNode.payload, params, parents);
     }
 
-    private createMatch(payload: T | null, params: Record<string, string>): Match<T> | null {
+    private createMatch(payload: T | null, params: Record<string, string>, parents: Parent<T>[]): Match<T> | null {
         return payload
             ? {
                   payload,
                   params,
+                  parents,
               }
             : null;
     }
 
     private matchFallbackRoute(): Match<T> | null {
-        return this.createMatch(this.root.fallbackNode?.payload ?? null, {});
+        return this.createMatch(this.root.fallbackNode?.payload ?? null, {}, []);
     }
 
     private createNode(segment: string, currentNode: RouteNode<T>): RouteNode<T> {
