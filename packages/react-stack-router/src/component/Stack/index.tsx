@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import type {CSSProperties} from "react";
 import classNames from "classnames";
-import {AnimatePresence} from "../AnimationPresence";
-import {ScreenComponent} from "./ScreenComponent";
+import {AnimatePresence, Animated} from "../Animated";
 import type {Screen} from "../../screen";
 import type {StackRouter} from "../../stackRouter";
+import {RouteContext} from "../../context";
 
 interface StackProps {
     router: StackRouter;
@@ -12,34 +12,26 @@ interface StackProps {
     style?: CSSProperties;
 }
 
-const routerStyle: CSSProperties = {
-    position: "relative",
-    display: "flex",
-    flex: 1,
-};
-
-const screenStyle: CSSProperties = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    touchAction: "none",
-    flexFlow: "column nowrap",
-    boxShadow: "3px 0 5px 5px rgba(0 0 0 / 10%)",
-};
-
 export function Stack({router, className, style}: StackProps) {
     const [screens, setScreens] = useState<Screen[]>([]);
 
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
     return (
-        <div className={classNames("g-stack-router", className)} style={{...style, ...routerStyle}}>
+        <div className={classNames("g-stack-router", className)} style={style}>
             <AnimatePresence>
                 {screens.map(screen => (
-                    <ScreenComponent className="g-stack-router-screen" style={screenStyle} key={screen.history.location.key} screen={screen} />
+                    <Animated.div
+                        enter={() => ({
+                            frames: screen.transition.enteringKeyframes ?? [],
+                            options: {duration: 10000, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
+                        })}
+                        key={screen.history.location.key}
+                    >
+                        <RouteContext.Provider value={{location: screen.history.location, lifecycle: screen.lifecycle, params: screen.history.params}}>
+                            <screen.content />
+                        </RouteContext.Provider>
+                    </Animated.div>
                 ))}
             </AnimatePresence>
         </div>

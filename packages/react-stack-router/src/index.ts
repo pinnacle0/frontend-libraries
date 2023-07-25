@@ -4,3 +4,4 @@ export {RouterContext, RouteContext} from "./context";
 export * from "./hooks";
 export type {RouteProps, PathRouteProps, ComponentRouteProps} from "./component/Route";
 export type {HistoryState, Router, PushOption, ReplaceOption, TransitionOption} from "./type";
+export type {LifecycleHookHook} from "./screen/lifecycle";
