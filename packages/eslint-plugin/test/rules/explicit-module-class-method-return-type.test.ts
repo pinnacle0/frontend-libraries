@@ -14,6 +14,10 @@ ruleTester.run(name, rule, {
             *fetchNextPage(filter:Filter): SagaGenerator {}
         }`,
         `import {Module} from "core-fe"
+        class UnrelatedModule extends Module<T> {
+            constructor() {}
+        }`,
+        `import {Module} from "core-fe"
         class UnrelatedModule extends NotModule<T> {
             *onEnter() {}
             *onUnrelatedGenerator(name:string) {}

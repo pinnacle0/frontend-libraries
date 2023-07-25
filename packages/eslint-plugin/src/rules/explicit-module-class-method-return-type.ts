@@ -32,7 +32,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                             (classElement): classElement is TSESTree.MethodDefinition =>
                                 classElement.type === AST_NODE_TYPES.MethodDefinition && classElement.value.type === AST_NODE_TYPES.FunctionExpression
                         )
-                        .filter(method => !method.value.returnType)
+                        .filter(method => !method.value.returnType && method.kind !== "constructor")
                         .forEach(method => {
                             const fn = method.value as TSESTree.FunctionExpression;
                             const blockStatementRange = fn.body.range;
