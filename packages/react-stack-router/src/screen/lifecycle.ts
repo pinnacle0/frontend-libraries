@@ -1,25 +1,25 @@
 type Callback = () => void;
 
-export type LifecycleHookHook = "willEnter" | "didEnter" | "willExit" | "didExit";
+export type LifecycleHook = "willEnter" | "didEnter" | "willExit" | "didExit";
 
 export const TRIGGER = Symbol("trigger");
 
 export class Lifecycle {
-    private callbacks: Record<LifecycleHookHook, Set<Callback>> = {
+    private callbacks: Record<LifecycleHook, Set<Callback>> = {
         willEnter: new Set(),
         didEnter: new Set(),
         willExit: new Set(),
         didExit: new Set(),
     };
 
-    attach(type: LifecycleHookHook, callback: Callback): () => void {
+    attach(type: LifecycleHook, callback: Callback): () => void {
         this.callbacks[type].add(callback);
         return () => {
             this.callbacks[type].delete(callback);
         };
     }
 
-    attachOnce(type: LifecycleHookHook, callback: Callback) {
+    attachOnce(type: LifecycleHook, callback: Callback) {
         const wrapper = () => {
             callback();
             this.callbacks[type].delete(callback);
@@ -27,7 +27,7 @@ export class Lifecycle {
         this.callbacks[type].add(wrapper.bind(this));
     }
 
-    trigger(type: LifecycleHookHook) {
+    trigger(type: LifecycleHook) {
         this.callbacks[type].forEach(_ => _());
     }
 }
