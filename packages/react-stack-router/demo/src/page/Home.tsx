@@ -20,7 +20,7 @@ export const Home = () => {
 
     return (
         <div style={{flex: 1, background: "teal"}}>
-            <h3 style={{marginBottom: 100}}>Home Page</h3>
+            <h3>Home Page</h3>
             <Back />
             <div style={{display: "flex", flexFlow: "row"}}>
                 <p>Count: {count}</p>
