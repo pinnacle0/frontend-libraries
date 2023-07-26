@@ -6,8 +6,8 @@ export interface AnimationKeyframe {
 }
 
 export interface AnimatedBaseProps {
-    enter?: AnimationKeyframe | ((node: Element) => AnimationKeyframe);
-    exit?: AnimationKeyframe | ((node: Element) => AnimationKeyframe);
+    enter?: AnimationKeyframe | ((node: Element) => AnimationKeyframe | null);
+    exit?: AnimationKeyframe | ((node: Element) => AnimationKeyframe | null);
     onEntering?: () => void;
     onEntered?: () => void;
     onExiting?: () => void;
@@ -38,11 +38,12 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             if (!element) return;
 
             const {enter, onEntered, onEntering} = animationSettingsRef.current;
-            if (!enter) {
+            const keyframe = typeof enter === "function" ? enter(element) : enter;
+
+            if (!keyframe) {
                 onEntered?.();
                 return;
             }
-            const keyframe = typeof enter === "function" ? enter(element) : enter;
 
             onEntering?.();
             const animation = element.animate(keyframe.frames, keyframe.options);
@@ -59,11 +60,11 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             if (typeof __removed !== "boolean" || __removed === false || !element) return;
 
             const {exit, onExiting, exited} = animationSettingsRef.current;
-            if (!exit) {
+            const keyframe = typeof exit === "function" ? exit(element) : exit;
+            if (!keyframe) {
                 exited();
                 return;
             }
-            const keyframe = typeof exit === "function" ? exit(element) : exit;
 
             onExiting?.();
             const animation = element.animate(keyframe.frames, keyframe.options);
