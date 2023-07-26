@@ -9,7 +9,6 @@ export interface PathRouteProps {
 export interface ComponentRouteProps {
     path: string;
     component: ComponentType<any>;
-    singlePageOnload?: boolean;
     children?: ReactNode;
 }
 
