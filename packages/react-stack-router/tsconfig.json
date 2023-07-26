@@ -5,9 +5,10 @@
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "declaration": true,
         "declarationMap": true,
+        "moduleResolution": "Bundler",
         "jsx": "react-jsx",
         "rootDir": "./src",
-        "outDir": "./lib",
+        "outDir": "./dist",
         "types": []
     },
     "include": ["./src"]
