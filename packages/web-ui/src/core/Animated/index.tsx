@@ -28,3 +28,4 @@ export const RawAnimated: any = new Proxy(
  */
 export const Animated: AnimatedType = RawAnimated as AnimatedType;
 export {AnimatePresence} from "./AnimatePresence";
+export type {AnimationKeyframe, AnimatedKeyframeGenerator} from "./createAnimatedComponent";
