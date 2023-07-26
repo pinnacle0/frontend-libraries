@@ -35,7 +35,7 @@ export const Home = () => {
                         console.info("after enter");
                     }}
                 >
-                    Push /game/3 using useNavigate() with async
+                    Push multiple game/:id using useNavigate() with async
                 </button>
             </div>
         </div>

@@ -35,7 +35,7 @@ export const Game = () => {
                         alert("popped");
                     }}
                 >
-                    Pop with async
+                    Alert after pop
                 </button>
             </div>
             <div>
@@ -45,7 +45,7 @@ export const Game = () => {
                         alert("replaced");
                     }}
                 >
-                    Replace with async
+                    Alert after replace
                 </button>
             </div>
         </div>
