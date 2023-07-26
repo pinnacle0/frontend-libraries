@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import type {CSSProperties} from "react";
 import classNames from "classnames";
 import {AnimatePresence, Animated} from "../Animated";
+import {RouteContext} from "../../context";
+import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
 import type {StackRouter} from "../../stackRouter";
-import {RouteContext} from "../../context";
 
 interface StackProps {
     router: StackRouter;
@@ -22,11 +22,13 @@ export function Stack({router, className, style}: StackProps) {
             <AnimatePresence>
                 {screens.map(screen => (
                     <Animated.div
-                        enter={() => ({
-                            frames: screen.transition.enteringKeyframes ?? [],
-                            options: {duration: 10000, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
-                        })}
                         key={screen.history.location.key}
+                        enter={() => screen.transition.enteringKeyframes}
+                        exit={() => screen.transition.exitingKeyframes}
+                        onEntering={() => screen.lifecycle.trigger("willEnter")}
+                        onEntered={() => screen.lifecycle.trigger("didEnter")}
+                        onExiting={() => screen.lifecycle.trigger("willExit")}
+                        onExited={() => screen.lifecycle.trigger("didExit")}
                     >
                         <RouteContext.Provider value={{location: screen.history.location, lifecycle: screen.lifecycle, params: screen.history.params}}>
                             <screen.content />

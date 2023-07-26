@@ -1,5 +1,4 @@
 import React from "react";
-import {useForceUpdate} from "../AnimationPresence/hook";
 
 interface ArrayElement {
     element: React.ReactElement;
@@ -141,4 +140,10 @@ export function usePrevious<T>(value: T) {
     }
 
     return ref.current.previous;
+}
+
+export function useForceUpdate() {
+    const [, setState] = React.useState<any>();
+    const forceUpdate = React.useCallback(() => setState({}), []);
+    return forceUpdate;
 }

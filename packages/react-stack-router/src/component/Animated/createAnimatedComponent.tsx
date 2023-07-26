@@ -5,9 +5,11 @@ export interface AnimationKeyframe {
     options?: KeyframeAnimationOptions;
 }
 
+export type AnimatedKeyframeGenerator = AnimationKeyframe | ((node: Element) => AnimationKeyframe | void | null) | null;
+
 export interface AnimatedBaseProps {
-    enter?: AnimationKeyframe | ((node: Element) => AnimationKeyframe | null);
-    exit?: AnimationKeyframe | ((node: Element) => AnimationKeyframe | null);
+    enter?: AnimatedKeyframeGenerator;
+    exit?: AnimatedKeyframeGenerator;
     onEntering?: () => void;
     onEntered?: () => void;
     onExiting?: () => void;

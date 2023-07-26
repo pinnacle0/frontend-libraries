@@ -1,3 +1,5 @@
+import type {AnimationKeyframe} from "../component/Animated";
+
 export type TransitionType = "entering" | "exiting" | "both" | "none";
 
 export class Transition {
@@ -10,11 +12,14 @@ export class Transition {
         this.type = type;
     }
 
-    get enteringKeyframes(): Keyframe[] | null {
+    get enteringKeyframes(): AnimationKeyframe | null {
         switch (this.type) {
             case "both":
             case "entering":
-                return [{transform: `translate3d(100%,0px,0px)`}, {transform: `translate3d(0px,0px,0px)`}];
+                return {
+                    frames: [{transform: `translate3d(100%,0px,0px)`}, {transform: `translate3d(0px,0px,0px)`}],
+                    options: {duration: this.duration, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
+                };
             case "exiting":
             case "none":
             default:
@@ -22,11 +27,14 @@ export class Transition {
         }
     }
 
-    get exitingKeyframes(): Keyframe[] | null {
+    get exitingKeyframes(): AnimationKeyframe | null {
         switch (this.type) {
             case "both":
             case "exiting":
-                return [{transform: "translate3d(100%,0px,0px)"}];
+                return {
+                    frames: [{transform: "translate3d(100%,0px,0px)"}],
+                    options: {duration: this.duration, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
+                };
             case "entering":
             case "none":
             default:
