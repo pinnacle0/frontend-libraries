@@ -1,0 +1,27 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.g-stack-router {
+    height: 100%;
+    position: relative;
+}
+
+.g-stack-router-screen {
+    display: flex;
+
+    &.overlay {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        position: fixed;
+        box-shadow:
+            rgb(50 50 93 / 25%) 0 50px 100px -20px,
+            rgb(0 0 0 / 30%) 0 30px 60px -30px;
+    }
+}
