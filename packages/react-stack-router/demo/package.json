@@ -16,9 +16,7 @@
     "devDependencies": {
         "@types/react": "18.2.14",
         "@types/react-dom": "18.2.6",
-        "@vitejs/plugin-basic-ssl": "1.0.1",
         "@vitejs/plugin-react": "4.0.3",
-        "vite": "4.4.2",
-        "vite-plugin-pwa": "0.16.4"
+        "vite": "4.4.2"
     }
 }
