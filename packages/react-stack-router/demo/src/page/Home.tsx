@@ -1,16 +1,26 @@
+import type {CSSProperties} from "react";
 import {useState} from "react";
 import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router/src";
 import {router} from "../router";
 import {Back} from "../component/Back";
+
+const boxStyle: CSSProperties = {
+    width: 100,
+    height: 300,
+    marginTop: 20,
+    backgroundColor: "gainsboro",
+};
 
 export const Home = () => {
     const [count, setCount] = useState(0);
     const {pathname} = useLocation();
     const {push} = useNavigate();
 
+    document.body.style.backgroundColor = "teal";
+
     return (
         <div style={{flex: 1, background: "teal"}}>
-            <h3>Home Page</h3>
+            <h3 style={{marginBottom: 100}}>Home Page</h3>
             <Back />
             <div style={{display: "flex", flexFlow: "row"}}>
                 <p>Count: {count}</p>
@@ -38,6 +48,16 @@ export const Home = () => {
                     Push multiple game/:id using useNavigate() with async
                 </button>
             </div>
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
+            <div className="box" style={boxStyle} />
         </div>
     );
 };

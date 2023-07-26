@@ -1,0 +1,6 @@
+{
+    "name": "Stack Router Demo",
+    "short_name": "Stack Router Demo",
+    "start_url": ".",
+    "display": "standalone"
+}
