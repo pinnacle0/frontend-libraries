@@ -1,7 +1,9 @@
 /**
- * Aim at detect popstate event triggered by Safari edge swipe gesture
+ * Aim at detect popstate event triggered by mobile Safari edge swipe gesture
+ *
  * for left edge swipe (back): clientX of touchend event is always be a negative value
  * for right edge swipe (forward): popstate event fired with only touchstart triggered
+ *
  * therefore, if there are any popstate event fired within 300ms after above scenarios, it recognized as a native swipe back pop event
  */
 export function createSafariEdgeSwipeDetector() {
