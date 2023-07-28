@@ -1,6 +1,7 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History, Location} from "history";
+import type {LifecycleHook} from "./screen/lifecycle";
 
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
@@ -25,34 +26,33 @@ export const useSearch = <T extends Record<string, unknown>>(): T => {
     return Object.fromEntries(new URLSearchParams(search)) as T;
 };
 
-export const useWillEnterEffect = (callback: () => any) => {
+export const useWillEnterEffect = (callback: () => any) => useLifecycle("willEnter", callback);
+
+export const useDidEnterEffect = (callback: () => any) => useLifecycle("didEnter", callback);
+
+export const useWillExitEffect = (callback: () => any) => useLifecycle("willExit", callback);
+
+export const useDidExitEffect = (callback: () => any) => useLifecycle("didExit", callback);
+
+function useLifecycle(hook: LifecycleHook, callback: () => void) {
     const {lifecycle} = useContext(RouteContext);
+    const callbackRef = useRef(callback);
+    callbackRef.current = callback;
+
+    const isMounted = useRef(false);
+    const detachRef = useRef(() => {});
+
+    detachRef.current = lifecycle.attach(hook, () => {
+        if (isMounted.current) {
+            detachRef.current();
+        }
+        callbackRef.current();
+    });
 
     useEffect(() => {
-        return lifecycle.attach("willEnter", callback);
-    }, [callback, lifecycle]);
-};
-
-export const useDidEnterEffect = (callback: () => any) => {
-    const {lifecycle} = useContext(RouteContext);
-
-    useEffect(() => {
-        return lifecycle.attach("didEnter", callback);
-    }, [callback, lifecycle]);
-};
-
-export const useWillExitEffect = (callback: () => any) => {
-    const {lifecycle} = useContext(RouteContext);
-
-    useEffect(() => {
-        return lifecycle.attach("willExit", callback);
-    }, [callback, lifecycle]);
-};
-
-export const useDidExitEffect = (callback: () => any) => {
-    const {lifecycle} = useContext(RouteContext);
-
-    useEffect(() => {
-        return lifecycle.attach("didExit", callback);
-    }, [callback, lifecycle]);
-};
+        isMounted.current = true;
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
+}
