@@ -1,6 +1,6 @@
 import type {CSSProperties} from "react";
 import {useState} from "react";
-import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router/src";
+import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router";
 import {router} from "../router";
 import {Back} from "../component/Back";
 
@@ -16,7 +16,9 @@ export const Home = () => {
     const {pathname} = useLocation();
     const {push} = useNavigate();
 
-    document.body.style.backgroundColor = "teal";
+    requestAnimationFrame(() => {
+        document.body.style.backgroundColor = "teal";
+    });
 
     return (
         <div style={{flex: 1, background: "teal"}}>
@@ -34,6 +36,7 @@ export const Home = () => {
             <div>
                 <button onClick={() => router.push("/not-found")}>to Not Found </button>
                 <button onClick={() => router.push("/about")}>Push /about using router.push()</button>
+                <button onClick={() => router.push("/")}>Push / using router.push</button>
                 <button onClick={() => push("/game")}>Push /game using useNavigate()</button>
                 <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
                 <button
@@ -48,16 +51,18 @@ export const Home = () => {
                     Push multiple game/:id using useNavigate() with async
                 </button>
             </div>
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
-            <div className="box" style={boxStyle} />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <div className="box" />
+            <p>End</p>
         </div>
     );
 };
