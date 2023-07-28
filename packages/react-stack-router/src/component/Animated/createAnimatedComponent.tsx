@@ -42,12 +42,12 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             const {enter, onEntered, onEntering} = animationSettingsRef.current;
             const keyframe = typeof enter === "function" ? enter(element) : enter;
 
+            onEntering?.();
             if (!keyframe) {
                 onEntered?.();
                 return;
             }
 
-            onEntering?.();
             const animation = element.animate(keyframe.frames, keyframe.options);
             if (onEntered) animation.onfinish = onEntered;
 
@@ -63,12 +63,13 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
 
             const {exit, onExiting, exited} = animationSettingsRef.current;
             const keyframe = typeof exit === "function" ? exit(element) : exit;
+
+            onExiting?.();
             if (!keyframe) {
                 exited();
                 return;
             }
 
-            onExiting?.();
             const animation = element.animate(keyframe.frames, keyframe.options);
             if (exited) animation.onfinish = exited;
 
