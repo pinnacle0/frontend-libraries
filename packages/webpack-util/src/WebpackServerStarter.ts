@@ -2,8 +2,11 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import DevServer from "webpack-dev-server";
-import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
+import {SocksProxyAgent} from "socks-proxy-agent";
+import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil";
+import type {Agent} from "https";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import type WebpackDevServer from "webpack-dev-server";
 
 export interface WebpackServerStarterOptions
@@ -16,6 +19,11 @@ export interface WebpackServerStarterOptions
     apiProxy?: {
         target: string;
         context: string[];
+        /**
+         * Use system socks proxy for all the api requests, you can also specify a socks proxy url, eg: socks5://127.0.0.1:1086
+         * Default: true
+         */
+        useSystemSocksProxy?: boolean | string;
     };
     interceptExpressApp?: (app: NonNullable<DevServer["app"]>) => void;
 }
@@ -32,14 +40,7 @@ export class WebpackServerStarter {
     private readonly devServerConfigContentBase: string;
     private readonly setupMiddlewares: WebpackDevServer.Configuration["setupMiddlewares"];
     private readonly port: number;
-    private readonly apiProxy:
-        | {
-              target: string;
-              context: string[];
-              secure: boolean;
-              changeOrigin: boolean;
-          }[]
-        | undefined;
+    private readonly apiProxy: DevServer.Configuration["proxy"];
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
     private readonly webpackConfig: webpack.Configuration;
 
@@ -61,6 +62,7 @@ export class WebpackServerStarter {
         this.apiProxy = apiProxy
             ? [
                   {
+                      agent: this.createAPISocksProxyAgent(apiProxy.useSystemSocksProxy ?? true),
                       context: apiProxy.context,
                       target: apiProxy.target,
                       secure: false,
@@ -142,5 +144,20 @@ export class WebpackServerStarter {
             },
             webpack(this.webpackConfig)
         );
+    }
+
+    private createAPISocksProxyAgent(useSocksProxy: string | boolean): Agent | null {
+        if (useSocksProxy === false) return null;
+
+        if (typeof useSocksProxy === "string") {
+            this.logger.info(["Using socks proxy:", useSocksProxy]);
+            return new SocksProxyAgent(useSocksProxy);
+        }
+
+        const settings = SystemProxySettingsUtil.get();
+        if (!settings) return null;
+        const url = `socks://${settings.server}:${settings.port}`;
+        this.logger.info(["Using socks proxy:", url]);
+        return new SocksProxyAgent(url);
     }
 }

@@ -27,13 +27,14 @@
         "mini-css-extract-plugin": "2.7.6",
         "pretty-format": "29.6.1",
         "react-refresh": "0.14.0",
+        "socks-proxy-agent": "8.0.1",
         "style-loader": "3.3.3",
         "swc-loader": "0.2.3",
+        "swc-plugin-core-fe-hmr": "1.0.3",
         "terser-webpack-plugin": "5.3.9",
         "webpack": "5.88.1",
         "webpack-dev-server": "4.15.1",
-        "yargs": "17.7.2",
-        "swc-plugin-core-fe-hmr": "1.0.3"
+        "yargs": "17.7.2"
     },
     "peerDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
