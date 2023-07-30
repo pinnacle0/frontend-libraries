@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef} from "react";
+import {useContext, useEffect, useLayoutEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History, Location} from "history";
 import type {LifecycleHook} from "./screen/lifecycle";
@@ -37,22 +37,10 @@ export const useDidExitEffect = (callback: () => any) => useLifecycle("didExit",
 function useLifecycle(hook: LifecycleHook, callback: () => void) {
     const {lifecycle} = useContext(RouteContext);
     const callbackRef = useRef(callback);
-    callbackRef.current = callback;
+    callbackRef.current;
 
-    const isMounted = useRef(false);
-    const detachRef = useRef(() => {});
-
-    detachRef.current = lifecycle.attach(hook, () => {
-        if (isMounted.current) {
-            detachRef.current();
-        }
-        callbackRef.current();
-    });
-
-    useEffect(() => {
-        isMounted.current = true;
-        return () => {
-            isMounted.current = false;
-        };
-    }, []);
+    useLayoutEffect(() => {
+        const unsubscribe = lifecycle.attach(hook, () => callbackRef.current());
+        return () => unsubscribe();
+    }, [hook, lifecycle]);
 }
