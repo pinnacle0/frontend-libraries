@@ -1,5 +1,6 @@
 import {Action} from "history";
-import type {History, Location, To, Update} from "history";
+import type {History, To, Update} from "history";
+import type {Location} from "../type";
 
 interface InternalState {
     __createAt: number;
@@ -13,7 +14,7 @@ export interface StackHistory<S extends Record<string, any>> {
     push: (to: To, state?: S) => void;
     replace: (to: To, state?: S) => void;
     pop: () => void;
-    currentLocation: Location;
+    location: Location<S>;
 }
 
 export const createStackHistory = <S extends Record<string, any>>(history: History): StackHistory<S> => {
@@ -42,22 +43,26 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
         return () => listeners.delete(listener);
     };
 
-    const notify = (action: Action, location: Location) => {
+    const notify = (action: Action, location: Location<S>) => {
         listeners.forEach(_ => _({action, location}));
     };
 
     /**
      * Determine a popState event is trigger by back or forward
      */
-    const isForwardPop = (next: Location): boolean => {
+    const isForwardPop = (next: Location<S>): boolean => {
         if (!currentLocation.state) return false;
-        const currentState = currentLocation.state as InternalState;
-        const nextState = next.state as InternalState;
-        return nextState.__createAt > currentState.__createAt;
+        const currentState = currentLocation.state as any;
+        const nextState = next.state as any;
+        if (isValidHistoryState(nextState) && isValidHistoryState(currentState)) {
+            return nextState.__createAt > currentState.__createAt;
+        }
+        return false;
     };
 
-    const handler = ({action, location}: Update) => {
-        switch (action) {
+    const handler = (update: Update) => {
+        const location = update.location as any;
+        switch (update.action) {
             case Action.Push:
                 notify(Action.Push, location);
                 break;
@@ -78,8 +83,12 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
         pop,
         replace,
         listen,
-        get currentLocation() {
-            return currentLocation;
+        get location(): Location<S> {
+            return currentLocation as any;
         },
     };
 };
+
+function isValidHistoryState(object: unknown): object is Record<string, any> {
+    return typeof object === "object" && object !== null && "__createAt" in object;
+}

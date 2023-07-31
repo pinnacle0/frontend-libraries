@@ -35,7 +35,7 @@ export function Stack({router, className, style}: StackProps) {
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
-                            key={screen.history.location.key}
+                            key={screen.history.location.state.$key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
@@ -44,7 +44,7 @@ export function Stack({router, className, style}: StackProps) {
                             onExited={() => screen.lifecycle.trigger("didExit")}
                         >
                             <RouteContext.Provider value={context}>
-                                <screen.content $routeProps={context} />
+                                <screen.content />
                             </RouteContext.Provider>
                         </Animated.div>
                     );

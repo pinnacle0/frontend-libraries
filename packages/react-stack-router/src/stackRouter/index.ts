@@ -1,17 +1,22 @@
 import {Action} from "history";
-import type {Match} from "../route";
 import {Route, formatPath} from "../route";
 import {Screen} from "../screen";
 import {invariant} from "../invariant";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
-import type {History, Location, Update, To} from "history";
-import type {HistoryState, PushOption} from "../type";
+import type {History, Update, To} from "history";
+import type {HistoryState, Location, PushOption} from "../type";
+import type {Match} from "../route";
 import type {StackHistory} from "./stackHistory";
 import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
+
+type InternalHistoryState<S extends HistoryState> = {
+    $key: string;
+    userState: S;
+};
 
 export type StackRoutePattern = {
     pattern: string;
@@ -27,7 +32,7 @@ export type StackRoutePayload = {
 export class StackRouter {
     private initialized = false;
     private screens: Screen[] = [];
-    private stackHistory: StackHistory<HistoryState>;
+    private stackHistory: StackHistory<InternalHistoryState<any>>;
     private subscribers = new Set<Subscriber>();
     private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
@@ -92,7 +97,7 @@ export class StackRouter {
 
         const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.pushOption.value = option ?? null;
-        this.stackHistory.push(to, option?.state);
+        this.stackHistory.push(to, {$key: this.createKey(), userState: option?.state ?? {}});
 
         return wait;
     }
@@ -103,15 +108,15 @@ export class StackRouter {
         return wait;
     }
 
-    async replace(to: To, state?: Record<string, any>): Promise<void> {
+    replace(to: To, state?: Record<string, any>): void {
         if (!this.matchRoute(to)) return;
 
-        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
-        this.stackHistory.replace(to, state);
-        return wait;
+        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key, userState: state ?? {}});
     }
 
-    reset() {}
+    private createKey() {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    }
 
     private notify() {
         this.subscribers.forEach(_ => _([...this.screens]));
@@ -191,13 +196,13 @@ export class StackRouter {
     private handler({action, location}: Update) {
         switch (action) {
             case Action.Push:
-                this.pushScreen(location, this.safariEdgeSwipeDetector.isForwardPop ? "none" : "both");
+                this.pushScreen(location as any, this.safariEdgeSwipeDetector.isForwardPop ? "none" : "both");
                 break;
             case Action.Pop:
                 this.popScreen(this.safariEdgeSwipeDetector.isBackwardPop ? "none" : "both");
                 break;
             case Action.Replace:
-                this.replaceScreen(location);
+                this.replaceScreen(location as any);
                 break;
         }
     }

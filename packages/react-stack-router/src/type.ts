@@ -1,10 +1,13 @@
 import type React from "react";
-import type {To} from "history";
+import type {To, Location as HistoryLocation} from "history";
 import type {RouteProps} from "./component/Route";
 import type {TransitionType} from "./screen/transition";
-import type {RouteContext} from "./context";
 
 export type HistoryState = Record<string, any>;
+
+export type Location<S extends Record<string, any> = Record<string, any>> = Omit<HistoryLocation, "state"> & {
+    state: S;
+};
 
 export interface TransitionOption {
     transition?: TransitionType;
@@ -21,15 +24,10 @@ export interface ReplaceOption {
     state?: HistoryState;
 }
 
-export interface RouteRenderBaseProps {
-    $routeProps: RouteContext;
-}
-
 export interface Router {
     Root: React.ComponentType<React.PropsWithChildren>;
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
     pop: () => Promise<void>;
-    replace: (to: To, state?: Record<string, any>) => Promise<void>;
-    reset: () => void;
+    replace: (to: To, state?: Record<string, any>) => void;
 }

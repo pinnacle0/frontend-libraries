@@ -1,6 +1,7 @@
 import {useContext, useEffect, useLayoutEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
-import type {History, Location} from "history";
+import type {History} from "history";
+import type {Location} from "./type";
 import type {LifecycleHook} from "./screen/lifecycle";
 
 /**
@@ -8,8 +9,8 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, reset, replace} = useContext(RouterContext);
-    return {push, pop, reset, replace};
+    const {push, pop, replace} = useContext(RouterContext);
+    return {push, pop, replace};
 };
 
 export const useHistory = (): History => {
