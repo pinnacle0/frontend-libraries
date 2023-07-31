@@ -1,7 +1,7 @@
 import {useContext, useEffect, useLayoutEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
-import type {Location} from "./type";
+import type {HistoryState, Location} from "./type";
 import type {LifecycleHook} from "./screen/lifecycle";
 
 /**
@@ -17,12 +17,24 @@ export const useHistory = (): History => {
     return useContext(RouterContext).history;
 };
 
+export function useHistoryState<T extends HistoryState>(): Partial<T> {
+    const location = useLocation();
+    if ("userState" in location.state) {
+        return location.state.userState;
+    }
+    return {};
+}
+
 export const useParams = <T extends Record<string, string>>(): T => {
     return useContext(RouteContext).params as T;
 };
 
 export const useLocation = (): Location => {
     return useContext(RouteContext).location;
+};
+
+export const useHash = (): string => {
+    return useContext(RouterContext).history.location.hash;
 };
 
 export const useSearch = <T extends Record<string, unknown>>(): T => {

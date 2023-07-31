@@ -110,8 +110,12 @@ export class StackRouter {
 
     replace(to: To, state?: Record<string, any>): void {
         if (!this.matchRoute(to)) return;
+        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), userState: state ?? {}});
+    }
 
-        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key, userState: state ?? {}});
+    replaceHash(hash: string): void {
+        const location = this.stackHistory.location;
+        this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state?.userState ?? {});
     }
 
     private createKey() {

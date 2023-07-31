@@ -30,4 +30,5 @@ export interface Router {
     push: (to: To, option?: PushOption) => Promise<void>;
     pop: () => Promise<void>;
     replace: (to: To, state?: Record<string, any>) => void;
+    replaceHash: (hash: string) => void;
 }
