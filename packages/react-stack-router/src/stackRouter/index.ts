@@ -13,7 +13,7 @@ import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
-type InternalHistoryState<S extends LocationState> = {
+type InternalLocationState<S extends LocationState> = {
     $key: string;
     userState: S;
 };
@@ -32,7 +32,7 @@ export type StackRoutePayload = {
 export class StackRouter {
     private initialized = false;
     private screens: Screen[] = [];
-    private stackHistory: StackHistory<InternalHistoryState<any>>;
+    private stackHistory: StackHistory<InternalLocationState<any>>;
     private subscribers = new Set<Subscriber>();
     private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
