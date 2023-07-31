@@ -6,14 +6,14 @@ import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
 import type {History, Update, To} from "history";
-import type {HistoryState, Location, PushOption} from "../type";
+import type {LocationState, Location, PushOption} from "../type";
 import type {Match} from "../route";
 import type {StackHistory} from "./stackHistory";
 import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
-type InternalHistoryState<S extends HistoryState> = {
+type InternalHistoryState<S extends LocationState> = {
     $key: string;
     userState: S;
 };

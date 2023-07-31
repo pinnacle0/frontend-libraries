@@ -3,7 +3,7 @@ import type {To, Location as HistoryLocation} from "history";
 import type {RouteProps} from "./component/Route";
 import type {TransitionType} from "./screen/transition";
 
-export type HistoryState = Record<string, any>;
+export type LocationState = Record<string, any>;
 
 export type Location<S extends Record<string, any> = Record<string, any>> = Omit<HistoryLocation, "state"> & {
     state: S;
@@ -15,13 +15,13 @@ export interface TransitionOption {
 }
 
 export interface PushOption extends TransitionOption {
-    state?: HistoryState;
+    state?: LocationState;
 }
 
 export interface ReplaceOption {
     remove: TransitionOption;
     add: TransitionOption;
-    state?: HistoryState;
+    state?: LocationState;
 }
 
 export interface Router {

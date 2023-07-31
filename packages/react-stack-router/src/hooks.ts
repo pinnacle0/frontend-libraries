@@ -1,7 +1,7 @@
 import {useContext, useEffect, useLayoutEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
-import type {HistoryState, Location} from "./type";
+import type {LocationState, Location} from "./type";
 import type {LifecycleHook} from "./screen/lifecycle";
 
 /**
@@ -17,7 +17,7 @@ export const useHistory = (): History => {
     return useContext(RouterContext).history;
 };
 
-export function useHistoryState<T extends HistoryState>(): Partial<T> {
+export function useLocationState<T extends LocationState>(): Partial<T> {
     const location = useLocation();
     if ("userState" in location.state) {
         return location.state.userState;
