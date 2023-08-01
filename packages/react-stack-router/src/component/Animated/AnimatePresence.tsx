@@ -1,4 +1,5 @@
 import React from "react";
+import {invariant} from "../../invariant";
 
 interface ArrayElement {
     element: React.ReactElement;
@@ -117,13 +118,6 @@ function getValidChildren(children: React.ReactNode): Array<React.ReactElement> 
     });
 
     return validElements;
-}
-
-export function invariant(condition: any, message: string): asserts condition {
-    if (condition) {
-        return;
-    }
-    throw new Error(message);
 }
 
 export function usePrevious<T>(value: T) {
