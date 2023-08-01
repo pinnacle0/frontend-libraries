@@ -1,4 +1,4 @@
-import {useContext, useEffect, useLayoutEffect, useRef} from "react";
+import {useCallback, useContext, useEffect, useLayoutEffect, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
 import type {LocationState, Location} from "./type";
@@ -9,12 +9,16 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, replace} = useContext(RouterContext);
-    return {push, pop, replace};
+    const {push, pop, replace, replaceHash} = useContext(RouterContext);
+    return {push, pop, replace, replaceHash};
 };
 
 export const useHistory = (): History => {
     return useContext(RouterContext).history;
+};
+
+export const useLocation = (): Location => {
+    return useContext(RouteContext).location;
 };
 
 export function useLocationState<T extends LocationState>(): Partial<T> {
@@ -29,12 +33,12 @@ export const useParams = <T extends Record<string, string>>(): T => {
     return useContext(RouteContext).params as T;
 };
 
-export const useLocation = (): Location => {
-    return useContext(RouteContext).location;
-};
+export const useHash = () => {
+    const router = useContext(RouterContext);
+    const hash = router.history.location.hash;
+    const setHash = useCallback((hash: string) => router.replaceHash(hash), [router]);
 
-export const useHash = (): string => {
-    return useContext(RouterContext).history.location.hash;
+    return [hash, setHash] as const;
 };
 
 export const useSearch = <T extends Record<string, unknown>>(): T => {
