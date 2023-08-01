@@ -1,15 +1,7 @@
-import type {CSSProperties} from "react";
 import {useState} from "react";
 import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router";
 import {router} from "../router";
 import {Back} from "../component/Back";
-
-const boxStyle: CSSProperties = {
-    width: 100,
-    height: 300,
-    marginTop: 20,
-    backgroundColor: "gainsboro",
-};
 
 export const Home = () => {
     const [count, setCount] = useState(0);

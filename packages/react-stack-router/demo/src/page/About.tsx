@@ -1,4 +1,4 @@
-import {useDidEnterEffect, useDidExitEffect, useLocation, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
+import {useDidEnterEffect, useDidExitEffect, useLocation, useNavigate, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
 
 export const About = () => {

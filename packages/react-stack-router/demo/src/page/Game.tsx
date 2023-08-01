@@ -1,15 +1,19 @@
+import {useState} from "react";
 import {Link, useLocation, useParams} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
 import {router} from "../router";
 
 export const Game = () => {
     const {pathname} = useLocation();
+    const [count, setCount] = useState(0);
     const {id} = useParams<{id?: string}>();
 
     return (
         <div style={{flex: 1, background: "#fff"}}>
             <h3>Game Page</h3>
             <h3>pathname: {pathname}</h3>
+            <button onClick={() => setCount(_ => _ + 1)}>count: {count}</button>
+            <button onClick={() => router.replaceHash(count.toString())}>change hash to 123</button>
             <h3>{id ? `have id ${id}` : "no id given"}</h3>
             <Back />
             <div>
@@ -26,6 +30,11 @@ export const Game = () => {
                 </Link>
             </div>
             <div>
+                <Link to="/about" replace>
+                    Replace with About page
+                </Link>
+            </div>
+            <div>
                 <button onClick={() => router.push("/game/3333", {transition: "none"})}>Push with no animation</button>
             </div>
             <div>
@@ -36,16 +45,6 @@ export const Game = () => {
                     }}
                 >
                     Alert after pop
-                </button>
-            </div>
-            <div>
-                <button
-                    onClick={async () => {
-                        await router.replace("/game/replaced");
-                        alert("replaced");
-                    }}
-                >
-                    Alert after replace
                 </button>
             </div>
         </div>
