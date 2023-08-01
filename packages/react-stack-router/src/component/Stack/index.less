@@ -13,12 +13,19 @@ body {
     display: flex;
     flex-flow: column nowrap;
     flex: 1 0 auto;
+
+    &.exiting {
+        .g-stack-router-screen:not(.removing) {
+            transform: translate3d(0, 0, 0);
+        }
+    }
 }
 
 .g-stack-router-screen {
     display: flex;
     flex-flow: column nowrap;
     flex: 1 0 auto;
+    transition: transform 400ms cubic-bezier(0.05, 0.74, 0.3, 1.01);
 
     &.overlay {
         width: 100%;
@@ -29,5 +36,13 @@ body {
         box-shadow:
             rgb(50 50 93 / 25%) 0 50px 100px -20px,
             rgb(0 0 0 / 30%) 0 30px 60px -30px;
+    }
+
+    &:nth-last-child(2) {
+        transform: translate3d(-50px, 0, 0);
+    }
+
+    &:not(:last-of-type) {
+        pointer-events: none;
     }
 }
