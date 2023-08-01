@@ -44,8 +44,7 @@ export const useSearchParams = <T extends Record<string, string>>() => {
     const {search} = useLocation();
     const {replaceSearchParams} = useNavigate();
     const searchParams = useMemo(() => Object.fromEntries(new URLSearchParams(search)), [search]) as T;
-    const setSearchParams = useCallback((params: T) => replaceSearchParams(params), [replaceSearchParams]);
-
+    const setSearchParams = useCallback((params: T | ((current: T) => T)) => replaceSearchParams(typeof params === "function" ? params(searchParams) : params), [searchParams, replaceSearchParams]);
     return [searchParams, setSearchParams] as const;
 };
 
