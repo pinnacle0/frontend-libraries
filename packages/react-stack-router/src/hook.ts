@@ -36,7 +36,7 @@ export const useParams = <T extends Record<string, string>>(): T => {
 export const useHash = () => {
     const {location} = useContext(RouteContext);
     const {replaceHash} = useContext(RouterContext);
-    const hash = location.hash;
+    const hash = location.hash.slice(1);
     const setHash = useCallback((hash: string) => replaceHash(hash), [replaceHash]);
 
     return [hash, setHash] as const;
