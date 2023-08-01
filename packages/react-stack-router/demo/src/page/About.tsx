@@ -1,8 +1,9 @@
-import {useDidEnterEffect, useDidExitEffect, useLocation, useNavigate, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
+import {useDidEnterEffect, useDidExitEffect, useHash, useLocation, useNavigate, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
 
 export const About = () => {
     const {pathname} = useLocation();
+    const [hash, setHash] = useHash();
 
     requestAnimationFrame(() => {
         document.body.style.backgroundColor = "maroon";
@@ -29,7 +30,9 @@ export const About = () => {
             <div style={{height: "100%", overflowY: "auto"}}>
                 <h3>About Page</h3>
                 <Back />
+                <button onClick={() => setHash("hash" + Math.random())}>Change Hash</button>
                 <h3>pathname: {pathname}</h3>
+                <h3>hash: {hash}</h3>
                 <div className="box" />
                 <div className="box" />
                 <div className="box" />
