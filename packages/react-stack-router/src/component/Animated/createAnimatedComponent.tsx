@@ -1,4 +1,5 @@
-import React from "react";
+import React, {forwardRef} from "react";
+import classNames from "classnames";
 
 export interface AnimationKeyframe {
     frames: Keyframe[] | PropertyIndexedKeyframes;
@@ -19,8 +20,8 @@ export interface AnimatedBaseProps {
 type UnionIntrinsicElementProps = React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements] & AnimatedBaseProps;
 
 export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElements): React.FunctionComponent<any> {
-    function Animated(props: UnionIntrinsicElementProps) {
-        const {children, ref, enter, exit, onEntered, onEntering, onExited, onExiting, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps & {
+    const Animated = forwardRef(function (props: UnionIntrinsicElementProps, ref) {
+        const {children, enter, exit, onEntered, onEntering, onExited, onExiting, className, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps & {
             __removed?: boolean;
             __onExited?: () => void;
         };
@@ -49,11 +50,12 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             }
 
             const animation = element.animate(keyframe.frames, keyframe.options);
-            if (onEntered) animation.onfinish = onEntered;
+            animation.onfinish = () => {
+                onEntered?.();
+            };
 
             return () => {
                 animation.onfinish = null;
-                animation.cancel();
             };
         }, []);
 
@@ -71,7 +73,7 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             }
 
             const animation = element.animate(keyframe.frames, keyframe.options);
-            if (exited) animation.onfinish = exited;
+            animation.onfinish = exited;
 
             return () => {
                 animation.cancel();
@@ -79,10 +81,11 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
             };
         }, [__removed]);
 
-        return React.createElement(element, {...(restProps as any), ref: compositeRef}, children);
-    }
+        return React.createElement(element, {...(restProps as any), ref: compositeRef, className: classNames(className, {removing: __removed})}, children);
+    });
 
-    Animated.$isAnimatedComponent = true;
+    Object.defineProperty(Animated, "$isAnimatedComponent", {value: true, enumerable: false, writable: false});
+    Object.defineProperty(Animated, "displayName", {value: `Animated.${element}`, enumerable: false, writable: false});
 
     return Animated;
 }
