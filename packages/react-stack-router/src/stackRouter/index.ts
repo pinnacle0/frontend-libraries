@@ -115,7 +115,7 @@ export class StackRouter {
 
     replaceHash(hash: string): void {
         const location = this.stackHistory.location;
-        this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state?.userState ?? {});
+        this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state);
     }
 
     private createKey() {
