@@ -17,8 +17,8 @@ export class Transition {
             case "both":
             case "entering":
                 return {
-                    frames: [{transform: `translate3d(100%,0px,0px)`}, {transform: `translate3d(0px,0px,0px)`}],
-                    options: {duration: this.duration, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
+                    frames: [{transform: `translate3d(100%,0px,0px)`}, {transform: "none"}],
+                    options: {duration: this.duration, easing: "cubic-bezier(.05,.74,.3,1.01)"},
                 };
             case "exiting":
             case "none":
