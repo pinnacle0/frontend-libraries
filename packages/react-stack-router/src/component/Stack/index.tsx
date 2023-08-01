@@ -1,8 +1,8 @@
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import classNames from "classnames";
 import {AnimatePresence, Animated} from "../Animated";
 import {RouteContext} from "../../context";
-import type {CSSProperties, ElementRef} from "react";
+import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
 import type {StackRouter} from "../../stackRouter";
 import "./index.less";
