@@ -9,8 +9,8 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, replace, replaceHash} = useContext(RouterContext);
-    return {push, pop, replace, replaceHash};
+    const {push, pop, replace, replaceHash, replaceSearchParams} = useContext(RouterContext);
+    return {push, pop, replace, replaceHash, replaceSearchParams};
 };
 
 export const useHistory = (): History => {
@@ -40,9 +40,13 @@ export const useHash = () => {
     return [location.hash.slice(1), setHash] as const;
 };
 
-export const useSearch = <T extends Record<string, unknown>>(): T => {
+export const useSearchParams = <T extends Record<string, string>>() => {
     const {search} = useLocation();
-    return useMemo(() => Object.fromEntries(new URLSearchParams(search)), [search]) as T;
+    const {replaceSearchParams} = useNavigate();
+    const searchParams = useMemo(() => Object.fromEntries(new URLSearchParams(search)), [search]) as T;
+    const setSearchParams = useCallback((params: T) => replaceSearchParams(params), [replaceSearchParams]);
+
+    return [searchParams, setSearchParams] as const;
 };
 
 export type LocationMatchCallback = (location: Location) => void;

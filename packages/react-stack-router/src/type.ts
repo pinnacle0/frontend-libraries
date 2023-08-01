@@ -31,4 +31,5 @@ export interface Router {
     pop: () => Promise<void>;
     replace: (to: To, state?: Record<string, any>) => void;
     replaceHash: (hash: string) => void;
+    replaceSearchParams: (params: Record<string, string>) => void;
 }

@@ -118,6 +118,12 @@ export class StackRouter {
         this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state);
     }
 
+    replaceSearchParams(params: Record<string, string>): void {
+        const location = this.stackHistory.location;
+        const search = new URLSearchParams(params).toString();
+        this.stackHistory.replace({pathname: location.pathname, search, hash: location.hash}, location.state);
+    }
+
     private createKey() {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }
