@@ -34,12 +34,10 @@ export const useParams = <T extends Record<string, string>>(): T => {
 };
 
 export const useHash = () => {
-    const {location} = useContext(RouteContext);
-    const {replaceHash} = useContext(RouterContext);
-    const hash = location.hash.slice(1);
+    const location = useLocation();
+    const {replaceHash} = useNavigate();
     const setHash = useCallback((hash: string) => replaceHash(hash), [replaceHash]);
-
-    return [hash, setHash] as const;
+    return [location.hash.slice(1), setHash] as const;
 };
 
 export const useSearch = <T extends Record<string, unknown>>(): T => {
