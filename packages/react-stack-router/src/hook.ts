@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useLayoutEffect, useRef} from "react";
+import {useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
 import type {LocationState, Location} from "./type";
@@ -21,16 +21,16 @@ export const useLocation = (): Location => {
     return useContext(RouteContext).location;
 };
 
-export function useLocationState<T extends LocationState>(): Partial<T> {
+export const useParams = <T extends Record<string, string>>(): T => {
+    return useContext(RouteContext).params as T;
+};
+
+export const useLocationState = <T extends LocationState>(): Partial<T> => {
     const location = useLocation();
     if ("userState" in location.state) {
         return location.state.userState;
     }
     return {};
-}
-
-export const useParams = <T extends Record<string, string>>(): T => {
-    return useContext(RouteContext).params as T;
 };
 
 export const useHash = () => {
@@ -42,7 +42,7 @@ export const useHash = () => {
 
 export const useSearch = <T extends Record<string, unknown>>(): T => {
     const {search} = useLocation();
-    return Object.fromEntries(new URLSearchParams(search)) as T;
+    return useMemo(() => Object.fromEntries(new URLSearchParams(search)), [search]) as T;
 };
 
 export type LocationMatchCallback = (location: Location) => void;
