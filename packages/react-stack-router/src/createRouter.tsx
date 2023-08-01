@@ -51,19 +51,16 @@ export function createRouter(history?: History): Router {
 
     const Root = ({children}: React.PropsWithChildren) => {
         const route = useMemo(() => createChildrenRoute(children, null), [children]);
-        const historyRef = React.useRef(internalHistory);
-        historyRef.current = internalHistory;
 
         router.updateRoute(route);
 
-        useEffect(() => router.attachSafariEdgeSwipeDetector(), []);
-
         useEffect(() => {
+            router.attachSafariEdgeSwipeDetector();
             router.initialize();
         }, []);
 
         return (
-            <RouterContext.Provider value={{history: historyRef.current, push, pop, replace, replaceHash}}>
+            <RouterContext.Provider value={{history: internalHistory, push, pop, replace, replaceHash}}>
                 <Stack router={router} />
             </RouterContext.Provider>
         );
