@@ -32,7 +32,6 @@ export function Stack({router, className, style}: StackProps) {
             <AnimatePresence>
                 {screens.map((screen, index) => {
                     const context: RouteContext = {location: screen.history.location, lifecycle: screen.lifecycle, params: screen.history.params};
-                    console.log(screen.history.location.state.$key);
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
