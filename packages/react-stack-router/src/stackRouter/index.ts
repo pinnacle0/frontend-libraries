@@ -124,6 +124,10 @@ export class StackRouter {
         this.stackHistory.replace({pathname: location.pathname, search, hash: location.hash}, location.state);
     }
 
+    isSafariEdgeSwipeBackwardPop(): boolean {
+        return this.safariEdgeSwipeDetector.isBackwardPop;
+    }
+
     private createKey() {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }

@@ -16,7 +16,6 @@ interface StackProps {
 
 export function Stack({router, className, style}: StackProps) {
     const [screens, setScreens] = useState<Screen[]>([]);
-    const [exiting, setExiting] = useState(0);
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
     useLayoutEffect(() => {
@@ -30,26 +29,27 @@ export function Stack({router, className, style}: StackProps) {
     }, [screens]);
 
     return (
-        <div className={classNames("g-stack-router", {exiting: exiting !== 0}, className)} style={style}>
+        <div className={classNames("g-stack-router", className)} style={style}>
             <AnimatePresence>
                 {screens.map((screen, index) => {
                     const context: RouteContext | RouteRenderProps<Record<string, string>> = {location: screen.location, lifecycle: screen.lifecycle, params: screen.params};
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
+                            style={
+                                index === screens.length - 2
+                                    ? {transform: "translate3d(-100px, 0, 0)"}
+                                    : index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()
+                                    ? {transition: "none"}
+                                    : undefined
+                            }
                             key={screen.location.state.$key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
                             onEntered={() => screen.lifecycle.trigger("didEnter")}
-                            onExiting={() => {
-                                setExiting(_ => _ + 1);
-                                screen.lifecycle.trigger("willExit");
-                            }}
-                            onExited={() => {
-                                setExiting(_ => _ - 1);
-                                screen.lifecycle.trigger("didExit");
-                            }}
+                            onExiting={() => screen.lifecycle.trigger("willExit")}
+                            onExited={() => screen.lifecycle.trigger("didExit")}
                         >
                             <RouteContext.Provider value={context}>
                                 <screen.content {...context} />
