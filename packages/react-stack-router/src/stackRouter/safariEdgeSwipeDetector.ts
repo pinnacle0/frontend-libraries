@@ -36,10 +36,12 @@ export function createSafariEdgeSwipeDetector() {
             document.addEventListener("touchstart", start);
             document.addEventListener("touchend", end);
             document.addEventListener("cancel", cancel);
+            window.addEventListener("popstate", cancel); // reset after popState
             return () => {
                 document.removeEventListener("touchstart", start);
                 document.removeEventListener("touchend", end);
-                document.removeEventListener("cancel", cancel, true);
+                document.removeEventListener("cancel", cancel);
+                window.removeEventListener("popstate", cancel);
             };
         },
     };
