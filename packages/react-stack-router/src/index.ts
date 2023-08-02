@@ -4,5 +4,5 @@ export {RouterContext, RouteContext} from "./context";
 export * from "./hook";
 export type {History} from "history";
 export type {RouteProps, PathRouteProps, ComponentRouteProps} from "./component/Route";
-export type {LocationState as HistoryState, Location, Router, PushOption, ReplaceOption, TransitionOption} from "./type";
+export type {LocationState, Location, Router, PushOption, ReplaceOption, TransitionOption, RouteRenderProps} from "./type";
 export type {LifecycleHook} from "./screen/lifecycle";
