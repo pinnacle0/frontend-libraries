@@ -1,4 +1,4 @@
-import React, {forwardRef} from "react";
+import React from "react";
 import classNames from "classnames";
 
 export interface AnimationKeyframe {
@@ -20,7 +20,7 @@ export interface AnimatedBaseProps {
 type UnionIntrinsicElementProps = React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements] & AnimatedBaseProps;
 
 export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElements): React.FunctionComponent<any> {
-    const Animated = forwardRef(function (props: UnionIntrinsicElementProps, ref) {
+    const Animated = React.forwardRef(function (props: UnionIntrinsicElementProps, ref) {
         const {children, enter, exit, onEntered, onEntering, onExited, onExiting, className, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps & {
             __removed?: boolean;
             __onExited?: () => void;
