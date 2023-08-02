@@ -5,6 +5,7 @@ import {RouteContext} from "../../context";
 import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
 import type {StackRouter} from "../../stackRouter";
+import type {RouteRenderProps} from "../../type";
 import "./index.less";
 
 interface StackProps {
@@ -32,11 +33,11 @@ export function Stack({router, className, style}: StackProps) {
         <div className={classNames("g-stack-router", {exiting: exiting !== 0}, className)} style={style}>
             <AnimatePresence>
                 {screens.map((screen, index) => {
-                    const context: RouteContext = {location: screen.history.location, lifecycle: screen.lifecycle, params: screen.history.params};
+                    const context: RouteContext | RouteRenderProps<Record<string, string>> = {location: screen.location, lifecycle: screen.lifecycle, params: screen.params};
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
-                            key={screen.history.location.state.$key}
+                            key={screen.location.state.$key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
@@ -51,7 +52,7 @@ export function Stack({router, className, style}: StackProps) {
                             }}
                         >
                             <RouteContext.Provider value={context}>
-                                <screen.content />
+                                <screen.content {...context} />
                             </RouteContext.Provider>
                         </Animated.div>
                     );

@@ -15,13 +15,15 @@ export interface ScreenTransitionSettings {
 
 export class Screen {
     readonly content: React.ComponentType<any>;
-    readonly history: HistoryInfo;
+    readonly location: Location;
+    readonly params: Record<string, string>;
     readonly transition: Transition;
     readonly lifecycle = new Lifecycle();
 
-    constructor({content, history, transition}: {content: React.ComponentType<any>; history: HistoryInfo; transition: ScreenTransitionSettings}) {
+    constructor({content, location, params, transition}: {content: React.ComponentType<any>; location: Location; params: Record<string, string>; transition: ScreenTransitionSettings}) {
         this.content = content;
-        this.history = history;
+        this.location = location;
+        this.params = params;
         this.transition = new Transition(transition.type, transition.duration);
     }
 }

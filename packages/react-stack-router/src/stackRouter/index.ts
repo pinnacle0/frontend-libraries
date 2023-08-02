@@ -149,10 +149,8 @@ export class StackRouter {
         if (!matched) return null;
         return new Screen({
             content: matched.payload.component,
-            history: {
-                location,
-                params: matched.params,
-            },
+            location,
+            params: matched.params,
             transition: {
                 type: transitionType,
                 duration: 400,
