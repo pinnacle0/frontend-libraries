@@ -5,6 +5,10 @@ import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 
+// todo:
+// deprecate the ranges in props, use presets after antd 5.8.0
+// presets: {label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}[];
+
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [Date, Date] : [Date | null, Date | null]> {
     allowNull: T;
     disabled?: boolean;
@@ -19,6 +23,8 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     static showTime = {
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
+
+    // todo: remove this field after antd 5.8.0
     // Arrow function is used to ensure correct calculation of today when website have opened across days
     static presets: {[range: string]: () => [Dayjs, Dayjs]} = {
         当天: () => [dayjs().startOf("day"), dayjs().endOf("day")],
