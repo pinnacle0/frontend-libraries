@@ -22,6 +22,7 @@ export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKey
 export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
 export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
+    autoTrim?: boolean;
     focus?: FocusType;
     inputRef?: React.RefObject<InputRef>;
 }
@@ -41,7 +42,12 @@ export class Input extends React.PureComponent<Props> {
 
     static NullableTextArea = ({value, onChange, ...rest}: InputNullableTextAreaProps) => <Input.TextArea value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />;
 
-    private static onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void) => onValueChange(e.target.value);
+    private static onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void, autoTrim?: boolean) => {
+        if (autoTrim) {
+            e.target.value = e.target.value.trim();
+        }
+        onValueChange(e.target.value);
+    };
 
     private antInputRef = React.createRef<InputRef>();
 
@@ -77,11 +83,12 @@ export class Input extends React.PureComponent<Props> {
             onChange,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
             autoFocus,
+            autoTrim,
             inputRef,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
             onClick,
             ...restProps
         } = this.props;
-        return <AntInput {...restProps} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange)} />;
+        return <AntInput {...restProps} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange, autoTrim)} />;
     }
 }
