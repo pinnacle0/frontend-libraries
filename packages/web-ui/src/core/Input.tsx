@@ -17,7 +17,9 @@ export interface InputTextAreaProps extends Omit<TextAreaProps, ExcludedAntInput
 
 export interface InputPasswordProps extends Omit<PasswordProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
 
-export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
+export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {
+    autoTrim?: boolean;
+}
 
 export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
 
