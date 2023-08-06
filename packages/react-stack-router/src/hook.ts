@@ -25,12 +25,17 @@ export const useParams = <T extends Record<string, string>>(): T => {
     return useContext(RouteContext).params as T;
 };
 
-export const useLocationState = <T extends LocationState>(): Partial<T> => {
+export const useLocationState = <T extends LocationState>() => {
     const location = useLocation();
-    if ("userState" in location.state) {
-        return location.state.userState;
-    }
-    return {};
+    const state: Partial<T> = useMemo(() => location.state?.userState ?? {}, [location]);
+    const {replace} = useNavigate();
+    const setState = useCallback(
+        (newState: Partial<T> | ((current: Partial<T>) => Partial<T>)) => {
+            replace({pathname: location.pathname, search: location.search, hash: location.hash}, {...location.state, usersState: typeof newState === "function" ? newState(state) : newState});
+        },
+        [location, state, replace]
+    );
+    return [state, setState] as const;
 };
 
 export const useHash = () => {

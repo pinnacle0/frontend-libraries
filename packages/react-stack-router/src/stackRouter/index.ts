@@ -113,15 +113,15 @@ export class StackRouter {
         this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), userState: state ?? {}});
     }
 
-    replaceHash(hash: string): void {
-        const location = this.stackHistory.location;
-        this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state);
-    }
-
     replaceSearchParams(params: Record<string, string>): void {
         const location = this.stackHistory.location;
         const search = new URLSearchParams(params).toString();
         this.stackHistory.replace({pathname: location.pathname, search, hash: location.hash}, location.state);
+    }
+
+    replaceHash(hash: string): void {
+        const location = this.stackHistory.location;
+        this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state);
     }
 
     isSafariEdgeSwipeBackwardPop(): boolean {
