@@ -31,7 +31,7 @@ export const useLocationState = <T extends LocationState>() => {
     const {replace} = useNavigate();
     const setState = useCallback(
         (newState: Partial<T> | ((current: Partial<T>) => Partial<T>)) => {
-            replace({pathname: location.pathname, search: location.search, hash: location.hash}, {...location.state, usersState: typeof newState === "function" ? newState(state) : newState});
+            replace({pathname: location.pathname, search: location.search, hash: location.hash}, typeof newState === "function" ? newState(state) : newState);
         },
         [location, state, replace]
     );
