@@ -5,6 +5,7 @@ import type {TransitionType} from "./screen/transition";
 import type {Lifecycle} from "./screen/lifecycle";
 
 export type LocationState = Record<string, any>;
+export type Path = string | To;
 
 export type Location<S extends Record<string, any> = Record<string, any>> = Omit<HistoryLocation, "state"> & {
     state: S;

@@ -13,6 +13,7 @@ import type {Router} from "./type";
 
 const createChildrenRoute = (children: React.ReactNode, parentPattern: StackRoutePattern | null, route: Route<StackRoutePayload> = new Route()) => {
     React.Children.forEach(children, element => {
+        if (element === null || element === undefined) return;
         invariant(React.isValidElement(element), `${element} is not valid element`);
         invariant(element.type === RouteComponent, `<${element.type}> is not a <Route> component. All children of <Route> should be <Route> as well`);
 
