@@ -1,11 +1,12 @@
-import {useDidEnterEffect, useDidExitEffect, useHash, useLocation, useSearchParams, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
+import {useDidEnterEffect, useDidExitEffect, useHash, useLocation, useLocationState, useSearchParams, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export const About = () => {
     const {pathname} = useLocation();
     const [hash, setHash] = useHash();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [state, setState] = useLocationState<{count: number}>();
 
     const [count, setCount] = useState(0);
 
@@ -29,6 +30,10 @@ export const About = () => {
         console.info("about page did exit");
     });
 
+    useEffect(() => {
+        setState({count});
+    }, [count, setState]);
+
     return (
         <div style={{flex: 1, background: "maroon", color: "#fff", overscrollBehaviorY: "none", overflow: "hidden"}}>
             <div style={{height: "100%", overflowY: "auto"}}>
@@ -36,8 +41,15 @@ export const About = () => {
                 <Back />
                 <h3>pathname: {pathname}</h3>
                 <h3>hash: {hash}</h3>
-                <h3>searchParams: {JSON.stringify(searchParams)}</h3>
-                <button onClick={() => setCount(count + 1)}>count: {count}</button>
+                <h3>search params: {JSON.stringify(searchParams)}</h3>
+                <h3>location state: {state.count}</h3>
+                <button
+                    onClick={() => {
+                        setCount(count + 1);
+                    }}
+                >
+                    count: {count}
+                </button>
                 <br />
                 <button onClick={() => setHash("hash" + Math.random())}>update random Hash</button>
                 <button onClick={() => setSearchParams({a: "123"})}>update search params</button>
