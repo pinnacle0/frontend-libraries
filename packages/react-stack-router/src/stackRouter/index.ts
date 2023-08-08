@@ -5,7 +5,7 @@ import {invariant} from "../invariant";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
-import type {History, Update, To} from "history";
+import type {History, Update, To, Key} from "history";
 import type {LocationState, Location, PushOption} from "../type";
 import type {Match} from "../route";
 import type {StackHistory} from "./stackHistory";
@@ -14,9 +14,8 @@ import type {TransitionType} from "../screen/transition";
 export type Subscriber = (screens: Screen[]) => void;
 
 type InternalLocationState<S extends LocationState> = {
-    $key: string;
-    userState: S;
-};
+    $key: Key;
+} & S;
 
 export type StackRoutePattern = {
     pattern: string;
@@ -97,7 +96,7 @@ export class StackRouter {
 
         const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.pushOption.value = option ?? null;
-        this.stackHistory.push(to, {$key: this.createKey(), userState: option?.state ?? {}});
+        this.stackHistory.push(to, {$key: this.createKey(), ...(option?.state ?? {})});
 
         return wait;
     }
@@ -110,18 +109,25 @@ export class StackRouter {
 
     replace(to: To, state?: Record<string, any>): void {
         if (!this.matchRoute(to)) return;
-        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), userState: state ?? {}});
+        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), ...(state ?? {})});
     }
 
-    replaceSearchParams(params: Record<string, string>): void {
-        const location = this.stackHistory.location;
-        const search = new URLSearchParams(params).toString();
-        this.stackHistory.replace({pathname: location.pathname, search, hash: location.hash}, location.state);
+    replaceSearchParams<T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)): void {
+        const {pathname, search, hash, state} = this.stackHistory.location;
+        const nextSearchParam = typeof newParam === "function" ? newParam(new URLSearchParams(search) as any) : newParam;
+        this.stackHistory.replace({pathname, search: new URLSearchParams(nextSearchParam).toString(), hash}, state);
     }
 
     replaceHash(hash: string): void {
         const location = this.stackHistory.location;
         this.stackHistory.replace({pathname: location.pathname, search: location.search, hash}, location.state);
+    }
+
+    replaceLocationState<T extends LocationState = LocationState>(newState: T | ((current: T) => T)): void {
+        const {pathname, search, hash, state} = this.stackHistory.location;
+        const $key = state?.$key;
+        const nextState = typeof newState === "function" ? newState(state as T) : newState;
+        this.stackHistory.replace({pathname, search, hash}, {...nextState, $key});
     }
 
     isSafariEdgeSwipeBackwardPop(): boolean {

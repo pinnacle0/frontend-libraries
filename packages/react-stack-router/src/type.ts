@@ -33,7 +33,8 @@ export interface Router {
     pop: () => Promise<void>;
     replace: (to: To, state?: Record<string, any>) => void;
     replaceHash: (hash: string) => void;
-    replaceSearchParams: (params: Record<string, string>) => void;
+    replaceSearchParams: <T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)) => void;
+    replaceLocationState: <T extends LocationState = LocationState>(newState: T | ((current: T) => T)) => void;
 }
 
 export interface RouteRenderProps<P extends Record<string, string>, S extends LocationState = LocationState> {

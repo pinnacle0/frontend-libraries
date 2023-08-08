@@ -50,6 +50,7 @@ export function createRouter(history?: History): Router {
     const replace = router.replace.bind(router);
     const replaceHash = router.replaceHash.bind(router);
     const replaceSearchParams = router.replaceSearchParams.bind(router);
+    const replaceLocationState = router.replaceLocationState.bind(router);
 
     const Root = ({children}: React.PropsWithChildren) => {
         const route = useMemo(() => createChildrenRoute(children, null), [children]);
@@ -62,7 +63,7 @@ export function createRouter(history?: History): Router {
         }, []);
 
         return (
-            <RouterContext.Provider value={{history: internalHistory, push, pop, replace, replaceHash, replaceSearchParams}}>
+            <RouterContext.Provider value={{history: internalHistory, push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState}}>
                 <Stack router={router} />
             </RouterContext.Provider>
         );
@@ -76,5 +77,6 @@ export function createRouter(history?: History): Router {
         replace,
         replaceHash,
         replaceSearchParams,
+        replaceLocationState,
     };
 }

@@ -9,8 +9,8 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, replace, replaceHash, replaceSearchParams} = useContext(RouterContext);
-    return {push, pop, replace, replaceHash, replaceSearchParams};
+    const {push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState} = useContext(RouterContext);
+    return {push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState};
 };
 
 export const useHistory = (): History => {
@@ -26,15 +26,9 @@ export const useParams = <T extends Record<string, string>>(): T => {
 };
 
 export const useLocationState = <T extends LocationState>() => {
-    const location = useLocation();
-    const state: Partial<T> = useMemo(() => location.state?.userState ?? {}, [location]);
-    const {replace} = useNavigate();
-    const setState = useCallback(
-        (newState: Partial<T> | ((current: Partial<T>) => Partial<T>)) => {
-            replace({pathname: location.pathname, search: location.search, hash: location.hash}, typeof newState === "function" ? newState(state) : newState);
-        },
-        [location, state, replace]
-    );
+    const {state} = useLocation();
+    const {replaceLocationState} = useNavigate();
+    const setState = useCallback((newState: T | ((current: T) => T)) => replaceLocationState(newState), [replaceLocationState]);
     return [state, setState] as const;
 };
 
@@ -49,7 +43,7 @@ export const useSearchParams = <T extends Record<string, string>>() => {
     const {search} = useLocation();
     const {replaceSearchParams} = useNavigate();
     const searchParams = useMemo(() => Object.fromEntries(new URLSearchParams(search)), [search]) as T;
-    const setSearchParams = useCallback((params: T | ((current: T) => T)) => replaceSearchParams(typeof params === "function" ? params(searchParams) : params), [searchParams, replaceSearchParams]);
+    const setSearchParams = useCallback((newParams: T | ((current: T) => T)) => replaceSearchParams(newParams), [replaceSearchParams]);
     return [searchParams, setSearchParams] as const;
 };
 
