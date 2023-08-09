@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Link, useLocation, useParams} from "@pinnacle0/react-stack-router";
+import {Link, useLocation, useLocationMatch, useParams} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
 import {router} from "../router";
 
@@ -7,6 +7,10 @@ export const Game = () => {
     const {pathname} = useLocation();
     const [count, setCount] = useState(0);
     const {id} = useParams<{id?: string}>();
+
+    useLocationMatch(() => {
+        console.info("match Game Screen");
+    });
 
     return (
         <div style={{flex: 1, background: "#fff"}}>
@@ -35,7 +39,7 @@ export const Game = () => {
                 </Link>
             </div>
             <div>
-                <button onClick={() => router.push("/game/3333", {transition: "none"})}>Push with no animation</button>
+                <button onClick={() => router.push("/game/3333", {transitionType: "none"})}>Push /game/333 with no animation</button>
             </div>
             <div>
                 <button
@@ -45,6 +49,14 @@ export const Game = () => {
                     }}
                 >
                     Alert after pop
+                </button>
+                <button
+                    onClick={async () => {
+                        await router.pop(2);
+                        alert("popped");
+                    }}
+                >
+                    Alert after pop 2 screen
                 </button>
             </div>
         </div>

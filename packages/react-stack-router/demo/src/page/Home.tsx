@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Link, useLocation, useNavigate} from "@pinnacle0/react-stack-router";
+import {Link, useLocation, useLocationMatch, useNavigate} from "@pinnacle0/react-stack-router";
 import {router} from "../router";
 import {Back} from "../component/Back";
 
@@ -7,6 +7,10 @@ export const Home = () => {
     const [count, setCount] = useState(0);
     const {pathname} = useLocation();
     const {push} = useNavigate();
+
+    useLocationMatch(() => {
+        console.info("match Home Screen");
+    });
 
     requestAnimationFrame(() => {
         document.body.style.backgroundColor = "teal";
