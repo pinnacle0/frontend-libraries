@@ -20,7 +20,7 @@ export const TableRow = ReactUtil.memo("TableRow", function <
     RowType extends object,
 >({virtualItem, data, columns, columnWidths, rowHeight, scrollBarSize, columnsStickyPosition, rowClassName, onRowClick}: Props<RowType>) {
     const rowIndex = virtualItem.index;
-    const lastShownColumnIndex: number = React.useMemo(() => columns.length - 1 - [...columns].reverse().findIndex(_ => _.display !== "hidden"), [columns]);
+    const lastShownColumnIndex: number = React.useMemo(() => columns.findLastIndex(_ => _.display !== "hidden"), [columns]);
 
     return (
         <div
@@ -33,7 +33,6 @@ export const TableRow = ReactUtil.memo("TableRow", function <
                 const colSpan = column.colSpan ? column.colSpan(data, rowIndex, columnIndex) : 1;
                 // handle colspan > 1
                 const cellWidth = colSpan > 1 ? columnWidths.slice(columnIndex, columnIndex + colSpan).reduce((acc, curr) => acc + curr, 0) : columnWidths[columnIndex] || column.width;
-
                 const renderData = column.display !== "hidden" && column.renderData(data, rowIndex);
                 // minus the scroll bar size of the last column & minus the scroll bar size in the right sticky value of the right fixed columns
                 const isLastShownColumn = lastShownColumnIndex === columnIndex;

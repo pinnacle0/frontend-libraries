@@ -191,51 +191,51 @@ const VirtualTableWithDynamicSize = () => {
 };
 
 const groups: DemoHelperGroupConfig[] = [
-    {
-        title: "VirtualTable with huge amount of data",
-        showPropsHint: false,
-        components: [<VirtualTableWithData hasData />],
-    },
-    {
-        title: "VirtualTable With Row Selection",
-        showPropsHint: false,
-        components: [<VirtualTableWithRowSelection />],
-    },
+    // {
+    //     title: "VirtualTable with huge amount of data",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithData hasData />],
+    // },
+    // {
+    //     title: "VirtualTable With Row Selection",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithRowSelection />],
+    // },
     {
         title: "VirtualTable With Fixed Columns",
         showPropsHint: false,
         components: [<VirtualTableWithFixedColumns />],
     },
-    {
-        title: "VirtualTable with various amount of data",
-        showPropsHint: false,
-        components: [<VirtualTableWithVariousData />],
-    },
-    {
-        title: "VirtualTable with various amount of data and row selection",
-        showPropsHint: false,
-        components: [<VirtualTableWithVariousDataAndRowSelection />],
-    },
-    {
-        title: "VirtualTable inside Modal",
-        showPropsHint: false,
-        components: [<VirtualTableInModal />],
-    },
-    {
-        title: "VirtualTable without Data",
-        showPropsHint: false,
-        components: [<VirtualTableWithData />],
-    },
-    {
-        title: "Loading VirtualTable",
-        showPropsHint: false,
-        components: [<LoadingVirtualTable />],
-    },
-    {
-        title: "Virtual Table With Dynamic Size",
-        showPropsHint: false,
-        components: [<VirtualTableWithDynamicSize />],
-    },
+    // {
+    //     title: "VirtualTable with various amount of data",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithVariousData />],
+    // },
+    // {
+    //     title: "VirtualTable with various amount of data and row selection",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithVariousDataAndRowSelection />],
+    // },
+    // {
+    //     title: "VirtualTable inside Modal",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableInModal />],
+    // },
+    // {
+    //     title: "VirtualTable without Data",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithData />],
+    // },
+    // {
+    //     title: "Loading VirtualTable",
+    //     showPropsHint: false,
+    //     components: [<LoadingVirtualTable />],
+    // },
+    // {
+    //     title: "Virtual Table With Dynamic Size",
+    //     showPropsHint: false,
+    //     components: [<VirtualTableWithDynamicSize />],
+    // },
 ];
 
 export const VirtualTableDemo = () => <DemoHelper groups={groups} />;

@@ -4,7 +4,7 @@ import {classNames} from "../../util/ClassNames";
 import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 
 interface Props<RowType extends object> {
-    headerRef: React.MutableRefObject<HTMLDivElement | null>;
+    headerRef: React.RefObject<HTMLDivElement> | ((node: HTMLDivElement | null) => void);
     headerHeight: number;
     columns: VirtualTableColumn<RowType>[];
     columnsStickyPosition: ColumnsStickyPosition;
