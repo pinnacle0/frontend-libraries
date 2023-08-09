@@ -194,7 +194,6 @@ export class StackRouter {
     }
 
     private replaceScreen(location: Location) {
-        const resolve = this.resolve.value;
         const top = this.getTopScreen();
 
         top?.transition.update("none");
@@ -202,11 +201,9 @@ export class StackRouter {
 
         const screen = this.createScreen(location, "exiting");
         if (!screen) {
-            resolve?.();
             return;
         }
 
-        resolve && screen.lifecycle.attachOnce("didEnter", resolve);
         this.screens.push(screen);
         this.notify();
     }
