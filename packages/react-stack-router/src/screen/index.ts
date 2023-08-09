@@ -1,6 +1,6 @@
 import {Lifecycle} from "./lifecycle";
 import {Transition} from "./transition";
-import type {Location, LocationState} from "../type";
+import type {Location} from "../type";
 import type {TransitionType} from "./transition";
 
 export interface HistoryInfo {
