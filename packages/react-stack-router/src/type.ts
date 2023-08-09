@@ -37,8 +37,9 @@ export interface Router {
     replaceLocationState: <T extends LocationState = LocationState>(newState: T | ((current: T) => T)) => void;
 }
 
-export interface RouteRenderProps<P extends Record<string, string>, S extends LocationState = LocationState> {
-    location: Location<S>;
-    params: P;
+export interface RouteRenderProps<Params extends Record<string, string>, SearchParams extends Record<string, string> = Record<string, string>, State extends LocationState = LocationState> {
+    location: Location<State>;
+    params: Params;
+    searchParams: SearchParams;
     lifecycle: Lifecycle;
 }

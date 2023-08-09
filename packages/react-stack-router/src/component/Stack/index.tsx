@@ -5,7 +5,6 @@ import {RouteContext} from "../../context";
 import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
 import type {StackRouter} from "../../stackRouter";
-import type {RouteRenderProps} from "../../type";
 import "./index.less";
 
 interface StackProps {
@@ -32,7 +31,12 @@ export function Stack({router, className, style}: StackProps) {
         <div className={classNames("g-stack-router", className)} style={style}>
             <AnimatePresence>
                 {screens.map((screen, index) => {
-                    const context: RouteContext | RouteRenderProps<Record<string, string>> = {location: screen.location, lifecycle: screen.lifecycle, params: screen.params};
+                    const context: RouteContext = {
+                        location: screen.location,
+                        lifecycle: screen.lifecycle,
+                        params: screen.params,
+                        searchParams: screen.searchParams,
+                    };
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}

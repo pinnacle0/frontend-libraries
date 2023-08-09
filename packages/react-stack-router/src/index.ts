@@ -1,4 +1,4 @@
-export {createRouter} from "./createRouter";
+export {createRouter, type CreateRouterOptions} from "./createRouter";
 export {Link} from "./component/Link";
 export {RouterContext, RouteContext} from "./context";
 export * from "./hook";

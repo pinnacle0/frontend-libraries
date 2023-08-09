@@ -28,6 +28,11 @@ export type StackRoutePayload = {
     pattern: StackRoutePattern;
 };
 
+export type StackRouterOptions = {
+    history: History;
+    transitionDuration: number;
+};
+
 export class StackRouter {
     private initialized = false;
     private screens: Screen[] = [];
@@ -35,12 +40,14 @@ export class StackRouter {
     private subscribers = new Set<Subscriber>();
     private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
+    private transitionDuration: number;
 
     private pushOption = new Snapshot<PushOption>();
     private resolve = new Snapshot<() => void>();
 
-    constructor(history: History) {
-        this.stackHistory = createStackHistory(history);
+    constructor(options: StackRouterOptions) {
+        this.stackHistory = createStackHistory(options.history);
+        this.transitionDuration = options.transitionDuration;
         this.stackHistory.listen(this.handler.bind(this));
     }
 
@@ -157,13 +164,15 @@ export class StackRouter {
     private createScreen(location: Location, transitionType: TransitionType): Screen | null {
         const matched = this.matchRoute(location.pathname);
         if (!matched) return null;
+
         return new Screen({
             content: matched.payload.component,
             location,
             params: matched.params,
+            searchParams: Object.fromEntries(new URLSearchParams(location.search)),
             transition: {
                 type: transitionType,
-                duration: 400,
+                duration: this.transitionDuration,
             },
         });
     }

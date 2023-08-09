@@ -41,9 +41,13 @@ const createChildrenRoute = (children: React.ReactNode, parentPattern: StackRout
     return route;
 };
 
-export function createRouter(history?: History): Router {
+export type CreateRouterOptions = {
+    transitionDuration?: number;
+};
+
+export function createRouter(history?: History, options?: CreateRouterOptions): Router {
     const internalHistory = history ?? createBrowserHistory();
-    const router = new StackRouter(internalHistory);
+    const router = new StackRouter({history: internalHistory, transitionDuration: options?.transitionDuration ?? 400});
 
     const push = router.push.bind(router);
     const pop = router.pop.bind(router);
