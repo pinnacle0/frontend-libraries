@@ -11,18 +11,13 @@ export type Location<S extends Record<string, any> = Record<string, any>> = Omit
     state: S;
 };
 
-export interface TransitionOption {
-    transition?: TransitionType;
-    duration?: number;
-}
-
-export interface PushOption extends TransitionOption {
+export interface PushOption {
     state?: LocationState;
+    transitionType?: TransitionType;
+    transitionDuration?: number;
 }
 
 export interface ReplaceOption {
-    remove: TransitionOption;
-    add: TransitionOption;
     state?: LocationState;
 }
 
@@ -30,7 +25,7 @@ export interface Router {
     Root: React.ComponentType<React.PropsWithChildren>;
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
-    pop: () => Promise<void>;
+    pop: (times?: number) => Promise<void>;
     replace: (to: To, state?: Record<string, any>) => void;
     replaceHash: (hash: string) => void;
     replaceSearchParams: <T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)) => void;

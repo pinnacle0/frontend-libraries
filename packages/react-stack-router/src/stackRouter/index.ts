@@ -13,6 +13,11 @@ import type {TransitionType} from "../screen/transition";
 
 export type Subscriber = (screens: Screen[]) => void;
 
+type TransitionOption = {
+    type: TransitionType;
+    duration: number;
+};
+
 type InternalLocationState<S extends LocationState> = {
     $key: Key;
 } & S;
@@ -74,13 +79,13 @@ export class StackRouter {
             const pathname = formatPath(segments.join("/"));
             const matched = this.route.lookup(pathname);
             if (!matched?.fallback) {
-                stack.unshift(pathname);
+                stack.unshift(pathname.startsWith("/") ? pathname : `/${pathname}`);
                 numOfParentComponent--;
             }
             segments.pop();
         }
 
-        return Promise.all(stack.map((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transition: "exiting"}))));
+        return Promise.all(stack.map((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transitionType: "exiting"}))));
     }
 
     updateRoute(route: Route<StackRoutePayload>) {
@@ -101,16 +106,25 @@ export class StackRouter {
     async push(to: To, option?: PushOption): Promise<void> {
         if (!this.matchRoute(to)) return;
 
-        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.pushOption.value = option ?? null;
+        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
         this.stackHistory.push(to, {$key: this.createKey(), ...(option?.state ?? {})});
 
         return wait;
     }
 
-    async pop(): Promise<void> {
-        const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
-        this.stackHistory.pop();
+    async pop(times: number = 1): Promise<void> {
+        if (times === 0) return;
+
+        let wait!: Promise<void>;
+
+        for (let i = 0; i < times; i++) {
+            wait = new Promise<void>(resolve => (this.resolve.value = resolve));
+            this.stackHistory.pop();
+            // delay 10ms, otherwise consecutive router.pop() will not work in iOS
+            if (times > 1) await delay(10);
+        }
+
         return wait;
     }
 
@@ -157,11 +171,12 @@ export class StackRouter {
     private matchRoute(to: To): Match<StackRoutePayload> {
         const pathname = typeof to === "string" ? to : to.pathname;
         const matched = this.route.lookup(pathname ?? window.location.pathname);
+
         invariant(matched, `None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
         return matched;
     }
 
-    private createScreen(location: Location, transitionType: TransitionType): Screen | null {
+    private createScreen(location: Location, transitionOption: Required<TransitionOption>): Screen | null {
         const matched = this.matchRoute(location.pathname);
         if (!matched) return null;
 
@@ -171,8 +186,8 @@ export class StackRouter {
             params: matched.params,
             searchParams: Object.fromEntries(new URLSearchParams(location.search)),
             transition: {
-                type: transitionType,
-                duration: this.transitionDuration,
+                type: transitionOption.type,
+                duration: transitionOption.duration,
             },
         });
     }
@@ -181,7 +196,7 @@ export class StackRouter {
         const option = this.pushOption.value;
         const resolve = this.resolve.value;
 
-        const screen = this.createScreen(location, option?.transition ?? transition);
+        const screen = this.createScreen(location, {type: option?.transitionType ?? transition, duration: option?.transitionDuration ?? this.transitionDuration});
         if (!screen) {
             resolve?.();
             return;
@@ -196,9 +211,14 @@ export class StackRouter {
         const resolve = this.resolve.value;
         const top = this.getTopScreen();
 
-        top?.transition.update(transition);
-        top ? top.lifecycle.attachOnce("didExit", () => resolve?.()) : resolve?.();
+        if (!top) {
+            resolve?.();
+            return;
+        }
+
+        top.transition.update(transition);
         this.screens.pop();
+        top.lifecycle.attachOnce("didExit", () => resolve?.());
         this.notify();
     }
 
@@ -208,7 +228,7 @@ export class StackRouter {
         top?.transition.update("none");
         this.screens.pop();
 
-        const screen = this.createScreen(location, "exiting");
+        const screen = this.createScreen(location, {type: "exiting", duration: this.transitionDuration});
         if (!screen) {
             return;
         }
@@ -245,4 +265,8 @@ class Snapshot<T> {
     set value(newValue: T | null) {
         this._value = newValue;
     }
+}
+
+async function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
