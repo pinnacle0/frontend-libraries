@@ -113,8 +113,7 @@ export class StackRouter {
         return wait;
     }
 
-    async pop(t?: number): Promise<void> {
-        const times = typeof t === "number" ? t : 1;
+    async pop(times = 1): Promise<void> {
         if (times <= 0) return;
 
         let wait!: Promise<void>;
