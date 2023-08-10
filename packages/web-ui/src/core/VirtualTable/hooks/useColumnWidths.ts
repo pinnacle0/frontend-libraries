@@ -1,5 +1,4 @@
 import React from "react";
-import {useForceUpdate} from "../../../hooks/useForceUpdate";
 import {useDebounce} from "../../../hooks/useDebounce";
 
 /**
@@ -17,38 +16,34 @@ import {useDebounce} from "../../../hooks/useDebounce";
 
 export const useColumnWidths = () => {
     const headerRef = React.useRef<HTMLDivElement | null>(null);
-    const columnWidths = React.useRef<number[]>([]);
-    const forceUpdate = useForceUpdate();
-    const getColumnWidths = useDebounce(
-        React.useCallback(() => {
-            if (headerRef.current) {
-                const headers = headerRef.current.querySelectorAll(".table-header");
-                const widths: number[] = [];
-                let columnWidthsUpdate = false;
-                headers.forEach((header, index) => {
-                    const width = header.getBoundingClientRect().width;
-                    if (width > 0 && widths[index] !== width) {
-                        widths[index] = width;
-                        columnWidthsUpdate = true;
-                    }
-                });
-                if (columnWidthsUpdate) {
-                    columnWidths.current = widths;
-                    forceUpdate();
+    const [columnWidths, setColumnWidths] = React.useState<number[]>([]);
+
+    const calcColumnWidths = useDebounce(() => {
+        if (headerRef.current) {
+            const headers = headerRef.current.querySelectorAll(".table-header");
+            const widths: number[] = [];
+            let columnWidthsUpdate = false;
+            headers.forEach((header, index) => {
+                const width = header.getBoundingClientRect().width;
+                if (width > 0) {
+                    widths[index] = width;
+                    columnWidthsUpdate = true;
                 }
+            });
+            if (columnWidthsUpdate) {
+                setColumnWidths(widths);
             }
-        }, [forceUpdate]),
-        300
-    );
+        }
+    }, 300);
 
     const getHeaderRef = React.useCallback(
         (node: HTMLDivElement | null) => {
             if (node) {
                 headerRef.current = node;
-                getColumnWidths();
+                calcColumnWidths();
             }
         },
-        [getColumnWidths]
+        [calcColumnWidths]
     );
 
     const handler = React.useCallback(
@@ -56,10 +51,10 @@ export const useColumnWidths = () => {
             if (event.target && "querySelector" in event.target && headerRef.current) {
                 const element = event.target as HTMLElement;
                 const result = element.querySelector(".g-virtual-table");
-                result && getColumnWidths();
+                result && calcColumnWidths();
             }
         },
-        [getColumnWidths]
+        [calcColumnWidths]
     );
 
     React.useEffect(() => {
@@ -73,5 +68,5 @@ export const useColumnWidths = () => {
         };
     }, [handler]);
 
-    return {headerRef, getHeaderRef, columnWidths: columnWidths.current};
+    return {headerRef, getHeaderRef, columnWidths, calcColumnWidths};
 };

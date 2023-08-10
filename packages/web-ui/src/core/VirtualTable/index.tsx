@@ -1,6 +1,6 @@
 import "../../internal/polyfill/ResizeObserver";
 import React from "react";
-import {useVirtualizer, observeElementRect} from "@tanstack/react-virtual";
+import {useVirtualizer} from "@tanstack/react-virtual";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import {TableRow} from "./TableRow";
@@ -51,12 +51,9 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <
         count,
         getScrollElement: () => scrollContentRef.current,
         estimateSize: () => rowHeight,
-        observeElementRect: (instance, cb) => {
-            observeElementRect(instance, cb);
-        },
         overscan,
     });
-    const {headerRef, getHeaderRef, columnWidths} = useColumnWidths();
+    const {headerRef, getHeaderRef, columnWidths, calcColumnWidths} = useColumnWidths();
     const scrollBarSize = useScrollBarSize();
     const syncScroll = useSyncScroll(scrollContentRef, headerRef);
     const checkIsScrollToEdge = useScrollToEdge(scrollContentRef);
@@ -75,6 +72,10 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <
     React.useEffect(() => {
         checkScrollable();
     }, [totalSize, columnWidths, checkScrollable]);
+
+    React.useEffect(() => {
+        calcColumnWidths();
+    }, [calcColumnWidths, transformedColumns]);
 
     const containerHeight = scrollY ? scrollY + headerHeight + (scrollable.horizontal ? scrollBarSize : 0) : "100%";
 
