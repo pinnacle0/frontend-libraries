@@ -61,6 +61,7 @@ export class StackRouter {
         this.initialized = true;
 
         const {pathname, hash, search} = window.location;
+        const defaultState = this.stackHistory.location.state;
         const matched = this.matchRoute(pathname);
 
         let numOfParentComponent = 0;
@@ -85,7 +86,13 @@ export class StackRouter {
             segments.pop();
         }
 
-        return Promise.all(stack.map((to, index) => (index === 0 ? this.replace(to) : this.push(to, {transitionType: "exiting"}))));
+        return Promise.all(
+            stack.map((to, index) => {
+                // need to re-write the key of last state
+                const state = index === stack.length - 1 ? {...defaultState, $key: this.createKey()} : {};
+                return index === 0 ? this.replace(to, {state}) : this.push(to, {transitionType: "exiting", state});
+            })
+        );
     }
 
     updateRoute(route: Route<StackRoutePayload>) {
