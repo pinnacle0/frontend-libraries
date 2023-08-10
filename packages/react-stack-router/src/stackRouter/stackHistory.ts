@@ -1,10 +1,10 @@
 import {Action} from "history";
-import type {History, To, Update} from "history";
+import type {History, To, Update, Location as HistoryLocation} from "history";
 import type {Location} from "../type";
 
 interface InternalState {
     __createAt: number;
-    [key: string]: unknown;
+    userState: Record<string, any>;
 }
 
 export type Listener = (update: Update) => void;
@@ -22,8 +22,20 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
     let timestamp = Date.now();
     let currentLocation = history.location;
 
+    const createLocation = (location: HistoryLocation): Location<S> => {
+        return {
+            ...location,
+            get state(): Partial<S> {
+                if (typeof location.state === "object" && location.state !== null && "userState" in location.state) {
+                    return location.state.userState as Partial<S>;
+                }
+                return {} as Partial<S>;
+            },
+        };
+    };
+
     const createInternalState = (state?: S, createAt?: number): InternalState => {
-        return {__createAt: createAt ?? timestamp++, ...(state ?? {})};
+        return {__createAt: createAt ?? timestamp++, userState: state ?? {}};
     };
 
     const push = (to: To, state?: S) => {
@@ -50,7 +62,7 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
     /**
      * Determine a popState event is trigger by back or forward
      */
-    const isForwardPop = (next: Location<S>): boolean => {
+    const isForwardPop = (next: HistoryLocation): boolean => {
         if (!currentLocation.state) return false;
         const currentState = currentLocation.state as any;
         const nextState = next.state as any;
@@ -61,19 +73,19 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
     };
 
     const handler = (update: Update) => {
-        const location = update.location as any;
+        const location = createLocation(update.location);
         switch (update.action) {
             case Action.Push:
                 notify(Action.Push, location);
                 break;
             case Action.Pop:
-                notify(isForwardPop(location) ? Action.Push : Action.Pop, location);
+                notify(isForwardPop(update.location) ? Action.Push : Action.Pop, location);
                 break;
             case Action.Replace:
                 notify(Action.Replace, location);
                 break;
         }
-        currentLocation = location;
+        currentLocation = update.location;
     };
 
     history.listen(handler);
@@ -84,7 +96,7 @@ export const createStackHistory = <S extends Record<string, any>>(history: Histo
         replace,
         listen,
         get location(): Location<S> {
-            return currentLocation as any;
+            return createLocation(history.location);
         },
     };
 };
