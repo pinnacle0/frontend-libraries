@@ -6,7 +6,7 @@ import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
 import type {History, Update, To, Key} from "history";
-import type {LocationState, Location, PushOption} from "../type";
+import type {LocationState, Location, PushOption, ReplaceOption} from "../type";
 import type {Match} from "../route";
 import type {StackHistory} from "./stackHistory";
 import type {TransitionType} from "../screen/transition";
@@ -129,9 +129,9 @@ export class StackRouter {
         return wait;
     }
 
-    replace(to: To, state?: Record<string, any>): void {
+    replace(to: To, option?: ReplaceOption): void {
         if (!this.matchRoute(to)) return;
-        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), ...(state ?? {})});
+        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), ...(option?.state ?? {})});
     }
 
     replaceSearchParams<T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)): void {

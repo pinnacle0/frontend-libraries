@@ -21,12 +21,16 @@ export interface ReplaceOption {
     state?: LocationState;
 }
 
+export interface ReplaceOption {
+    state?: LocationState;
+}
+
 export interface Router {
     Root: React.ComponentType<React.PropsWithChildren>;
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
     pop: (times?: number) => Promise<void>;
-    replace: (to: To, state?: Record<string, any>) => void;
+    replace: (to: To, option?: ReplaceOption) => void;
     replaceHash: (hash: string) => void;
     replaceSearchParams: <T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)) => void;
     replaceLocationState: <T extends LocationState = LocationState>(newState: T | ((current: T) => T)) => void;
