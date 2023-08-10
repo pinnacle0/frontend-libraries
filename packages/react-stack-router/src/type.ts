@@ -8,21 +8,17 @@ export type LocationState = Record<string, any>;
 export type Path = string | To;
 
 export type Location<S extends Record<string, any> = Record<string, any>> = Omit<HistoryLocation, "state"> & {
-    state: S;
+    state: Partial<S>;
 };
 
 export interface PushOption {
-    state?: LocationState;
+    state?: LocationState | undefined;
     transitionType?: TransitionType;
     transitionDuration?: number;
 }
 
 export interface ReplaceOption {
-    state?: LocationState;
-}
-
-export interface ReplaceOption {
-    state?: LocationState;
+    state?: LocationState | undefined;
 }
 
 export interface Router {

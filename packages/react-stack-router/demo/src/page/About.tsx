@@ -8,7 +8,9 @@ export const About = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [state, setState] = useLocationState<{count: number}>();
 
-    const [count, setCount] = useState(0);
+    const count = state.count ?? 0;
+
+    // const [count, setCount] = useState(state.count ?? 0);
 
     requestAnimationFrame(() => {
         document.body.style.backgroundColor = "maroon";
@@ -30,10 +32,6 @@ export const About = () => {
         console.info("about page did exit");
     });
 
-    useEffect(() => {
-        setState({count});
-    }, [count, setState]);
-
     return (
         <div style={{flex: 1, background: "maroon", color: "#fff", overscrollBehaviorY: "none", overflow: "hidden"}}>
             <div style={{height: "100%", overflowY: "auto"}}>
@@ -42,13 +40,12 @@ export const About = () => {
                 <h3>pathname: {pathname}</h3>
                 <h3>hash: {hash}</h3>
                 <h3>search params: {JSON.stringify(searchParams)}</h3>
-                <h3>location state: {state.count}</h3>
                 <button
                     onClick={() => {
-                        setCount(count + 1);
+                        setState({count: count + 1});
                     }}
                 >
-                    count: {count}
+                    local state count: {count}
                 </button>
                 <br />
                 <button onClick={() => setHash("hash" + Math.random())}>update random Hash</button>

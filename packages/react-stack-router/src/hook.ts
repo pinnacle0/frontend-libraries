@@ -28,8 +28,8 @@ export const useParams = <T extends Record<string, string>>(): T => {
 export const useLocationState = <T extends LocationState>() => {
     const {state} = useLocation();
     const {replaceLocationState} = useNavigate();
-    const setState = useCallback((newState: T | ((current: T) => T)) => replaceLocationState(newState), [replaceLocationState]);
-    return [state as T, setState] as const;
+    const setState = useCallback((newState: Partial<T> | ((current: Partial<T>) => T)) => replaceLocationState(newState), [replaceLocationState]);
+    return [state as Partial<T>, setState] as const;
 };
 
 export const useHash = () => {
