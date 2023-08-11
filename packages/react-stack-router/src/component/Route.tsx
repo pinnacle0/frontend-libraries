@@ -1,5 +1,5 @@
 import type {ComponentType, FunctionComponent, ReactNode} from "react";
-import {invariant} from "../invariant";
+import {invariant} from "../util";
 
 export interface PathRouteProps {
     path: string;

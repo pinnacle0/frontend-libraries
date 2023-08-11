@@ -1,7 +1,7 @@
 import {Action} from "history";
 import {Route, formatPath} from "../route";
 import {Screen} from "../screen";
-import {invariant} from "../invariant";
+import {createKey, invariant} from "../util";
 import {createStackHistory} from "./stackHistory";
 import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
@@ -22,15 +22,10 @@ type InternalLocationState<S extends LocationState> = {
     $key: Key;
 } & S;
 
-export type StackRoutePattern = {
-    pattern: string;
-    parent: StackRoutePattern | null;
-    hasComponent: boolean;
-};
-
 export type StackRoutePayload = {
+    id: string;
     component: React.ComponentType<any>;
-    pattern: StackRoutePattern;
+    parent: StackRoutePayload | null;
 };
 
 export type StackRouterOptions = {
@@ -64,24 +59,16 @@ export class StackRouter {
         const defaultState = this.stackHistory.location.state;
         const matched = this.matchRoute(pathname);
 
-        let numOfParentComponent = 0;
-        let parentPattern: StackRoutePattern | null = matched.payload.pattern.parent;
-        while (parentPattern) {
-            if (parentPattern.hasComponent) {
-                numOfParentComponent++;
-            }
-            parentPattern = parentPattern.parent;
-        }
-
         const stack: To[] = [{pathname, hash, search}];
         const segments = ["/", ...matched.matchedSegments];
 
-        while (numOfParentComponent !== 0 && segments.length !== 0) {
+        let currentParent = matched.payload.parent;
+        while (currentParent !== null && segments.length >= 0) {
             const pathname = formatPath(segments.join("/"));
             const matched = this.route.lookup(pathname);
-            if (!matched?.fallback) {
+            if (matched && matched.payload.id === currentParent.id) {
                 stack.unshift(pathname.startsWith("/") ? pathname : `/${pathname}`);
-                numOfParentComponent--;
+                currentParent = currentParent.parent;
             }
             segments.pop();
         }
@@ -89,7 +76,7 @@ export class StackRouter {
         return Promise.all(
             stack.map((to, index) => {
                 // need to re-write the key of last state
-                const state = index === stack.length - 1 ? {...defaultState, $key: this.createKey()} : {};
+                const state = index === stack.length - 1 ? {...defaultState, $key: createKey()} : {};
                 return index === 0 ? this.replace(to, {state}) : this.push(to, {transitionType: "exiting", state});
             })
         );
@@ -115,7 +102,7 @@ export class StackRouter {
 
         this.pushOption.value = option ?? null;
         const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
-        this.stackHistory.push(to, {$key: this.createKey(), ...(option?.state ?? {})});
+        this.stackHistory.push(to, {$key: createKey(), ...(option?.state ?? {})});
 
         return wait;
     }
@@ -137,7 +124,7 @@ export class StackRouter {
 
     replace(to: To, option?: ReplaceOption): void {
         if (!this.matchRoute(to)) return;
-        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? this.createKey(), ...(option?.state ?? {})});
+        this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? createKey(), ...(option?.state ?? {})});
     }
 
     replaceSearchParams<T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)): void {
@@ -160,10 +147,6 @@ export class StackRouter {
 
     isSafariEdgeSwipeBackwardPop(): boolean {
         return this.safariEdgeSwipeDetector.isBackwardPop;
-    }
-
-    private createKey() {
-        return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }
 
     private notify() {

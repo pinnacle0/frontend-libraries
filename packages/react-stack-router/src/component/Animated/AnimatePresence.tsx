@@ -1,5 +1,5 @@
 import React from "react";
-import {invariant} from "../../invariant";
+import {invariant} from "../../util";
 
 interface ArrayElement {
     element: React.ReactElement;

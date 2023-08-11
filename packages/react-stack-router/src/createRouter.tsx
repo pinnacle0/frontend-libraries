@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo} from "react";
 import {createBrowserHistory} from "history";
-import {invariant} from "./invariant";
+import {invariant, createKey} from "./util";
 import {Route} from "./route";
 import {RouterContext} from "./context";
 import {Stack} from "./component/Stack";
@@ -8,10 +8,10 @@ import {Route as RouteComponent} from "./component/Route";
 import {StackRouter} from "./stackRouter";
 import type {History} from "history";
 import type {RouteProps as RouteComponentProps} from "./component/Route";
-import type {StackRoutePattern, StackRoutePayload} from "./stackRouter";
+import type {StackRoutePayload} from "./stackRouter";
 import type {Router} from "./type";
 
-const createChildrenRoute = (children: React.ReactNode, parentPattern: StackRoutePattern | null, route: Route<StackRoutePayload> = new Route()) => {
+const createChildrenRoute = (children: React.ReactNode, pattern: string[], parent: StackRoutePayload | null, route: Route<StackRoutePayload> = new Route()) => {
     React.Children.forEach(children, element => {
         if (element === null || element === undefined) return;
         invariant(React.isValidElement(element), `${element} is not valid element`);
@@ -19,22 +19,16 @@ const createChildrenRoute = (children: React.ReactNode, parentPattern: StackRout
 
         const props = element.props as RouteComponentProps;
 
-        const patterns: string[] = [];
-        let parent = parentPattern;
-        while (parent) {
-            patterns.unshift(parent.pattern);
-            parent = parent.parent;
-        }
-
-        const pattern: StackRoutePattern = {pattern: props.path, parent: parentPattern, hasComponent: false};
+        let nextParent = parent;
+        const nextPattern = [...pattern, props.path];
 
         if ("component" in props) {
-            pattern.hasComponent = true;
-            route.insert([...patterns, props.path].join("/"), {pattern, component: props.component});
+            nextParent = {id: createKey(), parent: nextParent, component: props.component};
+            route.insert(nextPattern.join("/"), nextParent);
         }
 
         if (props.children) {
-            createChildrenRoute(props.children, pattern, route);
+            createChildrenRoute(props.children, nextPattern, nextParent, route);
         }
     });
 
@@ -57,7 +51,7 @@ export function createRouter(history?: History, options?: CreateRouterOptions): 
     const replaceLocationState = router.replaceLocationState.bind(router);
 
     const Root = ({children}: React.PropsWithChildren) => {
-        const route = useMemo(() => createChildrenRoute(children, null), [children]);
+        const route = useMemo(() => createChildrenRoute(children, [], null), [children]);
 
         router.updateRoute(route);
 

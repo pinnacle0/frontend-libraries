@@ -1,4 +1,4 @@
-import {invariant} from "../invariant";
+import {invariant} from "../util";
 import {matchPathSegment, patternType} from "./matchPath";
 
 export interface RouteNode<T> {
