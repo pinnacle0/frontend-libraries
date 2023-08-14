@@ -6,9 +6,7 @@ function truncate(text: string, maxLength: number, suffix: string = "…") {
      * This works for most emojis, but not every.
      * E.g: 🇺🇸 is an exception, whose length is 4.
      */
-    if (maxLength <= 0 || !Number.isSafeInteger(maxLength)) {
-        throw new Error(`[util] TextUtil.truncate.maxLength must be a positive integer`);
-    }
+    if (maxLength <= 0 || !Number.isSafeInteger(maxLength)) throw new Error(`[util] TextUtil.truncate: maxLength must be a positive integer`);
     const chars = Array.from(text);
     return chars.length > maxLength ? chars.slice(0, maxLength).join("") + suffix : text;
 }
@@ -18,9 +16,7 @@ function truncate(text: string, maxLength: number, suffix: string = "…") {
  * For example: ("abcde", 1, "|") -> "a|b|c|d|e"
  */
 function splitByLength(text: string, charLength: number, delimiter: string): string {
-    if (!Number.isInteger(charLength) || charLength < 1) {
-        throw new Error("[util] TextUtil.splitByLength.charLength must be >= 1");
-    }
+    if (!Number.isInteger(charLength) || charLength < 1) throw new Error("[util] TextUtil.splitByLength: charLength must be >= 1");
     const matchedResult = text.match(new RegExp(`.{1,${charLength}}`, "g"));
     return matchedResult ? matchedResult.join(delimiter) : text;
 }

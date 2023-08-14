@@ -91,13 +91,11 @@ function isEmpty(object: object): boolean {
 
 /**
  * Attention:
- * Not applicable to object with cyclic reference.
+ * Not applicable to object with circular reference.
  */
 function deepClone<T extends object>(object: T): T {
     const innerDeepClone = (innerObject: any, isInnerLevel: boolean = true): any => {
-        if (innerObject === object && isInnerLevel) {
-            throw new Error(`[util] Object contains some field referencing itself: ${JSON.stringify(object)}`);
-        }
+        if (innerObject === object && isInnerLevel) throw new Error(`[util] ObjectUtil.deepClone: object has circular reference`);
 
         // Primitive types: null / undefined / number / string / boolean / bigint / symbol / function
         // Because typeof null === "object", we have to judge this case first

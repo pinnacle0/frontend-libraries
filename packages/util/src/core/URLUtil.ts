@@ -8,19 +8,13 @@
  * CAVEAT: leading/ending space in prefix will be trimmed.
  */
 function transformOriginPrefix(origin: string, currentPrefix: string | null, newPrefix: string, protocol?: string): string | null {
-    if (origin.startsWith("file://")) {
-        return null;
-    }
+    if (origin.startsWith("file://")) return null;
 
     const regex = /^https?:\/\/([a-z0-9-](?!\.$)\.?)+(:\d+)?$/;
-    if (!regex.test(origin)) {
-        throw new Error("[util] Input origin is not in correct format");
-    }
+    if (!regex.test(origin)) throw new Error("[util] URLUtil.transformOriginPrefix: invalid origin format");
 
     const isPureIP = /^https?:\/\/(?:[0-9]{1,3}\.){3}[0-9]{1,3}(:\d+)?$/.test(origin);
-    if (isPureIP) {
-        return null;
-    }
+    if (isPureIP) return null;
 
     newPrefix = newPrefix.trim();
     if (currentPrefix === null) {
@@ -38,9 +32,7 @@ function transformOriginPrefix(origin: string, currentPrefix: string | null, new
         }
     } else {
         currentPrefix = currentPrefix.trim();
-        if (!currentPrefix) {
-            throw new Error("[util] Current Prefix cannot be empty");
-        }
+        if (!currentPrefix) throw new Error("[util] URLUtil.transformOriginPrefix: current prefix empty");
     }
 
     const prefixRegex = new RegExp("^(https?)(:\\/\\/)(" + currentPrefix + "\\.)");

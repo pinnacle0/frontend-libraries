@@ -1,16 +1,12 @@
 export type DayStartOrEnd = "day-end" | "day-start";
 
 function daysBeforeToday(days: number, type: DayStartOrEnd): Date {
-    if (days < 0) {
-        throw new Error("[util] Days must be >=0, or use DateUtil.daysAfterToday");
-    }
+    if (days < 0) throw new Error("[util] DateUtil.daysBeforeToday: days must be >=0");
     return dateRelativeTo(new Date(), -days, type);
 }
 
 function daysAfterToday(days: number, type: DayStartOrEnd): Date {
-    if (days < 0) {
-        throw new Error("[util] Days must be >=0, or use DateUtil.daysBeforeToday");
-    }
+    if (days < 0) throw new Error("[util] DateUtil.daysAfterToday: days must be >=0");
     return dateRelativeTo(new Date(), days, type);
 }
 
@@ -19,16 +15,12 @@ function today(type: DayStartOrEnd): Date {
 }
 
 function daysBefore(date: Date, days: number, type: DayStartOrEnd): Date {
-    if (days < 0) {
-        throw new Error("[util] Days must be >=0, or use DateUtil.daysAfter");
-    }
+    if (days < 0) throw new Error("[util] DateUtil.daysBefore: days must be >=0");
     return dateRelativeTo(date, -days, type);
 }
 
 function daysAfter(date: Date, days: number, type: DayStartOrEnd): Date {
-    if (days < 0) {
-        throw new Error("[util] Days must be >=0, or use DateUtil.daysBefore");
-    }
+    if (days < 0) throw new Error("[util] DateUtil.daysAfter: days must be >=0");
     return dateRelativeTo(date, days, type);
 }
 
@@ -92,13 +84,10 @@ function dateRelativeTo(date: Date, diffDays: number, type: DayStartOrEnd): Date
  */
 function dayDiff(date1: Date | string, date2: Date | string): number {
     const date1OfDate = typeof date1 === "string" ? parse(date1) : date1;
+    if (!date1OfDate) throw new Error(`[util] DateUtil.dayDiff: invalid date1: ${date1}`);
+
     const date2OfDate = typeof date2 === "string" ? parse(date2) : date2;
-    if (!date1OfDate) {
-        throw new Error(`[util] DateUtil.dayDiff date1 invalid: ${date1}`);
-    }
-    if (!date2OfDate) {
-        throw new Error(`[util] DateUtil.dayDiff date2 invalid: ${date2}`);
-    }
+    if (!date2OfDate) throw new Error(`[util] DateUtil.dayDiff: invalid date2: ${date2}`);
 
     // Ignore time part
     const date1UTC = Date.UTC(date1OfDate.getFullYear(), date1OfDate.getMonth(), date1OfDate.getDate());

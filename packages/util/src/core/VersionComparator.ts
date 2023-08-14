@@ -9,12 +9,8 @@ export type ComparisonResult = "major-upgrade" | "minor-upgrade" | "patch-upgrad
 
 function compare(currentVersion: string, latestVersion: string): ComparisonResult {
     const regex = /^\d+\.\d+(\.\d+)?$/;
-    if (!regex.test(currentVersion)) {
-        throw new Error(`[util] invalid version: ${currentVersion}`);
-    }
-    if (!regex.test(latestVersion)) {
-        throw new Error(`[util] invalid version: ${latestVersion}`);
-    }
+    if (!regex.test(currentVersion)) throw new Error(`[util] VersionComparator.compare: invalid currentVrsion ${currentVersion}`);
+    if (!regex.test(latestVersion)) throw new Error(`[util] VersionComparator.compare: invalid latestVersion ${latestVersion}`);
 
     // Patch Version might be undefined
     const [currentMajor, currentMinor, currentPatch = 0] = currentVersion.split(".").map(Number) as [number, number, number?];

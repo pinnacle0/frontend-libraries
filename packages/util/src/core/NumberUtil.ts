@@ -1,7 +1,5 @@
 function clamp(value: number, min: number, max: number): number {
-    if (min > max) {
-        throw new Error(`[util] NumberUtil.clamp min(${min}) must be <= max(${max})`);
-    }
+    if (min > max) throw new Error(`[util] NumberUtil.clamp: min(${min}) must <= max(${max})`);
     return Math.max(min, Math.min(max, value));
 }
 
@@ -37,12 +35,9 @@ function safeNumber(value: number, maxScale: number) {
 }
 
 function rounding(value: number, algorithm: "round" | "ceil" | "floor", maxScale: number): number {
-    if (!Number.isInteger(maxScale) || maxScale < 0 || maxScale > 10) {
-        throw new Error("[util] NumberUtil.rounding maxScale must be an integer in range [0, 10]");
-    }
-    if (!Number.isFinite(value)) {
-        return value;
-    }
+    if (!Number.isInteger(maxScale) || maxScale < 0 || maxScale > 10) throw new Error("[util] NumberUtil.rounding: maxScale must be an integer between [0, 10]");
+    if (!Number.isFinite(value)) return value;
+
     /**
      * Take "4.975" as an example.
      * First, we split the number by the decimal point to get ["4", "975"].

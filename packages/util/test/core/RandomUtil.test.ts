@@ -1,16 +1,49 @@
 import crypto from "crypto";
 import {RandomUtil} from "../../src/core/RandomUtil";
 
-describe("RandomUtil.fromArray", () => {
-    test("returns null if array is empty", () => {
-        expect(RandomUtil.fromArray([])).toBeNull();
+describe("RandomUtil.ofOne", () => {
+    test("throws if array is empty", () => {
+        expect(() => RandomUtil.ofOne([])).toThrowError();
     });
 
     test("item is in array", () => {
-        const array = [1, 2, "a", "b"];
+        const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         Array.from({length: 300}).forEach(() => {
-            const randomItem = RandomUtil.fromArray(array)!;
+            const randomItem = RandomUtil.ofOne(array);
             expect(array).toContain(randomItem);
+        });
+    });
+});
+
+describe("RandomUtil.ofMany", () => {
+    test("throws if array is too small", () => {
+        expect(() => RandomUtil.ofMany([], 1, true)).toThrowError();
+        expect(() => RandomUtil.ofMany([1], 2, true)).toThrowError();
+        expect(() => RandomUtil.ofMany([1], 2, false)).toThrowError();
+    });
+
+    test("item is in array with correct size and ordering", () => {
+        const array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        Array.from({length: 300}).forEach(() => {
+            const randomItemsWithoutOrdering = RandomUtil.ofMany(array, 5, false);
+            expect(randomItemsWithoutOrdering).toHaveLength(5);
+            randomItemsWithoutOrdering.forEach(item => expect(array).toContain(item));
+
+            const randomItemsWithOrdering = RandomUtil.ofMany(array, 5, true);
+            expect(randomItemsWithOrdering).toHaveLength(5);
+            randomItemsWithOrdering.forEach(item => expect(array).toContain(item));
+            expect(randomItemsWithOrdering).toStrictEqual([...randomItemsWithOrdering].sort());
+        });
+    });
+
+    test("size same with array length", () => {
+        const array = [1, 2, 3, 4];
+        Array.from({length: 100}).forEach(() => {
+            const randomItemsWithoutOrdering = RandomUtil.ofMany(array, 4, false);
+            expect([...randomItemsWithoutOrdering].sort()).toStrictEqual(array);
+
+            const randomItemsWithOrdering = RandomUtil.ofMany(array, 4, true);
+            expect(randomItemsWithOrdering).toStrictEqual(array);
         });
     });
 });
