@@ -10,6 +10,7 @@ function ofOne<T>(array: T[]): T {
 
 function ofMany<T>(array: T[], size: number, keepOrdering: boolean): T[] {
     const length = array.length;
+    if (size <= 0 || !Number.isSafeInteger(size)) throw new Error(`[util] RandomUtil.ofMany: invalid size value ${size}`);
     if (length < size) throw new Error(`[util] RandomUtil.ofMany: array must not be smaller than size, array size is ${length}`);
 
     const shuffledArray = array.slice();
@@ -24,7 +25,18 @@ function ofMany<T>(array: T[], size: number, keepOrdering: boolean): T[] {
 }
 
 function integerBetween(min: number, max: number): number {
+    if (min > max) throw new Error(`[util] RandomUtil.integerBetween: min must <= max`);
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function integersBetween(min: number, max: number, size: number, keepOrdering: boolean): number[] {
+    if (size <= 0 || !Number.isSafeInteger(size)) throw new Error(`[util] RandomUtil.integersBetween: invalid size value ${size}`);
+    if (min + size - 1 > max) throw new Error(`[util] RandomUtil.integersBetween: min+size-1 must <= max`);
+
+    const range: number[] = [];
+    for (let i = min; i <= max; i++) range.push(i);
+
+    return ofMany(range, size, keepOrdering);
 }
 
 function pickItemByHash<T>(array: readonly T[], hashableData: string): T {
@@ -38,5 +50,6 @@ export const RandomUtil = Object.freeze({
     ofOne,
     ofMany,
     integerBetween,
+    integersBetween,
     pickItemByHash,
 });

@@ -49,11 +49,35 @@ describe("RandomUtil.ofMany", () => {
 });
 
 describe("RandomUtil.integerBetween", () => {
+    test("throws if invalid args", () => {
+        expect(() => RandomUtil.integerBetween(2, 1)).toThrowError();
+        expect(() => RandomUtil.integerBetween(-1, -2)).toThrowError();
+    });
+
     test("random number is within range", () => {
         const possibleNums = [1, 2, 3, 4, 5];
         Array.from({length: 300}).forEach(() => {
             const randomNum = RandomUtil.integerBetween(1, 5);
             expect(possibleNums).toContain(randomNum);
+        });
+    });
+});
+
+describe("RandomUtil.integersBetween", () => {
+    test("throws if invalid args", () => {
+        expect(() => RandomUtil.integersBetween(2, 1, 1, true)).toThrowError();
+        expect(() => RandomUtil.integersBetween(2, 3, 3, true)).toThrowError();
+        expect(() => RandomUtil.integersBetween(2, 100, 0, true)).toThrowError();
+
+        expect(() => RandomUtil.integersBetween(2, 3, 2, true)).not.toThrowError();
+    });
+
+    test("random numbers is within range", () => {
+        const possibleNums = [1, 2, 3, 4, 5, 6];
+        Array.from({length: 300}).forEach(() => {
+            const randomNums = RandomUtil.integersBetween(1, 6, 3, true);
+            expect(randomNums).toHaveLength(3);
+            randomNums.forEach(item => expect(possibleNums).toContain(item));
         });
     });
 });
