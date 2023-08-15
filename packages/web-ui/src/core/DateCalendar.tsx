@@ -77,12 +77,12 @@ export class DateCalendar extends React.PureComponent<Props> {
             <div style={this.headerStyle}>
                 <Space>
                     <div>
-                        <Select size="small" dropdownMatchSelectWidth={false} onChange={newYear => onChange(value.year(newYear))} value={year}>
+                        <Select size="small" popupMatchSelectWidth={false} onChange={newYear => onChange(value.year(newYear))} value={year}>
                             {options}
                         </Select>
                     </div>
                     <div>
-                        <Select size="small" dropdownMatchSelectWidth={false} value={month} onChange={selectedMonth => onChange(value.month(selectedMonth))}>
+                        <Select size="small" popupMatchSelectWidth={false} value={month} onChange={selectedMonth => onChange(value.month(selectedMonth))}>
                             {monthOptions}
                         </Select>
                     </div>

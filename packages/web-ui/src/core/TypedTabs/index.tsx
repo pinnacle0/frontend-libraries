@@ -1,5 +1,5 @@
 import React from "react";
-import type {Props as TabsProps} from "../Tabs";
+import type {TabItem, Props as TabsProps} from "../Tabs";
 import {Tabs} from "../Tabs";
 import "./index.less";
 
@@ -32,17 +32,15 @@ export class TypedTabs<T extends string> extends React.PureComponent<Props<T>> {
             ...restProps
         } = this.props;
         const tabList = Array.isArray(tabs) ? tabs : Object.entries<TabData>(tabs).map(([key, item]) => ({key, ...item}));
+        const tabItems: TabItem[] = tabList
+            .filter(_ => _.display !== "hidden")
+            .map(tab => ({
+                label: tab.title,
+                key: tab.key,
+                disabled: tab.disabled,
+                children: tab.content,
+            }));
 
-        return (
-            <Tabs onChange={onChange as (_: string) => void} {...restProps}>
-                {tabList
-                    .filter(_ => _.display !== "hidden")
-                    .map(_ => (
-                        <Tabs.TabPane tab={_.title} key={_.key} disabled={_.disabled}>
-                            {_.content}
-                        </Tabs.TabPane>
-                    ))}
-            </Tabs>
-        );
+        return <Tabs onChange={onChange as (_: string) => void} items={tabItems} {...restProps} />;
     }
 }

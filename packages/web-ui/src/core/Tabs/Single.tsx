@@ -12,13 +12,6 @@ export class Single extends React.PureComponent<Props> {
 
     render() {
         const {children, title, ...rest} = this.props;
-
-        return (
-            <Tabs {...rest}>
-                <Tabs.TabPane tab={title} key={title}>
-                    {children}
-                </Tabs.TabPane>
-            </Tabs>
-        );
+        return <Tabs {...rest} items={[{label: title, key: title, children}]} />;
     }
 }

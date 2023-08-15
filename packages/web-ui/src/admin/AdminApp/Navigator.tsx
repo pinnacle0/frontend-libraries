@@ -1,4 +1,5 @@
 import React from "react";
+import type {TabItem} from "../../core/Tabs";
 import {Tabs} from "../../core/Tabs";
 import {useHistory, useLocation} from "react-router-dom";
 import {AdminAppContext} from "./context";
@@ -81,6 +82,34 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
         }
     };
 
+    const tabItems: TabItem[] = [
+        {
+            key: "/",
+            label: t.homePageTitle,
+            closable: false,
+        },
+        ...tabs.map(({customTitle, url, module}) => {
+            let label: React.ReactElement | string;
+            if (customTitle) {
+                label = customTitle;
+            } else if (module.separateTab) {
+                label = (
+                    <React.Fragment>
+                        {module.title}
+                        <Spin spinning size="small" />
+                    </React.Fragment>
+                );
+            } else {
+                label = module.title;
+            }
+            return {
+                label,
+                key: url,
+                closable: true,
+            };
+        }),
+    ];
+
     React.useEffect(() => {
         context.registerTitleUpdater(title => {
             setTabs(tabs => {
@@ -123,25 +152,5 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
         });
     }, [location, modules, computeIndexByURL]);
 
-    return (
-        <Tabs className="navigator-bar" hideAdd onEdit={onTabClose} type="editable-card" activeKey={location.pathname} onChange={onTabChange}>
-            <Tabs.TabPane tab={t.homePageTitle} key="/" closable={false} />
-            {tabs.map(({customTitle, url, module}) => {
-                let tab: React.ReactElement | string;
-                if (customTitle) {
-                    tab = customTitle;
-                } else if (module.separateTab) {
-                    tab = (
-                        <React.Fragment>
-                            {module.title}
-                            <Spin spinning size="small" />
-                        </React.Fragment>
-                    );
-                } else {
-                    tab = module.title;
-                }
-                return <Tabs.TabPane tab={tab} key={url} closable />;
-            })}
-        </Tabs>
-    );
+    return <Tabs className="navigator-bar" hideAdd onEdit={onTabClose} type="editable-card" activeKey={location.pathname} onChange={onTabChange} items={tabItems} />;
 }

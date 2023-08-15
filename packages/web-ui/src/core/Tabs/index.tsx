@@ -18,11 +18,28 @@ export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {
     initialMaxVisibleTabCount?: number;
 }
 
+export interface TabItem {
+    key: string;
+    label: React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
+    disabled?: boolean;
+    children?: React.ReactNode;
+    forceRender?: boolean;
+    closable?: boolean;
+    closeIcon?: React.ReactNode;
+    prefixCls?: string;
+    tabKey?: string;
+    id?: string;
+    animated?: boolean;
+    active?: boolean;
+    destroyInactiveTabPane?: boolean;
+}
+
 export class Tabs extends React.PureComponent<Props> {
     static displayName = "Tabs";
 
     static Single = Single;
-    static TabPane: typeof AntTabs.TabPane = AntTabs.TabPane;
 
     static defaultProps: PickOptional<Props> = {
         type: "card",
@@ -69,6 +86,7 @@ export class Tabs extends React.PureComponent<Props> {
                 className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
                 animated={animated === undefined ? type === "line" : animated}
                 type={type}
+                items={[]}
                 tabBarExtraContent={tabBarExtraContent}
                 // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
                 renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} />)}
