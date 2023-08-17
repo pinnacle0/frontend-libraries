@@ -81,32 +81,3 @@ describe("RandomUtil.integersBetween", () => {
         });
     });
 });
-
-describe("RandomUtil.pickItemByHash", () => {
-    const hashData = [...new Set(Array.from({length: 1000}).map(() => crypto.randomBytes(2).toString("hex")))];
-    const array = ["a", "b", "c", "d", "e"] as const;
-    const pickedData = hashData.map(hash => {
-        return {
-            hash,
-            pick: RandomUtil.pickItemByHash(array, hash),
-        };
-    });
-
-    test("picked item is inside original array", () => {
-        pickedData.forEach(({pick}) => {
-            expect(array).toContain(pick);
-        });
-    });
-
-    test("same hash always returns same pick from array", () => {
-        pickedData.forEach(({hash, pick: originalPick}) => {
-            const pickFromSameHash = RandomUtil.pickItemByHash(array, hash);
-            expect(pickFromSameHash).toStrictEqual(originalPick);
-        });
-    });
-
-    test("throws error if array is empty", () => {
-        const emptyArray = [] as const;
-        expect(() => RandomUtil.pickItemByHash(emptyArray, "any")).toThrow();
-    });
-});

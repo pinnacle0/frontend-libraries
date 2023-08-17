@@ -1,4 +1,3 @@
-import {HashUtil} from "./HashUtil";
 import {ArrayUtil} from "./ArrayUtil";
 
 function ofOne<T>(array: T[]): T {
@@ -39,17 +38,9 @@ function integersBetween(min: number, max: number, size: number, keepOrdering: b
     return ofMany(range, size, keepOrdering);
 }
 
-function pickItemByHash<T>(array: readonly T[], hashableData: string): T {
-    if (array.length === 0) throw new Error(`[util] RandomUtil.pickItemByHash: array must not be empty`);
-
-    const index = Math.abs(HashUtil.toInteger(hashableData)) % array.length;
-    return array[index];
-}
-
 export const RandomUtil = Object.freeze({
     ofOne,
     ofMany,
     integerBetween,
     integersBetween,
-    pickItemByHash,
 });
