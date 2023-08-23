@@ -10,7 +10,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabled?: boolean;
     className?: string;
     disabledRange?: (diffToToday: number, date: Date) => boolean;
-    presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
+    presets?: "default" | Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
 }
 
 export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -64,7 +64,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 disabledDate={this.isDateDisabled}
                 allowClear={allowNull}
                 disabled={disabled}
-                presets={presets || DateTimeRangePicker.defaultPresets}
+                presets={presets === "default" ? DateTimeRangePicker.defaultPresets : presets}
                 showTime={DateTimeRangePicker.showTime}
             />
         );
