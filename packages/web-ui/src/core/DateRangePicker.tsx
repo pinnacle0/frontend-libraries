@@ -4,16 +4,12 @@ import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../internal/type";
 import DatePicker from "antd/es/date-picker";
 
-// todo:
-// deprecate the ranges in props, use presets after antd 5.8.0
-// presets: {label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}[];
-
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [string, string] : [string | null, string | null]> {
     allowNull: T;
     disabledRange?: (diffToToday: number, date: Date) => boolean;
     disabled?: boolean;
     className?: string;
-    ranges?: {[range: string]: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])};
+    presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
 }
 
 export class DateRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -49,7 +45,7 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
     };
 
     render() {
-        const {value, allowNull, disabled, className, ranges} = this.props;
+        const {value, allowNull, disabled, className, presets} = this.props;
         return (
             <DatePicker.RangePicker
                 disabledDate={this.isDateDisabled}
@@ -59,7 +55,7 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
                 onChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
-                ranges={ranges}
+                presets={presets}
             />
         );
     }

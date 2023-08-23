@@ -10,7 +10,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabled?: boolean;
     className?: string;
     disabledRange?: (diffToToday: number, date: Date) => boolean;
-    presets?: "default" | Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
+    presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
 }
 
 export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -18,14 +18,6 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     static showTime = {
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
-
-    // Arrow function is used to ensure correct calculation of today when website have opened across days
-    static defaultPresets: Array<{label: React.ReactNode; value: () => [Dayjs, Dayjs]}> = [
-        {label: "当天", value: () => [dayjs().startOf("day"), dayjs().endOf("day")]},
-        {label: "近7天", value: () => [dayjs().startOf("day").add(-6, "day"), dayjs().endOf("day")]},
-        {label: "近30天", value: () => [dayjs().startOf("day").add(-29, "day"), dayjs().endOf("day")]},
-        {label: "近90天", value: () => [dayjs().startOf("day").add(-89, "day"), dayjs().endOf("day")]},
-    ];
 
     isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
@@ -64,7 +56,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 disabledDate={this.isDateDisabled}
                 allowClear={allowNull}
                 disabled={disabled}
-                presets={presets === "default" ? DateTimeRangePicker.defaultPresets : presets}
+                presets={presets}
                 showTime={DateTimeRangePicker.showTime}
             />
         );
