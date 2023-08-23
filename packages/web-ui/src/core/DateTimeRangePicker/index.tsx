@@ -5,17 +5,12 @@ import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 
-// todo:
-// deprecate the ranges in props, use presets after antd 5.8.0
-// presets: {label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}[];
-
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [Date, Date] : [Date | null, Date | null]> {
     allowNull: T;
     disabled?: boolean;
     className?: string;
     disabledRange?: (diffToToday: number, date: Date) => boolean;
-    // default ranges for quick select
-    ranges?: "presets" | {[range: string]: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])};
+    presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
 }
 
 export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -24,14 +19,13 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
 
-    // todo: remove this field after antd 5.8.0
     // Arrow function is used to ensure correct calculation of today when website have opened across days
-    static presets: {[range: string]: () => [Dayjs, Dayjs]} = {
-        当天: () => [dayjs().startOf("day"), dayjs().endOf("day")],
-        近7天: () => [dayjs().startOf("day").add(-6, "day"), dayjs().endOf("day")],
-        近30天: () => [dayjs().startOf("day").add(-29, "day"), dayjs().endOf("day")],
-        近90天: () => [dayjs().startOf("day").add(-89, "day"), dayjs().endOf("day")],
-    };
+    static defaultPresets: Array<{label: React.ReactNode; value: () => [Dayjs, Dayjs]}> = [
+        {label: "当天", value: () => [dayjs().startOf("day"), dayjs().endOf("day")]},
+        {label: "近7天", value: () => [dayjs().startOf("day").add(-6, "day"), dayjs().endOf("day")]},
+        {label: "近30天", value: () => [dayjs().startOf("day").add(-29, "day"), dayjs().endOf("day")]},
+        {label: "近90天", value: () => [dayjs().startOf("day").add(-89, "day"), dayjs().endOf("day")]},
+    ];
 
     isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
@@ -61,7 +55,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     };
 
     render() {
-        const {value, allowNull, disabled, className, ranges} = this.props;
+        const {value, allowNull, disabled, className, presets} = this.props;
         return (
             <DatePicker.RangePicker
                 className={className}
@@ -70,7 +64,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 disabledDate={this.isDateDisabled}
                 allowClear={allowNull}
                 disabled={disabled}
-                ranges={ranges === "presets" ? DateTimeRangePicker.presets : ranges}
+                presets={presets || DateTimeRangePicker.defaultPresets}
                 showTime={DateTimeRangePicker.showTime}
             />
         );
