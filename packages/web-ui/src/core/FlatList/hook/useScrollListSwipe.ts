@@ -7,7 +7,7 @@ const OVER_BOUNDARY_LIMIT = 40;
 
 interface ScrollListSwipeState {
     delta: number;
-    bounary: Boundary | null;
+    boundary: Boundary | null;
     swipeState: SwipeState;
 }
 
@@ -20,9 +20,9 @@ export interface ScrollListSwipeOption {
 }
 
 /**
- * Use useSwipe with Scorllable content
+ * Use useSwipe with Scrollable content
  * 1. prevent scrolling on swiping
- * 1. start counting delta when scorll to top and bottom
+ * 1. start counting delta when scroll to top and bottom
  */
 export const useScrollListSwipe = ({scrollElementRef, onStart, onMove, onEnd, onCancel}: ScrollListSwipeOption) => {
     const start = React.useRef<Omit<ScrollListSwipeState, "swipeState"> | null>(null);
@@ -48,7 +48,7 @@ export const useScrollListSwipe = ({scrollElementRef, onStart, onMove, onEnd, on
             delta: [, y],
         } = state;
         if (!start.current) return null;
-        return {delta: y - start.current.delta, bounary: start.current.bounary, swipeState: state};
+        return {delta: y - start.current.delta, boundary: start.current.boundary, swipeState: state};
     };
 
     const preventScrolling = () => {
@@ -67,16 +67,16 @@ export const useScrollListSwipe = ({scrollElementRef, onStart, onMove, onEnd, on
         {
             onStart: s => {
                 const startBounary = getBounaryFromStartDirection(s.direction);
-                start.current = {delta: s.delta[1], bounary: startBounary};
-                onStart({delta: 0, bounary: startBounary, swipeState: s});
+                start.current = {delta: s.delta[1], boundary: startBounary};
+                onStart({delta: 0, boundary: startBounary, swipeState: s});
                 preventScrolling();
             },
             onMove: s => {
                 const state = calculateState(s);
                 if (!state) return;
                 onMove(state);
-                if (state.bounary) {
-                    isExceededBounary(state.delta, state.bounary) && s.cancel();
+                if (state.boundary) {
+                    isExceededBounary(state.delta, state.boundary) && s.cancel();
                 }
             },
             onEnd: s => {

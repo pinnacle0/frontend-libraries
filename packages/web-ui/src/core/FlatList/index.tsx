@@ -33,7 +33,7 @@ export const FlatList = function <T>({
     wrapperStyle,
 }: FlatListProps<T>) {
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
-    const animtedRef = React.useRef<HTMLDivElement | null>(null);
+    const animatedRef = React.useRef<HTMLDivElement | null>(null);
 
     const refreshHeight = React.useRef<number>(0);
     const previousBoundary = React.useRef<Boundary | null>(null);
@@ -41,7 +41,7 @@ export const FlatList = function <T>({
     const refreshing = useRefreshing(exactRefreshing ?? false, 1000);
     const [showFloatingLoader, setShowFloatingLoader] = React.useState(refreshing);
 
-    const transit = useTransform(animtedRef, {
+    const transit = useTransform(animatedRef, {
         timingFunction: "cubic-bezier(0, 0.89, 0.26, 1.02)",
         duration: 800,
     });
@@ -51,9 +51,9 @@ export const FlatList = function <T>({
 
     const bind = useScrollListSwipe({
         scrollElementRef: scrollRef,
-        onStart: ({bounary}) => {
+        onStart: ({boundary}) => {
             setShowFloatingLoader(false);
-            previousBoundary.current = bounary;
+            previousBoundary.current = boundary;
         },
         onMove: ({delta}) => transit.to({y: delta, immediate: true}),
         onEnd: ({delta}) => {
@@ -93,7 +93,7 @@ export const FlatList = function <T>({
 
     return (
         <div id={id} className={classNames("g-flat-list", className)} {...bind}>
-            <div className="g-flat-list-inner-wrapper" ref={animtedRef} style={wrapperStyle}>
+            <div className="g-flat-list-inner-wrapper" ref={animatedRef} style={wrapperStyle}>
                 {exactRefreshing !== undefined && (
                     <React.Fragment>
                         <FloatingLoader show={showFloatingLoader} />
