@@ -22,7 +22,7 @@
     },
     "optionalDependencies": {
         "eslint": "^8.0.0",
-        "prettier": ">=2.6.0"
+        "prettier": ">=3.0.0"
     },
     "engines": {
         "node": ">=16.15.0"
