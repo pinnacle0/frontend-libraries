@@ -56,14 +56,13 @@ export const jest: ESLint.Linter.Config = {
         "jest-dom/prefer-to-have-text-content": ["warn"],
 
         // testing-library
-        "testing-library/await-async-query": ["warn"],
+        "testing-library/await-async-queries": ["warn"],
         "testing-library/await-async-utils": ["warn"],
-        "testing-library/no-await-sync-query": ["warn"],
+        "testing-library/no-await-sync-queries": ["warn"],
         "testing-library/no-dom-import": ["warn", "react"],
-        "testing-library/no-render-in-setup": ["warn"],
+        "testing-library/no-render-in-lifecycle": ["warn"],
         "testing-library/prefer-find-by": ["warn"],
         "testing-library/prefer-presence-queries": ["warn"],
         "testing-library/prefer-screen-queries": ["warn"],
-        "testing-library/prefer-wait-for": ["warn"],
     },
 };
