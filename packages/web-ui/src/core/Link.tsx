@@ -1,11 +1,11 @@
 import React from "react";
 import {NavLink as ReactRouterLink} from "react-router-dom";
 import {classNames} from "../util/ClassNames";
-import type {LocationDescriptorObject} from "history";
+import type {Location} from "history";
 
 export interface Props {
     children: React.ReactNode;
-    to?: string | (() => void) | LocationDescriptorObject<any>;
+    to?: string | (() => void) | Location;
     className?: string; // class "g-text-link" will be added if children is pure string
     style?: React.CSSProperties;
     newTab?: boolean; // Default value: If `to` is local (start with /), then false; Else true

@@ -34,8 +34,8 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@types/react": "18.2.14",
-        "@types/react-dom": "18.2.6",
+        "@types/react": "18.2.21",
+        "@types/react-dom": "18.2.7",
         "copyfiles": "2.4.1",
         "react": "18.2.0",
         "react-dom": "18.2.0"

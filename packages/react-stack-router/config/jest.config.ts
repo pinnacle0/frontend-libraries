@@ -27,7 +27,7 @@ const config: Config = {
     roots: ["<rootDir>/src", "<rootDir>/test"],
 
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
+    setupFilesAfterEnv: ["@testing-library/jest-dom"],
 
     // All imported modules in your tests should be mocked automatically
     automock: false,
