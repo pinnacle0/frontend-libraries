@@ -80,9 +80,13 @@ export class ModuleGeneratorBase {
 
         if (!fs.existsSync(this.reduxStateTypePath)) throw new Error(`Redux state file [${this.reduxStateTypePath}] does not exist`);
         if (!this.moduleName) throw new Error("Module name must be specified (via command line, or constructor)");
-        if (splitModuleNames.length !== 2) throw new Error("Module name must be of parent/child format");
+        if (splitModuleNames.length < 2 || splitModuleNames.length > 3) throw new Error("Module name must be of parent/child or grandparent/parent/child format");
         if (!availableTopLevelModuleNames.includes(splitModuleNames[0])) throw new Error(`Module [${splitModuleNames[0]}] must be one of ${availableTopLevelModuleNames.join("/")}`);
-        if (!NamingUtil.isKebabCase(splitModuleNames[1])) throw new Error(`Module name [${splitModuleNames[1]}] does not conform to naming convention`);
+
+        splitModuleNames.slice(1).forEach(_ => {
+            if (!NamingUtil.isKebabCase(_)) throw new Error(`Module name [${_}] does not conform to naming convention`);
+        });
+
         if (fs.existsSync(this.newModuleDirectory)) throw new Error(`Module [${this.moduleName}] already exists`);
     }
 
@@ -123,12 +127,12 @@ export class ModuleGeneratorBase {
         const moduleFullName = this.getModuleNameInFormat("camel");
         const moduleStateName = this.getModuleNameInFormat("pascal") + "State";
         const newStateFileContent =
-            stateFileContent.substr(0, firstLineEndIndex + 1) +
+            stateFileContent.slice(0, firstLineEndIndex + 1) +
             this.generateImportStatementForNewModuleState({moduleStateName, partialModulePath: this.moduleName}) +
             "\n" +
             stateFileContent.substring(firstLineEndIndex + 1, lastStateDeclarationIndex) +
             `${moduleFullName}: ${moduleStateName};\n` +
-            stateFileContent.substr(lastStateDeclarationIndex);
+            stateFileContent.slice(lastStateDeclarationIndex);
 
         fs.writeFileSync(this.reduxStateTypePath, newStateFileContent, {encoding: "utf8"});
     }
@@ -141,13 +145,13 @@ export class ModuleGeneratorBase {
     /**
      * Create a name based on this.moduleName.
      *
-     * @param format: can be "pascal" or "camel" (default).
      *
      * For example: this.moduleName is "account/order-detail"
      * (format = "pascal") => AccountOrderDetail
      * (format = "camel") => accountOrderDetail
      *
      * Special case: for common/some-name module, common will be omitted.
+     * @param format "pascal" or "camel"
      */
     private getModuleNameInFormat(format: "pascal" | "camel") {
         return this.moduleName
