@@ -26,6 +26,7 @@ export interface Router {
     Route: React.ComponentType<RouteProps>;
     push: (to: To, option?: PushOption) => Promise<void>;
     pop: (times?: number) => Promise<void>;
+    popAll: () => Promise<void>;
     replace: (to: To, option?: ReplaceOption) => void;
     replaceHash: (hash: string) => void;
     replaceSearchParams: <T extends Record<string, string> = Record<string, string>>(newParam: T | ((current: T) => T)) => void;

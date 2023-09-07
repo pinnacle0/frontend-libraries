@@ -45,6 +45,7 @@ export function createRouter(history?: History, options?: CreateRouterOptions): 
 
     const push = router.push.bind(router);
     const pop = router.pop.bind(router);
+    const popAll = router.popAll.bind(router);
     const replace = router.replace.bind(router);
     const replaceHash = router.replaceHash.bind(router);
     const replaceSearchParams = router.replaceSearchParams.bind(router);
@@ -72,6 +73,7 @@ export function createRouter(history?: History, options?: CreateRouterOptions): 
         Route: RouteComponent,
         push,
         pop,
+        popAll,
         replace,
         replaceHash,
         replaceSearchParams,

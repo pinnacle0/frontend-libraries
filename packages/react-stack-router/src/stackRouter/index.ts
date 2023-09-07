@@ -122,6 +122,10 @@ export class StackRouter {
         return wait;
     }
 
+    async popAll(): Promise<void> {
+        return this.pop(this.screens.length);
+    }
+
     replace(to: To, option?: ReplaceOption): void {
         if (!this.matchRoute(to)) return;
         this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? createKey(), ...(option?.state ?? {})});
