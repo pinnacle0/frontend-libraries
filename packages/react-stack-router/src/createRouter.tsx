@@ -62,7 +62,7 @@ export function createRouter(history?: History, options?: CreateRouterOptions): 
         }, []);
 
         return (
-            <RouterContext.Provider value={{history: internalHistory, push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState}}>
+            <RouterContext.Provider value={{history: internalHistory, push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState}}>
                 <Stack router={router} />
             </RouterContext.Provider>
         );
