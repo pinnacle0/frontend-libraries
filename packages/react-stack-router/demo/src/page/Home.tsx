@@ -6,7 +6,7 @@ import {Back} from "../component/Back";
 export const Home = () => {
     const [count, setCount] = useState(0);
     const {pathname} = useLocation();
-    const {push} = useNavigate();
+    const {push, popAll} = useNavigate();
 
     useLocationMatch(() => {
         console.info("match Home Screen");
@@ -35,6 +35,7 @@ export const Home = () => {
                 <button onClick={() => router.push("/")}>Push / using router.push</button>
                 <button onClick={() => push("/game")}>Push /game using useNavigate()</button>
                 <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
+                <button onClick={() => push("/game/3")}>Push /game/3 using useNavigate()</button>
                 <button
                     onClick={async () => {
                         console.info("before enter");
@@ -46,6 +47,7 @@ export const Home = () => {
                 >
                     Push multiple game/:id using useNavigate() with async
                 </button>
+                <button onClick={popAll}>Pop All</button>
             </div>
             <div className="box" />
             <div className="box" />

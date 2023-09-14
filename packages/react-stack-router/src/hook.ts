@@ -9,8 +9,8 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState} = useContext(RouterContext);
-    return {push, pop, replace, replaceHash, replaceSearchParams, replaceLocationState};
+    const {push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState} = useContext(RouterContext);
+    return {push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState};
 };
 
 export const useHistory = (): History => {

@@ -123,7 +123,7 @@ export class StackRouter {
     }
 
     async popAll(): Promise<void> {
-        return this.pop(this.screens.length);
+        return this.pop(this.screens.length - 1);
     }
 
     replace(to: To, option?: ReplaceOption): void {

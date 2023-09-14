@@ -18,6 +18,7 @@ export const Game = () => {
             <h3>pathname: {pathname}</h3>
             <button onClick={() => setCount(_ => _ + 1)}>count: {count}</button>
             <button onClick={() => router.replaceHash(count.toString())}>change hash to 123</button>
+            <button onClick={() => router.popAll()}>Pop All</button>
             <h3>{id ? `have id ${id}` : "no id given"}</h3>
             <Back />
             <div>

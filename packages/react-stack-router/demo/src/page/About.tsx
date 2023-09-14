@@ -1,6 +1,7 @@
 import {useDidEnterEffect, useDidExitEffect, useHash, useLocation, useLocationState, useSearchParams, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
 import {useEffect, useState} from "react";
+import {router} from "../router";
 
 export const About = () => {
     const {pathname} = useLocation();
@@ -50,6 +51,7 @@ export const About = () => {
                 <br />
                 <button onClick={() => setHash("hash" + Math.random())}>update random Hash</button>
                 <button onClick={() => setSearchParams({a: "123"})}>update search params</button>
+                <button onClick={() => router.popAll()}>Pop All</button>
                 <div className="box" />
                 <div className="box" />
                 <div className="box" />

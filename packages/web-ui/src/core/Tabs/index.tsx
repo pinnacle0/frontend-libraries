@@ -86,8 +86,6 @@ export class Tabs extends React.PureComponent<Props> {
                 className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
                 animated={animated === undefined ? type === "line" : animated}
                 type={type}
-                // TODO: remove this props
-                items={[]}
                 tabBarExtraContent={tabBarExtraContent}
                 // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
                 renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} />)}
