@@ -14,6 +14,8 @@ export interface BaseProps<Enum extends string | boolean | number> {
     className?: string;
     style?: React.CSSProperties;
     dropdownStyle?: React.CSSProperties;
+    listHeight?: number;
+    listItemHeight?: number;
     placeholder?: string;
     prefix?: React.ReactNode;
     suffixIcon?: React.ReactNode;
@@ -61,7 +63,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className = "", style, dropdownStyle, placeholder, suffixIcon, prefix} = this.props;
+        const {list, translator, disabled, className = "", style, dropdownStyle, listHeight, listItemHeight, placeholder, suffixIcon, prefix} = this.props;
 
         return (
             <Select<LabeledValue>
@@ -70,6 +72,8 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 value={this.getAntSelectValue()}
                 onChange={this.onChange}
                 className={`g-enum-select ${className}`}
+                listHeight={listHeight}
+                listItemHeight={listItemHeight}
                 style={style}
                 dropdownStyle={dropdownStyle}
                 placeholder={
