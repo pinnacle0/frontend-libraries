@@ -13,6 +13,7 @@ export interface BaseProps<Enum extends string | boolean | number> {
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    dropdownStyle?: React.CSSProperties;
     placeholder?: string;
     prefix?: React.ReactNode;
     suffixIcon?: React.ReactNode;
@@ -60,7 +61,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
     };
 
     render() {
-        const {list, translator, disabled, className = "", style, placeholder, suffixIcon, prefix} = this.props;
+        const {list, translator, disabled, className = "", style, dropdownStyle, placeholder, suffixIcon, prefix} = this.props;
 
         return (
             <Select<LabeledValue>
@@ -70,6 +71,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 onChange={this.onChange}
                 className={`g-enum-select ${className}`}
                 style={style}
+                dropdownStyle={dropdownStyle}
                 placeholder={
                     prefix ? (
                         <div className="prefixed-placeholder-wrapper">
