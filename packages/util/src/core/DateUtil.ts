@@ -72,8 +72,8 @@ function isSameMinute(time1: Date, time2: Date): boolean {
 
 function dateRelativeTo(date: Date, diffDays: number, type: DayStartOrEnd): Date {
     return type === "day-end"
-        ? new Date(date.getFullYear(), date.getMonth(), date.getDate() + diffDays, 23, 59, 59)
-        : new Date(date.getFullYear(), date.getMonth(), date.getDate() + diffDays, 0, 0, 0);
+        ? new Date(date.getFullYear(), date.getMonth(), date.getDate() + diffDays, 23, 59, 59, 999)
+        : new Date(date.getFullYear(), date.getMonth(), date.getDate() + diffDays, 0, 0, 0, 0);
 }
 
 /**
