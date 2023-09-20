@@ -8,7 +8,7 @@ describe("DateUtil.daysBeforeToday", () => {
         const day = today.getDate();
 
         expect(DateUtil.daysBeforeToday(10, "day-start")).toStrictEqual(new Date(year, month, day - 10, 0, 0, 0));
-        expect(DateUtil.daysBeforeToday(10, "day-end")).toStrictEqual(new Date(year, month, day - 10, 23, 59, 59));
+        expect(DateUtil.daysBeforeToday(10, "day-end")).toStrictEqual(new Date(year, month, day - 10, 23, 59, 59, 999));
     });
 
     test("throws error on negative `days` argument", () => {
@@ -23,7 +23,7 @@ describe("DateUtil.daysAfterToday", () => {
         const year = today.getFullYear();
         const month = today.getMonth();
         const day = today.getDate();
-        expect(DateUtil.daysAfterToday(10, "day-end")).toStrictEqual(new Date(year, month, day + 10, 23, 59, 59));
+        expect(DateUtil.daysAfterToday(10, "day-end")).toStrictEqual(new Date(year, month, day + 10, 23, 59, 59, 999));
         expect(DateUtil.daysAfterToday(10, "day-start")).toStrictEqual(new Date(year, month, day + 10, 0, 0, 0));
     });
 
@@ -39,7 +39,7 @@ describe("DateUtil.today", () => {
         const year = today.getFullYear();
         const month = today.getMonth();
         const day = today.getDate();
-        expect(DateUtil.today("day-end")).toStrictEqual(new Date(year, month, day, 23, 59, 59));
+        expect(DateUtil.today("day-end")).toStrictEqual(new Date(year, month, day, 23, 59, 59, 999));
         expect(DateUtil.today("day-start")).toStrictEqual(new Date(year, month, day, 0, 0, 0));
     });
 });
@@ -48,7 +48,7 @@ describe("DateUtil.daysBefore", () => {
     const date = new Date("2010-10-01");
 
     test("returns correct date", () => {
-        expect(DateUtil.daysBefore(date, 2, "day-end")).toStrictEqual(new Date("2010-09-29 23:59:59"));
+        expect(DateUtil.daysBefore(date, 2, "day-end")).toStrictEqual(new Date("2010-09-29 23:59:59.999"));
         expect(DateUtil.daysBefore(date, 2, "day-start")).toStrictEqual(new Date("2010-09-29 00:00:00"));
     });
 
@@ -62,7 +62,7 @@ describe("DateUtil.daysAfter", () => {
     const date = new Date("2010-10-01");
 
     test("returns correct date", () => {
-        expect(DateUtil.daysAfter(date, 10, "day-end")).toStrictEqual(new Date("2010-10-11 23:59:59"));
+        expect(DateUtil.daysAfter(date, 10, "day-end")).toStrictEqual(new Date("2010-10-11 23:59:59.999"));
         expect(DateUtil.daysAfter(date, 10, "day-start")).toStrictEqual(new Date("2010-10-11 00:00:00"));
     });
 
@@ -75,14 +75,14 @@ describe("DateUtil.daysAfter", () => {
 describe("DateUtil.someday", () => {
     test("returns correct date (parse date string)", () => {
         const date1 = new Date("2010-10-03 12:32:22");
-        expect(DateUtil.someday(date1, "day-end")).toStrictEqual(new Date("2010-10-03 23:59:59"));
+        expect(DateUtil.someday(date1, "day-end")).toStrictEqual(new Date("2010-10-03 23:59:59.999"));
         expect(DateUtil.someday(date1, "day-start")).toStrictEqual(new Date("2010-10-03 00:00:00"));
     });
 
     test("returns correct date (parse unix timestamp)", () => {
         // Wed Jul 17 2019 15:32:00 GMT+0800
         const date2 = new Date(1563348720799);
-        expect(DateUtil.someday(date2, "day-end")).toStrictEqual(new Date("2019-07-17 23:59:59"));
+        expect(DateUtil.someday(date2, "day-end")).toStrictEqual(new Date("2019-07-17 23:59:59.999"));
         expect(DateUtil.someday(date2, "day-start")).toStrictEqual(new Date("2019-07-17 00:00:00"));
     });
 });
