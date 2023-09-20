@@ -20,18 +20,14 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     };
 
     isDateDisabled = (current: Dayjs): boolean => {
-        if (!current) {
-            return false;
-        }
+        if (!current) return false;
 
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
          * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
          */
-        if (current.valueOf() >= new Date(2038, 0).valueOf()) {
-            return true;
-        }
+        if (current.valueOf() >= new Date(2038, 0).valueOf()) return true;
 
         const diffToToday = Math.floor(current.diff(dayjs().startOf("day"), "day", true));
         return this.props.disabledRange?.(diffToToday, current.toDate()) || false;
@@ -40,7 +36,11 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [Date | null, Date | null]) => void;
         if (dates && dates[0] && dates[1]) {
-            typedOnChange([dates[0].toDate(), dates[1].toDate()]);
+            // need manually reset the min/max millisecond
+            // otherwise, from/to will use now's millisecond value, which is inaccurate
+            const from = dates[0].millisecond(0).toDate();
+            const to = dates[1].millisecond(999).toDate();
+            typedOnChange([from, to]);
         } else {
             typedOnChange([null, null]);
         }
