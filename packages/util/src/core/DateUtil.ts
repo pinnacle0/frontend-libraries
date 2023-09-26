@@ -5,9 +5,10 @@ function daysBeforeToday(days: number, type: DayStartOrEnd): Date {
     return dateRelativeTo(new Date(), -days, type);
 }
 
-function daysBeforeTodayAsString(days: number, type: DayStartOrEnd): string {
+function daysBeforeTodayAsString(days: number): string {
     if (days < 0) throw new Error("[util] DateUtil.daysBeforeTodayAsString: days must be >=0");
-    return format(daysBeforeToday(days, type));
+    // string date don't care the time so no matter "day-start" or "day-end" works
+    return format(daysBeforeToday(days, "day-start"));
 }
 
 function daysAfterToday(days: number, type: DayStartOrEnd): Date {
@@ -15,17 +16,19 @@ function daysAfterToday(days: number, type: DayStartOrEnd): Date {
     return dateRelativeTo(new Date(), days, type);
 }
 
-function daysAfterTodayAsString(days: number, type: DayStartOrEnd): string {
+function daysAfterTodayAsString(days: number): string {
     if (days < 0) throw new Error("[util] DateUtil.daysAfterTodayAsString: days must be >=0");
-    return format(daysAfterToday(days, type));
+    // string date don't care the time so no matter "day-start" or "day-end" works
+    return format(daysAfterToday(days, "day-start"));
 }
 
 function today(type: DayStartOrEnd): Date {
     return dateRelativeTo(new Date(), 0, type);
 }
 
-function todayAsString(type: DayStartOrEnd): string {
-    return format(today(type));
+function todayAsString(): string {
+    // string date don't care the time so no matter "day-start" or "day-end" works
+    return format(today("day-start"));
 }
 
 function daysBefore(date: Date, days: number, type: DayStartOrEnd): Date {
