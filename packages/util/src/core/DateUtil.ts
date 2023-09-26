@@ -5,13 +5,27 @@ function daysBeforeToday(days: number, type: DayStartOrEnd): Date {
     return dateRelativeTo(new Date(), -days, type);
 }
 
+function daysBeforeTodayAsString(days: number, type: DayStartOrEnd): string {
+    if (days < 0) throw new Error("[util] DateUtil.daysBeforeTodayAsString: days must be >=0");
+    return format(daysBeforeToday(days, type));
+}
+
 function daysAfterToday(days: number, type: DayStartOrEnd): Date {
     if (days < 0) throw new Error("[util] DateUtil.daysAfterToday: days must be >=0");
     return dateRelativeTo(new Date(), days, type);
 }
 
+function daysAfterTodayAsString(days: number, type: DayStartOrEnd): string {
+    if (days < 0) throw new Error("[util] DateUtil.daysAfterTodayAsString: days must be >=0");
+    return format(daysAfterToday(days, type));
+}
+
 function today(type: DayStartOrEnd): Date {
     return dateRelativeTo(new Date(), 0, type);
+}
+
+function todayAsString(type: DayStartOrEnd): string {
+    return format(today(type));
 }
 
 function daysBefore(date: Date, days: number, type: DayStartOrEnd): Date {
@@ -103,6 +117,9 @@ export const DateUtil = Object.freeze({
     daysBeforeToday,
     today,
     daysAfterToday,
+    todayAsString,
+    daysBeforeTodayAsString,
+    daysAfterTodayAsString,
     daysBefore,
     format,
     isSameMinute,
