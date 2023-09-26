@@ -141,24 +141,6 @@ describe("DateUtil.format", () => {
     });
 });
 
-describe("DateUtil.isSameMinute", () => {
-    test("returns true if in same minute", () => {
-        const time1 = new Date("2020-01-13 13:50:00");
-        const time2 = new Date("2020-01-13 13:50:59"); // same minute
-        const time3 = new Date("2020-01-13 13:51:00"); // different minute
-        const time4 = new Date("2020-01-13 14:50:00"); // different hour, same minute
-        const time5 = new Date("2020-01-14 13:50:00"); // different date, same minute
-        const time6 = new Date("2020-02-13 13:50:00"); // different month, same minute
-        const time7 = new Date("2021-01-13 13:50:00"); // different year, same minute
-        expect(DateUtil.isSameMinute(time1, time2)).toBeTruthy();
-        expect(DateUtil.isSameMinute(time1, time3)).toBeFalsy();
-        expect(DateUtil.isSameMinute(time1, time4)).toBeFalsy();
-        expect(DateUtil.isSameMinute(time1, time5)).toBeFalsy();
-        expect(DateUtil.isSameMinute(time1, time6)).toBeFalsy();
-        expect(DateUtil.isSameMinute(time1, time7)).toBeFalsy();
-    });
-});
-
 describe("DateUtil.dayDiff", () => {
     test("throw error if invalid string", () => {
         expect(() => DateUtil.dayDiff("-", "2020-01-01")).toThrow();

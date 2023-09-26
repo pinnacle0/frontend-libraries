@@ -83,10 +83,6 @@ function format(date: Date | null, type: "default" | "with-time" | "no-year" | "
     return "-";
 }
 
-function isSameMinute(time1: Date, time2: Date): boolean {
-    return Math.floor(time1.getTime() / 60000) === Math.floor(time2.getTime() / 60000);
-}
-
 function dateRelativeTo(date: Date, diffDays: number, type: DayStartOrEnd): Date {
     return type === "day-end"
         ? new Date(date.getFullYear(), date.getMonth(), date.getDate() + diffDays, 23, 59, 59, 999)
@@ -125,7 +121,6 @@ export const DateUtil = Object.freeze({
     daysAfterTodayAsString,
     daysBefore,
     format,
-    isSameMinute,
     parse,
     dayDiff,
 });
