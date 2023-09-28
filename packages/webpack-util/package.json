@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.5.6",
+    "version": "0.5.7",
     "license": "MIT",
     "main": "src/index.js",
     "scripts": {
@@ -38,14 +38,14 @@
     },
     "peerDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "typescript": "*",
-        "semver": ">=7.5.2"
+        "typescript": "*"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/fs-extra": "11.0.1",
         "@types/html-webpack-plugin": "3.2.6",
-        "@types/yargs": "17.0.24"
+        "@types/yargs": "17.0.24",
+        "semver": ">=7.5.2"
     },
     "engines": {
         "node": ">= 16.15.0"
