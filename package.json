@@ -28,7 +28,7 @@
         "jest": "29.6.4",
         "jest-environment-jsdom": "29.6.4",
         "pnpm-single-version": "1.4.4",
-        "postcss": "8.4.29",
+        "postcss": "8.4.31",
         "postcss-less": "6.0.0",
         "prettier": "3.0.3",
         "stylelint": "15.10.3",
