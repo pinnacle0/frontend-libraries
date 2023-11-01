@@ -37,6 +37,3 @@
 **/*.jsx
 **/*.ts
 **/*.tsx
-
-# Awesome Readme Image
-/packages/awesome-readme-image/**

@@ -21,7 +21,6 @@
 # pnpm
 pnpm-lock.yaml
 
-
 # Coverage Reports
 **/coverage/**
 
@@ -38,10 +37,6 @@ pnpm-lock.yaml
 
 # Codegen templates
 **/template/*
-
-# Awesome Readme Image
-/packages/awesome-readme-image/**/*.less
-/packages/awesome-readme-image/.babelrc
 
 # Tool script dir
 .psv
