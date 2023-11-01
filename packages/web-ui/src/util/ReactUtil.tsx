@@ -1,6 +1,6 @@
 import React from "react";
 
-function joinNodes(nodes: React.ReactElement[], separator: React.ReactElement | string, innerJoin: boolean = true): React.ReactElement {
+function joinNodes(nodes: React.ReactNode[], separator: React.ReactElement | string, outerJoin: boolean = false): React.ReactElement {
     // Do not use nodes.reduce, because it fails to handle key(prop) perfectly.
     const joinedNodes: React.ReactElement[] = nodes.map((_, index) => (
         <React.Fragment key={index}>
@@ -8,7 +8,7 @@ function joinNodes(nodes: React.ReactElement[], separator: React.ReactElement | 
             {index < nodes.length - 1 && separator}
         </React.Fragment>
     ));
-    if (!innerJoin) {
+    if (outerJoin) {
         joinedNodes.unshift(<React.Fragment key="__first__">{separator}</React.Fragment>);
         joinedNodes.push(<React.Fragment key="__last__">{separator}</React.Fragment>);
     }
@@ -19,7 +19,7 @@ function joinNodes(nodes: React.ReactElement[], separator: React.ReactElement | 
  * For React Native UI, parameters must be Text-based node
  * Currently, only support placeholders {1} {2} in sequence
  *
- * E.g: interpolateTextNode("Dice {1} Prize {2}", <Dice value={6}/>, <Amount value={3.5}/>)
+ * E.g: interpolateNode("Dice {1} Prize {2}", <Dice value={6}/>, <Amount value={3.5}/>)
  */
 function interpolateNode(text: string, ...parameters: React.ReactElement[]): React.ReactElement {
     const nodes: Array<React.ReactElement | string> = [];

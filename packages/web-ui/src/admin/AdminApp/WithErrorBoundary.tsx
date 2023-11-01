@@ -20,7 +20,7 @@ export class WithErrorBoundary extends React.PureComponent<Props, State> {
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         this.setState({error});
-        this.props.onLifecycleError?.(error, errorInfo.componentStack);
+        this.props.onLifecycleError?.(error, errorInfo.componentStack || "<unknown>");
     }
 
     render() {

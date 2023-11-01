@@ -54,7 +54,7 @@ export class TablePopover<RowType extends object> extends React.PureComponent<Pr
             ? undefined
             : {
                   selectedRowKeys,
-                  onChange: this.onChange as (_: Array<string | number>) => void,
+                  onChange: this.onChange as (_: React.Key[]) => void,
               };
         const table = <Table rowSelection={rowSelection} size="small" dataSource={dataSource} columns={columns} rowKey={rowKey} scrollY={scrollY} scrollX="none" />;
         return <div className="g-multiple-selector-table-popover">{children ? children(table) : table}</div>;
