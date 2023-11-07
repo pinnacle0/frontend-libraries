@@ -32,7 +32,7 @@ export class Transition {
             case "both":
             case "exiting":
                 return {
-                    frames: [{transform: "translate3d(100%,0px,0px)"}],
+                    frames: [{transform: "none"}, {transform: "translate3d(100%,0px,0px)"}],
                     options: {duration: this.duration, easing: "cubic-bezier(.05,.74,.3,1.01)", fill: "forwards"},
                 };
             case "entering":

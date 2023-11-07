@@ -72,7 +72,7 @@ export const AnimatePresence = ({children}: Props) => {
     return <React.Fragment>{childrenToRender}</React.Fragment>;
 };
 
-function getKey(element: React.ReactElement): string {
+function getKey(element: React.ReactElement): React.Key {
     invariant(element.key !== null, "Child of AnimatePresence has neither defined or assigned key");
     return element.key;
 }
