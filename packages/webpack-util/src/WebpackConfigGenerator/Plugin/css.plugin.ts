@@ -46,31 +46,5 @@ export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions)
  */
 const lightningcssMinifyWithPrettifyError: BasicMinimizerImplementation<{targets: Targets}> = (...args) => {
     const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
-    return CssMinimizerWebpackPlugin.lightningCssMinify(...args).catch((e: unknown) => {
-        if (e instanceof Error) {
-            const chalk = require("chalk");
-
-            let message = e.message;
-
-            if ("source" in e && "loc" in e) {
-                const source = e.source as string;
-                const loc = e.loc as {line: number; column: number};
-                message += ` loc:[${loc.line}:${loc.column}]\n`;
-                const lines = source
-                    .split("\n")
-                    .slice(Math.max(0, loc.line - 3), loc.line + 3)
-                    .map((_, i) => `${chalk.greenBright(loc.line - 2 + i)}  \t${_}`);
-                lines[2] = chalk.redBright.underline(lines[2]);
-                message += lines.join("\n");
-            }
-
-            const prettierError = new Error();
-            prettierError.name = e.name;
-            prettierError.cause = e.cause;
-            prettierError.message = message;
-            throw prettierError;
-        } else {
-            throw e;
-        }
-    });
+    return CssMinimizerWebpackPlugin.lightningCssMinify(...args);
 };

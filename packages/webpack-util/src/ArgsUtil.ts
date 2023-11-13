@@ -1,22 +1,24 @@
 import yargs from "yargs";
 
+const args = yargs.parseSync();
+
 function currentEnv(): string | null {
-    return (yargs.parseSync().env as string) || null;
+    return (args.env as string) || null;
 }
 
 function profilingEnabled(): boolean {
-    return Boolean(yargs.parseSync().profile);
+    return Boolean(args.profile);
 }
 
 function isFastMode(): boolean {
-    return yargs.parseSync().mode === "fast";
+    return args.mode === "fast";
 }
 
 function verbose(): boolean {
-    return Boolean(yargs.parseSync().verbose);
+    return Boolean(args.verbose);
 }
 
-export const CoreUtil = Object.freeze({
+export const ArgsUtil = Object.freeze({
     currentEnv,
     profilingEnabled,
     isFastMode,

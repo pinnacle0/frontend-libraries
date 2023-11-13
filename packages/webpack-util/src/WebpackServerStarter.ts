@@ -1,19 +1,26 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
+import type WebpackDevServer from "webpack-dev-server";
 import DevServer from "webpack-dev-server";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {SocksProxyAgent} from "socks-proxy-agent";
 import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil";
 import type {Agent} from "https";
-import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
-import type WebpackDevServer from "webpack-dev-server";
 
 export interface WebpackServerStarterOptions
     extends Pick<
         WebpackConfigGeneratorOptions,
-        // prettier-reserve
-        "projectDirectory" | "dynamicPathResolvers" | "extraEntries" | "prioritizedExtensionPrefixes" | "defineVars" | "extraExtensionsForOtherRule" | "tsconfigFilePath" | "tsconfigFilename"
+        | "projectDirectory"
+        | "dynamicPathResolvers"
+        | "extraEntries"
+        | "prioritizedExtensionPrefixes"
+        | "defineVars"
+        | "extraExtensionsForOtherRule"
+        | "tsconfigFilePath"
+        | "tsconfigFilename"
+        | "customizedLoaders"
     > {
     port: number;
     apiProxy?: {
@@ -56,6 +63,7 @@ export class WebpackServerStarter {
         extraExtensionsForOtherRule,
         tsconfigFilePath,
         tsconfigFilename,
+        customizedLoaders,
     }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -76,6 +84,7 @@ export class WebpackServerStarter {
                 devServer.app && interceptExpressApp(devServer.app);
                 return middlewares;
             });
+
         this.webpackConfig = new WebpackConfigGenerator({
             projectDirectory,
             dynamicPathResolvers,
@@ -85,6 +94,7 @@ export class WebpackServerStarter {
             extraExtensionsForOtherRule,
             tsconfigFilePath,
             tsconfigFilename,
+            customizedLoaders,
         }).development();
     }
 

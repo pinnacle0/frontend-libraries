@@ -3,7 +3,7 @@ import type webpack from "webpack";
 export interface WebpackConfigGeneratorOptions {
     /**
      * Directory of containing the application code.
-     * Should contains `package.json`, `tsconfig.json`, `src/`, `index.html` and a main entry.
+     * Should contain `package.json`, `tsconfig.json`, `src/`, `index.html` and a main entry.
      */
     projectDirectory: string;
     /**
@@ -104,6 +104,7 @@ export interface WebpackConfigGeneratorOptions {
     defineVars?: {[key: string]: string} | undefined;
     onSuccess?: () => void;
     extraExtensionsForOtherRule?: string[] | undefined;
+    customizedLoaders?: GeneratorLoader<any>[] | undefined;
 }
 
 export interface EntryDescriptor {
@@ -125,6 +126,12 @@ export interface EntryDescriptor {
      * Content hash should not be included in the output filename if the EntryDescriptor does not have htmlPath specified.
      */
     htmlPath?: string;
+}
+
+export interface GeneratorLoader<Option = {}> {
+    pattern: RegExp;
+    loaderPath: string;
+    options?: Option;
 }
 
 /**

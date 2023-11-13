@@ -2,17 +2,15 @@ import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs-extra";
 import path from "path";
 import webpack from "webpack";
-import {CoreUtil} from "./CoreUtil";
+import {ArgsUtil} from "./ArgsUtil";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {TestRunner} from "./TestRunner";
 import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
-import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 
-export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {
-    onSuccess?: () => void;
-}
+export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {}
 
 /**
  * Build the website by webpack.
@@ -43,20 +41,17 @@ export class WebpackBuilder {
     private readonly logger = Utility.createConsoleLogger("WebpackBuilder");
 
     constructor(options: WebpackBuilderOptions) {
-        const webpackConfigGenerator = new WebpackConfigGenerator(options);
-
         this.projectDirectory = options.projectDirectory;
         this.extraCheckDirectories = options.extraCheckDirectories ?? [];
         this.projectStaticDirectory = path.join(this.projectDirectory, "static");
         this.projectProfilingJSONOutputPath = path.join(this.projectDirectory, "profile.json");
         this.outputDirectory = path.join(this.projectDirectory, "build/dist");
         this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
-
-        this.isFastMode = CoreUtil.isFastMode();
-        this.enableProfiling = CoreUtil.profilingEnabled();
+        this.isFastMode = ArgsUtil.isFastMode();
+        this.enableProfiling = ArgsUtil.profilingEnabled();
         this.onSuccess = options.onSuccess;
 
-        this.webpackConfig = webpackConfigGenerator.production(this.outputDirectory);
+        this.webpackConfig = new WebpackConfigGenerator(options).production(this.outputDirectory);
     }
 
     run() {

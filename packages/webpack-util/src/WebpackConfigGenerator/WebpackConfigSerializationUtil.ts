@@ -12,6 +12,7 @@ type WebpackPluginConstructor<T> = new (options: T) => {apply(..._: any[]): void
 export class WebpackConfigSerializationUtil {
     static serializablePlugin(name: string, PluginConstructor: WebpackPluginConstructor<never>): webpack.WebpackPluginInstance;
     static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType>, options: OptType): webpack.WebpackPluginInstance;
+
     static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType | undefined>, options?: OptType): webpack.WebpackPluginInstance {
         const plugin = new PluginConstructor(options);
         return Object.defineProperty(plugin, "toWebpackConfigSerializableType", {

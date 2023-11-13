@@ -2,8 +2,8 @@ import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import type webpack from "webpack";
 import {Constant} from "../Constant";
-import {CoreUtil} from "../CoreUtil";
-import type {EntryDescriptor, WebpackConfigGeneratorOptions} from "../type";
+import {ArgsUtil} from "../ArgsUtil";
+import type {EntryDescriptor, GeneratorLoader, WebpackConfigGeneratorOptions} from "../type";
 import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
 import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory";
 import {WebpackConfigSerializationUtil} from "./WebpackConfigSerializationUtil";
@@ -30,6 +30,7 @@ export class WebpackConfigGenerator {
     private readonly verbose: boolean;
     private readonly defineVars: {[key: string]: string};
     private readonly extraExtensionsForOtherRule: string[];
+    private readonly customizedLoaders: GeneratorLoader<any>[];
 
     private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
@@ -41,19 +42,19 @@ export class WebpackConfigGenerator {
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
-    constructor(readonly options: WebpackConfigGeneratorOptions) {
-        this.env = CoreUtil.currentEnv();
+    constructor(options: WebpackConfigGeneratorOptions) {
+        this.env = ArgsUtil.currentEnv();
         this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
-
-        this.enableProfiling = CoreUtil.profilingEnabled();
-        this.isFastMode = CoreUtil.isFastMode();
+        this.enableProfiling = ArgsUtil.profilingEnabled();
+        this.isFastMode = ArgsUtil.isFastMode();
         this.maxEntryPointKiloByte = options.maxEntryPointKiloByte ?? Constant.maxEntryPointKiloByte;
         this.maxAssetKiloByte = options.maxAssetKiloByte ?? Constant.maxAssetKiloByte;
         this.verbose = options.verbose || false;
         this.defineVars = options.defineVars || {};
         this.extraExtensionsForOtherRule = options.extraExtensionsForOtherRule || [];
+        this.customizedLoaders = options.customizedLoaders || [];
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -119,19 +120,20 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
+                    // prettier
                     Rule.ts({fastRefresh: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    // prettier-format-preserve
+                    ...Rule.customized({loaders: this.customizedLoaders}),
                 ],
             },
             plugins: [
+                // prettier
                 ...this.htmlWebpackPluginInstances,
                 Plugin.reactRefresh(),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
-                // prettier-format-preserve
             ],
             cache:
                 this.env === null
@@ -141,7 +143,7 @@ export class WebpackConfigGenerator {
                       }
                     : false,
         };
-        if (this.verbose || CoreUtil.verbose()) {
+        if (this.verbose || ArgsUtil.verbose()) {
             this.logger.info("Full webpack config:");
             WebpackConfigSerializationUtil.configToString(config).then(console.info);
         }
@@ -172,9 +174,9 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
                 minimizer: [
+                    // prettier
                     Plugin.minimizer.terser({sourceMap: true}),
                     Plugin.minimizer.css(),
-                    // prettier-format-preserve
                 ],
             },
             performance: {
@@ -184,11 +186,12 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    // prettier-format-preserve
+                    // prettier
                     Rule.ts(),
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
+                    ...Rule.customized({loaders: this.customizedLoaders}),
                 ],
             },
             plugins: [
@@ -198,10 +201,10 @@ export class WebpackConfigGenerator {
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 ...(this.enableProfiling ? [Plugin.webpack.progress({enableProfiling: true})] : []), // disable to not bloat up CI logs
                 Plugin.webpack.define(this.defineVars),
-                // prettier-format-preserve
+                // prettier
             ],
         };
-        if (this.verbose || CoreUtil.verbose()) {
+        if (this.verbose || ArgsUtil.verbose()) {
             this.logger.info("Full webpack config:");
             WebpackConfigSerializationUtil.configToString(config).then(console.info);
         }
