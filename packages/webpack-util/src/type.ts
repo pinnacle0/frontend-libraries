@@ -104,7 +104,8 @@ export interface WebpackConfigGeneratorOptions {
     defineVars?: {[key: string]: string} | undefined;
     onSuccess?: () => void;
     extraExtensionsForOtherRule?: string[] | undefined;
-    customizedLoaders?: GeneratorLoader<any>[] | undefined;
+    customizedLoaders?: GeneratorLoader[] | undefined;
+    customizedPlugins?: GeneratorPlugin[] | undefined;
 }
 
 export interface EntryDescriptor {
@@ -128,11 +129,9 @@ export interface EntryDescriptor {
     htmlPath?: string;
 }
 
-export interface GeneratorLoader<Option = {}> {
-    pattern: RegExp;
-    loaderPath: string;
-    options?: Option;
-}
+export type GeneratorLoader = webpack.RuleSetRule;
+
+export type GeneratorPlugin = ((this: webpack.Compiler, compiler: webpack.Compiler) => void) | webpack.WebpackPluginInstance;
 
 /**
  * Same as EntryDescriptor, but guaranteed to have an htmlPath.

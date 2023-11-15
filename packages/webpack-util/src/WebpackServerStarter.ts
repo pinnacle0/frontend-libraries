@@ -21,6 +21,7 @@ export interface WebpackServerStarterOptions
         | "tsconfigFilePath"
         | "tsconfigFilename"
         | "customizedLoaders"
+        | "customizedPlugins"
     > {
     port: number;
     apiProxy?: {
@@ -64,6 +65,7 @@ export class WebpackServerStarter {
         tsconfigFilePath,
         tsconfigFilename,
         customizedLoaders,
+        customizedPlugins,
     }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -95,6 +97,7 @@ export class WebpackServerStarter {
             tsconfigFilePath,
             tsconfigFilename,
             customizedLoaders,
+            customizedPlugins,
         }).development();
     }
 

@@ -3,7 +3,7 @@ import path from "path";
 import type webpack from "webpack";
 import {Constant} from "../Constant";
 import {ArgsUtil} from "../ArgsUtil";
-import type {EntryDescriptor, GeneratorLoader, WebpackConfigGeneratorOptions} from "../type";
+import type {EntryDescriptor, GeneratorLoader, GeneratorPlugin, WebpackConfigGeneratorOptions} from "../type";
 import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
 import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory";
 import {WebpackConfigSerializationUtil} from "./WebpackConfigSerializationUtil";
@@ -30,7 +30,8 @@ export class WebpackConfigGenerator {
     private readonly verbose: boolean;
     private readonly defineVars: {[key: string]: string};
     private readonly extraExtensionsForOtherRule: string[];
-    private readonly customizedLoaders: GeneratorLoader<any>[];
+    private readonly customizedLoaders: GeneratorLoader[];
+    private readonly customizedPlugins: GeneratorPlugin[];
 
     private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<webpack.Configuration["entry"]>;
@@ -55,6 +56,7 @@ export class WebpackConfigGenerator {
         this.defineVars = options.defineVars || {};
         this.extraExtensionsForOtherRule = options.extraExtensionsForOtherRule || [];
         this.customizedLoaders = options.customizedLoaders || [];
+        this.customizedPlugins = options.customizedPlugins || [];
 
         this.configEntryDescriptors = ConfigEntryDescriptorsFactory.generate({
             indexName: options.indexName || "index",
@@ -125,7 +127,7 @@ export class WebpackConfigGenerator {
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    ...Rule.customized({loaders: this.customizedLoaders}),
+                    ...this.customizedLoaders,
                 ],
             },
             plugins: [
@@ -134,6 +136,7 @@ export class WebpackConfigGenerator {
                 Plugin.reactRefresh(),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
+                ...this.customizedPlugins,
             ],
             cache:
                 this.env === null
@@ -191,17 +194,18 @@ export class WebpackConfigGenerator {
                     Rule.stylesheet({minimize: true}),
                     Rule.image(),
                     Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    ...Rule.customized({loaders: this.customizedLoaders}),
+                    ...this.customizedLoaders,
                 ],
             },
             plugins: [
+                // prettier
                 ...this.htmlWebpackPluginInstances,
                 Plugin.scriptTagCrossOriginPlugin(),
                 Plugin.typeChecker({tsconfigFilePath: this.tsconfigFilePath}),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 ...(this.enableProfiling ? [Plugin.webpack.progress({enableProfiling: true})] : []), // disable to not bloat up CI logs
                 Plugin.webpack.define(this.defineVars),
-                // prettier
+                ...this.customizedPlugins,
             ],
         };
         if (this.verbose || ArgsUtil.verbose()) {
