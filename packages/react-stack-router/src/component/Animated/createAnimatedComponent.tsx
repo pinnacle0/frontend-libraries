@@ -49,6 +49,12 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
                 return;
             }
 
+            // when mobile device not support el.animate
+            if (typeof element.animate !== "function") {
+                onEntered?.();
+                return;
+            }
+
             const animation = element.animate(keyframe.frames, keyframe.options);
             animation.onfinish = () => {
                 onEntered?.();
@@ -68,6 +74,12 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
 
             onExiting?.();
             if (!keyframe) {
+                exited();
+                return;
+            }
+
+            // when mobile device not support el.animate
+            if (typeof element.animate !== "function") {
                 exited();
                 return;
             }
