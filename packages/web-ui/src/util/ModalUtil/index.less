@@ -7,38 +7,42 @@
         }
 
         .ant-modal-body {
-            .ant-modal-confirm-title {
-                background: @lib-background-gray;
-                padding: 12px 20px;
-                border-radius: 8px 8px 0 0;
-                color: inherit;
+            .ant-modal-confirm-paragraph {
+                max-width: 100%;
 
-                > span {
-                    font-size: 20px;
-                }
+                .ant-modal-confirm-title {
+                    background: @lib-background-gray;
+                    padding: 12px 20px;
+                    border-radius: 8px 8px 0 0;
+                    color: inherit;
 
-                > .anticon-close {
-                    color: #666;
-                    position: absolute;
-                    top: 17px;
-                    right: 17px;
+                    > span {
+                        font-size: 20px;
+                    }
 
-                    &:hover {
-                        color: #000;
+                    > .anticon-close {
+                        color: #666;
+                        position: absolute;
+                        top: 17px;
+                        right: 17px;
+
+                        &:hover {
+                            color: #000;
+                        }
                     }
                 }
-            }
 
-            .ant-modal-confirm-content {
-                margin: 0 !important;
-                padding: 18px 20px;
-                color: inherit;
+                .ant-modal-confirm-content {
+                    margin: 0 !important;
+                    padding: 18px 20px;
+                    color: inherit;
 
-                > .footer {
-                    position: absolute;
-                    bottom: 0;
-                    left: 50%;
-                    transform: translateX(-50%);
+                    > .footer {
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
                 }
             }
 
