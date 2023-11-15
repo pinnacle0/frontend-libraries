@@ -11,7 +11,7 @@ export class RangeSlider extends React.PureComponent<RangeProps> {
     static displayName = "RangeSlider";
 
     render() {
-        const {draggable, ...rest} = this.props;
-        return <AntSlider range={{draggableTrack: draggable}} {...rest} />;
+        const {draggable, onChange, ...rest} = this.props;
+        return <AntSlider range={{draggableTrack: draggable}} onChange={(x: number[]) => onChange(x as [number, number])} {...rest} />;
     }
 }
