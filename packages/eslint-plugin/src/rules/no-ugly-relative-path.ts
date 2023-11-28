@@ -39,8 +39,8 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                         fix: [".", "..", "../.."].includes(importSource)
                             ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}/index"`)
                             : ["./", "../", "../../"].includes(importSource)
-                            ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}index"`)
-                            : null,
+                              ? fixer => fixer.replaceTextRange(node.source.range, `"${importSource}index"`)
+                              : null,
                     });
                 }
             },
