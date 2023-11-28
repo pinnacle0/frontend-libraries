@@ -6,7 +6,7 @@ import {AmountDemo} from "../component/core/AmountDemo";
 import {ButtonDemo} from "../component/core/ButtonDemo";
 import {CalendarDemo} from "../component/core/CalendarDemo";
 import {CarouselDemo} from "../component/core/CarouselDemo";
-import {FoldableDemo} from "../component/core/FoldableDemo";
+import {CollapseDemo} from "../component/core/CollapseDemo";
 import {FormDemo} from "../component/core/FormDemo";
 import {InputDemo} from "../component/core/InputDemo";
 import {MiscellaneousDemo} from "../component/core/MiscellaneousDemo";
@@ -108,9 +108,9 @@ export const NavigationData: NavigationGroupItem<TestFeaturePermission, TestFiel
                 componentType: StepContainerDemo,
             },
             {
-                url: "/core/foldable",
-                title: "Foldable",
-                componentType: FoldableDemo,
+                url: "/core/collapse",
+                title: "Collapse",
+                componentType: CollapseDemo,
             },
             {
                 url: "/core/tabs",

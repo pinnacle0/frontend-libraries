@@ -5,10 +5,10 @@ import type {CollapseProps, CollapsePanelProps} from "antd/es/collapse";
 /** Will be remove in future, replaced by Foldable and Accordion */
 export interface Props extends CollapseProps {}
 
+export type CollapseItemsProps = CollapseProps["items"];
+
 export class Collapse extends React.PureComponent<Props> {
     static displayName = "Collapse";
-
-    static Panel = AntdCollapse.Panel;
 
     render() {
         return <AntdCollapse {...this.props} />;
