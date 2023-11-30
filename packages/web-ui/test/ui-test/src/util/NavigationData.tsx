@@ -30,6 +30,7 @@ import {SeparateTabDetailDemo} from "../component/admin/SeparateTabDetailDemo";
 import {ResizableDemo} from "../component/core/ResizableDemo";
 import {AnimationDemo} from "../component/core/AnimationDemo";
 import type {NavigationGroupItem} from "@pinnacle0/web-ui/util/AdminNavigationUtil";
+import {PagedListDemo} from "../component/core/PagedListDemo";
 
 export enum TestFeaturePermission {
     ROOT_PERMISSION = "ROOT_PERMISSION",
@@ -166,6 +167,11 @@ export const NavigationData: NavigationGroupItem<TestFeaturePermission, TestFiel
                 url: "/core/animation",
                 title: "Animation",
                 componentType: AnimationDemo,
+            },
+            {
+                url: "/core/paged-list",
+                title: "PagedList",
+                componentType: PagedListDemo,
             },
         ],
     },

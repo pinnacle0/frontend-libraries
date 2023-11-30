@@ -22,6 +22,8 @@ export const PagedList = ReactUtil.memo("PagedList", <T extends object>({dataSou
     const upperLimit = dataSource.length - pageSize;
     const isPreviousDisabled = currentItemIndex >= upperLimit;
     const currentPageIndex = React.useMemo(() => Math.floor(currentItemIndex / pageSize), [currentItemIndex, pageSize]);
+    const shownDataIndex = [Math.max(currentItemIndex - 1 * pageSize, 0), Math.min(currentItemIndex + 2 * pageSize, dataSource.length)];
+    const totalSize = dataSource.length * itemWidth * pageSize;
 
     const goPreviousPage = () => {
         setCurrentItemIndex(Math.max(0, Math.min(currentItemIndex + pageSize, upperLimit)));
@@ -50,12 +52,16 @@ export const PagedList = ReactUtil.memo("PagedList", <T extends object>({dataSou
     return (
         <div className="g-paged-list">
             <div className="list-wrap" style={{width: itemWidth * pageSize}}>
-                <div className="list" style={{transform: `translateX(${currentItemIndex * itemWidth}px)`}}>
-                    {dataSource.map((_, index) => (
-                        <div style={{flex: `0 0 ${itemWidth}px`}} key={getRowKey(_, index)}>
-                            <Component index={index} item={_} />
-                        </div>
-                    ))}
+                <div className="list" style={{width: totalSize, transform: `translateX(${-(totalSize - (currentItemIndex + pageSize) * itemWidth)}px)`}}>
+                    {dataSource.map((item, index) => {
+                        if (index < shownDataIndex[0]) return null;
+                        if (index > shownDataIndex[1]) return null;
+                        return (
+                            <div style={{position: "absolute", width: itemWidth, transform: `translateX(-${index * itemWidth}px)`}} key={getRowKey(item, index)}>
+                                <Component index={index} item={item} />
+                            </div>
+                        );
+                    })}
                 </div>
                 {dataSource.length === 0 && <div className="no-data">{t.noData}</div>}
             </div>
