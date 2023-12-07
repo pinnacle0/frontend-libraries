@@ -106,7 +106,6 @@ export class StackRouter {
     async push(to: To, option?: PushOption): Promise<void> {
         if (this.state !== "Initialized") {
             this.actionsBeforeInitialized.push(() => this.push(to, option));
-            console.info({actionsBeforeInitialized: this.actionsBeforeInitialized, to, option});
             return;
         }
 
