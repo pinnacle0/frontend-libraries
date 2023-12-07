@@ -33,8 +33,11 @@ export type StackRouterOptions = {
     transitionDuration: number;
 };
 
+type InitializeState = "Initialized" | "Initializing" | "Uninitialized";
+
 export class StackRouter {
-    private initialized = false;
+    private actionsBeforeInitialized: (() => void)[] = [];
+    private state: InitializeState = "Uninitialized";
     private screens: Screen[] = [];
     private stackHistory: StackHistory<InternalLocationState<any>>;
     private subscribers = new Set<Subscriber>();
@@ -52,8 +55,8 @@ export class StackRouter {
     }
 
     async initialize() {
-        if (this.initialized) return;
-        this.initialized = true;
+        if (this.state !== "Uninitialized") return;
+        this.state = "Initializing";
 
         const {pathname, hash, search} = window.location;
         const defaultState = this.stackHistory.location.state;
@@ -73,13 +76,16 @@ export class StackRouter {
             segments.pop();
         }
 
-        return Promise.all(
+        this.state = "Initialized";
+        await Promise.all(
             stack.map((to, index) => {
                 // need to re-write the key of last state
                 const state = index === stack.length - 1 ? {...defaultState, $key: createKey()} : {};
                 return index === 0 ? this.replace(to, {state}) : this.push(to, {transitionType: "exiting", state});
             })
         );
+        this.actionsBeforeInitialized.forEach(action => action());
+        this.actionsBeforeInitialized = [];
     }
 
     updateRoute(route: Route<StackRoutePayload>) {
@@ -98,6 +104,12 @@ export class StackRouter {
     }
 
     async push(to: To, option?: PushOption): Promise<void> {
+        if (this.state !== "Initialized") {
+            this.actionsBeforeInitialized.push(() => this.push(to, option));
+            console.info({actionsBeforeInitialized: this.actionsBeforeInitialized, to, option});
+            return;
+        }
+
         if (!this.matchRoute(to)) return;
 
         this.pushOption.value = option ?? null;
@@ -127,6 +139,10 @@ export class StackRouter {
     }
 
     replace(to: To, option?: ReplaceOption): void {
+        if (this.state !== "Initialized") {
+            this.actionsBeforeInitialized.push(() => this.replace(to, option));
+            return;
+        }
         if (!this.matchRoute(to)) return;
         this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? createKey(), ...(option?.state ?? {})});
     }
@@ -170,10 +186,8 @@ export class StackRouter {
         return matched;
     }
 
-    private createScreen(location: Location, transitionOption: Required<TransitionOption>): Screen | null {
+    private createScreen(location: Location, transitionOption: Required<TransitionOption>): Screen {
         const matched = this.matchRoute(location.pathname);
-        if (!matched) return null;
-
         return new Screen({
             content: matched.payload.component,
             location,
@@ -191,11 +205,6 @@ export class StackRouter {
         const resolve = this.resolve.value;
 
         const screen = this.createScreen(location, {type: option?.transitionType ?? transition, duration: option?.transitionDuration ?? this.transitionDuration});
-        if (!screen) {
-            resolve?.();
-            return;
-        }
-
         resolve && screen.lifecycle.attachOnce("didEnter", resolve);
         this.screens.push(screen);
         this.notify();
@@ -223,10 +232,6 @@ export class StackRouter {
         this.screens.pop();
 
         const screen = this.createScreen(location, {type: "exiting", duration: this.transitionDuration});
-        if (!screen) {
-            return;
-        }
-
         this.screens.push(screen);
         this.notify();
     }
