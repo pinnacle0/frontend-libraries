@@ -9,7 +9,8 @@
         "jsx": "react-jsx",
         "rootDir": "./src",
         "outDir": "./dist",
-        "types": []
+        "types": [],
+        "composite": true
     },
     "include": ["./src"]
 }

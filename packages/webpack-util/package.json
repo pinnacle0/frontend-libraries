@@ -44,7 +44,7 @@
         "@pinnacle0/devtool-util": "workspace:*",
         "@types/fs-extra": "11.0.4",
         "@types/html-webpack-plugin": "3.2.9",
-        "@types/yargs": "17.0.31"
+        "@types/yargs": "17.0.32"
     },
     "pnpm": {
         "overrides": {
