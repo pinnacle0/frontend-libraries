@@ -29,7 +29,7 @@ export interface TableColumn<RowType extends object, OrderByFieldType = undefine
     fixed?: "left" | "right";
     sortField?: OrderByFieldType | true; // True is used for only 1 columns sorting
     onHeaderClick?: () => void;
-    display?: "default" | "hidden";
+    hidden?: boolean;
     customizedKey?: string;
     onCell?: (data: RowType, index?: number) => React.HTMLAttributes<any> | React.TdHTMLAttributes<any>;
 }
@@ -107,11 +107,13 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
 
     transformColumns = (column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
         const {renderData, onHeaderClick, ...restColumnProps} = column;
+        const customizedKey = column.customizedKey;
         return {
             // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
             onHeaderCell: onHeaderClick ? () => ({onClick: onHeaderClick}) : undefined,
             render: (_: any, record: RowType, index: number) => renderData(record, index),
+            hidden: column.hidden || (customizedKey ? this.state.customizationConfig[customizedKey] === false : false),
             ...restColumnProps,
         };
     };
@@ -148,7 +150,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         const {columns} = this.props;
         const {customizationConfig} = this.state;
         return columns
-            .filter(_ => _.customizedKey && _.display !== "hidden")
+            .filter(_ => _.customizedKey && !_.hidden)
             .map((_, index) => (
                 <div key={index}>
                     <Checkbox value={customizationConfig[_.customizedKey!] !== false} onChange={checked => this.onCustomizationConfigChange(checked, _.customizedKey!)}>
@@ -188,11 +190,10 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             </div>
         );
 
-        const filteredColumns = columns.filter(_ => _.display !== "hidden" && (!_.customizedKey || this.state.customizationConfig[_.customizedKey] !== false));
         let tableColumns: Array<AntColumnsProps<RowType>>;
         if (sortConfig) {
             const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
-            tableColumns = filteredColumns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
+            tableColumns = columns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
                 if (column.sortField) {
                     const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
                     return {
@@ -205,7 +206,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                 }
             });
         } else {
-            tableColumns = filteredColumns.map(this.transformColumns);
+            tableColumns = columns.map(this.transformColumns);
         }
 
         return (
