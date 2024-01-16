@@ -56,7 +56,8 @@
         "overrides": {
             "semver": ">=7.5.2",
             "@babel/traverse": ">=7.23.2",
-            "@ant-design/colors": "7.0.0"
+            "@ant-design/colors": "7.0.0",
+            "follow-redirects": ">=1.15.4"
         }
     }
 }
