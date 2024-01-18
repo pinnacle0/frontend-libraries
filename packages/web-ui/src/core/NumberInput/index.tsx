@@ -192,7 +192,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     allowClear={allowClear}
                     focus={focus}
                     autoFocus={autoFocus}
-                    bordered={stepperMode === "no-border" ? false : true}
+                    variant={stepperMode === "no-border" ? "borderless" : "outlined"}
                 />
                 {stepperMode && (
                     <Button
