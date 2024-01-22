@@ -11,7 +11,7 @@ export function pushToList<T>(list: T[], newItem: T, maxSize: number, actionOnDu
         actionOnInsert === "end" ? newList.push(newItem) : newList.splice(0, 0, newItem);
         if (newList.length > maxSize) {
             const insertPositionIndex = actionOnInsert === "end" ? 0 : newList.length - 1;
-            newList.splice(insertPositionIndex, list.length - maxSize);
+            newList.splice(insertPositionIndex, newList.length - maxSize);
         }
     }
 
