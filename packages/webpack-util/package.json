@@ -46,13 +46,8 @@
         "@types/html-webpack-plugin": "3.2.9",
         "@types/yargs": "17.0.32"
     },
-    "pnpm": {
-        "overrides": {
-            "less>make-dir>semver": ">=7.5.2"
-        }
-    },
     "engines": {
-        "node": ">= 16.15.0"
+        "node": ">=18"
     },
     "jest": {
         "preset": "ts-jest"

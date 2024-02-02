@@ -43,7 +43,7 @@
         "eslint-plugin-testing-library": "^6.2.0"
     },
     "engines": {
-        "node": ">= 16.15.0"
+        "node": ">=18"
     },
     "publishConfig": {
         "directory": "build"

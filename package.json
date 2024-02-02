@@ -8,7 +8,7 @@
         "url": "https://github.com/pinnacle0/frontend-libraries"
     },
     "engines": {
-        "node": ">=16.15.0"
+        "node": ">=18"
     },
     "scripts": {
         "postinstall": "psv check"
