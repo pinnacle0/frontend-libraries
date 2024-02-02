@@ -60,13 +60,12 @@ export class StackRouter {
 
         const {pathname, hash, search} = window.location;
         const defaultState = this.stackHistory.location.state;
-        const matched = this.matchedRoute(pathname);
-        invariant(matched, `StackRouter.initialize(): None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
+        const matchedRoute = this.validateRoute(pathname);
 
         const stack: To[] = [{pathname, hash, search}];
-        const segments = ["/", ...matched.matchedSegments];
+        const segments = ["/", ...matchedRoute.matchedSegments];
 
-        let currentParent = matched.payload.parent;
+        let currentParent = matchedRoute.payload.parent;
         while (currentParent !== null && segments.length >= 0) {
             const pathname = formatPath(segments.join("/"));
             const matched = this.route.lookup(pathname);
@@ -110,8 +109,7 @@ export class StackRouter {
             return;
         }
 
-        const pathname = typeof to === "string" ? to : to.pathname;
-        invariant(this.matchedRoute(to), `StackRouter.push(): None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
+        this.validateRoute(to);
 
         this.pushOption.value = option ?? null;
         const wait = new Promise<void>(resolve => (this.resolve.value = resolve));
@@ -144,8 +142,7 @@ export class StackRouter {
             this.actionsBeforeInitialized.push(() => this.replace(to, option));
             return;
         }
-        const pathname = typeof to === "string" ? to : to.pathname;
-        invariant(this.matchedRoute(to), `StackRouter.replace(): None of the route match current pathname:${pathname}. Please make sure you have defined fallback route using "**"`);
+        this.validateRoute(to);
         this.stackHistory.replace(to, {$key: (this.stackHistory.location.state as any)?.$key ?? createKey(), ...(option?.state ?? {})});
     }
 
@@ -180,19 +177,20 @@ export class StackRouter {
         return top ?? null;
     }
 
-    private matchedRoute(to: To): Match<StackRoutePayload> | null {
+    private validateRoute(to: To): Match<StackRoutePayload> {
         const pathname = typeof to === "string" ? to : to.pathname;
         const matched = this.route.lookup(pathname ?? window.location.pathname);
+
+        invariant(matched, `None of the route match current pathname: ${pathname}. Please make sure you have defined fallback route using "**"`);
         return matched;
     }
 
     private createScreen(location: Location, transitionOption: Required<TransitionOption>): Screen {
-        const matched = this.matchedRoute(location.pathname);
-        invariant(matched, `StackRouter.createScreen(): None of the route match current pathname:${location.pathname}. Please make sure you have defined fallback route using "**"`);
+        const matchedRoute = this.validateRoute(location.pathname);
         return new Screen({
-            content: matched.payload.component,
+            content: matchedRoute.payload.component,
             location,
-            params: matched.params,
+            params: matchedRoute.params,
             searchParams: Object.fromEntries(new URLSearchParams(location.search)),
             transition: {
                 type: transitionOption.type,
