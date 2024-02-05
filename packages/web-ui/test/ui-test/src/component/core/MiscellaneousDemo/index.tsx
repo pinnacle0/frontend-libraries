@@ -72,7 +72,7 @@ const MultipleSelectorDemo = (props: {withPagination?: boolean; disabled?: "butt
                 renderPopover={table => (
                     <div>
                         {table}
-                        <Pagination onChange={setPage} totalCount={50 * pageSize} totalPage={50} pageIndex={page} />
+                        <Pagination onPageIndexChange={setPage} totalCount={50 * pageSize} totalPage={50} pageIndex={page} />
                     </div>
                 )}
             />

@@ -80,7 +80,7 @@ const VirtualTableWithRowSelection = () => {
     const rowSelection: VirtualTableRowSelection<Profile> = {
         width: 40,
         onChange: _ => setSelectedRowKeys(_),
-        isDisabled: (data, rowIndex) => rowIndex === 0,
+        isDisabled: (_, rowIndex) => rowIndex === 0,
         fixed: true,
         selectedRowKeys,
     };
@@ -125,7 +125,7 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
     const rowSelection: VirtualTableRowSelection<Profile> = {
         width: 40,
         onChange: _ => setSelectedRowKeys(_),
-        isDisabled: (data, rowIndex) => rowIndex === 0,
+        isDisabled: (_, rowIndex) => rowIndex === 0,
         fixed: true,
         selectedRowKeys,
     };
@@ -161,7 +161,7 @@ const VirtualTableInModal = () => {
         <div>
             <Button onClick={toggleModal}>Show Modal</Button>
             {showModal && (
-                <Modal width={1300} onCancel={toggleModal}>
+                <Modal width={1300} onCancel={toggleModal} title="Virtual Table">
                     <VirtualTable rowKey="index" rowHeight={50} dataSource={data.slice(0, 1)} scrollY={400} columns={getColumns()} />
                 </Modal>
             )}

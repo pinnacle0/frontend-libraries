@@ -5,28 +5,30 @@ import {TextUtil} from "../../internal/TextUtil";
 import "./index.less";
 
 export interface Props {
-    disabled?: boolean;
-    onChange: (pageIndex: number) => void;
-    totalCount: number;
+    onPageIndexChange: (pageIndex: number) => void;
+    totalCount: number; // totalCount is for display summary only, may >= totalPage * pageSize
     totalPage: number;
     pageIndex: number;
     pageSize?: number;
-    onShowSizeChange?: (pageIndex: number, pageSize: number) => void;
+    onPageSizeChange?: (pageSize: number) => void;
     small?: boolean;
     renderSummary?: ((totalCount: number, pageIndex: number, totalPage: number) => React.ReactElement) | "none";
     pageSizeOptions?: string[];
     style?: React.CSSProperties;
+    disabled?: boolean;
 }
 
 export class Pagination extends React.PureComponent<Props> {
     static displayName = "Pagination";
 
-    onChange = (pageIndex: number, pageSize?: number) => {
-        // TO prevent onChange triggered again by page-size change, in 4.5+ Antd version
-        if (this.props.onShowSizeChange === undefined || pageSize === this.props.pageSize) {
-            this.props.onChange(pageIndex);
+    // antd default onChange is triggered by either pageIndex, or pageSize change
+    onChange = (pageIndex: number, pageSize: number) => {
+        if (this.props.onPageSizeChange === undefined || pageSize === this.props.pageSize) {
+            this.props.onPageIndexChange(pageIndex);
         }
     };
+
+    onShowSizeChange = (_: number, pageSize: number) => this.props.onPageSizeChange?.(pageSize);
 
     renderSummary = (totalCount: number, pageIndex: number, totalPage: number) => {
         const t = i18n();
@@ -34,20 +36,22 @@ export class Pagination extends React.PureComponent<Props> {
     };
 
     render() {
-        const {disabled, onShowSizeChange, totalPage, pageIndex, totalCount, small, renderSummary = this.renderSummary, pageSize = 10, pageSizeOptions} = this.props;
+        const {disabled, onPageSizeChange, totalPage, pageIndex, totalCount, small, renderSummary = this.renderSummary, pageSize = 10, pageSizeOptions} = this.props;
+
         // If last page is divisible by pageSize that it is full page, otherwise only use reminder as last page size.
         const lastPageSize = totalCount % pageSize === 0 ? pageSize : totalCount % pageSize;
         const totalAvailableRecords = pageSize * (totalPage - 1) + lastPageSize;
+
         return (
             totalCount > 0 && (
                 <div className="g-pagination">
                     {renderSummary !== "none" && renderSummary(totalCount, pageIndex, totalPage)}
                     <AntPagination
                         disabled={disabled}
-                        showSizeChanger={onShowSizeChange !== undefined}
-                        onShowSizeChange={onShowSizeChange}
+                        showSizeChanger={onPageSizeChange !== undefined}
                         size={small ? "small" : "default"}
                         onChange={this.onChange}
+                        onShowSizeChange={this.onShowSizeChange}
                         current={pageIndex}
                         pageSize={pageSize}
                         total={totalAvailableRecords}

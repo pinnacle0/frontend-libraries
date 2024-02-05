@@ -13,7 +13,7 @@ import {Tooltip} from "@pinnacle0/web-ui/core/Tooltip";
 import {DateTimeRangePicker} from "@pinnacle0/web-ui/core/DateTimeRangePicker";
 import {AmountRangeInput} from "@pinnacle0/web-ui/core/AmountRangeInput";
 import {generateDummyTableData, dummyTableColumns} from "../../dummy/dummyTableData";
-import {dummyEmptyCallback} from "../../dummy/dummyCallback";
+import {dummyEmptyCallback, dummyLabelledAlertCallback} from "../../dummy/dummyCallback";
 
 const tableData = generateDummyTableData(12);
 
@@ -42,6 +42,7 @@ export const TablePageDemo = () => {
         setLoading(true);
         setTimeout(() => setLoading(false), 1000);
     };
+
     return (
         <AdminPage>
             <AdminPage.Filter
@@ -81,7 +82,14 @@ export const TablePageDemo = () => {
                 Total amount: <Amount scale={2} value={98432} />
             </AdminPage.Summary>
             <Table columns={dummyTableColumns} dataSource={tableData} rowKey="index" loading={loading} />
-            <Pagination totalCount={300} totalPage={20} onChange={dummyEmptyCallback} onShowSizeChange={dummyEmptyCallback} pageIndex={1} />
+            <Pagination
+                totalCount={300}
+                totalPage={20}
+                pageIndex={1}
+                pageSize={10}
+                onPageIndexChange={dummyLabelledAlertCallback("onPageIndexChange")}
+                onPageSizeChange={dummyLabelledAlertCallback("onPageSizeChange")}
+            />
         </AdminPage>
     );
 };

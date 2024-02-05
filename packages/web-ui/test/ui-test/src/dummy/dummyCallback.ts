@@ -1,13 +1,8 @@
 export const dummyEmptyCallback = (): void => {};
 
-export const dummyNumberCallback = (): number => 1;
+export const dummyAlertCallback = (...args: any[]) => alert(`callback args: ${JSON.stringify(args)}`);
 
-export const dummyNumberOrNullCallback = (): number | null => null;
-
-export const dummyStringCallback = (): string => "string";
-
-export const dummyStringOrNullCallback = (): string | null => null;
-
-export const dummyBooleanCallback = (): boolean => true;
-
-export const dummyBooleanOrNullCallback = (): boolean | null => null;
+export const dummyLabelledAlertCallback =
+    (label: string) =>
+    (...args: any[]) =>
+        alert(`${label}\ncallback args: ${JSON.stringify(args)}`);
