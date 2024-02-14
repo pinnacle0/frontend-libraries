@@ -27,15 +27,15 @@
         "demo": "cd demo && pnpm start"
     },
     "dependencies": {
-        "@ant-design/cssinjs": "1.18.2",
-        "@ant-design/icons": "5.2.6",
+        "@ant-design/cssinjs": "1.18.4",
+        "@ant-design/icons": "5.3.0",
         "@juggle/resize-observer": "3.4.0",
-        "@tanstack/react-virtual": "3.0.1",
-        "antd": "5.13.1",
+        "@tanstack/react-virtual": "3.0.4",
+        "antd": "5.14.1",
         "classnames": "2.5.1",
         "dayjs": "1.11.10",
         "intersection-observer": "0.12.2",
-        "rc-picker": "3.14.6",
+        "rc-picker": "4.1.1",
         "rc-resize-observer": "1.4.0"
     },
     "peerDependencies": {

@@ -30,10 +30,10 @@ export class DatePicker<T extends boolean> extends React.PureComponent<Props<T>>
         return false;
     };
 
-    onChange = (_: Dayjs | null, dateString: string) => {
+    onChange = (_: Dayjs | null, dateString: string | string[]) => {
         const {onChange, allowNull} = this.props;
         if (dateString || allowNull) {
-            const typedOnChange = onChange as (value: string | null) => void;
+            const typedOnChange = onChange as (value: string | string[]) => void;
             typedOnChange(dateString);
         }
     };

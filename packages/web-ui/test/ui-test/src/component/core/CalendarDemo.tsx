@@ -19,7 +19,7 @@ import {DemoHelper} from "../DemoHelper";
 
 const UncontrolledDatePicker = (props: Omit<DatePickerProps<any>, "value" | "onChange">) => {
     const [value, onChange] = React.useState<any>(null);
-    return <DatePicker {...props} value={value} onChange={onChange} />;
+    return <DatePicker {...props} value={value} onChange={onChange} allowNull />;
 };
 
 const UncontrolledDateRangePicker = (props: Omit<DateRangePickerProps<any>, "value" | "onChange">) => {

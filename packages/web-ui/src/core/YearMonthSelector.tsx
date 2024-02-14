@@ -36,7 +36,7 @@ export class YearMonthSelector<T extends boolean> extends React.PureComponent<Pr
         return this.props.disabledRange?.(diffMonthToThisMonth, current.toDate()) || false;
     };
 
-    onChange = (date: Dayjs | null, dateString: string) => {
+    onChange = (date: Dayjs | null, dateString: string | string[]) => {
         const {onChange, allowNull} = this.props;
         if (dateString || allowNull) {
             const typedOnChange = onChange as (value: [number, number] | null) => void;
