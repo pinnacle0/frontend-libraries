@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.5.45",
+    "version": "0.5.46",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -31,7 +31,7 @@
         "@ant-design/icons": "5.3.0",
         "@juggle/resize-observer": "3.4.0",
         "@tanstack/react-virtual": "3.0.4",
-        "antd": "5.14.1",
+        "antd": "5.14.2",
         "classnames": "2.5.1",
         "dayjs": "1.11.10",
         "intersection-observer": "0.12.2",
