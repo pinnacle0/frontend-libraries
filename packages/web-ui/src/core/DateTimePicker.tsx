@@ -11,6 +11,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     placeholder?: string;
     showNow?: boolean;
     disabledRange?: (diffHourToToday: number, date: Date) => boolean;
+    preserveInvalidOnBlur?: boolean;
 }
 
 export class DateTimePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -44,7 +45,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
     };
 
     render() {
-        const {value, allowNull, disabled, showNow, className, placeholder} = this.props;
+        const {value, allowNull, disabled, showNow, className, placeholder, preserveInvalidOnBlur = true} = this.props;
         return (
             <DatePicker
                 className={className}
@@ -56,6 +57,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
                 disabled={disabled}
                 showTime
                 showNow={showNow}
+                preserveInvalidOnBlur={preserveInvalidOnBlur}
             />
         );
     }
