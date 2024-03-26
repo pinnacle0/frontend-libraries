@@ -58,7 +58,8 @@
             "@babel/traverse": ">=7.23.2",
             "@ant-design/colors": "7.0.0",
             "follow-redirects": ">=1.15.4",
-            "socks": ">=2.7.3"
+            "socks": ">=2.7.3",
+            "es5-ext": ">=0.10.64"
         }
     }
 }
