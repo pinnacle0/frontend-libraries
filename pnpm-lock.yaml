@@ -130,6 +130,9 @@ importers:
         specifier: 17.7.2
         version: 17.7.2
     optionalDependencies:
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.0
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
