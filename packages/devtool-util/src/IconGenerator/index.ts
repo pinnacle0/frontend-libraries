@@ -64,7 +64,7 @@ export class IconGenerator {
 
     private parseContent() {
         this.cssContent = fs.readFileSync(path.join(this.iconComponentDirectory, `${this.fontFamily}.css`), "utf-8");
-        this.iconClassList = this.cssContent.match(/\.icon-(.*):before/g)!.map(_ => _.substr(1).replace(":before", ""));
+        this.iconClassList = this.cssContent.match(/\.icon-(.*):before/g)!.map(_ => _.slice(1).replace(":before", ""));
 
         this.logger.info(["CSS parsed, total icons", String(this.iconClassList.length)]);
     }
@@ -103,6 +103,6 @@ export class IconGenerator {
         if (!/^icon-[a-z\d]+(-[a-z\d]+)*$/.test(className)) {
             throw new Error(`${className} does not conform to naming convention`);
         }
-        return className.substring(5).replace(/-/g, "_").toUpperCase();
+        return className.slice(5).replace(/-/g, "_").toUpperCase();
     }
 }
