@@ -40,7 +40,7 @@ const AnimatedList = ({list, onChange}: AnimatedListProps) => {
                     }}
                 >
                     <Space size={15}>
-                        <Button type="ghost" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
+                        <Button type="link" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                         <span>{_}</span>
                     </Space>
                 </Animated.div>
@@ -159,7 +159,7 @@ const AnimatedSlicedList = () => {
                         }}
                     >
                         <Space size={15}>
-                            <Button type="ghost" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
+                            <Button type="link" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                             <span>{_}</span>
                         </Space>
                     </Animated.div>
