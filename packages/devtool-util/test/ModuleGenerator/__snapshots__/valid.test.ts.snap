@@ -38,7 +38,7 @@ class NewFeatureModule extends Module<RootState, \"newFeature\"> {
 
 const newFeatureModule = register(new NewFeatureModule(\"newFeature\", initialState));
 export const actions = newFeatureModule.getActions();
-export const MainComponent: React.ComponentType<object> = newFeatureModule.attachLifecycle(Main);
+export const MainComponent: React.ComponentType = newFeatureModule.attachLifecycle(Main);
 "
 `;
 

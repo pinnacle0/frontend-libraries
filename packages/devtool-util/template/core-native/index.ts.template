@@ -14,4 +14,4 @@ class {1}Module extends Module<RootState, "{2}"> {
 
 const {2}Module = register(new {1}Module("{2}", initialState));
 export const actions = {2}Module.getActions();
-export const MainComponent: React.ComponentType<object> = {2}Module.attachLifecycle(Main);
+export const MainComponent: React.ComponentType = {2}Module.attachLifecycle(Main);
