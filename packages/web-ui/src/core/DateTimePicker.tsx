@@ -58,6 +58,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
                 showTime
                 showNow={showNow}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
+                needConfirm={false}
             />
         );
     }

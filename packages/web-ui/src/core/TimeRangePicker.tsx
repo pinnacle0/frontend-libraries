@@ -9,6 +9,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabled?: boolean;
     className?: string;
     order?: boolean;
+    preserveInvalidOnBlur?: boolean;
 }
 
 export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
@@ -26,7 +27,7 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
     };
 
     render() {
-        const {value, disabled, className, allowNull, order} = this.props;
+        const {value, disabled, className, allowNull, order, preserveInvalidOnBlur = true} = this.props;
         return (
             <DatePicker.RangePicker
                 picker="time"
@@ -37,6 +38,8 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
                 disabled={disabled}
                 allowClear={allowNull}
                 order={order}
+                preserveInvalidOnBlur={preserveInvalidOnBlur}
+                needConfirm={false}
             />
         );
     }

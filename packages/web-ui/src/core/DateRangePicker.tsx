@@ -38,8 +38,8 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
 
     onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [string | null, string | null]) => void;
-        if (dates && dates[0] && dates[1]) {
-            typedOnChange([dates[0].format(this.dateFormatter), dates[1].format(this.dateFormatter)]);
+        if (dates) {
+            typedOnChange([dates[0] ? dates[0].format(this.dateFormatter) : null, dates[1] ? dates[1].format(this.dateFormatter) : null]);
         } else {
             typedOnChange([null, null]);
         }
@@ -47,13 +47,14 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
 
     render() {
         const {value, allowNull, disabled, className, presets, preserveInvalidOnBlur = true} = this.props;
+        const parsedValue: [Dayjs | null, Dayjs | null] = [value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null];
         return (
             <DatePicker.RangePicker
                 disabledDate={this.isDateDisabled}
                 className={className}
                 showTime={false}
-                value={value[0] && value[1] ? [dayjs(value[0]), dayjs(value[1])] : [null, null]}
-                onChange={this.onChange}
+                value={parsedValue}
+                onCalendarChange={this.onChange}
                 allowClear={allowNull}
                 disabled={disabled}
                 presets={presets}
