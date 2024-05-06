@@ -39,7 +39,14 @@ export class DateRangePicker<T extends boolean> extends React.PureComponent<Prop
     onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [string | null, string | null]) => void;
         if (dates) {
-            typedOnChange([dates[0] ? dates[0].format(this.dateFormatter) : null, dates[1] ? dates[1].format(this.dateFormatter) : null]);
+            let start = dates[0];
+            let end = dates[1];
+
+            if (start && end && start.isAfter(end)) {
+                start = dates[1];
+                end = dates[0];
+            }
+            typedOnChange([start ? start.format(this.dateFormatter) : null, end ? end.format(this.dateFormatter) : null]);
         } else {
             typedOnChange([null, null]);
         }

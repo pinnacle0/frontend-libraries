@@ -12,15 +12,31 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     preserveInvalidOnBlur?: boolean;
 }
 
-export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
+interface State {
+    open: boolean;
+}
+
+export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
     static displayName = "TimeRangePicker";
 
     private readonly timeFormatter = "HH:mm:ss";
 
+    constructor(props: Props<T>) {
+        super(props);
+        this.state = {open: false};
+    }
+
     onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [string | null, string | null]) => void;
-        if (dates && dates[0] && dates[1]) {
-            typedOnChange([dates[0].format(this.timeFormatter), dates[1].format(this.timeFormatter)]);
+        if (dates) {
+            let start = dates[0];
+            let end = dates[1];
+
+            if (start && end && start.isAfter(end)) {
+                start = dates[1];
+                end = dates[0];
+            }
+            typedOnChange([start ? start.format(this.timeFormatter) : null, end ? end.format(this.timeFormatter) : null]);
         } else {
             typedOnChange([null, null]);
         }
@@ -30,11 +46,13 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
         const {value, disabled, className, allowNull, order, preserveInvalidOnBlur = true} = this.props;
         return (
             <DatePicker.RangePicker
+                open={this.state.open}
+                onOpenChange={open => this.setState({open: value[0] !== null && value[1] != null ? false : open})}
                 picker="time"
                 mode={undefined}
                 className={className}
-                value={value[0] && value[1] ? [dayjs(value[0], this.timeFormatter), dayjs(value[1], this.timeFormatter)] : [null, null]}
-                onChange={this.onChange}
+                value={[value[0] ? dayjs(value[0], this.timeFormatter) : null, value[1] ? dayjs(value[1], this.timeFormatter) : null]}
+                onCalendarChange={this.onChange}
                 disabled={disabled}
                 allowClear={allowNull}
                 order={order}

@@ -14,11 +14,19 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     preserveInvalidOnBlur?: boolean;
 }
 
-export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
+interface State {
+    open: boolean;
+}
+
+export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
     static displayName = "DateTimeRangePicker";
     static showTime = {
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
+    constructor(props: Props<T>) {
+        super(props);
+        this.state = {open: false};
+    }
 
     isDateDisabled = (current: Dayjs): boolean => {
         if (!current) return false;
@@ -39,8 +47,16 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         if (dates) {
             // need manually reset the min/max millisecond
             // otherwise, from/to will use now's millisecond value, which is inaccurate
-            const from = dates[0] ? dates[0].millisecond(0).toDate() : null;
-            const to = dates[1] ? dates[1].millisecond(999).toDate() : null;
+            let start = dates[0];
+            let end = dates[1];
+
+            if (start && end && start.isAfter(end)) {
+                start = dates[1];
+                end = dates[0];
+            }
+
+            const from = start ? start.millisecond(0).toDate() : null;
+            const to = end ? end.millisecond(999).toDate() : null;
             typedOnChange([from, to]);
         } else {
             typedOnChange([null, null]);
@@ -52,7 +68,9 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         const parsedValue: [Dayjs | null, Dayjs | null] = [value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null];
         return (
             <DatePicker.RangePicker
+                open={this.state.open}
                 className={className}
+                onOpenChange={open => this.setState({open: value[0] !== null && value[1] != null ? false : open})}
                 value={parsedValue}
                 onCalendarChange={this.onChange}
                 disabledDate={this.isDateDisabled}
