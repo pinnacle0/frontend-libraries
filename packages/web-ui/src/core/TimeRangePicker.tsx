@@ -12,19 +12,10 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     preserveInvalidOnBlur?: boolean;
 }
 
-interface State {
-    open: boolean;
-}
-
-export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
+export class TimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "TimeRangePicker";
 
     private readonly timeFormatter = "HH:mm:ss";
-
-    constructor(props: Props<T>) {
-        super(props);
-        this.state = {open: false};
-    }
 
     onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = this.props.onChange as (value: [string | null, string | null]) => void;
@@ -46,8 +37,6 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
         const {value, disabled, className, allowNull, order, preserveInvalidOnBlur = true} = this.props;
         return (
             <DatePicker.RangePicker
-                open={this.state.open}
-                onOpenChange={open => this.setState({open: value[0] !== null && value[1] != null ? false : open})}
                 picker="time"
                 mode={undefined}
                 className={className}
@@ -57,7 +46,6 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
                 allowClear={allowNull}
                 order={order}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
-                needConfirm={false}
             />
         );
     }

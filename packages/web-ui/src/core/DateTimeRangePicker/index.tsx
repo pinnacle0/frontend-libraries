@@ -13,20 +13,11 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
     preserveInvalidOnBlur?: boolean;
 }
-
-interface State {
-    open: boolean;
-}
-
-export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
+export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
     static displayName = "DateTimeRangePicker";
     static showTime = {
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
-    constructor(props: Props<T>) {
-        super(props);
-        this.state = {open: false};
-    }
 
     isDateDisabled = (current: Dayjs): boolean => {
         if (!current) return false;
@@ -68,9 +59,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         const parsedValue: [Dayjs | null, Dayjs | null] = [value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null];
         return (
             <DatePicker.RangePicker
-                open={this.state.open}
                 className={className}
-                onOpenChange={open => this.setState({open: value[0] !== null && value[1] != null ? false : open})}
                 value={parsedValue}
                 onCalendarChange={this.onChange}
                 disabledDate={this.isDateDisabled}
@@ -79,7 +68,6 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 presets={presets}
                 showTime={DateTimeRangePicker.showTime}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
-                needConfirm={false}
             />
         );
     }

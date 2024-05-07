@@ -91,3 +91,11 @@ button {
 ::placeholder {
     color: #ccc;
 }
+
+// antd date range picker needConfirm={true} will trigger double focus on the start range panel
+// hide the button by css
+.ant-picker-dropdown.ant-picker-dropdown-range {
+    .ant-picker-footer {
+        display: none;
+    }
+}
