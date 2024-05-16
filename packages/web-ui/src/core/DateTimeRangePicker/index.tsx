@@ -13,11 +13,21 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
     preserveInvalidOnBlur?: boolean;
 }
-export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>> {
+
+interface State {
+    shouldCheckDateRangeValid: boolean;
+}
+
+export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
     static displayName = "DateTimeRangePicker";
     static showTime = {
         defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
     };
+
+    constructor(props: Props<T>) {
+        super(props);
+        this.state = {shouldCheckDateRangeValid: false};
+    }
 
     isDateDisabled = (current: Dayjs): boolean => {
         if (!current) return false;
@@ -38,14 +48,8 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         if (dates) {
             // need manually reset the min/max millisecond
             // otherwise, from/to will use now's millisecond value, which is inaccurate
-            let start = dates[0];
-            let end = dates[1];
-
-            if (start && end && start.isAfter(end)) {
-                start = dates[1];
-                end = dates[0];
-            }
-
+            const start = dates[0];
+            const end = dates[1];
             const from = start ? start.millisecond(0).toDate() : null;
             const to = end ? end.millisecond(999).toDate() : null;
             typedOnChange([from, to]);
@@ -53,6 +57,21 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
             typedOnChange([null, null]);
         }
     };
+
+    onOpenChange = (open: boolean) => {
+        this.setState({shouldCheckDateRangeValid: !open});
+    };
+
+    componentDidUpdate(): void {
+        if (this.state.shouldCheckDateRangeValid && this.props.value[0] && this.props.value[1]) {
+            const dates = this.props.value;
+            const typedOnChange = this.props.onChange as (value: [Date | null, Date | null]) => void;
+            if (dayjs(dates[0]).isAfter(dayjs(dates[1]))) {
+                typedOnChange([dates[1], dates[0]]);
+            }
+            this.setState({shouldCheckDateRangeValid: false});
+        }
+    }
 
     render() {
         const {value, allowNull, disabled, className, presets, preserveInvalidOnBlur = true} = this.props;
@@ -68,6 +87,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 presets={presets}
                 showTime={DateTimeRangePicker.showTime}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
+                onOpenChange={this.onOpenChange}
             />
         );
     }
