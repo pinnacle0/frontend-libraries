@@ -76,7 +76,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
             labels.join("/")
         );
 
-    onChange = (antValue: Array<string | number>) => this.props.onChange(antValue[antValue.length - 1] as T);
+    onChange = (antValue: Array<string | number | null>) => this.props.onChange(antValue[antValue.length - 1] as T);
 
     render() {
         const {canSelectAnyLevel, placeholder, disabled, style, className, prefix} = this.props;

@@ -62,7 +62,7 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
         return getAntChildren(this.props.data);
     };
 
-    onChange = (antValue: (string | number)[][]) => {
+    onChange = (antValue: (string | number | null)[][]) => {
         const data = this.getAntDataSource();
         const lastNodes = antValue.map(_ => _[_.length - 1]);
         const branches = lastNodes.filter(_ => `${_}`.startsWith(MultipleCascader.nonLeafPrefix));
