@@ -37,6 +37,7 @@ export function Stack({router, className, style}: StackProps) {
                         params: screen.params,
                         searchParams: screen.searchParams,
                     };
+
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
@@ -44,10 +45,10 @@ export function Stack({router, className, style}: StackProps) {
                                 index === screens.length - 2
                                     ? {transform: "translate3d(-100px, 0, 0)"}
                                     : index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()
-                                    ? {transition: "none"}
-                                    : undefined
+                                      ? {transition: "none"}
+                                      : undefined
                             }
-                            key={screen.location.state.$key}
+                            key={screen.location.key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
