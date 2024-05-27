@@ -92,7 +92,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 {list.map(_ => {
                     const label = translator ? translator(_) : _.toString();
                     return (
-                        <Select.Option key={_.toString()} value={_ === true ? this.trueValue : _ === false ? this.falseValue : _} label={label}>
+                        <Select.Option title={null} key={_.toString()} value={_ === true ? this.trueValue : _ === false ? this.falseValue : _} label={label}>
                             {label}
                         </Select.Option>
                     );
