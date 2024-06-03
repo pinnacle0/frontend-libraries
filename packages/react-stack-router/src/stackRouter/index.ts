@@ -51,7 +51,6 @@ export class StackRouter {
     constructor(options: StackRouterOptions) {
         this.stackHistory = createStackHistory(options.history);
         this.transitionDuration = options.transitionDuration;
-        this.stackHistory.listen(this.handler.bind(this));
     }
 
     async initialize() {
@@ -75,7 +74,7 @@ export class StackRouter {
             }
             segments.pop();
         }
-
+        this.stackHistory.listen(this.handler.bind(this));
         this.state = "Initialized";
         await Promise.all(
             stack.map((to, index) => {
