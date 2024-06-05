@@ -45,7 +45,6 @@
             "@ant-design/*",
             "react",
             "react-dom",
-            "rc-resize-observer",
             "rc-picker",
             "eslint",
             "@typescript-eslint/eslint-plugin",

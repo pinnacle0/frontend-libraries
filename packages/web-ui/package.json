@@ -35,8 +35,7 @@
         "classnames": "2.5.1",
         "dayjs": "1.11.11",
         "intersection-observer": "0.12.2",
-        "rc-picker": "4.5.0",
-        "rc-resize-observer": "1.4.0"
+        "rc-picker": "4.5.0"
     },
     "peerDependencies": {
         "react": ">=18.0.0",

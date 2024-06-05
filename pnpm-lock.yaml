@@ -301,9 +301,6 @@ importers:
       rc-picker:
         specifier: 4.5.0
         version: 4.5.0(dayjs@1.11.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      rc-resize-observer:
-        specifier: 1.4.0
-        version: 1.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
