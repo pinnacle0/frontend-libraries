@@ -93,6 +93,7 @@ export class Form extends React.PureComponent<Props, State> {
                 className="g-form-submit-button"
                 htmlType="submit"
                 type="primary"
+                key="submitButton"
                 style={buttonStyle}
                 loading={isValidating || loading}
                 icon={buttonIcon}
