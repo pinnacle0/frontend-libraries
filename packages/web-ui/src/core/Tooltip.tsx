@@ -5,12 +5,18 @@ import React from "react";
 // Cannot use interface extends here because TooltipProps is a type union
 export type Props = TooltipProps;
 
-export class Tooltip extends React.PureComponent<Props> {
-    static displayName = "Tooltip";
+export const Tooltip = React.memo((props: TooltipProps) => {
+    return (
+        <AntTooltip {...props}>
+            <Children {...props}/>
+        </AntTooltip>
+    );
+});
 
-    render() {
-        return <AntTooltip {...this.props} />;
+const Children = React.forwardRef<HTMLDivElement, Omit<TooltipProps,"title"> >(
+    (props, ref) => {
+        return <div ref={ref} {...props}>{props.children}</div>;
     }
-}
+);
 
 export type {TooltipPlacement};
