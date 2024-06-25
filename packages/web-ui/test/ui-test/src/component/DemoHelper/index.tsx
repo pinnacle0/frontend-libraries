@@ -43,7 +43,7 @@ export const DemoHelper = ({groups, style}: Props) => {
                                     overlayStyle={{maxWidth: "unset"}}
                                     title={<pre style={{minWidth: "max-content"}}>{JSON.stringify(component.props, null, 2)}</pre>}
                                 >
-                                    <div>{component}</div>
+                                    {component}
                                 </Tooltip>
                             )
                         )}

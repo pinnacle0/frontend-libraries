@@ -68,12 +68,10 @@ export class WithTooltipList extends React.PureComponent<Props> {
              * Ref: https://ant.design/components/tooltip/#Note
              */
             return (
-                <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange}>
-                    <div style={this.wrapperStyle}>
-                        <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
-                            {label}
-                        </a>
-                    </div>
+                <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} childContainerStyle={this.wrapperStyle}>
+                    <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
+                        {label}
+                    </a>
                 </Tooltip>
             );
         } else {

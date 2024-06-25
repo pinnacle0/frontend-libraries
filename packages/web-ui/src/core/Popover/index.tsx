@@ -4,13 +4,19 @@ import React from "react";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
-export interface Props extends PopoverProps {}
+export interface Props extends PopoverProps {
+    childContainerClassName?: string;
+    childContainerStyle?: React.CSSProperties;
+}
 
-export const Popover = ReactUtil.memo("Popover", (props: PopoverProps) => {
-    const {children, ...restProps} = props;
+export const Popover = ReactUtil.memo("Popover", (props: Props) => {
+    const {children, childContainerClassName, childContainerStyle, ...restProps} = props;
+
     return (
         <AntPopover {...restProps}>
-            <React.Fragment>{children}</React.Fragment>
+            <div className={childContainerClassName} style={childContainerStyle}>
+                {children}
+            </div>
         </AntPopover>
     );
 });
