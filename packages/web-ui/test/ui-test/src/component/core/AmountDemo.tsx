@@ -100,11 +100,11 @@ const groups: DemoHelperGroupConfig[] = [
                 <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
                 test
             </div>,
-            <p>
+            <div>
                 test
                 <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
                 test
-            </p>,
+            </div>,
             <div>
                 <span style={{fontSize: 30}}>test</span>
                 <Amount value={6789.23} scale={3} del underline bold prefix=">>" postfix="<<" />
