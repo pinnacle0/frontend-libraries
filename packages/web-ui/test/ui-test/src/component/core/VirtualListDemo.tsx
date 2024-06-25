@@ -117,12 +117,12 @@ const ResizableList = () => {
     const [height, setHeight] = React.useState<Size>(Size.Small);
     return (
         <div>
-            <p style={{marginBottom: 20}}>
+            <div style={{marginBottom: 20}}>
                 Width: <EnumRadio useButtonMode list={[200, 400, 800] as Size[]} value={width} onChange={setWidth} />
-            </p>
-            <p style={{marginBottom: 20}}>
+            </div>
+            <div style={{marginBottom: 20}}>
                 Height: <EnumRadio useButtonMode list={[200, 400, 800] as Size[]} value={height} onChange={setHeight} />
-            </p>
+            </div>
             <Container width={width} height={height}>
                 <VirtualList
                     data={largeData}
@@ -144,12 +144,12 @@ const DataMutationList = () => {
 
     return (
         <div>
-            <p style={{marginBottom: 20}}>
+            <div style={{marginBottom: 20}}>
                 Width: <EnumRadio useButtonMode list={[200, 400, 800] as Size[]} value={width} onChange={setWidth} />
-            </p>
-            <p style={{marginBottom: 20}}>
+            </div>
+            <div style={{marginBottom: 20}}>
                 Height: <EnumRadio useButtonMode list={[200, 400, 800] as Size[]} value={height} onChange={setHeight} />
-            </p>
+            </div>
             <Space style={{marginBottom: 20}}>
                 <Button onClick={() => setData(_ => [..._, ...generateProfile(1)])}>+</Button>
                 <Button color="wire-frame" onClick={() => setData(_ => _.slice(0, -1))}>
