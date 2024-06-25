@@ -8,11 +8,7 @@ export type Props = TooltipProps;
 
 export const Tooltip = ReactUtil.memo("Tooltip", (props: TooltipProps) => {
     const {children, ...restProps} = props;
-    return (
-        <AntTooltip {...restProps}>
-            <div>{children}</div>
-        </AntTooltip>
-    );
+    return <AntTooltip {...restProps}>{children}</AntTooltip>;
 });
 
 export type {TooltipPlacement};
