@@ -9,6 +9,11 @@ export class Popover extends React.PureComponent<Props> {
     static displayName = "Popover";
 
     render() {
-        return <AntPopover {...this.props} />;
+        const {children, ...restProps} = this.props;
+        return (
+            <AntPopover {...restProps}>
+                <div>{children}</div>
+            </AntPopover>
+        );
     }
 }

@@ -7,18 +7,11 @@ import {ReactUtil} from "../util/ReactUtil";
 export type Props = TooltipProps;
 
 export const Tooltip = ReactUtil.memo("Tooltip", (props: TooltipProps) => {
+    const {children, ...restProps} = props;
     return (
-        <AntTooltip {...props}>
-            <Children {...props} />
+        <AntTooltip {...restProps}>
+            <div>{children}</div>
         </AntTooltip>
-    );
-});
-
-const Children = React.forwardRef<HTMLDivElement, Omit<TooltipProps, "title">>((props, ref) => {
-    return (
-        <div ref={ref} {...props}>
-            {props.children}
-        </div>
     );
 });
 
