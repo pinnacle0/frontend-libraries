@@ -14,7 +14,7 @@ const inlineChildStyle: React.CSSProperties = {display: "inline"};
 
 export const Popover = ReactUtil.memo("Popover", (props: Props) => {
     const {children, childContainerClassName, childContainerStyle = {}, isInline, ...restProps} = props;
-    const combinedChildContainerStyle = isInline ? {inlineChildStyle, ...childContainerStyle} : childContainerStyle;
+    const combinedChildContainerStyle = isInline ? {...inlineChildStyle, ...childContainerStyle} : childContainerStyle;
     return (
         <AntPopover {...restProps}>
             <div className={childContainerClassName} style={combinedChildContainerStyle}>
