@@ -60,27 +60,19 @@ export class WithTooltipList extends React.PureComponent<Props> {
             </React.Fragment>
         );
 
-        if (onClick) {
-            /**
-             * - Must wrap with a <div> since the child node of <Tooltip> must accept certain methods, since <a>'s onClick is used already.
-             * - Wrapper must be inline-block, to make the tooltip arrow centered.
-             *
-             * Ref: https://ant.design/components/tooltip/#Note
-             */
-            return (
-                <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} childContainerStyle={this.wrapperStyle}>
-                    <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
-                        {label}
-                    </a>
-                </Tooltip>
-            );
-        } else {
-            return (
-                <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} className="g-with-tooltip-list-anchor">
-                    <a>{label}</a>
-                </Tooltip>
-            );
-        }
+        /**
+         * - Must wrap with a <div> since the child node of <Tooltip> must accept certain methods, since <a>'s onClick is used already.
+         * - Wrapper must be inline-block, to make the tooltip arrow centered.
+         *
+         * Ref: https://ant.design/components/tooltip/#Note
+         */
+        return (
+            <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} childContainerStyle={this.wrapperStyle}>
+                <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
+                    {label}
+                </a>
+            </Tooltip>
+        );
     }
 
     private readonly dummyClick = () => {};
