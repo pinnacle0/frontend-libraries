@@ -18,7 +18,6 @@ export class OverflowableText extends React.PureComponent<Props, States> {
     static displayName = "OverflowableText";
 
     private readonly textRef = React.createRef<HTMLDivElement>();
-    private readonly childContainerProps: React.HTMLAttributes<HTMLDivElement> = {className: "wrap-text", style: {width: "maxWidth"}};
 
     constructor(props: Props) {
         super(props);
@@ -49,7 +48,7 @@ export class OverflowableText extends React.PureComponent<Props, States> {
         return (
             <div className={classNames("g-overflowable-text", className)}>
                 {this.state.overflow ? (
-                    <Tooltip overlay={children} childContainerProps={this.childContainerProps}>
+                    <Tooltip overlay={children} childContainerProps={{className: "wrap-text", style: {width: maxWidth}}}>
                         {children}
                     </Tooltip>
                 ) : (

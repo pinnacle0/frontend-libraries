@@ -12,10 +12,13 @@ export interface Props extends PopoverProps {
 const inlineChildStyle: React.CSSProperties = {display: "inline"};
 
 export const Popover = ReactUtil.memo("Popover", (props: Props) => {
-    const {children, childContainerProps, isInline, ...restProps} = props;
+    const {children, childContainerProps = {}, isInline, ...restProps} = props;
+    const {style, ...restChildContainerProps} = childContainerProps;
+    const combinedChildContainerStyle = isInline ? {...style, ...inlineChildStyle} : style;
+
     return (
         <AntPopover {...restProps}>
-            <div {...childContainerProps} style={isInline ? inlineChildStyle : undefined}>
+            <div {...restChildContainerProps} style={combinedChildContainerStyle}>
                 {children}
             </div>
         </AntPopover>

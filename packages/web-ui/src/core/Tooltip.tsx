@@ -9,10 +9,13 @@ export type Props = TooltipProps & {childContainerProps?: React.HTMLAttributes<H
 const inlineChildStyle: React.CSSProperties = {display: "inline"};
 
 export const Tooltip = ReactUtil.memo("Tooltip", (props: Props) => {
-    const {children, childContainerProps, isInline, ...restProps} = props;
+    const {children, childContainerProps = {}, isInline, ...restProps} = props;
+    const {style, ...restChildContainerProps} = childContainerProps;
+    const combinedChildContainerStyle = isInline ? {...style, ...inlineChildStyle} : style;
+
     return (
         <AntTooltip {...restProps}>
-            <div {...childContainerProps} style={isInline ? inlineChildStyle : undefined}>
+            <div {...restChildContainerProps} style={combinedChildContainerStyle}>
                 {children}
             </div>
         </AntTooltip>
