@@ -66,7 +66,7 @@ export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React
 
     renderActionIcon = (name: string, icon: React.ReactElement) => {
         return (
-            <Tooltip title={name} childContainerClassName="action">
+            <Tooltip title={name} childContainerProps={{className: "action"}}>
                 {icon}
             </Tooltip>
         );

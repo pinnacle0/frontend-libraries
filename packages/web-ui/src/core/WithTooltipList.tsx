@@ -22,6 +22,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
 
     private readonly labelStyle: React.CSSProperties = {display: "inline-block", width: 90};
     private readonly wrapperStyle: React.CSSProperties = {display: "inline-block"};
+    private readonly childContainerProps: React.HTMLAttributes<HTMLDivElement> = {style: this.wrapperStyle};
 
     renderTooltip = () => {
         const {list} = this.props;
@@ -67,7 +68,7 @@ export class WithTooltipList extends React.PureComponent<Props> {
          * Ref: https://ant.design/components/tooltip/#Note
          */
         return (
-            <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} childContainerStyle={this.wrapperStyle}>
+            <Tooltip placement="bottom" title={this.renderTooltip()} onOpenChange={onOpenChange} childContainerProps={this.childContainerProps}>
                 <a onClick={onClick || this.dummyClick} style={this.wrapperStyle} className="g-with-tooltip-list-anchor">
                     {label}
                 </a>

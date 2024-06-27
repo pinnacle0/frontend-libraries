@@ -5,19 +5,17 @@ import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props extends PopoverProps {
-    childContainerClassName?: string;
-    childContainerStyle?: React.CSSProperties;
+    childContainerProps?: React.HTMLAttributes<HTMLDivElement>;
     isInline?: boolean;
 }
 
 const inlineChildStyle: React.CSSProperties = {display: "inline"};
 
 export const Popover = ReactUtil.memo("Popover", (props: Props) => {
-    const {children, childContainerClassName, childContainerStyle = {}, isInline, ...restProps} = props;
-    const combinedChildContainerStyle = isInline ? {...inlineChildStyle, ...childContainerStyle} : childContainerStyle;
+    const {children, childContainerProps, isInline, ...restProps} = props;
     return (
         <AntPopover {...restProps}>
-            <div className={childContainerClassName} style={combinedChildContainerStyle}>
+            <div {...childContainerProps} style={isInline ? inlineChildStyle : undefined}>
                 {children}
             </div>
         </AntPopover>

@@ -34,7 +34,7 @@ export class WithExplanation extends React.PureComponent<Props> {
                     <Tooltip
                         className="g-with-explanation-tooltip"
                         title={Array.isArray(explanation) ? explanation.map((_, index) => <p key={index}>{_}</p>) : explanation}
-                        childContainerClassName="icon-container"
+                        childContainerProps={{className: "icon-container"}}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 24">
                             <circle cx="8" cy="8" r="8" style={{strokeMiterlimit: 10}} transform="translate(3.5 4)" />
