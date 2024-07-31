@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.5.72",
+    "version": "0.5.73",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -33,7 +33,7 @@
         "@tanstack/react-virtual": "3.5.0",
         "antd": "5.17.3",
         "classnames": "2.5.1",
-        "dayjs": "1.11.11",
+        "dayjs": "1.11.12",
         "intersection-observer": "0.12.2",
         "rc-picker": "4.5.0"
     },
