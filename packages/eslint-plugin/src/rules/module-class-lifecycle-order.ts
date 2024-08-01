@@ -1,7 +1,7 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
 import {getClassMethod} from "../util/getClassMethod";
-import type {TSESLint, TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESLint, TSESTree} from "@typescript-eslint/utils";
 
 export type Options = [];
 
@@ -9,13 +9,12 @@ export type MessageIds = "moduleClassLifecycleOrder";
 
 export const name = "module-class-lifecycle-order";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "A Rule that checks if lifecycle methods should be ordered first in module class",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

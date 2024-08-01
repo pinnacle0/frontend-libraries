@@ -42,7 +42,7 @@ export class StorageHelper {
             } else {
                 this.storage.clear();
             }
-        } catch (e) {
+        } catch {
             // Do nothing
         }
     }
@@ -106,7 +106,7 @@ export class StorageHelper {
                 } else {
                     return null;
                 }
-            } catch (e) {
+            } catch {
                 return null;
             }
         };
@@ -116,7 +116,7 @@ export class StorageHelper {
     getRaw(key: string): string | null {
         try {
             return this.storage.getItem(key);
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -125,7 +125,7 @@ export class StorageHelper {
         try {
             const prefix = this.globalPrefix ? `${this.globalPrefix}-` : "";
             this.storage.setItem(prefix + key, value);
-        } catch (e) {
+        } catch {
             // Do nothing
         }
     }
@@ -141,7 +141,7 @@ export class StorageHelper {
                 }
             }
             return defaultValue;
-        } catch (e) {
+        } catch {
             return defaultValue;
         }
     }

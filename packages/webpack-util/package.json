@@ -26,7 +26,7 @@
         "mini-css-extract-plugin": "2.9.0",
         "pretty-format": "29.7.0",
         "react-refresh": "0.14.2",
-        "semver": "7.6.2",
+        "semver": ">=7.6.2",
         "socks-proxy-agent": "8.0.3",
         "style-loader": "4.0.0",
         "swc-loader": "0.2.6",
@@ -47,7 +47,7 @@
         "@types/yargs": "17.0.32"
     },
     "engines": {
-        "node": ">=18"
+        "node": ">=20"
     },
     "jest": {
         "preset": "ts-jest"

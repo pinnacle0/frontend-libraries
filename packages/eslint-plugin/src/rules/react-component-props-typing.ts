@@ -1,5 +1,5 @@
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
 import {isReactComponent} from "../util/isReactComponent";
 
@@ -9,13 +9,12 @@ export type MessageIds = "reactComponentPropsTyping";
 
 export const name = "react-component-default-props-typing";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Specify generic type of React.Component or React.PureComponent when declaring a class component",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

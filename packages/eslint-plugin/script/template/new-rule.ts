@@ -1,16 +1,15 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 
 export type MessageIds = "// {{CAMEL_CASE_RULE_NAME}}";
 
 export const name = "// {{KEBAB_CASE_RULE_NAME}}";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

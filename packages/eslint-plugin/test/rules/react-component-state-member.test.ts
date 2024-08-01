@@ -1,11 +1,11 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/react-component-state-member";
 import {name, rule} from "../../src/rules/react-component-state-member";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "reactComponentStateMember";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

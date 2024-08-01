@@ -137,7 +137,7 @@ export class ExpirableLocalStorage {
                 } else {
                     return null;
                 }
-            } catch (e) {
+            } catch {
                 return null;
             }
         };
@@ -152,7 +152,7 @@ export class ExpirableLocalStorage {
     getRaw(key: string): string | null {
         try {
             return this.storage.getItem(this.canonicalKey(key));
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -188,7 +188,7 @@ export class ExpirableLocalStorage {
             }
 
             return defaultValue;
-        } catch (e) {
+        } catch {
             return defaultValue;
         }
     }
@@ -205,7 +205,7 @@ export class ExpirableLocalStorage {
                 value,
                 expiryTimestamp,
             });
-        } catch (e) {
+        } catch {
             // Do nothing
         }
     }
@@ -235,7 +235,7 @@ export class ExpirableLocalStorage {
     private clear(keys: string[]): void {
         try {
             keys.forEach(key => this.storage.removeItem(key));
-        } catch (e) {
+        } catch {
             // Do nothing
         }
     }
@@ -255,7 +255,7 @@ export class ExpirableLocalStorage {
             });
 
             this.clear(expiredKeys);
-        } catch (e) {
+        } catch {
             // Do nothing
         }
     }

@@ -1,17 +1,16 @@
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
+import type {TSESTree} from "@typescript-eslint/utils";
 
 export type MessageIds = "variableDeclarationModuleIdentifierShadowing";
 
 export const name = "variable-declaration-module-identifier-shadowing";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

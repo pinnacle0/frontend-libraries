@@ -4,7 +4,7 @@
 //              Run "codegen" script to regenerate this file
 // -----------------------------------------------------------------------------
 
-import type {TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESLint} from "@typescript-eslint/utils";
 import {rule as explicitModuleClassMethodReturnType} from "./explicit-module-class-method-return-type";
 import {rule as importOrdering} from "./import-ordering";
 import {rule as moduleClassLifecycleOrder} from "./module-class-lifecycle-order";
@@ -23,7 +23,7 @@ import {rule as reactComponentStateMember} from "./react-component-state-member"
 import {rule as stylePropertiesType} from "./style-properties-type";
 import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
 
-export const rules: Record<string, TSESLint.RuleModule<string, any[], TSESLint.RuleListener>> = {
+export const rules: Record<string, TSESLint.RuleModule<string, any[], any, TSESLint.RuleListener>> = {
     "explicit-module-class-method-return-type": explicitModuleClassMethodReturnType,
     "import-ordering": importOrdering,
     "module-class-lifecycle-order": moduleClassLifecycleOrder,

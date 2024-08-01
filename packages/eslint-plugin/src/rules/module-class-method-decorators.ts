@@ -1,7 +1,7 @@
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {getClassMethod} from "../util/getClassMethod";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 export type Options = [];
 
@@ -9,13 +9,12 @@ export type MessageIds = "logDecoratorOrder";
 
 export const name = "module-class-method-decorators";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

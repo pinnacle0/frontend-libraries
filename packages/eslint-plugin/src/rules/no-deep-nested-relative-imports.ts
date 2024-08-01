@@ -1,16 +1,15 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 
 export type MessageIds = "noDeepNestedRelativeImports";
 
 export const name = "no-deep-nested-relative-imports";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "No deep nested relative imports",
-            recommended: "error",
         },
         hasSuggestions: true,
         messages: {

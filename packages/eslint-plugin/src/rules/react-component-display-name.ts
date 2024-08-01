@@ -1,7 +1,7 @@
-import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {findClosestParent} from "../util/findClosestParent";
 import {isReactComponent} from "../util/isReactComponent";
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 export type Options = [];
 
@@ -9,13 +9,12 @@ export type MessageIds = "noDisplayName" | "displayNameMismatch" | "staticDispla
 
 export const name = "react-component-display-name";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

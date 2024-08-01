@@ -4,7 +4,7 @@
 //              Run "codegen" script to regenerate this file
 // -----------------------------------------------------------------------------
 
-import type {TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESLint} from "@typescript-eslint/utils";
 // {{TEMPLATE_IMPORT_STATEMENTS}}
 
 export const rules: Record<string, TSESLint.RuleModule<string, any[], TSESLint.RuleListener>> = {

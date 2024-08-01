@@ -1,9 +1,9 @@
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
 import {isReactComponent} from "../util/isReactComponent";
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 export type Options = [];
 
@@ -11,13 +11,12 @@ export type MessageIds = "reactComponentStateMember";
 
 export const name = "react-component-state-member";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Initialize component state inside constructor instead of using class field declaration",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",
@@ -49,7 +48,7 @@ function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Optio
             return; // Allow type narrowing on classElement.type
         }
         if (!classElement.static && !classElement.declare && getClassElementName(classElement) === "state") {
-            const stateDeclarationSourceCode = context.getSourceCode().getText(classElement);
+            const stateDeclarationSourceCode = context.sourceCode.getText(classElement);
             const constructorEndLocation = classBody.body.find(_ => getClassElementCategory(_) === "constructor")?.range[1];
             const propsGenericAnnotation = getRawGenericsOfSuperClass(context, classNode)?.[0] || null;
             context.report({

@@ -1,4 +1,4 @@
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 interface Import {
     node: TSESTree.ImportDeclaration;
@@ -76,7 +76,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
                 const indexOfRightOrderOfCurrentImport = rightOrder.findIndex(_ => _ === currentImport);
                 const reportNode = currentImport.node;
                 const prevImportInRightOrder = rightOrder[indexOfRightOrderOfCurrentImport - 1];
-                const sourceCode = this.context.getSourceCode();
+                const sourceCode = this.context.sourceCode;
 
                 if (indexOfRightOrderOfCurrentImport === rightOrder.length - 1) {
                     this.context.report({
@@ -93,7 +93,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
                         node: reportNode,
                         data: {
                             currentNode: sourceCode.getText(reportNode),
-                            prevNodeInRightOrder: this.context.getSourceCode().getText(prevImportInRightOrder.node),
+                            prevNodeInRightOrder: this.context.sourceCode.getText(prevImportInRightOrder.node),
                         },
                         fix: fixer => this.fix(fixer, rightOrder),
                     });
@@ -157,7 +157,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
     }
 
     private isSideEffectImport(node: TSESTree.ImportDeclaration) {
-        const text = this.context.getSourceCode().getText(node);
+        const text = this.context.sourceCode.getText(node);
         if (!/.+{.+}.+/.test(text) && node.importKind === "value" && node.specifiers.length === 0) {
             return true;
         } else {
@@ -170,7 +170,7 @@ export class ImportSorter<Options extends readonly unknown[]> {
     }
 
     private fix = (fixer: TSESLint.RuleFixer, order: Import[]): ReturnType<TSESLint.ReportFixFunction> => {
-        const sourceCode = this.context.getSourceCode();
+        const sourceCode = this.context.sourceCode;
         return this.imports.map((target, index) => fixer.replaceText(target.node, sourceCode.getText(order[index].node)));
     };
 }

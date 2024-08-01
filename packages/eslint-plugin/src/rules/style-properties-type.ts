@@ -1,17 +1,16 @@
-import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
+import type {TSESTree} from "@typescript-eslint/utils";
 
 export type MessageIds = "stylePropertiesType";
 
 export const name = "style-properties-type";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

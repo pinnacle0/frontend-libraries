@@ -1,8 +1,8 @@
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {isReactComponent} from "../util/isReactComponent";
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 export type Options = [];
 
@@ -10,13 +10,12 @@ export type MessageIds = "reactComponentChangeHandlerNaming" | "reactComponentCl
 
 export const name = "react-component-event-handler-naming";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Use onXxxChange instead of onChangeXxx, and onXxxClick instead of onClickXxx for event handler naming",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

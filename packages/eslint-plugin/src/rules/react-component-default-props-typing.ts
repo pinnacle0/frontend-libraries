@@ -1,6 +1,5 @@
-import {ASTUtils, TSESTree} from "@typescript-eslint/experimental-utils";
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
-import type {TSESLint} from "@typescript-eslint/experimental-utils";
+import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
+import type {TSESLint, TSESTree} from "@typescript-eslint/utils";
 import {isReactComponent} from "../util/isReactComponent";
 
 export type Options = [];
@@ -9,13 +8,12 @@ export type MessageIds = "incorrectDefaultPropsTypeAnnotation" | "incorrectPickO
 
 export const name = "react-component-default-props-typing";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Declare defaultProps with type Pick<Props> or PickOptional<Props>",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",
@@ -52,7 +50,7 @@ function checkComponentClass(context: Readonly<TSESLint.RuleContext<MessageIds, 
         const typeRef: TSESTree.TSTypeReference | null =
             defaultPropsNode.typeAnnotation?.typeAnnotation.type === AST_NODE_TYPES.TSTypeReference ? defaultPropsNode.typeAnnotation.typeAnnotation : null;
         const pickNodeRawName: string | null = typeRef?.typeName.type === AST_NODE_TYPES.Identifier ? typeRef.typeName.name : null;
-        const pickNodeTypeParamsLength = typeRef?.typeParameters?.params?.length || 0;
+        const pickNodeTypeParamsLength = typeRef?.typeArguments?.params?.length || 0;
 
         if (!(pickNodeRawName === "Pick" || pickNodeRawName === "PickOptional")) {
             context.report({
@@ -66,7 +64,7 @@ function checkComponentClass(context: Readonly<TSESLint.RuleContext<MessageIds, 
                 data: {
                     pickNodeRawName,
                     typeArgsExpected: pickNodeRawName === "Pick" ? "2 type arguments" : "1 type argument",
-                    typeArgsReceived: `${pickNodeTypeParamsLength} ${typeRef ? `(${context.getSourceCode().getText(typeRef)})` : ""}`,
+                    typeArgsReceived: `${pickNodeTypeParamsLength} ${typeRef ? `(${context.sourceCode.getText(typeRef)})` : ""}`,
                 },
             });
         }

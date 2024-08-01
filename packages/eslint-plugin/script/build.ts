@@ -10,7 +10,7 @@ const FilePath = {
     src: path.join(__dirname, "../src"),
     test: path.join(__dirname, "../test"),
 
-    projectESLintRc: path.join(__dirname, "../.eslintrc.js"),
+    projectESLintConfig: path.join(__dirname, "../eslint.config.js"),
     workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
     jestConfig: path.join(__dirname, "../config/jest.config.ts"),
     rollupConfig: path.join(__dirname, "../config/rollup.config.ts"),
@@ -37,7 +37,7 @@ new TaskRunner("build").execute([
         name: "lint",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("eslint", ["--ext", ".js,.jsx,.ts,.tsx", "--config", FilePath.projectESLintRc, "--ignore-path", FilePath.workspaceRootESLintIgnore, FilePath.project]);
+            Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", FilePath.project, "**/*{.js,.ts}"]);
         },
     },
     {

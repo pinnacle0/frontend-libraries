@@ -1,16 +1,15 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 import {ImportSorter} from "../util/ImportSorter";
 import type {MessageIds} from "../util/ImportSorter";
 
 export const name = "import-ordering";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Check import order according to import type and path",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

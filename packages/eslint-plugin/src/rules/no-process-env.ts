@@ -1,18 +1,16 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
-import {TSESTree} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils, TSESTree} from "@typescript-eslint/utils";
 
 export type MessageIds = "noProcessEnv";
 
 export const name = "no-process-env";
 
 // reference: https://github.com/mysticatea/eslint-plugin-node/blob/master/lib/rules/no-process-env.js
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Disallow the use of process.env",
-            recommended: "error",
         },
         hasSuggestions: true,
         messages: {

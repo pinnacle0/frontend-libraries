@@ -1,11 +1,11 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/no-deep-nested-relative-imports";
 import {name, rule} from "../../src/rules/no-deep-nested-relative-imports";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "noDeepNestedRelativeImports";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

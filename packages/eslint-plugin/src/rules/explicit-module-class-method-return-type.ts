@@ -1,18 +1,17 @@
-import {AST_NODE_TYPES, AST_TOKEN_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {AST_NODE_TYPES, AST_TOKEN_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/utils";
 
 export const name = "explicit-module-class-method-return-type";
 
 export type MessageIds = "explicitModuleClassMethodReturnType";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",
@@ -26,7 +25,6 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
         return {
             ClassDeclaration(node) {
                 if (isCoreFeOrCoreNativeModuleClass(context, node)) {
-                    const sourceCode = context.getSourceCode();
                     node.body.body
                         .filter(
                             (classElement): classElement is TSESTree.MethodDefinition =>
@@ -36,7 +34,7 @@ export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
                         .forEach(method => {
                             const fn = method.value as TSESTree.FunctionExpression;
                             const blockStatementRange = fn.body.range;
-                            const firstCloseParentheses = sourceCode
+                            const firstCloseParentheses = context.sourceCode
                                 .getTokens(fn)
                                 .filter(_ => _.value === ")" && _.type === AST_TOKEN_TYPES.Punctuator)
                                 .map(token => ({token, diff: blockStatementRange[0] - token.range[1]}))

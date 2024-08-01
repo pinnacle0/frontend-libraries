@@ -60,36 +60,31 @@ new TaskRunner("codegen").execute([
     {
         name: "generate src/config/*.ts",
         execute: () => {
-            const templateFiles = {
-                baseline: path.join(directory.template, "config-baseline.ts"),
-                jest: path.join(directory.template, "config-jest.ts"),
-            };
+            const templateFile = path.join(directory.template, "configs.ts");
 
             const allRules = scanCustomRules();
 
-            for (const configName of ["baseline", "jest"] as const) {
-                const configFile = path.join(directory.src, `config/${configName}.ts`);
-                if (fs.existsSync(configFile) && fs.statSync(configFile).isFile()) {
-                    print.task(`Removing config/${configName}.ts`);
-                    fs.unlinkSync(configFile);
-                }
-
-                const output = (function () {
-                    print.task(`Generating config/${configName}.ts`);
-                    const ruleDefinitions = allRules
-                        .map(_ => {
-                            return `"@pinnacle0/${_.kebab}": ["error"],`;
-                        })
-                        .join("\n        ");
-                    return fs
-                        .readFileSync(templateFiles[configName], {
-                            encoding: "utf8",
-                        })
-                        .replace("// {{TEMPLATE_RULE_DEFINITIONS}}", ruleDefinitions);
-                })();
-
-                fs.writeFileSync(configFile, output, {encoding: "utf8"});
+            const configFile = path.join(directory.src, `config/index.ts`);
+            if (fs.existsSync(configFile) && fs.statSync(configFile).isFile()) {
+                print.task(`Removing config/index.ts`);
+                fs.unlinkSync(configFile);
             }
+
+            const output = (function () {
+                print.task(`Generating config/index.ts`);
+                const ruleDefinitions = allRules
+                    .map(_ => {
+                        return `"@pinnacle0/${_.kebab}": ["error"],`;
+                    })
+                    .join("\n        ");
+                return fs
+                    .readFileSync(templateFile, {
+                        encoding: "utf8",
+                    })
+                    .replace("// {{TEMPLATE_RULE_DEFINITIONS}}", ruleDefinitions);
+            })();
+
+            fs.writeFileSync(configFile, output, {encoding: "utf8"});
         },
     },
 ]);

@@ -35,8 +35,8 @@ new TaskRunner("build").execute([
         name: "lint",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("eslint", ["--ext=.js,.jsx,.ts,.tsx", FilePath.src]);
-            Utility.runCommand("eslint", ["--ext=.js,.jsx,.ts,.tsx", FilePath.test]);
+            Utility.runCommand("eslint", ["--no-warn-ignored", `${FilePath.src}/**/*.{js,jsx,ts,tsx}`]);
+            Utility.runCommand("eslint", ["--no-warn-ignored", `${FilePath.test}/**/*.{js,jsx,ts,tsx}`]);
         },
     },
     {

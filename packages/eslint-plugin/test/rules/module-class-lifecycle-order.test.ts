@@ -1,10 +1,10 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import {MessageIds, name, rule} from "../../src/rules/module-class-lifecycle-order";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "moduleClassLifecycleOrder";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

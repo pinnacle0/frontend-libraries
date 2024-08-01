@@ -1,6 +1,13 @@
-import {baseline} from "./config/baseline";
-import {jest} from "./config/jest";
+import type {ESLint} from "eslint";
+import {rules} from "./rules";
+import {assignConfigs} from "./config";
 
-export const configs = {baseline, jest};
+const plugin: ESLint.Plugin = {
+    configs: {},
+    rules: rules as any,
+    processors: {},
+};
 
-export {rules} from "./rules";
+assignConfigs(plugin);
+
+export default plugin;

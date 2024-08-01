@@ -1,16 +1,15 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 
 export type MessageIds = "noUnnecessaryEndingIndex";
 
 export const name = "no-unnecessary-ending-index";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "No index at the end of import statements",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

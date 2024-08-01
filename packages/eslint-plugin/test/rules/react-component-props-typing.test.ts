@@ -1,11 +1,11 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/react-component-props-typing";
 import {name, rule} from "../../src/rules/react-component-props-typing";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "reactComponentPropsTyping";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

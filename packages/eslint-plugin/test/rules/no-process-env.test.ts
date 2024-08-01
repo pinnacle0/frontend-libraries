@@ -1,10 +1,10 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import {MessageIds, name, rule} from "../../src/rules/no-process-env";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "noProcessEnv";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

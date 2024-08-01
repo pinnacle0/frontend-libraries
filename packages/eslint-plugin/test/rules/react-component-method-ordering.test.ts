@@ -1,11 +1,11 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds, MethodOrderChecker} from "../../src/rules/react-component-method-ordering";
 import {name, rule, methodOrderCheckers} from "../../src/rules/react-component-method-ordering";
 import {createConfig} from "../create-config";
 
 const messageId: MessageIds = "reactComponentMethodOrdering";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 describe("methodOrderCheckers can correctly identify method types", () => {
     function testMethodToBeType(methodName: string, expectedType: MethodOrderChecker["type"]) {

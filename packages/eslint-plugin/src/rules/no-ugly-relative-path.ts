@@ -1,16 +1,15 @@
-import {ESLintUtils} from "@typescript-eslint/experimental-utils";
+import {ESLintUtils} from "@typescript-eslint/utils";
 
 export type MessageIds = "noUglyRelativePath";
 
 export const name = "no-ugly-relative-path";
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "No ugly relative path imports",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

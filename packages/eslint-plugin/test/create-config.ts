@@ -1,15 +1,22 @@
-import type {TSESLint} from "@typescript-eslint/experimental-utils";
+import path from "path";
+import {type ParserOptions} from "@typescript-eslint/parser";
+import {RuleTesterConfig} from "@typescript-eslint/rule-tester";
+import {parser} from "typescript-eslint";
 
-export function createConfig({parserOptions}: Omit<TSESLint.RuleTesterConfig, "parser"> = {}): TSESLint.RuleTesterConfig {
+export function createConfig(parserOptions: ParserOptions = {}): RuleTesterConfig {
     return {
-        parser: require.resolve("@typescript-eslint/parser"),
-        parserOptions: {
-            sourceType: "module",
-            ecmaVersion: 2019,
-            ecmaFeatures: {
-                jsx: true,
+        languageOptions: {
+            parser,
+            parserOptions: {
+                sourceType: "module",
+                ecmaVersion: 2019,
+                ecmaFeatures: {
+                    jsx: true,
+                },
+                project: path.join(__dirname, "../config/tsconfig.test.json"),
+                tsconfigRootDir: path.join(__dirname, "./fixture"),
+                ...parserOptions,
             },
-            ...parserOptions,
         },
     };
 }

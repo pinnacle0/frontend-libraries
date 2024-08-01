@@ -1,5 +1,5 @@
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import {getClassElementCategory} from "../util/getClassElementCategory";
 import {getClassElementName} from "../util/getClassElementName";
 import {isClassElementAbstract} from "../util/isClassElementAbstract";
@@ -61,13 +61,12 @@ export const methodOrderCheckers: ReadonlyArray<MethodOrderChecker> = [
     },
 ];
 
-export const rule = ESLintUtils.RuleCreator(name => name)<Options, MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "Order react component methods according to pinnacle react component guideline",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

@@ -1,7 +1,7 @@
 // @ts-ignore
 
-import type {TSESTree} from "@typescript-eslint/experimental-utils";
-import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/utils";
+import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 
 export type MessageIds = "noNamedImports";
 
@@ -20,13 +20,12 @@ const hasImportSpecifier = (node: TSESTree.ImportDeclaration) => {
 
 const defaultRestrictedImports = ["react", "react-dom"];
 
-export const rule = ESLintUtils.RuleCreator(name => name)<[string[]], MessageIds>({
+export const rule = ESLintUtils.RuleCreator(_ => name)<[string[]], MessageIds>({
     name,
     meta: {
         type: "suggestion",
         docs: {
             description: "",
-            recommended: "error",
         },
         hasSuggestions: true,
         fixable: "code",

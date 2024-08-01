@@ -1,8 +1,8 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import {createConfig} from "../create-config";
 import {name, rule, MessageIds} from "../../src/rules/explicit-module-class-method-return-type";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 const messageId: MessageIds = "explicitModuleClassMethodReturnType";
 
 ruleTester.run(name, rule, {
@@ -86,17 +86,17 @@ ruleTester.run(name, rule, {
                         this.fetchMyIncomeConfig(),
                     ]);
                 }
-            
+
                 *updateSalary(config: SalaryConfigAJAXView) {
                     this.setState(state => (state.incomeConfig.editingSalary = config));
                 }
-            
+
                 @Log()
                 private *fetchMyIncomeConfig() {
                     const config = yield* call(CustomerAJAXService.getIncomeConfig);
                     this.setState(state => (state.incomeConfig.myConfig = config));
                 }
-            
+
                 private getName() {
                     return 43;
                 }
@@ -116,17 +116,17 @@ ruleTester.run(name, rule, {
                         this.fetchMyIncomeConfig(),
                     ]);
                 }
-            
+
                 *updateSalary(config: SalaryConfigAJAXView): SagaGenerator {
                     this.setState(state => (state.incomeConfig.editingSalary = config));
                 }
-            
+
                 @Log()
                 private *fetchMyIncomeConfig(): SagaGenerator {
                     const config = yield* call(CustomerAJAXService.getIncomeConfig);
                     this.setState(state => (state.incomeConfig.myConfig = config));
                 }
-            
+
                 private getName() {
                     return 43;
                 }

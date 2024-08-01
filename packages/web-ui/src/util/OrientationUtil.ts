@@ -33,7 +33,7 @@ function current(): OrientationType {
         } else {
             return window.orientation === 0 ? "portrait" : "landscape";
         }
-    } catch (e) {
+    } catch {
         return "portrait";
     }
 }

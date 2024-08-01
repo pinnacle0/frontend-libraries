@@ -1,5 +1,5 @@
-import type {TSESTree, TSESLint} from "@typescript-eslint/experimental-utils";
-import {ASTUtils, AST_NODE_TYPES} from "@typescript-eslint/experimental-utils";
+import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
+import {ASTUtils, AST_NODE_TYPES} from "@typescript-eslint/utils";
 
 export function isCoreFeOrCoreNativeModuleClass<MessageIds extends string, Options extends readonly unknown[]>(
     context: Readonly<TSESLint.RuleContext<MessageIds, Options>>,
@@ -8,7 +8,7 @@ export function isCoreFeOrCoreNativeModuleClass<MessageIds extends string, Optio
     const {superClass} = classNode;
     const isClassNodeExtendsModule = superClass?.type === AST_NODE_TYPES.Identifier && superClass.name === "Module";
     if (isClassNodeExtendsModule) {
-        const allModuleVariableDefinitions = ASTUtils.findVariable(context.getScope(), "Module")?.defs || [];
+        const allModuleVariableDefinitions = ASTUtils.findVariable(context.sourceCode.getScope(superClass), "Module")?.defs || [];
         for (const _ of allModuleVariableDefinitions) {
             if (
                 _ &&

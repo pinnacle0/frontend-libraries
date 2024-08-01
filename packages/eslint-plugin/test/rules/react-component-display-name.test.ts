@@ -1,4 +1,4 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/react-component-display-name";
 import {name, rule} from "../../src/rules/react-component-display-name";
 import {createConfig} from "../create-config";
@@ -7,7 +7,7 @@ const noDisplayNameId: MessageIds = "noDisplayName";
 const displayNameMismatchId: MessageIds = "displayNameMismatch";
 const staticDisplayNameId: MessageIds = "staticDisplayName";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

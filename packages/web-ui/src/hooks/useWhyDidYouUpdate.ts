@@ -38,7 +38,6 @@ function _useWhyDidYouUpdate<P extends object>(name: string, props: P): void {
 
             // If changesObj not empty then output to console
             if (Object.keys(changesObj).length) {
-                // eslint-disable-next-line no-console -- this is intentional as this hook should only be used for debugging and should be removed before deploying to production
                 console.info(`%c[%cwhy-did-you-update%c] %c${name}`, "color: inherit", "color: #e36eec", "color: inherit", "color: #f38b54", changesObj);
             }
         }

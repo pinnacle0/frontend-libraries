@@ -1,4 +1,5 @@
-import {AST_NODE_TYPES, TSESTree} from "@typescript-eslint/experimental-utils";
+import type {TSESTree} from "@typescript-eslint/utils";
+import {AST_NODE_TYPES} from "@typescript-eslint/utils";
 
 export function getClassMethod(classBody: TSESTree.ClassBody) {
     return classBody.body
@@ -10,5 +11,5 @@ export function getClassMethod(classBody: TSESTree.ClassBody) {
                   ? classElement
                   : null;
         })
-        .filter(<T>(_: T | null): _ is T => _ !== null);
+        .filter(<T>(_: T | null) => _ !== null);
 }

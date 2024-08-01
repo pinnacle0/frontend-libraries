@@ -1,11 +1,11 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/module-class-method-decorators";
 import {name, rule} from "../../src/rules/module-class-method-decorators";
 import {createConfig} from "../create-config";
 
 const logDecoratorOrderId: MessageIds = "logDecoratorOrder";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

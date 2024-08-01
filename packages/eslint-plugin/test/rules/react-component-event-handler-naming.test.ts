@@ -1,4 +1,4 @@
-import {TSESLint} from "@typescript-eslint/experimental-utils";
+import {RuleTester} from "@typescript-eslint/rule-tester";
 import type {MessageIds} from "../../src/rules/react-component-event-handler-naming";
 import {name, rule} from "../../src/rules/react-component-event-handler-naming";
 import {createConfig} from "../create-config";
@@ -7,7 +7,7 @@ const reactComponentChangeHandlerNamingId: MessageIds = "reactComponentChangeHan
 
 const reactComponentClickHandlerNamingId: MessageIds = "reactComponentClickHandlerNaming";
 
-const ruleTester = new TSESLint.RuleTester(createConfig());
+const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [

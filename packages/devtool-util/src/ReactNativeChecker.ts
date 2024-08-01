@@ -74,9 +74,9 @@ export class ReactNativeChecker {
                 name: "lint",
                 skipInFastMode: true,
                 execute: () => {
-                    Utility.runCommand("eslint", [`${this.projectDirectory}/index.js`]);
+                    Utility.runCommand("eslint", ["--no-warn-ignored", `${this.projectDirectory}/index.js`]);
                     [path.join(this.projectDirectory, "app"), ...this.extraCheckDirectories].forEach(directory => {
-                        Utility.runCommand("eslint", ["--ext", ".ts,.tsx", directory]);
+                        Utility.runCommand("eslint", ["--no-warn-ignored", `${directory}/**/*.{ts,tsx}`]);
                     });
                 },
             },
