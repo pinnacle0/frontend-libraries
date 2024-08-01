@@ -23,7 +23,7 @@ import eslintPluginJestDOM from "eslint-plugin-jest-dom";
 // @ts-expect-error -- untyped module
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
 
-export function assignConfigs(plugin: ESLint.ESLint.Plugin) {
+export function assignConfigs(plugin: ESLint.ESLint.Plugin): ESLint.ESLint.Plugin {
     const baseline = tsESlint.config({
         extends: [
             eslint.configs.recommended,
@@ -278,4 +278,6 @@ export function assignConfigs(plugin: ESLint.ESLint.Plugin) {
         baseline,
         jest,
     });
+
+    return plugin;
 }

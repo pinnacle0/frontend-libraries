@@ -8,6 +8,4 @@ const plugin: ESLint.Plugin = {
     processors: {},
 };
 
-assignConfigs(plugin);
-
-export default plugin;
+export default assignConfigs(plugin);
