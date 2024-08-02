@@ -67,6 +67,6 @@ module.exports = tsESlint.config(
         },
     },
     {
-        ignores: ["**/build/**/*.{js,jsx,ts,tsx}", "**/dist/**/*.{js,jsx,ts,tsx}", "**/node_modules/**/*.{js,jsx,ts,tsx}"],
+        ignores: ["**/build/**/*", "**/dist/**/*", "**/node_modules/**/*"],
     }
 );

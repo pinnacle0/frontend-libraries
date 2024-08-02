@@ -7,6 +7,6 @@
 import type {TSESLint} from "@typescript-eslint/utils";
 // {{TEMPLATE_IMPORT_STATEMENTS}}
 
-export const rules: Record<string, TSESLint.RuleModule<string, any[], TSESLint.RuleListener>> = {
+export const rules: Record<string, TSESLint.RuleModule<string, any[], any, TSESLint.RuleListener>> = {
     // {{TEMPLATE_RULE_DEFINITIONS}}
 };

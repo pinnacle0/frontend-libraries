@@ -27,7 +27,7 @@ function legacyPlugin(name, alias = name) {
 
 module.exports = tsESlint.config(
     {
-        files: ["**/*.{js,jsx}", "**/*.{ts,tsx}"],
+        files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
         plugins: {
             react: eslintPluginReact,
             // TODO/David: remove after all legacy plugin updated
@@ -122,6 +122,6 @@ module.exports = tsESlint.config(
         },
     },
     {
-        ignores: ["**/build/**/*.{js,jsx,ts,tsx}", "**/dist/**/*.{js,jsx,ts,tsx}", "**/node_modules/**/*.{js,jsx,ts,tsx}"],
+        ignores: ["**/build/**/*", "**/dist/**/*", "**/node_modules/**/*"],
     }
 );

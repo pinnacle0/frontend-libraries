@@ -1,11 +1,15 @@
-import type {ESLint} from "eslint";
 import {rules} from "./rules";
-import {assignConfigs} from "./config";
+import {baseline, jest} from "./config";
 
-const plugin: ESLint.Plugin = {
+const plugin = {
     configs: {},
     rules: rules as any,
     processors: {},
 };
 
-export default assignConfigs(plugin);
+Object.assign(plugin.configs, {
+    baseline: baseline(plugin),
+    jest,
+});
+
+export default plugin;
