@@ -44,7 +44,7 @@ export function matchPathSegment(pattern: string, pathSegment: string, type?: Pa
             try {
                 const matches = new RegExp(`^${pattern.slice(start)}$`).exec(pathSegment);
                 return matches ? {param: {[name]: matches[0]}} : null;
-            } catch (e) {
+            } catch {
                 throw new Error(`[react-stack-router]: Invalid union url pattern ${pattern}`);
             }
         }
