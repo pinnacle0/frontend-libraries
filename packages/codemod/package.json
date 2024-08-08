@@ -17,6 +17,7 @@
         "run-script": "ts-node --build ./script/tsconfig.json ",
         "bin": "ts-node --build ./tsconfig.json ./src/bin.ts",
         "test": "jest --config config/jest.config.ts --coverage",
+        "lint": "eslint --no-warn-ignored \"./src/**\"",
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
         "codegen": "pnpm run run-script ./script/codegen.ts",
         "build": "pnpm test && tsc --build ./tsconfig.json",

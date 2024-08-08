@@ -194,7 +194,7 @@ function createClass(
 function lookupBindings(currentScope: Scope, name: string) {
     try {
         return currentScope.lookup(name).getBindings()[name] as Array<NodePath> | undefined;
-    } catch (e) {
+    } catch {
         return undefined;
     }
 }
