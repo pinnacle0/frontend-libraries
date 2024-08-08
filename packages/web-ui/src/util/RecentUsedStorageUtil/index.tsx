@@ -16,7 +16,7 @@ function get<T extends ListItemType>(key: string, validator?: T[]): T[] {
             }
         }
         return [];
-    } catch (e) {
+    } catch {
         return [];
     }
 }
@@ -35,7 +35,7 @@ function put<T extends ListItemType>(key: string, value: T, option: Partial<Opti
         const list = get(key);
         const newList = pushToList(list, value, maxSize, actionOnDuplicate, actionOnInsert);
         localStorage.setItem(key, JSON.stringify(newList));
-    } catch (e) {
+    } catch {
         // Do nothing
     }
 }

@@ -29,7 +29,7 @@ function createRequest({uploadURL, file, formField, onSuccess, onError, onProgre
             let response: any;
             try {
                 response = JSON.parse(httpRequest.response);
-            } catch (e) {
+            } catch {
                 // Leave response as undefined
             }
 

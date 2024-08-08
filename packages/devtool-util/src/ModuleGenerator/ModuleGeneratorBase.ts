@@ -61,7 +61,7 @@ export class ModuleGeneratorBase {
         } catch (e) {
             try {
                 fs.rmSync(this.newModuleDirectory, {recursive: true});
-            } catch (e) {
+            } catch {
                 // Do nothing
             }
             this.logger.error(e);

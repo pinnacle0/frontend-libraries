@@ -50,7 +50,7 @@ function playAudio(url: string) {
          */
         const elementSource = new Audio(url);
         elementSource.play().catch(() => {});
-    } catch (e) {
+    } catch {
         // Do nothing
     }
 }

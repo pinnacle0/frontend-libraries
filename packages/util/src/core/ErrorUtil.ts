@@ -19,7 +19,7 @@ function serialize(error: unknown): string {
             } else {
                 return JSON.stringify(error);
             }
-        } catch (e) {
+        } catch {
             return "[Unknown]";
         }
     } else {

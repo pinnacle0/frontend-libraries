@@ -32,7 +32,7 @@ export class BrowserUtil {
         if (element) {
             try {
                 element.remove();
-            } catch (e) {
+            } catch {
                 // Some legacy browser may not support DOM element remove()
                 element.parentElement?.removeChild(element);
             }
@@ -44,7 +44,7 @@ export class BrowserUtil {
             if (container.scrollTo) {
                 try {
                     container.scrollTo({...options});
-                } catch (e) {
+                } catch {
                     container.scrollTo(options.left ?? container.scrollLeft, options.top ?? container.scrollTop);
                 }
             } else {
@@ -55,7 +55,7 @@ export class BrowserUtil {
             // Some legacy browser may not support DOM element scrollTo({...}) signature, or even scrollTo()
             try {
                 window.scrollTo({...options});
-            } catch (e) {
+            } catch {
                 window.scrollTo(options.left ?? window.scrollX, options.top ?? window.scrollY);
             }
         }
