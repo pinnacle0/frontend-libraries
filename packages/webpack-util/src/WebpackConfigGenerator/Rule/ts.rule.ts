@@ -5,7 +5,6 @@ interface Deps {
     fastRefresh?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- temp disable
 export function tsRule({fastRefresh = false}: Deps = {}): webpack.RuleSetRule {
     const swcLoader: webpack.RuleSetUseItem = {
         loader: require.resolve("swc-loader"),

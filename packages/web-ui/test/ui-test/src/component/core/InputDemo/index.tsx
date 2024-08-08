@@ -63,10 +63,8 @@ const TextArea = withUncontrolledInitialValue(Input.TextArea);
 
 const NullableTextArea = withUncontrolledInitialValue(Input.NullableTextArea);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- for demo
 const onNumberRangeChange = (_: [number, number]) => {};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- for demo
 const onNullableNumberRangeChange = (_: [number | null, number | null]) => {};
 
 const groups: DemoHelperGroupConfig[] = [

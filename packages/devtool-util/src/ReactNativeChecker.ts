@@ -76,7 +76,7 @@ export class ReactNativeChecker {
                 execute: () => {
                     Utility.runCommand("eslint", ["--no-warn-ignored", `${this.projectDirectory}/index.js`]);
                     [path.join(this.projectDirectory, "app"), ...this.extraCheckDirectories].forEach(directory => {
-                        Utility.runCommand("eslint", ["--no-warn-ignored", `${directory}/**/*.{ts,tsx}`]);
+                        Utility.runCommand("eslint", ["--no-warn-ignored", `"${directory}/**"`]);
                     });
                 },
             },

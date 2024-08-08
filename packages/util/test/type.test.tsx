@@ -116,7 +116,7 @@ describe("KeysOfType<T, ExpectedValueType>", () => {
 
 describe("ArrayElement<ArrayType extends readonly unknown[]>", () => {
     // Note: use `as const` here to let typescript narrow the type
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const tuple1 = [1, "b", true, {d: 0}] as const;
     type Tuple1 = typeof tuple1;
 
