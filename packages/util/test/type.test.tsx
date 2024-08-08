@@ -34,27 +34,35 @@ describe("KeysOfType<T, ExpectedValueType>", () => {
     // the object literal declared with KeysOfType<T, string> or an error will be thrown.
     test("should give the correct union of keys", () => {
         type Test1 = KeysOfType<T, string>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t1: Record<Test1, 1> = {a1: 1, b1: 1};
 
         type Test2 = KeysOfType<T, number>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t2: Record<Test2, 2> = {a2: 2, b2: 2};
 
         type Test3 = KeysOfType<T, boolean>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t3: Record<Test3, 3> = {a3: 3, b3: 3};
 
         type Test4 = KeysOfType<T, object>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t4: Record<Test4, 4> = {a4: 4, b4: 4};
 
         type Test4_1 = KeysOfType<T, {nested1: string; nested2: number}>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t4_1: Record<Test4_1, 4> = {a4: 4};
 
         type Test4_2 = KeysOfType<T, {nested1: string}>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t4_2: Record<Test4_2, 4> = {a4: 4, b4: 4};
 
         type Test5 = KeysOfType<T, Array<any>>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t5: Record<Test5, 5> = {};
 
         type Test6 = KeysOfType<T, {}>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t6: Record<Test6, 6> = {
             a1: 6,
             a2: 6,
@@ -67,6 +75,7 @@ describe("KeysOfType<T, ExpectedValueType>", () => {
         };
 
         type Test7 = KeysOfType<T, any>;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const t7: Record<Test7, 7> = {
             a1: 7,
             a2: 7,

@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import {RandomUtil} from "../../src/core/RandomUtil";
 
 describe("RandomUtil.ofOne", () => {

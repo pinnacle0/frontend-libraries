@@ -5,6 +5,7 @@ export type AnimatedType<T extends keyof React.JSX.IntrinsicElements = keyof Rea
     [key in T]: React.ComponentType<React.JSX.IntrinsicElements[key] & AnimatedBaseProps>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type -- need to cover all type of function
 const componentCache = new Map<string, Function>();
 export const RawAnimated: any = new Proxy(
     {},
