@@ -20,7 +20,7 @@
         "lint": "eslint --no-warn-ignored \"./src/**\"",
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
         "codegen": "pnpm run run-script ./script/codegen.ts",
-        "build": "pnpm test && tsc --build ./tsconfig.json",
+        "build": "pnpm lint && pnpm test && tsc --build ./tsconfig.json",
         "prepublishOnly": "pnpm run build"
     },
     "keywords": [],
