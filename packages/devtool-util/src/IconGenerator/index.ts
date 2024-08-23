@@ -52,6 +52,13 @@ export class IconGenerator {
         await fantasticonGenerateFonts({
             inputDir: this.svgDirectory,
             outputDir: this.iconComponentDirectory,
+            formatOptions: {
+                svg: {
+                    centerHorizontally: true,
+                    centerVertically: true,
+                    preserveAspectRatio: true,
+                },
+            },
             name: this.fontFamily,
             fontTypes: [FontAssetType.WOFF, FontAssetType.TTF],
             assetTypes: [ASSET_TYPES.CSS],
