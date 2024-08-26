@@ -26,6 +26,7 @@ export class IconGenerator {
         try {
             await this.prepareFolder();
             await this.generateFonts();
+            this.normalizeImageSize();
             this.parseContent();
             this.generateReactComponent();
             this.generateCSSAndAssets();
@@ -66,6 +67,52 @@ export class IconGenerator {
             fontHeight: 200,
             prefix: "icon",
             getIconId: params => params.basename,
+        });
+    }
+
+    private normalizeImageSize() {
+        const widthRegex = / width="([a-zA-z0-9.]+)"/;
+        const heightRegex = / height="([a-zA-z0-9.]+)"/;
+        const imgs = fs.readdirSync(this.svgDirectory);
+
+        imgs.forEach(img => {
+            const imgPath = path.join(this.svgDirectory, img);
+            const content = fs.readFileSync(imgPath, {encoding: "utf-8"});
+
+            const widthMatch = content.match(widthRegex);
+            const heightMatch = content.match(heightRegex);
+
+            const width = widthMatch?.[1];
+            const height = heightMatch?.[1];
+
+            if (!width || !height) {
+                return;
+            }
+
+            const numericWidth = Number(width);
+            const numericHeight = Number(height);
+            const longerSide = Math.max(numericHeight, numericWidth);
+
+            if (longerSide < 200) {
+                let newWidth;
+                let newHeight;
+
+                if (longerSide === numericWidth) {
+                    newWidth = 200;
+                    newHeight = (numericHeight * 200) / numericWidth;
+                } else {
+                    newHeight = 200;
+                    newWidth = (numericWidth * 200) / numericHeight;
+                }
+                const replacedImgContent = content.replace(widthRegex, ` width="${newWidth}"`).replace(heightRegex, ` height="${newHeight}"`);
+                this.logger.task("Normalizing image size");
+                fs.writeFile(imgPath, replacedImgContent, {encoding: "utf-8"}, err => {
+                    if (err) {
+                        return this.logger.error(`Failed to write image: ${imgPath}`);
+                    }
+                    this.logger.info(["Normalized image: ", imgPath]);
+                });
+            }
         });
     }
 
