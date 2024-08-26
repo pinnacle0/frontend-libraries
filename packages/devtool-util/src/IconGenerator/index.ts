@@ -75,6 +75,7 @@ export class IconGenerator {
         const heightRegex = / height="([a-zA-z0-9.]+)"/;
         const imgs = fs.readdirSync(this.svgDirectory);
 
+        this.logger.task("Normalizing image size");
         imgs.forEach(img => {
             const imgPath = path.join(this.svgDirectory, img);
             const content = fs.readFileSync(imgPath, {encoding: "utf-8"});
@@ -105,13 +106,8 @@ export class IconGenerator {
                     newWidth = (numericWidth * 200) / numericHeight;
                 }
                 const replacedImgContent = content.replace(widthRegex, ` width="${newWidth}"`).replace(heightRegex, ` height="${newHeight}"`);
-                this.logger.task("Normalizing image size");
-                fs.writeFile(imgPath, replacedImgContent, {encoding: "utf-8"}, err => {
-                    if (err) {
-                        return this.logger.error(`Failed to write image: ${imgPath}`);
-                    }
-                    this.logger.info(["Normalized image: ", imgPath]);
-                });
+                fs.writeFileSync(imgPath, replacedImgContent, {encoding: "utf-8"});
+                this.logger.info(["Normalized image: ", imgPath]);
             }
         });
     }
