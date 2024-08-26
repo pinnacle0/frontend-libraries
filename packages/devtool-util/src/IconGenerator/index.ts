@@ -24,9 +24,9 @@ export class IconGenerator {
 
     async run() {
         try {
+            this.normalizeImageSize();
             await this.prepareFolder();
             await this.generateFonts();
-            this.normalizeImageSize();
             this.parseContent();
             this.generateReactComponent();
             this.generateCSSAndAssets();
