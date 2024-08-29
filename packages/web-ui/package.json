@@ -31,7 +31,7 @@
         "@ant-design/icons": "5.3.7",
         "@juggle/resize-observer": "3.4.0",
         "@tanstack/react-virtual": "3.5.0",
-        "antd": "5.17.3",
+        "antd": "5.20.3",
         "classnames": "2.5.1",
         "dayjs": "1.11.12",
         "intersection-observer": "0.12.2",
