@@ -48,7 +48,7 @@ export class OverflowableText extends React.PureComponent<Props, States> {
         return (
             <div className={classNames("g-overflowable-text", className)}>
                 {this.state.overflow ? (
-                    <Tooltip overlay={children} childContainerProps={{className: "wrap-text", style: {width: maxWidth}}}>
+                    <Tooltip overlay={children} childContainerProps={{className: "wrap-text", style: {width: maxWidth, ...style}}}>
                         {children}
                     </Tooltip>
                 ) : (
