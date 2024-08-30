@@ -46,7 +46,7 @@ function checkIsStandaloneTypeImport(context: Readonly<TSESLint.RuleContext<Mess
             node,
             messageId: "typeImportOutsideBracket",
             data: {
-                currentNode: node.source.value,
+                currentNode: context.sourceCode.getText(node),
             },
             fix: fixer => {
                 return [fixer.insertTextBeforeRange([typeKeywordsRange[0][0] - 1, typeKeywordsRange[0][1] + 1], "type "), ...typeKeywordsRange.map(([start, end]) => fixer.removeRange([start, end]))];
