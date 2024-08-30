@@ -3,7 +3,7 @@ import path from "path";
 import webpack from "webpack";
 import type WebpackDevServer from "webpack-dev-server";
 import DevServer from "webpack-dev-server";
-import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
+import type {WebpackConfigGeneratorOptions} from "./type";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {SocksProxyAgent} from "socks-proxy-agent";
 import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil";
