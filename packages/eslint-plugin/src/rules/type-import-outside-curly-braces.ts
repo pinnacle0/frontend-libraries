@@ -15,7 +15,7 @@ export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
         hasSuggestions: true,
         fixable: "code",
         messages: {
-            typeImportOutsideBracket: "the `type` keyword in `{{{ currentNode }}}` should be placed outside curly braces",
+            typeImportOutsideBracket: "the `type` keyword in `{{ currentNode }}` should be placed outside curly braces",
         },
         schema: [],
     },
