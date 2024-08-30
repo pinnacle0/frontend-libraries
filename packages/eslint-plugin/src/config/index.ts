@@ -89,6 +89,7 @@ export const baseline = (plugin: ESLint.Plugin) =>
             "@pinnacle0/react-component-props-typing": ["error"],
             "@pinnacle0/react-component-state-member": ["error"],
             "@pinnacle0/style-properties-type": ["error"],
+            "@pinnacle0/type-import-outside-curly-braces": ["error"],
             "@pinnacle0/variable-declaration-module-identifier-shadowing": ["error"],
 
             "@typescript-eslint/no-empty-object-type": "off",

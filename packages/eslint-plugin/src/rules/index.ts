@@ -21,6 +21,7 @@ import {rule as reactComponentMethodOrdering} from "./react-component-method-ord
 import {rule as reactComponentPropsTyping} from "./react-component-props-typing";
 import {rule as reactComponentStateMember} from "./react-component-state-member";
 import {rule as stylePropertiesType} from "./style-properties-type";
+import {rule as typeImportOutsideCurlyBraces} from "./type-import-outside-curly-braces";
 import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
 
 export const rules: Record<string, TSESLint.RuleModule<string, any[], any, TSESLint.RuleListener>> = {
@@ -40,5 +41,6 @@ export const rules: Record<string, TSESLint.RuleModule<string, any[], any, TSESL
     "react-component-props-typing": reactComponentPropsTyping,
     "react-component-state-member": reactComponentStateMember,
     "style-properties-type": stylePropertiesType,
+    "type-import-outside-curly-braces": typeImportOutsideCurlyBraces,
     "variable-declaration-module-identifier-shadowing": variableDeclarationModuleIdentifierShadowing,
 };
