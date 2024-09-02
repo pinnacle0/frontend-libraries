@@ -69,6 +69,25 @@ export class ModuleGeneratorBase {
         }
     }
 
+    async update() {
+        try {
+            const modules = fs.readdirSync(this.moduleBaseDirectory, {withFileTypes: true});
+            for (const module of modules) {
+                if (module.isDirectory()) {
+                    if (module.name === "main") {
+                        this.updateModuleStructure("main");
+                    } else {
+                        this.updateSubModuleStructure(module.name);
+                    }
+                }
+            }
+            PrettierUtil.format(this.moduleBaseDirectory);
+        } catch (e) {
+            this.logger.error(e);
+            process.exit(1);
+        }
+    }
+
     private checkPreCondition() {
         this.logger.info("Checking pre-conditions");
 
@@ -146,6 +165,60 @@ export class ModuleGeneratorBase {
         PrettierUtil.format(this.reduxStateTypePath);
     }
 
+    private updateSubModuleStructure(moduleName: string) {
+        const subModulesPath = path.join(this.moduleBaseDirectory, moduleName);
+        const subModules = fs.readdirSync(subModulesPath, {withFileTypes: true});
+        for (const subModule of subModules) {
+            if (subModule.isDirectory()) {
+                this.updateModuleStructure(moduleName + "/" + subModule.name);
+            }
+        }
+    }
+
+    private updateModuleStructure(moduleName: string) {
+        const modulePath = path.join(this.moduleBaseDirectory, moduleName);
+
+        if (fs.existsSync(path.join(modulePath, "module.ts"))) {
+            this.logger.info(`Module ${moduleName} already updated`);
+            return;
+        }
+
+        this.createModuleFile(moduleName);
+
+        fs.copyFileSync(`${this.templateDirectory}/index.ts.template`, `${modulePath}/index.ts}`);
+
+        this.updateComponent(moduleName);
+
+        this.logger.task(`Module ${moduleName} updated`);
+    }
+
+    private createModuleFile(moduleName: string) {
+        const modulePath = path.join(this.moduleBaseDirectory, moduleName);
+
+        const originalIndexTS = path.join(modulePath, "index.ts");
+        const newModuleTS = path.join(modulePath, "module.ts");
+        const file = fs.readFileSync(originalIndexTS, "utf8");
+
+        const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
+
+        const newFile = file
+            .replace('import {Main} from "./Main";', "")
+            .replace(`export const MainComponent: React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(Main);`, "")
+            .replace(`const ${moduleNameInFormat}Module = register(new `, `export const ${moduleNameInFormat}Module = register(new `);
+
+        fs.writeFileSync(newModuleTS, newFile, "utf8");
+    }
+
+    private updateComponent(moduleName: string) {
+        const componentPath = path.join(this.moduleBaseDirectory, moduleName, "Main", "index.tsx");
+        let file = fs.readFileSync(componentPath, "utf8");
+        const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
+        file = `import {${moduleNameInFormat}Module} from "../module"` + file;
+        const newFile = file.replace(/ReactUtil.memo\("\w+",/, `${moduleNameInFormat}Module.attachLifecycle(`);
+
+        fs.writeFileSync(componentPath, newFile, "utf8");
+    }
+
     /**
      * Create a name based on this.moduleName.
      *
@@ -156,9 +229,11 @@ export class ModuleGeneratorBase {
      *
      * Special case: for common/some-name module, common will be omitted.
      * @param format "pascal" or "camel"
+     * @param moduleName
      */
-    private getModuleNameInFormat(format: "pascal" | "camel") {
-        return this.moduleName
+    private getModuleNameInFormat(format: "pascal" | "camel", moduleName?: string) {
+        moduleName = moduleName ?? this.moduleName;
+        return moduleName
             .split("/")
             .filter((_, index) => !(_ === "common" && index === 0))
             .map((_, index) => (index === 0 && format === "camel" ? NamingUtil.toCamelCase(_) : NamingUtil.toPascalCase(_)))
