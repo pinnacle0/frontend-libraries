@@ -19,7 +19,7 @@ describe("ModuleGenerator class", () => {
 
     afterAll(() => {
         // Comment the following line to see the temp files
-        fs.rmSync(tmpDirectory, {recursive: true});
+        // fs.rmSync(tmpDirectory, {recursive: true});
     });
 
     test("generate files", async () => {
@@ -43,6 +43,7 @@ describe("ModuleGenerator class", () => {
             path.join(tmpDirectory, "module/common/new-feature/hooks.ts"),
             path.join(tmpDirectory, "module/common/new-feature/index.ts"),
             path.join(tmpDirectory, "module/common/new-feature/type.ts"),
+            path.join(tmpDirectory, "module/common/new-feature/module.ts"),
         ];
         // Check if each expected new file exists
         expectedNewFiles.forEach(path => {

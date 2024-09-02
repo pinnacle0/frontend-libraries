@@ -1,0 +1,15 @@
+import {Module, register} from "core-fe";
+import type {SagaGenerator} from "core-fe";
+import type {RootState} from "type/state";
+import type {State} from "./type";
+
+const initialState: State = {};
+
+class {1}Module extends Module<RootState, "{2}"> {
+    override *onEnter(): SagaGenerator {
+        // TODO
+    }
+}
+
+export const {2}Module = register(new {1}Module("{2}", initialState));
+export const actions = {2}Module.getActions();

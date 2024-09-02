@@ -1,17 +1,3 @@
-import {Module, register} from "core-fe";
-import {Main} from "./Main";
-import type {SagaGenerator} from "core-fe";
-import type {RootState} from "type/state";
-import type {State} from "./type";
+export {Main} from "./Main";
+export {actions} from "./module";
 
-const initialState: State = {};
-
-class {1}Module extends Module<RootState, "{2}"> {
-    override *onEnter(): SagaGenerator {
-        // TODO
-    }
-}
-
-const {2}Module = register(new {1}Module("{2}", initialState));
-export const actions = {2}Module.getActions();
-export const MainComponent: React.ComponentType = {2}Module.attachLifecycle(Main);

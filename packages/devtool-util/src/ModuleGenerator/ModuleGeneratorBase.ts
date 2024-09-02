@@ -93,15 +93,15 @@ export class ModuleGeneratorBase {
     private copyTemplate() {
         this.logger.task(["Copying template to target", this.newModuleDirectory]);
         fs.mkdirSync(`${this.newModuleDirectory}/Main`, {recursive: true});
-        const files = ["Main/index.tsx", "Main/index.less", "hooks.ts", "index.ts", "type.ts"];
+        const files = ["Main/index.tsx", "Main/index.less", "hooks.ts", "index.ts", "type.ts", "module.ts"];
         for (const file of files) {
             fs.copyFileSync(`${this.templateDirectory}/${file}.template`, `${this.newModuleDirectory}/${file}`);
         }
     }
 
     private updateTemplateContent() {
-        const indexPath = `${this.newModuleDirectory}/index.ts`;
-        this.logger.task(["Updating index.ts", indexPath]);
+        const indexPath = `${this.newModuleDirectory}/module.ts`;
+        this.logger.task(["Updating module.ts", indexPath]);
         Utility.replaceTemplate(indexPath, [
             this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
@@ -113,6 +113,10 @@ export class ModuleGeneratorBase {
             this.getModuleNameInFormat("pascal"), // {1}
             this.getModuleNameInFormat("camel"), // {2}
         ]);
+
+        const componentPath = `${this.newModuleDirectory}/Main/index.tsx`;
+        this.logger.task(["Updating Main/index.tsx", componentPath]);
+        Utility.replaceTemplate(componentPath, [this.getModuleNameInFormat("camel")]);
     }
 
     private updateReduxState() {

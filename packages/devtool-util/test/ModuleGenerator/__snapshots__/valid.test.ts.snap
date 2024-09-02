@@ -1,44 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModuleGenerator class generate files 1`] = `
-"import React from \"react\";
-import {ReactUtil} from \"@pinnacle0/web-ui/util/ReactUtil\";
-import \"./index.less\";
+"import React from "react";
+import {newFeatureModule} from "../module"
+import "./index.less";
 
-export const Main = ReactUtil.memo(\"Main\", () => {
+export const Main = newFeatureModule.attachLifecycle(() => {
     return <div />;
 });
 "
 `;
 
 exports[`ModuleGenerator class generate files 2`] = `
-"import {useSelector} from \"core-fe\";
-import type {RootState} from \"type/state\";
+"import {useSelector} from "core-fe";
+import type {RootState} from "type/state";
 
-export function useNewFeatureState<T>(fn: (state: RootState[\"app\"][\"newFeature\"]) => T): T {
+export function useNewFeatureState<T>(fn: (state: RootState["app"]["newFeature"]) => T): T {
     return useSelector((state: RootState) => fn(state.app.newFeature));
 }
 "
 `;
 
 exports[`ModuleGenerator class generate files 3`] = `
-"import {Module, register} from \"core-fe\";
-import {Main} from \"./Main\";
-import type {SagaGenerator} from \"core-fe\";
-import type {RootState} from \"type/state\";
-import type {State} from \"./type\";
+"export {Main} from "./Main";
+export {actions} from "./module";
 
-const initialState: State = {};
-
-class NewFeatureModule extends Module<RootState, \"newFeature\"> {
-    override *onEnter(): SagaGenerator {
-        // TODO
-    }
-}
-
-const newFeatureModule = register(new NewFeatureModule(\"newFeature\", initialState));
-export const actions = newFeatureModule.getActions();
-export const MainComponent: React.ComponentType = newFeatureModule.attachLifecycle(Main);
 "
 `;
 
@@ -48,9 +34,28 @@ exports[`ModuleGenerator class generate files 4`] = `
 `;
 
 exports[`ModuleGenerator class generate files 5`] = `
-"import type {State} from \"core-fe\";
-import type {State as NewFeatureState} from \"module/common/new-feature/type\";
-import type {State as OldFeatureState} from \"./modules/common/old-feature\";
+"import {Module, register} from "core-fe";
+import type {SagaGenerator} from "core-fe";
+import type {RootState} from "type/state";
+import type {State} from "./type";
+
+const initialState: State = {};
+
+class NewFeatureModule extends Module<RootState, "newFeature"> {
+    override *onEnter(): SagaGenerator {
+        // TODO
+    }
+}
+
+export const newFeatureModule = register(new NewFeatureModule("newFeature", initialState));
+export const actions = newFeatureModule.getActions();
+"
+`;
+
+exports[`ModuleGenerator class generate files 6`] = `
+"import type {State} from "core-fe";
+import type {State as NewFeatureState} from "module/common/new-feature/type";
+import type {State as OldFeatureState} from "./modules/common/old-feature";
 
 export interface RootState extends State {
     app: {
@@ -61,7 +66,7 @@ export interface RootState extends State {
 "
 `;
 
-exports[`ModuleGenerator class generate files 6`] = `
+exports[`ModuleGenerator class generate files 7`] = `
 "//
 export interface State {}
 "
