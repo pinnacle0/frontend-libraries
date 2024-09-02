@@ -19,7 +19,7 @@ describe("ModuleGenerator class", () => {
 
     afterAll(() => {
         // Comment the following line to see the temp files
-        // fs.rmSync(tmpDirectory, {recursive: true});
+        fs.rmSync(tmpDirectory, {recursive: true});
     });
 
     test("generate files", async () => {
