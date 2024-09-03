@@ -216,7 +216,7 @@ export class ModuleGeneratorBase {
         const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
 
         const newFile = file
-            .replace('import { Main } from "./Main";', "")
+            .replace(/import\s*{\s*Main\s*}\s*from\s*".\/Main";/, "")
             .replace(`export const MainComponent: React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(Main);`, "")
             .replace(`const ${moduleNameInFormat}Module = register(new `, `export const ${moduleNameInFormat}Module = register(new `);
 
@@ -235,6 +235,9 @@ export class ModuleGeneratorBase {
         let newFile = "";
         if (file.search(reactMemoRegEx) !== -1) {
             newFile += file.replace(reactMemoRegEx, replaceText);
+            if (newFile.match(/ReactUtil/)?.length === 2) {
+                newFile.replace(/import\s*{\s*ReactUtil\s*}\s*from\s*"@pinnacle0\/web-ui\/util\/ReactUtil";/, ""); // Remove ReactUtil import
+            }
         } else {
             newFile += file.replace(/const Main\s*=\s*\(\)\s*=>|const Main\(\)/, replaceText + "() => ") + ")";
         }
