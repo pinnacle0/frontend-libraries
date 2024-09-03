@@ -192,7 +192,7 @@ export class ModuleGeneratorBase {
 
         this.createModuleFile(moduleName);
 
-        fs.copyFileSync(`${this.templateDirectory}/index.ts.template`, `${modulePath}/index.ts}`);
+        fs.copyFileSync(`${this.templateDirectory}/index.ts.template`, `${modulePath}/index.ts`);
 
         this.updateComponent(moduleName);
 
@@ -216,7 +216,7 @@ export class ModuleGeneratorBase {
         const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
 
         const newFile = file
-            .replace('import {Main} from "./Main";', "")
+            .replace('import { Main } from "./Main";', "")
             .replace(`export const MainComponent: React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(Main);`, "")
             .replace(`const ${moduleNameInFormat}Module = register(new `, `export const ${moduleNameInFormat}Module = register(new `);
 
@@ -227,9 +227,17 @@ export class ModuleGeneratorBase {
         const componentPath = path.join(this.moduleBaseDirectory, moduleName, "Main", "index.tsx");
         let file = fs.readFileSync(componentPath, "utf8");
         const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
-        file = `import {${moduleNameInFormat}Module} from "../module"` + file;
-        const newFile = file.replace(/ReactUtil.memo\("\w+",/, `${moduleNameInFormat}Module.attachLifecycle(`);
+        file = `import {${moduleNameInFormat}Module} from "../module";\n` + file;
 
+        const reactMemoRegEx = /const\s+Main\s*=\s*React(?:Util)?\.memo\(/;
+        const lifecycleAttach = `const Main = ${moduleNameInFormat}Module.attachLifecycle(`;
+
+        let newFile = "";
+        if (file.search(reactMemoRegEx) !== -1) {
+            newFile += file.replace(reactMemoRegEx, lifecycleAttach);
+        } else {
+            newFile += file.replace(/const Main\s*=\s*\(\)\s*=>|const Main\(\)/, lifecycleAttach + "() => ") + ")";
+        }
         fs.writeFileSync(componentPath, newFile, "utf8");
     }
 
