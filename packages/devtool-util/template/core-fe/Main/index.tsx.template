@@ -2,6 +2,6 @@ import React from "react";
 import {{1}Module} from "../module"
 import "./index.less";
 
-export const Main = {1}Module.attachLifecycle(() => {
+export const Main: React.ComponentType = {1}Module.attachLifecycle(() => {
     return <div />;
 });

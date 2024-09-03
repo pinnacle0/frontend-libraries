@@ -230,7 +230,7 @@ export class ModuleGeneratorBase {
         file = `import {${moduleNameInFormat}Module} from "../module";\n` + file;
 
         const reactMemoRegEx = /const\s+Main\s*=\s*React(?:Util)?\.memo\(/;
-        const lifecycleAttach = `const Main = ${moduleNameInFormat}Module.attachLifecycle(`;
+        const lifecycleAttach = `const Main : React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(`;
 
         let newFile = "";
         if (file.search(reactMemoRegEx) !== -1) {
