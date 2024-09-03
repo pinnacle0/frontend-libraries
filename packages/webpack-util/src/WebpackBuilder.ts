@@ -1,5 +1,5 @@
 import {Utility} from "@pinnacle0/devtool-util";
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 import webpack from "webpack";
 import {ArgsUtil} from "./ArgsUtil";
@@ -79,13 +79,13 @@ export class WebpackBuilder {
 
     private cleanDistFolder() {
         this.logger.task("Cleaning build dist folder");
-        fs.emptyDirSync(this.outputDirectory);
+        fs.readdirSync(this.outputDirectory).forEach(file => fs.rmSync(path.join(this.outputDirectory, file), {recursive: true}));
     }
 
     private copyStatic() {
         this.logger.task("Copying static assets to build dist folder");
         if (fs.existsSync(this.projectStaticDirectory)) {
-            fs.copySync(this.projectStaticDirectory, this.outputDirectory, {dereference: true});
+            fs.cpSync(this.projectStaticDirectory, this.outputDirectory, {dereference: true, recursive: true});
         }
     }
 

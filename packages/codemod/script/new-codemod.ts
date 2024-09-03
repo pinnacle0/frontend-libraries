@@ -1,5 +1,5 @@
 import {NamingUtil, TaskRunner} from "@pinnacle0/devtool-util";
-import fs from "fs-extra";
+import fs from "fs";
 import yargs from "yargs";
 import {hideBin} from "yargs/helpers";
 import path from "path";

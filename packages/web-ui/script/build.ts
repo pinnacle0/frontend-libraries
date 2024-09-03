@@ -1,6 +1,5 @@
 import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
-import {copySync as fsExtraCopySync} from "fs-extra";
 import path from "path";
 
 const FilePath = {
@@ -72,7 +71,7 @@ new TaskRunner("build").execute([
         execute: () => {
             const print = Utility.createConsoleLogger("build");
             const supportedExtensions = [".less", ".css", ".json", ".jpg", ".png", ".gif", ".mp3", ".mp4", ".wmv"];
-            fsExtraCopySync(FilePath.src, FilePath.build, {
+            fs.cpSync(FilePath.src, FilePath.build, {
                 filter: source => {
                     const extension = path.extname(source);
                     // source may be a directory or a file under the directory.
@@ -89,6 +88,7 @@ new TaskRunner("build").execute([
                     }
                 },
                 dereference: true,
+                recursive: true,
             });
         },
     },

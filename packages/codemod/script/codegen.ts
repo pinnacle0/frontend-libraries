@@ -1,5 +1,5 @@
 import {TaskRunner} from "@pinnacle0/devtool-util";
-import fs from "fs-extra";
+import fs from "fs/promises";
 import path from "path";
 import {createToolkit} from "../src/toolkit";
 import type {namedTypes} from "ast-types";

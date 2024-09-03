@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import fs from "fs-extra";
+import fs from "fs/promises";
 import {glob} from "glob";
 import path from "path";
 import {resolveCodemod} from "./util";
