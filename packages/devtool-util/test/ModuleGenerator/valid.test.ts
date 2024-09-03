@@ -144,6 +144,7 @@ export const MainComponent: React.ComponentType = featureModule.attachLifecycle(
         {
             path: path.join(tmpOldStructurePath, "Main", "index.tsx"),
             data: `import React from "react";
+import { ReactUtil } from "@pinnacle0/web-ui/util/ReactUtil";
             export const Main = ReactUtil.memo("feature",() => {return <div/>});
 `,
         },

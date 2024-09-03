@@ -235,8 +235,9 @@ export class ModuleGeneratorBase {
         let newFile = "";
         if (file.search(reactMemoRegEx) !== -1) {
             newFile += file.replace(reactMemoRegEx, replaceText);
-            if (newFile.match(/ReactUtil/)?.length === 2) {
-                newFile.replace(/import\s*{\s*ReactUtil\s*}\s*from\s*"@pinnacle0\/web-ui\/util\/ReactUtil";/, ""); // Remove ReactUtil import
+
+            if (newFile.match(/ReactUtil/g)?.length === 2) {
+                newFile = newFile.replace(/import\s*{\s*ReactUtil\s*}\s*from\s+"@pinnacle0\/web-ui\/util\/ReactUtil";/, ""); // Remove ReactUtil import
             }
         } else {
             newFile += file.replace(/const Main\s*=\s*\(\)\s*=>|const Main\(\)/, replaceText + "() => ") + ")";

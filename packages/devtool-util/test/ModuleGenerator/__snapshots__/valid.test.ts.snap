@@ -75,6 +75,7 @@ export interface State {}
 exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 1`] = `
 "import {featureModule} from "../module";
 import React from "react";
+
             export const Main : React.ComponentType = featureModule.attachLifecycle(() => {return <div/>});
 "
 `;
