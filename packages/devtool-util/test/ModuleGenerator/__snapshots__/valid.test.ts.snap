@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModuleGenerator class generate files 1`] = `
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 1`] = `
 "import React from "react";
 import {newFeatureModule} from "../module"
 import "./index.less";
@@ -11,7 +11,7 @@ export const Main = newFeatureModule.attachLifecycle(() => {
 "
 `;
 
-exports[`ModuleGenerator class generate files 2`] = `
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 2`] = `
 "import {useSelector} from "core-fe";
 import type {RootState} from "type/state";
 
@@ -21,19 +21,19 @@ export function useNewFeatureState<T>(fn: (state: RootState["app"]["newFeature"]
 "
 `;
 
-exports[`ModuleGenerator class generate files 3`] = `
-"export {Main} from "./Main";
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 3`] = `
+"export {Main as MainComponent} from "./Main";
 export {actions} from "./module";
 
 "
 `;
 
-exports[`ModuleGenerator class generate files 4`] = `
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 4`] = `
 "export interface State {}
 "
 `;
 
-exports[`ModuleGenerator class generate files 5`] = `
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 5`] = `
 "import {Module, register} from "core-fe";
 import type {SagaGenerator} from "core-fe";
 import type {RootState} from "type/state";
@@ -52,10 +52,10 @@ export const actions = newFeatureModule.getActions();
 "
 `;
 
-exports[`ModuleGenerator class generate files 6`] = `
-"import type {State} from "core-fe";
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 6`] = `
+"import type { State } from "core-fe";
 import type {State as NewFeatureState} from "module/common/new-feature/type";
-import type {State as OldFeatureState} from "./modules/common/old-feature";
+import type { State as OldFeatureState } from "./modules/common/old-feature";
 
 export interface RootState extends State {
     app: {
@@ -66,8 +66,41 @@ export interface RootState extends State {
 "
 `;
 
-exports[`ModuleGenerator class generate files 7`] = `
+exports[`ModuleGenerator class add generate files: Generate Files Snapshot 7`] = `
 "//
 export interface State {}
+"
+`;
+
+exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 1`] = `
+"import {featureModule} from "../module";
+import React from "react";
+            export const Main = featureModule.attachLifecycle(() =>  <div/>;
+)"
+`;
+
+exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 2`] = `
+"export {Main as MainComponent} from "./Main";
+export {actions} from "./module";
+
+"
+`;
+
+exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 3`] = `
+"
+
+import type { SagaGenerator } from "core-fe";
+import type { RootState } from "type/state";
+import type { State } from "./type";
+
+const initialState: State = {};
+
+class FeatureModule extends Module<RootState, "feature"> {
+    override *onEnter(): SagaGenerator {
+        // TODO
+    }
+}
+export const featureModule = register(new FeatureModule("feature", initialState));
+export const actions = featureModule.getActions();
 "
 `;
