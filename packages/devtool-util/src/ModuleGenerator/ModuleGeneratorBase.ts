@@ -229,14 +229,14 @@ export class ModuleGeneratorBase {
         const moduleNameInFormat = this.getModuleNameInFormat("camel", moduleName);
         file = `import {${moduleNameInFormat}Module} from "../module";\n` + file;
 
-        const reactMemoRegEx = /const\s+Main\s*=\s*React(?:Util)?\.memo\(/;
-        const lifecycleAttach = `const Main : React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(`;
+        const reactMemoRegEx = /const Main = (ReactUtil\.memo\("\w+",|React\.memo\()/;
+        const replaceText = `const Main : React.ComponentType = ${moduleNameInFormat}Module.attachLifecycle(`;
 
         let newFile = "";
         if (file.search(reactMemoRegEx) !== -1) {
-            newFile += file.replace(reactMemoRegEx, lifecycleAttach);
+            newFile += file.replace(reactMemoRegEx, replaceText);
         } else {
-            newFile += file.replace(/const Main\s*=\s*\(\)\s*=>|const Main\(\)/, lifecycleAttach + "() => ") + ")";
+            newFile += file.replace(/const Main\s*=\s*\(\)\s*=>|const Main\(\)/, replaceText + "() => ") + ")";
         }
         fs.writeFileSync(componentPath, newFile, "utf8");
     }

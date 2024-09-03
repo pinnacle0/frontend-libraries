@@ -18,7 +18,7 @@ describe("ModuleGenerator class add", () => {
         // Comment the following line to see the add function files
         fs.rmSync(tmpDirectory, {recursive: true});
         // Comment the following line to see the update function files
-        fs.rmSync(tmpOldStructureDirectory, {recursive: true});
+        // fs.rmSync(tmpOldStructureDirectory, {recursive: true});
     });
 
     test("generate files", async () => {
@@ -144,7 +144,7 @@ export const MainComponent: React.ComponentType = featureModule.attachLifecycle(
         {
             path: path.join(tmpOldStructurePath, "Main", "index.tsx"),
             data: `import React from "react";
-            export const Main = () => <div/>;
+            export const Main = ReactUtil.memo("feature",() => {return <div/>});
 `,
         },
         {
