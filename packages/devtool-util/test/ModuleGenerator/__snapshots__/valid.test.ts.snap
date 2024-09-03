@@ -71,37 +71,3 @@ exports[`ModuleGenerator class add generate files: Generate Files Snapshot 7`] =
 export interface State {}
 "
 `;
-
-exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 1`] = `
-"import {featureModule} from "../module";
-import React from "react";
-
-            export const Main : React.ComponentType = featureModule.attachLifecycle(() => {return <div/>});
-"
-`;
-
-exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 2`] = `
-"export {Main as MainComponent} from "./Main";
-export {actions} from "./module";
-
-"
-`;
-
-exports[`ModuleGenerator class add update module structure: Update Structure Snapshot 3`] = `
-"
-
-import type { SagaGenerator } from "core-fe";
-import type { RootState } from "type/state";
-import type { State } from "./type";
-
-const initialState: State = {};
-
-class FeatureModule extends Module<RootState, "feature"> {
-    override *onEnter(): SagaGenerator {
-        // TODO
-    }
-}
-export const featureModule = register(new FeatureModule("feature", initialState));
-export const actions = featureModule.getActions();
-"
-`;
