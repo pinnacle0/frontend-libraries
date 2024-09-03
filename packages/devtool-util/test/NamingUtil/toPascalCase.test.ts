@@ -1,4 +1,4 @@
-import {NamingUtil} from "../..";
+import {NamingUtil} from "../../src/NamingUtil";
 
 describe("NamingUtil.toPascalCase", () => {
     type TestEachRowSchema = {input: string; expected: string};
