@@ -3,7 +3,6 @@ import fs from "fs-extra";
 import path from "path";
 import {createToolkit} from "../src/toolkit";
 import type {namedTypes} from "ast-types";
-import type {NodePath} from "ast-types/lib/node-path";
 
 const Paths = {
     modDirectory: path.join(__dirname, "../src/mod"),
