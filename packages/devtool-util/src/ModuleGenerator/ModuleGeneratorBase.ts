@@ -176,6 +176,13 @@ export class ModuleGeneratorBase {
     }
 
     private updateModuleStructure(moduleName: string) {
+        try {
+            this.checkUpdateModuleStructure(moduleName);
+        } catch (e: any) {
+            this.logger.error(e.message);
+            return;
+        }
+
         const modulePath = path.join(this.moduleBaseDirectory, moduleName);
 
         if (fs.existsSync(path.join(modulePath, "module.ts"))) {
@@ -190,6 +197,13 @@ export class ModuleGeneratorBase {
         this.updateComponent(moduleName);
 
         this.logger.task(`Module ${moduleName} updated`);
+    }
+
+    private checkUpdateModuleStructure(moduleName: string) {
+        const existFiles = ["index.ts", "type.ts", "hooks.ts", "Main/index.tsx"];
+        if (!existFiles.every(file => fs.existsSync(path.join(this.moduleBaseDirectory, moduleName, file)))) {
+            throw new Error(`Module ${moduleName} have special structure, please update it manually`);
+        }
     }
 
     private createModuleFile(moduleName: string) {
