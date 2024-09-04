@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util/src/Utility";
+import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
 import webpack from "webpack";
 import type WebpackDevServer from "webpack-dev-server";
