@@ -12,7 +12,7 @@
         "lint": "eslint --no-warn-ignored \"./src/**/*\"",
         "test": "jest --config config/jest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./lib && pnpm run compile",
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./build && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
@@ -28,7 +28,7 @@
         "node": ">=20"
     },
     "publishConfig": {
-        "main": "./lib",
+        "main": "./build",
         "linkDirectory": false
     },
     "devDependencies": {
