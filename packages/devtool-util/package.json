@@ -4,7 +4,7 @@
     "main": "./src/index.ts",
     "license": "MIT",
     "files": [
-        "build",
+        "lib",
         "template"
     ],
     "scripts": {
