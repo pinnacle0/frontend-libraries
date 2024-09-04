@@ -1,4 +1,4 @@
-import {TaskRunner} from "@pinnacle0/devtool-util/lib/TaskRunner";
+import {TaskRunner} from "@pinnacle0/devtool-util/src/TaskRunner";
 import fs from "fs/promises";
 import path from "path";
 import {createToolkit} from "../src/toolkit";

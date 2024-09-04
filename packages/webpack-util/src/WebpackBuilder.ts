@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
+import {Utility} from "@pinnacle0/devtool-util/src/Utility";
 import fs from "fs";
 import path from "path";
 import webpack from "webpack";

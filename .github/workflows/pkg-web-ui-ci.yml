@@ -35,8 +35,5 @@ jobs:
             - name: Install Dependencies
               run: pnpm install
 
-            - name: Build devtool-util
-              run: pnpm --filter @pinnacle0/devtool-util run build
-
             - name: Build
               run: pnpm --filter @pinnacle0/web-ui run build
