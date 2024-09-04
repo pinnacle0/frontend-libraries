@@ -1,7 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
     "version": "1.2.26",
-    "main": "./src/index.ts",
     "license": "MIT",
     "files": [
         "lib",
@@ -26,10 +25,6 @@
     },
     "engines": {
         "node": ">=20"
-    },
-    "publishConfig": {
-        "main": "./lib",
-        "linkDirectory": false
     },
     "devDependencies": {
         "@types/yargs": "17.0.32"
