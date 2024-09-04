@@ -231,9 +231,6 @@ importers:
         specifier: 5.3.0
         version: 5.3.0
     devDependencies:
-      '@pinnacle0/devtool-util':
-        specifier: workspace:*
-        version: link:../devtool-util
       '@types/react':
         specifier: 18.3.2
         version: 18.3.2
