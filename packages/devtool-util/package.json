@@ -28,7 +28,7 @@
         "node": ">=20"
     },
     "publishConfig": {
-        "main": "./build/index.js",
+        "main": "./build",
         "linkDirectory": false
     },
     "devDependencies": {
