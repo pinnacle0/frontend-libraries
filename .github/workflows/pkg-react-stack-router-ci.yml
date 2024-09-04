@@ -1,4 +1,4 @@
-name: "@pinnacle0/webpack-util CI"
+name: "@pinnacle0/react-stack-router CI"
 
 env:
     CI: true
