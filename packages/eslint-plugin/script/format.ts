@@ -1,4 +1,4 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util";
+import {PrettierUtil} from "@pinnacle0/devtool-util/lib/PrettierUtil";
 import path from "path";
 
 PrettierUtil.format(path.join(__dirname, "../config"));

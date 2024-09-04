@@ -1,4 +1,5 @@
-import {NamingUtil, TaskRunner} from "@pinnacle0/devtool-util";
+import {NamingUtil} from "@pinnacle0/devtool-util/lib/NamingUtil";
+import {TaskRunner} from "@pinnacle0/devtool-util/lib/TaskRunner";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";

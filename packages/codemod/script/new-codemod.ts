@@ -1,4 +1,5 @@
-import {NamingUtil, TaskRunner} from "@pinnacle0/devtool-util";
+import {TaskRunner} from "@pinnacle0/devtool-util/lib/TaskRunner";
+import {NamingUtil} from "@pinnacle0/devtool-util/lib/NamingUtil";
 import fs from "fs";
 import yargs from "yargs";
 import {hideBin} from "yargs/helpers";

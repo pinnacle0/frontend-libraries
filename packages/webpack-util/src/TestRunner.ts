@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
 import type {InternalCheckerOptions} from "./type";
 import fs from "fs";
 

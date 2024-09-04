@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util";
+import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
 import path from "path";
 import type webpack from "webpack";
 import {Constant} from "../Constant";
