@@ -1,6 +1,6 @@
-import {NamingUtil} from "@pinnacle0/devtool-util/build/NamingUtil";
-import {TaskRunner} from "@pinnacle0/devtool-util/build/TaskRunner";
-import {Utility} from "@pinnacle0/devtool-util/build/Utility";
+import {NamingUtil} from "@pinnacle0/devtool-util/lib/NamingUtil";
+import {TaskRunner} from "@pinnacle0/devtool-util/lib/TaskRunner";
+import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
 import fs from "fs";
 import path from "path";
 
