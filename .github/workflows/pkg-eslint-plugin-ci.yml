@@ -35,8 +35,5 @@ jobs:
             - name: Install Dependencies
               run: pnpm install
 
-            - name: ReTrigger devtool-util dependency
-              run : pnpm remove @pinnacle0/devtool-util && pnpm add @pinnacle0/devtool-util
-
             - name: Build
               run: pnpm --filter @pinnacle0/eslint-plugin run build
