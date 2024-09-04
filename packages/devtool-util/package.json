@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "1.2.26",
+    "version": "1.2.27",
     "license": "MIT",
     "files": [
         "lib",
