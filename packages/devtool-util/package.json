@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/devtool-util",
-    "version": "1.2.23",
+    "version": "1.2.28",
     "main": "./src/index.ts",
     "license": "MIT",
     "files": [
