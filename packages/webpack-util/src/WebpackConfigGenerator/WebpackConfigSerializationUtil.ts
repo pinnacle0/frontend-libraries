@@ -1,5 +1,5 @@
 import prettyFormat from "pretty-format";
-import type webpack from "webpack";
+import type {RspackPluginInstance, Configuration} from "@rspack/core";
 
 interface SerializableWebpackPluginDescriptor {
     "@@WP_CONFIG_GEN_TYPE": "WebpackPluginConstructorCall";
@@ -10,10 +10,10 @@ interface SerializableWebpackPluginDescriptor {
 type WebpackPluginConstructor<T> = new (options: T) => {apply(..._: any[]): void};
 
 export class WebpackConfigSerializationUtil {
-    static serializablePlugin(name: string, PluginConstructor: WebpackPluginConstructor<never>): webpack.WebpackPluginInstance;
-    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType>, options: OptType): webpack.WebpackPluginInstance;
+    static serializablePlugin(name: string, PluginConstructor: WebpackPluginConstructor<never>): RspackPluginInstance;
+    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType>, options: OptType): RspackPluginInstance;
 
-    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType | undefined>, options?: OptType): webpack.WebpackPluginInstance {
+    static serializablePlugin<OptType>(name: string, PluginConstructor: WebpackPluginConstructor<OptType | undefined>, options?: OptType): RspackPluginInstance {
         const plugin = new PluginConstructor(options);
         return Object.defineProperty(plugin, "toWebpackConfigSerializableType", {
             value(): SerializableWebpackPluginDescriptor {
@@ -26,7 +26,7 @@ export class WebpackConfigSerializationUtil {
         });
     }
 
-    static async configToString(config: webpack.Configuration): Promise<string> {
+    static async configToString(config: Configuration): Promise<string> {
         const configString = prettyFormat(config, {
             callToJSON: true,
             escapeRegex: false,

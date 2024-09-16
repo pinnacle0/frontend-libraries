@@ -1,4 +1,5 @@
-import webpack from "webpack";
+import {ProgressPlugin, DefinePlugin} from "@rspack/core";
+import type {RspackPluginInstance} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 interface WebpackProgressPluginOptions {
@@ -10,12 +11,12 @@ interface WebpackProgressPluginOptions {
  * Basically the same behavior as running webpack-cli with:
  * `$ webpack --progress`
  */
-export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOptions): webpack.WebpackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin("webpack.ProgressPlugin", webpack.ProgressPlugin, {
+export function webpackProgressPlugin({enableProfiling}: WebpackProgressPluginOptions): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("ProgressPlugin", ProgressPlugin, {
         profile: enableProfiling,
     });
 }
 
-export function webpackDefinePlugin(map: {[key: string]: string}): webpack.WebpackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin("webpack.DefinePlugin", webpack.DefinePlugin, map);
+export function webpackDefinePlugin(map: {[key: string]: string}): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("DefinePlugin", DefinePlugin, map);
 }

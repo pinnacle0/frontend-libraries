@@ -1,9 +1,9 @@
 import {WebpackBuilder} from "./WebpackBuilder";
-import {WebpackServerStarter} from "./WebpackServerStarter";
+import {rspackServerStarter} from "./WebpackServerStarter";
 import {ArgsUtil} from "./ArgsUtil";
 
 export const WebpackUtil = Object.freeze({
     Builder: WebpackBuilder,
-    ServerStarter: WebpackServerStarter,
+    ServerStarter: rspackServerStarter,
     ...ArgsUtil,
 });

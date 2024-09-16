@@ -1,8 +1,10 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
-import webpack from "webpack";
-import type WebpackDevServer from "webpack-dev-server";
-import DevServer from "webpack-dev-server";
+import {rspack} from "@rspack/core";
+import type {Configuration} from "@rspack/core";
+import type {Application} from "express";
+import type {Configuration as DevServerConfiguration} from "@rspack/dev-server";
+import {RspackDevServer} from "@rspack/dev-server";
 import type {WebpackConfigGeneratorOptions} from "./type";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
 import {SocksProxyAgent} from "socks-proxy-agent";
@@ -33,7 +35,7 @@ export interface WebpackServerStarterOptions
          */
         useSystemSocksProxy?: boolean | string;
     };
-    interceptExpressApp?: (app: NonNullable<DevServer["app"]>) => void;
+    interceptExpressApp?: (app: NonNullable<Application>) => void;
 }
 
 /**
@@ -44,13 +46,13 @@ export interface WebpackServerStarterOptions
  * Add "--env envName" to command line, if you want to switch config folder dynamically.
  */
 
-export class WebpackServerStarter {
+export class rspackServerStarter {
     private readonly devServerConfigContentBase: string;
-    private readonly setupMiddlewares: WebpackDevServer.Configuration["setupMiddlewares"];
+    private readonly setupMiddlewares: DevServerConfiguration["setupMiddlewares"];
     private readonly port: number;
-    private readonly apiProxy: DevServer.Configuration["proxy"];
+    private readonly apiProxy: DevServerConfiguration["proxy"];
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
-    private readonly webpackConfig: webpack.Configuration;
+    private readonly rspackConfig: Configuration;
 
     constructor({
         projectDirectory,
@@ -87,7 +89,7 @@ export class WebpackServerStarter {
                 return middlewares;
             });
 
-        this.webpackConfig = new WebpackConfigGenerator({
+        this.rspackConfig = new WebpackConfigGenerator({
             projectDirectory,
             dynamicPathResolvers,
             extraEntries,
@@ -122,7 +124,7 @@ export class WebpackServerStarter {
     }
 
     private createDevServerInstance() {
-        return new DevServer(
+        return new RspackDevServer(
             {
                 host: "0.0.0.0",
                 port: this.port,
@@ -155,7 +157,7 @@ export class WebpackServerStarter {
                 },
                 proxy: this.apiProxy,
             },
-            webpack(this.webpackConfig)
+            rspack(this.rspackConfig)
         );
     }
 

@@ -1,12 +1,12 @@
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import {rspack} from "@rspack/core";
 import {RegExpUtil} from "./RegExpUtil";
-import type webpack from "webpack";
+import type {RuleSetUseItem, RuleSetRule} from "@rspack/core";
 
 interface StylesheetRuleDeps {
     minimize: boolean;
 }
 
-function cssLoader(importLoaders: number): webpack.RuleSetUseItem {
+function cssLoader(importLoaders: number): RuleSetUseItem {
     return {
         loader: require.resolve("css-loader"),
         options: {
@@ -15,7 +15,7 @@ function cssLoader(importLoaders: number): webpack.RuleSetUseItem {
     };
 }
 
-function lessLoader(): webpack.RuleSetUseItem {
+function lessLoader(): RuleSetUseItem {
     return {
         loader: require.resolve("less-loader"),
         options: {
@@ -26,13 +26,13 @@ function lessLoader(): webpack.RuleSetUseItem {
     };
 }
 
-function miniCssExtractPluginLoader(): webpack.RuleSetUseItem {
+function miniCssExtractPluginLoader(): RuleSetUseItem {
     return {
-        loader: require.resolve(MiniCssExtractPlugin.loader),
+        loader: require.resolve(rspack.CssExtractRspackPlugin.loader),
     };
 }
 
-function styleLoader(): webpack.RuleSetUseItem {
+function styleLoader(): RuleSetUseItem {
     return {
         loader: require.resolve("style-loader"),
     };
@@ -49,8 +49,8 @@ function styleLoader(): webpack.RuleSetUseItem {
  * @see https://webpack.js.org/loaders/postcss-loader/
  * @see https://webpack.js.org/loaders/style-loader/
  */
-export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetRule {
-    const use: webpack.RuleSetUseItem[] = minimize
+export function stylesheetRule({minimize}: StylesheetRuleDeps): RuleSetRule {
+    const use: RuleSetUseItem[] = minimize
         ? [
               // prettier
               miniCssExtractPluginLoader(),
@@ -65,6 +65,7 @@ export function stylesheetRule({minimize}: StylesheetRuleDeps): webpack.RuleSetR
           ];
 
     return {
+        type: "javascript/auto",
         test: RegExpUtil.fileExtension(".css", ".less"),
         use,
         // Declare all css/less imports as side effects (not to be considered

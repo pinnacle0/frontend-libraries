@@ -1,6 +1,6 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import path from "path";
-import type webpack from "webpack";
+import type {Configuration} from "@rspack/core";
 import {Constant} from "../Constant";
 import {ArgsUtil} from "../ArgsUtil";
 import type {EntryDescriptor, GeneratorLoader, GeneratorPlugin, WebpackConfigGeneratorOptions} from "../type";
@@ -20,7 +20,7 @@ import {Rule} from "./Rule";
  */
 export class WebpackConfigGenerator {
     private readonly env: string | null;
-    private readonly projectDirectory: string;
+    // private readonly projectDirectory: string;
     private readonly projectSrcDirectory: string;
     private readonly tsconfigFilePath: string;
     private readonly enableProfiling: boolean;
@@ -34,18 +34,18 @@ export class WebpackConfigGenerator {
     private readonly customizedPlugins: GeneratorPlugin[];
 
     private readonly configEntryDescriptors: EntryDescriptor[];
-    private readonly entry: NonNullable<webpack.Configuration["entry"]>;
-    private readonly htmlWebpackPluginInstances: NonNullable<webpack.Configuration["plugins"]>;
-    private readonly resolveExtensions: NonNullable<NonNullable<webpack.Configuration["resolve"]>["extensions"]>;
-    private readonly resolveModules: NonNullable<NonNullable<webpack.Configuration["resolve"]>["modules"]>;
-    private readonly resolveAliases: NonNullable<NonNullable<webpack.Configuration["resolve"]>["alias"]>;
+    private readonly entry: NonNullable<Configuration["entry"]>;
+    private readonly htmlWebpackPluginInstances: NonNullable<Configuration["plugins"]>;
+    private readonly resolveExtensions: NonNullable<NonNullable<Configuration["resolve"]>["extensions"]>;
+    private readonly resolveModules: NonNullable<NonNullable<Configuration["resolve"]>["modules"]>;
+    private readonly resolveAliases: NonNullable<NonNullable<Configuration["resolve"]>["alias"]>;
     private readonly outputPublicPath: string;
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
     constructor(options: WebpackConfigGeneratorOptions) {
         this.env = ArgsUtil.currentEnv();
-        this.projectDirectory = options.projectDirectory;
+        // this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
         this.enableProfiling = ArgsUtil.profilingEnabled();
@@ -98,8 +98,8 @@ export class WebpackConfigGenerator {
         }
     }
 
-    development(): webpack.Configuration {
-        const config: webpack.Configuration = {
+    development(): Configuration {
+        const config: Configuration = {
             mode: "development",
             entry: this.entry,
             target: "web", // https://github.com/webpack/webpack-dev-server/issues/2758 Hot-reload will break if we provide list to target
@@ -138,23 +138,19 @@ export class WebpackConfigGenerator {
                 Plugin.webpack.define(this.defineVars),
                 ...this.customizedPlugins,
             ],
-            cache:
-                this.env === null
-                    ? {
-                          type: "filesystem",
-                          cacheDirectory: path.join(this.projectDirectory, ".webpack-cache"),
-                      }
-                    : false,
+            // ref: https://rspack.dev/misc/planning/roadmap#persistent-cache-support
+            // rspack currently do not support persistent cache
+            cache: this.env === null,
         };
         if (this.verbose || ArgsUtil.verbose()) {
-            this.logger.info("Full webpack config:");
+            this.logger.info("Full rspack config:");
             WebpackConfigSerializationUtil.configToString(config).then(console.info);
         }
         return config;
     }
 
-    production(outputDirectory: string): webpack.Configuration {
-        const config: webpack.Configuration = {
+    production(outputDirectory: string): Configuration {
+        const config: Configuration = {
             mode: "production",
             entry: this.entry,
             target: ["web", "es5"],
@@ -178,7 +174,7 @@ export class WebpackConfigGenerator {
                 },
                 minimizer: [
                     // prettier
-                    Plugin.minimizer.terser({sourceMap: true}),
+                    Plugin.minimizer.js(),
                     Plugin.minimizer.css(),
                 ],
             },

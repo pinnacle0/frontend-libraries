@@ -1,4 +1,4 @@
-import type webpack from "webpack";
+import type {RuleSetRule} from "@rspack/core";
 import {Constant} from "../../Constant";
 import {RegExpUtil} from "./RegExpUtil";
 
@@ -12,7 +12,7 @@ interface OtherRuleDeps {
  *
  * @see https://webpack.js.org/guides/asset-modules/
  */
-export function otherRule({extraExtensionsForOtherRule}: OtherRuleDeps): webpack.RuleSetRule {
+export function otherRule({extraExtensionsForOtherRule}: OtherRuleDeps): RuleSetRule {
     return {
         // put `ico` here instead of image.rule, to avoid inline favicon into HTML
         test: RegExpUtil.fileExtension(".ico", ...Constant.mediaExtensions, ...Constant.fontExtensions, ...extraExtensionsForOtherRule),

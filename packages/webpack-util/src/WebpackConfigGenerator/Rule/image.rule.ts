@@ -1,4 +1,4 @@
-import type webpack from "webpack";
+import type {RuleSetRule} from "@rspack/core";
 import {RegExpUtil} from "./RegExpUtil";
 
 /**
@@ -8,7 +8,7 @@ import {RegExpUtil} from "./RegExpUtil";
  *
  * @see https://webpack.js.org/guides/asset-modules/
  */
-export function imageRule(): webpack.RuleSetRule {
+export function imageRule(): RuleSetRule {
     return {
         test: RegExpUtil.fileExtension(".png", ".jpeg", ".jpg", ".gif", ".svg"),
         type: "asset",

@@ -1,6 +1,6 @@
 import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin";
 import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin";
-import {reactRefreshPlugin, terserPlugin} from "./ts.plugin";
+import {reactRefreshPlugin, jsMinimizerPlugin} from "./ts.plugin";
 import {typeCheckerPlugin} from "./type-checker.plugin";
 import {webpackDefinePlugin, webpackProgressPlugin} from "./webpack.plugin";
 
@@ -22,7 +22,7 @@ export class Plugin {
     };
 
     static readonly minimizer = {
-        terser: terserPlugin,
+        js: jsMinimizerPlugin,
         css: cssMinimizerPlugin,
     };
 

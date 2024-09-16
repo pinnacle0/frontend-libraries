@@ -1,4 +1,4 @@
-import type webpack from "webpack";
+import type {Plugins} from "@rspack/core";
 import type {EntryDescriptor} from "../type";
 import {Plugin} from "./Plugin";
 
@@ -7,8 +7,8 @@ interface HTMLWebpackPluginsFactoryOptions {
 }
 
 export class HTMLWebpackPluginsFactory {
-    static generate({configEntryDescriptors}: HTMLWebpackPluginsFactoryOptions): webpack.Plugin[] {
-        const htmlPlugins: webpack.Plugin[] = [];
+    static generate({configEntryDescriptors}: HTMLWebpackPluginsFactoryOptions): Plugins {
+        const htmlPlugins: Plugins = [];
 
         for (const {name, entryPath, htmlPath} of configEntryDescriptors) {
             if (htmlPath !== undefined) {

@@ -1,6 +1,6 @@
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
-import type webpack from "webpack";
+import type {RspackPluginInstance} from "@rspack/core";
 import type {TypeScriptWorkerOptions} from "fork-ts-checker-webpack-plugin/lib/typescript/type-script-worker-options";
 
 interface Options {
@@ -11,7 +11,7 @@ interface Options {
  * Process type checking in another process
  * Support project references.
  */
-export function typeCheckerPlugin({tsconfigFilePath}: Options): webpack.WebpackPluginInstance {
+export function typeCheckerPlugin({tsconfigFilePath}: Options): RspackPluginInstance {
     const typescript: TypeScriptWorkerOptions = {
         build: false,
         mode: "readonly",
@@ -25,7 +25,7 @@ export function typeCheckerPlugin({tsconfigFilePath}: Options): webpack.WebpackP
         },
     };
 
-    return WebpackConfigSerializationUtil.serializablePlugin("TerserWebpackPlugin", ForkTsCheckerWebpackPlugin, {
+    return WebpackConfigSerializationUtil.serializablePlugin("ForkTsCheckerWebpackPlugin", ForkTsCheckerWebpackPlugin, {
         devServer: false,
         typescript,
     });

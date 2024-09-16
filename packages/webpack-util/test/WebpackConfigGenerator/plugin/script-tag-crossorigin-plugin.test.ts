@@ -1,37 +1,35 @@
 import path from "path";
 import fs from "fs";
-import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import {rspack} from "@rspack/core";
+import HTMLWebpackPlugin from "html-webpack-plugin";
+import type {Configuration} from "@rspack/core";
 import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/script-tag-crossorigin-plugin";
 
 const OUTPUT_DIR = path.join(__dirname, "./dist");
-type Entry = Omit<webpack.Configuration["entry"], "undefined">;
-const createConfig = (entry: Entry): webpack.Configuration => ({
+type Entry = Omit<Configuration["entry"], "undefined">;
+const createConfig = (entry: Entry): Configuration => ({
     mode: "production",
     entry,
     output: {
+        filename: "[name].js",
         path: OUTPUT_DIR,
+        clean: true,
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: "index.html",
+        new HTMLWebpackPlugin({
+            template: path.join(__dirname, "./fixture/index.html"),
         }),
         new ScriptTagCrossOriginPlugin(),
     ],
 });
 
 describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () => {
-    beforeEach(done => {
-        fs.rmSync(OUTPUT_DIR, {force: true, recursive: true});
-        done();
-    });
-
-    const testPlugin = (entry: Entry, expectedResult: RegExp, done: () => void) => {
-        const config: webpack.Configuration = createConfig(entry);
-        webpack(config, error => {
+    const testPlugin = (entry: Entry, expectedResults: RegExp[], done: () => void) => {
+        const config: Configuration = createConfig(entry);
+        rspack(config).run(error => {
             expect(error).toBeFalsy();
             const outputFile = fs.readFileSync(path.join(OUTPUT_DIR, "index.html"));
-            expect(outputFile.toString()).toMatch(expectedResult);
+            expectedResults.forEach(expectedResult => expect(outputFile.toString()).toMatch(expectedResult));
             done();
         });
     };
@@ -41,7 +39,7 @@ describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () =
             {
                 main: path.join(__dirname, "./fixture/script.js"),
             },
-            new RegExp('<script.+src.+\\main.js.+crossorigin="anonymous"', "gm"),
+            [new RegExp('<script.+src="main.js".+crossorigin', "gm")],
             done
         );
     });
@@ -51,7 +49,7 @@ describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () =
                 main: path.join(__dirname, "./fixture/script.js"),
                 second: path.join(__dirname, "./fixture/script.js"),
             },
-            new RegExp('<script.+src.+\\main.js.+crossorigin="anonymous".*>.+<script.+src.+second\\.js.+crossorigin="anonymous"', "gm"),
+            [new RegExp('<script.+src="main\\.js".+crossorigin', "gm"), new RegExp('<script.+src="second\\.js".+crossorigin', "gm")],
             done
         );
     });

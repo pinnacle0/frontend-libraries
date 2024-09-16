@@ -1,4 +1,4 @@
-import type webpack from "webpack";
+import type {Configuration} from "@rspack/core";
 import type {EntryDescriptor} from "../type";
 
 interface StrictWebpackEntry {
@@ -10,7 +10,7 @@ interface WebpackEntryFactoryOptions {
 }
 
 export class WebpackEntryFactory {
-    static generate({configEntryDescriptors}: WebpackEntryFactoryOptions): NonNullable<webpack.Configuration["entry"]> {
+    static generate({configEntryDescriptors}: WebpackEntryFactoryOptions): NonNullable<Configuration["entry"]> {
         const entry: StrictWebpackEntry = {};
 
         for (const {name, entryPath} of configEntryDescriptors) {

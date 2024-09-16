@@ -1,22 +1,18 @@
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
-import TerserWebpackPlugin from "terser-webpack-plugin";
-import type {TerserOptions, DefinedDefaultMinimizerAndOptions} from "terser-webpack-plugin";
-import type webpack from "webpack";
+import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
+import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
+import type {RspackPluginInstance, SwcJsMinimizerRspackPluginOptions} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
-
-interface TerserPluginOptions {
-    sourceMap: boolean;
-}
 
 /**
  * Applies Terser to minimize javascript
  * after bundles/chunks are built.
  */
-export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin<DefinedDefaultMinimizerAndOptions<TerserOptions>>("TerserWebpackPlugin", TerserWebpackPlugin, {
-        minify: TerserWebpackPlugin.swcMinify,
-        terserOptions: {
-            sourceMap,
+export function jsMinimizerPlugin(): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("TerserWebpackPlugin", SwcJsMinimizerRspackPlugin, {
+        test: /.(js|jsx)$/,
+        minimizerOptions: {
+            minify: true,
+            mangle: true,
         },
     });
 }
@@ -26,6 +22,8 @@ export function terserPlugin({sourceMap}: TerserPluginOptions): webpack.WebpackP
  * Requires babel plugin "react-refresh/babel".
  * Should not be used in production.
  */
-export function reactRefreshPlugin(): webpack.WebpackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin("ReactRefreshPlugin", ReactRefreshWebpackPlugin);
+export function reactRefreshPlugin(): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("ReactRefreshPlugin", ReactRefreshRspackPlugin, {
+        exclude: [/node_modules/],
+    });
 }

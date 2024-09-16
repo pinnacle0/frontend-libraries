@@ -1,7 +1,7 @@
 import {Utility} from "@pinnacle0/devtool-util";
 import fs from "fs";
 import path from "path";
-import webpack from "webpack";
+import {rspack} from "@rspack/core";
 import {ArgsUtil} from "./ArgsUtil";
 import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
@@ -9,6 +9,7 @@ import {ProjectStructureChecker} from "./ProjectStructureChecker";
 import {TestRunner} from "./TestRunner";
 import {CodeStyleChecker} from "./CodeStyleChecker";
 import type {InternalCheckerOptions} from "./type";
+import type {Configuration, Stats} from "@rspack/core";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {}
 
@@ -32,7 +33,7 @@ export class WebpackBuilder {
     private readonly projectStaticDirectory: string;
     private readonly projectProfilingJSONOutputPath: string;
     private readonly outputDirectory: string;
-    private readonly webpackConfig: webpack.Configuration;
+    private readonly webpackConfig: Configuration;
     private readonly tsconfigFilePath: string;
     private readonly isFastMode: boolean;
     private readonly enableProfiling: boolean;
@@ -92,7 +93,7 @@ export class WebpackBuilder {
     private bundleByWebpack() {
         this.logger.task("Starting webpack");
 
-        webpack(this.webpackConfig).run((error?: Error | null, stats?: webpack.Stats) => {
+        rspack(this.webpackConfig).run((error?: Error | null, stats?: Stats) => {
             if (error) {
                 throw error;
             } else if (stats) {
