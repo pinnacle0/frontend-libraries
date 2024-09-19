@@ -106,6 +106,7 @@ export interface WebpackConfigGeneratorOptions {
     extraExtensionsForOtherRule?: string[] | undefined;
     customizedLoaders?: GeneratorLoader[] | undefined;
     customizedPlugins?: GeneratorPlugin[] | undefined;
+    indirectCodeExclude?: RegExp[] | undefined;
 }
 
 export interface EntryDescriptor {

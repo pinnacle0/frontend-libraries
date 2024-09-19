@@ -402,12 +402,6 @@ importers:
       '@swc/core':
         specifier: 1.4.4
         version: 1.4.4
-      autoprefixer:
-        specifier: 10.4.19
-        version: 10.4.19(postcss@8.4.38)
-      browserslist:
-        specifier: 4.23.0
-        version: 4.23.0
       css-loader:
         specifier: 7.1.2
         version: 7.1.2(@rspack/core@1.0.4)(webpack@5.94.0(@swc/core@1.4.4))
@@ -423,9 +417,6 @@ importers:
       less-loader:
         specifier: 12.2.0
         version: 12.2.0(@rspack/core@1.0.4)(less@4.2.0)(webpack@5.94.0(@swc/core@1.4.4))
-      lightningcss:
-        specifier: 1.25.0
-        version: 1.25.0
       pretty-format:
         specifier: 29.7.0
         version: 29.7.0
@@ -442,8 +433,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.94.0(@swc/core@1.4.4))
       swc-plugin-core-fe-hmr:
-        specifier: 1.0.4
-        version: 1.0.4
+        specifier: 1.0.5
+        version: 1.0.5
       typescript:
         specifier: '*'
         version: 5.5.2
@@ -2260,13 +2251,6 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  autoprefixer@10.4.19:
-    resolution: {integrity: sha512-BaENR2+zBZ8xXhM4pUaKUxlVdxZ0EZhjvbopwnXmxRUfqDmwSpC2lAi/QXvx7NRdPCo1WKEcEF6mV64si1z4Ew==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -3276,9 +3260,6 @@ packages:
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
-
-  fraction.js@4.3.7:
-    resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
@@ -4496,10 +4477,6 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
 
-  normalize-range@0.1.2:
-    resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
-    engines: {node: '>=0.10.0'}
-
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
@@ -5593,8 +5570,8 @@ packages:
   svgpath@2.6.0:
     resolution: {integrity: sha512-OIWR6bKzXvdXYyO4DK/UWa1VA1JeKq8E+0ug2DG98Y/vOmMpfZNj+TIG988HjfYSqtcy/hFOtZq/n/j5GSESNg==}
 
-  swc-plugin-core-fe-hmr@1.0.4:
-    resolution: {integrity: sha512-p4b/2sEB//wL8cxZqAUO4QnqMEhGL6RiTg5UNUszLMKjJdmDNqzPMxodyrNLCmE4u5lGjruORrNn/RgfpLmpDQ==}
+  swc-plugin-core-fe-hmr@1.0.5:
+    resolution: {integrity: sha512-xv5rUZoeH8/KM2d6Mto21jrEndlwC8zrPdGPb9GifsGfGMM0ZmTAqyj1NngMQMnHnjLaXr+aOBiuaSZgfqwEFQ==}
     engines: {node: '>= 16.0.0'}
 
   symbol-tree@3.2.4:
@@ -8147,16 +8124,6 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  autoprefixer@10.4.19(postcss@8.4.38):
-    dependencies:
-      browserslist: 4.23.0
-      caniuse-lite: 1.0.30001655
-      fraction.js: 4.3.7
-      normalize-range: 0.1.2
-      picocolors: 1.1.0
-      postcss: 8.4.38
-      postcss-value-parser: 4.2.0
-
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.0.0
@@ -8698,7 +8665,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  detect-libc@1.0.3: {}
+  detect-libc@1.0.3:
+    optional: true
 
   detect-newline@3.1.0: {}
 
@@ -9418,8 +9386,6 @@ snapshots:
       mime-types: 2.1.35
 
   forwarded@0.2.0: {}
-
-  fraction.js@4.3.7: {}
 
   fresh@0.5.2: {}
 
@@ -10531,6 +10497,7 @@ snapshots:
       lightningcss-linux-x64-gnu: 1.25.0
       lightningcss-linux-x64-musl: 1.25.0
       lightningcss-win32-x64-msvc: 1.25.0
+    optional: true
 
   lines-and-columns@1.2.4: {}
 
@@ -10835,8 +10802,6 @@ snapshots:
       abbrev: 1.1.1
 
   normalize-path@3.0.0: {}
-
-  normalize-range@0.1.2: {}
 
   npm-run-path@4.0.1:
     dependencies:
@@ -12161,7 +12126,7 @@ snapshots:
 
   svgpath@2.6.0: {}
 
-  swc-plugin-core-fe-hmr@1.0.4: {}
+  swc-plugin-core-fe-hmr@1.0.5: {}
 
   symbol-tree@3.2.4: {}
 

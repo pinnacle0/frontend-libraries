@@ -22,8 +22,8 @@ export function jsMinimizerPlugin(): RspackPluginInstance {
  * Requires babel plugin "react-refresh/babel".
  * Should not be used in production.
  */
-export function reactRefreshPlugin(): RspackPluginInstance {
+export function reactRefreshPlugin(inDirectCodeExclude: RegExp[]): RspackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin("ReactRefreshPlugin", ReactRefreshRspackPlugin, {
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, ...inDirectCodeExclude],
     });
 }

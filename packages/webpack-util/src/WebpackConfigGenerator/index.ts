@@ -40,6 +40,7 @@ export class WebpackConfigGenerator {
     private readonly resolveModules: NonNullable<NonNullable<Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<Configuration["resolve"]>["alias"]>;
     private readonly outputPublicPath: string;
+    private readonly indirectCodeExclude: RegExp[];
 
     private readonly logger = Utility.createConsoleLogger("WebpackConfigGenerator");
 
@@ -83,6 +84,7 @@ export class WebpackConfigGenerator {
             env: this.env,
             resolvers: options.dynamicPathResolvers ?? [],
         });
+        this.indirectCodeExclude = options.indirectCodeExclude || [];
 
         this.logger.info("Config constructed:");
         for (const info of [
@@ -133,7 +135,7 @@ export class WebpackConfigGenerator {
             plugins: [
                 // prettier
                 ...this.htmlWebpackPluginInstances,
-                Plugin.reactRefresh(),
+                Plugin.reactRefresh(this.indirectCodeExclude),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
                 ...this.customizedPlugins,

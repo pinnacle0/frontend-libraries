@@ -24,9 +24,9 @@ export function tsRule({fastRefresh = false}: Deps = {}): RuleSetRule {
                     },
                     decoratorVersion: "2022-03",
                 },
-                // experimental: {
-                //     plugins: fastRefresh ? [[require.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
-                // },
+                experimental: {
+                    plugins: fastRefresh ? [[require.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
+                },
             },
         },
     };

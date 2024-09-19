@@ -24,6 +24,7 @@ export interface WebpackServerStarterOptions
         | "tsconfigFilename"
         | "customizedLoaders"
         | "customizedPlugins"
+        | "indirectCodeExclude"
     > {
     port: number;
     apiProxy?: {
@@ -68,6 +69,7 @@ export class rspackServerStarter {
         tsconfigFilename,
         customizedLoaders,
         customizedPlugins,
+        indirectCodeExclude,
     }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.port = port;
@@ -100,6 +102,7 @@ export class rspackServerStarter {
             tsconfigFilename,
             customizedLoaders,
             customizedPlugins,
+            indirectCodeExclude,
         }).development();
     }
 
