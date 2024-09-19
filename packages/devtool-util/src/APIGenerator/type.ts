@@ -51,6 +51,11 @@ export interface TypeEnumConstant {
     value: string;
 }
 
+export interface IgnoreType {
+    enum?: {[key: string]: string[]};
+    interface?: {[key: string]: string[]};
+}
+
 export interface PlatformConfig {
     ajaxFunction: string;
     ajaxFunctionImportStatement: string;
@@ -60,6 +65,7 @@ export interface APIGeneratorOptions {
     metadataEndpointURL: string;
     typeFilePath: string;
     serviceFolderPath: string;
+    ignoreType?: IgnoreType;
     platformConfig: PlatformConfig;
 }
 

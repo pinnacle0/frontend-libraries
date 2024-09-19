@@ -1,4 +1,5 @@
-import type {TypeDefinition, TypeDefinitionType, TypeDefinitionFieldConstraints, JavaType, TypeDefinitionField} from "./type";
+import {ArrayUtil} from "@pinnacle0/util";
+import type {TypeDefinition, TypeDefinitionType, TypeDefinitionFieldConstraints, JavaType, TypeDefinitionField, IgnoreType, TypeEnumConstant} from "./type";
 
 const javaToTSType = (javaTypeOrCustomizedType: JavaType | string): string => {
     switch (javaTypeOrCustomizedType) {
@@ -63,29 +64,36 @@ const getFieldConstraintsComment = (constraints: TypeDefinitionFieldConstraints)
     }
 };
 
-const generate = (types: TypeDefinition[]): string[] => {
-    const exportTypeMap: Record<TypeDefinitionType, string> = {
+const generate = (types: TypeDefinition[], ignoreTypes?: IgnoreType): string[] => {
+    const exportTypeMap: Record<TypeDefinitionType, "enum" | "interface"> = {
         enum: "enum",
         bean: "interface",
     };
 
     return types.map(({type, name, fields, enumConstants}: TypeDefinition): string => {
         const exportType = exportTypeMap[type];
+        const ignoreFieldsOrConstant = ignoreTypes?.[exportType]?.[name];
         const getExportDefinitionContent = (): string => {
             switch (type) {
                 case "bean":
-                    return fields!
-                        .map(field => {
-                            const fieldName = field.name;
-                            const nullability = field.constraints.notNull ? "" : " | null";
-                            const fieldDefinitionType = getFieldDefinitionType(field) + nullability;
-                            const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
+                    return ArrayUtil.compactMap(fields!, (field: TypeDefinitionField) => {
+                        if (ignoreFieldsOrConstant?.includes(field.name)) {
+                            return null;
+                        }
+                        const fieldName = field.name;
+                        const nullability = field.constraints.notNull ? "" : " | null";
+                        const fieldDefinitionType = getFieldDefinitionType(field) + nullability;
+                        const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
 
-                            return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
-                        })
-                        .join("\n");
+                        return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
+                    }).join("\n");
                 case "enum":
-                    return enumConstants!.map(constant => `${constant.name} = "${constant.value}",`).join("\n");
+                    return ArrayUtil.compactMap(enumConstants!, (constant: TypeEnumConstant) => {
+                        if (ignoreFieldsOrConstant?.includes(constant.name)) {
+                            return null;
+                        }
+                        return `${constant.name} = "${constant.value}",`;
+                    }).join("\n");
             }
         };
 
