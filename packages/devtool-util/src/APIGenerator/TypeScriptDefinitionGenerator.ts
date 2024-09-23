@@ -1,4 +1,3 @@
-import {ArrayUtil} from "@pinnacle0/util";
 import type {TypeDefinition, TypeDefinitionType, TypeDefinitionFieldConstraints, JavaType, TypeDefinitionField, IgnoreType, TypeEnumConstant} from "./type";
 
 const javaToTSType = (javaTypeOrCustomizedType: JavaType | string): string => {
@@ -76,24 +75,30 @@ const generate = (types: TypeDefinition[], ignoreTypes?: IgnoreType): string[] =
         const getExportDefinitionContent = (): string => {
             switch (type) {
                 case "bean":
-                    return ArrayUtil.compactMap(fields!, (field: TypeDefinitionField) => {
-                        if (ignoreFieldsOrConstant?.includes(field.name)) {
-                            return null;
-                        }
-                        const fieldName = field.name;
-                        const nullability = field.constraints.notNull ? "" : " | null";
-                        const fieldDefinitionType = getFieldDefinitionType(field) + nullability;
-                        const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
+                    return fields!
+                        .map((field: TypeDefinitionField) => {
+                            if (ignoreFieldsOrConstant?.includes(field.name)) {
+                                return null;
+                            }
+                            const fieldName = field.name;
+                            const nullability = field.constraints.notNull ? "" : " | null";
+                            const fieldDefinitionType = getFieldDefinitionType(field) + nullability;
+                            const fieldConstraintsComment = getFieldConstraintsComment(field.constraints);
 
-                        return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
-                    }).join("\n");
+                            return `${fieldName}: ${fieldDefinitionType};${fieldConstraintsComment}`;
+                        })
+                        .filter(_ => _ !== null)
+                        .join("\n");
                 case "enum":
-                    return ArrayUtil.compactMap(enumConstants!, (constant: TypeEnumConstant) => {
-                        if (ignoreFieldsOrConstant?.includes(constant.name)) {
-                            return null;
-                        }
-                        return `${constant.name} = "${constant.value}",`;
-                    }).join("\n");
+                    return enumConstants!
+                        .map((constant: TypeEnumConstant) => {
+                            if (ignoreFieldsOrConstant?.includes(constant.name)) {
+                                return null;
+                            }
+                            return `${constant.name} = "${constant.value}",`;
+                        })
+                        .filter(_ => _ !== null)
+                        .join("\n");
             }
         };
 

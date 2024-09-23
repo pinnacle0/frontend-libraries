@@ -32,7 +32,6 @@
         "linkDirectory": false
     },
     "devDependencies": {
-        "@pinnacle0/util": "workspace:*",
         "@types/yargs": "17.0.32"
     }
 }
