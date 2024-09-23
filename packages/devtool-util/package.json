@@ -15,8 +15,10 @@
         "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./build && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
+    "peerDependencies": {
+        "@pinnacle0/util": "workspace:*"
+    },
     "dependencies": {
-        "@pinnacle0/util": "workspace:*",
         "chalk": "4.1.2",
         "fantasticon": "3.0.0",
         "yargs": "17.7.2"
