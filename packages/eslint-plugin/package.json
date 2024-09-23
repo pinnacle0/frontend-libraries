@@ -23,8 +23,7 @@
         "eslint-plugin-react-hooks": "4.6.2"
     },
     "peerDependencies": {
-        "eslint": ">=9.8.0",
-        "typescript": ">=4.6.0"
+        "eslint": ">=9.8.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",

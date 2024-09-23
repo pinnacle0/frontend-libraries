@@ -31,8 +31,7 @@
         "yargs": "17.7.2"
     },
     "peerDependencies": {
-        "@pinnacle0/devtool-util": "workspace:*",
-        "typescript": "*"
+        "@pinnacle0/devtool-util": "workspace:*"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
