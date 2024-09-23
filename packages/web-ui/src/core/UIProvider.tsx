@@ -16,14 +16,14 @@ interface Props extends Omit<ConfigProviderProps, "locale"> {
     locale: Locale | "auto";
 }
 
-export const UIProvider = ReactUtil.memo("UIProvider", ({locale, children}: Props) => {
+export const UIProvider = ReactUtil.memo("UIProvider", ({locale, children, ...restProps}: Props) => {
     useDidMountEffect(() => LocaleUtil.setInitial(locale));
     const currentLocale = LocaleUtil.current();
     return (
         <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-            <LocaleContext.Provider value={currentLocale}>
-                <ConfigProvider locale={currentLocale === "zh" ? chineseLocale : englishLocale}>{children}</ConfigProvider>
-            </LocaleContext.Provider>
+            <ConfigProvider locale={currentLocale === "zh" ? chineseLocale : englishLocale} {...restProps}>
+                <LocaleContext.Provider value={currentLocale}>{children}</LocaleContext.Provider>
+            </ConfigProvider>
         </StyleProvider>
     );
 });
