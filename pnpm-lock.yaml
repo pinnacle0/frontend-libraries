@@ -129,9 +129,6 @@ importers:
 
   packages/devtool-util:
     dependencies:
-      '@pinnacle0/util':
-        specifier: workspace:*
-        version: link:../util/build
       chalk:
         specifier: 4.1.2
         version: 4.1.2
@@ -149,6 +146,9 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
     devDependencies:
+      '@pinnacle0/util':
+        specifier: workspace:*
+        version: link:../util/build
       '@types/yargs':
         specifier: 17.0.32
         version: 17.0.32
