@@ -179,6 +179,7 @@ export class WebpackConfigGenerator {
                     Plugin.minimizer.js(),
                     Plugin.minimizer.css(),
                 ],
+                sideEffects: "flag",
             },
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,

@@ -39,7 +39,7 @@ describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () =
             {
                 main: path.join(__dirname, "./fixture/script.js"),
             },
-            [new RegExp('<script.+src="main.js".+crossorigin', "gm")],
+            [new RegExp('<script.+src="main.js".+crossorigin="anonymous"', "gm")],
             done
         );
     });
@@ -49,7 +49,7 @@ describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () =
                 main: path.join(__dirname, "./fixture/script.js"),
                 second: path.join(__dirname, "./fixture/script.js"),
             },
-            [new RegExp('<script.+src="main\\.js".+crossorigin', "gm"), new RegExp('<script.+src="second\\.js".+crossorigin', "gm")],
+            [new RegExp('<script.+src="main\\.js".+crossorigin="anonymous"', "gm"), new RegExp('<script.+src="second\\.js".+crossorigin="anonymous"', "gm")],
             done
         );
     });

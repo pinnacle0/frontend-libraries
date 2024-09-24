@@ -12,7 +12,7 @@ export class ScriptTagCrossOriginPlugin implements RspackPluginInstance {
                 const {assetTags} = result;
                 for (const scriptTag of assetTags.scripts) {
                     if (scriptTag.attributes?.src && /.js$/.test(scriptTag.attributes.src.toString())) {
-                        scriptTag.attributes.crossorigin = true;
+                        scriptTag.attributes.crossorigin = "anonymous";
                     }
                 }
                 return result;
