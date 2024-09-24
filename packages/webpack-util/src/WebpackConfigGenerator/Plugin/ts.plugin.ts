@@ -1,18 +1,21 @@
 import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
-import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
-import type {RspackPluginInstance, SwcJsMinimizerRspackPluginOptions} from "@rspack/core";
+import TerserWebpackPlugin, {type TerserOptions, type DefinedDefaultMinimizerAndOptions} from "terser-webpack-plugin";
+import type {RspackPluginInstance} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+
+interface TerserPluginOptions {
+    sourceMap: boolean;
+}
 
 /**
  * Applies Terser to minimize javascript
  * after bundles/chunks are built.
  */
-export function jsMinimizerPlugin(): RspackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("TerserWebpackPlugin", SwcJsMinimizerRspackPlugin, {
-        test: /.(js|jsx)$/,
-        minimizerOptions: {
-            minify: true,
-            mangle: true,
+export function terserPlugin({sourceMap}: TerserPluginOptions): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin<DefinedDefaultMinimizerAndOptions<TerserOptions>>("TerserWebpackPlugin", TerserWebpackPlugin, {
+        minify: TerserWebpackPlugin.swcMinify,
+        terserOptions: {
+            sourceMap,
         },
     });
 }
