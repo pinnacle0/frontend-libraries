@@ -169,6 +169,7 @@ export class WebpackConfigGenerator {
                 alias: this.resolveAliases,
             },
             bail: true,
+            devtool: "source-map",
             optimization: {
                 splitChunks: {
                     automaticNameDelimiter: "-",
@@ -179,7 +180,6 @@ export class WebpackConfigGenerator {
                     Plugin.minimizer.js(),
                     Plugin.minimizer.css(),
                 ],
-                sideEffects: "flag",
             },
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
