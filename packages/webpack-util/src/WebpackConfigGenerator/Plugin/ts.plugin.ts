@@ -1,21 +1,19 @@
 import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
-import TerserWebpackPlugin, {type TerserOptions, type DefinedDefaultMinimizerAndOptions} from "terser-webpack-plugin";
-import type {RspackPluginInstance} from "@rspack/core";
+import type {RspackPluginInstance, SwcJsMinimizerRspackPluginOptions} from "@rspack/core";
+import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
-interface TerserPluginOptions {
-    sourceMap: boolean;
-}
-
-/**
- * Applies Terser to minimize javascript
- * after bundles/chunks are built.
- */
-export function terserPlugin({sourceMap}: TerserPluginOptions): RspackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin<DefinedDefaultMinimizerAndOptions<TerserOptions>>("TerserWebpackPlugin", TerserWebpackPlugin, {
-        minify: TerserWebpackPlugin.swcMinify,
-        terserOptions: {
-            sourceMap,
+export function jsMinimizerPlugin(): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("TerserWebpackPlugin", SwcJsMinimizerRspackPlugin, {
+        minimizerOptions: {
+            // rspack use different default compress passes value https://github.com/web-infra-dev/rspack/blob/main/packages/rspack/src/builtin-plugin/SwcJsMinimizerPlugin.ts#L282
+            compress: {
+                passes: 0,
+            },
+            format: {
+                comments: "some",
+            },
+            minify: true,
         },
     });
 }
