@@ -1,4 +1,5 @@
 import rspack from "@rspack/core";
+import browserslist from "browserslist";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 import type {RspackPluginInstance} from "@rspack/core";
 
@@ -13,7 +14,7 @@ interface ExtractCssPluginOptions {
 export function cssMinimizerPlugin(): RspackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin("CssMinimizerWebpackPlugin", rspack.LightningCssMinimizerRspackPlugin, {
         minimizerOptions: {
-            targets: "cover 97.5%",
+            targets: browserslist("cover 97.5%"),
         },
     });
 }
