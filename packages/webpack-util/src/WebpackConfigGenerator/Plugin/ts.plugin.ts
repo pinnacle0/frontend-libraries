@@ -4,7 +4,7 @@ import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 
 export function jsMinimizerPlugin(): RspackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("TerserWebpackPlugin", SwcJsMinimizerRspackPlugin, {
+    return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("SwcJsMinimizerRspackPlugin", SwcJsMinimizerRspackPlugin, {
         minimizerOptions: {
             // rspack use different default compress passes value https://github.com/web-infra-dev/rspack/blob/main/packages/rspack/src/builtin-plugin/SwcJsMinimizerPlugin.ts#L282
             compress: {

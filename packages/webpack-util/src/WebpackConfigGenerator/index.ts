@@ -159,7 +159,7 @@ export class WebpackConfigGenerator {
             output: {
                 path: outputDirectory,
                 filename: this.enableProfiling ? "static/js/[name].js" : pathInfo => this.configEntryDescriptors.find(_ => _.name === pathInfo.chunk!.name)!.outputFilename,
-                chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[chunkhash:8].js",
+                chunkFilename: this.enableProfiling ? "static/js/[id].[name].js" : "static/js/[id].[contenthash:8].js",
                 publicPath: this.outputPublicPath,
                 crossOriginLoading: "anonymous",
             },

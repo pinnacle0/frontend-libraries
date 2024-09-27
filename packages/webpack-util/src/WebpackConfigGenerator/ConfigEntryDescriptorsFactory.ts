@@ -49,7 +49,7 @@ export class ConfigEntryDescriptorsFactory {
             // Output is an html entry (with a companion `index.html` template file)
             // We might want to include a hash to the output filenames
             // (don't set the output filename to contain hash for profiling build).
-            const outputFilename = "static/js/[chunkhash:8].js";
+            const outputFilename = "static/js/[contenthash:8].js";
             return {name, entryPath, outputFilename, htmlPath};
         }
     }
