@@ -1,5 +1,6 @@
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import type {TSESTree} from "@typescript-eslint/utils";
+import {isConstInFirstLayer} from "../util/ isConstInFirstLayer";
 
 export type MessageIds = "stylePropertiesType";
 
@@ -24,7 +25,7 @@ export const rule = ESLintUtils.RuleCreator(_ => name)<[], MessageIds>({
         return {
             VariableDeclarator(node) {
                 if (ASTUtils.isIdentifier(node.id) && node.id.typeAnnotation && node.id.typeAnnotation.typeAnnotation.type === AST_NODE_TYPES.TSTypeReference) {
-                    if (isCSSProperties(node.id.typeAnnotation.typeAnnotation) && !node.id.name.endsWith("Style")) {
+                    if (isCSSProperties(node.id.typeAnnotation.typeAnnotation) && !node.id.name.endsWith("Style") && !isConstInFirstLayer(node)) {
                         context.report({
                             node: node.id,
                             messageId: "stylePropertiesType",

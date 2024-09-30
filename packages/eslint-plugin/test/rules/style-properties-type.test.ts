@@ -9,14 +9,15 @@ const ruleTester = new RuleTester(createConfig());
 
 ruleTester.run(name, rule, {
     valid: [
-        `const testStyle: React.CSSProperties = {};`,
+        `const TestComponent:React.ComponentType = () => {const testStyle: React.CSSProperties = {}; return null;}`,
+        `const TEST_STYLE: React.CSSProperties = {}`,
         // prettier-format-preserve
     ],
     invalid: [
         {
-            code: `const shouldEnd: React.CSSProperties = {};`,
+            code: `const TestComponent:React.ComponentType = () => {const shouldEnd: React.CSSProperties = {};}`,
             errors: [{line: 1, messageId}],
-            output: "const shouldEndStyle: React.CSSProperties = {};",
+            output: "const TestComponent:React.ComponentType = () => {const shouldEndStyle: React.CSSProperties = {};}",
         },
     ],
 });
