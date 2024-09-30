@@ -27,7 +27,7 @@ export class BoolRadio<AllowNull extends boolean> extends React.PureComponent<Pr
 
     translator = (_: boolean): string => {
         const t = i18n();
-        return _ ? this.props.trueText ?? t.yes : this.props.falseText ?? t.no;
+        return _ ? (this.props.trueText ?? t.yes) : (this.props.falseText ?? t.no);
     };
 
     render() {
