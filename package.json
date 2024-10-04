@@ -62,7 +62,7 @@
             "semver": ">=7.6.2",
             "@babel/traverse": ">=7.23.2",
             "es5-ext": ">=0.10.64",
-            "express": ">=4.19.2"
+            "path-to-regexp": "8.0.0"
         }
     },
     "packageManager": "pnpm@9.11.0"
