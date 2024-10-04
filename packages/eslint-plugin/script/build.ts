@@ -1,4 +1,7 @@
-import {PrettierUtil, TaskRunner, Utility} from "@pinnacle0/devtool-util";
+import {PrettierUtil} from "@pinnacle0/devtool-util/src/PrettierUtil";
+import {Utility} from "@pinnacle0/devtool-util/src/Utility";
+import {TaskRunner} from "@pinnacle0/devtool-util/src/TaskRunner";
+
 import fs from "fs";
 import path from "path";
 

@@ -1,10 +1,9 @@
 {
     "name": "@pinnacle0/devtool-util",
     "version": "1.2.29",
-    "main": "./src/index.ts",
     "license": "MIT",
     "files": [
-        "build",
+        "lib",
         "template"
     ],
     "scripts": {
@@ -28,7 +27,6 @@
         "node": ">=20"
     },
     "publishConfig": {
-        "main": "./build/index.js",
         "linkDirectory": false
     },
     "devDependencies": {
