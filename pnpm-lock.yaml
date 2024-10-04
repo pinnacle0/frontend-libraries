@@ -440,8 +440,8 @@ importers:
         version: 17.7.2
     devDependencies:
       '@pinnacle0/devtool-util':
-        specifier: workspace:*
-        version: link:../devtool-util
+        specifier: 1.2.30
+        version: 1.2.30
       '@types/express':
         specifier: 4.17.21
         version: 4.17.21
@@ -1221,6 +1221,10 @@ packages:
     resolution: {integrity: sha512-mJd2Z5TjYWq/ttPLLGqArdtnC74J6bOzg4rMDnN+p1xTacZ2yPRCk2y0oSWQtygLR9YVQXgOcONrwtnk3JupxQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     deprecated: This functionality has been moved to @npmcli/fs
+
+  '@pinnacle0/devtool-util@1.2.30':
+    resolution: {integrity: sha512-C0IEwjirpGCMK1i44cITjThoWCSR6laYd/d25/mkmwqVfMaIJ6kZOZFqGc5IdzoAjiqgEqpfBXTM7D+ynjpxIA==}
+    engines: {node: '>=20'}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -7046,6 +7050,18 @@ snapshots:
     dependencies:
       mkdirp: 1.0.4
       rimraf: 3.0.2
+
+  '@pinnacle0/devtool-util@1.2.30':
+    dependencies:
+      chalk: 4.1.2
+      fantasticon: 3.0.0
+      yargs: 17.7.2
+    optionalDependencies:
+      eslint: 9.8.0
+      prettier: 3.2.5
+    transitivePeerDependencies:
+      - bluebird
+      - supports-color
 
   '@pkgjs/parseargs@0.11.0':
     optional: true

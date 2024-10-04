@@ -30,11 +30,8 @@
         "webpack": "5.94.0",
         "yargs": "17.7.2"
     },
-    "peerDependencies": {
-        "@pinnacle0/devtool-util": "workspace:*"
-    },
     "devDependencies": {
-        "@pinnacle0/devtool-util": "workspace:*",
+        "@pinnacle0/devtool-util": "1.2.30",
         "@types/express": "4.17.21",
         "@types/html-webpack-plugin": "3.2.9",
         "@types/yargs": "17.0.32"
