@@ -80,7 +80,7 @@ export class WebpackBuilder {
 
     private cleanDistFolder() {
         this.logger.task("Cleaning build dist folder");
-        fs.readdirSync(this.outputDirectory).forEach(file => fs.rmSync(path.join(this.outputDirectory, file), {recursive: true}));
+        fs.existsSync(this.outputDirectory) && fs.readdirSync(this.outputDirectory).forEach(file => fs.rmSync(path.join(this.outputDirectory, file), {recursive: true}));
     }
 
     private copyStatic() {
