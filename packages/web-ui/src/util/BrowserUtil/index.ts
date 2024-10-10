@@ -66,7 +66,7 @@ export class BrowserUtil {
      * Resolve when new tab is loaded, only applicable to same domain.
      * Ref: https://stackoverflow.com/questions/3030859/detecting-the-onload-event-of-a-window-opened-with-window-open
      */
-    static openTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}, windowName: string = "_blank") {
+    static openTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}, windowName: string = "_blank"): Window | null {
         let features: string | undefined;
         if (Object.keys(sizeOptions).length > 0) {
             features = "toolbar=no,location=no,status=no,menubar=no,resizable=no" + Object.entries(sizeOptions).map(([key, value]) => `,${key}=${value}`);
@@ -77,6 +77,7 @@ export class BrowserUtil {
             // In case some browser blocks popup, fallback to same tab open
             window.location.href = url;
         }
+        return currentWindow;
     }
 
     static openQQ(qq: string) {
