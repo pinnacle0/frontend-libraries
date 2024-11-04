@@ -1,5 +1,5 @@
 import {parseUserAgentOS} from "./parseUserAgentOS";
-import type {BrowserKernel, BrowserNewTabSizeOptions, BrowserOS} from "./type";
+import type {BrowserKernel, BrowserNewTabOptions, BrowserOS} from "./type";
 
 export class BrowserUtil {
     static os(): BrowserOS {
@@ -66,13 +66,12 @@ export class BrowserUtil {
      * Resolve when new tab is loaded, only applicable to same domain.
      * Ref: https://stackoverflow.com/questions/3030859/detecting-the-onload-event-of-a-window-opened-with-window-open
      */
-    static openTab(url: string, sizeOptions: Partial<BrowserNewTabSizeOptions> = {}, windowName: string = "_blank"): Window | null {
+    static openTab(url: string, sizeOptions: Partial<BrowserNewTabOptions> = {}): Window | null {
         let features: string | undefined;
         if (Object.keys(sizeOptions).length > 0) {
             features = "toolbar=no,location=no,status=no,menubar=no,resizable=no" + Object.entries(sizeOptions).map(([key, value]) => `,${key}=${value}`);
         }
-
-        const currentWindow = window.open(url, windowName, features);
+        const currentWindow = window.open(url, sizeOptions.windowName ?? "_blank", features);
         if (!currentWindow) {
             // In case some browser blocks popup, fallback to same tab open
             window.location.href = url;
