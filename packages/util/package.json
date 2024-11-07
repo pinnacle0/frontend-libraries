@@ -8,8 +8,7 @@
         "url": "https://github.com/pinnacle0/frontend-libraries.git",
         "directory": "packages/util"
     },
-    "main": "cjs/index.js",
-    "module": "esm/index.js",
+    "module": "./index.js",
     "engines": {
         "node": ">=20"
     },
