@@ -35,10 +35,6 @@ export interface WebpackServerStarterOptions
          * Default: true
          */
         useSystemSocksProxy?: boolean | string;
-        /**
-         * Will use this socks proxy if v2Ray Docker is running
-         */
-        v2RaySocksProxyOnDocker?: string;
     };
     interceptExpressApp?: (app: NonNullable<Application>) => void;
 }
@@ -80,7 +76,7 @@ export class rspackServerStarter {
         this.apiProxy = apiProxy
             ? [
                   {
-                      agent: this.createAPISocksProxyAgent(apiProxy.useSystemSocksProxy ?? true, apiProxy.v2RaySocksProxyOnDocker),
+                      agent: this.createAPISocksProxyAgent(apiProxy.useSystemSocksProxy ?? true),
                       context: apiProxy.context,
                       target: apiProxy.target,
                       secure: false,
@@ -168,20 +164,17 @@ export class rspackServerStarter {
         );
     }
 
-    private createAPISocksProxyAgent(useSocksProxy: string | boolean, v2RaySocksProxyOnDocker?: string): Agent | null {
+    private createAPISocksProxyAgent(useSocksProxy: string | boolean): Agent | null {
         if (useSocksProxy === false) return null;
 
-        let url: string;
         if (typeof useSocksProxy === "string") {
-            url = useSocksProxy;
-        } else if (SystemProxySettingsUtil.isV2RayDockerRunning() && v2RaySocksProxyOnDocker) {
-            url = v2RaySocksProxyOnDocker;
-        } else {
-            const settings = SystemProxySettingsUtil.get();
-            if (!settings) return null;
-            url = `socks://${settings.server}:${settings.port}`;
+            this.logger.info(["Using socks proxy:", useSocksProxy]);
+            return new SocksProxyAgent(useSocksProxy);
         }
 
+        const settings = SystemProxySettingsUtil.get();
+        if (!settings) return null;
+        const url = `socks://${settings.server}:${settings.port}`;
         this.logger.info(["Using socks proxy:", url]);
         return new SocksProxyAgent(url);
     }

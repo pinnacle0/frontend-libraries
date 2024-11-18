@@ -1,5 +1,5 @@
 import os from "os";
-import {execSync, spawnSync} from "child_process";
+import {spawnSync} from "child_process";
 
 interface ProxySettings {
     server: string;
@@ -29,21 +29,6 @@ export class SystemProxySettingsUtil {
             if (settings) return settings;
         }
         return null;
-    }
-
-    static isV2RayDockerRunning(): boolean {
-        try {
-            const output = execSync("docker ps", {encoding: "utf8"});
-            const lines = output.split("\n");
-            for (const line of lines) {
-                if (line.includes("v2ray")) {
-                    return true;
-                }
-            }
-        } catch (error) {
-            console.error("Error checking if V2Ray Docker container is running:", error);
-        }
-        return false;
     }
 
     private static parseRawWebProxySettings(raw: string): ProxySettings | null {
