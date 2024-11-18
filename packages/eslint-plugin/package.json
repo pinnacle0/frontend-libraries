@@ -23,7 +23,7 @@
         "eslint-plugin-react-hooks": "4.6.2"
     },
     "peerDependencies": {
-        "eslint": ">=9.8.0"
+        "eslint": ">=9.15.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
@@ -31,7 +31,6 @@
         "@rollup/plugin-json": "6.1.0",
         "@rollup/plugin-node-resolve": "15.2.3",
         "@types/yargs": "17.0.32",
-        "eslint": "9.8.0",
         "rollup": "4.22.4",
         "rollup-plugin-typescript2": "0.36.0",
         "yargs": "17.7.2"
