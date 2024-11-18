@@ -1,4 +1,4 @@
-import type rspack from "@rspack/core";
+import type {RuleSetRule, WebpackPluginInstance, Compiler} from "@rspack/core";
 
 export interface WebpackConfigGeneratorOptions {
     /**
@@ -130,9 +130,9 @@ export interface EntryDescriptor {
     htmlPath?: string;
 }
 
-export type GeneratorLoader = rspack.RuleSetRule;
+export type GeneratorLoader = RuleSetRule;
 
-export type GeneratorPlugin = ((this: rspack.Compiler, compiler: rspack.Compiler) => void) | rspack.WebpackPluginInstance;
+export type GeneratorPlugin = ((this: Compiler, compiler: Compiler) => void) | WebpackPluginInstance;
 
 /**
  * Same as EntryDescriptor, but guaranteed to have an htmlPath.
