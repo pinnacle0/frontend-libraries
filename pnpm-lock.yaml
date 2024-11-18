@@ -135,6 +135,9 @@ importers:
       fantasticon:
         specifier: 3.0.0
         version: 3.0.0
+      socks-proxy-agent:
+        specifier: 8.0.3
+        version: 8.0.3
       yargs:
         specifier: 17.7.2
         version: 17.7.2

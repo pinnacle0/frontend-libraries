@@ -65,8 +65,9 @@ export interface APIGeneratorOptions {
     metadataEndpointURL: string;
     typeFilePath: string;
     serviceFolderPath: string;
-    ignoreType?: IgnoreType;
     platformConfig: PlatformConfig;
+    ignoreType?: IgnoreType;
+    socksProxy?: string;
 }
 
 export type PlatformSpecificAPIGeneratorOptions = Omit<APIGeneratorOptions, "platformConfig">;

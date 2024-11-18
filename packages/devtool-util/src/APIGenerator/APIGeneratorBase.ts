@@ -11,15 +11,17 @@ export class APIGeneratorBase {
     private readonly serviceFolderPath: string;
     private readonly platformConfig: PlatformConfig;
     private readonly ignoreType: IgnoreType | undefined;
+    private readonly socksProxy: string | undefined;
 
     private readonly logger = Utility.createConsoleLogger("APIGenerator");
 
-    constructor({metadataEndpointURL, typeFilePath, serviceFolderPath, platformConfig, ignoreType}: APIGeneratorOptions) {
+    constructor({metadataEndpointURL, typeFilePath, serviceFolderPath, platformConfig, ignoreType, socksProxy}: APIGeneratorOptions) {
         this.metadataEndpointURL = metadataEndpointURL;
         this.typeFilePath = typeFilePath;
         this.serviceFolderPath = serviceFolderPath;
         this.platformConfig = platformConfig;
         this.ignoreType = ignoreType;
+        this.socksProxy = socksProxy;
     }
 
     async run() {
@@ -35,7 +37,7 @@ export class APIGeneratorBase {
     private async fetchAPIDefinition() {
         this.logger.task(["Fetching API meta data", this.metadataEndpointURL]);
 
-        const api = await fetch<APIDefinition>(this.metadataEndpointURL);
+        const api = await fetch<APIDefinition>(this.metadataEndpointURL, this.socksProxy);
         if (api?.services && api?.types) {
             return api;
         } else {

@@ -1,9 +1,10 @@
 import https from "https";
+import {SocksProxyAgent} from "socks-proxy-agent";
 
-export function fetch<T>(url: string): Promise<T> {
+export function fetch<T>(url: string, socksProxy?: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
         https
-            .get(url, res => {
+            .get(url, {agent: socksProxy ? new SocksProxyAgent(socksProxy) : undefined}, res => {
                 const contentType = res.headers["content-type"];
                 if (res.statusCode !== 200) {
                     reject(new Error(`Request failed, status code: ${res.statusCode}`));
