@@ -64,7 +64,7 @@
             "es5-ext": ">=0.10.64",
             "path-to-regexp": "8.0.0",
             "cross-spawn": ">=7.0.5",
-            "http-proxy-middleware": "3.0.3"
+            "cookie": "1.0.1"
         }
     },
     "packageManager": "pnpm@9.11.0"
