@@ -23,11 +23,9 @@
         "less-loader": "12.2.0",
         "pretty-format": "29.7.0",
         "react-refresh": "0.14.2",
-        "semver": ">=7.6.2",
         "socks-proxy-agent": "8.0.3",
         "style-loader": "4.0.0",
         "swc-plugin-core-fe-hmr": "1.0.5",
-        "webpack": "5.94.0",
         "yargs": "17.7.2"
     },
     "devDependencies": {
