@@ -27,7 +27,7 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Om
  *
  * Add "--mode fast" to command line, if you want to skip style and lint checks.
  */
-export class WebpackBuilder {
+export class Builder {
     private readonly projectDirectory: string;
     private readonly extraCheckDirectories: string[];
     private readonly projectStaticDirectory: string;

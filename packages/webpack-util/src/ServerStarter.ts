@@ -47,7 +47,7 @@ export interface WebpackServerStarterOptions
  * Add "--env envName" to command line, if you want to switch config folder dynamically.
  */
 
-export class rspackServerStarter {
+export class ServerStarter {
     private readonly devServerConfigContentBase: string;
     private readonly setupMiddlewares: DevServerConfiguration["setupMiddlewares"];
     private readonly port: number;
