@@ -1,11 +1,9 @@
 import React from "react";
-import {LocaleProvider} from "@pinnacle0/web-ui/core/LocaleProvider";
 import {AdminApp} from "@pinnacle0/web-ui/admin/AdminApp";
 import {NavigationData, TestFeaturePermission} from "../util/NavigationData";
 import {WebUINavigatorSide} from "./WebUINavigatorSide";
 import {WebUILogo} from "./WebUILogo";
-import "@pinnacle0/web-ui/css/global.less";
-import {StyleProvider} from "@pinnacle0/web-ui/core/StyleProvider";
+import {UIProvider} from "@pinnacle0/web-ui/core/UIProvider";
 
 const badges = {
     "/core/button": 4000,
@@ -18,18 +16,16 @@ function globalErrorHandler(error: unknown) {
 }
 
 export const Main = () => (
-    <StyleProvider>
-        <LocaleProvider locale="auto">
-            <AdminApp
-                name="Pinnacle UI"
-                NavigatorSideComponent={WebUINavigatorSide}
-                LogoComponent={WebUILogo}
-                navigationGroups={NavigationData}
-                permissions={[TestFeaturePermission.ROOT_PERMISSION]}
-                superAdminPermission={TestFeaturePermission.ROOT_PERMISSION}
-                badges={badges}
-                onLifecycleError={globalErrorHandler}
-            />
-        </LocaleProvider>
-    </StyleProvider>
+    <UIProvider locale="auto">
+        <AdminApp
+            name="Pinnacle UI"
+            NavigatorSideComponent={WebUINavigatorSide}
+            LogoComponent={WebUILogo}
+            navigationGroups={NavigationData}
+            permissions={[TestFeaturePermission.ROOT_PERMISSION]}
+            superAdminPermission={TestFeaturePermission.ROOT_PERMISSION}
+            badges={badges}
+            onLifecycleError={globalErrorHandler}
+        />
+    </UIProvider>
 );
