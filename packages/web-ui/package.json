@@ -62,5 +62,8 @@
     "publishConfig": {
         "directory": "build",
         "linkDirectory": false
+    },
+    "overrides": {
+        "path-to-regexp": "8.0.0"
     }
 }
