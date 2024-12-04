@@ -1,7 +1,7 @@
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import {TsCheckerRspackPlugin} from "ts-checker-rspack-plugin";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
 import type {RspackPluginInstance} from "@rspack/core";
-import type {TypeScriptWorkerOptions} from "fork-ts-checker-webpack-plugin/lib/typescript/type-script-worker-options";
+import type {TypeScriptWorkerOptions} from "ts-checker-rspack-plugin/lib/typescript/type-script-worker-options";
 
 interface Options {
     tsconfigFilePath: string;
@@ -25,7 +25,7 @@ export function typeCheckerPlugin({tsconfigFilePath}: Options): RspackPluginInst
         },
     };
 
-    return WebpackConfigSerializationUtil.serializablePlugin("ForkTsCheckerWebpackPlugin", ForkTsCheckerWebpackPlugin, {
+    return WebpackConfigSerializationUtil.serializablePlugin("ForkTsCheckerWebpackPlugin", TsCheckerRspackPlugin, {
         devServer: false,
         typescript,
     });
