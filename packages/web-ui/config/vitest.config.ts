@@ -2,7 +2,7 @@ import {defineConfig} from "vitest/config";
 
 export default defineConfig({
     test: {
-        name: "web-ui unit test",
+        name: "@pinnacle0/web-ui test",
         bail: 1,
         environment: "jsdom",
         root: "../",
