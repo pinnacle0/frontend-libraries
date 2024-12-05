@@ -3,12 +3,12 @@ import {WebpackUtil} from "@pinnacle0/webpack-util/src";
 import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
 
 new WebpackUtil.ServerStarter({
-    projectDirectory: path.join(__dirname, "../test/ui-test"),
+    projectDirectory: path.join(import.meta.dirname, "../test/ui-test"),
     port: 4455,
     dynamicPathResolvers: [
         {
             prefix: "@pinnacle0/web-ui",
-            resolver: path.join(__dirname, "../src"),
+            resolver: path.join(import.meta.dirname, "../src"),
         },
     ],
     interceptExpressApp: app =>

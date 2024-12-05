@@ -13,8 +13,8 @@ export function createConfig(parserOptions: ParserOptions = {}): RuleTesterConfi
                 ecmaFeatures: {
                     jsx: true,
                 },
-                project: path.join(__dirname, "../config/tsconfig.test.json"),
-                tsconfigRootDir: path.join(__dirname, "./fixture"),
+                project: path.join(import.meta.dirname, "../config/tsconfig.test.json"),
+                tsconfigRootDir: path.join(import.meta.dirname, "./fixture"),
                 ...parserOptions,
             },
         },

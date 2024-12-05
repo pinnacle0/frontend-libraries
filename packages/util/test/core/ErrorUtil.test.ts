@@ -1,4 +1,5 @@
 import {ErrorUtil} from "../../src/core/ErrorUtil";
+import {describe, test, expect} from "vitest";
 
 describe("ErrorUtil.serialize", () => {
     test("Empty cases", () => {

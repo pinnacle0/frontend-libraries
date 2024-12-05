@@ -1,13 +1,13 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
-        "lib": ["ES2020"],
-        "module": "CommonJS",
+        "lib": ["ESNext"],
+        "module": "ESNext",
         "target": "ES5",
         "outDir": "../lib",
         "rootDir": "../src",
         "declaration": true,
-        "isolatedModules": true
+        "isolatedModules": true,
     },
     "include": ["../src"],
     "exclude": ["**/__fixtures__/"]

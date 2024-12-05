@@ -31,7 +31,7 @@ import {type ESLint} from "eslint";
 // TODO/David: remove after all legacy plugin updated
 // ref: https://github.com/import-js/eslint-plugin-import/issues/2948#issuecomment-2148832701
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
+    baseDirectory: import.meta.dirname,
     recommendedConfig: eslint.configs.recommended,
 });
 

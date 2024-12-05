@@ -50,8 +50,8 @@ export class WebpackConfigSerializationUtil {
             ],
         });
         try {
-            const {format} = require("prettier") as typeof import("prettier");
-            return format("module.exports = " + configString, {
+            const {format} = await import("prettier");
+            return format("export default " + configString, {
                 arrowParens: "avoid",
                 bracketSpacing: false,
                 printWidth: 120,

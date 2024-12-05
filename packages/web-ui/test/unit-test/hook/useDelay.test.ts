@@ -1,15 +1,16 @@
 import {act, renderHook} from "@testing-library/react";
 import {useBool} from "../../../src/hooks/useBool";
 import {useDelayedWhen} from "../../../src/hooks/useDelayed";
+import {describe, afterEach, beforeEach, it, expect, vi} from "vitest";
 
 describe("useDelay unit testing", () => {
     afterEach(() => {
-        jest.clearAllTimers();
-        jest.useRealTimers();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
     });
 
     it("should delay value update", () => {
@@ -28,7 +29,7 @@ describe("useDelay unit testing", () => {
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeFalsy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeTruthy();
@@ -38,7 +39,7 @@ describe("useDelay unit testing", () => {
         expect(result.current.show).toBeFalsy();
         expect(result.current.delayedShow).toBeTruthy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
         expect(result.current.show).toBeFalsy();
         expect(result.current.delayedShow).toBeFalsy();
     });
@@ -59,7 +60,7 @@ describe("useDelay unit testing", () => {
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeFalsy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeTruthy();
@@ -83,19 +84,19 @@ describe("useDelay unit testing", () => {
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeFalsy();
 
-        act(() => jest.advanceTimersByTime(100));
+        act(() => vi.advanceTimersByTime(100));
         act(() => result.current.close());
 
         expect(result.current.show).toBeFalsy();
         expect(result.current.delayedShow).toBeFalsy();
 
-        act(() => jest.advanceTimersByTime(100));
+        act(() => vi.advanceTimersByTime(100));
         act(() => result.current.open());
 
         expect(result.current.show).toBeTruthy();
         expect(result.current.delayedShow).toBeFalsy();
 
-        act(() => jest.advanceTimersByTime(2000));
+        act(() => vi.advanceTimersByTime(2000));
 
         expect(result.current.delayedShow).toBeTruthy();
     });

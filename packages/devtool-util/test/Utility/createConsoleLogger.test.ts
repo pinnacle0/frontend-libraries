@@ -1,4 +1,5 @@
 import {Utility} from "../../src/Utility";
+import {describe, test, expect, vi} from "vitest";
 
 describe("Utility.createConsoleLogger (smoke tests)", () => {
     test("can create a logger instance", () => {
@@ -10,7 +11,7 @@ describe("Utility.createConsoleLogger (smoke tests)", () => {
     });
 
     test("logs to console", () => {
-        const consoleSpy = jest.spyOn(console, "info").mockImplementation(() => {});
+        const consoleSpy = vi.spyOn(console, "info").mockImplementation(() => {});
         const print = Utility.createConsoleLogger("don't care");
 
         consoleSpy.mockClear();

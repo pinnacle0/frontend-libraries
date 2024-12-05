@@ -1,5 +1,6 @@
 import {VersionComparator} from "../../src/core/VersionComparator";
 import type {ComparisonResult} from "../../src/core/VersionComparator";
+import {test, expect} from "vitest";
 
 interface TestProps {
     currentVersion: string;

@@ -1,4 +1,5 @@
-import {TextUtil} from "@pinnacle0/web-ui/internal/TextUtil";
+import {TextUtil} from "../../src/internal/TextUtil";
+import {describe, test, expect} from "vitest";
 
 describe("TextUtil.interpolate", () => {
     test("interpolates values", () => {

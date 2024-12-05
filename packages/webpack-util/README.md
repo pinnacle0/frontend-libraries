@@ -9,40 +9,38 @@ we provide two all-in-one tools for webpack development and build.
 
 ```ts
 new WebpackServerStarter({
-    projectDirectory: path.join(__dirname, ".."),
+    projectDirectory: path.join(import.meta.dirname, ".."),
     port: 1234,
 }).run();
 ```
 
-- Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
-- Starts a `localhost` https server in `1234` port.
+-   Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
+-   Starts a `localhost` https server in `1234` port.
 
 ## `WebpackBuilder`
 
 ```ts
 new WebpackBuilder({
-    projectDirectory: path.join(__dirname, ".."),
+    projectDirectory: path.join(import.meta.dirname, ".."),
 }).run();
 ```
 
-- Checks if the project structure complies to convention described below.
-- Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
-- Run test if supported by `package.json` scripts.
-- Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
+-   Checks if the project structure complies to convention described below.
+-   Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+-   Run test if supported by `package.json` scripts.
+-   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 
+-   TypeScript/JavaScript
 
+-   CSS/LESS
 
-- TypeScript/JavaScript
+-   eslint
 
-- CSS/LESS
+-   stylelint
 
-- eslint
-
-- stylelint
-
-- prettier
+-   prettier
 
 Note: CSS/LESS only website also supported, without any JavaScript.
 
@@ -116,5 +114,5 @@ The following structure can be used for a npm/yarn/pnpm workspace setup.
 ├── .eslintrc.js
 ├── prettier.config.js
 ├── stylelint.config.js
-└── package.json    
+└── package.json
 ```

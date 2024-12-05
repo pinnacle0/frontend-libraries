@@ -1,4 +1,5 @@
 import {DistributionGenerator} from "../../src/core/DistributionGenerator";
+import {describe, test, expect} from "vitest";
 
 describe("DistributionGenerator.boxMullerTransform", () => {
     test("within value range [0, 100] for 1000 random values", () => {

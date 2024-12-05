@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import {PrettierUtil} from "../../src/PrettierUtil";
+import {describe, beforeAll, afterAll, test, expect} from "vitest";
 
-const tmpDirectory = path.join(__dirname, "./__tmp__/check");
+const tmpDirectory = path.join(import.meta.dirname, "./__tmp__/check");
 const formattedFixturePath = path.join(tmpDirectory, "./formatted.ts");
 const unformattedFixturePath = path.join(tmpDirectory, "./unformatted.ts");
 

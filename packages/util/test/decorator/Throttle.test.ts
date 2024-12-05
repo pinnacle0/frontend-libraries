@@ -1,4 +1,5 @@
 import {Throttle} from "../../src/decorator/Throttle";
+import {test, expect} from "vitest";
 
 class Foo {
     // To test if "this" works in the function scope
@@ -10,17 +11,18 @@ class Foo {
     }
 }
 
-test("@Throttle", done => {
-    const a = new Foo();
+test("@Throttle", () =>
+    new Promise<void>(done => {
+        const a = new Foo();
 
-    for (let i = 0; i < 5; i++) {
-        a.increase(10); // Should only be called in the first loop
-        expect(a.n).toBe(10);
-    }
+        for (let i = 0; i < 5; i++) {
+            a.increase(10); // Should only be called in the first loop
+            expect(a.n).toBe(10);
+        }
 
-    setTimeout(() => {
-        a.increase(100);
-        expect(a.n).toBe(110);
-        done();
-    }, 1500);
-});
+        setTimeout(() => {
+            a.increase(100);
+            expect(a.n).toBe(110);
+            done();
+        }, 1500);
+    }));

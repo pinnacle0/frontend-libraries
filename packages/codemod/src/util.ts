@@ -7,7 +7,7 @@ export async function resolveCodemodPath(modType: string): Promise<string | null
 
     for (const postfix of postfixList) {
         try {
-            const realPath = path.resolve(__dirname, "./mod", modType + postfix);
+            const realPath = path.resolve(import.meta.dirname, "./mod", modType + postfix);
             await fs.access(realPath);
             return realPath;
         } catch {

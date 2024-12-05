@@ -1,4 +1,5 @@
 import {NumberUtil} from "../../src/internal/NumberUtil";
+import {describe, test, expect} from "vitest";
 
 describe("NumberUtil.rounding", () => {
     test("throws if `maxScale` is invalid", () => {

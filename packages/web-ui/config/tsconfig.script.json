@@ -1,11 +1,10 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
-        "lib": ["ES2020"],
-        "module": "CommonJS",
+        "lib": ["ESNext"],
+        "module": "ESNext",
         "target": "ES2015",
         "noEmit": true,
-
         "jsx": "react"
     },
     "include": ["../config", "../script/"]

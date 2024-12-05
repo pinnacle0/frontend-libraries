@@ -1,4 +1,5 @@
-import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "@pinnacle0/web-ui/core/NumberInput/util";
+import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "../../src/core/NumberInput/util";
+import {describe, test, expect, vi} from "vitest";
 
 describe("truncate", () => {
     const sum = 0.1 + 0.2;
@@ -155,7 +156,7 @@ describe("getDisplayValue", () => {
         });
         expect(displayValue1).toBe("");
 
-        const displayRenderer = jest.fn();
+        const displayRenderer = vi.fn();
         const displayValue2 = getDisplayValue({
             value: null,
             scale: null as unknown as number, // don't care
@@ -166,7 +167,7 @@ describe("getDisplayValue", () => {
     });
 
     test("uses custom display renderer if provided", () => {
-        const displayRenderer = jest.fn().mockReturnValue("CUSTOM DISPLAY VALUE");
+        const displayRenderer = vi.fn().mockReturnValue("CUSTOM DISPLAY VALUE");
         const displayValue = getDisplayValue({
             value: 1,
             scale: 1,
@@ -196,7 +197,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns the userInput as a number (integer config)", () => {
         expect.assertions(6);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
@@ -214,7 +215,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns the userInput as a number (float 2 decimal point config)", () => {
         expect.assertions(6);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 0, max: 1, scale: 2, get allowNull() { return allowNullGetterSpy() },
@@ -232,7 +233,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("converts the userInput to a valid number (integer config)", () => {
         expect.assertions(8);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
@@ -252,7 +253,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("converts the userInput to a valid number (float 4 decimal point config)", () => {
         expect.assertions(8);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 0, max: 1, scale: 4, get allowNull() { return allowNullGetterSpy() },
@@ -272,7 +273,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns magic string (invalid) if userInput cannot be converted (integer config)", () => {
         expect.assertions(7);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
@@ -291,7 +292,7 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns magic string (invalid) if userInput cannot be converted (float 4 decimal point config)", () => {
         expect.assertions(7);
-        const allowNullGetterSpy = jest.fn();
+        const allowNullGetterSpy = vi.fn();
         // prettier-ignore
         const config: Config = {
             min: 0, max: 1, scale: 4, get allowNull() { return allowNullGetterSpy() },
@@ -310,8 +311,8 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns null if userInput is empty string when `allowNull` is true", () => {
         const allowNull = true;
-        const configPropertyGetterSpy = jest.fn();
-        const mockAllowNullGetter = jest.fn<boolean, []>().mockReturnValue(allowNull);
+        const configPropertyGetterSpy = vi.fn();
+        const mockAllowNullGetter = vi.fn().mockReturnValue(allowNull);
         // prettier-ignore
         const config = {
             get min() { return configPropertyGetterSpy() },
@@ -327,8 +328,8 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
 
     test("returns magic string (invalid) if userInput is empty string when `allowNull` is false", () => {
         const allowNull = false;
-        const configPropertyGetterSpy = jest.fn();
-        const mockAllowNullGetter = jest.fn<boolean, []>().mockReturnValue(allowNull);
+        const configPropertyGetterSpy = vi.fn();
+        const mockAllowNullGetter = vi.fn().mockReturnValue(allowNull);
         // prettier-ignore
         const config = {
             get min() { return configPropertyGetterSpy() },

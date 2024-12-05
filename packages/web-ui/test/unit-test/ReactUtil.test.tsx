@@ -1,5 +1,6 @@
 import React from "react";
 import {ReactUtil} from "../../src/util/ReactUtil";
+import {describe, test, expect} from "vitest";
 
 describe("ReactUtil.memo", () => {
     const someNullable = {apiData: ""} as {apiData: string} | null;

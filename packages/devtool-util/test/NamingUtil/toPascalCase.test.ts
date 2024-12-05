@@ -1,4 +1,5 @@
 import {NamingUtil} from "../../src/NamingUtil";
+import {describe, test, expect} from "vitest";
 
 describe("NamingUtil.toPascalCase", () => {
     type TestEachRowSchema = {input: string; expected: string};

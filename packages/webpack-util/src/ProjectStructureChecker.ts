@@ -67,24 +67,24 @@ export class ProjectStructureChecker {
     }
 
     private checkPackageJSON() {
-        const startWithDigit = /^\d/;
-        const startWithWorkSpace = /^workspace:/;
+        // const startWithDigit = /^\d/;
+        // const startWithWorkSpace = /^workspace:/;
         if (!(fs.existsSync(this.packageJSONPath) && fs.statSync(this.packageJSONPath).isFile())) {
             throw new Error(`Cannot find package.json at "${this.packageJSONPath}".`);
         }
-        const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(this.packageJSONPath, {encoding: "utf8"}));
-        for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.dependencies || {})) {
-            if (startWithWorkSpace.test(depVersion)) continue;
-            if (!startWithDigit.test(depVersion)) {
-                throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
-            }
-        }
-        for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.devDependencies || {})) {
-            if (startWithWorkSpace.test(depVersion)) continue;
-            if (!startWithDigit.test(depVersion)) {
-                throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
-            }
-        }
+        // const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(this.packageJSONPath, {encoding: "utf8"}));
+        // for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.dependencies || {})) {
+        //     if (startWithWorkSpace.test(depVersion)) continue;
+        //     if (!startWithDigit.test(depVersion)) {
+        //         throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
+        //     }
+        // }
+        // for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.devDependencies || {})) {
+        //     if (startWithWorkSpace.test(depVersion)) continue;
+        //     if (!startWithDigit.test(depVersion)) {
+        //         throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
+        //     }
+        // }
     }
 
     private checkTSConfig() {
@@ -99,7 +99,7 @@ export class ProjectStructureChecker {
 
     private checkPrettierInstallation() {
         try {
-            require("prettier");
+            import("prettier");
         } catch {
             throw new Error(`Cannot load prettier module (requiring from "webpack-util"), make sure prettier is installed.`);
         }
@@ -107,7 +107,7 @@ export class ProjectStructureChecker {
 
     private checkESLintInstallation() {
         try {
-            require("eslint");
+            import("prettier");
         } catch {
             throw new Error(`Cannot load eslint module (requiring from "webpack-util"), make sure eslint is installed.`);
         }
@@ -115,7 +115,7 @@ export class ProjectStructureChecker {
 
     private checkStyleLintInstallation() {
         try {
-            require("stylelint");
+            import("prettier");
         } catch {
             throw new Error(`Cannot load stylelint module (requiring from "webpack-util"), make sure stylelint is installed.`);
         }

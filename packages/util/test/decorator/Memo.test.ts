@@ -1,8 +1,9 @@
 import {Memo} from "../../src/decorator/Memo";
+import {describe, test, vi, expect} from "vitest";
 
 describe("@Memo", () => {
     test("should memoize function result when parameter is the same", () => {
-        const mock = jest.fn();
+        const mock = vi.fn();
         class Person {
             constructor(
                 private name: string,
@@ -65,7 +66,7 @@ describe("@Memo", () => {
     });
 
     test("should not affect return value when creating another instance", () => {
-        const mock = jest.fn();
+        const mock = vi.fn();
         class Person {
             constructor(private name: string) {}
 

@@ -1,6 +1,7 @@
 {
     "name": "@pinnacle0/codemod",
     "version": "1.2.4",
+    "type": "module",
     "description": "Provide codemod by using babel and recast",
     "main": "build/index.js",
     "bin": {
@@ -14,9 +15,9 @@
         ".": "./build/index.js"
     },
     "scripts": {
-        "run-script": "ts-node --build ./script/tsconfig.json ",
-        "bin": "ts-node --build ./tsconfig.json ./src/bin.ts",
-        "test": "jest --config config/jest.config.ts --coverage",
+        "run-script": "tsx ",
+        "bin": "tsx ./src/bin.ts",
+        "test": "vitest --config config/vitest.config.ts --run",
         "lint": "eslint --no-warn-ignored \"./src/**\"",
         "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
         "codegen": "pnpm run run-script ./script/codegen.ts",

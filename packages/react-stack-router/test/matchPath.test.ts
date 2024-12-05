@@ -1,4 +1,6 @@
 import {matchPathSegment, patternType} from "../src/route/matchPath";
+import {describe, test, expect} from "vitest";
+
 describe("match path segment testing", () => {
     test.each`
         path             | expected

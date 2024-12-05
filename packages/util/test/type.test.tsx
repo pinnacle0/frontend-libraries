@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import {describe, test} from "vitest";
 import type {
     ArrayElement,
     KeysOfType,
