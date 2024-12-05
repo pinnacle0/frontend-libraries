@@ -2,7 +2,7 @@ import {defineConfig} from "vitest/config";
 
 export default defineConfig({
     test: {
-        name: "code mock unit test",
+        name: "@pinnacle0/codemod test",
         bail: 1,
         environment: "node",
         root: "../",

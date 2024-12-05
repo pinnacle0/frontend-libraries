@@ -2,7 +2,7 @@ import {defineConfig} from "vitest/config";
 
 export default defineConfig({
     test: {
-        name: "react-stack-router unit test",
+        name: "@pinnacle0/react-stack-router test",
         bail: 1,
         environment: "node",
         root: "../",

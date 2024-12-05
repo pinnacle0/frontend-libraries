@@ -2,7 +2,7 @@ import {defineConfig} from "vitest/config";
 
 export default defineConfig({
     test: {
-        name: "devtool-util test case",
+        name: "@pinnacle0/devtool-util test",
         bail: 1,
         environment: "node",
         root: "../",
