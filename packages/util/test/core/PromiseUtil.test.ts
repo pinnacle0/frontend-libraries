@@ -1,4 +1,5 @@
 import {PromiseUtil} from "../../src/core/PromiseUtil";
+import {test, expect} from "vitest";
 
 const sleep = <T>(ms: number, resolvedValue: T) => new Promise<T>(resolve => setTimeout(() => resolve(resolvedValue), ms));
 const sleepThenReject = <T>(ms: number, rejectedValue: T) => new Promise<T>((_, reject) => setTimeout(() => reject(rejectedValue), ms));

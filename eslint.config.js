@@ -1,17 +1,18 @@
 // @ts-check
-const {fixupPluginRules} = require("@eslint/compat");
-const {FlatCompat} = require("@eslint/eslintrc");
-const eslintPluginReact = require("eslint-plugin-react");
-const eslintPluginReactHooks = require("eslint-plugin-react-hooks");
-const eslintConfigPrettier = require("eslint-config-prettier");
-const eslint = require("@eslint/js");
-const tsESlint = require("typescript-eslint");
-const globals = require("globals");
+import {fixupPluginRules} from "@eslint/compat";
+import {FlatCompat} from "@eslint/eslintrc";
+import eslintPluginReact from "eslint-plugin-react";
+import eslintPluginReactHooks from "eslint-plugin-react-hooks";
+import eslintConfigPrettier from "eslint-config-prettier";
+import eslint from "@eslint/js";
+import tsESlint from "typescript-eslint";
+import globals from "globals";
 
 // TODO/David: remove after all legacy plugin updated
 // ref: https://github.com/import-js/eslint-plugin-import/issues/2948#issuecomment-2148832701
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
+    baseDirectory: import.meta.dirname,
+    // @ts-ignore
     recommendedConfig: eslint.configs.recommended,
 });
 
@@ -25,7 +26,7 @@ function legacyPlugin(name, alias = name) {
     return fixupPluginRules(plugin);
 }
 
-module.exports = tsESlint.config(
+export default tsESlint.config(
     {
         files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
         plugins: {

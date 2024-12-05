@@ -5,10 +5,10 @@ import path from "path";
 import yargs from "yargs";
 
 const directory = {
-    src: path.join(__dirname, "../src"),
-    srcRules: path.join(__dirname, "../src/rules"),
-    template: path.join(__dirname, "../script/template"),
-    testRules: path.join(__dirname, "../test/rules"),
+    src: path.join(import.meta.dirname, "../src"),
+    srcRules: path.join(import.meta.dirname, "../src/rules"),
+    template: path.join(import.meta.dirname, "../script/template"),
+    testRules: path.join(import.meta.dirname, "../test/rules"),
 };
 
 const newRuleName = yargs.parseSync()._[0];

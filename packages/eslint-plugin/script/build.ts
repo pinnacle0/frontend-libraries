@@ -6,23 +6,23 @@ import fs from "fs";
 import path from "path";
 
 const FilePath = {
-    project: path.join(__dirname, ".."),
-    config: path.join(__dirname, "../config"),
-    build: path.join(__dirname, "../build"),
-    script: path.join(__dirname, "../script"),
-    src: path.join(__dirname, "../src"),
-    test: path.join(__dirname, "../test"),
+    project: path.join(import.meta.dirname, ".."),
+    config: path.join(import.meta.dirname, "../config"),
+    build: path.join(import.meta.dirname, "../build"),
+    script: path.join(import.meta.dirname, "../script"),
+    src: path.join(import.meta.dirname, "../src"),
+    test: path.join(import.meta.dirname, "../test"),
 
-    projectESLintConfig: path.join(__dirname, "../eslint.config.js"),
-    workspaceRootESLintIgnore: path.join(__dirname, "../../../.eslintignore"),
-    jestConfig: path.join(__dirname, "../config/jest.config.ts"),
-    rollupConfig: path.join(__dirname, "../config/rollup.config.ts"),
-    projectPackageJSON: path.join(__dirname, "../package.json"),
-    projectReadMe: path.join(__dirname, "../README.md"),
-    projectLicense: path.join(__dirname, "../LICENSE.md"),
-    buildPackageJSON: path.join(__dirname, "../build/package.json"),
-    buildReadMe: path.join(__dirname, "../build/README.md"),
-    buildLicense: path.join(__dirname, "../build/LICENSE.md"),
+    projectESLintConfig: path.join(import.meta.dirname, "../eslint.config.js"),
+    workspaceRootESLintIgnore: path.join(import.meta.dirname, "../../../.eslintignore"),
+    vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
+    rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.ts"),
+    projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
+    projectReadMe: path.join(import.meta.dirname, "../README.md"),
+    projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),
+    buildPackageJSON: path.join(import.meta.dirname, "../build/package.json"),
+    buildReadMe: path.join(import.meta.dirname, "../build/README.md"),
+    buildLicense: path.join(import.meta.dirname, "../build/LICENSE.md"),
 };
 
 new TaskRunner("build").execute([
@@ -47,7 +47,7 @@ new TaskRunner("build").execute([
         name: "test",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("jest", ["--config", "config/jest.config.ts"]);
+            Utility.runCommand("vitest", ["--run", "--config", FilePath.vitestConfig]);
         },
     },
     {

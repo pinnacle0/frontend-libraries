@@ -1,6 +1,6 @@
 import yargs from "yargs";
 
-const args = yargs.parseSync();
+const args = yargs().parseSync();
 
 function currentEnv(): string | null {
     return (args.env as string) || null;

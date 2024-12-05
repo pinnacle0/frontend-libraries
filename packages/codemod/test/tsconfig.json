@@ -1,9 +1,11 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "ESNext",
+        "target": "ES2015",
         "noEmit": true,
         "allowJs": true,
-        "types": ["jest", "node"]
     },
     "exclude": ["__testfixtures__"]
 }

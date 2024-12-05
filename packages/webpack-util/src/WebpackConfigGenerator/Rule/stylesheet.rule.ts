@@ -8,7 +8,7 @@ interface StylesheetRuleDeps {
 
 function cssLoader(importLoaders: number): RuleSetUseItem {
     return {
-        loader: require.resolve("css-loader"),
+        loader: import.meta.resolve("css-loader"),
         options: {
             importLoaders,
         },
@@ -17,7 +17,7 @@ function cssLoader(importLoaders: number): RuleSetUseItem {
 
 function lessLoader(): RuleSetUseItem {
     return {
-        loader: require.resolve("less-loader"),
+        loader: import.meta.resolve("less-loader"),
         options: {
             lessOptions: {
                 javascriptEnabled: true,
@@ -28,13 +28,13 @@ function lessLoader(): RuleSetUseItem {
 
 function miniCssExtractPluginLoader(): RuleSetUseItem {
     return {
-        loader: require.resolve(rspack.CssExtractRspackPlugin.loader),
+        loader: import.meta.resolve(rspack.CssExtractRspackPlugin.loader),
     };
 }
 
 function styleLoader(): RuleSetUseItem {
     return {
-        loader: require.resolve("style-loader"),
+        loader: import.meta.resolve("style-loader"),
     };
 }
 

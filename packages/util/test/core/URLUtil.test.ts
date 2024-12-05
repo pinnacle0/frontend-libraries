@@ -1,4 +1,5 @@
 import {URLUtil} from "../../src/core/URLUtil";
+import {describe, test, expect} from "vitest";
 
 describe("URLUtil.transformOriginPrefix", () => {
     type TestEachRowSchema = {url: string; args: [any, any, ...any[]]; expected: any};

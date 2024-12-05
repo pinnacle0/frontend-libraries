@@ -1,4 +1,5 @@
 import {ObjectUtil} from "../../src/core/ObjectUtil";
+import {test, expect} from "vitest";
 
 test("First Key", () => {
     expect(ObjectUtil.firstKey({})).toBeNull();

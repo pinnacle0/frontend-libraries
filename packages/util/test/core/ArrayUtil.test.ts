@@ -1,4 +1,5 @@
 import {ArrayUtil} from "../../src/core/ArrayUtil";
+import {describe, test, vi, expect} from "vitest";
 
 describe("ArrayUtil.sum", () => {
     type TestEachRowSchema = {input: number[]; expected: number};
@@ -324,7 +325,7 @@ describe("ArrayUtil.compactMap", () => {
     });
 
     test("do nothing with empty array", () => {
-        const mockFn = jest.fn().mockImplementation(() => {
+        const mockFn = vi.fn().mockImplementation(() => {
             throw new Error("ArrayUtil.compactMap callback should not be called with empty array");
         });
         const result = ArrayUtil.compactMap([], mockFn);

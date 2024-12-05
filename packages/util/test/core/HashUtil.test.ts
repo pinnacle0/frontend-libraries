@@ -1,5 +1,6 @@
 import {HashUtil} from "../../src/core/HashUtil";
 import crypto from "crypto";
+import {test, expect} from "vitest";
 
 test("toInteger", () => {
     const keys = [...new Set(Array.from({length: 1000}).map(() => crypto.randomBytes(2).toString("hex")))];

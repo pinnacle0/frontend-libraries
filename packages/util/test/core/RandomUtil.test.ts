@@ -1,4 +1,5 @@
 import {RandomUtil} from "../../src/core/RandomUtil";
+import {describe, test, expect} from "vitest";
 
 describe("RandomUtil.ofOne", () => {
     test("throws if array is empty", () => {

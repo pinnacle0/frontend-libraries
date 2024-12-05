@@ -2,13 +2,14 @@
     "name": "@pinnacle0/eslint-plugin",
     "version": "0.3.7",
     "license": "MIT",
+    "type": "module",
     "scripts": {
-        "run-script": "ts-node --project config/tsconfig.script.json",
+        "run-script": "tsx",
         "build": "pnpm run run-script script/build.ts",
         "codegen": "pnpm run run-script script/codegen.ts",
         "format": "pnpm run run-script script/format.ts",
         "new-rule": "pnpm run run-script script/new-rule.ts",
-        "test": "jest --config config/jest.config.ts",
+        "test": "vitest --config config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {

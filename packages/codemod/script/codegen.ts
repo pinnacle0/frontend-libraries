@@ -5,8 +5,8 @@ import {createToolkit} from "../src/toolkit";
 import type {namedTypes} from "ast-types";
 
 const Paths = {
-    modDirectory: path.join(__dirname, "../src/mod"),
-    typeFile: path.join(__dirname, "../src/type.ts"),
+    modDirectory: path.join(import.meta.dirname, "../src/mod"),
+    typeFile: path.join(import.meta.dirname, "../src/type.ts"),
 };
 
 new TaskRunner("codegen").execute([

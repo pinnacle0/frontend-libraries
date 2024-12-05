@@ -1,4 +1,5 @@
 import {EnumUtil} from "../../src";
+import {describe, test, expect} from "vitest";
 
 enum EmptyEnum {}
 enum KVIdenticalStringEnum {

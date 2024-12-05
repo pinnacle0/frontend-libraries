@@ -1,16 +1,17 @@
+import React from "react";
 import {act, renderHook} from "@testing-library/react";
 import {useBool} from "../../../src/hooks/useBool";
 import {useExtendedWhen} from "../../../src/hooks/useExtended";
-import React from "react";
+import {describe, afterEach, beforeEach, it, expect, vi} from "vitest";
 
 describe("useExtendedWhen unit testing", () => {
     afterEach(() => {
-        jest.clearAllTimers();
-        jest.useRealTimers();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
     });
 
     it("should extend value update", () => {
@@ -29,7 +30,7 @@ describe("useExtendedWhen unit testing", () => {
         expect(result.current.show).toBeTruthy();
         expect(result.current.extendedShow).toBeFalsy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeTruthy();
         expect(result.current.extendedShow).toBeTruthy();
@@ -39,7 +40,7 @@ describe("useExtendedWhen unit testing", () => {
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeTruthy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeFalsy();
@@ -66,7 +67,7 @@ describe("useExtendedWhen unit testing", () => {
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeTruthy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeFalsy();
@@ -81,7 +82,7 @@ describe("useExtendedWhen unit testing", () => {
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeTruthy();
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.show).toBeFalsy();
         expect(result.current.extendedShow).toBeFalsy();
@@ -120,7 +121,7 @@ describe("useExtendedWhen unit testing", () => {
         expect(result.current.value).toBe(7);
         expect(result.current.extendedValue).toBe(3);
 
-        act(() => jest.runAllTimers());
+        act(() => vi.runAllTimers());
 
         expect(result.current.value).toBe(7);
         expect(result.current.extendedValue).toBe(7);

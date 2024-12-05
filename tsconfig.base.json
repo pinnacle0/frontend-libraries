@@ -9,7 +9,7 @@
         "allowSyntheticDefaultImports": true,
         "strictPropertyInitialization": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,

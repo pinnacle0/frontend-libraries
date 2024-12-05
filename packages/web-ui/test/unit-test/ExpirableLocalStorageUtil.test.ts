@@ -1,4 +1,5 @@
-import {ExpirableLocalStorageUtil} from "@pinnacle0/web-ui/util/ExpirableLocalStorageUtil";
+import {ExpirableLocalStorageUtil} from "../../src/util/ExpirableLocalStorageUtil";
+import {describe, test, expect} from "vitest";
 
 describe("ExpirableLocalStorageUtil", () => {
     test("Bool", () => {

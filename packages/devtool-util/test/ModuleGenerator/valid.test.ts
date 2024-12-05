@@ -1,12 +1,13 @@
 import fs from "fs";
 import path from "path";
+import {describe, test, expect, afterAll, vi} from "vitest";
 
 interface Fixture {
     path: string;
     data: string;
 }
 
-const tmpDirectory = path.join(__dirname, "./__tmp__/valid");
+const tmpDirectory = path.join(import.meta.dirname, "./__tmp__/valid");
 const tmpReduxStatePath = path.join(tmpDirectory, "type/state.ts");
 const tmpCommonOldFeatureTypePath = path.join(tmpDirectory, "module/common/old-feature/type.ts");
 
@@ -23,15 +24,15 @@ describe("ModuleGenerator class add", () => {
 
         fixtures.forEach(_ => expect(fs.existsSync(_.path)).toBe(true));
 
-        jest.doMock("yargs", () => ({
-            parseSync: () => ({_: {0: "common/new-feature"}}),
+        vi.doMock("yargs", () => ({
+            default: () => ({parseSync: () => ({_: {0: "common/new-feature"}})}),
         }));
-        jest.doMock("../../src/PrettierUtil", () => ({
+        vi.doMock("../../src/PrettierUtil", () => ({
             PrettierUtil: {format: () => {}},
         }));
 
         // Note: inline require ModuleGenerator after `jest.doMock` calls to ensure that require hooks are registered (without relying on ts-jest or babel-jest magic)
-        const {ModuleGenerator} = jest.requireActual<typeof import("../../src/ModuleGenerator")>("../../src/ModuleGenerator");
+        const {ModuleGenerator} = await vi.importActual<typeof import("../../src/ModuleGenerator")>("../../src/ModuleGenerator");
         await new ModuleGenerator.Web({
             srcDirectory: tmpDirectory,
         }).run();

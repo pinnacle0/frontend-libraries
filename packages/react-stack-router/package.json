@@ -2,6 +2,7 @@
     "name": "@pinnacle0/react-stack-router",
     "version": "0.2.3",
     "author": "Pinnacle",
+    "type": "module",
     "license": "MIT",
     "exports": {
         ".": "./src/index.ts"
@@ -24,7 +25,7 @@
     },
     "scripts": {
         "demo": "cd demo && pnpm dev",
-        "test": "jest --config ./config/jest.config.ts",
+        "test": "vitest --config ./config/vitest.config.ts --run",
         "build": "pnpm test && rm -rf dist && tsc && copyfiles -u 1 src/**/*.less dist",
         "prepublishOnly": "pnpm build"
     },

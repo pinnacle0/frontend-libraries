@@ -1,14 +1,13 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
-        "lib": ["DOM", "ES2020"],
+        "lib": ["DOM", "ESNext"],
+        "module": "ESNext",
         "experimentalDecorators": false,
         "emitDecoratorMetadata": false,
         "noUnusedLocals": false,
-        "module": "CommonJS",
         "target": "ES2015",
         "noEmit": true,
-        "types": ["node", "jest"]
     },
     "include": ["../test/"]
 }

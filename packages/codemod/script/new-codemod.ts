@@ -6,9 +6,9 @@ import {hideBin} from "yargs/helpers";
 import path from "path";
 
 const Paths = {
-    modDirectory: path.join(__dirname, "../src/mod"),
-    testDirectory: path.join(__dirname, "../test"),
-    template: path.join(__dirname, "../script/template"),
+    modDirectory: path.join(import.meta.dirname, "../src/mod"),
+    testDirectory: path.join(import.meta.dirname, "../test"),
+    template: path.join(import.meta.dirname, "../script/template"),
 };
 
 const newCodemodName = yargs(hideBin(process.argv)).parseSync()._[0];

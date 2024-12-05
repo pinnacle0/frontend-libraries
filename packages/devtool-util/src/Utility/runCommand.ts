@@ -8,7 +8,7 @@ import path from "path";
  * Searches for .../node_modules/.bin/<command> upwards recursively
  * and falls back to running as a system command.
  * It is advised against to rely on relative paths (cwd is not set).
- * Use `require("path").join(__dirname, "./your-path-here")` or the
+ * Use `require("path").join(import.meta.dirname, "./your-path-here")` or the
  * the ESM equivalent to wrap the relative path.
  *
  * Example usage:
@@ -43,7 +43,7 @@ export function runCommand(command: string, args: string[] = []) {
         return result;
     };
 
-    let searchDirectory = __dirname;
+    let searchDirectory = import.meta.dirname;
     while (searchDirectory !== path.dirname(searchDirectory)) {
         const fullCommandPath = path.join(searchDirectory, "node_modules/.bin", command);
         if (fs.existsSync(fullCommandPath)) {

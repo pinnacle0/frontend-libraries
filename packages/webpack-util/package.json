@@ -2,12 +2,13 @@
     "name": "@pinnacle0/webpack-util",
     "version": "0.7.4",
     "license": "MIT",
+    "type": "module",
     "main": "src/index.js",
     "scripts": {
-        "run-script": "ts-node --project config/tsconfig.script.json",
+        "run-script": "tsx",
         "build": "pnpm run run-script script/build.ts",
         "format": "pnpm run run-script script/format.ts",
-        "test": "jest --config config/jest.config.ts",
+        "test": "vitest --config config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
@@ -36,9 +37,6 @@
     },
     "engines": {
         "node": ">=20"
-    },
-    "jest": {
-        "preset": "ts-jest"
     },
     "publishConfig": {
         "directory": "build",

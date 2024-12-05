@@ -1,4 +1,5 @@
 import {NumberUtil} from "../../src/core/NumberUtil";
+import {describe, test, expect} from "vitest";
 
 test("Clamp", () => {
     const t1 = {value: 10, min: 100, max: 200};

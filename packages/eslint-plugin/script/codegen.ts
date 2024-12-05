@@ -6,9 +6,9 @@ import path from "path";
 
 const print = Utility.createConsoleLogger("codegen");
 const directory = {
-    src: path.join(__dirname, "../src"),
-    srcRules: path.join(__dirname, "../src/rules"),
-    template: path.join(__dirname, "../script/template"),
+    src: path.join(import.meta.dirname, "../src"),
+    srcRules: path.join(import.meta.dirname, "../src/rules"),
+    template: path.join(import.meta.dirname, "../script/template"),
 };
 
 function scanCustomRules() {

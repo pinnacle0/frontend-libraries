@@ -1,4 +1,5 @@
 import {TextUtil} from "../../src/core/TextUtil";
+import {test, expect} from "vitest";
 
 test("Truncate", () => {
     expect(() => TextUtil.truncate("waiting", 4.2)).toThrow();

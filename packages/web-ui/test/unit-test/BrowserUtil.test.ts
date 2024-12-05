@@ -1,5 +1,6 @@
 import type {BrowserOS} from "@pinnacle0/web-ui/util/BrowserUtil/type";
 import {parseUserAgentOS} from "../../src/util/BrowserUtil/parseUserAgentOS";
+import {describe, test, expect} from "vitest";
 
 type TestEachRowSchema = {
     userAgent: string;

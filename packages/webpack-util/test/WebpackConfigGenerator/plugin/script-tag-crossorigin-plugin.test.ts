@@ -4,8 +4,9 @@ import {rspack} from "@rspack/core";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import type {Configuration} from "@rspack/core";
 import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/script-tag-crossorigin-plugin";
+import {describe, test, expect} from "vitest";
 
-const OUTPUT_DIR = path.join(__dirname, "./dist");
+const OUTPUT_DIR = path.join(import.meta.dirname, "./dist");
 type Entry = Omit<Configuration["entry"], "undefined">;
 const createConfig = (entry: Entry): Configuration => ({
     mode: "production",
@@ -17,7 +18,7 @@ const createConfig = (entry: Entry): Configuration => ({
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: path.join(__dirname, "./fixture/index.html"),
+            template: path.join(import.meta.dirname, "./fixture/index.html"),
         }),
         new ScriptTagCrossOriginPlugin(),
     ],
@@ -34,23 +35,25 @@ describe("script-tag-crossorigin-plugin test: Add crossorigin='anonymous'", () =
         });
     };
 
-    test("single entry script tag", done => {
-        testPlugin(
-            {
-                main: path.join(__dirname, "./fixture/script.js"),
-            },
-            [new RegExp('<script.+src="main.js".+crossorigin="anonymous"', "gm")],
-            done
-        );
-    });
-    test("multiple entry script tag", done => {
-        testPlugin(
-            {
-                main: path.join(__dirname, "./fixture/script.js"),
-                second: path.join(__dirname, "./fixture/script.js"),
-            },
-            [new RegExp('<script.+src="main\\.js".+crossorigin="anonymous"', "gm"), new RegExp('<script.+src="second\\.js".+crossorigin="anonymous"', "gm")],
-            done
-        );
-    });
+    test("single entry script tag", () =>
+        new Promise<void>(done => {
+            testPlugin(
+                {
+                    main: path.join(import.meta.dirname, "./fixture/script.js"),
+                },
+                [new RegExp('<script.+src="main.js".+crossorigin="anonymous"', "gm")],
+                done
+            );
+        }));
+    test("multiple entry script tag", () =>
+        new Promise<void>(done => {
+            testPlugin(
+                {
+                    main: path.join(import.meta.dirname, "./fixture/script.js"),
+                    second: path.join(import.meta.dirname, "./fixture/script.js"),
+                },
+                [new RegExp('<script.+src="main\\.js".+crossorigin="anonymous"', "gm"), new RegExp('<script.+src="second\\.js".+crossorigin="anonymous"', "gm")],
+                done
+            );
+        }));
 });

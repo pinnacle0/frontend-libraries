@@ -2,6 +2,7 @@
     "name": "@pinnacle0/util",
     "version": "2.8.5",
     "license": "MIT",
+    "type": "module",
     "sideEffects": false,
     "repository": {
         "type": "git",
@@ -13,11 +14,11 @@
         "node": ">=20"
     },
     "scripts": {
-        "run-script": "ts-node --project config/tsconfig.script.json",
+        "run-script": "tsx",
         "build": "pnpm run run-script script/build.ts",
         "format": "pnpm run run-script script/format.ts",
         "lint": "pnpm run run-script script/lint.ts",
-        "test": "jest --config config/jest.config.ts --coverage",
+        "test": "vitest --config ./config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },
     "devDependencies": {

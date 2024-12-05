@@ -1,4 +1,5 @@
 import {classNames} from "../../src/util/ClassNames";
+import {describe, test, expect} from "vitest";
 
 describe("classNames testing", () => {
     test("basic usage", () => {

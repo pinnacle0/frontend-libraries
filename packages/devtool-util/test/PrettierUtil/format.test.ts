@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import {PrettierUtil} from "../../src/PrettierUtil";
+import {describe, beforeAll, afterAll, test, expect} from "vitest";
 
-const tmpDirectory = path.join(__dirname, "./__tmp__/format");
+const tmpDirectory = path.join(import.meta.dirname, "./__tmp__/format");
 
 describe("Prettier.format", () => {
     beforeAll(() => {

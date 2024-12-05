@@ -1,12 +1,13 @@
 // @ts-check
-const eslint = require("@eslint/js");
-const eslintConfigPrettier = require("eslint-config-prettier");
-const tsESlint = require("typescript-eslint");
-const globals = require("globals");
+import eslint from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier";
+import tsESlint from "typescript-eslint";
+import globals from "globals";
 
-module.exports = tsESlint.config(
+export default tsESlint.config(
     {
         files: ["**/*.ts", "**/*.js"],
+        // @ts-ignore
         extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, eslintConfigPrettier],
         languageOptions: {
             parser: tsESlint.parser,

@@ -2,7 +2,7 @@
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "types": ["jest"]
+        "module": "ESNext",
+        "target": "ES2015"
     },
-    "references": [{"path": "../src"}]
 }

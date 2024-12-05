@@ -1,5 +1,6 @@
 import type {Match} from "../src/route";
 import {formatPath, pathToSegments, Route} from "../src/route";
+import {describe, test, expect} from "vitest";
 
 const setupRoute = (config: Record<string, string>): Route<string> => {
     const route = new Route<string>();

@@ -5,19 +5,19 @@ import fs from "fs";
 import path from "path";
 
 const FilePath = {
-    config: path.join(__dirname, "../config"),
-    build: path.join(__dirname, "../build"),
-    script: path.join(__dirname, "../script"),
-    src: path.join(__dirname, "../src"),
+    config: path.join(import.meta.dirname, "../config"),
+    build: path.join(import.meta.dirname, "../build"),
+    script: path.join(import.meta.dirname, "../script"),
+    src: path.join(import.meta.dirname, "../src"),
 
-    jestConfig: path.join(__dirname, "../config/jest.config.ts"),
-    tsConfigForSrc: path.join(__dirname, "../config/tsconfig.src.json"),
-    projectPackageJSON: path.join(__dirname, "../package.json"),
-    projectReadMe: path.join(__dirname, "../README.md"),
-    projectLicense: path.join(__dirname, "../LICENSE.md"),
-    buildPackageJSON: path.join(__dirname, "../build/package.json"),
-    buildReadMe: path.join(__dirname, "../build/README.md"),
-    buildLicense: path.join(__dirname, "../build/LICENSE.md"),
+    vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
+    tsConfigForSrc: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
+    projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
+    projectReadMe: path.join(import.meta.dirname, "../README.md"),
+    projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),
+    buildPackageJSON: path.join(import.meta.dirname, "../build/package.json"),
+    buildReadMe: path.join(import.meta.dirname, "../build/README.md"),
+    buildLicense: path.join(import.meta.dirname, "../build/LICENSE.md"),
 };
 
 new TaskRunner("build").execute([
@@ -41,7 +41,7 @@ new TaskRunner("build").execute([
         name: "test",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("jest", ["--config", FilePath.jestConfig, "--bail"]);
+            Utility.runCommand("vitest", ["--config", FilePath.vitestConfig, "--run"]);
         },
     },
     {

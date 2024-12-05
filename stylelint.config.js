@@ -1,7 +1,7 @@
 // @ts-check
 
 /** @type {import("stylelint").Config} */
-module.exports = {
+export default {
     customSyntax: "postcss-less",
     extends: ["stylelint-config-standard"],
     rules: {
