@@ -106,6 +106,7 @@ export class WebpackConfigGenerator {
             entry: this.entry,
             target: "web", // https://github.com/webpack/webpack-dev-server/issues/2758 Hot-reload will break if we provide list to target
             output: {
+                module: true,
                 filename: "static/js/[name].js",
                 publicPath: "/",
             },

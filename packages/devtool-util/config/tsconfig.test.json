@@ -3,7 +3,7 @@
     "compilerOptions": {
         "lib": ["ESNext"],
         "module": "ESNext",
-        "target": "ES5",
+        "target": "ESNext",
         "noEmit": true
     },
     "include": ["../config", "../test/"],

@@ -8,10 +8,12 @@ export interface Task {
 }
 
 export class TaskRunner {
-    private readonly logger = Utility.createConsoleLogger(this.taskName);
+    private readonly logger;
     private readonly isFastMode = yargs().parseSync().mode === "fast";
 
-    constructor(private readonly taskName: string) {}
+    constructor(private readonly taskName: string) {
+        this.logger = Utility.createConsoleLogger(this.taskName);
+    }
 
     execute(tasks: Task[]) {
         this.executeAsync(tasks)

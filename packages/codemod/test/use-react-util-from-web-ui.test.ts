@@ -1,7 +1,7 @@
 import {createTransform} from "./createTransform";
 import {describe, test, expect} from "vitest";
 
-const transform = createTransform("use-react-util-from-web-ui");
+const transform = await createTransform("use-react-util-from-web-ui");
 const testCases = [
     {title: "Remain unchanged", input: `import some from "some-other-package";`, output: `import some from "some-other-package";`},
     {title: "Remain unchanged", input: `import {ReactUtil} from "@pinnacle0/web-ui/util/ReactUtil";`, output: `import {ReactUtil} from "@pinnacle0/web-ui/util/ReactUtil";`},

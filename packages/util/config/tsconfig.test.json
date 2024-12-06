@@ -3,11 +3,11 @@
     "compilerOptions": {
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
+        "target": "ESNext",
         "experimentalDecorators": false,
         "emitDecoratorMetadata": false,
         "noUnusedLocals": false,
-        "target": "ES2015",
-        "noEmit": true,
+        "noEmit": true
     },
     "include": ["../test/"]
 }

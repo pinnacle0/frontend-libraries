@@ -3,7 +3,7 @@
     "version": "0.7.4",
     "license": "MIT",
     "type": "module",
-    "main": "src/index.js",
+    "main": "./src/index.js",
     "scripts": {
         "run-script": "tsx",
         "build": "pnpm run run-script script/build.ts",
@@ -12,8 +12,8 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@rspack/cli": "1.1.1",
-        "@rspack/core": "1.1.1",
+        "@rspack/cli": "1.1.5",
+        "@rspack/core": "1.1.5",
         "@rspack/dev-server": "1.0.9",
         "@rspack/plugin-react-refresh": "1.0.0",
         "@swc/core": "1.4.4",

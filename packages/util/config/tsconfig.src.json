@@ -3,7 +3,7 @@
     "compilerOptions": {
         "lib": ["ESNext"],
         "module": "ESNext",
-        "target": "ES5",
+        "target": "ESNext",
         "outDir": "../build/",
         "rootDir": "../src/",
         "declaration": true,

@@ -1,7 +1,7 @@
 import {createTransform} from "./createTransform";
 import {describe, test, expect} from "vitest";
 
-const transform = createTransform("use-react-redux-hooks-from-core-fe");
+const transform = await createTransform("use-react-redux-hooks-from-core-fe");
 const testCases = [
     {
         title: "Remain unchanged",

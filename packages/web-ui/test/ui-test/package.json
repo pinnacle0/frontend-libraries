@@ -1,5 +1,14 @@
 {
     "name": "@pinnacle0/web-ui-webpack-test",
     "license": "UNLICENSED",
-    "private": true
+    "private": true,
+    "dependencies": {
+        "@pinnacle0/web-ui": "workspace:*",
+        "react": "18.3.1",
+        "react-dom": "18.3.1"
+    },
+    "devDependencies": {
+        "@types/react": "18.3.2",
+        "@types/react-dom": "18.3.0"
+    }
 }

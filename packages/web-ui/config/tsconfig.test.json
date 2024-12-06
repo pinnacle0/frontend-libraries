@@ -3,7 +3,7 @@
     "compilerOptions": {
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
-        "target": "ES5",
+        "target": "ESNext",
         "inlineSources": true,
         "isolatedModules": true,
         "jsx": "react",
