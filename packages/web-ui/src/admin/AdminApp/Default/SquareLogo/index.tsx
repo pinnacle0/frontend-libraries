@@ -15,7 +15,7 @@ export interface Props extends ExpandableProps {
 export class SquareLogo extends React.PureComponent<Props> {
     static displayName = "SquareLogo";
     static contextType = AdminAppContext;
-    context!: React.ContextType<typeof AdminAppContext>;
+    declare context: React.ContextType<typeof AdminAppContext>;
 
     render() {
         const {expanded, src} = this.props;

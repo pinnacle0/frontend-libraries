@@ -1,7 +1,7 @@
 import {createTransform} from "./createTransform";
 import {describe, test, expect} from "vitest";
 
-const transform = createTransform("use-react-node");
+const transform = await createTransform("use-react-node");
 
 const testCases = [
     {

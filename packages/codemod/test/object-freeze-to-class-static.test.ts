@@ -1,7 +1,7 @@
 import {createTransform} from "./createTransform";
 import {describe, test, expect} from "vitest";
 
-const transform = createTransform("object-freeze-to-class-static");
+const transform = await createTransform("object-freeze-to-class-static");
 
 const testSet = [
     {
