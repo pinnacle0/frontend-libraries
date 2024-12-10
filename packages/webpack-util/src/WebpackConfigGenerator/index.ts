@@ -133,6 +133,9 @@ export class WebpackConfigGenerator {
                     ...this.customizedLoaders,
                 ],
             },
+            experiments: {
+                outputModule: true,
+            },
             plugins: [
                 // prettier
                 ...this.htmlWebpackPluginInstances,
