@@ -37,8 +37,7 @@
         "yargs": "17.7.2"
     },
     "optionalDependencies": {
-        "eslint-plugin-jest": "^28.5.0",
-        "eslint-plugin-jest-dom": "^5.1.0",
+        "@vitest/eslint-plugin": "^1.1.14",
         "eslint-plugin-testing-library": "^6.2.0"
     },
     "engines": {
