@@ -1,5 +1,5 @@
 import {rules} from "./rules";
-import {baseline, jest} from "./config";
+import {baseline, vitest} from "./config";
 
 const plugin = {
     configs: {},
@@ -9,7 +9,7 @@ const plugin = {
 
 Object.assign(plugin.configs, {
     baseline: baseline(plugin),
-    jest,
+    vitest,
 });
 
 export default plugin;

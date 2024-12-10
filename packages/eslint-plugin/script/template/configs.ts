@@ -16,13 +16,10 @@ import eslintPluginReact from "eslint-plugin-react";
 // @ts-expect-error -- untyped module
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 // @ts-expect-error -- untyped module
-import eslintPluginJest from "eslint-plugin-jest";
-// @ts-expect-error -- untyped module
-import eslintPluginJestDOM from "eslint-plugin-jest-dom";
-// @ts-expect-error -- untyped module
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
 // @ts-expect-error -- untyped module
 import eslintPluginComments from "eslint-plugin-eslint-comments";
+import eslintPluginVitest from "@vitest/eslint-plugin";
 // @ts-expect-error -- untyped module
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
@@ -209,10 +206,9 @@ export const baseline = (plugin: ESLint.Plugin) =>
         },
     });
 
-export const jest = tsESlint.config({
+export const vitest = tsESlint.config({
     plugins: {
-        "jest": eslintPluginJest,
-        "jest-dom": eslintPluginJestDOM,
+        vitest: eslintPluginVitest,
         "testing-library": eslintPluginTestingLibrary,
     },
     languageOptions: {
@@ -221,48 +217,39 @@ export const jest = tsESlint.config({
         },
     },
     rules: {
-        // jest
-        "jest/consistent-test-it": ["warn", {fn: "test", withinDescribe: "test"}],
-        "jest/expect-expect": "off", // This is too annoying
-        "jest/no-alias-methods": ["warn"],
-        "jest/no-commented-out-tests": ["warn"],
-        "jest/no-deprecated-functions": ["warn"],
-        "jest/no-duplicate-hooks": ["warn"],
-        "jest/no-export": ["warn"],
-        "jest/no-identical-title": ["warn"],
-        "jest/no-jasmine-globals": ["warn"],
-        "jest/no-mocks-import": ["warn"],
-        "jest/no-restricted-matchers": [
+        // vitest
+        "vitest/consistent-test-it": ["warn", {fn: "test", withinDescribe: "test"}],
+        "vitest/expect-expect": "off", // This is too annoying
+        "vitest/no-alias-methods": ["warn"],
+        "vitest/no-commented-out-tests": ["warn"],
+        "vitest/no-deprecated-functions": ["warn"],
+        "vitest/no-duplicate-hooks": ["warn"],
+        "vitest/no-export": ["warn"],
+        "vitest/no-identical-title": ["warn"],
+        "vitest/no-jasmine-globals": ["warn"],
+        "vitest/no-mocks-import": ["warn"],
+        "vitest/no-restricted-matchers": [
             "warn",
             {
                 resolves: "Use `expect(await promise)` instead.",
             },
         ],
-        "jest/no-standalone-expect": ["warn"],
-        "jest/no-test-prefixes": ["warn"],
-        "jest/no-test-return-statement": ["warn"],
-        "jest/prefer-called-with": ["warn"],
-        "jest/prefer-expect-assertions": "off", // This is too annoying
-        "jest/prefer-hooks-on-top": ["warn"],
-        "jest/prefer-spy-on": ["warn"],
-        "jest/prefer-strict-equal": ["warn"],
-        "jest/prefer-lowercase-title": ["warn", {ignore: ["describe"]}],
-        "jest/prefer-to-be": ["warn"],
-        "jest/prefer-to-contain": ["warn"],
-        "jest/prefer-to-have-length": ["warn"],
-        "jest/prefer-todo": ["warn"],
-        "jest/require-top-level-describe": ["warn"],
-        "jest/valid-expect": ["warn"],
-        "jest/valid-title": "off", // This is too annoying
-
-        // jest-dom
-        "jest-dom/prefer-checked": ["warn"],
-        "jest-dom/prefer-empty": ["warn"],
-        "jest-dom/prefer-enabled-disabled": ["warn"],
-        "jest-dom/prefer-focus": ["warn"],
-        "jest-dom/prefer-required": ["warn"],
-        "jest-dom/prefer-to-have-attribute": ["warn"],
-        "jest-dom/prefer-to-have-text-content": ["warn"],
+        "vitest/no-standalone-expect": ["warn"],
+        "vitest/no-test-prefixes": ["warn"],
+        "vitest/no-test-return-statement": ["warn"],
+        "vitest/prefer-called-with": ["warn"],
+        "vitest/prefer-expect-assertions": "off", // This is too annoying
+        "vitest/prefer-hooks-on-top": ["warn"],
+        "vitest/prefer-spy-on": ["warn"],
+        "vitest/prefer-strict-equal": ["warn"],
+        "vitest/prefer-lowercase-title": ["warn", {ignore: ["describe"]}],
+        "vitest/prefer-to-be": ["warn"],
+        "vitest/prefer-to-contain": ["warn"],
+        "vitest/prefer-to-have-length": ["warn"],
+        "vitest/prefer-todo": ["warn"],
+        "vitest/require-top-level-describe": ["warn"],
+        "vitest/valid-expect": ["warn"],
+        "vitest/valid-title": "off", // This is too annoying
 
         // testing-library
         "testing-library/await-async-queries": ["warn"],
