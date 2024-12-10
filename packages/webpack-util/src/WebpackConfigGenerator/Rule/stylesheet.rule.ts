@@ -1,14 +1,22 @@
 import {rspack} from "@rspack/core";
 import {RegExpUtil} from "./RegExpUtil";
+import {createRequire} from "node:module";
 import type {RuleSetUseItem, RuleSetRule} from "@rspack/core";
 
 interface StylesheetRuleDeps {
     minimize: boolean;
 }
 
+/**
+ *
+ * ref: https://rspack.dev/guide/features/loader#using-a-custom-loader
+ * The loader file must be imported using CommonJS require()
+ *
+ */
+
 function cssLoader(importLoaders: number): RuleSetUseItem {
     return {
-        loader: import.meta.resolve("css-loader"),
+        loader: createRequire(import.meta.url).resolve("css-loader"),
         options: {
             importLoaders,
         },
@@ -17,7 +25,7 @@ function cssLoader(importLoaders: number): RuleSetUseItem {
 
 function lessLoader(): RuleSetUseItem {
     return {
-        loader: import.meta.resolve("less-loader"),
+        loader: createRequire(import.meta.url).resolve("less-loader"),
         options: {
             lessOptions: {
                 javascriptEnabled: true,
@@ -28,13 +36,13 @@ function lessLoader(): RuleSetUseItem {
 
 function miniCssExtractPluginLoader(): RuleSetUseItem {
     return {
-        loader: import.meta.resolve(rspack.CssExtractRspackPlugin.loader),
+        loader: createRequire(import.meta.url).resolve(rspack.CssExtractRspackPlugin.loader),
     };
 }
 
 function styleLoader(): RuleSetUseItem {
     return {
-        loader: import.meta.resolve("style-loader"),
+        loader: createRequire(import.meta.url).resolve("style-loader"),
     };
 }
 

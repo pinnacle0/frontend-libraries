@@ -1,5 +1,6 @@
 import type {RuleSetRule, RuleSetUseItem} from "@rspack/core";
 import {RegExpUtil} from "./RegExpUtil";
+import {createRequire} from "node:module";
 
 interface Deps {
     fastRefresh?: boolean;
@@ -25,7 +26,8 @@ export function tsRule({fastRefresh = false}: Deps = {}): RuleSetRule {
                     decoratorVersion: "2022-03",
                 },
                 experimental: {
-                    plugins: fastRefresh ? [[import.meta.resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
+                    // The loader file must be imported using CommonJS require()
+                    plugins: fastRefresh ? [[createRequire(import.meta.url).resolve("swc-plugin-core-fe-hmr"), {}]] : undefined,
                 },
             },
         },
