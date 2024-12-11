@@ -1,5 +1,5 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util/lib/PrettierUtil";
-import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
+import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {Utility} from "@pinnacle0/devtool-util/Utility";
 import fs from "fs";
 import path from "path";
 import type {InternalCheckerOptions} from "./type";

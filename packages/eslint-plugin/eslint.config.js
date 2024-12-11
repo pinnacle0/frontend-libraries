@@ -12,7 +12,7 @@ export default tsESlint.config(
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {
-                ecmaVersion: 2020,
+                ecmaVersion: "latest",
                 sourceType: "module",
             },
             globals: {

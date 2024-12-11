@@ -15,7 +15,7 @@ const FilePath = {
 /** @type {import("rollup").RollupOptions} */
 const config = {
     input: [FilePath.rollupInputFile],
-    output: [{file: FilePath.rollupOutputFile, format: "es"}],
+    output: [{file: FilePath.rollupOutputFile, format: "esm"}],
     external: ["eslint", /^eslint-.*/, /^@typescript-eslint\/.*/],
     plugins: [
         rollupPluginNodeResolve(),
@@ -26,8 +26,7 @@ const config = {
             tsconfig: FilePath.tsConfigForSrc,
             tsconfigOverride: {
                 compilerOptions: {
-                    module: "ESNext",
-                    declaration: false,
+                    declaration: true,
                 },
             },
         }),

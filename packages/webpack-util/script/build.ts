@@ -1,6 +1,6 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util/lib/PrettierUtil";
-import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
-import {TaskRunner} from "@pinnacle0/devtool-util/lib/TaskRunner";
+import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {Utility} from "@pinnacle0/devtool-util/Utility";
+import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 import fs from "fs";
 import path from "path";
 

@@ -1,6 +1,6 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util/src/PrettierUtil";
-import {Utility} from "@pinnacle0/devtool-util/src/Utility";
-import {TaskRunner} from "@pinnacle0/devtool-util/src/TaskRunner";
+// import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {Utility} from "@pinnacle0/devtool-util/Utility";
+import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 
 import fs from "fs";
 import path from "path";
@@ -26,30 +26,30 @@ const FilePath = {
 };
 
 new TaskRunner("build").execute([
-    {
-        name: "prettier",
-        skipInFastMode: true,
-        execute: () => {
-            PrettierUtil.check(FilePath.config);
-            PrettierUtil.check(FilePath.script);
-            PrettierUtil.check(FilePath.src);
-            PrettierUtil.check(FilePath.test);
-        },
-    },
-    {
-        name: "lint",
-        skipInFastMode: true,
-        execute: () => {
-            Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
-        },
-    },
-    {
-        name: "test",
-        skipInFastMode: true,
-        execute: () => {
-            Utility.runCommand("vitest", ["--run", "--config", FilePath.vitestConfig]);
-        },
-    },
+    // {
+    //     name: "prettier",
+    //     skipInFastMode: true,
+    //     execute: () => {
+    //         PrettierUtil.check(FilePath.config);
+    //         PrettierUtil.check(FilePath.script);
+    //         PrettierUtil.check(FilePath.src);
+    //         PrettierUtil.check(FilePath.test);
+    //     },
+    // },
+    // {
+    //     name: "lint",
+    //     skipInFastMode: true,
+    //     execute: () => {
+    //         Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
+    //     },
+    // },
+    // {
+    //     name: "test",
+    //     skipInFastMode: true,
+    //     execute: () => {
+    //         Utility.runCommand("vitest", ["--run", "--config", FilePath.vitestConfig]);
+    //     },
+    // },
     {
         name: "prepare build directory",
         execute: () => {

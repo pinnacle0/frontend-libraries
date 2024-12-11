@@ -3,6 +3,12 @@
     "version": "0.3.7",
     "license": "MIT",
     "type": "module",
+    "exports": {
+        ".": {
+            "import": "./index.js",
+            "types": "./src/index.d.ts"
+        }
+    },
     "scripts": {
         "run-script": "tsx",
         "build": "pnpm run run-script script/build.ts",
@@ -13,15 +19,15 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "8.0.0",
-        "@typescript-eslint/rule-tester": "8.0.0",
-        "@typescript-eslint/parser": "8.0.0",
+        "@typescript-eslint/eslint-plugin": "8.18.0",
+        "@typescript-eslint/parser": "8.18.0",
+        "@typescript-eslint/rule-tester": "8.18.0",
         "confusing-browser-globals": "1.0.11",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-eslint-comments": "3.2.0",
-        "eslint-plugin-import": "2.29.1",
-        "eslint-plugin-react": "7.34.2",
-        "eslint-plugin-react-hooks": "4.6.2"
+        "eslint-plugin-import": "2.31.0",
+        "eslint-plugin-react": "7.37.2",
+        "eslint-plugin-react-hooks": "5.1.0"
     },
     "peerDependencies": {
         "eslint": ">=9.15.0"
