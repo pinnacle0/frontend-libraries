@@ -1,4 +1,4 @@
-import {Utility} from "@pinnacle0/devtool-util/lib/Utility";
+import {Utility} from "@pinnacle0/devtool-util/Utility";
 import path from "path";
 import type {Configuration} from "@rspack/core";
 import {Constant} from "../Constant";

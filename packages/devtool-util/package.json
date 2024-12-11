@@ -7,12 +7,19 @@
         "lib",
         "template"
     ],
+    "exports": {
+        "./*": "./lib/*.js",
+        "./Utility": "./lib/Utility/index.js",
+        "./ModuleGenerator": "./lib/ModuleGenerator/index.js",
+        "./IconGenerator": "./lib/IconGenerator/index.js",
+        "./APIGenerator": "./lib/APIGenerator/index.js"
+    },
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
         "lint": "eslint --no-warn-ignored \"./src/**/*\"",
         "test": "vitest --run --config config/vitest.config.ts",
         "compile": "tsc --build config/tsconfig.src.json",
-        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./build && pnpm run compile",
+        "build": "pnpm run check-code-style && pnpm run lint && pnpm test && rm -rf ./lib && pnpm run compile",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {

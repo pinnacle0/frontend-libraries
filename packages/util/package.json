@@ -9,7 +9,9 @@
         "url": "https://github.com/pinnacle0/frontend-libraries.git",
         "directory": "packages/util"
     },
-    "module": "./index.js",
+    "exports": {
+        ".": "./index.js"
+    },
     "engines": {
         "node": ">=20"
     },

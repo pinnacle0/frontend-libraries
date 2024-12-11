@@ -11,11 +11,9 @@ import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
 // @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
-// @ts-expect-error -- untyped module
 import eslintPluginReact from "eslint-plugin-react";
 // @ts-expect-error -- untyped module
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
-// @ts-expect-error -- untyped module
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
 import eslintPluginVitest from "@vitest/eslint-plugin";
 // @ts-expect-error -- untyped module
@@ -23,7 +21,7 @@ import eslintPluginComments from "eslint-plugin-eslint-comments";
 // @ts-expect-error -- untyped module
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
-import {type ESLint} from "eslint";
+import type {TSESLint} from "@typescript-eslint/utils";
 
 // TODO/David: remove after all legacy plugin updated
 // ref: https://github.com/import-js/eslint-plugin-import/issues/2948#issuecomment-2148832701
@@ -42,21 +40,21 @@ function legacyPlugin(name: string, alias = name) {
     return fixupPluginRules(plugin);
 }
 
-export const baseline = (plugin: ESLint.Plugin) =>
+export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
     tsESlint.config({
         extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, eslintConfigPrettier, ...compat.extends("plugin:import/typescript")],
         plugins: {
             import: legacyPlugin("eslint-plugin-import", "import"),
             "@typescript-eslint": tsESlint.plugin,
             "@pinnacle0": plugin,
-            react: eslintPluginReact,
-            "react-hooks": fixupPluginRules(eslintPluginReactHooks),
+            react: eslintPluginReact as unknown as TSESLint.FlatConfig.Plugin,
+            "react-hooks": eslintPluginReactHooks,
             "eslint-comments": eslintPluginComments,
         },
         languageOptions: {
             parser: tsESlint.parser as any,
             parserOptions: {
-                ecmaVersion: 2020,
+                ecmaVersion: "latest",
                 sourceType: "module",
                 ecmaFeatures: {jsx: true},
             },
