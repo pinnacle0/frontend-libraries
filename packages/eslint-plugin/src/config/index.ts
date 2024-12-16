@@ -15,9 +15,9 @@ import eslintPluginReact from "eslint-plugin-react";
 // @ts-expect-error -- untyped module
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
-import eslintPluginVitest from "@vitest/eslint-plugin";
 // @ts-expect-error -- untyped module
 import eslintPluginComments from "eslint-plugin-eslint-comments";
+import eslintPluginVitest from "@vitest/eslint-plugin";
 // @ts-expect-error -- untyped module
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
@@ -48,13 +48,13 @@ export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
             "@typescript-eslint": tsESlint.plugin,
             "@pinnacle0": plugin,
             react: eslintPluginReact as unknown as TSESLint.FlatConfig.Plugin,
-            "react-hooks": eslintPluginReactHooks,
+            "react-hooks": fixupPluginRules(eslintPluginReactHooks),
             "eslint-comments": eslintPluginComments,
         },
         languageOptions: {
             parser: tsESlint.parser as any,
             parserOptions: {
-                ecmaVersion: "latest",
+                ecmaVersion: 2020,
                 sourceType: "module",
                 ecmaFeatures: {jsx: true},
             },
@@ -237,11 +237,8 @@ export const vitest = tsESlint.config({
         "vitest/expect-expect": "off", // This is too annoying
         "vitest/no-alias-methods": ["warn"],
         "vitest/no-commented-out-tests": ["warn"],
-        "vitest/no-deprecated-functions": ["warn"],
         "vitest/no-duplicate-hooks": ["warn"],
-        "vitest/no-export": ["warn"],
         "vitest/no-identical-title": ["warn"],
-        "vitest/no-jasmine-globals": ["warn"],
         "vitest/no-mocks-import": ["warn"],
         "vitest/no-restricted-matchers": [
             "warn",

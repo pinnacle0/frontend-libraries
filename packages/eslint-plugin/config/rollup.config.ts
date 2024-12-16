@@ -2,7 +2,7 @@ import path from "path";
 import rollupPluginCommonjs from "@rollup/plugin-commonjs";
 import rollupPluginJson from "@rollup/plugin-json";
 import rollupPluginNodeResolve from "@rollup/plugin-node-resolve";
-import rollupPluginTypescript2 from "rollup-plugin-typescript2";
+import rollupPluginTypescript from "@rollup/plugin-typescript";
 
 const FilePath = {
     project: path.join(import.meta.dirname, ".."),
@@ -16,18 +16,15 @@ const FilePath = {
 const config = {
     input: [FilePath.rollupInputFile],
     output: [{file: FilePath.rollupOutputFile, format: "esm"}],
-    external: ["eslint", /^eslint-.*/, /^@typescript-eslint\/.*/],
+    external: ["typescript", "eslint", /^eslint-.*/, /^@typescript-eslint.*/],
     plugins: [
         rollupPluginNodeResolve(),
-        rollupPluginCommonjs(),
+        rollupPluginCommonjs({transformMixedEsModules: true}),
         rollupPluginJson(),
-        rollupPluginTypescript2({
-            cwd: FilePath.project,
+        rollupPluginTypescript({
             tsconfig: FilePath.tsConfigForSrc,
-            tsconfigOverride: {
-                compilerOptions: {
-                    declaration: true,
-                },
+            compilerOptions: {
+                declaration: true,
             },
         }),
     ],
