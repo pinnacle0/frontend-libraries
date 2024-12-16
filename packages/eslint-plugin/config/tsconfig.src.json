@@ -6,7 +6,8 @@
         "target": "ESNext",
         "outDir": "../build/",
         "rootDir": "../",
-        "declaration": false,
+        "declaration": true,
+        "declarationDir": "../build/",
         "isolatedModules": true
     },
     "include": ["../src/"]

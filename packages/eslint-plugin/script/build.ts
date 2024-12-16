@@ -17,6 +17,7 @@ const FilePath = {
     workspaceRootESLintIgnore: path.join(import.meta.dirname, "../../../.eslintignore"),
     vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
     rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.ts"),
+    // tsConfig: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
     projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
     projectReadMe: path.join(import.meta.dirname, "../README.md"),
     projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),
@@ -36,13 +37,13 @@ new TaskRunner("build").execute([
     //         PrettierUtil.check(FilePath.test);
     //     },
     // },
-    // {
-    //     name: "lint",
-    //     skipInFastMode: true,
-    //     execute: () => {
-    //         Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
-    //     },
-    // },
+    {
+        name: "lint",
+        skipInFastMode: true,
+        execute: () => {
+            Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
+        },
+    },
     // {
     //     name: "test",
     //     skipInFastMode: true,
@@ -62,6 +63,12 @@ new TaskRunner("build").execute([
             Utility.runCommand("rollup", ["--config", FilePath.rollupConfig, "--bundleConfigAsCjs"]);
         },
     },
+    // {
+    //     name: "compile with tsc",
+    //     execute: () => {
+    //         Utility.runCommand("tsc", ["--build", FilePath.tsConfig]);
+    //     },
+    // },
     {
         name: "copy package.json, markdown files",
         execute: () => {
