@@ -79,17 +79,6 @@ export class BrowserUtil {
         return currentWindow;
     }
 
-    static openQQ(qq: string) {
-        const system = parseUserAgentOS(navigator.userAgent);
-        if (system === "ios") {
-            window.open(`mqq://im/chat?chat_type=wpa&uin=${qq}&version=1&src_type=web`);
-        } else if (system === "android") {
-            window.open(`mqqwpa://im/chat?chat_type=wpa&uin=${qq}`);
-        } else {
-            window.open(`tencent://message/?uin=${qq}&Site=Sambow&Menu=yes`);
-        }
-    }
-
     static isDarkTheme(): boolean {
         return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
