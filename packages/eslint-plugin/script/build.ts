@@ -4,6 +4,7 @@ import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 
 import fs from "fs";
 import path from "path";
+import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
 
 const FilePath = {
     project: path.join(import.meta.dirname, ".."),
@@ -17,7 +18,7 @@ const FilePath = {
     workspaceRootESLintIgnore: path.join(import.meta.dirname, "../../../.eslintignore"),
     vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
     rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.ts"),
-    // tsConfig: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
+    tsConfig: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
     projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
     projectReadMe: path.join(import.meta.dirname, "../README.md"),
     projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),
@@ -27,16 +28,16 @@ const FilePath = {
 };
 
 new TaskRunner("build").execute([
-    // {
-    //     name: "prettier",
-    //     skipInFastMode: true,
-    //     execute: () => {
-    //         PrettierUtil.check(FilePath.config);
-    //         PrettierUtil.check(FilePath.script);
-    //         PrettierUtil.check(FilePath.src);
-    //         PrettierUtil.check(FilePath.test);
-    //     },
-    // },
+    {
+        name: "prettier",
+        skipInFastMode: true,
+        execute: () => {
+            PrettierUtil.check(FilePath.config);
+            PrettierUtil.check(FilePath.script);
+            PrettierUtil.check(FilePath.src);
+            PrettierUtil.check(FilePath.test);
+        },
+    },
     {
         name: "lint",
         skipInFastMode: true,
@@ -44,13 +45,13 @@ new TaskRunner("build").execute([
             Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
         },
     },
-    // {
-    //     name: "test",
-    //     skipInFastMode: true,
-    //     execute: () => {
-    //         Utility.runCommand("vitest", ["--run", "--config", FilePath.vitestConfig]);
-    //     },
-    // },
+    {
+        name: "test",
+        skipInFastMode: true,
+        execute: () => {
+            Utility.runCommand("vitest", ["--run", "--config", FilePath.vitestConfig]);
+        },
+    },
     {
         name: "prepare build directory",
         execute: () => {
@@ -63,12 +64,6 @@ new TaskRunner("build").execute([
             Utility.runCommand("rollup", ["--config", FilePath.rollupConfig, "--bundleConfigAsCjs"]);
         },
     },
-    // {
-    //     name: "compile with tsc",
-    //     execute: () => {
-    //         Utility.runCommand("tsc", ["--build", FilePath.tsConfig]);
-    //     },
-    // },
     {
         name: "copy package.json, markdown files",
         execute: () => {
