@@ -14,5 +14,5 @@
             "@pinnacle0/web-ui/*": ["../src/*"]
         }
     },
-    "include": ["../test"]
+    "include": ["../test", "../react-app-env.d.ts"]
 }
