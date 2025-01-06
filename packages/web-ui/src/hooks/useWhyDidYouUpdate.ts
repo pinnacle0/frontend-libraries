@@ -22,8 +22,10 @@ export const useWhyDidYouUpdate: typeof _useWhyDidYouUpdate = "_self" in React.c
  */
 function _useWhyDidYouUpdate<P extends object>(name: string, props: P): void {
     // Get a mutable ref object where we can store props for comparison next time this hook runs.
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- special naming for _useWhyDidYouUpdate
     const prevProps = React.useRef<P>();
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- special naming for _useWhyDidYouUpdate
     React.useEffect(() => {
         if (prevProps.current) {
             // Use changesObj to keep track of changed props
