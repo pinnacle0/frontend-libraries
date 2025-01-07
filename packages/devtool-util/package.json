@@ -8,11 +8,11 @@
         "template"
     ],
     "exports": {
-        "./*": "./lib/*.js",
-        "./Utility": "./lib/Utility/index.js",
-        "./ModuleGenerator": "./lib/ModuleGenerator/index.js",
-        "./IconGenerator": "./lib/IconGenerator/index.js",
-        "./APIGenerator": "./lib/APIGenerator/index.js"
+        "./*": "./src/*.ts",
+        "./Utility": "./src/Utility/index.ts",
+        "./ModuleGenerator": "./src/ModuleGenerator/index.ts",
+        "./IconGenerator": "./src/IconGenerator/index.ts",
+        "./APIGenerator": "./src/APIGenerator/index.ts"
     },
     "scripts": {
         "check-code-style": "prettier --check --ignore-path ../../.prettierignore \"{config,src,test}/**/*.{js,ts}\"",
@@ -36,7 +36,14 @@
         "node": ">=20"
     },
     "publishConfig": {
-        "linkDirectory": false
+        "linkDirectory": false,
+        "exports": {
+            "./*": "./lib/*.js",
+            "./Utility": "./lib/Utility/index.js",
+            "./ModuleGenerator": "./lib/ModuleGenerator/index.js",
+            "./IconGenerator": "./lib/IconGenerator/index.js",
+            "./APIGenerator": "./lib/APIGenerator/index.js"
+        }
     },
     "devDependencies": {
         "@types/yargs": "17.0.32"

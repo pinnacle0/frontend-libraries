@@ -10,7 +10,7 @@
         "directory": "packages/util"
     },
     "exports": {
-        ".": "./index.js"
+        ".": "./src/index.ts"
     },
     "engines": {
         "node": ">=20"
@@ -27,6 +27,12 @@
         "@pinnacle0/devtool-util": "workspace:*"
     },
     "publishConfig": {
-        "directory": "build"
+        "directory": "build",
+        "exports": {
+            ".": {
+                "import": "./index.js",
+                "types": "./index.d.ts"
+            }
+        }
     }
 }

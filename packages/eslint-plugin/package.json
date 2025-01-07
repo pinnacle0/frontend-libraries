@@ -4,10 +4,7 @@
     "license": "MIT",
     "type": "module",
     "exports": {
-        ".": {
-            "import": "./index.js",
-            "types": "./src/index.d.ts"
-        }
+        ".": "./src/index.ts"
     },
     "scripts": {
         "run-script": "tsx",
@@ -26,7 +23,7 @@
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-eslint-comments": "3.2.0",
         "eslint-plugin-import": "2.31.0",
-        "eslint-plugin-react": "7.37.2",
+        "eslint-plugin-react": "7.37.3",
         "eslint-plugin-react-hooks": "5.1.0"
     },
     "peerDependencies": {
@@ -50,6 +47,12 @@
         "node": ">=20"
     },
     "publishConfig": {
-        "directory": "build"
+        "directory": "build",
+        "exports": {
+            ".": {
+                "import": "./index.ts",
+                "types": "./src/index.d.ts"
+            }
+        }
     }
 }

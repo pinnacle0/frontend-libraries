@@ -1,5 +1,5 @@
 import path from "path";
-import {WebpackUtil} from "@pinnacle0/webpack-util/src";
+import {WebpackUtil} from "@pinnacle0/webpack-util";
 
 new WebpackUtil.ServerStarter({
     projectDirectory: path.resolve(import.meta.dirname, "../test/mobile-ui-test"),

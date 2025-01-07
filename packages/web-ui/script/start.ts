@@ -1,5 +1,5 @@
 import path from "path";
-import {WebpackUtil} from "@pinnacle0/webpack-util/src";
+import {WebpackUtil} from "@pinnacle0/webpack-util";
 import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
 
 new WebpackUtil.ServerStarter({

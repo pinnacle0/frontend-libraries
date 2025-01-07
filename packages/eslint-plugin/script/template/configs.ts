@@ -47,8 +47,8 @@ export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
             import: legacyPlugin("eslint-plugin-import", "import"),
             "@typescript-eslint": tsESlint.plugin,
             "@pinnacle0": plugin,
-            react: eslintPluginReact as unknown as TSESLint.FlatConfig.Plugin,
-            "react-hooks": fixupPluginRules(eslintPluginReactHooks),
+            react: eslintPluginReact,
+            "react-hooks": eslintPluginReactHooks,
             "eslint-comments": eslintPluginComments,
         },
         languageOptions: {

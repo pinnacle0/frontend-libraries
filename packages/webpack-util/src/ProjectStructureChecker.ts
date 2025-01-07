@@ -66,6 +66,7 @@ export class ProjectStructureChecker {
         }
     }
 
+    // TODO/David: revert
     private checkPackageJSON() {
         // const startWithDigit = /^\d/;
         // const startWithWorkSpace = /^workspace:/;
@@ -107,7 +108,7 @@ export class ProjectStructureChecker {
 
     private checkESLintInstallation() {
         try {
-            import("prettier");
+            import("eslint");
         } catch {
             throw new Error(`Cannot load eslint module (requiring from "webpack-util"), make sure eslint is installed.`);
         }
@@ -115,7 +116,7 @@ export class ProjectStructureChecker {
 
     private checkStyleLintInstallation() {
         try {
-            import("prettier");
+            import("stylelint");
         } catch {
             throw new Error(`Cannot load stylelint module (requiring from "webpack-util"), make sure stylelint is installed.`);
         }

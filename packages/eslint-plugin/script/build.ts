@@ -1,7 +1,5 @@
-// import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
-
 import fs from "fs";
 import path from "path";
 import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
@@ -18,7 +16,6 @@ const FilePath = {
     workspaceRootESLintIgnore: path.join(import.meta.dirname, "../../../.eslintignore"),
     vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
     rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.ts"),
-    tsConfig: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
     projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
     projectReadMe: path.join(import.meta.dirname, "../README.md"),
     projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),

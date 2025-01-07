@@ -8,11 +8,9 @@ import eslint from "@eslint/js";
 import tsESlint from "typescript-eslint";
 import globals from "globals";
 
-// TODO/David: remove after all legacy plugin updated
 // ref: https://github.com/import-js/eslint-plugin-import/issues/2948#issuecomment-2148832701
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
-    // @ts-ignore
     recommendedConfig: eslint.configs.recommended,
 });
 
@@ -31,9 +29,8 @@ export default tsESlint.config(
         files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
         plugins: {
             react: eslintPluginReact,
-            // TODO/David: remove after all legacy plugin updated
             // @ts-ignore
-            "react-hooks": fixupPluginRules(eslintPluginReactHooks),
+            "react-hooks": eslintPluginReactHooks,
             import: legacyPlugin("eslint-plugin-import", "import"),
         },
         // TODO/David: remove after all legacy plugin updated
