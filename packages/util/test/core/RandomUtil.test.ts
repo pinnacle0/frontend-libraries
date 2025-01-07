@@ -1,4 +1,4 @@
-import {RandomUtil} from "../../src/core/RandomUtil";
+import {RandomUtil} from "../../src/core/RandomUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("RandomUtil.ofOne", () => {

@@ -1,7 +1,7 @@
 import {TsCheckerRspackPlugin} from "ts-checker-rspack-plugin";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
 import type {RspackPluginInstance} from "@rspack/core";
-import type {TypeScriptWorkerOptions} from "ts-checker-rspack-plugin/lib/typescript/type-script-worker-options";
+import type {TypeScriptWorkerOptions} from "ts-checker-rspack-plugin/lib/typescript/type-script-worker-options.js";
 
 interface Options {
     tsconfigFilePath: string;

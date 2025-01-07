@@ -1,6 +1,6 @@
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
-import {findClosestParent} from "../util/findClosestParent";
-import {isReactComponent} from "../util/isReactComponent";
+import {findClosestParent} from "../util/findClosestParent.js";
+import {isReactComponent} from "../util/isReactComponent.js";
 import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 
 export type Options = [];

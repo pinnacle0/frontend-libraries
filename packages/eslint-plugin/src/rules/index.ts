@@ -5,24 +5,24 @@
 // -----------------------------------------------------------------------------
 
 import type {TSESLint} from "@typescript-eslint/utils";
-import {rule as explicitModuleClassMethodReturnType} from "./explicit-module-class-method-return-type";
-import {rule as importOrdering} from "./import-ordering";
-import {rule as moduleClassLifecycleOrder} from "./module-class-lifecycle-order";
-import {rule as moduleClassMethodDecorators} from "./module-class-method-decorators";
-import {rule as noDeepNestedRelativeImports} from "./no-deep-nested-relative-imports";
-import {rule as noNamedImports} from "./no-named-imports";
-import {rule as noProcessEnv} from "./no-process-env";
-import {rule as noUglyRelativePath} from "./no-ugly-relative-path";
-import {rule as noUnnecessaryEndingIndex} from "./no-unnecessary-ending-index";
-import {rule as reactComponentDefaultPropsTyping} from "./react-component-default-props-typing";
-import {rule as reactComponentDisplayName} from "./react-component-display-name";
-import {rule as reactComponentEventHandlerNaming} from "./react-component-event-handler-naming";
-import {rule as reactComponentMethodOrdering} from "./react-component-method-ordering";
-import {rule as reactComponentPropsTyping} from "./react-component-props-typing";
-import {rule as reactComponentStateMember} from "./react-component-state-member";
-import {rule as stylePropertiesType} from "./style-properties-type";
-import {rule as typeImportOutsideCurlyBraces} from "./type-import-outside-curly-braces";
-import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing";
+import {rule as explicitModuleClassMethodReturnType} from "./explicit-module-class-method-return-type.js";
+import {rule as importOrdering} from "./import-ordering.js";
+import {rule as moduleClassLifecycleOrder} from "./module-class-lifecycle-order.js";
+import {rule as moduleClassMethodDecorators} from "./module-class-method-decorators.js";
+import {rule as noDeepNestedRelativeImports} from "./no-deep-nested-relative-imports.js";
+import {rule as noNamedImports} from "./no-named-imports.js";
+import {rule as noProcessEnv} from "./no-process-env.js";
+import {rule as noUglyRelativePath} from "./no-ugly-relative-path.js";
+import {rule as noUnnecessaryEndingIndex} from "./no-unnecessary-ending-index.js";
+import {rule as reactComponentDefaultPropsTyping} from "./react-component-default-props-typing.js";
+import {rule as reactComponentDisplayName} from "./react-component-display-name.js";
+import {rule as reactComponentEventHandlerNaming} from "./react-component-event-handler-naming.js";
+import {rule as reactComponentMethodOrdering} from "./react-component-method-ordering.js";
+import {rule as reactComponentPropsTyping} from "./react-component-props-typing.js";
+import {rule as reactComponentStateMember} from "./react-component-state-member.js";
+import {rule as stylePropertiesType} from "./style-properties-type.js";
+import {rule as typeImportOutsideCurlyBraces} from "./type-import-outside-curly-braces.js";
+import {rule as variableDeclarationModuleIdentifierShadowing} from "./variable-declaration-module-identifier-shadowing.js";
 
 export const rules: Record<string, TSESLint.RuleModule<string, any[], any, TSESLint.RuleListener>> = {
     "explicit-module-class-method-return-type": explicitModuleClassMethodReturnType,

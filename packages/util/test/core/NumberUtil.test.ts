@@ -1,4 +1,4 @@
-import {NumberUtil} from "../../src/core/NumberUtil";
+import {NumberUtil} from "../../src/core/NumberUtil.js";
 import {describe, test, expect} from "vitest";
 
 test("Clamp", () => {

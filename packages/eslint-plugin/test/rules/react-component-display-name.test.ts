@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/react-component-display-name";
-import {name, rule} from "../../src/rules/react-component-display-name";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/react-component-display-name.js";
+import {name, rule} from "../../src/rules/react-component-display-name.js";
+import {createConfig} from "../create-config.js";
 
 const noDisplayNameId: MessageIds = "noDisplayName";
 const displayNameMismatchId: MessageIds = "displayNameMismatch";

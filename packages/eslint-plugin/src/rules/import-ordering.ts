@@ -1,6 +1,6 @@
 import {ESLintUtils} from "@typescript-eslint/utils";
-import {ImportSorter} from "../util/ImportSorter";
-import type {MessageIds} from "../util/ImportSorter";
+import {ImportSorter} from "../util/ImportSorter.js";
+import type {MessageIds} from "../util/ImportSorter.js";
 
 export const name = "import-ordering";
 

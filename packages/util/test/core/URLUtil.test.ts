@@ -1,4 +1,4 @@
-import {URLUtil} from "../../src/core/URLUtil";
+import {URLUtil} from "../../src/core/URLUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("URLUtil.transformOriginPrefix", () => {

@@ -1,4 +1,4 @@
-import prettyFormat from "pretty-format";
+import {format as prettyFormat} from "pretty-format";
 import type {RspackPluginInstance, Configuration} from "@rspack/core";
 
 interface SerializableWebpackPluginDescriptor {

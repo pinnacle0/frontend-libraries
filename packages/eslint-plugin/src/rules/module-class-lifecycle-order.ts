@@ -1,6 +1,6 @@
 import {ESLintUtils} from "@typescript-eslint/utils";
-import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
-import {getClassMethod} from "../util/getClassMethod";
+import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass.js";
+import {getClassMethod} from "../util/getClassMethod.js";
 import type {TSESLint, TSESTree} from "@typescript-eslint/utils";
 
 export type Options = [];

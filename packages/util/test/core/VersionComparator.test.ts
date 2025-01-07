@@ -1,5 +1,5 @@
-import {VersionComparator} from "../../src/core/VersionComparator";
-import type {ComparisonResult} from "../../src/core/VersionComparator";
+import {VersionComparator} from "../../src/core/VersionComparator.js";
+import type {ComparisonResult} from "../../src/core/VersionComparator.js";
 import {test, expect} from "vitest";
 
 interface TestProps {

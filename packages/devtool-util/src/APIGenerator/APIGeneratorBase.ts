@@ -1,9 +1,9 @@
 import fs from "fs";
-import {PrettierUtil} from "../PrettierUtil";
-import {Utility} from "../Utility";
-import {fetch} from "./fetch";
-import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition, IgnoreType} from "./type";
-import {TypeScriptDefinitionGenerator} from "./TypeScriptDefinitionGenerator";
+import {PrettierUtil} from "../PrettierUtil.js";
+import {Utility} from "../Utility/index.js";
+import {fetch} from "./fetch.js";
+import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition, IgnoreType} from "./type.js";
+import {TypeScriptDefinitionGenerator} from "./TypeScriptDefinitionGenerator.js";
 
 export class APIGeneratorBase {
     private readonly metadataEndpointURL: string;

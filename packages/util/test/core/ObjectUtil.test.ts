@@ -1,4 +1,4 @@
-import {ObjectUtil} from "../../src/core/ObjectUtil";
+import {ObjectUtil} from "../../src/core/ObjectUtil.js";
 import {test, expect} from "vitest";
 
 test("First Key", () => {

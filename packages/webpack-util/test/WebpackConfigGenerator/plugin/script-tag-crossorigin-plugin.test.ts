@@ -3,7 +3,7 @@ import fs from "fs";
 import {rspack} from "@rspack/core";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import type {Configuration} from "@rspack/core";
-import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/script-tag-crossorigin-plugin";
+import {ScriptTagCrossOriginPlugin} from "../../../src/WebpackConfigGenerator/Plugin/script-tag-crossorigin-plugin.js";
 import {describe, test, expect} from "vitest";
 
 const OUTPUT_DIR = path.join(import.meta.dirname, "./dist");

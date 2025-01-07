@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import {PrettierUtil} from "./PrettierUtil";
-import {TaskRunner} from "./TaskRunner";
-import {Utility} from "./Utility";
+import {PrettierUtil} from "./PrettierUtil.js";
+import {TaskRunner} from "./TaskRunner.js";
+import {Utility} from "./Utility/index.js";
 
 interface ReactNativeCheckerOptions {
     projectDirectory: string;

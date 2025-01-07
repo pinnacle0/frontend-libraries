@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
-import {NamingUtil} from "../NamingUtil";
-import {PrettierUtil} from "../PrettierUtil";
-import {Utility} from "../Utility";
-import type {ModuleGeneratorOptions} from "./type";
+import {NamingUtil} from "../NamingUtil.js";
+import {PrettierUtil} from "../PrettierUtil.js";
+import {Utility} from "../Utility/index.js";
+import type {ModuleGeneratorOptions} from "./type.js";
 
 /**
  * Generates boilerplate code for a `core-fe`/`core-native` Module class.

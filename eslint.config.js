@@ -120,6 +120,6 @@ export default tsESlint.config(
         },
     },
     {
-        ignores: ["**/build/**/*", "**/dist/**/*", "**/node_modules/**/*"],
+        ignores: ["**/build/**/*", "**/dist/**/*", "**/lib/**/*", "**/node_modules/**/*"],
     }
 );

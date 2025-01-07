@@ -1,10 +1,10 @@
 import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 import {AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
-import {getClassElementCategory} from "../util/getClassElementCategory";
-import {getClassElementName} from "../util/getClassElementName";
-import {isClassElementAbstract} from "../util/isClassElementAbstract";
-import {isReactComponent} from "../util/isReactComponent";
-import {isReactComponentLifecyleMethod} from "../util/isReactComponentLifecyleMethod";
+import {getClassElementCategory} from "../util/getClassElementCategory.js";
+import {getClassElementName} from "../util/getClassElementName.js";
+import {isClassElementAbstract} from "../util/isClassElementAbstract.js";
+import {isReactComponent} from "../util/isReactComponent.js";
+import {isReactComponentLifecyleMethod} from "../util/isReactComponentLifecyleMethod.js";
 
 export type Options = [];
 

@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/module-class-method-decorators";
-import {name, rule} from "../../src/rules/module-class-method-decorators";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/module-class-method-decorators.js";
+import {name, rule} from "../../src/rules/module-class-method-decorators.js";
+import {createConfig} from "../create-config.js";
 
 const logDecoratorOrderId: MessageIds = "logDecoratorOrder";
 

@@ -1,5 +1,5 @@
 import yargs from "yargs";
-import {Utility} from "./Utility";
+import {Utility} from "./Utility/index.js";
 
 export interface Task {
     name: string;

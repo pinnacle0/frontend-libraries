@@ -1,4 +1,4 @@
-import {RegExpUtil} from "../../../src/WebpackConfigGenerator/Rule/RegExpUtil";
+import {RegExpUtil} from "../../../src/WebpackConfigGenerator/Rule/RegExpUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("RegExpUtil testing", () => {

@@ -1,5 +1,5 @@
-import {APIGeneratorBase} from "./APIGeneratorBase";
-import {WebAPIGenerator} from "./WebAPIGenerator";
+import {APIGeneratorBase} from "./APIGeneratorBase.js";
+import {WebAPIGenerator} from "./WebAPIGenerator.js";
 
 /**
  * APIGenerator is to generate API sources according to backend definition (_sys/api).

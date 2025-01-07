@@ -1,6 +1,6 @@
-import {ModuleGeneratorBase} from "./ModuleGeneratorBase";
-import type {PlatformSpecificModuleGeneratorOptions} from "./type";
-import {Utility} from "../Utility";
+import {ModuleGeneratorBase} from "./ModuleGeneratorBase.js";
+import type {PlatformSpecificModuleGeneratorOptions} from "./type.js";
+import {Utility} from "../Utility/index.js";
 
 export class AppModuleGenerator extends ModuleGeneratorBase {
     constructor(options: PlatformSpecificModuleGeneratorOptions) {

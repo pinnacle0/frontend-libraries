@@ -1,6 +1,6 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {createConfig} from "../create-config";
-import {name, rule} from "../../src/rules/type-import-outside-curly-braces";
+import {createConfig} from "../create-config.js";
+import {name, rule} from "../../src/rules/type-import-outside-curly-braces.js";
 
 const ruleTester = new RuleTester(createConfig());
 

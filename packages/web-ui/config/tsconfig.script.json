@@ -2,8 +2,6 @@
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["ESNext"],
-        "module": "ESNext",
-        "target": "ESNext",
         "noEmit": true,
         "jsx": "react"
     },

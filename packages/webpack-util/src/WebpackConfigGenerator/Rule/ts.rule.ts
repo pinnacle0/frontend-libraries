@@ -1,5 +1,5 @@
 import type {RuleSetRule, RuleSetUseItem} from "@rspack/core";
-import {RegExpUtil} from "./RegExpUtil";
+import {RegExpUtil} from "./RegExpUtil.js";
 import {createRequire} from "node:module";
 
 interface Deps {

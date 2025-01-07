@@ -1,4 +1,4 @@
-import type {DynamicPathResolver} from "../type";
+import type {DynamicPathResolver} from "../type.js";
 
 interface WebpackResolveAliasMapOptions {
     env: string | null;

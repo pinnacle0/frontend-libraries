@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/react-component-event-handler-naming";
-import {name, rule} from "../../src/rules/react-component-event-handler-naming";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/react-component-event-handler-naming.js";
+import {name, rule} from "../../src/rules/react-component-event-handler-naming.js";
+import {createConfig} from "../create-config.js";
 
 const reactComponentChangeHandlerNamingId: MessageIds = "reactComponentChangeHandlerNaming";
 

@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import {PrettierUtil} from "../PrettierUtil";
-import {Utility} from "../Utility";
-import type {IconGeneratorOptions} from "./type";
+import {PrettierUtil} from "../PrettierUtil.js";
+import {Utility} from "../Utility/index.js";
+import type {IconGeneratorOptions} from "./type.js";
 import {FontAssetType, generateFonts as fantasticonGenerateFonts, ASSET_TYPES} from "fantasticon";
 
 export class IconGenerator {

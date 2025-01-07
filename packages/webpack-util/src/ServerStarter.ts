@@ -5,10 +5,10 @@ import type {Configuration} from "@rspack/core";
 import type {Application} from "express";
 import type {Configuration as DevServerConfiguration} from "@rspack/dev-server";
 import {RspackDevServer} from "@rspack/dev-server";
-import type {WebpackConfigGeneratorOptions} from "./type";
-import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
+import type {WebpackConfigGeneratorOptions} from "./type.js";
+import {WebpackConfigGenerator} from "./WebpackConfigGenerator/index.js";
 import {SocksProxyAgent} from "socks-proxy-agent";
-import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil";
+import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil.js";
 import type {Agent} from "https";
 
 export interface WebpackServerStarterOptions

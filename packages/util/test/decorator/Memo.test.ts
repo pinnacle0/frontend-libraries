@@ -1,4 +1,4 @@
-import {Memo} from "../../src/decorator/Memo";
+import {Memo} from "../../src/decorator/Memo.js";
 import {describe, test, vi, expect} from "vitest";
 
 describe("@Memo", () => {

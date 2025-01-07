@@ -1,4 +1,4 @@
-import {TextUtil} from "../../src/core/TextUtil";
+import {TextUtil} from "../../src/core/TextUtil.js";
 import {test, expect} from "vitest";
 
 test("Truncate", () => {

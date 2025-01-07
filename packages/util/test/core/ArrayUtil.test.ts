@@ -1,4 +1,4 @@
-import {ArrayUtil} from "../../src/core/ArrayUtil";
+import {ArrayUtil} from "../../src/core/ArrayUtil.js";
 import {describe, test, vi, expect} from "vitest";
 
 describe("ArrayUtil.sum", () => {

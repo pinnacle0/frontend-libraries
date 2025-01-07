@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {Utility} from "./Utility";
+import {Utility} from "./Utility/index.js";
 
 // https://prettier.io/docs/en/cli.html#exit-codes
 const PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND = 2;

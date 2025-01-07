@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/react-component-default-props-typing";
-import {name, rule} from "../../src/rules/react-component-default-props-typing";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/react-component-default-props-typing.js";
+import {name, rule} from "../../src/rules/react-component-default-props-typing.js";
+import {createConfig} from "../create-config.js";
 
 const incorrectDefaultPropsTypeAnnotationId: MessageIds = "incorrectDefaultPropsTypeAnnotation";
 const incorrectPickOrPickOptionalTypeArgumentsId: MessageIds = "incorrectPickOrPickOptionalTypeArguments";

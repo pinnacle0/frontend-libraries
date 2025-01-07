@@ -1,6 +1,6 @@
-import {Builder} from "./Builder";
-import {ServerStarter} from "./ServerStarter";
-import {ArgsUtil} from "./ArgsUtil";
+import {Builder} from "./Builder.js";
+import {ServerStarter} from "./ServerStarter.js";
+import {ArgsUtil} from "./ArgsUtil.js";
 
 export const WebpackUtil = Object.freeze({
     Builder,

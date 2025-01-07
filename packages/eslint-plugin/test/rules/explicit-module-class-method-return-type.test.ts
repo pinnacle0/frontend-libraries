@@ -1,6 +1,6 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {createConfig} from "../create-config";
-import {name, rule, MessageIds} from "../../src/rules/explicit-module-class-method-return-type";
+import {createConfig} from "../create-config.js";
+import {name, rule, MessageIds} from "../../src/rules/explicit-module-class-method-return-type.js";
 
 const ruleTester = new RuleTester(createConfig());
 const messageId: MessageIds = "explicitModuleClassMethodReturnType";

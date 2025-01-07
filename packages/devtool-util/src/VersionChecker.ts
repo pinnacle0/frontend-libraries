@@ -1,4 +1,4 @@
-import {TaskRunner} from "./TaskRunner";
+import {TaskRunner} from "./TaskRunner.js";
 import fs from "fs";
 
 interface VersionCheckerOptions {

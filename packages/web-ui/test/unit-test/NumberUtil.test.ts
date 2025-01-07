@@ -1,4 +1,4 @@
-import {NumberUtil} from "../../src/internal/NumberUtil";
+import {NumberUtil} from "../../src/internal/NumberUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("NumberUtil.rounding", () => {

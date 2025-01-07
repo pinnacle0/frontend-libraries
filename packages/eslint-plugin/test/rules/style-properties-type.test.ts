@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/style-properties-type";
-import {name, rule} from "../../src/rules/style-properties-type";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/style-properties-type.js";
+import {name, rule} from "../../src/rules/style-properties-type.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "stylePropertiesType";
 

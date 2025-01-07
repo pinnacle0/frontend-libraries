@@ -1,5 +1,5 @@
-import {rules} from "./rules";
-import {baseline, vitest} from "./config";
+import {rules} from "./rules/index.js";
+import {baseline, vitest} from "./config/index.js";
 import type {TSESLint} from "@typescript-eslint/utils";
 
 export default (() => {

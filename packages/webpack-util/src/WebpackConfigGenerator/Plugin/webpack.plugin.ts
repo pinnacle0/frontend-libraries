@@ -1,6 +1,6 @@
 import {ProgressPlugin, DefinePlugin} from "@rspack/core";
 import type {RspackPluginInstance} from "@rspack/core";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
 
 interface WebpackProgressPluginOptions {
     enableProfiling: boolean;

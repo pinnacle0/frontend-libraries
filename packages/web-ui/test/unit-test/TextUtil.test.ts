@@ -1,4 +1,4 @@
-import {TextUtil} from "../../src/internal/TextUtil";
+import {TextUtil} from "../../src/internal/TextUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("TextUtil.interpolate", () => {

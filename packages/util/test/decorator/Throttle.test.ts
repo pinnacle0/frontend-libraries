@@ -1,4 +1,4 @@
-import {Throttle} from "../../src/decorator/Throttle";
+import {Throttle} from "../../src/decorator/Throttle.js";
 import {test, expect} from "vitest";
 
 class Foo {

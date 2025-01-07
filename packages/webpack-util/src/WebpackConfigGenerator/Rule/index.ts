@@ -1,7 +1,7 @@
-import {imageRule} from "./image.rule";
-import {otherRule} from "./other.rule";
-import {stylesheetRule} from "./stylesheet.rule";
-import {tsRule} from "./ts.rule";
+import {imageRule} from "./image.rule.js";
+import {otherRule} from "./other.rule.js";
+import {stylesheetRule} from "./stylesheet.rule.js";
+import {tsRule} from "./ts.rule.js";
 
 /**
  * Static factories to create `webpack.config#modules.rules` items.

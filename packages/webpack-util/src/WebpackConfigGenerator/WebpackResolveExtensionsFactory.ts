@@ -1,4 +1,4 @@
-import {Constant} from "../Constant";
+import {Constant} from "../Constant.js";
 
 interface WebpackResolveExtensionsFactoryOptions {
     prioritizedExtensionPrefixes?: string[] | undefined;

@@ -1,8 +1,8 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
-import {ScriptTagCrossOriginPlugin} from "./script-tag-crossorigin-plugin";
+import {ScriptTagCrossOriginPlugin} from "./script-tag-crossorigin-plugin.js";
 import type {RspackPluginInstance} from "@rspack/core";
-import type {HTMLEntryDescriptor} from "../../type";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import type {HTMLEntryDescriptor} from "../../type.js";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
 
 interface HTMLPluginOptions {
     entry: HTMLEntryDescriptor;

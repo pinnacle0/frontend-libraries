@@ -1,6 +1,6 @@
 import type {RuleSetRule} from "@rspack/core";
-import {Constant} from "../../Constant";
-import {RegExpUtil} from "./RegExpUtil";
+import {Constant} from "../../Constant.js";
+import {RegExpUtil} from "./RegExpUtil.js";
 
 interface OtherRuleDeps {
     extraExtensionsForOtherRule: string[];

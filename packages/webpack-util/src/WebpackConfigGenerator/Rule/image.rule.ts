@@ -1,5 +1,5 @@
 import type {RuleSetRule} from "@rspack/core";
-import {RegExpUtil} from "./RegExpUtil";
+import {RegExpUtil} from "./RegExpUtil.js";
 
 /**
  * Handles dependency requests to image assets (".png", ".jpeg", ".jpg", ".gif", ".svg")

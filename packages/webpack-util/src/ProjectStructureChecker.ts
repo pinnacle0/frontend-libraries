@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import {Constant} from "./Constant";
-import type {InternalCheckerOptions} from "./type";
+import {Constant} from "./Constant.js";
+import type {InternalCheckerOptions} from "./type.js";
 
 export class ProjectStructureChecker {
     private readonly projectDirectory: string;

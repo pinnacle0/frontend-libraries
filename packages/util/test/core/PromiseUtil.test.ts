@@ -1,4 +1,4 @@
-import {PromiseUtil} from "../../src/core/PromiseUtil";
+import {PromiseUtil} from "../../src/core/PromiseUtil.js";
 import {test, expect} from "vitest";
 
 const sleep = <T>(ms: number, resolvedValue: T) => new Promise<T>(resolve => setTimeout(() => resolve(resolvedValue), ms));

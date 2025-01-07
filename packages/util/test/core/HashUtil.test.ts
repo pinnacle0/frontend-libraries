@@ -1,4 +1,4 @@
-import {HashUtil} from "../../src/core/HashUtil";
+import {HashUtil} from "../../src/core/HashUtil.js";
 import crypto from "crypto";
 import {test, expect} from "vitest";
 

@@ -1,4 +1,4 @@
-import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "../../src/core/NumberInput/util";
+import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "../../src/core/NumberInput/util.js";
 import {describe, test, expect, vi} from "vitest";
 
 describe("truncate", () => {

@@ -1,6 +1,6 @@
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import type {TSESLint, TSESTree} from "@typescript-eslint/utils";
-import {isReactComponent} from "../util/isReactComponent";
+import {isReactComponent} from "../util/isReactComponent.js";
 
 export type Options = [];
 

@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds, MethodOrderChecker} from "../../src/rules/react-component-method-ordering";
-import {name, rule, methodOrderCheckers} from "../../src/rules/react-component-method-ordering";
-import {createConfig} from "../create-config";
+import type {MessageIds, MethodOrderChecker} from "../../src/rules/react-component-method-ordering.js";
+import {name, rule, methodOrderCheckers} from "../../src/rules/react-component-method-ordering.js";
+import {createConfig} from "../create-config.js";
 import {describe, test, expect} from "vitest";
 
 const messageId: MessageIds = "reactComponentMethodOrdering";

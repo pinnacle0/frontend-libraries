@@ -1,6 +1,6 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {MessageIds, name, rule} from "../../src/rules/module-class-lifecycle-order";
-import {createConfig} from "../create-config";
+import {MessageIds, name, rule} from "../../src/rules/module-class-lifecycle-order.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "moduleClassLifecycleOrder";
 

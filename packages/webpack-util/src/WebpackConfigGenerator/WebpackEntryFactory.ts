@@ -1,5 +1,5 @@
 import type {Configuration} from "@rspack/core";
-import type {EntryDescriptor} from "../type";
+import type {EntryDescriptor} from "../type.js";
 
 interface StrictWebpackEntry {
     [entryName: string]: [string];

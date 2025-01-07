@@ -1,19 +1,19 @@
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import path from "path";
 import type {Configuration} from "@rspack/core";
-import {Constant} from "../Constant";
-import {ArgsUtil} from "../ArgsUtil";
-import type {EntryDescriptor, GeneratorLoader, GeneratorPlugin, WebpackConfigGeneratorOptions} from "../type";
-import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory";
-import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory";
-import {WebpackConfigSerializationUtil} from "./WebpackConfigSerializationUtil";
-import {WebpackEntryFactory} from "./WebpackEntryFactory";
-import {WebpackOutputPublicURLFactory} from "./WebpackOutputPublicURLFactory";
-import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory";
-import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory";
-import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory";
-import {Plugin} from "./Plugin";
-import {Rule} from "./Rule";
+import {Constant} from "../Constant.js";
+import {ArgsUtil} from "../ArgsUtil.js";
+import type {EntryDescriptor, GeneratorLoader, GeneratorPlugin, WebpackConfigGeneratorOptions} from "../type.js";
+import {ConfigEntryDescriptorsFactory} from "./ConfigEntryDescriptorsFactory.js";
+import {HTMLWebpackPluginsFactory} from "./HTMLWebpackPluginsFactory.js";
+import {WebpackConfigSerializationUtil} from "./WebpackConfigSerializationUtil.js";
+import {WebpackEntryFactory} from "./WebpackEntryFactory.js";
+import {WebpackOutputPublicURLFactory} from "./WebpackOutputPublicURLFactory.js";
+import {WebpackResolveAliasFactory} from "./WebpackResolveAliasFactory.js";
+import {WebpackResolveExtensionsFactory} from "./WebpackResolveExtensionsFactory.js";
+import {WebpackResolveModulesFactory} from "./WebpackResolveModulesFactory.js";
+import {Plugin} from "./Plugin/index.js";
+import {Rule} from "./Rule/index.js";
 
 /**
  * Generates a webpack config with sane defaults.

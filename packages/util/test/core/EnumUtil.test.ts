@@ -1,4 +1,4 @@
-import {EnumUtil} from "../../src";
+import {EnumUtil} from "../../src/index.js";
 import {describe, test, expect} from "vitest";
 
 enum EmptyEnum {}

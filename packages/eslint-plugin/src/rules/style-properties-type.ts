@@ -1,6 +1,6 @@
 import {ASTUtils, AST_NODE_TYPES, ESLintUtils} from "@typescript-eslint/utils";
 import type {TSESTree} from "@typescript-eslint/utils";
-import {isConstInFirstLayer} from "../util/ isConstInFirstLayer";
+import {isConstInFirstLayer} from "../util/ isConstInFirstLayer.js";
 
 export type MessageIds = "stylePropertiesType";
 

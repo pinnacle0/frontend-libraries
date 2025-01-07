@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import {Constant} from "../Constant";
-import type {EntryDescriptor} from "../type";
+import {Constant} from "../Constant.js";
+import type {EntryDescriptor} from "../type.js";
 
 interface ConfigEntryDescriptorsFactoryOptions {
     indexName: string;

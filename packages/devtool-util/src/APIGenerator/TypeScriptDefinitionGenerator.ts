@@ -1,4 +1,4 @@
-import type {TypeDefinition, TypeDefinitionType, TypeDefinitionFieldConstraints, JavaType, TypeDefinitionField, IgnoreType, TypeEnumConstant} from "./type";
+import type {TypeDefinition, TypeDefinitionType, TypeDefinitionFieldConstraints, JavaType, TypeDefinitionField, IgnoreType, TypeEnumConstant} from "./type.js";
 
 const javaToTSType = (javaTypeOrCustomizedType: JavaType | string): string => {
     switch (javaTypeOrCustomizedType) {

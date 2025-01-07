@@ -1,5 +1,5 @@
-import {APIGeneratorBase} from "./APIGeneratorBase";
-import type {PlatformSpecificAPIGeneratorOptions} from "./type";
+import {APIGeneratorBase} from "./APIGeneratorBase.js";
+import type {PlatformSpecificAPIGeneratorOptions} from "./type.js";
 
 export class WebAPIGenerator extends APIGeneratorBase {
     constructor(options: PlatformSpecificAPIGeneratorOptions) {

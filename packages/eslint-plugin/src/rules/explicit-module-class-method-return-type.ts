@@ -1,5 +1,5 @@
 import {AST_NODE_TYPES, AST_TOKEN_TYPES, ESLintUtils} from "@typescript-eslint/utils";
-import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass";
+import {isCoreFeOrCoreNativeModuleClass} from "../util/isCoreFeOrCoreNativeModuleClass.js";
 import type {TSESTree} from "@typescript-eslint/utils";
 
 export const name = "explicit-module-class-method-return-type";

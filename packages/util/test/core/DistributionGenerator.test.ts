@@ -1,4 +1,4 @@
-import {DistributionGenerator} from "../../src/core/DistributionGenerator";
+import {DistributionGenerator} from "../../src/core/DistributionGenerator.js";
 import {describe, test, expect} from "vitest";
 
 describe("DistributionGenerator.boxMullerTransform", () => {

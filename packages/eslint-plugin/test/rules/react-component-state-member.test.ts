@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/react-component-state-member";
-import {name, rule} from "../../src/rules/react-component-state-member";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/react-component-state-member.js";
+import {name, rule} from "../../src/rules/react-component-state-member.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "reactComponentStateMember";
 

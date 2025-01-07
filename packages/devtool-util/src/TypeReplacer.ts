@@ -1,6 +1,6 @@
 import ts from "typescript";
 import fs from "fs";
-import {PrettierUtil} from "./PrettierUtil";
+import {PrettierUtil} from "./PrettierUtil.js";
 
 type TSType = ts.TypeAliasDeclaration | ts.InterfaceDeclaration | ts.EnumDeclaration;
 

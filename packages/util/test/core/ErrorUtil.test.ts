@@ -1,4 +1,4 @@
-import {ErrorUtil} from "../../src/core/ErrorUtil";
+import {ErrorUtil} from "../../src/core/ErrorUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("ErrorUtil.serialize", () => {

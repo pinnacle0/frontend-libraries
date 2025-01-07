@@ -1,8 +1,8 @@
-import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin";
-import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin";
-import {jsMinimizerPlugin, reactRefreshPlugin} from "./ts.plugin";
-import {typeCheckerPlugin} from "./type-checker.plugin";
-import {webpackDefinePlugin, webpackProgressPlugin} from "./webpack.plugin";
+import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin.js";
+import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin.js";
+import {jsMinimizerPlugin, reactRefreshPlugin} from "./ts.plugin.js";
+import {typeCheckerPlugin} from "./type-checker.plugin.js";
+import {webpackDefinePlugin, webpackProgressPlugin} from "./webpack.plugin.js";
 
 /**
  * Static factories to create \`webpack.config#plugins\` items.

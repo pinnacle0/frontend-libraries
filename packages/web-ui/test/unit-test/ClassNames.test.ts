@@ -1,4 +1,4 @@
-import {classNames} from "../../src/util/ClassNames";
+import {classNames} from "../../src/util/ClassNames.js";
 import {describe, test, expect} from "vitest";
 
 describe("classNames testing", () => {

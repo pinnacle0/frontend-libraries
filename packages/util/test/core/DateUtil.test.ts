@@ -1,4 +1,4 @@
-import {DateUtil} from "../../src/core/DateUtil";
+import {DateUtil} from "../../src/core/DateUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("DateUtil.daysBeforeToday", () => {

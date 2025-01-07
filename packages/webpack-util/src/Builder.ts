@@ -2,13 +2,13 @@ import {Utility} from "@pinnacle0/devtool-util/Utility";
 import fs from "fs";
 import path from "path";
 import {rspack} from "@rspack/core";
-import {ArgsUtil} from "./ArgsUtil";
-import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator";
-import {WebpackConfigGenerator} from "./WebpackConfigGenerator";
-import {ProjectStructureChecker} from "./ProjectStructureChecker";
-import {TestRunner} from "./TestRunner";
-import {CodeStyleChecker} from "./CodeStyleChecker";
-import type {InternalCheckerOptions} from "./type";
+import {ArgsUtil} from "./ArgsUtil.js";
+import type {WebpackConfigGeneratorOptions} from "./WebpackConfigGenerator/index.js";
+import {WebpackConfigGenerator} from "./WebpackConfigGenerator/index.js";
+import {ProjectStructureChecker} from "./ProjectStructureChecker.js";
+import {TestRunner} from "./TestRunner.js";
+import {CodeStyleChecker} from "./CodeStyleChecker.js";
+import type {InternalCheckerOptions} from "./type.js";
 import type {Configuration, Stats} from "@rspack/core";
 
 export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Omit<InternalCheckerOptions, "tsconfigFilePath"> {}

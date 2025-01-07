@@ -1,7 +1,7 @@
 import type {TSESTree, TSESLint} from "@typescript-eslint/utils";
 import {ESLintUtils} from "@typescript-eslint/utils";
-import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass";
-import {isReactComponent} from "../util/isReactComponent";
+import {getRawGenericsOfSuperClass} from "../util/getRawGenericsOfSuperClass.js";
+import {isReactComponent} from "../util/isReactComponent.js";
 
 export type Options = [];
 

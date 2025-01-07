@@ -1,5 +1,5 @@
 import {Utility} from "@pinnacle0/devtool-util/Utility";
-import type {InternalCheckerOptions} from "./type";
+import type {InternalCheckerOptions} from "./type.js";
 import fs from "fs";
 
 export class TestRunner {

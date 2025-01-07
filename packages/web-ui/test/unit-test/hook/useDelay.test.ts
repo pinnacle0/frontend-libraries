@@ -1,6 +1,6 @@
 import {act, renderHook} from "@testing-library/react";
-import {useBool} from "../../../src/hooks/useBool";
-import {useDelayedWhen} from "../../../src/hooks/useDelayed";
+import {useBool} from "../../../src/hooks/useBool.js";
+import {useDelayedWhen} from "../../../src/hooks/useDelayed.js";
 import {describe, afterEach, beforeEach, it, expect, vi} from "vitest";
 
 describe("useDelay unit testing", () => {

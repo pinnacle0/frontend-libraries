@@ -1,3 +1,9 @@
 {
-    "extends": "../../config/tsconfig.test.json"
+    "extends": "../../config/tsconfig.test.json",
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "bundler"
+    },
+    "include": ["./src"]
 }

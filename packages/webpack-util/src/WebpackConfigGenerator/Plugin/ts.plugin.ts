@@ -1,7 +1,7 @@
 import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
 import type {RspackPluginInstance, SwcJsMinimizerRspackPluginOptions} from "@rspack/core";
 import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
 
 export function jsMinimizerPlugin(): RspackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin<SwcJsMinimizerRspackPluginOptions>("SwcJsMinimizerRspackPlugin", SwcJsMinimizerRspackPlugin, {

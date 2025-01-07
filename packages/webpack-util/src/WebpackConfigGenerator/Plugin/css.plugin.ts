@@ -1,5 +1,5 @@
 import rspack from "@rspack/core";
-import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil";
+import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
 import type {RspackPluginInstance} from "@rspack/core";
 
 interface ExtractCssPluginOptions {

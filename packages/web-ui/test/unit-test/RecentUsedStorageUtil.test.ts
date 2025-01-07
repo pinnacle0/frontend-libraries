@@ -1,4 +1,4 @@
-import {pushToList} from "../../src/util/RecentUsedStorageUtil/pushToList";
+import {pushToList} from "../../src/util/RecentUsedStorageUtil/pushToList.js";
 import {describe, test, expect} from "vitest";
 
 interface TestEachRowSchema {

@@ -1,4 +1,4 @@
-import {ArrayUtil} from "./ArrayUtil";
+import {ArrayUtil} from "./ArrayUtil.js";
 
 function ofOne<T>(array: T[]): T {
     const length = array.length;

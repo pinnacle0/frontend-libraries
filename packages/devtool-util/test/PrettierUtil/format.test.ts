@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {PrettierUtil} from "../../src/PrettierUtil";
+import {PrettierUtil} from "../../src/PrettierUtil.js";
 import {describe, beforeAll, afterAll, test, expect} from "vitest";
 
 const tmpDirectory = path.join(import.meta.dirname, "./__tmp__/format");

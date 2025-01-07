@@ -1,6 +1,6 @@
 import type {Plugins} from "@rspack/core";
-import type {EntryDescriptor} from "../type";
-import {Plugin} from "./Plugin";
+import type {EntryDescriptor} from "../type.js";
+import {Plugin} from "./Plugin/index.js";
 
 interface HTMLWebpackPluginsFactoryOptions {
     configEntryDescriptors: EntryDescriptor[];

@@ -1,4 +1,4 @@
-import {NamingUtil} from "../../src/NamingUtil";
+import {NamingUtil} from "../../src/NamingUtil.js";
 import {describe, test, expect} from "vitest";
 
 describe("NamingUtil.toCamelCase", () => {

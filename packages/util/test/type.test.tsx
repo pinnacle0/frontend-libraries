@@ -13,7 +13,7 @@ import type {
     MarkAsNullable,
     MarkAsNonNullable,
     StrictRequired,
-} from "../src/type";
+} from "../src/type.js";
 
 describe("KeysOfType<T, ExpectedValueType>", () => {
     type T = {
