@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.7.4",
+    "version": "0.8.0-beta.1",
     "license": "MIT",
     "type": "module",
     "exports": {
