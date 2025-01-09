@@ -1,5 +1,5 @@
-import {createToolkit} from "../src/toolkit";
-import type {Codemod, Transform} from "../src/type";
+import {createToolkit} from "../src/toolkit.js";
+import type {Codemod, Transform} from "../src/type.js";
 
 export async function createTransform(type: Codemod) {
     const mod = (await import("../src/mod/" + type)) satisfies {transform?: Transform};

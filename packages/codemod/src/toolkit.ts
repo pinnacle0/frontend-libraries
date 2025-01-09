@@ -1,7 +1,7 @@
 import {parse as RecastParse, print} from "recast";
 import {parse as BabelParse} from "@babel/parser";
-import {builders, visit} from "ast-types";
-import type {CreateToolkitOptions, Toolkit} from "./type";
+import {builders, visit} from "ast-types-x";
+import type {CreateToolkitOptions, Toolkit} from "./type.js";
 
 export function createToolkit(options: CreateToolkitOptions = {}): Toolkit {
     return {

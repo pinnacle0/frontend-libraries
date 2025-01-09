@@ -1,4 +1,4 @@
-import {createTransform} from "./createTransform";
+import {createTransform} from "./createTransform.js";
 import {describe, test, expect} from "vitest";
 
 const transform = await createTransform("use-react-hook-from-web-ui");

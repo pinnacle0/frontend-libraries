@@ -2,7 +2,7 @@ import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 import fs from "fs/promises";
 import path from "path";
 import {createToolkit} from "../src/toolkit";
-import type {namedTypes} from "ast-types";
+import type {namedTypes} from "ast-types-x";
 
 const Paths = {
     modDirectory: path.join(import.meta.dirname, "../src/mod"),

@@ -1,4 +1,4 @@
-import {createTransform} from "./createTransform";
+import {createTransform} from "./createTransform.js";
 import {describe, test, expect} from "vitest";
 
 const transform = await createTransform("use-react-node");
@@ -41,7 +41,7 @@ const a: React.ReactNode = <div>hi</div>;
     {
         title: "insert React default import when dont exist",
         input: `
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import { SafeReactChildren, OtherImport } from "@pinnacle0/util";
 const a: SafeReactChildren = <div>hi</div>;
 `,
@@ -54,7 +54,7 @@ const a: React.ReactNode = <div>hi</div>;
     {
         title: "insert React default when default not exist in react import",
         input: `
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import { SafeReactChildren, OtherImport } from "@pinnacle0/util";
 const a: SafeReactChildren = <div>hi</div>;
 `,
@@ -67,7 +67,7 @@ const a: React.ReactNode = <div>hi</div>;
     {
         title: "added import",
         input: `
-import { useEffect } from 'react'
+import { useEffect } from "react";
 `,
         output: `
 import React, { useEffect } from "react";

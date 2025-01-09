@@ -1,5 +1,4 @@
-import type {NodePath, Transform} from "../type";
-import type {namedTypes} from "ast-types";
+import type {NodePath, Transform} from "../type.js";
 
 export const description = `
 Since core-fe/1.33.6-beta.1 all react-redux hooks are moved to core-fe
@@ -13,8 +12,8 @@ export const transform: Transform = (source, toolkit) => {
     const ast = toolkit.parse(source);
     const b = toolkit.builders;
     let changed = false;
-    let reactReduxImportDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
-    let coreFeImportDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
+    let reactReduxImportDeclaration: NodePath | undefined;
+    let coreFeImportDeclaration: NodePath | undefined;
 
     toolkit.visit(ast, {
         visitImportDeclaration(path) {
@@ -43,7 +42,8 @@ export const transform: Transform = (source, toolkit) => {
     toolkit.visit(reactReduxImportDeclaration.node, {
         visitImportSpecifier(path) {
             const node = path.node;
-            if (hooks.includes(node.imported.name)) {
+
+            if (typeof node.imported.name === "string" && hooks.includes(node.imported.name)) {
                 importedHooks.push(node.imported.name);
                 path.replace();
             }

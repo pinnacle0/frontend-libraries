@@ -29,7 +29,7 @@
     "author": "Pinnacle",
     "dependencies": {
         "@babel/parser": "7.23.4",
-        "ast-types": "0.14.2",
+        "ast-types-x": "1.18.0",
         "chalk": "4.1.2",
         "glob": "10.3.10",
         "recast": "0.23.4",

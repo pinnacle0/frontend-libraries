@@ -3,9 +3,9 @@ import yargs from "yargs";
 import chalk from "chalk";
 import process from "process";
 import {hideBin} from "yargs/helpers";
-import {resolveCodemodPath} from "./util";
-import {Codemod} from "./type";
-import {runner} from "./runner";
+import {resolveCodemodPath} from "./util.js";
+import {Codemod} from "./type.js";
+import {runner} from "./runner.js";
 
 const packageJson = require("../package.json");
 

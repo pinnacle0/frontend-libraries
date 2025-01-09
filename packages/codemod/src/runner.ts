@@ -2,9 +2,9 @@ import chalk from "chalk";
 import fs from "fs/promises";
 import {glob} from "glob";
 import path from "path";
-import {resolveCodemod} from "./util";
-import {createToolkit} from "./toolkit";
-import type {Codemod, CreateToolkitOptions} from "./type";
+import {resolveCodemod} from "./util.js";
+import {createToolkit} from "./toolkit.js";
+import type {Codemod, CreateToolkitOptions} from "./type.js";
 
 export interface Options extends CreateToolkitOptions {
     dry?: boolean;

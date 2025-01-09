@@ -1,7 +1,7 @@
-import {builders} from "ast-types";
-import type {Scope} from "ast-types/lib/scope";
-import type {ASTNode, namedTypes} from "ast-types";
-import type {Transform, NodePath, Toolkit} from "../type";
+import {builders} from "ast-types-x";
+import type {ASTNode, namedTypes} from "ast-types-x";
+import type {Scope} from "ast-types-x/scope";
+import type {Transform, NodePath, Toolkit} from "../type.js";
 
 type Referred = NodePath<namedTypes.VariableDeclarator> | NodePath<namedTypes.FunctionDeclaration>;
 
@@ -90,7 +90,7 @@ function findReferences(referred: NodePath<namedTypes.FunctionDeclaration> | Nod
     toolkit.visit(ast, {
         visitIdentifier(path: NodePath<namedTypes.Identifier>): any {
             if (path.node.name === name) {
-                const bindings = lookupBindings(path.scope, name);
+                const bindings = path.scope && lookupBindings(path.scope, name);
                 if (bindings?.findIndex(_ => _.node === referred.node.id) !== -1) {
                     identifiers.push(path);
                 }
@@ -116,8 +116,8 @@ function createClassBodyFromObjectFreeze(
                 if (property.value.type === "Identifier") {
                     const lhsName = property.key.name;
                     const rhsName = property.value.name;
-                    const scope: Scope = exportObjectFreezeDeclaration.scope;
-                    const bindings = lookupBindings(scope, property.value.name);
+                    const scope = exportObjectFreezeDeclaration.scope;
+                    const bindings = scope ? lookupBindings(scope, property.value.name) : null;
                     if (!Array.isArray(bindings) || bindings.length === 0)
                         throw new Error(`Unable to find binding of given identifier:  ${property.value.name} in ${property.value.loc?.start.line}:${property.value.loc?.start.column}`);
                     const latestBinding = bindings[bindings.length - 1];

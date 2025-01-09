@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs/promises";
-import type {Codemod, Transform} from "./type";
+import type {Codemod, Transform} from "./type.js";
 
 export async function resolveCodemodPath(modType: string): Promise<string | null> {
     const postfixList = [".js", ".ts", "jsx", ".tsx", "/index.js", "/index.ts", "/index.jsx", "/index.tsx"];

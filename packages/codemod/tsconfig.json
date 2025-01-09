@@ -1,6 +1,9 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+        "module": "NodeNext",
+        "target": "ESNext",
+        "moduleResolution": "nodenext",
         "outDir": "./build",
         "rootDir": "./src",
         "allowSyntheticDefaultImports": true,

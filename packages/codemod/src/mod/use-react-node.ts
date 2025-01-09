@@ -1,4 +1,4 @@
-import type {Transform} from "../type";
+import type {Transform} from "../type.js";
 
 export const description = `Replace all SafeReactChild and SafeReactChildren with Reaet.ReactNode. Please type check again after transform`;
 

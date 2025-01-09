@@ -1,5 +1,5 @@
-import type {NodePath, Transform} from "../type";
-import type {namedTypes} from "ast-types";
+import type {Transform, NodePath} from "../type.js";
+import type {namedTypes} from "ast-types-x";
 
 export const description = `
 Since @pinnacle0/util@1.1.4 ReactUtil is moved to @pinnacle0/web-ui/util/ReactUtil
@@ -11,7 +11,7 @@ export const transform: Transform = (source, toolkit) => {
     const b = toolkit.builders;
     let changed = false;
 
-    let importDeclaration: NodePath<namedTypes.ImportDeclaration> | undefined;
+    let importDeclaration: NodePath<namedTypes.ImportDeclaration, any> | undefined;
     toolkit.visit(ast, {
         visitImportDeclaration(declaration) {
             if (declaration.node.source.value === "@pinnacle0/util" && declaration.node.importKind === "value" && declaration.node.specifiers && declaration.node.specifiers.length > 0) {

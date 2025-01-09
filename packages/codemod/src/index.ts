@@ -1,1 +1,1 @@
-export {runner as run} from "./runner";
+export {runner as run} from "./runner.js";

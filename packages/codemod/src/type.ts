@@ -1,6 +1,6 @@
 import type {ParserOptions} from "@babel/parser";
 import type {Options as GenerateOptions, print} from "recast";
-import type {ASTNode, builders, visit} from "ast-types";
+import type {ASTNode, builders, visit} from "ast-types-x/";
 
 export interface Toolkit {
     parse: (source: string) => ASTNode;
@@ -14,7 +14,7 @@ export interface CreateToolkitOptions {
     generate?: GenerateOptions | undefined;
 }
 
-export type {NodePath} from "ast-types/lib/node-path";
+export type {NodePath} from "ast-types-x/node-path";
 
 export type Transform = (source: string, toolkit: Toolkit) => string | void;
 

@@ -1,6 +1,5 @@
-import type {namedTypes} from "ast-types";
-import type {Transform} from "../type";
-import type {NodePath} from "ast-types/lib/node-path";
+import type {namedTypes} from "ast-types-x";
+import type {Transform, NodePath} from "../type.js";
 
 const hookName = ["useDidMountEffect", "useWillUnmountEffect", "useAPI", "useBool", "useForceUpdate", "useSwipe", "usePrevious", "useThunk", "useTransform", "useWhyDidYouUpdate"];
 
