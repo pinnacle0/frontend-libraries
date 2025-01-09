@@ -2,7 +2,6 @@
     "name": "@pinnacle0/react-stack-router",
     "version": "0.2.3",
     "author": "Pinnacle",
-    "type": "module",
     "license": "MIT",
     "exports": {
         ".": "./src/index.ts"
