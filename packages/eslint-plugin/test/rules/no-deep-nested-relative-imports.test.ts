@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/no-deep-nested-relative-imports";
-import {name, rule} from "../../src/rules/no-deep-nested-relative-imports";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/no-deep-nested-relative-imports.js";
+import {name, rule} from "../../src/rules/no-deep-nested-relative-imports.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noDeepNestedRelativeImports";
 

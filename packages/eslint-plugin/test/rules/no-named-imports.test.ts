@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/no-named-imports";
-import {name, rule} from "../../src/rules/no-named-imports";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/no-named-imports.js";
+import {name, rule} from "../../src/rules/no-named-imports.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noNamedImports";
 

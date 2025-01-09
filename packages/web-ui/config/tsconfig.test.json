@@ -4,6 +4,7 @@
         "lib": ["DOM", "ESNext"],
         "module": "ESNext",
         "target": "ESNext",
+        "moduleResolution": "nodenext",
         "noEmit": true,
         "inlineSources": true,
         "isolatedModules": true,

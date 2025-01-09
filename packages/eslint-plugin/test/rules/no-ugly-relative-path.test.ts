@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/no-ugly-relative-path";
-import {name, rule} from "../../src/rules/no-ugly-relative-path";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/no-ugly-relative-path.js";
+import {name, rule} from "../../src/rules/no-ugly-relative-path.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noUglyRelativePath";
 

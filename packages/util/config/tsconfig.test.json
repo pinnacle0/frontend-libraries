@@ -2,6 +2,9 @@
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": ["DOM", "ESNext"],
+        "module": "NodeNext",
+        "target": "ESNext",
+        "moduleResolution": "nodenext",
         "experimentalDecorators": false,
         "emitDecoratorMetadata": false,
         "noUnusedLocals": false,

@@ -1,7 +1,7 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import type {MessageIds} from "../../src/rules/no-unnecessary-ending-index";
-import {name, rule} from "../../src/rules/no-unnecessary-ending-index";
-import {createConfig} from "../create-config";
+import type {MessageIds} from "../../src/rules/no-unnecessary-ending-index.js";
+import {name, rule} from "../../src/rules/no-unnecessary-ending-index.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noUnnecessaryEndingIndex";
 

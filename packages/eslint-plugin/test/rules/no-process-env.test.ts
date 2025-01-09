@@ -1,6 +1,6 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {MessageIds, name, rule} from "../../src/rules/no-process-env";
-import {createConfig} from "../create-config";
+import {MessageIds, name, rule} from "../../src/rules/no-process-env.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noProcessEnv";
 
