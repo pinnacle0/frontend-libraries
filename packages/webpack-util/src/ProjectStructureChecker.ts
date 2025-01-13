@@ -99,8 +99,8 @@ export class ProjectStructureChecker {
 
     private checkBiomeInstallation() {
         try {
-            // @ts-ignore
-            import("@biomejs/biome");
+            // special case: '@biomejs/biome' has no js export, is a cli tool
+            import("@biomejs/biome/package.json");
         } catch {
             throw new Error(`Cannot load biome module (requiring from "webpack-util"), make sure biome is installed.`);
         }

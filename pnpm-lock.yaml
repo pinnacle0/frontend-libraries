@@ -369,6 +369,9 @@ importers:
 
   packages/webpack-util:
     dependencies:
+      '@biomejs/biome':
+        specifier: 1.9.4
+        version: 1.9.4
       '@biomejs/js-api':
         specifier: 0.7.1
         version: 0.7.1(@biomejs/wasm-nodejs@1.9.4)
