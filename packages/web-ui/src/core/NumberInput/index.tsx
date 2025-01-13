@@ -170,8 +170,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                         type={stepperMode === "no-border" ? "text" : "default"}
                         className="minus"
                         disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})}
-                        onClick={this.onMinusClick}
-                    >
+                        onClick={this.onMinusClick}>
                         &#65293;
                     </Button>
                 )}
@@ -199,8 +198,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                         type={stepperMode === "no-border" ? "text" : "default"}
                         className="add"
                         disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})}
-                        onClick={this.onAddClick}
-                    >
+                        onClick={this.onAddClick}>
                         &#xff0b;
                     </Button>
                 )}

@@ -16,7 +16,7 @@ export interface WebpackBuilderOptions extends WebpackConfigGeneratorOptions, Om
 /**
  * Build the website by webpack.
  *
- * Runs static analysis checkers before starting the webpack build (`prettier --check`, `eslint`, `stylelint`).
+ * Runs static analysis checkers before starting the webpack build (`biome format`, `eslint`, `stylelint`).
  *
  ***************************************
  *

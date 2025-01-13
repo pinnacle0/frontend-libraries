@@ -101,8 +101,7 @@ export class Carousel3D extends React.PureComponent<Props, State> {
                             key={key}
                             className={`child-slide ${current === key - 1 ? "next" : current === key ? "active" : current === key + 1 ? "pre" : ""}`}
                             onMouseEnter={() => current === key && this.handleMouseEnter()}
-                            onMouseLeave={() => current === key && this.handleMouseLeave()}
-                        >
+                            onMouseLeave={() => current === key && this.handleMouseLeave()}>
                             {child}
                             <div className="arrow arrow-left" onClick={this.jumpToPrevSlide}>
                                 <svg width="40px" height="44px" viewBox="0 0 40 44" version="1.1">

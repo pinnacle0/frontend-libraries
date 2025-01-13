@@ -60,13 +60,13 @@ function styleLoader(): RuleSetUseItem {
 export function stylesheetRule({minimize}: StylesheetRuleDeps): RuleSetRule {
     const use: RuleSetUseItem[] = minimize
         ? [
-              // prettier
+              // biome-ignore lint: preserve
               miniCssExtractPluginLoader(),
               cssLoader(1),
               lessLoader(),
           ]
         : [
-              // prettier
+              // biome-ignore lint: preserve
               styleLoader(),
               cssLoader(1),
               lessLoader(),

@@ -198,9 +198,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("returns the userInput as a number (integer config)", () => {
         expect.assertions(6);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
+            min: 1,
+            max: 10,
+            scale: 0,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {inputText: string; expectedIntegerValue: number}) => ({
             run: () => expect(rectifyInputIfValid(_.inputText, config)).toBe(_.expectedIntegerValue),
@@ -216,9 +220,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("returns the userInput as a number (float 2 decimal point config)", () => {
         expect.assertions(6);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 0, max: 1, scale: 2, get allowNull() { return allowNullGetterSpy() },
+            min: 0,
+            max: 1,
+            scale: 2,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {inputText: string; expectedFloatValue: number}) => ({
             run: () => expect(rectifyInputIfValid(_.inputText, config)).toBe(_.expectedFloatValue),
@@ -234,9 +242,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("converts the userInput to a valid number (integer config)", () => {
         expect.assertions(8);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
+            min: 1,
+            max: 10,
+            scale: 0,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {convertibleText: string; expectedIntegerValue: number}) => ({
             run: () => expect(rectifyInputIfValid(_.convertibleText, config)).toBe(_.expectedIntegerValue),
@@ -254,9 +266,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("converts the userInput to a valid number (float 4 decimal point config)", () => {
         expect.assertions(8);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 0, max: 1, scale: 4, get allowNull() { return allowNullGetterSpy() },
+            min: 0,
+            max: 1,
+            scale: 4,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {convertibleText: string; expectedFloatValue: number}) => ({
             run: () => expect(rectifyInputIfValid(_.convertibleText, config)).toBe(_.expectedFloatValue),
@@ -274,9 +290,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("returns magic string (invalid) if userInput cannot be converted (integer config)", () => {
         expect.assertions(7);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 1, max: 10, scale: 0, get allowNull() { return allowNullGetterSpy() },
+            min: 1,
+            max: 10,
+            scale: 0,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {unconvertibleText: string}) => ({
             run: () => expect(rectifyInputIfValid(_.unconvertibleText, config)).toBe("@@INVALID"),
@@ -293,9 +313,13 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     test("returns magic string (invalid) if userInput cannot be converted (float 4 decimal point config)", () => {
         expect.assertions(7);
         const allowNullGetterSpy = vi.fn();
-        // prettier-ignore
         const config: Config = {
-            min: 0, max: 1, scale: 4, get allowNull() { return allowNullGetterSpy() },
+            min: 0,
+            max: 1,
+            scale: 4,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
         };
         const createTest = (_: {unconvertibleText: string}) => ({
             run: () => expect(rectifyInputIfValid(_.unconvertibleText, config)).toBe("@@INVALID"),
@@ -313,12 +337,19 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
         const allowNull = true;
         const configPropertyGetterSpy = vi.fn();
         const mockAllowNullGetter = vi.fn().mockReturnValue(allowNull);
-        // prettier-ignore
         const config = {
-            get min() { return configPropertyGetterSpy() },
-            get max() { return configPropertyGetterSpy() },
-            get scale() { return configPropertyGetterSpy() },
-            get allowNull() { return mockAllowNullGetter() },
+            get min() {
+                return configPropertyGetterSpy();
+            },
+            get max() {
+                return configPropertyGetterSpy();
+            },
+            get scale() {
+                return configPropertyGetterSpy();
+            },
+            get allowNull() {
+                return mockAllowNullGetter();
+            },
         };
         const result = rectifyInputIfValid("", config);
         expect(result).toBeNull();
@@ -330,12 +361,19 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
         const allowNull = false;
         const configPropertyGetterSpy = vi.fn();
         const mockAllowNullGetter = vi.fn().mockReturnValue(allowNull);
-        // prettier-ignore
         const config = {
-            get min() { return configPropertyGetterSpy() },
-            get max() { return configPropertyGetterSpy() },
-            get scale() { return configPropertyGetterSpy() },
-            get allowNull() { return mockAllowNullGetter() },
+            get min() {
+                return configPropertyGetterSpy();
+            },
+            get max() {
+                return configPropertyGetterSpy();
+            },
+            get scale() {
+                return configPropertyGetterSpy();
+            },
+            get allowNull() {
+                return mockAllowNullGetter();
+            },
         };
         const result = rectifyInputIfValid("", config);
         expect(result).toBe("@@INVALID");

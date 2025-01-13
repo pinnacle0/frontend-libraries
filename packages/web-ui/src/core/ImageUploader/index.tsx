@@ -85,8 +85,7 @@ export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React
                 style={{...style, width, height}}
                 className={classNames("g-image-uploader", className)}
                 disabled={disabled}
-                beforeUpload={this.beforeUpload}
-            >
+                beforeUpload={this.beforeUpload}>
                 {imageURL ? (
                     <div className="image-container" style={{backgroundImage: `url(${imageURL})`, height}}>
                         <div className="overlay" onClick={this.preventUploadBehavior}>

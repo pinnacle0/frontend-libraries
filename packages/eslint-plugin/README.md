@@ -17,7 +17,7 @@ all these plugins and presets ("peer dependencies").
       eslint \
       @typescript-eslint/parser \
       @typescript-eslint/eslint-plugin \
-      eslint-config-prettier \
+      eslint-config-biome \
       eslint-plugin-react \
       eslint-plugin-react-hooks \
       eslint-plugin-import \

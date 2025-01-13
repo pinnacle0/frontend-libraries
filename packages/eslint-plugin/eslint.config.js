@@ -1,6 +1,6 @@
 // @ts-check
 import eslint from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
+import eslintConfigBiome from "eslint-config-biome";
 import tsESlint from "typescript-eslint";
 import globals from "globals";
 
@@ -8,7 +8,7 @@ export default tsESlint.config(
     {
         files: ["**/*.ts", "**/*.js"],
         // @ts-ignore
-        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, eslintConfigPrettier],
+        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, eslintConfigBiome],
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {

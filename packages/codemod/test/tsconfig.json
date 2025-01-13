@@ -6,7 +6,7 @@
         "target": "ESNext",
         "moduleResolution": "nodenext",
         "noEmit": true,
-        "allowJs": true,
+        "allowJs": true
     },
     "exclude": ["__testfixtures__"]
 }

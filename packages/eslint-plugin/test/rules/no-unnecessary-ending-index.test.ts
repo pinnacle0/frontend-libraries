@@ -15,7 +15,7 @@ ruleTester.run(name, rule, {
         `import "../index";`,
         `import "../../index";`,
         `import "../../../../../../../index";`,
-        // prettier-format-preserve
+        // biome-ignore lint: preserve
     ],
     invalid: [
         {

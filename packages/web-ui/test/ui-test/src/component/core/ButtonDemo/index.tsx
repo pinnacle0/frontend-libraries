@@ -4,9 +4,9 @@ import {DemoHelper} from "../../DemoHelper";
 import type {ButtonSize, ButtonType} from "@pinnacle0/web-ui/core/Button";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 
-const types: ButtonType[] = ["primary", "default", "link", "text", "dashed", "ghost"];
+const types: ButtonType[] = ["primary", "default", "link", "text", "dashed"];
 
-const coloredButtons = (size: ButtonSize, isDanger: boolean = false): React.ReactElement[] => {
+const coloredButtons = (size: ButtonSize, isDanger = false): React.ReactElement[] => {
     const buttons = types.map(type => (
         <Button size={size} type={type} danger={isDanger}>
             {type}
@@ -24,7 +24,6 @@ const groups: DemoHelperGroupConfig[] = [
     {
         title: "Button",
         components: [
-            // prettier-reserve
             ...coloredButtons("small"),
             "-",
             ...coloredButtons("small", true),

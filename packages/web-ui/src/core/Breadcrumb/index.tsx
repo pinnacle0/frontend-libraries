@@ -35,8 +35,7 @@ export class Breadcrumb<T extends object> extends React.PureComponent<Props<T>> 
                     <div
                         onClick={lastClickable || index !== data.length - 1 ? () => onClick(_, index) : undefined}
                         key={this.getItemKey(_, index)}
-                        className={lastClickable || index !== data.length - 1 ? "clickable" : ""}
-                    >
+                        className={lastClickable || index !== data.length - 1 ? "clickable" : ""}>
                         {renderItem(_, index)}
                     </div>
                 ))}

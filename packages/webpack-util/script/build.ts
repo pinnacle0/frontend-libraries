@@ -1,4 +1,4 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {BiomeUtil} from "@pinnacle0/devtool-util/BiomeUtil";
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 import fs from "fs";
@@ -25,9 +25,9 @@ new TaskRunner("build").execute([
         name: "code style check",
         skipInFastMode: true,
         execute: () => {
-            PrettierUtil.check(FilePath.config);
-            PrettierUtil.check(FilePath.script);
-            PrettierUtil.check(FilePath.src);
+            BiomeUtil.check(FilePath.config);
+            BiomeUtil.check(FilePath.script);
+            BiomeUtil.check(FilePath.src);
         },
     },
     {

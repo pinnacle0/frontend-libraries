@@ -6,14 +6,8 @@
     "exports": {
         ".": "./src/index.ts"
     },
-    "files": [
-        "src",
-        "dist"
-    ],
-    "sideEffects": [
-        "*.less",
-        "*.css"
-    ],
+    "files": ["src", "dist"],
+    "sideEffects": ["*.less", "*.css"],
     "repository": {
         "type": "git",
         "url": "https://github.com/pinnacle0/frontend-libraries.git",

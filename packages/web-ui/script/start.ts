@@ -1,6 +1,6 @@
 import path from "path";
 import {WebpackUtil} from "@pinnacle0/webpack-util";
-import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type";
+import type {TestImageUploadResponse, APIErrorResponse} from "../test/ui-test/src/type.js";
 
 new WebpackUtil.ServerStarter({
     projectDirectory: path.join(import.meta.dirname, "../test/ui-test"),
@@ -11,6 +11,7 @@ new WebpackUtil.ServerStarter({
             resolver: path.join(import.meta.dirname, "../src"),
         },
     ],
+
     interceptExpressApp: app =>
         app.post("/ajax/upload", (_, response) => {
             if (Math.random() > 0.5) {

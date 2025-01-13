@@ -1,5 +1,5 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {MessageIds, name, rule} from "../../src/rules/module-class-lifecycle-order.js";
+import {type MessageIds, name, rule} from "../../src/rules/module-class-lifecycle-order.js";
 import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "moduleClassLifecycleOrder";
@@ -32,7 +32,6 @@ ruleTester.run(name, rule, {
         }`,
         `import {Module} from "core-fe";
         class FeatureModule extends Module<RootState, "feature"> {}`,
-        // prettier-format-preserve
     ],
     invalid: [
         {

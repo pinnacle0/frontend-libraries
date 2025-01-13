@@ -104,8 +104,7 @@ export class Uploader<SuccessResponseType, ErrorResponseType> extends React.Pure
                 onChange={this.onUpload}
                 disabled={this.state.uploading || disabled}
                 beforeUpload={beforeUpload}
-                headers={this.uploadHeader}
-            >
+                headers={this.uploadHeader}>
                 <Spin spinning={uploading} size="small">
                     {children}
                 </Spin>

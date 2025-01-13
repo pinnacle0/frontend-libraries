@@ -5,6 +5,5 @@
 
         // Linters / Formatters
         "dbaeumer.vscode-eslint", // ESLint
-        "esbenp.prettier-vscode" // Prettier
     ]
 }

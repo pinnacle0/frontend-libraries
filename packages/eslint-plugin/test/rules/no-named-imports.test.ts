@@ -14,7 +14,6 @@ ruleTester.run(name, rule, {
         {code: `import ADefaultSymbol, {ANamedSymbol} from "a-node-module";`, options: [["react", "react-dom"]]},
         {code: `import React, {useState} from "react";`, options: [["lodash"]]},
         {code: `import React, {useState} from "react";`, options: [[]]},
-        // prettier-format-preserve
     ],
     invalid: [
         {

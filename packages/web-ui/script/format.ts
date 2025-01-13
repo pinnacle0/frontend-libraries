@@ -1,7 +1,7 @@
-import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {BiomeUtil} from "@pinnacle0/devtool-util/BiomeUtil";
 import path from "path";
 
-PrettierUtil.format(path.join(import.meta.dirname, "../config"));
-PrettierUtil.format(path.join(import.meta.dirname, "../script"));
-PrettierUtil.format(path.join(import.meta.dirname, "../src"));
-PrettierUtil.format(path.join(import.meta.dirname, "../test"));
+BiomeUtil.format(path.join(import.meta.dirname, "../config"));
+BiomeUtil.format(path.join(import.meta.dirname, "../script"));
+BiomeUtil.format(path.join(import.meta.dirname, "../src"));
+BiomeUtil.format(path.join(import.meta.dirname, "../test"));

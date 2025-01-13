@@ -26,7 +26,7 @@ new WebpackBuilder({
 ```
 
 -   Checks if the project structure complies to convention described below.
--   Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+-   Checks if source files complies with project `biome` / `stylelint` / `eslint` rules.
 -   Run test if supported by `package.json` scripts.
 -   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
@@ -40,7 +40,7 @@ new WebpackBuilder({
 
 -   stylelint
 
--   prettier
+-   biome
 
 Note: CSS/LESS only website also supported, without any JavaScript.
 
@@ -65,8 +65,8 @@ The following structure can be used for a basic project setup.
 │           (TypeScript config)
 ├── .eslintrc.js
 │           (ESLint config, can be moved to upper directories)
-├── prettier.config.js
-│           (Prettier config, can be moved to upper directories)
+├── biome.json
+│           (Biome config, can be moved to upper directories)
 ├── stylelint.config.js
 │           (Stylelint config, can be moved to upper directories)
 └── package.json
@@ -112,7 +112,7 @@ The following structure can be used for a npm/yarn/pnpm workspace setup.
 │       └── package.json
 ├── tsconfig.base.json    (Define common options to be extended by other tsconfig files)
 ├── .eslintrc.js
-├── prettier.config.js
+├── biome.json
 ├── stylelint.config.js
 └── package.json
 ```

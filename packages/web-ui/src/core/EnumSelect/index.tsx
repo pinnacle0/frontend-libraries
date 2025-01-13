@@ -87,8 +87,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                     )
                 }
                 suffixIcon={suffixIcon}
-                optionLabelProp={prefix ? "label" : undefined}
-            >
+                optionLabelProp={prefix ? "label" : undefined}>
                 {list.map(_ => {
                     const label = translator ? translator(_) : _.toString();
                     return (

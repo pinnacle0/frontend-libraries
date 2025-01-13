@@ -210,7 +210,7 @@ describe("ArrayUtil.chunk", () => {
         test("throws if size is non-integer or is non-positive number", () => {
             expect(() => ArrayUtil.chunk(array, 0)).toThrow();
             expect(() => ArrayUtil.chunk(array, 2.2)).toThrow();
-            expect(() => ArrayUtil.chunk(array, NaN)).toThrow();
+            expect(() => ArrayUtil.chunk(array, Number.NaN)).toThrow();
         });
 
         type TestEachRowSchema = {size: number; expected: number[][]};
@@ -280,7 +280,7 @@ describe("ArrayUtil.hasIntersection", () => {
     const obj = {same: "reference"};
 
     type TestEachRowSchema = {a: number[]; b: number[]; expected: boolean};
-    // prettier-ignore
+    // biome-ignore format: command
     test.each`
         a           | b           | expected
         ${[1, 2]}   | ${[2, 3]}   | ${true}      (number 2 intersects)
@@ -341,8 +341,8 @@ describe("ArrayUtil.compactMap", () => {
         });
         createTest([undefined, "a", 1, true]).run();
         createTest(["a", null, 1, true]).run();
-        createTest(["a", 1, NaN, true, NaN]).run();
-        createTest([NaN, null, "a", 1, undefined, true]).run();
+        createTest(["a", 1, Number.NaN, true, Number.NaN]).run();
+        createTest([Number.NaN, null, "a", 1, undefined, true]).run();
     });
 
     test("does not remove falsy values other than undefined, null, NaN from array (identity callback)", () => {
@@ -352,7 +352,7 @@ describe("ArrayUtil.compactMap", () => {
             run: () => expect(ArrayUtil.compactMap(arrayInput, identityFn)).toStrictEqual(["", 0, false]),
         });
         createTest(["", 0, false]).run();
-        createTest([NaN, null, "", 0, undefined, false]).run();
+        createTest([Number.NaN, null, "", 0, undefined, false]).run();
     });
 
     test("does not remove anything before mapping", () => {
@@ -361,8 +361,8 @@ describe("ArrayUtil.compactMap", () => {
         const createTest = (arrayInput: any[]) => ({
             run: () => expect(ArrayUtil.compactMap(arrayInput, mapToTrue)).toStrictEqual(arrayInput.map(() => true)),
         });
-        createTest([undefined, null, NaN]).run();
-        createTest([NaN, null, "a", 1, undefined, true, function f() {}]).run();
+        createTest([undefined, null, Number.NaN]).run();
+        createTest([Number.NaN, null, "a", 1, undefined, true, function f() {}]).run();
     });
 
     test("only removes undefined, null, NaN from array after mapping (get property callback)", () => {
@@ -376,7 +376,7 @@ describe("ArrayUtil.compactMap", () => {
             expected: ["a", 1, true],
         }).run();
         createTest({
-            arrayInp: [{p: NaN}, {p: null}, {p: "a"}, {p: 1}, {p: undefined}, {p: true}],
+            arrayInp: [{p: Number.NaN}, {p: null}, {p: "a"}, {p: 1}, {p: undefined}, {p: true}],
             expected: ["a", 1, true],
         }).run();
     });
@@ -393,7 +393,7 @@ describe("ArrayUtil.compactMap", () => {
         }).run();
         createTest({
             arrayInp: ["0.5", "1.5", "2.5", "not-a-number", "also-not-a-number"],
-            callback: _ => Math.round(parseFloat(_) * 2),
+            callback: _ => Math.round(Number.parseFloat(_) * 2),
             expected: [1, 3, 5],
         }).run();
         createTest({

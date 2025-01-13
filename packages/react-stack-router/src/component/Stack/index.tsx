@@ -54,8 +54,7 @@ export function Stack({router, className, style}: StackProps) {
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
                             onEntered={() => screen.lifecycle.trigger("didEnter")}
                             onExiting={() => screen.lifecycle.trigger("willExit")}
-                            onExited={() => screen.lifecycle.trigger("didExit")}
-                        >
+                            onExited={() => screen.lifecycle.trigger("didExit")}>
                             <RouteContext.Provider value={context}>
                                 <screen.content {...context} />
                             </RouteContext.Provider>

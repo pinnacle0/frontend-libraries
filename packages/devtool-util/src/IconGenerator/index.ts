@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {PrettierUtil} from "../PrettierUtil.js";
+import {BiomeUtil} from "../BiomeUtil.js";
 import {Utility} from "../Utility/index.js";
 import type {IconGeneratorOptions} from "./type.js";
 import {FontAssetType, generateFonts as fantasticonGenerateFonts, ASSET_TYPES} from "fantasticon";
@@ -13,7 +13,7 @@ export class IconGenerator {
     private readonly templateDirectory = Utility.getTemplatePath("icon");
     private readonly logger = Utility.createConsoleLogger("IconGenerator");
 
-    private cssContent: string = "";
+    private cssContent = "";
     private iconClassList: string[] = [];
 
     constructor(options: IconGeneratorOptions) {
@@ -146,7 +146,7 @@ export class IconGenerator {
         const tempCSS = path.join(this.iconComponentDirectory, `${this.fontFamily}.css`);
         fs.rmSync(tempCSS);
 
-        PrettierUtil.format(this.iconComponentDirectory);
+        BiomeUtil.format(this.iconComponentDirectory);
     }
 
     private classNameToEnum(className: string) {

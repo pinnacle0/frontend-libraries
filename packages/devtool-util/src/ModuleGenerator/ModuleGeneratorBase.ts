@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import yargs from "yargs";
 import {NamingUtil} from "../NamingUtil.js";
-import {PrettierUtil} from "../PrettierUtil.js";
+import {BiomeUtil} from "../BiomeUtil.js";
 import {Utility} from "../Utility/index.js";
 import type {ModuleGeneratorOptions} from "./type.js";
 
@@ -142,8 +142,8 @@ export class ModuleGeneratorBase {
     }
 
     private formatSources() {
-        PrettierUtil.format(`${this.moduleBaseDirectory}/${this.moduleName}`);
-        PrettierUtil.format(this.reduxStateTypePath);
+        BiomeUtil.format(`${this.moduleBaseDirectory}/${this.moduleName}`);
+        BiomeUtil.format(this.reduxStateTypePath);
     }
 
     /**

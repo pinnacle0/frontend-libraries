@@ -44,8 +44,7 @@ export const About = () => {
                 <button
                     onClick={() => {
                         setState({count: count + 1});
-                    }}
-                >
+                    }}>
                     local state count: {count}
                 </button>
                 <br />

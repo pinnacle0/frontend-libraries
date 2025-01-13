@@ -94,7 +94,7 @@ function isEmpty(object: object): boolean {
  * Not applicable to object with circular reference.
  */
 function deepClone<T extends object>(object: T): T {
-    const innerDeepClone = (innerObject: any, isInnerLevel: boolean = true): any => {
+    const innerDeepClone = (innerObject: any, isInnerLevel = true): any => {
         if (innerObject === object && isInnerLevel) throw new Error(`[util] ObjectUtil.deepClone: object has circular reference`);
 
         // Primitive types: null / undefined / number / string / boolean / bigint / symbol / function
@@ -115,7 +115,6 @@ function deepClone<T extends object>(object: T): T {
         if (innerObject instanceof Object) {
             const newObject: any = {};
             for (const attr in innerObject) {
-                // eslint-disable-next-line no-prototype-builtins -- using for-in loop requires checking object.hasOwnProperty to exclude properties up from the prototype chain
                 if (innerObject.hasOwnProperty(attr)) {
                     newObject[attr] = innerDeepClone(innerObject[attr]);
                 }

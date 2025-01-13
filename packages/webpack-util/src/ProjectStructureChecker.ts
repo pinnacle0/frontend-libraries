@@ -23,7 +23,7 @@ export class ProjectStructureChecker {
         this.checkPackageJSON();
         this.checkTSConfig();
 
-        this.checkPrettierInstallation();
+        this.checkBiomeInstallation();
         this.checkESLintInstallation();
         this.checkStyleLintInstallation();
     }
@@ -66,26 +66,25 @@ export class ProjectStructureChecker {
         }
     }
 
-    // TODO/David: revert
     private checkPackageJSON() {
-        // const startWithDigit = /^\d/;
-        // const startWithWorkSpace = /^workspace:/;
+        const startWithDigit = /^\d/;
+        const startWithWorkSpace = /^workspace:/;
         if (!(fs.existsSync(this.packageJSONPath) && fs.statSync(this.packageJSONPath).isFile())) {
             throw new Error(`Cannot find package.json at "${this.packageJSONPath}".`);
         }
-        // const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(this.packageJSONPath, {encoding: "utf8"}));
-        // for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.dependencies || {})) {
-        //     if (startWithWorkSpace.test(depVersion)) continue;
-        //     if (!startWithDigit.test(depVersion)) {
-        //         throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
-        //     }
-        // }
-        // for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.devDependencies || {})) {
-        //     if (startWithWorkSpace.test(depVersion)) continue;
-        //     if (!startWithDigit.test(depVersion)) {
-        //         throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
-        //     }
-        // }
+        const packageJSONContents: Record<string, any> = JSON.parse(fs.readFileSync(this.packageJSONPath, {encoding: "utf8"}));
+        for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.dependencies || {})) {
+            if (startWithWorkSpace.test(depVersion)) continue;
+            if (!startWithDigit.test(depVersion)) {
+                throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
+            }
+        }
+        for (const [depName, depVersion] of Object.entries<string>(packageJSONContents.devDependencies || {})) {
+            if (startWithWorkSpace.test(depVersion)) continue;
+            if (!startWithDigit.test(depVersion)) {
+                throw new Error(`Dependency "${depName}" must be an exact version, but found "${depVersion}" in package.json at "${this.packageJSONPath}".`);
+            }
+        }
     }
 
     private checkTSConfig() {
@@ -98,11 +97,12 @@ export class ProjectStructureChecker {
         }
     }
 
-    private checkPrettierInstallation() {
+    private checkBiomeInstallation() {
         try {
-            import("prettier");
+            // @ts-ignore
+            import("@biomejs/biome");
         } catch {
-            throw new Error(`Cannot load prettier module (requiring from "webpack-util"), make sure prettier is installed.`);
+            throw new Error(`Cannot load biome module (requiring from "webpack-util"), make sure biome is installed.`);
         }
     }
 

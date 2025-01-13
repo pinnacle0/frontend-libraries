@@ -47,16 +47,14 @@ export const Game = () => {
                     onClick={async () => {
                         await router.pop();
                         alert("popped");
-                    }}
-                >
+                    }}>
                     Alert after pop
                 </button>
                 <button
                     onClick={async () => {
                         await router.pop(2);
                         alert("popped");
-                    }}
-                >
+                    }}>
                     Alert after pop 2 screen
                 </button>
             </div>

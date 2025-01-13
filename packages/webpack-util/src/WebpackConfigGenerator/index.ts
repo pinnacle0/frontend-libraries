@@ -20,7 +20,6 @@ import {Rule} from "./Rule/index.js";
  */
 export class WebpackConfigGenerator {
     private readonly env: string | null;
-    // private readonly projectDirectory: string;
     private readonly projectSrcDirectory: string;
     private readonly tsconfigFilePath: string;
     private readonly enableProfiling: boolean;
@@ -46,7 +45,6 @@ export class WebpackConfigGenerator {
 
     constructor(options: WebpackConfigGeneratorOptions) {
         this.env = ArgsUtil.currentEnv();
-        // this.projectDirectory = options.projectDirectory;
         this.projectSrcDirectory = path.join(options.projectDirectory, "src");
         this.tsconfigFilePath = options.tsconfigFilePath ? options.tsconfigFilePath : path.join(options.projectDirectory, options.tsconfigFilename ?? "tsconfig.json");
         this.enableProfiling = ArgsUtil.profilingEnabled();
@@ -125,7 +123,6 @@ export class WebpackConfigGenerator {
             },
             module: {
                 rules: [
-                    // prettier
                     Rule.ts({fastRefresh: true}),
                     Rule.stylesheet({minimize: false}),
                     Rule.image(),
@@ -137,7 +134,6 @@ export class WebpackConfigGenerator {
                 outputModule: true,
             },
             plugins: [
-                // prettier
                 ...this.htmlWebpackPluginInstances,
                 Plugin.reactRefresh(this.indirectCodeExclude),
                 Plugin.webpack.progress({enableProfiling: false}),
@@ -178,11 +174,7 @@ export class WebpackConfigGenerator {
                     automaticNameDelimiter: "-",
                     maxAsyncRequests: 30,
                 },
-                minimizer: [
-                    // prettier
-                    Plugin.minimizer.js(),
-                    Plugin.minimizer.css(),
-                ],
+                minimizer: [Plugin.minimizer.js(), Plugin.minimizer.css()],
             },
             performance: {
                 maxEntrypointSize: this.enableProfiling ? Number.MAX_SAFE_INTEGER : this.maxEntryPointKiloByte * 1000,
@@ -190,17 +182,9 @@ export class WebpackConfigGenerator {
                 assetFilter: (filename: string) => Constant.mediaExtensions.concat(this.extraExtensionsForOtherRule).every(_ => !filename.endsWith(_)),
             },
             module: {
-                rules: [
-                    // prettier
-                    Rule.ts(),
-                    Rule.stylesheet({minimize: true}),
-                    Rule.image(),
-                    Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    ...this.customizedLoaders,
-                ],
+                rules: [Rule.ts(), Rule.stylesheet({minimize: true}), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
             },
             plugins: [
-                // prettier
                 ...this.htmlWebpackPluginInstances,
                 Plugin.scriptTagCrossOriginPlugin(),
                 Plugin.typeChecker({tsconfigFilePath: this.tsconfigFilePath}),

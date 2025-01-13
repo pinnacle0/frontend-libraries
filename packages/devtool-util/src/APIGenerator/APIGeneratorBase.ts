@@ -1,5 +1,5 @@
 import fs from "fs";
-import {PrettierUtil} from "../PrettierUtil.js";
+import {BiomeUtil} from "../BiomeUtil.js";
 import {Utility} from "../Utility/index.js";
 import {fetch} from "./fetch.js";
 import type {APIDefinition, APIGeneratorOptions, ServiceOperation, PlatformConfig, ServiceDefinition, TypeDefinition, IgnoreType} from "./type.js";
@@ -55,7 +55,7 @@ export class APIGeneratorBase {
         const content = [comment, ...typeDefinitions].join("\n");
 
         await fs.promises.writeFile(filePath, content, {encoding: "utf8"});
-        PrettierUtil.format(filePath);
+        BiomeUtil.format(filePath);
     }
 
     private async generateServiceFolder(services: ServiceDefinition[], folderPath: string, platformInfo: PlatformConfig) {
@@ -127,6 +127,6 @@ export class APIGeneratorBase {
                 console.info(`(${++count}) ${service.name} Generated`);
             })
         );
-        PrettierUtil.format(folderPath);
+        BiomeUtil.format(folderPath);
     }
 }

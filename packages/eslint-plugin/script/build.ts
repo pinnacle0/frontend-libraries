@@ -2,7 +2,7 @@ import {Utility} from "@pinnacle0/devtool-util/Utility";
 import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 import fs from "fs";
 import path from "path";
-import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
+import {BiomeUtil} from "@pinnacle0/devtool-util/BiomeUtil";
 
 const FilePath = {
     project: path.join(import.meta.dirname, ".."),
@@ -26,13 +26,13 @@ const FilePath = {
 
 new TaskRunner("build").execute([
     {
-        name: "prettier",
+        name: "biome",
         skipInFastMode: true,
         execute: () => {
-            PrettierUtil.check(FilePath.config);
-            PrettierUtil.check(FilePath.script);
-            PrettierUtil.check(FilePath.src);
-            PrettierUtil.check(FilePath.test);
+            BiomeUtil.check(FilePath.config);
+            BiomeUtil.check(FilePath.script);
+            BiomeUtil.check(FilePath.src);
+            BiomeUtil.check(FilePath.test);
         },
     },
     {

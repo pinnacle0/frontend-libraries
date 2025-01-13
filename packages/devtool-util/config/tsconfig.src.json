@@ -8,7 +8,7 @@
         "outDir": "../lib",
         "rootDir": "../src",
         "declaration": true,
-        "isolatedModules": true,
+        "isolatedModules": true
     },
     "include": ["../src"],
     "exclude": ["**/__fixtures__/"]

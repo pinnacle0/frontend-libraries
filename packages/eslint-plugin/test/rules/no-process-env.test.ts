@@ -1,5 +1,5 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {MessageIds, name, rule} from "../../src/rules/no-process-env.js";
+import {type MessageIds, name, rule} from "../../src/rules/no-process-env.js";
 import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "noProcessEnv";
@@ -16,7 +16,6 @@ ruleTester.run(name, rule, {
         }`,
         `const a = 3`,
         `const propertyName = 'env';const env = process[propertyName]`,
-        // prettier-format-preserve
     ],
     invalid: [
         {

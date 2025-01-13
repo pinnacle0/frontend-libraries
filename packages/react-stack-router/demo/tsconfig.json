@@ -5,5 +5,5 @@
         "composite": true
     },
     "include": ["./src"],
-    "references": [{"path": "../tsconfig.json"}]
+    "references": [{ "path": "../tsconfig.json" }]
 }

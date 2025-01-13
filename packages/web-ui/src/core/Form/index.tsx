@@ -97,8 +97,7 @@ export class Form extends React.PureComponent<Props, State> {
                 style={buttonStyle}
                 loading={isValidating || loading}
                 icon={buttonIcon}
-                disabled={buttonDisabled || isValidating || loading}
-            >
+                disabled={buttonDisabled || isValidating || loading}>
                 {buttonText || t.submit}
             </Button>
         );

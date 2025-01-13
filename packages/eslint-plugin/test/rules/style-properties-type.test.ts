@@ -11,7 +11,7 @@ ruleTester.run(name, rule, {
     valid: [
         `const TestComponent:React.ComponentType = () => {const testStyle: React.CSSProperties = {}; return null;}`,
         `const TEST_STYLE: React.CSSProperties = {}`,
-        // prettier-format-preserve
+        // biome-ignore lint: preserve
     ],
     invalid: [
         {

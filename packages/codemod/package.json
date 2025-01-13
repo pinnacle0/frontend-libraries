@@ -8,9 +8,7 @@
         "pinnacle-codemod": "./build/bin.js",
         "pmod": "./build/bin.js"
     },
-    "files": [
-        "build"
-    ],
+    "files": ["build"],
     "exports": {
         ".": "./build/index.js"
     },

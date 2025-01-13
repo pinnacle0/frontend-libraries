@@ -60,8 +60,7 @@ export const TablePageDemo = () => {
                     </Tooltip>,
                 ]}
                 onFinish={changeLoading}
-                onReset={changeLoading}
-            >
+                onReset={changeLoading}>
                 <Form.Item label="Input">
                     <Input value="Some name" onChange={dummyEmptyCallback} />
                 </Form.Item>

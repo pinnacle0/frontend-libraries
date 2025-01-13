@@ -23,7 +23,7 @@
         "@typescript-eslint/eslint-plugin": "8.18.0",
         "@typescript-eslint/parser": "8.18.0",
         "eslint": "9.16.0",
-        "eslint-config-prettier": "9.1.0",
+        "eslint-config-biome": "1.9.4",
         "eslint-plugin-eslint-comments": "3.2.0",
         "eslint-plugin-import": "2.31.0",
         "eslint-plugin-react": "7.37.3",
@@ -32,7 +32,7 @@
         "pnpm-single-version": "1.4.4",
         "postcss": "8.4.49",
         "postcss-less": "6.0.0",
-        "prettier": "3.4.2",
+        "@biomejs/biome": "1.9.4",
         "stylelint": "16.11.0",
         "stylelint-config-standard": "36.0.1",
         "tsx": "4.19.2",
@@ -42,18 +42,7 @@
         "vitest": "2.1.8"
     },
     "pnpmSingleVersion": {
-        "includes": [
-            "react",
-            "@types/react",
-            "@types/react-dom",
-            "@ant-design/*",
-            "react",
-            "react-dom",
-            "rc-picker",
-            "eslint",
-            "@typescript-eslint/eslint-plugin",
-            "@typescript-eslint/parser"
-        ]
+        "includes": ["react", "@types/react", "@types/react-dom", "@ant-design/*", "react", "react-dom", "rc-picker", "eslint", "@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"]
     },
     "pnpm": {
         "overrides": {
