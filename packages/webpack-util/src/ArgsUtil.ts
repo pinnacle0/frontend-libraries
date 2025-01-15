@@ -1,23 +1,21 @@
 import yargs from "yargs";
 
-function parseArgv() {
-    return yargs().parseSync(process.argv);
-}
+const argv = yargs().parseSync(process.argv);
 
 function currentEnv(): string | null {
-    return (parseArgv().env as string) || null;
+    return (argv.env as string) || null;
 }
 
 function profilingEnabled(): boolean {
-    return Boolean(parseArgv().profile);
+    return Boolean(argv.profile);
 }
 
 function isFastMode(): boolean {
-    return parseArgv().mode === "fast";
+    return argv.mode === "fast";
 }
 
 function verbose(): boolean {
-    return Boolean(parseArgv().verbose);
+    return Boolean(argv.verbose);
 }
 
 export const ArgsUtil = Object.freeze({
