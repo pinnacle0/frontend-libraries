@@ -3,7 +3,6 @@ import {fixupPluginRules} from "@eslint/compat";
 import {FlatCompat} from "@eslint/eslintrc";
 import eslintPluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
-import eslintConfigBiome from "eslint-config-biome";
 import eslint from "@eslint/js";
 import tsESlint from "typescript-eslint";
 import globals from "globals";
@@ -35,7 +34,7 @@ export default tsESlint.config(
         },
         // TODO/David: remove after all legacy plugin updated
         // @ts-ignore
-        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, eslintConfigBiome, ...compat.extends("plugin:import/typescript")],
+        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, ...compat.extends("plugin:import/typescript")],
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {

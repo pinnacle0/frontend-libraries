@@ -42,9 +42,6 @@ importers:
       eslint:
         specifier: 9.16.0
         version: 9.16.0
-      eslint-config-biome:
-        specifier: 1.9.4
-        version: 1.9.4
       eslint-plugin-eslint-comments:
         specifier: 3.2.0
         version: 3.2.0(eslint@9.16.0)
@@ -162,9 +159,6 @@ importers:
       eslint:
         specifier: '>=9.15.0'
         version: 9.16.0
-      eslint-config-biome:
-        specifier: 1.9.4
-        version: 1.9.4
       eslint-plugin-eslint-comments:
         specifier: 3.2.0
         version: 3.2.0(eslint@9.16.0)
@@ -2836,9 +2830,6 @@ packages:
     resolution: {integrity: sha512-2NlIDTwUWJN0mRPQOdtQBzbUHvdGY2P1VXSyU83Q3xKxM7WHX2Ql8dKq782Q9TgQUNOLEzEYu9bzLNj1q88I5w==}
     engines: {node: '>=6.0'}
     hasBin: true
-
-  eslint-config-biome@1.9.4:
-    resolution: {integrity: sha512-4HX+rfUk1R2rPwN3hcxPxq5sLDLGb/xtu48AggTtxCVoRoD18kjwOwHA1c7gYsbRrEQso+9mlRSS9+G7OfDqFg==}
 
   eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
@@ -8505,8 +8496,6 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
     optional: true
-
-  eslint-config-biome@1.9.4: {}
 
   eslint-import-resolver-node@0.3.9:
     dependencies:

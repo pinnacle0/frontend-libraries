@@ -8,8 +8,6 @@ import eslint from "@eslint/js";
 import tsESlint from "typescript-eslint";
 import globals from "globals";
 // @ts-expect-error -- untyped module
-import eslintConfigBiome from "eslint-config-biome";
-// @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
 import eslintPluginReact from "eslint-plugin-react";
 // @ts-expect-error -- untyped module
@@ -42,7 +40,7 @@ function legacyPlugin(name: string, alias = name) {
 
 export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
     tsESlint.config({
-        extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, eslintConfigBiome, ...compat.extends("plugin:import/typescript")],
+        extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, ...compat.extends("plugin:import/typescript")],
         plugins: {
             import: legacyPlugin("eslint-plugin-import", "import"),
             "@typescript-eslint": tsESlint.plugin,
