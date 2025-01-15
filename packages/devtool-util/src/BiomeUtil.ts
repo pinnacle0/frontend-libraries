@@ -24,8 +24,6 @@ function runBiomeCommand(fileOrDirectory: string, overwrite?: boolean) {
         try {
             Utility.runCommand("biome", [...commandArgs, fileOrDirectory]);
         } catch (error) {
-            // directory does not have matched files should not throw error
-            if (isDirectory) return;
             throw new Error(`Biome command failed: ${error}`);
         }
     } else {
