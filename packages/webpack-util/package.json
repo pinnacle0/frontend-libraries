@@ -7,9 +7,8 @@
         ".": "./src/index.ts"
     },
     "scripts": {
-        "run-script": "tsx",
-        "build": "pnpm run run-script script/build.ts",
-        "format": "pnpm run run-script script/format.ts",
+        "build": "pnpm tsx script/build.ts",
+        "format": "pnpm tsx script/format.ts",
         "test": "vitest --config config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },

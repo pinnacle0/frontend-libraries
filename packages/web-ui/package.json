@@ -13,11 +13,10 @@
         "node": ">=20"
     },
     "scripts": {
-        "run-script": "tsx",
-        "build": "pnpm run run-script script/build.ts",
-        "start": "pnpm run run-script script/start.ts",
-        "start:mobile": "pnpm run run-script script/start-mobile.ts",
-        "format": "pnpm run run-script script/format.ts",
+        "build": "pnpm tsx script/build.ts",
+        "start": "pnpm tsx script/start.ts",
+        "start:mobile": "pnpm tsx script/start-mobile.ts",
+        "format": "pnpm tsx script/format.ts",
         "test": "vitest --config ./config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build",
         "demo": "cd demo && pnpm start"

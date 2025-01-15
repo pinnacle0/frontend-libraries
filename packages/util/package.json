@@ -16,10 +16,9 @@
         "node": ">=20"
     },
     "scripts": {
-        "run-script": "tsx",
-        "build": "pnpm run run-script script/build.ts",
-        "format": "pnpm run run-script script/format.ts",
-        "lint": "pnpm run run-script script/lint.ts",
+        "build": "pnpm tsx script/build.ts",
+        "format": "pnpm tsx script/format.ts",
+        "lint": "pnpm tsx script/lint.ts",
         "test": "vitest --config ./config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },

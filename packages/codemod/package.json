@@ -13,12 +13,11 @@
         ".": "./build/index.js"
     },
     "scripts": {
-        "run-script": "tsx ",
         "bin": "tsx ./src/bin.ts",
         "test": "vitest --config config/vitest.config.ts --run",
         "lint": "eslint --no-warn-ignored \"./src/**\"",
-        "new-codemod": "pnpm run run-script ./script/new-codemod.ts",
-        "codegen": "pnpm run run-script ./script/codegen.ts",
+        "new-codemod": "pnpm tsx ./script/new-codemod.ts",
+        "codegen": "pnpm tsx ./script/codegen.ts",
         "build": "pnpm lint && pnpm test && tsc --build ./tsconfig.json",
         "prepublishOnly": "pnpm run build"
     },

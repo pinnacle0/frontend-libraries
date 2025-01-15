@@ -7,11 +7,10 @@
         ".": "./src/index.ts"
     },
     "scripts": {
-        "run-script": "tsx",
-        "build": "pnpm run run-script script/build.ts",
-        "codegen": "pnpm run run-script script/codegen.ts",
-        "format": "pnpm run run-script script/format.ts",
-        "new-rule": "pnpm run run-script script/new-rule.ts",
+        "build": "pnpm tsx script/build.ts",
+        "codegen": "pnpm tsx script/codegen.ts",
+        "format": "pnpm tsx script/format.ts",
+        "new-rule": "pnpm tsx script/new-rule.ts",
         "test": "vitest --config config/vitest.config.ts --run",
         "prepublishOnly": "pnpm build"
     },
