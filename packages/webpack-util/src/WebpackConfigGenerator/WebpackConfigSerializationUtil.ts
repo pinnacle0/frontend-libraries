@@ -1,5 +1,4 @@
 import {format as prettyFormat} from "pretty-format";
-import {Biome} from "@biomejs/js-api";
 import type {RspackPluginInstance, Configuration} from "@rspack/core";
 
 interface SerializableWebpackPluginDescriptor {
@@ -51,8 +50,19 @@ export class WebpackConfigSerializationUtil {
             ],
         });
 
-        const biome = await Biome.create({distribution: 1});
-        biome.applyConfiguration({javascript: {formatter: {enabled: true, indentStyle: "space", indentWidth: 1}}});
-        return biome.formatContent("export default " + configString, {filePath: "webpack.config.js"}).content;
+        try {
+            const {format} = await import("prettier");
+            return format("export default " + configString, {
+                arrowParens: "avoid",
+                bracketSpacing: false,
+                printWidth: 120,
+                tabWidth: 1,
+                useTabs: false,
+                filepath: "webpack.config.js",
+            });
+        } catch {
+            // Either prettier cannot be loaded, or formatting failed, return the unformatted config as a fallback.
+            return configString;
+        }
     }
 }

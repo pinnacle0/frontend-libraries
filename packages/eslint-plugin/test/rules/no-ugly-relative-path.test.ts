@@ -13,7 +13,7 @@ ruleTester.run(name, rule, {
         `import {Button} from "antd";`,
         `import DefaultImport from "./index";`,
         `import {NamedImport} from "../index";`,
-        // biome-ignore lint: preserve
+        // prettier-format-preserve
     ],
     invalid: [
         {

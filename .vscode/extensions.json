@@ -5,6 +5,6 @@
 
         // Linters / Formatters
         "dbaeumer.vscode-eslint", // ESLint
-        "biomejs.biome" // Biome
+        "esbenp.prettier-vscode" // Prettier
     ]
 }

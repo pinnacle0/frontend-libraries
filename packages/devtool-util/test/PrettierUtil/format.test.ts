@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
-import {BiomeUtil} from "../../src/BiomeUtil.js";
+import {PrettierUtil} from "../../src/PrettierUtil.js";
 import {describe, beforeAll, afterAll, test, expect} from "vitest";
 
 const tmpDirectory = path.join(import.meta.dirname, "./__tmp__/format");
 
-describe("BiomeUtil.format", () => {
+describe("PrettierUtil.format", () => {
     beforeAll(() => {
         if (fs.existsSync(tmpDirectory)) fs.rmSync(tmpDirectory, {recursive: true});
         fs.mkdirSync(tmpDirectory, {recursive: true});
@@ -15,7 +15,7 @@ describe("BiomeUtil.format", () => {
         fs.rmSync(tmpDirectory, {recursive: true});
     });
 
-    test("when running BiomeUtil.format(emptyDirectory), suppress error", () => {
-        expect(() => BiomeUtil.format(tmpDirectory)).not.toThrowError();
+    test("when running PrettierUtil.format(emptyDirectory), suppress error", () => {
+        expect(() => PrettierUtil.format(tmpDirectory)).not.toThrowError();
     });
 });

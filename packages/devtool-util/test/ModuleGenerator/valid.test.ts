@@ -27,8 +27,8 @@ describe("ModuleGenerator class add", () => {
         vi.doMock("yargs", () => ({
             default: () => ({parseSync: () => ({_: {0: "common/new-feature"}})}),
         }));
-        vi.doMock("../../src/BiomeUtil", () => ({
-            BiomeUtil: {format: () => {}},
+        vi.doMock("../../src/PrettierUtil", () => ({
+            PrettierUtil: {format: () => {}},
         }));
 
         // Note: inline require ModuleGenerator after `jest.doMock` calls to ensure that require hooks are registered (without relying on ts-jest or babel-jest magic)

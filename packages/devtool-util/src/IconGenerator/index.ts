@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {BiomeUtil} from "../BiomeUtil.js";
+import {PrettierUtil} from "../PrettierUtil.js";
 import {Utility} from "../Utility/index.js";
 import type {IconGeneratorOptions} from "./type.js";
 import {FontAssetType, generateFonts as fantasticonGenerateFonts, ASSET_TYPES} from "fantasticon";
@@ -146,7 +146,7 @@ export class IconGenerator {
         const tempCSS = path.join(this.iconComponentDirectory, `${this.fontFamily}.css`);
         fs.rmSync(tempCSS);
 
-        BiomeUtil.format(this.iconComponentDirectory);
+        PrettierUtil.format(this.iconComponentDirectory);
     }
 
     private classNameToEnum(className: string) {

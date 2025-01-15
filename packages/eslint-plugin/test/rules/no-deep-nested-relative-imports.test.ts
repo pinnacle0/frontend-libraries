@@ -13,7 +13,7 @@ ruleTester.run(name, rule, {
         `import SiblingComponent from "./SiblingComponent";`,
         `import NestedComponent from "../NestedComponent";`,
         `import ShallowNestedComponent from "../../ShallowNestedComponent";`,
-        // biome-ignore lint: preserve
+        // prettier-format-preserve
     ],
     invalid: [
         {

@@ -280,7 +280,7 @@ describe("ArrayUtil.hasIntersection", () => {
     const obj = {same: "reference"};
 
     type TestEachRowSchema = {a: number[]; b: number[]; expected: boolean};
-    // biome-ignore format: command
+    // prettier-ignore
     test.each`
         a           | b           | expected
         ${[1, 2]}   | ${[2, 3]}   | ${true}      (number 2 intersects)

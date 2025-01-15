@@ -6,7 +6,7 @@ const lifeCycleMethodList = [
     "shouldComponentUpdate",
     "getDerivedStateFromProps",
     "getSnapshotBeforeUpdate",
-    // biome-ignore lint: preserve
+    // prettier-format-preserve
 ] as const;
 
 export function isReactComponentLifecyleMethod(methodName: string): boolean {

@@ -1,4 +1,4 @@
-import {BiomeUtil} from "@pinnacle0/devtool-util/BiomeUtil";
+import {PrettierUtil} from "@pinnacle0/devtool-util/PrettierUtil";
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import fs from "fs";
 import path from "path";
@@ -17,15 +17,15 @@ export class CodeStyleChecker {
     }
 
     run() {
-        this.checkBiome();
+        this.checkPrettier();
         this.checkESLint();
         this.checkStylelint();
     }
 
-    private checkBiome() {
-        this.logger.task("Checking Biome");
+    private checkPrettier() {
+        this.logger.task("Checking Prettier");
         for (const srcDirectory of this.checkableSrcDirectories) {
-            BiomeUtil.check(srcDirectory);
+            PrettierUtil.check(srcDirectory);
         }
     }
 

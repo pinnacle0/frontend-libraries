@@ -14,8 +14,8 @@ new WebpackServerStarter({
 }).run();
 ```
 
--   Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
--   Starts a `localhost` https server in `1234` port.
+- Creates a `webpack` compiler instance (development mode) and runs it with `webpack-dev-server`.
+- Starts a `localhost` https server in `1234` port.
 
 ## `WebpackBuilder`
 
@@ -25,22 +25,22 @@ new WebpackBuilder({
 }).run();
 ```
 
--   Checks if the project structure complies to convention described below.
--   Checks if source files complies with project `biome` / `stylelint` / `eslint` rules.
--   Run test if supported by `package.json` scripts.
--   Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
+- Checks if the project structure complies to convention described below.
+- Checks if source files complies with project `prettier` / `stylelint` / `eslint` rules.
+- Run test if supported by `package.json` scripts.
+- Creates a `webpack` compiler instance (production mode) and bundle into an `index.html` with related CSS/JS/images etc.
 
 ## Project Tech Stack Requirement
 
--   TypeScript/JavaScript
+- TypeScript/JavaScript
 
--   CSS/LESS
+- CSS/LESS
 
--   eslint
+- eslint
 
--   stylelint
+- stylelint
 
--   biome
+- prettier
 
 Note: CSS/LESS only website also supported, without any JavaScript.
 
@@ -65,8 +65,8 @@ The following structure can be used for a basic project setup.
 │           (TypeScript config)
 ├── .eslintrc.js
 │           (ESLint config, can be moved to upper directories)
-├── biome.json
-│           (Biome config, can be moved to upper directories)
+├── prettier.config.js
+│           (Prettier config, can be moved to upper directories)
 ├── stylelint.config.js
 │           (Stylelint config, can be moved to upper directories)
 └── package.json
@@ -112,7 +112,7 @@ The following structure can be used for a npm/yarn/pnpm workspace setup.
 │       └── package.json
 ├── tsconfig.base.json    (Define common options to be extended by other tsconfig files)
 ├── .eslintrc.js
-├── biome.json
+├── prettier.config.js
 ├── stylelint.config.js
 └── package.json
 ```

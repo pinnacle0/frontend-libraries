@@ -1,6 +1,7 @@
 // @ts-check
 import {fixupPluginRules} from "@eslint/compat";
 import {FlatCompat} from "@eslint/eslintrc";
+import eslintPluginPrettier from "eslint-config-prettier";
 import eslintPluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslint from "@eslint/js";
@@ -34,7 +35,7 @@ export default tsESlint.config(
         },
         // TODO/David: remove after all legacy plugin updated
         // @ts-ignore
-        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, ...compat.extends("plugin:import/typescript")],
+        extends: [eslint.configs.recommended, ...tsESlint.configs.recommended, eslintPluginPrettier, ...compat.extends("plugin:import/typescript")],
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {

@@ -23,7 +23,7 @@ export class ProjectStructureChecker {
         this.checkPackageJSON();
         this.checkTSConfig();
 
-        this.checkBiomeInstallation();
+        this.checkPrettierInstallation();
         this.checkESLintInstallation();
         this.checkStyleLintInstallation();
     }
@@ -97,12 +97,11 @@ export class ProjectStructureChecker {
         }
     }
 
-    private checkBiomeInstallation() {
+    private checkPrettierInstallation() {
         try {
-            // special case: '@biomejs/biome' has no js export, is a cli tool
-            import("@biomejs/biome/package.json");
+            import("prettier");
         } catch {
-            throw new Error(`Cannot load biome module (requiring from "webpack-util"), make sure biome is installed.`);
+            throw new Error(`Cannot load prettier module (requiring from "webpack-util"), make sure prettier is installed.`);
         }
     }
 

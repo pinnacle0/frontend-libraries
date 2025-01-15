@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {BiomeUtil} from "./BiomeUtil.js";
+import {PrettierUtil} from "./PrettierUtil.js";
 import {TaskRunner} from "./TaskRunner.js";
 import {Utility} from "./Utility/index.js";
 
@@ -13,7 +13,7 @@ interface ReactNativeCheckerOptions {
 /**
  * Runs static checkers in a react-native project.
  * Checks version of packages should be exact version.
- * Checks code styles with biome.
+ * Checks code styles with prettier.
  * Lints .ts,.tsx with eslint.
  * Type checks with tsc.
  *
@@ -27,9 +27,9 @@ interface ReactNativeCheckerOptions {
  *   └── package.json
  *   ```
  * - `extraCheckDirectories`: extra directories that should be checked by
- *   biome, eslint; and also tsc if `tsconfig.json` is found.
+ *   prettier, eslint; and also tsc if `tsconfig.json` is found.
  *
- * A biome and eslint config should be resolvable from `projectDirectory`.
+ * A prettier and eslint config should be resolvable from `projectDirectory`.
  * The `app` directory should contain typescript files.
  */
 export class ReactNativeChecker {
@@ -61,12 +61,12 @@ export class ReactNativeChecker {
                 },
             },
             {
-                name: "biome",
+                name: "prettier",
                 skipInFastMode: true,
                 execute: () => {
-                    BiomeUtil.check(`${this.projectDirectory}/index.js`);
+                    PrettierUtil.check(`${this.projectDirectory}/index.js`);
                     [path.join(this.projectDirectory, "app"), ...this.extraCheckDirectories].forEach(directory => {
-                        BiomeUtil.check(directory);
+                        PrettierUtil.check(directory);
                     });
                 },
             },

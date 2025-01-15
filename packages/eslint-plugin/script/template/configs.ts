@@ -9,6 +9,8 @@ import tsESlint from "typescript-eslint";
 import globals from "globals";
 // @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
+// @ts-expect-error -- untyped module
+import eslintPluginPrettier from "eslint-config-prettier";
 import eslintPluginReact from "eslint-plugin-react";
 // @ts-expect-error -- untyped module
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
@@ -40,7 +42,7 @@ function legacyPlugin(name: string, alias = name) {
 
 export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
     tsESlint.config({
-        extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, ...compat.extends("plugin:import/typescript")],
+        extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, eslintPluginPrettier, ...compat.extends("plugin:import/typescript")],
         plugins: {
             import: legacyPlugin("eslint-plugin-import", "import"),
             "@typescript-eslint": tsESlint.plugin,

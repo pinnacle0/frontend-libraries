@@ -1,6 +1,6 @@
 import ts from "typescript";
 import fs from "fs";
-import {BiomeUtil} from "./BiomeUtil.js";
+import {PrettierUtil} from "./PrettierUtil.js";
 
 type TSType = ts.TypeAliasDeclaration | ts.InterfaceDeclaration | ts.EnumDeclaration;
 
@@ -42,7 +42,7 @@ export class TypeReplacer {
         outdatedTypeFileAST && this.visitOutdatedTypeFile(outdatedTypeFileAST);
 
         fs.writeFileSync(this.outdatedTypeFile, this.updatedTypes.map(_ => _.getFullText()).join("\n"));
-        BiomeUtil.format(this.outdatedTypeFile);
+        PrettierUtil.format(this.outdatedTypeFile);
     };
 
     private visit = (node: ts.Node, cb: (node: ts.Node) => void) => {

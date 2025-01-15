@@ -28,10 +28,7 @@
         "socks-proxy-agent": "8.0.3",
         "style-loader": "4.0.0",
         "swc-plugin-core-fe-hmr": "1.0.5",
-        "yargs": "17.7.2",
-        "@biomejs/biome": "1.9.4",
-        "@biomejs/js-api": "0.7.1",
-        "@biomejs/wasm-nodejs": "1.9.4"
+        "yargs": "17.7.2"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
