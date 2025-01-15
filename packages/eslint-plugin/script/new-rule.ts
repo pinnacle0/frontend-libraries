@@ -11,7 +11,7 @@ const directory = {
     testRules: path.join(import.meta.dirname, "../test/rules"),
 };
 
-const newRuleName = yargs.parseSync()._[0];
+const newRuleName = yargs().parseSync(process.argv)._[0];
 if (typeof newRuleName !== "string") {
     throw new Error("Missing positional cli argument (new rule name), usage: pnpm new-rule custom-new-eslint-rule-name");
 }
