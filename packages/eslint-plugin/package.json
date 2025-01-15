@@ -49,7 +49,7 @@
         "directory": "build",
         "exports": {
             ".": {
-                "import": "./index.js",
+                "import": "./src/index.js",
                 "types": "./src/index.d.ts"
             }
         }
