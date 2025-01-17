@@ -4,9 +4,11 @@ import {useLocation} from "react-router-dom";
 import {Link} from "@pinnacle0/web-ui/core/Link";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
+import type {Location} from "history";
 
 export const NavigationHistoryDemo = (props: RouteComponentProps<{tab?: string}>) => {
     const tab = props.match.params.tab || "default";
+    const location = useLocation();
     const historyState = useLocation().state;
 
     const groups: DemoHelperGroupConfig[] = [
@@ -17,8 +19,8 @@ export const NavigationHistoryDemo = (props: RouteComponentProps<{tab?: string}>
         {
             title: `Update History (Current: ${historyState ? JSON.stringify(historyState) : "[NULL]"})`,
             components: [
-                <Link to={{state: {test: 123, page: 10}}}>Some State Of Current Tab</Link>,
-                <Link to={{pathname: "/admin/navigation-history/c", state: {test: 456, page: 20}}}>Some State Of Tab C</Link>,
+                <Link to={{...location, state: {test: 123, page: 10}} as Location}>Some State Of Current Tab</Link>,
+                <Link to={{...location, pathname: "/admin/navigation-history/c", state: {test: 456, page: 20}} as Location}>Some State Of Tab C</Link>,
             ],
         },
         {

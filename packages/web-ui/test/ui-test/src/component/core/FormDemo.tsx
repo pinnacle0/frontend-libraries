@@ -16,7 +16,7 @@ import {withUncontrolledInitialValue} from "../../util/withUncontrolledInitialVa
 import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
-import {Amount} from "../../../../../src/core/Amount";
+import {Amount} from "@pinnacle0/web-ui/core/Amount";
 import {Space} from "antd";
 
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);

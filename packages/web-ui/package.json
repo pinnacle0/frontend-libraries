@@ -3,7 +3,11 @@
     "version": "0.6.0-beta.3",
     "author": "Pinnacle",
     "license": "MIT",
-    "sideEffects": ["*.less", "*.css", "./internal/polyfill/*"],
+    "sideEffects": [
+        "*.less",
+        "*.css",
+        "./internal/polyfill/*"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/pinnacle0/frontend-libraries.git",
