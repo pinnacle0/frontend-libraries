@@ -7,13 +7,14 @@ import {resolveCodemodPath} from "./util.js";
 import {Codemod} from "./type.js";
 import {runner} from "./runner.js";
 
-const packageJson = require("../package.json");
+const packageJson = (await import("../package.json")).default;
 
 export async function list() {
     for (const name of Codemod) {
         const path = await resolveCodemodPath(name);
         if (path) {
-            console.info(`[codemod] ${chalk.green(name)}:` + chalk.dim(require(path).description));
+            const codeMod = await import(path);
+            console.info(`[codemod] ${chalk.green(name)}:` + chalk.dim(codeMod.description));
         }
     }
 }

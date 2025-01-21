@@ -11,7 +11,7 @@ const Paths = {
     template: path.join(import.meta.dirname, "../script/template"),
 };
 
-const newCodemodName = yargs(hideBin(process.argv)).parseSync()._[0];
+const newCodemodName = yargs(hideBin(process.argv)).parseSync()._[2];
 if (typeof newCodemodName !== "string") {
     throw new Error("Missing positional cli argument (new codemod), usage: pnpm new-codemod custom-new-codemod-name");
 }
@@ -52,6 +52,6 @@ new TaskRunner("new-codemod").execute([
     },
     {
         name: "Codegen",
-        execute: () => import("./codegen"),
+        execute: () => import("./codegen.js"),
     },
 ]);

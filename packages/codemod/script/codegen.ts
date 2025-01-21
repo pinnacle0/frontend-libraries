@@ -1,7 +1,7 @@
 import {TaskRunner} from "@pinnacle0/devtool-util/TaskRunner";
 import fs from "fs/promises";
 import path from "path";
-import {createToolkit} from "../src/toolkit";
+import {createToolkit} from "../src/toolkit.js";
 import type {namedTypes} from "ast-types-x";
 
 const Paths = {
