@@ -37,7 +37,8 @@ const AnimatedList = ({list, onChange}: AnimatedListProps) => {
                             {transform: "translateX(20px)", opacity: 0},
                         ],
                         options: {duration: 5000, easing: "ease-out", fill: "forwards"},
-                    }}>
+                    }}
+                >
                     <Space size={15}>
                         <Button type="link" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                         <span>{_}</span>
@@ -68,7 +69,8 @@ const AnimatedListOperators = ({list, onChange}: AnimatedListProps) => {
                         }
                         setValue("");
                         setIndex(null);
-                    }}>
+                    }}
+                >
                     Add
                 </Button>
                 <Button onClick={() => onChange([])}>Clear</Button>
@@ -121,7 +123,8 @@ const NestedAnimatedList = () => {
                 enter={{
                     frames: [{transform: "rotate(-360deg)"}, {transform: "rotate(0deg)"}],
                     options: {duration: 5000, easing: "linear", iterations: Infinity},
-                }}>
+                }}
+            >
                 <AnimatedList list={list} onChange={setList} />
             </Animated.div>
             <AnimatedListOperators list={list} onChange={setList} />
@@ -153,7 +156,8 @@ const AnimatedSlicedList = () => {
                                 {transform: "translateX(20px)", opacity: 0},
                             ],
                             options: {duration: 5000, easing: "ease-out", fill: "forwards"},
-                        }}>
+                        }}
+                    >
                         <Space size={15}>
                             <Button type="link" shape="circle" onClick={() => remove(index)} icon={<CloseCircleFilled />} />
                             <span>{_}</span>

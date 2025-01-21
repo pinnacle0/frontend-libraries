@@ -90,7 +90,8 @@ export function VirtualList<T extends object>({
                         key={getItemKey(virtualRow.index) as string | number}
                         ref={virtualizer.measureElement}
                         data-index={virtualRow.index}
-                        style={{transform: horizontal ? `translateX(${virtualRow.start}px)` : `translateY(${virtualRow.start}px)`}}>
+                        style={{transform: horizontal ? `translateX(${virtualRow.start}px)` : `translateY(${virtualRow.start}px)`}}
+                    >
                         <div className="g-virtual-list-item-wrapper">
                             <Item data={data[virtualRow.index]} index={virtualRow.index} />
                         </div>

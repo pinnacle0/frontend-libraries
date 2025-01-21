@@ -85,7 +85,8 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
                 onChange={onChange}
                 onFirstRender={onPopoverFirstRender}
                 selectionDisabled={disabled === "table"}
-                scrollY={scrollY || 500}>
+                scrollY={scrollY || 500}
+            >
                 {renderPopover}
             </TablePopover>
         );
@@ -103,7 +104,8 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
                     overlayClassName={popoverClassName}
                     overlayStyle={popoverStyle}
                     open={this.props.popoverOpen}
-                    onOpenChange={this.props.onPopoverOpenChange}>
+                    onOpenChange={this.props.onPopoverOpenChange}
+                >
                     <Button disabled={disabled === "button"}>{this.buttonText()}</Button>
                 </Popover>
             </div>

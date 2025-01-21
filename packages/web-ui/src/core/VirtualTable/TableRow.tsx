@@ -27,7 +27,8 @@ export const TableRow = ReactUtil.memo("TableRow", function <
             key={rowIndex}
             className={classNames("table-row", rowClassName, rowIndex % 2 ? "odd" : "even")}
             style={{transform: `translateY(${virtualItem.start}px)`}}
-            onClick={() => onRowClick?.(data, rowIndex)}>
+            onClick={() => onRowClick?.(data, rowIndex)}
+        >
             {columns.map((column, columnIndex) => {
                 const colSpan = column.colSpan ? column.colSpan(data, rowIndex, columnIndex) : 1;
                 // handle colspan > 1
@@ -49,7 +50,8 @@ export const TableRow = ReactUtil.memo("TableRow", function <
                                 textAlign: column.align,
                                 left: column.fixed === "left" ? stickyPosition?.value : undefined,
                                 right: column.fixed === "right" ? stickyPosition?.value - (isLastShownColumn ? 0 : scrollBarSize) : undefined,
-                            }}>
+                            }}
+                        >
                             {renderData}
                         </div>
                     )

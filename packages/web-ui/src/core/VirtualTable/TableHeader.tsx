@@ -26,7 +26,8 @@ export const TableHeader = ReactUtil.memo("TableHeader", function <RowType exten
                             textAlign: align,
                             left: fixed === "left" ? stickyPosition?.value : undefined,
                             right: fixed === "right" ? stickyPosition?.value : undefined,
-                        }}>
+                        }}
+                    >
                         {title}
                     </div>
                 );

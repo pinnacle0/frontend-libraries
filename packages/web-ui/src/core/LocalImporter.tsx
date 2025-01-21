@@ -49,7 +49,8 @@ export class LocalImporter extends React.PureComponent<Props, State> {
                 disabled={disabled}
                 style={style}
                 height={Number(style?.height)}
-                beforeUpload={this.beforeUpload}>
+                beforeUpload={this.beforeUpload}
+            >
                 <Spin spinning={importing} size="small">
                     {children || TextUtil.interpolate(t.localImporterHint, type)}
                 </Spin>

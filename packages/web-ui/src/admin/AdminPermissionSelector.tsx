@@ -163,7 +163,8 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
             <Checkbox
                 value={enabledPercentage === 100}
                 indeterminate={enabledPercentage > 0 && enabledPercentage < 100}
-                onChange={value => this.triggerChangeEvent(isFieldPermission ? permissions : permissions.flatMap(_ => this.recursivelyGetBoundPermissions(_)), value, isFieldPermission)}>
+                onChange={value => this.triggerChangeEvent(isFieldPermission ? permissions : permissions.flatMap(_ => this.recursivelyGetBoundPermissions(_)), value, isFieldPermission)}
+            >
                 {isFieldPermission ? t.fieldPermission : t.featurePermission}
             </Checkbox>
         ) : isFieldPermission ? (
@@ -182,7 +183,8 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
                             disabled={isDisabled}
                             onChange={value => this.onPermissionChange(value, permission, isFieldPermission)}
                             value={isFieldPermission ? fieldValue?.includes(permission as Field) || false : featureValue.includes(permission as Feature)}
-                            style={this.permissionCheckboxStyle}>
+                            style={this.permissionCheckboxStyle}
+                        >
                             {isFieldPermission ? fieldPermissionTranslator?.(permission as Field) : featurePermissionTranslator(permission as Feature)}
                         </Checkbox>
                     );
@@ -227,7 +229,8 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
                             false
                         );
                     }}
-                    style={this.checkboxStyle}>
+                    style={this.checkboxStyle}
+                >
                     {module.title}
                 </Checkbox>
                 <Progress style={this.progressStyle} percent={enabledPercentage} size="small" showInfo={false} />
@@ -269,7 +272,8 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
                 onChange={value => {
                     this.triggerChangeEvent(groupFeaturePermissions, value, false);
                     this.triggerChangeEvent(groupFieldPermissions, value, true);
-                }}>
+                }}
+            >
                 {groupItem.title}
             </Checkbox>
         );

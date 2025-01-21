@@ -19,12 +19,12 @@ class LocaleManager {
     private readonly storageKey = "ui-pref-locale";
     private locale: Locale = "en";
 
-    setInitial(locale: Locale | "auto"): void {
+    async setInitial(locale: Locale | "auto"): Promise<void> {
         this.locale = locale === "auto" ? this.preferredLocale() : locale;
         if (this.locale === "zh") {
             // if tree-shaking (ref README) is enabled, only English locale is imported by default
             // import Chinese locale on the fly, if the current app language is Chinese
-            require("dayjs/locale/zh-cn");
+            await import("dayjs/locale/zh-cn");
             dayjs.locale("zh-cn");
         }
     }

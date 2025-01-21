@@ -1,5 +1,3 @@
-if ("IntersectionObserver" in window === false) {
-    require("intersection-observer");
-}
+import "intersection-observer";
 
 export {};
