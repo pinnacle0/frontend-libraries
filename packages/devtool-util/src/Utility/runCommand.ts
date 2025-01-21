@@ -8,7 +8,7 @@ import path from "path";
  * Searches for .../node_modules/.bin/<command> upwards recursively
  * and falls back to running as a system command.
  * It is advised against to rely on relative paths (cwd is not set).
- * Use `require("path").join(import.meta.dirname, "./your-path-here")` or the
+ * Use `import("path").join(import.meta.dirname, "./your-path-here")` or the
  * the ESM equivalent to wrap the relative path.
  *
  * Example usage:
