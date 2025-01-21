@@ -43,7 +43,7 @@ export class ModuleGeneratorBase {
     private readonly logger = Utility.createConsoleLogger("ModuleGenerator");
 
     constructor(options: ModuleGeneratorOptions) {
-        this.moduleName = String(yargs().parseSync(process.argv)._[0]);
+        this.moduleName = String(yargs().parseSync(process.argv)._[2]);
         this.moduleBaseDirectory = path.join(options.srcDirectory, "module");
         this.newModuleDirectory = path.join(this.moduleBaseDirectory, this.moduleName);
         this.reduxStateTypePath = path.join(options.srcDirectory, "type/state.ts");
