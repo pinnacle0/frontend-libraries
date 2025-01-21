@@ -25,7 +25,7 @@ describe("ModuleGenerator class add", () => {
         fixtures.forEach(_ => expect(fs.existsSync(_.path)).toBe(true));
 
         vi.doMock("yargs", () => ({
-            default: () => ({parseSync: () => ({_: {0: "common/new-feature"}})}),
+            default: () => ({parseSync: () => ({_: {2: "common/new-feature"}})}),
         }));
         vi.doMock("../../src/PrettierUtil", () => ({
             PrettierUtil: {format: () => {}},
