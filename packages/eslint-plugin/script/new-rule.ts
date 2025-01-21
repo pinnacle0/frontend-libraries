@@ -11,7 +11,7 @@ const directory = {
     testRules: path.join(import.meta.dirname, "../test/rules"),
 };
 
-const newRuleName = yargs().parseSync(process.argv)._[0];
+const newRuleName = yargs().parseSync(process.argv)._[2];
 if (typeof newRuleName !== "string") {
     throw new Error("Missing positional cli argument (new rule name), usage: pnpm new-rule custom-new-eslint-rule-name");
 }
@@ -62,8 +62,8 @@ new TaskRunner("new-rule").execute([
     {
         name: "codegen",
         execute: () => {
-            // Inline require because codegen.ts runs with side effect
-            require("./codegen");
+            // Inline import because codegen.ts runs with side effect
+            import("./codegen.js");
         },
     },
 ]);

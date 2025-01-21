@@ -1,6 +1,6 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {type MessageIds, name, rule} from "../../src/rules/// {{KEBAB_CASE_RULE_NAME}}";
-import {createConfig} from "../create-config";
+import {type MessageIds, name, rule} from "../../src/rules/// {{KEBAB_CASE_RULE_NAME}}.js";
+import {createConfig} from "../create-config.js";
 
 const messageId: MessageIds = "// {{CAMEL_CASE_RULE_NAME}}";
 
