@@ -48,8 +48,5 @@
                 "types": "./src/index.d.ts"
             }
         }
-    },
-    "overrides": {
-        "http-proxy": "npm:http-proxy-node16@1.0.6"
     }
 }
