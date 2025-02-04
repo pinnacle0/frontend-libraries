@@ -115,7 +115,7 @@ function deepClone<T extends object>(object: T): T {
         if (innerObject instanceof Object) {
             const newObject: any = {};
             for (const attr in innerObject) {
-                if (innerObject.hasOwnProperty(attr)) {
+                if (Object.prototype.hasOwnProperty.call(innerObject, attr)) {
                     newObject[attr] = innerDeepClone(innerObject[attr]);
                 }
             }
