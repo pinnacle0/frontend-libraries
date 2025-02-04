@@ -200,6 +200,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                         ...this.transformColumns(column, index),
                         sorter: true,
                         sortOrder: isSortingColumn ? sortOrder : null,
+                        sortDirections: ["descend", "ascend"],
                     };
                 } else {
                     return this.transformColumns(column, index);
