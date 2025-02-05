@@ -42,7 +42,18 @@
         "vitest": "2.1.8"
     },
     "pnpmSingleVersion": {
-        "includes": ["react", "@types/react", "@types/react-dom", "@ant-design/*", "react", "react-dom", "rc-picker", "eslint", "@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"]
+        "includes": [
+            "react",
+            "@types/react",
+            "@types/react-dom",
+            "@ant-design/*",
+            "react",
+            "react-dom",
+            "rc-picker",
+            "eslint",
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser"
+        ]
     },
     "pnpm": {
         "overrides": {
@@ -53,5 +64,5 @@
             "cookie": "1.0.1"
         }
     },
-    "packageManager": "pnpm@9.14.2"
+    "packageManager": "pnpm@10.2.0"
 }
