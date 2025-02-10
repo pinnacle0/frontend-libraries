@@ -60,7 +60,6 @@
         "overrides": {
             "semver": ">=7.6.2",
             "vite": ">=5.4.12",
-            "nanoid": ">=3.3.8",
             "@babel/traverse": ">=7.23.2",
             "es5-ext": ">=0.10.64",
             "cross-spawn": ">=7.0.5",
