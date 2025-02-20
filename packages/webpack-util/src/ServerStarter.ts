@@ -1,7 +1,7 @@
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import path from "path";
-import {rspack} from "@rspack/core";
 import type {Configuration} from "@rspack/core";
+import {rspack} from "@rspack/core";
 import type {Application} from "express";
 import type {Configuration as DevServerConfiguration} from "@rspack/dev-server";
 import {RspackDevServer} from "@rspack/dev-server";
@@ -138,7 +138,7 @@ export class ServerStarter {
                 server: {
                     type: "https",
                 },
-                compress: true,
+                compress: false,
                 hot: true,
                 client: {
                     overlay: {
