@@ -138,7 +138,7 @@ export class ServerStarter {
                 server: {
                     type: "https",
                 },
-                compress: false,
+                compress: false, // must be "false" for proxy SSE, otherwise it will buffer the response
                 hot: true,
                 client: {
                     overlay: {
