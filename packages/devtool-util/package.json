@@ -24,7 +24,7 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "chalk": "4.1.2",
+        "chalk": "5.4.1",
         "fantasticon": "3.0.0",
         "yargs": "17.7.2",
         "socks-proxy-agent": "8.0.3"
