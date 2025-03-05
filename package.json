@@ -64,8 +64,7 @@
             "@babel/traverse": ">=7.23.2",
             "es5-ext": ">=0.10.64",
             "cross-spawn": ">=7.0.5",
-            "cookie": "1.0.1",
-            "path-to-regexp": ">=0.1.12"
+            "cookie": "1.0.1"
         }
     },
     "packageManager": "pnpm@10.2.0"
