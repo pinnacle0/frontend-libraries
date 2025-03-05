@@ -23,6 +23,9 @@ importers:
       '@eslint/eslintrc':
         specifier: 3.2.0
         version: 3.2.0
+      '@eslint/js':
+        specifier: 9.16.0
+        version: 9.16.0
       '@types/eslint':
         specifier: 9.6.1
         version: 9.6.1
