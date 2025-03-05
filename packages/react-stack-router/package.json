@@ -25,7 +25,7 @@
     "scripts": {
         "demo": "cd demo && pnpm dev",
         "test": "vitest --config ./config/vitest.config.ts --run",
-        "build": "pnpm test && rm -rf dist && tsc && copyfiles -u 1 src/**/*.less dist",
+        "build": "pnpm test && rm -rf dist && tsc --build && copyfiles -u 1 src/**/*.less dist",
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
