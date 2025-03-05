@@ -15,7 +15,7 @@ export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
     iconPosition?: "left" | "right";
 }
 
-export const Icon = ReactUtil.memo("Icon", ({type, children, iconPosition = "left", className, ...restProps}) => {
+export const Icon = ReactUtil.memo("Icon", ({type, children, iconPosition = "left", className, ...restProps}: Props) => {
     if (children) {
         if (iconPosition === "right") {
             return (
