@@ -1,6 +1,6 @@
 import React from "react";
 
-export function useCompositeRef(...refs: Array<React.MutableRefObject<any> | React.RefCallback<any> | undefined | null>) {
+export function useCompositeRef(...refs: Array<React.RefObject<any> | React.RefCallback<any> | undefined | null>) {
     const refListRef = React.useRef(refs);
     return React.useCallback((node: Node | null) => {
         refListRef.current.forEach(ref => {

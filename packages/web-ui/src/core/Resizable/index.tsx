@@ -16,7 +16,7 @@ interface Rect {
 }
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-    ref: RefObject<HTMLDivElement>;
+    ref: RefObject<HTMLDivElement | null>;
     x: number;
     y: number;
     initialHeight: number;
