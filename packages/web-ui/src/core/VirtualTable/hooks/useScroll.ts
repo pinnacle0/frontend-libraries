@@ -1,6 +1,6 @@
 import React from "react";
 
-export const useScrollable = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
+export const useScrollable = (scrollContentRef: React.RefObject<HTMLDivElement | null>) => {
     const [scrollable, setScrollable] = React.useState({horizontal: false, vertical: false});
 
     const checkScrollable = React.useCallback(() => {
@@ -13,7 +13,7 @@ export const useScrollable = (scrollContentRef: React.RefObject<HTMLDivElement>)
     return {scrollable, checkScrollable};
 };
 
-export const useSyncScroll = (scrollContentRef: React.RefObject<HTMLDivElement>, headerRef: React.RefObject<HTMLDivElement>) => {
+export const useSyncScroll = (scrollContentRef: React.RefObject<HTMLDivElement | null>, headerRef: React.RefObject<HTMLDivElement | null>) => {
     const onScroll = React.useCallback(() => {
         requestAnimationFrame(() => {
             if (scrollContentRef.current && headerRef.current && scrollContentRef.current.scrollLeft !== headerRef.current.scrollLeft) {
@@ -26,7 +26,7 @@ export const useSyncScroll = (scrollContentRef: React.RefObject<HTMLDivElement>,
 };
 
 // for the box shadow transition of the fixed columns
-export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement>) => {
+export const useScrollToEdge = (scrollContentRef: React.RefObject<HTMLDivElement | null>) => {
     const checkIsScrollToEdge = React.useCallback(() => {
         if (scrollContentRef.current) {
             const {scrollLeft, scrollWidth, offsetWidth} = scrollContentRef.current;

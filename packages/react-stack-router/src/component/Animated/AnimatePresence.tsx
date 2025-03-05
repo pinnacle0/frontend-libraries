@@ -1,8 +1,9 @@
 import React from "react";
 import {invariant} from "../../util";
+import type {UnionIntrinsicElementProps} from "./createAnimatedComponent";
 
 interface ArrayElement {
-    element: React.ReactElement;
+    element: React.ReactElement<UnionIntrinsicElementProps>;
     index: number;
 }
 export interface Props {
@@ -20,7 +21,7 @@ export const AnimatePresence = ({children}: Props) => {
     const previousValidChildren = usePrevious(validChildren);
     // render key of current rendered children, order matters
     const renderedKeyList = React.useRef<React.Key[]>(validChildren.map(_ => getKey(_)));
-    const elementMapRef = React.useRef(new Map<React.Key, React.ReactElement>());
+    const elementMapRef = React.useRef(new Map<React.Key, React.ReactElement<UnionIntrinsicElementProps>>());
     const forceUpdate = useForceUpdate();
 
     const elementMap = elementMapRef.current;
@@ -67,19 +68,22 @@ export const AnimatePresence = ({children}: Props) => {
     });
 
     // render the children according to the renderedKeyList
-    const childrenToRender: React.ReactElement[] = renderedKeyList.current.map(key => elementMap.get(key)!);
+    const childrenToRender: React.ReactElement<UnionIntrinsicElementProps>[] = renderedKeyList.current.map(key => elementMap.get(key)!);
 
     return <React.Fragment>{childrenToRender}</React.Fragment>;
 };
 
-function getKey(element: React.ReactElement): string {
+function getKey(element: React.ReactElement<UnionIntrinsicElementProps>): string {
     invariant(element.key !== null, "Child of AnimatePresence has neither defined or assigned key");
     return element.key;
 }
 
-function calculateRemovedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]): React.ReactElement[] {
+function calculateRemovedChildren(
+    currentChildren: React.ReactElement<UnionIntrinsicElementProps>[],
+    previousChildren: React.ReactElement<UnionIntrinsicElementProps>[]
+): React.ReactElement<UnionIntrinsicElementProps>[] {
     const currentKeys = new Set(currentChildren.map(_ => _.key));
-    const removedChildren: React.ReactElement[] = [];
+    const removedChildren: React.ReactElement<UnionIntrinsicElementProps>[] = [];
 
     for (const [, element] of previousChildren.entries()) {
         if (!currentKeys.has(getKey(element))) {
@@ -90,7 +94,7 @@ function calculateRemovedChildren(currentChildren: React.ReactElement[], previou
     return removedChildren;
 }
 
-function calculateAddedChildren(currentChildren: React.ReactElement[], previousChildren: React.ReactElement[]): ArrayElement[] {
+function calculateAddedChildren(currentChildren: React.ReactElement<UnionIntrinsicElementProps>[], previousChildren: React.ReactElement<UnionIntrinsicElementProps>[]): ArrayElement[] {
     const previousKeys = new Set(previousChildren.map(_ => _.key));
     const addedChildren: ArrayElement[] = [];
 
@@ -103,8 +107,8 @@ function calculateAddedChildren(currentChildren: React.ReactElement[], previousC
     return addedChildren;
 }
 
-function getValidChildren(children: React.ReactNode): Array<React.ReactElement> {
-    const validElements: React.ReactElement[] = [];
+function getValidChildren(children: React.ReactNode): Array<React.ReactElement<UnionIntrinsicElementProps>> {
+    const validElements: React.ReactElement<UnionIntrinsicElementProps>[] = [];
 
     React.Children.forEach(children, element => {
         if (!React.isValidElement(element)) return;
@@ -114,7 +118,7 @@ function getValidChildren(children: React.ReactNode): Array<React.ReactElement> 
         );
         invariant(element.key !== null, `Animated element must have a specified key`);
 
-        validElements.push(element as React.ReactElement);
+        validElements.push(element as React.ReactElement<UnionIntrinsicElementProps>);
     });
 
     return validElements;

@@ -17,7 +17,7 @@ interface Option extends TransitionOption {
     immediate?: boolean;
 }
 
-export const useTransform = (ref: React.RefObject<HTMLElement>, option?: Option) => {
+export const useTransform = (ref: React.RefObject<HTMLElement | null>, option?: Option) => {
     const initialOptionRef = React.useRef<Option | undefined>(option);
     initialOptionRef.current = option;
 

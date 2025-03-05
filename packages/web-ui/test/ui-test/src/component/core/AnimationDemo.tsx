@@ -29,7 +29,7 @@ const AnimatedList = ({list, onChange}: AnimatedListProps) => {
                             {transform: "translateY(-10px)", opacity: 0},
                             {transform: "translateY(0px)", opacity: 1},
                         ],
-                        options: {duration: 3000, easing: "ease-out"},
+                        options: {duration: 1000, easing: "ease-out"},
                     }}
                     exit={{
                         frames: [

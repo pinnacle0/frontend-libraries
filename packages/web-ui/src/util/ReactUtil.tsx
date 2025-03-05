@@ -41,7 +41,7 @@ function interpolateNode(text: string, ...parameters: React.ReactElement[]): Rea
  *   }
  *   export const Tabs = ReactUtil.memo("Tabs", function<T extends string>(props: Props<T>) { .... });
  */
-function memo<T extends (props: any) => React.ReactElement | null>(displayName: string, functionComponent: T): T {
+function memo<T extends React.FunctionComponent<any>>(displayName: string, functionComponent: T): T {
     return (React.memo as <T>(c: T) => T)(Object.assign(functionComponent, {displayName}));
 }
 

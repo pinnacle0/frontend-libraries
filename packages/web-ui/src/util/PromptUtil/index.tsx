@@ -20,7 +20,7 @@ export interface PromptConfig {
 function createAsync(config: PromptConfig): Promise<PromptResult> {
     const t = i18n();
     return new Promise<PromptResult>(resolve => {
-        const ref: React.RefObject<PromptBody> = React.createRef();
+        const ref: React.RefObject<PromptBody | null> = React.createRef();
         ModalUtil.createSync({
             title: config.title,
             body: <PromptBody {...config} ref={ref} />,

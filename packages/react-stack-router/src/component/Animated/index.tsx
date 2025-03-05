@@ -5,7 +5,7 @@ export type AnimatedType<T extends keyof React.JSX.IntrinsicElements = keyof Rea
     [key in T]: React.ComponentType<React.JSX.IntrinsicElements[key] & AnimatedBaseProps>;
 };
 
-const componentCache = new Map<string, Function>();
+const componentCache = new Map<string, React.FunctionComponent<any>>();
 export const RawAnimated: any = new Proxy(
     {},
     {

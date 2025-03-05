@@ -5,7 +5,7 @@ import type {DragState, Vector} from "./type";
 import {useTransform} from "../useTransform";
 
 interface Config {
-    target: React.RefObject<HTMLElement>;
+    target: React.RefObject<HTMLElement | null>;
     disabled?: boolean;
     gap?: number;
     onDragStart?: (state: DragState) => void;

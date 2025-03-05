@@ -15,7 +15,7 @@ interface State {
 export class PromptBody extends React.PureComponent<Props, State> {
     static displayName = "PromptBody";
 
-    private readonly formRef: React.RefObject<Form>;
+    private readonly formRef: React.RefObject<Form | null>;
     private readonly warningStyle: React.CSSProperties = {marginTop: 8, color: "red"};
     private readonly formStyle: React.CSSProperties = {marginTop: 12};
 

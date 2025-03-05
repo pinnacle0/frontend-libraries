@@ -68,7 +68,9 @@ export const FlatList = function <T>({
         onCancel: () => transit.clear(),
     });
 
-    const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => node && (refreshHeight.current = node.getBoundingClientRect().height), []);
+    const updateRefreshHeight = React.useCallback((node: HTMLDivElement | null) => {
+        node && (refreshHeight.current = node.getBoundingClientRect().height);
+    }, []);
 
     const handleScroll = () => {
         transit.clear();

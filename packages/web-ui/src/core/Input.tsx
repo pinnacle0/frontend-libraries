@@ -26,7 +26,7 @@ export interface InputNullableTextAreaProps extends Omit<TextAreaProps, Excluded
 export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
     autoTrim?: boolean;
     focus?: FocusType;
-    inputRef?: React.RefObject<InputRef>;
+    inputRef?: React.RefObject<InputRef | null>;
 }
 
 export class Input extends React.PureComponent<Props> {

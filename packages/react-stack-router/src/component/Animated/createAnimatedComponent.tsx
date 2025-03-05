@@ -17,21 +17,22 @@ export interface AnimatedBaseProps {
     onExited?: () => void;
 }
 
-type UnionIntrinsicElementProps = React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements] & AnimatedBaseProps;
+export type UnionIntrinsicElementProps = React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements] &
+    AnimatedBaseProps & {
+        __removed?: boolean;
+        __onExited?: () => void;
+    };
 
 export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElements): React.FunctionComponent<any> {
-    const Animated = React.forwardRef(function (props: UnionIntrinsicElementProps, ref) {
-        const {children, enter, exit, onEntered, onEntering, onExited, onExiting, className, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps & {
-            __removed?: boolean;
-            __onExited?: () => void;
-        };
+    const Animated = function (props: UnionIntrinsicElementProps) {
+        const {children, enter, exit, onEntered, onEntering, onExited, onExiting, className, ref, __removed, __onExited, ...restProps} = props as UnionIntrinsicElementProps;
         const exited = () => {
             __onExited?.();
             onExited?.();
         };
         const animationSettings = {enter, exit, onEntered, onEntering, onExiting, exited};
         const elementRef = React.useRef<Element | null>(null);
-        const compositeRef = useCompositeRef(elementRef, typeof ref === "string" ? null : ref);
+        const compositeRef = useCompositeRef(elementRef, ref || null);
 
         const animationSettingsRef = React.useRef(animationSettings);
         animationSettingsRef.current = animationSettings;
@@ -94,7 +95,7 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
         }, [__removed]);
 
         return React.createElement(element, {...(restProps as any), ref: compositeRef, className: classNames(className, {removing: __removed})}, children);
-    });
+    };
 
     Object.defineProperty(Animated, "$isAnimatedComponent", {value: true, enumerable: false, writable: false});
     Object.defineProperty(Animated, "displayName", {value: `Animated.${element}`, enumerable: false, writable: false});
@@ -102,7 +103,7 @@ export function createAnimatedComponent(element: keyof React.JSX.IntrinsicElemen
     return Animated;
 }
 
-export function useCompositeRef(...refs: Array<React.MutableRefObject<any> | React.RefCallback<any> | undefined | null>) {
+export function useCompositeRef(...refs: Array<React.Ref<any>>) {
     const refListRef = React.useRef(refs);
     return React.useCallback((node: Node | null) => {
         refListRef.current.forEach(ref => {

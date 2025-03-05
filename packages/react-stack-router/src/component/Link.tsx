@@ -1,4 +1,5 @@
-import React, {useContext, forwardRef, useMemo} from "react";
+import type {FunctionComponent} from "react";
+import React, {useContext, useMemo} from "react";
 import {createPath} from "history";
 import {RouterContext} from "../context";
 import type {To} from "history";
@@ -9,7 +10,7 @@ interface Props extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<
     state?: any;
 }
 
-export const Link = forwardRef<HTMLAnchorElement, Props>(({to, children, target, onClick, replace: isReplace, state, ...restProps}, ref) => {
+export const Link: FunctionComponent<Props> = ({to, children, target, onClick, replace: isReplace, state, ref, ...restProps}) => {
     const {push, replace} = useContext(RouterContext);
     const href = useMemo(() => (typeof to === "string" ? to : createPath(to)), [to]);
     const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
@@ -23,6 +24,6 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({to, children, target,
             {children}
         </a>
     );
-});
+};
 
 Link.displayName = "Link";

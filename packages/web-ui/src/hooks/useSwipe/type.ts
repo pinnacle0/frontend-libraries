@@ -36,7 +36,7 @@ export interface SwipeHookHandlers {
 }
 
 export interface SwipeHookConfig {
-    ref?: React.RefCallback<HTMLElement> | React.MutableRefObject<HTMLElement | null>;
+    ref?: React.Ref<HTMLElement | null>;
     threshold?: (state: SwipeState) => boolean;
     preventDefault?: boolean;
     stopPropagation?: boolean;

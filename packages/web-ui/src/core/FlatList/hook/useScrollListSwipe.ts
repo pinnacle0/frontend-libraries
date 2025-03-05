@@ -12,7 +12,7 @@ interface ScrollListSwipeState {
 }
 
 export interface ScrollListSwipeOption {
-    scrollElementRef: React.RefObject<HTMLElement>;
+    scrollElementRef: React.RefObject<HTMLElement | null>;
     onStart: (state: ScrollListSwipeState) => void;
     onMove: (state: ScrollListSwipeState) => void;
     onEnd: (state: ScrollListSwipeState) => void;

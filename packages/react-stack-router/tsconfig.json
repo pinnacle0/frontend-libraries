@@ -8,6 +8,7 @@
         "target": "ESNext",
         "moduleResolution": "Bundler",
         "jsx": "react-jsx",
+        "exactOptionalPropertyTypes": false,
         "rootDir": "./src",
         "outDir": "./dist",
         "composite": true

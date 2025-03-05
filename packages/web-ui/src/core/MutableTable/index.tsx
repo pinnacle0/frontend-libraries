@@ -43,7 +43,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
         scrollX: "none",
     };
 
-    private readonly ref: React.RefObject<HTMLDivElement>;
+    private readonly ref: React.RefObject<HTMLDivElement | null>;
     private readonly defaultSequenceColumn: SequenceColumnConfig = {
         title: i18n().sequence,
         renderer: (index: number) => (index + 1).toString(),

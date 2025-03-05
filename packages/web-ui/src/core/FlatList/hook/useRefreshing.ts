@@ -6,7 +6,7 @@ import React from "react";
  */
 export function useRefreshing(refreshing: boolean, duration: number): boolean {
     const [guarantee, setGuarantee] = React.useState(refreshing);
-    const timerId = React.useRef<number>();
+    const timerId = React.useRef<number>(-1);
     const lastLoadingTime = React.useRef<number>(Date.now());
 
     const durationRef = React.useRef(duration);
