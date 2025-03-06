@@ -101,8 +101,8 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
                     placement={popoverPlacement || "bottomLeft"}
                     trigger="click"
                     content={this.renderPopover()}
-                    overlayClassName={popoverClassName}
-                    overlayStyle={popoverStyle}
+                    classNames={{root: popoverClassName}}
+                    styles={{root: popoverStyle}}
                     open={this.props.popoverOpen}
                     onOpenChange={this.props.onPopoverOpenChange}
                 >
