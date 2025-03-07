@@ -1,6 +1,7 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
+import type {PickOptional} from "../../internal/type";
 import type {TooltipPlacement} from "../Tooltip";
 import "./index.less";
 
@@ -20,8 +21,12 @@ export interface Props {
 export class WithExplanation extends React.PureComponent<Props> {
     static displayName = "WithExplanation";
 
+    static defaultProps: PickOptional<Props> = {
+        iconPosition: "right",
+    };
+
     render() {
-        const {children, explanation, iconPosition = "right"} = this.props;
+        const {children, explanation, iconPosition} = this.props;
         if (explanation) {
             return (
                 <div className={classNames("g-with-explanation", `with-icon-${iconPosition}`)}>

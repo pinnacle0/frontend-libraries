@@ -3,6 +3,7 @@ import AntTabs from "antd/es/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import type {TabsProps} from "antd/es/tabs";
+import type {PickOptional} from "../../internal/type";
 
 export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {
     tabBarPrefix?: React.ReactNode;
@@ -40,6 +41,10 @@ export class Tabs extends React.PureComponent<Props> {
 
     static Single = Single;
 
+    static defaultProps: PickOptional<Props> = {
+        type: "card",
+    };
+
     private tabBarRef: HTMLDivElement | null = null;
 
     componentDidMount() {
@@ -66,7 +71,7 @@ export class Tabs extends React.PureComponent<Props> {
     tabBarCallBackRef = (tabBar: HTMLDivElement | null) => (this.tabBarRef = tabBar);
 
     render() {
-        const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type = "card", animated, ...restProps} = this.props;
+        const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type, animated, ...restProps} = this.props;
 
         // Passing {} or {left:undefined} to <AntTabs tabBarExtraContent> will lead to error
         let tabBarExtraContent: TabsProps["tabBarExtraContent"];

@@ -1,4 +1,5 @@
 import React from "react";
+import type {PickOptional} from "../../internal/type";
 import {SlidingDigit} from "./SlidingDigit";
 import "./index.less";
 
@@ -28,6 +29,21 @@ interface State {
 
 export class Countdown extends React.PureComponent<Props, State> {
     static displayName = "Countdown";
+    static defaultProps: PickOptional<Props> = {
+        renderer: (hours, minutes, seconds) => (
+            <React.Fragment>
+                <SlidingDigit digit={hours.charAt(0)} />
+                <SlidingDigit digit={hours.charAt(1)} />
+                <div className="colon">:</div>
+                <SlidingDigit digit={minutes.charAt(0)} />
+                <SlidingDigit digit={minutes.charAt(1)} />
+                <div className="colon">:</div>
+                <SlidingDigit digit={seconds.charAt(0)} />
+                <SlidingDigit digit={seconds.charAt(1)} />
+            </React.Fragment>
+        ),
+    };
+
     private timer!: number;
     private isTimerCompleted = false;
 
@@ -72,21 +88,8 @@ export class Countdown extends React.PureComponent<Props, State> {
         }
     };
 
-    defaultRenderer = (hours: string, minutes: string, seconds: string) => (
-        <React.Fragment>
-            <SlidingDigit digit={hours.charAt(0)} />
-            <SlidingDigit digit={hours.charAt(1)} />
-            <div className="colon">:</div>
-            <SlidingDigit digit={minutes.charAt(0)} />
-            <SlidingDigit digit={minutes.charAt(1)} />
-            <div className="colon">:</div>
-            <SlidingDigit digit={seconds.charAt(0)} />
-            <SlidingDigit digit={seconds.charAt(1)} />
-        </React.Fragment>
-    );
-
     render() {
-        const {isHidden, renderer = this.defaultRenderer, timeToComplete, className, style} = this.props;
+        const {isHidden, renderer, timeToComplete, className, style} = this.props;
         const {remainingSecond} = this.state;
         if (isHidden) {
             return null;

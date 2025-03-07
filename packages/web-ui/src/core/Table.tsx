@@ -10,7 +10,7 @@ import {ArrayUtil} from "../internal/ArrayUtil";
 import {LocalStorageUtil} from "../util/LocalStorageUtil";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
-import type {StringKey} from "../internal/type";
+import type {PickOptional, StringKey} from "../internal/type";
 
 enum SortOrder {
     DESC = "DESC",
@@ -76,6 +76,9 @@ interface State {
 
 export class Table<RowType extends object, OrderByFieldType> extends React.PureComponent<TableProps<RowType, OrderByFieldType>, State> {
     static displayName = "Table";
+    static defaultProps: PickOptional<TableProps<any, any>> = {
+        scrollX: "max-content",
+    };
 
     private readonly emptyPlaceHolderContainerStyle: React.CSSProperties = {padding: "50px 0"};
     private readonly emptyPlaceHolderIconStyle: React.CSSProperties = {display: "block", fontSize: 50, marginBottom: 20};
@@ -166,7 +169,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
             onRowClick,
             rowKey,
-            scrollX = "max-content",
+            scrollX,
             scrollY,
             emptyPlaceholder,
             emptyIcon,

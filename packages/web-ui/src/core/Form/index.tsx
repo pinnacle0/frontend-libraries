@@ -4,6 +4,7 @@ import {Button} from "../Button";
 import {FormValidationContext} from "./context";
 import {i18n} from "../../internal/i18n/core";
 import {Item} from "./Item";
+import type {PickOptional} from "../../internal/type";
 import type {FormErrorDisplayMode, FormValidationContextType} from "./context";
 import "./index.less";
 
@@ -30,6 +31,10 @@ interface State {
 
 export class Form extends React.PureComponent<Props, State> {
     static displayName = "Form";
+    static defaultProps: PickOptional<Props> = {
+        layout: "horizontal",
+        errorDisplayMode: {type: "extra"},
+    };
     static Item = Item;
 
     private readonly validationContext: FormValidationContextType;
@@ -50,7 +55,7 @@ export class Form extends React.PureComponent<Props, State> {
                     this.validators.splice(index, 1);
                 }
             },
-            errorDisplayMode: () => this.props.errorDisplayMode ?? {type: "extra"},
+            errorDisplayMode: () => this.props.errorDisplayMode!,
         };
     }
 
@@ -102,7 +107,7 @@ export class Form extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {children, id, className, style, layout = "horizontal", allowBrowserAutoComplete} = this.props;
+        const {children, id, className, style, layout, allowBrowserAutoComplete} = this.props;
         return (
             <form autoComplete={allowBrowserAutoComplete ? undefined : "off"} id={id} className={classNames("g-form", `g-form-${layout}`, className)} style={style} onSubmit={this.onSubmit}>
                 <FormValidationContext.Provider value={this.validationContext}>{children}</FormValidationContext.Provider>
