@@ -1,6 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {ControlledFormValue, PickOptional} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 
 interface Props<T> extends ControlledFormValue<T[]> {
@@ -19,17 +19,16 @@ interface State {
 
 const separators = [" ", ";", "|", "*", "Tab", "Enter"];
 
+// TODO: Fix bug (Currently not used in our project)
 export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     static displayName = "TagInput";
-
-    static defaultProps: PickOptional<Props<string>> = {
-        renderTag: item => item,
-    };
 
     constructor(props: Props<T>) {
         super(props);
         this.state = {inputText: ""};
     }
+
+    defaultRenderTag = (item: T) => item as string;
 
     removeTag = (index: number) => {
         const {onChange, value, disabled} = this.props;
@@ -71,7 +70,7 @@ export class TagInput<T> extends React.PureComponent<Props<T>, State> {
     onBlur = () => this.addTagsByInput(this.state.inputText);
 
     render() {
-        const {value, renderTag, className, style, disabled, placeholder, autoFocus = true} = this.props;
+        const {value, renderTag = this.defaultRenderTag, className, style, disabled, placeholder, autoFocus = true} = this.props;
         const {inputText} = this.state;
         return (
             <div className={classNames("g-tag-input", {"ant-input-disabled": disabled})} style={style}>

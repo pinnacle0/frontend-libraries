@@ -4,6 +4,7 @@ import {NumberInput} from "./index";
 import {truncate} from "./util";
 import type {PickOptional} from "../../internal/type";
 import type {Props as NumberInputProps} from "./index";
+import {ReactUtil} from "../../util/ReactUtil";
 
 type OmitPropsKeys = "displayRenderer" | "scale" | "step" | "min" | "max" | "value" | "onChange";
 
@@ -58,6 +59,32 @@ export interface Props<AllowNull extends boolean> extends Omit<NumberInputProps<
      */
     onChange: (newValue: AllowNull extends true ? number | null : number) => void;
 }
+
+export const NumberInputPercentage1 = ReactUtil.memo("NumberInputPercentage", <AllowNull extends boolean>(props: Props<AllowNull>) => {
+    const {percentageScale = 0, percentageStep, min = 0, max = 1, value, onChange, className, ...restProps} = props;
+
+    const percentageDisplayRenderer = (value: number) => `${value.toFixed(percentageScale)} %`;
+
+    const onPercentageChange: Props<AllowNull>["onChange"] = newPercentageValue => {
+        const scale = percentageScale! + 2;
+        const newValue = typeof newPercentageValue === "number" ? truncate(newPercentageValue / 100, scale) : newPercentageValue;
+        onChange(newValue);
+    };
+
+    return (
+        <NumberInput<AllowNull>
+            className={classNames("percentage", className)}
+            value={typeof value === "number" ? value * 100 : value}
+            onChange={onPercentageChange}
+            min={min * 100}
+            max={max * 100}
+            scale={percentageScale}
+            step={percentageStep}
+            displayRenderer={percentageDisplayRenderer}
+            {...restProps}
+        />
+    );
+});
 
 export class NumberInputPercentage<AllowNull extends boolean> extends React.PureComponent<Props<AllowNull>> {
     static displayName = "NumberInputPercentage";

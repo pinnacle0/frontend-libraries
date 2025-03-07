@@ -1,6 +1,5 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {PickOptional} from "../../internal/type";
 import {NumberUtil} from "../../internal/NumberUtil";
 import {AmountPercentage} from "./AmountPercentage";
 import "./index.less";
@@ -24,16 +23,11 @@ export interface Props {
 
 export class Amount extends React.PureComponent<Props> {
     static displayName = "Amount";
-    static defaultProps: PickOptional<Props> = {
-        rounding: "round",
-        thousandSplitter: true,
-        nullText: "-",
-    };
 
     static Percentage = AmountPercentage;
 
     render() {
-        const {value, scale, rounding, thousandSplitter, plusSignForPositive, prefix, postfix, colorScheme, bold, del, underline, style, className, nullText} = this.props;
+        const {value, scale, rounding = "round", thousandSplitter = true, plusSignForPositive, prefix, postfix, colorScheme, bold, del, underline, style, className, nullText = "-"} = this.props;
         if (value !== null && value !== undefined && Number.isFinite(value)) {
             const roundedString = NumberUtil.roundingToString(value, rounding!, scale);
             const parts = roundedString.split(".");

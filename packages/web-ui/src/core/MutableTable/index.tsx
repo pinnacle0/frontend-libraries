@@ -1,7 +1,6 @@
 import React from "react";
 import type {TableColumns} from "../Table";
 import {Table} from "../Table";
-import type {PickOptional} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import "./index.less";
 
@@ -39,10 +38,6 @@ export interface Props<RowType extends object> {
 export class MutableTable<RowType extends object> extends React.PureComponent<Props<RowType>> {
     static displayName = "MutableTable";
 
-    static defaultProps: PickOptional<Props<any>> = {
-        scrollX: "none",
-    };
-
     private readonly ref: React.RefObject<HTMLDivElement | null>;
     private readonly defaultSequenceColumn: SequenceColumnConfig = {
         title: i18n().sequence,
@@ -66,7 +61,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
     }
 
     getColumns = (): TableColumns<RowType> => {
-        const {columns, dataSource, nextRow, fixedRowCount, scrollX, sequenceColumn, disabled} = this.props;
+        const {columns, dataSource, nextRow, fixedRowCount, scrollX = "none", sequenceColumn, disabled} = this.props;
         const newColumns = [...columns];
         const t = i18n();
         if (sequenceColumn) {

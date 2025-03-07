@@ -5,7 +5,6 @@ import {i18n} from "../../internal/i18n/core";
 import {TextUtil} from "../../internal/TextUtil";
 import {Input} from "../Input";
 import type {Props as InputProps} from "../Input";
-import type {PickOptional} from "../../internal/type";
 import "./index.less";
 
 export interface Props extends Omit<InputProps, "suffix"> {
@@ -20,11 +19,10 @@ interface State {
     nextSendRemainingSecond: number | null; // At least 1 when type is number
 }
 
+const DEFAULT_NEXT_SEND_INTERVAL = 60;
+
 export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
     static displayName = "AuthenticationCodeInput";
-    static defaultProps: PickOptional<Props> = {
-        nextSendInterval: 60,
-    };
 
     private timer: number | undefined;
 
@@ -57,7 +55,7 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
     };
 
     onSend = async () => {
-        const {nextSendInterval, onSend} = this.props;
+        const {nextSendInterval = DEFAULT_NEXT_SEND_INTERVAL, onSend} = this.props;
 
         try {
             this.setState({isSending: true});
@@ -80,7 +78,7 @@ export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
             autoSendOnMount,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
-            nextSendInterval,
+            nextSendInterval = DEFAULT_NEXT_SEND_INTERVAL,
             className,
             ...inputProps
         } = this.props;
