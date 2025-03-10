@@ -9,16 +9,13 @@ import tsESlint from "typescript-eslint";
 import globals from "globals";
 // @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
-// @ts-expect-error -- untyped module
 import eslintPluginPrettier from "eslint-config-prettier";
 import eslintPluginReact from "eslint-plugin-react";
-// @ts-expect-error -- untyped module
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
 // @ts-expect-error -- untyped module
 import eslintPluginComments from "eslint-plugin-eslint-comments";
 import eslintPluginVitest from "@vitest/eslint-plugin";
-// @ts-expect-error -- untyped module
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
 import type {TSESLint} from "@typescript-eslint/utils";

@@ -26,11 +26,11 @@
     "dependencies": {
         "chalk": "5.4.1",
         "fantasticon": "3.0.0",
-        "yargs": "17.7.2",
-        "socks-proxy-agent": "8.0.3"
+        "socks-proxy-agent": "8.0.3",
+        "yargs": "17.7.2"
     },
     "optionalDependencies": {
-        "eslint": ">=9.15.0",
+        "eslint": "^9.22.0",
         "prettier": "^3.2.5"
     },
     "engines": {
