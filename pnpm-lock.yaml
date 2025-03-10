@@ -165,7 +165,7 @@ importers:
         specifier: 1.0.11
         version: 1.0.11
       eslint:
-        specifier: '>=9.15.0'
+        specifier: '>=9.22.0'
         version: 9.22.0
       eslint-config-prettier:
         specifier: 10.1.1
