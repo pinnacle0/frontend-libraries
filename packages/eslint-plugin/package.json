@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "license": "MIT",
     "type": "module",
     "exports": {
@@ -27,7 +27,7 @@
         "eslint-plugin-react-hooks": "5.2.0"
     },
     "peerDependencies": {
-        "eslint": ">=9.15.0"
+        "eslint": ">=9.22.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
