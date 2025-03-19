@@ -14,7 +14,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     style?: React.CSSProperties;
 }
 
-export const BoolSelect = ReactUtil.memo("BoolSelect", (props: Props<any>) => {
+export const BoolSelect = ReactUtil.memo("BoolSelect", <AllowNull extends boolean>(props: Props<AllowNull>) => {
     const {trueOptionFirst = true, allowNull, value, onChange, disabled, className, style, trueText, falseText} = props;
     const list = trueOptionFirst ? [true, false] : [false, true];
 
