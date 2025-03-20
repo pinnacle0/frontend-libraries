@@ -13,7 +13,7 @@ import {Space} from "../../core/Space";
 export interface Props {
     onFinish: () => void;
     onReset?: () => void;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     errorDisplayMode?: FormErrorDisplayMode;
     extraElements?: React.ReactNode;
     expandedArea?: React.ReactElement; // If undefined, the Filter cannot be expanded
