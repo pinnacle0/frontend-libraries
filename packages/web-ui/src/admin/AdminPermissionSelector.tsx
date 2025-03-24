@@ -247,7 +247,7 @@ export class AdminPermissionSelector<Feature extends string, Field extends strin
         }
 
         return (
-            <Popover classNames={{root: "permission-group"}} placement="left" overlayStyle={this.popoverStyle} autoAdjustOverflow key={module.title} content={popover}>
+            <Popover classNames={{root: "permission-group"}} placement="left" styles={{root: this.popoverStyle}} autoAdjustOverflow key={module.title} content={popover}>
                 {navigationModuleItemContainer}
             </Popover>
         );

@@ -40,7 +40,7 @@ export const DemoHelper = ({groups, style}: Props) => {
                                 <Tooltip
                                     placement="right"
                                     key={index}
-                                    overlayStyle={{maxWidth: "unset"}}
+                                    styles={{root: {maxWidth: "unset"}}}
                                     title={<pre style={{minWidth: "max-content"}}>{JSON.stringify(component.props, null, 2)}</pre>}
                                 >
                                     {component}
