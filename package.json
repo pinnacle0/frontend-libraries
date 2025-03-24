@@ -64,7 +64,13 @@
             "es5-ext": ">=0.10.64",
             "cross-spawn": ">=7.0.5",
             "cookie": "1.0.1"
-        }
+        },
+        "onlyBuiltDependencies": [
+            "@swc/core",
+            "es5-ext",
+            "esbuild",
+            "ttf2woff2"
+        ]
     },
     "packageManager": "pnpm@10.6.2"
 }

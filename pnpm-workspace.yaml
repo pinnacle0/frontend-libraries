@@ -1,5 +1,10 @@
 packages:
-    - "packages/**"
-    - "!**/test/**"
-    - "!**/build/**"
-    - "!**/dist/**"
+  - packages/**
+  - '!**/test/**'
+  - '!**/build/**'
+  - '!**/dist/**'
+onlyBuiltDependencies:
+  - '@swc/core'
+  - es5-ext
+  - esbuild
+  - ttf2woff2
