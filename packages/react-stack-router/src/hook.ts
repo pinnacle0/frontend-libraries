@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef} from "react";
+import {use, useCallback, useEffect, useLayoutEffect, useMemo, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
 import type {LocationState, Location} from "./type";
@@ -9,20 +9,20 @@ import type {LifecycleHook} from "./screen/lifecycle";
  */
 export type Navigate = Omit<RouterContext, "history">;
 export const useNavigate = (): Navigate => {
-    const {push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState} = useContext(RouterContext);
+    const {push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState} = use(RouterContext);
     return {push, pop, popAll, replace, replaceHash, replaceSearchParams, replaceLocationState};
 };
 
 export const useHistory = (): History => {
-    return useContext(RouterContext).history;
+    return use(RouterContext).history;
 };
 
 export const useLocation = (): Location => {
-    return useContext(RouteContext).location;
+    return use(RouteContext).location;
 };
 
 export const useParams = <T extends Record<string, string>>(): T => {
-    return useContext(RouteContext).params as T;
+    return use(RouteContext).params as T;
 };
 
 export const useLocationState = <T extends LocationState>() => {
@@ -52,7 +52,7 @@ export type LocationMatchCallback = (location: Location) => void;
 export const useLocationMatch = (callback: LocationMatchCallback) => {
     const {
         history: {location: currentLocation},
-    } = useContext(RouterContext);
+    } = use(RouterContext);
     const location = useLocation();
 
     const callbackRef = useRef(callback);
@@ -78,7 +78,7 @@ export const useWillExitEffect = (callback: () => any) => useLifecycle("willExit
 export const useDidExitEffect = (callback: () => any) => useLifecycle("didExit", callback);
 
 function useLifecycle(hook: LifecycleHook, callback: () => void) {
-    const {lifecycle} = useContext(RouteContext);
+    const {lifecycle} = use(RouteContext);
     const callbackRef = useRef(callback);
     callbackRef.current;
 
