@@ -121,9 +121,6 @@ export class WebpackConfigGenerator {
                     maxAsyncRequests: 30,
                 },
             },
-            performance: {
-                hints: false,
-            },
             module: {
                 rules: [
                     Rule.ts({fastRefresh: true}),
