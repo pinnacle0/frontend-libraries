@@ -10,7 +10,7 @@ export const SeparateTabDetailDemo = (props: RouteComponentProps<{id: string}>) 
     const id = props.match.params.id;
 
     const [status, setStatus] = React.useState<"loading" | "ok" | "error">("loading");
-    const {updateTitle} = React.useContext(AdminAppContext);
+    const {updateTitle} = React.use(AdminAppContext);
     React.useEffect(() => {
         const timer = setTimeout(() => {
             if (id.length <= 3) {

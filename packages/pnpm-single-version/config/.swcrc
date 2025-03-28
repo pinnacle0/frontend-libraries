@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2015",
+        "experimental": {
+            "keepImportAssertions": true
+        }
+    },
+    "module": {
+        "type": "es6",
+        "strict": false,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false
+    }
+}

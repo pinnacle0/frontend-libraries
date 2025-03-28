@@ -1,5 +1,5 @@
 import type {FunctionComponent} from "react";
-import React, {useContext, useMemo} from "react";
+import React, {use, useMemo} from "react";
 import {createPath} from "history";
 import {RouterContext} from "../context";
 import type {To} from "history";
@@ -11,7 +11,7 @@ interface Props extends Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<
 }
 
 export const Link: FunctionComponent<Props> = ({to, children, target, onClick, replace: isReplace, state, ref, ...restProps}) => {
-    const {push, replace} = useContext(RouterContext);
+    const {push, replace} = use(RouterContext);
     const href = useMemo(() => (typeof to === "string" ? to : createPath(to)), [to]);
     const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
         event.preventDefault();

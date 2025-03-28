@@ -28,7 +28,7 @@ export function Navigator<Feature, Field>({permissions, superAdminPermission, na
     locationRef.current = location;
     const history = useHistory();
     const t = i18n();
-    const context = React.useContext(AdminAppContext);
+    const context = React.use(AdminAppContext);
     const groups = React.useMemo(() => AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, true), [navigationGroups, permissions, superAdminPermission]);
     const modules = React.useMemo(() => AdminNavigationUtil.modules(groups), [groups]);
 
