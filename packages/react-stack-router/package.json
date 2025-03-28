@@ -20,7 +20,7 @@
         "directory": "packages/react-stack-router"
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=22"
     },
     "scripts": {
         "demo": "cd demo && pnpm dev",

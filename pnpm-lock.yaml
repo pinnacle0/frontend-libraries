@@ -403,6 +403,8 @@ importers:
         version: 5.3.0(react@19.0.0)
     publishDirectory: build
 
+  packages/web-ui/config: {}
+
   packages/web-ui/demo:
     dependencies:
       '@pinnacle0/web-ui':
@@ -434,13 +436,13 @@ importers:
     dependencies:
       '@rspack/cli':
         specifier: 1.1.5
-        version: 1.1.5(@rspack/core@1.1.5)(@types/express@5.0.0)(webpack@5.98.0(@swc/core@1.4.4))
+        version: 1.1.5(@rspack/core@1.1.5)(@types/express@4.17.21)(webpack@5.98.0(@swc/core@1.4.4))
       '@rspack/core':
         specifier: 1.1.5
         version: 1.1.5
       '@rspack/dev-server':
         specifier: 1.0.9
-        version: 1.0.9(@rspack/core@1.1.5)(@types/express@5.0.0)(webpack@5.98.0(@swc/core@1.4.4))
+        version: 1.0.9(@rspack/core@1.1.5)(@types/express@4.17.21)(webpack@5.98.0(@swc/core@1.4.4))
       '@rspack/plugin-react-refresh':
         specifier: 1.0.0
         version: 1.0.0(react-refresh@0.16.0)
@@ -485,8 +487,8 @@ importers:
         specifier: workspace:*
         version: link:../devtool-util
       '@types/express':
-        specifier: 5.0.0
-        version: 5.0.0
+        specifier: 4.17.21
+        version: 4.17.21
       '@types/html-webpack-plugin':
         specifier: 3.2.9
         version: 3.2.9
@@ -1820,9 +1822,6 @@ packages:
 
   '@types/express@4.17.21':
     resolution: {integrity: sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==}
-
-  '@types/express@5.0.0':
-    resolution: {integrity: sha512-DvZriSMehGHL1ZNLzi6MidnsDhUZM/x2pRdDIKdwbUNqqwHxMlRdkxtn6/EPKyqKpHqTl/4nRZsRNLpZxZRpPQ==}
 
   '@types/history@4.7.11':
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
@@ -6908,11 +6907,11 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': 1.1.5
       '@rspack/binding-win32-x64-msvc': 1.1.5
 
-  '@rspack/cli@1.1.5(@rspack/core@1.1.5)(@types/express@5.0.0)(webpack@5.98.0(@swc/core@1.4.4))':
+  '@rspack/cli@1.1.5(@rspack/core@1.1.5)(@types/express@4.17.21)(webpack@5.98.0(@swc/core@1.4.4))':
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
       '@rspack/core': 1.1.5
-      '@rspack/dev-server': 1.0.9(@rspack/core@1.1.5)(@types/express@5.0.0)(webpack@5.98.0(@swc/core@1.4.4))
+      '@rspack/dev-server': 1.0.9(@rspack/core@1.1.5)(@types/express@4.17.21)(webpack@5.98.0(@swc/core@1.4.4))
       colorette: 2.0.19
       exit-hook: 4.0.0
       interpret: 3.1.1
@@ -6936,13 +6935,13 @@ snapshots:
       '@rspack/lite-tapable': 1.0.1
       caniuse-lite: 1.0.30001707
 
-  '@rspack/dev-server@1.0.9(@rspack/core@1.1.5)(@types/express@5.0.0)(webpack@5.98.0(@swc/core@1.4.4))':
+  '@rspack/dev-server@1.0.9(@rspack/core@1.1.5)(@types/express@4.17.21)(webpack@5.98.0(@swc/core@1.4.4))':
     dependencies:
       '@rspack/core': 1.1.5
       chokidar: 3.6.0
       connect-history-api-fallback: 2.0.0
       express: 4.21.2
-      http-proxy-middleware: 2.0.7(@types/express@5.0.0)
+      http-proxy-middleware: 2.0.7(@types/express@4.17.21)
       mime-types: 2.1.35
       p-retry: 4.6.2
       webpack-dev-middleware: 7.4.2(webpack@5.98.0(@swc/core@1.4.4))
@@ -7167,13 +7166,6 @@ snapshots:
       '@types/qs': 6.9.18
       '@types/serve-static': 1.15.7
 
-  '@types/express@5.0.0':
-    dependencies:
-      '@types/body-parser': 1.19.5
-      '@types/express-serve-static-core': 5.0.6
-      '@types/qs': 6.9.18
-      '@types/serve-static': 1.15.7
-
   '@types/history@4.7.11': {}
 
   '@types/html-minifier-terser@6.1.0': {}
@@ -7264,7 +7256,7 @@ snapshots:
 
   '@types/serve-index@1.9.4':
     dependencies:
-      '@types/express': 5.0.0
+      '@types/express': 4.17.21
 
   '@types/serve-static@1.15.7':
     dependencies:
@@ -9324,18 +9316,6 @@ snapshots:
       micromatch: 4.0.8
     optionalDependencies:
       '@types/express': 4.17.21
-    transitivePeerDependencies:
-      - debug
-
-  http-proxy-middleware@2.0.7(@types/express@5.0.0):
-    dependencies:
-      '@types/http-proxy': 1.17.16
-      http-proxy: 1.18.1
-      is-glob: 4.0.3
-      is-plain-obj: 3.0.0
-      micromatch: 4.0.8
-    optionalDependencies:
-      '@types/express': 5.0.0
     transitivePeerDependencies:
       - debug
 

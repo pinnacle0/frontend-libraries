@@ -34,7 +34,7 @@
         "prettier": "^3.2.5"
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=22"
     },
     "publishConfig": {
         "linkDirectory": false,

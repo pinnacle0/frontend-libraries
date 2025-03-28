@@ -14,7 +14,7 @@
         "directory": "packages/web-ui"
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=22"
     },
     "scripts": {
         "build": "pnpm tsx script/build.ts",
