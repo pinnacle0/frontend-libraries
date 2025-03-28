@@ -1,7 +1,7 @@
 import {Command} from "commander";
 import {checkDeps} from "./checkDeps.js";
 import {install} from "./install.js";
-const packageJSON = require("../../package.json");
+import packageJSON from "../../package.json" with {type: "json"};
 
 const program = new Command();
 

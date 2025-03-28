@@ -1,0 +1,39 @@
+name: "@pinnacle0/pnpm-single-version CI"
+
+env:
+    CI: true
+
+on:
+    push:
+        branches: [master]
+        paths:
+            - packages/pnpm-single-version/**
+            - package.json
+            - pnpm-lock.yaml
+            - pnpm-workspace.yaml
+            - .github/workflows/pkg-pnpm-single-version-ci.yml
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v3
+              with:
+                  version: latest
+
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+                  check-latest: true
+                  cache: "pnpm"
+
+            - name: Install Dependencies
+              run: pnpm install
+
+            - name: Build
+              run: pnpm --filter @pinnacle0/pnpm-single-version run build

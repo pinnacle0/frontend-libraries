@@ -4,10 +4,13 @@
         "parser": {
             "syntax": "typescript"
         },
-        "target": "es2015"
+        "target": "es2015",
+        "experimental": {
+            "keepImportAssertions": true
+        }
     },
     "module": {
-        "type": "commonjs",
+        "type": "es6",
         "strict": false,
         "strictMode": true,
         "lazy": false,

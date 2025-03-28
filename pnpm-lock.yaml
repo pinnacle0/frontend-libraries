@@ -218,6 +218,9 @@ importers:
 
   packages/pnpm-single-version:
     dependencies:
+      '@pnpm/core-loggers':
+        specifier: 1000.1.5
+        version: 1000.1.5(@pnpm/logger@1000.0.0)
       '@pnpm/find-workspace-dir':
         specifier: 1000.1.0
         version: 1000.1.0
@@ -230,9 +233,6 @@ importers:
       '@pnpm/logger':
         specifier: 1000.0.0
         version: 1000.0.0
-      bole:
-        specifier: 5.0.18
-        version: 5.0.18
       chalk:
         specifier: 5.4.1
         version: 5.4.1
@@ -1133,6 +1133,12 @@ packages:
     peerDependencies:
       '@pnpm/logger': ^5.0.0
 
+  '@pnpm/core-loggers@1000.1.5':
+    resolution: {integrity: sha512-cjlbKSqy98kEbZenUPMM7po4uVL7ZfUMMOMQiHdx1iSnobJjrQfRKMU1H2ezLoBeVI4+U/B0mVjk3aUNTSiQiA==}
+    engines: {node: '>=18.12'}
+    peerDependencies:
+      '@pnpm/logger': '>=5.1.0 <1001.0.0'
+
   '@pnpm/crypto.base32-hash@2.0.0':
     resolution: {integrity: sha512-3ttOeHBpmWRbgJrpDQ8Nwd3W8s8iuiP5YZM0JRyKWaMtX8lu9d7/AKyxPmhYsMJuN+q/1dwHa7QFeDZJ53b0oA==}
     engines: {node: '>=16.14'}
@@ -1268,6 +1274,10 @@ packages:
 
   '@pnpm/resolver-base@13.0.1':
     resolution: {integrity: sha512-WXWHDtVFAmwyBSOLYkYF1bJujDQyG6JYZGsVsy+/dTPiaT8pzebL7p4fchC/8wpZroH7lxJ1lInSKIg7T904/g==}
+    engines: {node: '>=18.12'}
+
+  '@pnpm/types@1000.3.0':
+    resolution: {integrity: sha512-hVRVBj1ZJ0j5fdCsQo+g0NaEebY21xJ2ge+96InngJny44CYsZxZPho+cgZprELquxOJFnBGbCVqDiw5dx0RJA==}
     engines: {node: '>=18.12'}
 
   '@pnpm/types@11.1.0':
@@ -6829,6 +6839,11 @@ snapshots:
       '@pnpm/logger': 1000.0.0
       '@pnpm/types': 11.1.0
 
+  '@pnpm/core-loggers@1000.1.5(@pnpm/logger@1000.0.0)':
+    dependencies:
+      '@pnpm/logger': 1000.0.0
+      '@pnpm/types': 1000.3.0
+
   '@pnpm/crypto.base32-hash@2.0.0':
     dependencies:
       rfc4648: 1.5.4
@@ -7056,6 +7071,8 @@ snapshots:
   '@pnpm/resolver-base@13.0.1':
     dependencies:
       '@pnpm/types': 11.1.0
+
+  '@pnpm/types@1000.3.0': {}
 
   '@pnpm/types@11.1.0': {}
 

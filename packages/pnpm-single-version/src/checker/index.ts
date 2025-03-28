@@ -26,7 +26,6 @@ const filterSnapshotNeededForChecking =
         const packageInfos = ArrayValueMapHelper.create<PackageInfo>();
 
         for (const [path, snapshot] of Object.entries(snapshots)) {
-            console.info("path", path, "snapshot", snapshot);
             const nameVersionInfo: PackageInfo = nameVerFromPkgSnapshot(path, snapshot);
             if (matcher.test(nameVersionInfo.name)) {
                 ArrayValueMapHelper.add(packageInfos, nameVersionInfo.name, nameVersionInfo);

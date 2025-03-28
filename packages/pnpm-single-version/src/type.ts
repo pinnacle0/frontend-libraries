@@ -15,10 +15,3 @@ export interface LoggerType {
 }
 
 export type PackageInfo = ReturnType<typeof nameVerFromPkgSnapshot>;
-
-export interface BoleLogger {
-    // debug(...value: string[]): void
-    info(...value: string[]): void;
-    warn(...value: string[]): void;
-    error: (err: Error, log?: string | Error) => void;
-}

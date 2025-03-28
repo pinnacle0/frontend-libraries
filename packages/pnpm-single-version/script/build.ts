@@ -6,7 +6,7 @@ import esbuild from "esbuild";
 import path from "path";
 
 const outputPath = path.join(import.meta.dirname, "../dist");
-const outputPnpmFilePath = path.join(import.meta.dirname, "../src/command/pnpmfile");
+const outputPnpmFilePath = path.join(import.meta.dirname, "../dist/command/pnpmfile");
 const sourceFilePath = path.join(import.meta.dirname, "../src");
 const swcConfigFilePath = path.join(import.meta.dirname, "../config/.swcrc");
 const tsconfigFilePath = path.join(import.meta.dirname, "../config/tsconfig.src.json");
