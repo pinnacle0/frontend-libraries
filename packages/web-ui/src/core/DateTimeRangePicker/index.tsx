@@ -88,6 +88,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 showTime={DateTimeRangePicker.showTime}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
                 onOpenChange={this.onOpenChange}
+                needConfirm={false}
             />
         );
     }
