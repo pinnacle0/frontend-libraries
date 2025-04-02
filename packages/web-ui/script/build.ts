@@ -45,8 +45,8 @@ new TaskRunner("build").execute([
         name: "stylelint",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("stylelint", [path.join(FilePath.src, "**/*.{css,less}")]);
-            Utility.runCommand("stylelint", [path.join(FilePath.test, "**/*.{css,less}")]);
+            Utility.runCommand("stylelint", [path.join(FilePath.src, `"**/*.{css,less}"`)]);
+            Utility.runCommand("stylelint", [path.join(FilePath.test, `"**/*.{css,less}"`)]);
         },
     },
     {

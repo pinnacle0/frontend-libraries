@@ -10,5 +10,6 @@ export default {
         "no-invalid-position-at-import-rule": null,
         "declaration-block-no-redundant-longhand-properties": null,
         "property-no-vendor-prefix": null,
+        "declaration-property-value-no-unknown": null,
     },
 };
