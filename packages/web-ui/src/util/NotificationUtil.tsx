@@ -1,8 +1,8 @@
 import React from "react";
 import notification from "antd/es/notification";
-import type {ArgsProps as NotificationOptions, NotificationInstance, GlobalConfigProps} from "antd/es/notification/interface";
+import type {ArgsProps as NotificationOptions, NotificationInstance, NotificationConfig} from "antd/es/notification/interface";
 
-export type {GlobalConfigProps};
+export type {NotificationConfig};
 
 let notificationInstance: NotificationInstance | null = null;
 
@@ -18,7 +18,7 @@ function destroy() {
     notification.destroy();
 }
 
-function Root(config?: GlobalConfigProps): React.ReactElement {
+function Root(config?: NotificationConfig): React.ReactElement {
     const [apiInstance, contextHolder] = notification.useNotification(config);
     React.useEffect(
         () => {
