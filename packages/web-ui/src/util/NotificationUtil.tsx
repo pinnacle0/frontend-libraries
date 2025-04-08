@@ -14,8 +14,8 @@ function create(options: NotificationOptions) {
     }
 }
 
-function destroy() {
-    notification.destroy();
+function destroy(key?: React.Key) {
+    notification.destroy(key);
 }
 
 function Root(config?: NotificationConfig): React.ReactElement {
