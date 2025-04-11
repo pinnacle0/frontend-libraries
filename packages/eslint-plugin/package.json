@@ -15,15 +15,15 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "8.29.0",
-        "@typescript-eslint/parser": "8.29.0",
-        "@typescript-eslint/rule-tester": "8.29.0",
-        "@typescript-eslint/utils": "8.29.0",
+        "@typescript-eslint/eslint-plugin": "8.29.1",
+        "@typescript-eslint/parser": "8.29.1",
+        "@typescript-eslint/rule-tester": "8.29.1",
+        "@typescript-eslint/utils": "8.29.1",
         "confusing-browser-globals": "1.0.11",
-        "eslint-config-prettier": "10.1.1",
+        "eslint-config-prettier": "10.1.2",
         "eslint-plugin-eslint-comments": "3.2.0",
         "eslint-plugin-import": "2.31.0",
-        "eslint-plugin-react": "7.37.4",
+        "eslint-plugin-react": "7.37.5",
         "eslint-plugin-react-hooks": "5.2.0"
     },
     "peerDependencies": {
@@ -31,16 +31,16 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@rollup/plugin-commonjs": "28.0.2",
+        "@rollup/plugin-commonjs": "28.0.3",
         "@rollup/plugin-json": "6.1.0",
-        "@rollup/plugin-node-resolve": "16.0.0",
-        "@rollup/plugin-typescript": "12.1.1",
+        "@rollup/plugin-node-resolve": "16.0.1",
+        "@rollup/plugin-typescript": "12.1.2",
         "@types/yargs": "17.0.32",
-        "rollup": "4.22.4",
+        "rollup": "4.39.0",
         "yargs": "17.7.2"
     },
     "optionalDependencies": {
-        "@vitest/eslint-plugin": "^1.1.36",
+        "@vitest/eslint-plugin": "^1.1.42",
         "eslint-plugin-testing-library": "^7.1.1"
     },
     "engines": {

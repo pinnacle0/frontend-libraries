@@ -1,3 +1,4 @@
+// @ts-check
 import path from "path";
 import _rollupPluginCommonjs from "@rollup/plugin-commonjs";
 import _rollupPluginJson from "@rollup/plugin-json";
@@ -19,20 +20,17 @@ const FilePath = {
     tsConfigForSrc: path.join(import.meta.dirname, "../config/tsconfig.src.json"),
 };
 
+/** @type {import('rollup').RollupOptions} */
 const config = {
     input: [FilePath.rollupInputFile],
     output: [{file: FilePath.rollupOutputFile, format: "esm"}],
     external: ["typescript", "eslint", /^eslint-.*/, /^@typescript-eslint.*/],
     plugins: [
+        // prettier-ignore
         rollupPluginNodeResolve(),
         rollupPluginCommonjs({transformMixedEsModules: true}),
         rollupPluginJson(),
-        rollupPluginTypescript({
-            tsconfig: FilePath.tsConfigForSrc,
-            compilerOptions: {
-                declaration: true,
-            },
-        }),
+        rollupPluginTypescript({tsconfig: FilePath.tsConfigForSrc}),
     ],
 };
 

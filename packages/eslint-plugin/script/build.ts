@@ -15,7 +15,7 @@ const FilePath = {
     projectESLintConfig: path.join(import.meta.dirname, "../eslint.config.js"),
     workspaceRootESLintIgnore: path.join(import.meta.dirname, "../../../.eslintignore"),
     vitestConfig: path.join(import.meta.dirname, "../config/vitest.config.ts"),
-    rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.ts"),
+    rollupConfig: path.join(import.meta.dirname, "../config/rollup.config.js"),
     projectPackageJSON: path.join(import.meta.dirname, "../package.json"),
     projectReadMe: path.join(import.meta.dirname, "../README.md"),
     projectLicense: path.join(import.meta.dirname, "../LICENSE.md"),
