@@ -21,7 +21,7 @@ import chalk from "chalk";
  * @param descriptiveTitle A title to be included in every log message created by this logger.
  */
 export function createConsoleLogger(descriptiveTitle: string) {
-    const curriedPrint = (emoji: string) => (color: "blueBright" | "greenBright" | "redBright") => {
+    const curriedPrint = (emoji: string) => (color: "blueBright" | "greenBright" | "redBright" | "yellowBright") => {
         return (descriptiveTitle: string) => (text: any) => {
             const title = chalk[color].bold(`${emoji} [${descriptiveTitle}]`);
             const body = chalk.whiteBright((Array.isArray(text) ? text : [text]).map(_ => _.toString()).join(" "));
@@ -34,5 +34,6 @@ export function createConsoleLogger(descriptiveTitle: string) {
         info: curriedPrint("ℹ️")("blueBright")(descriptiveTitle),
         task: curriedPrint("🛠")("greenBright")(descriptiveTitle),
         error: curriedPrint("❌")("redBright")(descriptiveTitle),
+        warn: curriedPrint("⚠️")("yellowBright")(descriptiveTitle),
     };
 }

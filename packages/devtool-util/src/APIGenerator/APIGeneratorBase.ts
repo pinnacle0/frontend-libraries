@@ -28,6 +28,17 @@ export class APIGeneratorBase {
         try {
             const {services, types} = await this.fetchAPIDefinition();
             await Promise.all([this.generateTypeFile(types, this.typeFilePath), this.generateServiceFolder(services, this.serviceFolderPath, this.platformConfig)]);
+            if (this.ignoreType) {
+                if (this.ignoreType.enum) {
+                    const enums = Object.entries(this.ignoreType.enum).map(([key, value]) => value.map(v => `${key}.${v}`).join(", "));
+                    this.logger.warn(`Ignored Enums: \n${enums.join("\n")}`);
+                }
+                if (this.ignoreType.interface) {
+                    const interfaces = Object.entries(this.ignoreType.interface).map(([key, value]) => value.map(v => `${key}.${v}`).join(", "));
+                    this.logger.warn(`Ignored Interfaces: \n${interfaces.join("\n")}`);
+                }
+                this.logger.warn(`Please make sure these ignored types are necessary.`);
+            }
         } catch (e) {
             this.logger.error(e);
             process.exit(1);
