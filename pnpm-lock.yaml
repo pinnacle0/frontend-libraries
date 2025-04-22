@@ -473,8 +473,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.98.0(@swc/core@1.4.4))
       swc-plugin-core-fe-hmr:
-        specifier: 1.0.5
-        version: 1.0.5
+        specifier: 1.0.6
+        version: 1.0.6
       ts-checker-rspack-plugin:
         specifier: 1.1.1
         version: 1.1.1(@rspack/core@1.3.5)(typescript@5.7.2)
@@ -5306,9 +5306,9 @@ packages:
   svgpath@2.6.0:
     resolution: {integrity: sha512-OIWR6bKzXvdXYyO4DK/UWa1VA1JeKq8E+0ug2DG98Y/vOmMpfZNj+TIG988HjfYSqtcy/hFOtZq/n/j5GSESNg==}
 
-  swc-plugin-core-fe-hmr@1.0.5:
-    resolution: {integrity: sha512-xv5rUZoeH8/KM2d6Mto21jrEndlwC8zrPdGPb9GifsGfGMM0ZmTAqyj1NngMQMnHnjLaXr+aOBiuaSZgfqwEFQ==}
-    engines: {node: '>= 16.0.0'}
+  swc-plugin-core-fe-hmr@1.0.6:
+    resolution: {integrity: sha512-fT9Sn0s/A87Er2Vxly083c/hY5zGUCrBapJtd6gd2NjAniBYCaAV27RAOWLLfwQU38UB4JNaSUY1puMAp3RcPQ==}
+    engines: {node: '>=22.0.0'}
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -9509,7 +9509,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.13.15
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -11248,7 +11248,7 @@ snapshots:
 
   svgpath@2.6.0: {}
 
-  swc-plugin-core-fe-hmr@1.0.5: {}
+  swc-plugin-core-fe-hmr@1.0.6: {}
 
   symbol-tree@3.2.4: {}
 
