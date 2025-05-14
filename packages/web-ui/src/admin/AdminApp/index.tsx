@@ -16,6 +16,8 @@ import {Menu} from "./Menu";
 import {Navigator} from "./Navigator";
 import "./index.less";
 
+export {AdminAppContext, type AdminAppContextType} from "./context";
+
 export interface Props<Feature, Field> {
     name: string;
     permissions: Feature[];
