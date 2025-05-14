@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.6.16",
+    "version": "0.6.17-beta.1",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -58,8 +58,32 @@
         "react-router-dom": "5.3.0",
         "jsdom": "26.0.0"
     },
+    "exports": {
+        "./util": "./src/util/index.ts",
+        "./core": "./src/core/index.ts",
+        "./hooks": "./src/hooks/index.ts",
+        "./admin": "./src/admin/index.ts"
+    },
     "publishConfig": {
         "directory": "build",
-        "linkDirectory": false
+        "linkDirectory": false,
+        "exports": {
+            "./util": {
+                "import": "./util/index.js",
+                "types": "./util/index.d.ts"
+            },
+            "./core": {
+                "import": "./core/index.js",
+                "types": "./core/index.d.ts"
+            },
+            "./hooks": {
+                "import": "./hooks/index.js",
+                "types": "./hooks/index.d.ts"
+            },
+            "./admin": {
+                "import": "./admin/index.js",
+                "types": "./admin/index.d.ts"
+            }
+        }
     }
 }
