@@ -1,5 +1,7 @@
 import type {CreateUploadRequestOptions, UploadLogInfo} from "./type";
 
+export type {UploadSuccessLogEntry, UploadFailureLogEntry} from "./type";
+
 function createRequest({uploadURL, file, formField, onSuccess, onError, onProgress}: CreateUploadRequestOptions) {
     const httpRequest = new XMLHttpRequest();
     const startTime = Date.now();

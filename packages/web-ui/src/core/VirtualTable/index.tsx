@@ -15,6 +15,8 @@ import {useColumnsStickyPosition} from "./hooks/useColumnsStickyPosition";
 import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
+export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
+
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
