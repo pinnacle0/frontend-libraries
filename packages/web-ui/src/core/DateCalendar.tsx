@@ -14,7 +14,7 @@ dayjs.extend(localeData);
 
 const AntCalendar = generateCalendar<Dayjs>(dayjsGenerateConfig);
 
-export interface Props extends ControlledFormValue<string> {}
+interface Props extends ControlledFormValue<string> {}
 
 export class DateCalendar extends React.PureComponent<Props> {
     static displayName = "DateCalendar";

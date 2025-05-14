@@ -11,7 +11,7 @@ import {LocaleContext, LocaleUtil} from "../util/LocaleUtil";
 
 export type {ThemeConfig} from "antd";
 
-export interface Props extends Omit<ConfigProviderProps, "locale"> {
+interface Props extends Omit<ConfigProviderProps, "locale"> {
     children: React.ReactNode;
     locale: Locale | "auto";
 }
