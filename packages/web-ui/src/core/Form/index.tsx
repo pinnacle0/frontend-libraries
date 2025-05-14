@@ -8,6 +8,8 @@ import type {PickOptional} from "../../internal/type";
 import type {FormErrorDisplayMode, FormValidationContextType} from "./context";
 import "./index.less";
 
+export type {Props as FormItemProps, FormValidator} from "./Item";
+
 export interface Props {
     children: React.ReactNode;
     id?: string;
