@@ -73,17 +73,33 @@
                 "import": "./core/*/index.js",
                 "types": "./core/*/index.d.ts"
             },
+            "./core/*/type": {
+                "import": "./core/*/type.js",
+                "types": "./core/*/type.d.ts"
+            },
             "./hooks/*": {
                 "import": "./hooks/*/index.js",
                 "types": "./hooks/*/index.d.ts"
+            },
+            "./hooks/*/type": {
+                "import": "./hooks/*/type.js",
+                "types": "./hooks/*/type.d.ts"
             },
             "./admin/*": {
                 "import": "./admin/*/index.js",
                 "types": "./admin/*/index.d.ts"
             },
+            "./admin/*/type": {
+                "import": "./admin/*/type.js",
+                "types": "./admin/*/type.d.ts"
+            },
             "./util/*": {
                 "import": "./util/*/index.js",
                 "types": "./util/*/index.d.ts"
+            },
+            "./util/*/type": {
+                "import": "./util/*/type.js",
+                "types": "./util/*/type.d.ts"
             },
             "./css/*.less": "./css/*.less"
         }

@@ -5,6 +5,8 @@ import {NumberUtil} from "../../internal/NumberUtil";
 import {AmountPercentage} from "./AmountPercentage";
 import "./index.less";
 
+export type {Props as AmountPercentageProps} from "./AmountPercentage";
+
 export interface Props {
     value: number | null | undefined;
     scale: number; // Range [0, 10]
