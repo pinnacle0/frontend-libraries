@@ -2,7 +2,7 @@ import React from "react";
 import {Select} from "./Select";
 import type {ControlledFormValue} from "../internal/type";
 
-interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]> {
+export interface Props<Enum extends string | number> extends ControlledFormValue<Enum[]> {
     list: Enum[];
     maxShownTagCount?: number;
     translator?: (enumValue: Enum) => string;
