@@ -85,7 +85,7 @@
                 "import": "./util/*/index.js",
                 "types": "./util/*/index.d.ts"
             },
-            "./css/*": "./css/*/index.less"
+            "./css/*": "./css/*.less"
         }
     }
 }
