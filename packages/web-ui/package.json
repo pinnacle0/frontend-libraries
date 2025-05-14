@@ -58,8 +58,34 @@
         "react-router-dom": "5.3.0",
         "jsdom": "26.0.0"
     },
+    "exports": {
+        "./core/*": "./src/core/*/index.ts",
+        "./hooks/*": "./src/hooks/*/index.ts",
+        "./admin/*": "./src/admin/*/index.ts",
+        "./util/*": "./src/util/*/index.ts",
+        "./css/*": "./src/css/*.less"
+    },
     "publishConfig": {
         "directory": "build",
-        "linkDirectory": false
+        "linkDirectory": false,
+        "exports": {
+            "./core/*": {
+                "import": "./core/*/index.js",
+                "types": "./core/*/index.d.ts"
+            },
+            "./hooks/*": {
+                "import": "./hooks/*/index.js",
+                "types": "./hooks/*/index.d.ts"
+            },
+            "./admin/*": {
+                "import": "./admin/*/index.js",
+                "types": "./admin/*/index.d.ts"
+            },
+            "./util/*": {
+                "import": "./util/*/index.js",
+                "types": "./util/*/index.d.ts"
+            },
+            "./css/*": "./css/*/index.less"
+        }
     }
 }

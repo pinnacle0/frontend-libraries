@@ -1,7 +1,7 @@
 import React from "react";
 import {act, renderHook} from "@testing-library/react";
-import {useBool} from "../../../src/hooks/useBool";
-import {useExtendedWhen} from "../../../src/hooks/useExtended";
+import {useBool} from "../../../src/hooks/useBool/index.js";
+import {useExtendedWhen} from "../../../src/hooks/useExtended/index.js";
 import {describe, afterEach, beforeEach, it, expect, vi} from "vitest";
 
 describe("useExtendedWhen unit testing", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import {ReactUtil} from "../../src/util/ReactUtil.jsx";
+import {ReactUtil} from "../../src/util/ReactUtil/index.jsx";
 import {describe, test, expect} from "vitest";
 
 describe("ReactUtil.memo", () => {

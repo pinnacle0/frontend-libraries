@@ -1,4 +1,4 @@
-import {ExpirableLocalStorageUtil} from "../../src/util/ExpirableLocalStorageUtil.js";
+import {ExpirableLocalStorageUtil} from "../../src/util/ExpirableLocalStorageUtil/index.js";
 import {describe, test, expect} from "vitest";
 
 describe("ExpirableLocalStorageUtil", () => {
