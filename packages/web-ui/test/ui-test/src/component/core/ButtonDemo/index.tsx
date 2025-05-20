@@ -8,7 +8,7 @@ const types: ButtonType[] = ["primary", "default", "link", "text", "dashed"];
 
 const coloredButtons = (size: ButtonSize, isDanger = false): React.ReactElement[] => {
     const buttons = types.map(type => (
-        <Button size={size} type={type} danger={isDanger}>
+        <Button size={size} type={type} danger={isDanger} loading>
             {type}
         </Button>
     ));
