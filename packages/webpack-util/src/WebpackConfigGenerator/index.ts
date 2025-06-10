@@ -122,13 +122,7 @@ export class WebpackConfigGenerator {
                 },
             },
             module: {
-                rules: [
-                    Rule.ts({fastRefresh: true}),
-                    Rule.stylesheet({minimize: false}),
-                    Rule.image(),
-                    Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
-                    ...this.customizedLoaders,
-                ],
+                rules: [Rule.ts({fastRefresh: true}), Rule.stylesheet(), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
             },
             experiments: {
                 outputModule: true,
@@ -138,6 +132,7 @@ export class WebpackConfigGenerator {
                 Plugin.reactRefresh(this.indirectCodeExclude),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
+                Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),
                 ...this.customizedPlugins,
             ],
             // ref: https://rspack.dev/misc/planning/roadmap#persistent-cache-support
@@ -182,7 +177,7 @@ export class WebpackConfigGenerator {
                 assetFilter: (filename: string) => Constant.mediaExtensions.concat(this.extraExtensionsForOtherRule).every(_ => !filename.endsWith(_)),
             },
             module: {
-                rules: [Rule.ts(), Rule.stylesheet({minimize: true}), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
+                rules: [Rule.ts(), Rule.stylesheet(), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
