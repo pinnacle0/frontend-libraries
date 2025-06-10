@@ -48,8 +48,8 @@ export function cssMinimizerPlugin(): RspackPluginInstance {
  * Must be used with `MiniCssExtractPlugin.loader`, which is included with
  * `Rule.stylesheet({minimize: true})`.
  */
-export function miniCssExtractPlugin({enableProfiling}: ExtractCssPluginOptions): RspackPluginInstance {
-    return WebpackConfigSerializationUtil.serializablePlugin("MiniCssExtractPlugin", rspack.CssExtractRspackPlugin, {
+export function cssExtractPlugin({enableProfiling}: ExtractCssPluginOptions): RspackPluginInstance {
+    return WebpackConfigSerializationUtil.serializablePlugin("CssExtractPlugin", rspack.CssExtractRspackPlugin, {
         filename: enableProfiling ? "static/css/[name].[contenthash:8].css" : "static/css/[contenthash:8].css",
         // order of css output depends on the order of imports in js,
         // unless all imports in js are sorted (e.g. by alphabetical order),
