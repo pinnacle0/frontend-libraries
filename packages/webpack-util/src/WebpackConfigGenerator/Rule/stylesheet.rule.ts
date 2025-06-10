@@ -40,12 +40,6 @@ function miniCssExtractPluginLoader(): RuleSetUseItem {
     };
 }
 
-function styleLoader(): RuleSetUseItem {
-    return {
-        loader: createRequire(import.meta.url).resolve("style-loader"),
-    };
-}
-
 /**
  * Handles dependency requests to stylesheet assets (".css", ".less")
  * with `minimize: true` by `lessc` -> transform to js module -> inject to DOM as <style> tag,
@@ -58,29 +52,29 @@ function styleLoader(): RuleSetUseItem {
  * @see https://webpack.js.org/loaders/style-loader/
  */
 export function stylesheetRule({minimize}: StylesheetRuleDeps): RuleSetRule {
-    const use: RuleSetUseItem[] = minimize
-        ? [
-              // prettier-format-preserve
-              miniCssExtractPluginLoader(),
-              cssLoader(1),
-              lessLoader(),
-          ]
-        : [
-              // prettier-format-preserve
-              styleLoader(),
-              cssLoader(1),
-              lessLoader(),
-          ];
+    // Declare all css/less imports as side effects (not to be considered
+    // as dead code), regardless of the containing package claims to be
+    // otherwise. This prevents css from being tree shaken.
+    // Currently webpack does not add a warning / throw an error for this.
+    // See: https://github.com/webpack/webpack/issues/6571
+    const sideEffects = true;
+    const test = RegExpUtil.fileExtension(".css", ".less");
 
+    if (minimize) {
+        return {
+            type: "javascript/auto",
+            test,
+            use: [miniCssExtractPluginLoader(), cssLoader(1), lessLoader()],
+            sideEffects,
+        };
+    }
+
+    // using rspack built-in css loader, experiments: { css: true }
+    // ref: https://rspack.rs/guide/tech/css#built-in-css-support
     return {
-        type: "javascript/auto",
-        test: RegExpUtil.fileExtension(".css", ".less"),
-        use,
-        // Declare all css/less imports as side effects (not to be considered
-        // as dead code), regardless of the containing package claims to be
-        // otherwise. This prevents css from being tree shaken.
-        // Currently webpack does not add a warning / throw an error for this.
-        // See: https://github.com/webpack/webpack/issues/6571
-        sideEffects: true,
+        type: "css/auto",
+        test,
+        use: lessLoader(),
+        sideEffects,
     };
 }
