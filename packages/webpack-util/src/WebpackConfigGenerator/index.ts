@@ -132,7 +132,6 @@ export class WebpackConfigGenerator {
             },
             experiments: {
                 outputModule: true,
-                css: true,
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,
