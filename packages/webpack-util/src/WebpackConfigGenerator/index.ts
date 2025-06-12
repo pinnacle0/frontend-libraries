@@ -107,6 +107,7 @@ export class WebpackConfigGenerator {
                 module: true,
                 filename: "static/js/[name].js",
                 publicPath: "/",
+                chunkFormat: "array-push",
             },
             resolve: {
                 extensions: this.resolveExtensions,
@@ -122,7 +123,13 @@ export class WebpackConfigGenerator {
                 },
             },
             module: {
-                rules: [Rule.ts({fastRefresh: true}), Rule.stylesheet(), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
+                rules: [
+                    Rule.ts({fastRefresh: true}),
+                    Rule.stylesheet({minimize: false}),
+                    Rule.image(),
+                    Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}),
+                    ...this.customizedLoaders,
+                ],
             },
             experiments: {
                 outputModule: true,
@@ -177,7 +184,7 @@ export class WebpackConfigGenerator {
                 assetFilter: (filename: string) => Constant.mediaExtensions.concat(this.extraExtensionsForOtherRule).every(_ => !filename.endsWith(_)),
             },
             module: {
-                rules: [Rule.ts(), Rule.stylesheet(), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
+                rules: [Rule.ts(), Rule.stylesheet({minimize: true}), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
             },
             plugins: [
                 ...this.htmlWebpackPluginInstances,

@@ -469,6 +469,9 @@ importers:
       socks-proxy-agent:
         specifier: 8.0.3
         version: 8.0.3
+      style-loader:
+        specifier: 4.0.0
+        version: 4.0.0(webpack@5.98.0(@swc/core@1.4.4))
       swc-plugin-core-fe-hmr:
         specifier: 1.0.6
         version: 1.0.6
@@ -5511,6 +5514,12 @@ packages:
     resolution: {integrity: sha512-mKX8HA/cdBqMKUr0MMZAFssCkIGoZeSCMXgnt79yKxNFguMLVFgRe6wB+fsL0NmoHDbeyZXczy7vEPSoo3rkzg==}
     engines: {node: '>=16'}
 
+  style-loader@4.0.0:
+    resolution: {integrity: sha512-1V4WqhhZZgjVAVJyt7TdDPZoPBPNHbekX4fWnCJL1yQukhCeZhJySUL+gL9y6sNdN95uEOS83Y55SqHcP7MzLA==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      webpack: ^5.27.0
+
   stylelint-config-recommended@15.0.0:
     resolution: {integrity: sha512-9LejMFsat7L+NXttdHdTq94byn25TD+82bzGRiV1Pgasl99pWnwipXS5DguTpp3nP1XjvLXVnEJIuYBfsRjRkA==}
     engines: {node: '>=18.12.0'}
@@ -7428,7 +7437,6 @@ snapshots:
     dependencies:
       '@types/eslint': 9.6.1
       '@types/estree': 1.0.7
-    optional: true
 
   '@types/eslint@9.6.1':
     dependencies:
@@ -7766,26 +7774,20 @@ snapshots:
     dependencies:
       '@webassemblyjs/helper-numbers': 1.13.2
       '@webassemblyjs/helper-wasm-bytecode': 1.13.2
-    optional: true
 
-  '@webassemblyjs/floating-point-hex-parser@1.13.2':
-    optional: true
+  '@webassemblyjs/floating-point-hex-parser@1.13.2': {}
 
-  '@webassemblyjs/helper-api-error@1.13.2':
-    optional: true
+  '@webassemblyjs/helper-api-error@1.13.2': {}
 
-  '@webassemblyjs/helper-buffer@1.14.1':
-    optional: true
+  '@webassemblyjs/helper-buffer@1.14.1': {}
 
   '@webassemblyjs/helper-numbers@1.13.2':
     dependencies:
       '@webassemblyjs/floating-point-hex-parser': 1.13.2
       '@webassemblyjs/helper-api-error': 1.13.2
       '@xtuc/long': 4.2.2
-    optional: true
 
-  '@webassemblyjs/helper-wasm-bytecode@1.13.2':
-    optional: true
+  '@webassemblyjs/helper-wasm-bytecode@1.13.2': {}
 
   '@webassemblyjs/helper-wasm-section@1.14.1':
     dependencies:
@@ -7793,20 +7795,16 @@ snapshots:
       '@webassemblyjs/helper-buffer': 1.14.1
       '@webassemblyjs/helper-wasm-bytecode': 1.13.2
       '@webassemblyjs/wasm-gen': 1.14.1
-    optional: true
 
   '@webassemblyjs/ieee754@1.13.2':
     dependencies:
       '@xtuc/ieee754': 1.2.0
-    optional: true
 
   '@webassemblyjs/leb128@1.13.2':
     dependencies:
       '@xtuc/long': 4.2.2
-    optional: true
 
-  '@webassemblyjs/utf8@1.13.2':
-    optional: true
+  '@webassemblyjs/utf8@1.13.2': {}
 
   '@webassemblyjs/wasm-edit@1.14.1':
     dependencies:
@@ -7818,7 +7816,6 @@ snapshots:
       '@webassemblyjs/wasm-opt': 1.14.1
       '@webassemblyjs/wasm-parser': 1.14.1
       '@webassemblyjs/wast-printer': 1.14.1
-    optional: true
 
   '@webassemblyjs/wasm-gen@1.14.1':
     dependencies:
@@ -7827,7 +7824,6 @@ snapshots:
       '@webassemblyjs/ieee754': 1.13.2
       '@webassemblyjs/leb128': 1.13.2
       '@webassemblyjs/utf8': 1.13.2
-    optional: true
 
   '@webassemblyjs/wasm-opt@1.14.1':
     dependencies:
@@ -7835,7 +7831,6 @@ snapshots:
       '@webassemblyjs/helper-buffer': 1.14.1
       '@webassemblyjs/wasm-gen': 1.14.1
       '@webassemblyjs/wasm-parser': 1.14.1
-    optional: true
 
   '@webassemblyjs/wasm-parser@1.14.1':
     dependencies:
@@ -7845,21 +7840,17 @@ snapshots:
       '@webassemblyjs/ieee754': 1.13.2
       '@webassemblyjs/leb128': 1.13.2
       '@webassemblyjs/utf8': 1.13.2
-    optional: true
 
   '@webassemblyjs/wast-printer@1.14.1':
     dependencies:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
-    optional: true
 
   '@xmldom/xmldom@0.7.13': {}
 
-  '@xtuc/ieee754@1.2.0':
-    optional: true
+  '@xtuc/ieee754@1.2.0': {}
 
-  '@xtuc/long@4.2.2':
-    optional: true
+  '@xtuc/long@4.2.2': {}
 
   '@zkochan/js-yaml@0.0.7':
     dependencies:
@@ -8208,7 +8199,6 @@ snapshots:
       electron-to-chromium: 1.5.150
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.5)
-    optional: true
 
   buffer-from@1.1.2: {}
 
@@ -8295,8 +8285,7 @@ snapshots:
 
   caniuse-lite@1.0.30001707: {}
 
-  caniuse-lite@1.0.30001717:
-    optional: true
+  caniuse-lite@1.0.30001717: {}
 
   case@1.6.3: {}
 
@@ -8331,8 +8320,7 @@ snapshots:
 
   chownr@2.0.0: {}
 
-  chrome-trace-event@1.0.4:
-    optional: true
+  chrome-trace-event@1.0.4: {}
 
   ci-info@3.9.0: {}
 
@@ -8665,8 +8653,7 @@ snapshots:
 
   electron-to-chromium@1.5.123: {}
 
-  electron-to-chromium@1.5.150:
-    optional: true
+  electron-to-chromium@1.5.150: {}
 
   emoji-regex@8.0.0: {}
 
@@ -8689,7 +8676,6 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.1
-    optional: true
 
   entities@2.2.0: {}
 
@@ -9028,7 +9014,6 @@ snapshots:
     dependencies:
       esrecurse: 4.3.0
       estraverse: 4.3.0
-    optional: true
 
   eslint-scope@8.3.0:
     dependencies:
@@ -9102,8 +9087,7 @@ snapshots:
     dependencies:
       estraverse: 5.3.0
 
-  estraverse@4.3.0:
-    optional: true
+  estraverse@4.3.0: {}
 
   estraverse@5.3.0: {}
 
@@ -9431,8 +9415,7 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob-to-regexp@0.4.1:
-    optional: true
+  glob-to-regexp@0.4.1: {}
 
   glob@10.4.5:
     dependencies:
@@ -9975,7 +9958,6 @@ snapshots:
       '@types/node': 22.13.15
       merge-stream: 2.0.0
       supports-color: 8.1.1
-    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -10089,8 +10071,7 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  loader-runner@4.3.0:
-    optional: true
+  loader-runner@4.3.0: {}
 
   locate-path@6.0.0:
     dependencies:
@@ -10695,7 +10676,6 @@ snapshots:
   randombytes@2.1.0:
     dependencies:
       safe-buffer: 5.2.1
-    optional: true
 
   range-parser@1.2.1: {}
 
@@ -11342,7 +11322,6 @@ snapshots:
   serialize-javascript@6.0.2:
     dependencies:
       randombytes: 2.1.0
-    optional: true
 
   serve-index@1.9.1:
     dependencies:
@@ -11645,6 +11624,10 @@ snapshots:
       '@tokenizer/token': 0.3.0
       peek-readable: 5.4.2
 
+  style-loader@4.0.0(webpack@5.98.0(@swc/core@1.4.4)):
+    dependencies:
+      webpack: 5.98.0(@swc/core@1.4.4)
+
   stylelint-config-recommended@15.0.0(stylelint@16.17.0(typescript@5.7.2)):
     dependencies:
       stylelint: 16.17.0(typescript@5.7.2)
@@ -11707,7 +11690,6 @@ snapshots:
   supports-color@8.1.1:
     dependencies:
       has-flag: 4.0.0
-    optional: true
 
   supports-hyperlinks@3.2.0:
     dependencies:
@@ -11771,7 +11753,6 @@ snapshots:
       webpack: 5.98.0(@swc/core@1.4.4)
     optionalDependencies:
       '@swc/core': 1.4.4
-    optional: true
 
   terser@5.39.0:
     dependencies:
@@ -12003,7 +11984,6 @@ snapshots:
       browserslist: 4.24.5
       escalade: 3.2.0
       picocolors: 1.1.1
-    optional: true
 
   uri-js@4.4.1:
     dependencies:
@@ -12191,7 +12171,6 @@ snapshots:
     dependencies:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
-    optional: true
 
   wbuf@1.7.3:
     dependencies:
@@ -12266,8 +12245,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  webpack-sources@3.2.3:
-    optional: true
+  webpack-sources@3.2.3: {}
 
   webpack@5.98.0(@swc/core@1.4.4):
     dependencies:
@@ -12298,7 +12276,6 @@ snapshots:
       - '@swc/core'
       - esbuild
       - uglify-js
-    optional: true
 
   websocket-driver@0.7.4:
     dependencies:

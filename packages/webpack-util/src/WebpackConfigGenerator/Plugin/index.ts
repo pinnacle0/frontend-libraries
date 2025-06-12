@@ -1,4 +1,4 @@
-import {cssMinimizerPlugin, cssExtractPlugin} from "./css.plugin.js";
+import {cssMinimizerPlugin, miniCssExtractPlugin} from "./css.plugin.js";
 import {scriptTagCrossOriginPlugin, htmlPlugin} from "./html.plugin.js";
 import {jsMinimizerPlugin, reactRefreshPlugin} from "./ts.plugin.js";
 import {typeCheckerPlugin} from "./type-checker.plugin.js";
@@ -18,7 +18,7 @@ export class Plugin {
 
     static readonly fileOutput = {
         html: htmlPlugin,
-        miniCssExtract: cssExtractPlugin,
+        miniCssExtract: miniCssExtractPlugin,
     };
 
     static readonly minimizer = {

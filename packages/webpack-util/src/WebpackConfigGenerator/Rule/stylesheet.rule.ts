@@ -3,6 +3,10 @@ import {RegExpUtil} from "./RegExpUtil.js";
 import {createRequire} from "node:module";
 import type {RuleSetUseItem, RuleSetRule} from "@rspack/core";
 
+interface StylesheetRuleDeps {
+    minimize: boolean;
+}
+
 /**
  *
  * ref: https://rspack.dev/guide/features/loader#using-a-custom-loader
@@ -30,9 +34,15 @@ function lessLoader(): RuleSetUseItem {
     };
 }
 
-function cssExtractPluginLoader(): RuleSetUseItem {
+function miniCssExtractPluginLoader(): RuleSetUseItem {
     return {
         loader: createRequire(import.meta.url).resolve(rspack.CssExtractRspackPlugin.loader),
+    };
+}
+
+function styleLoader(): RuleSetUseItem {
+    return {
+        loader: createRequire(import.meta.url).resolve("style-loader"),
     };
 }
 
@@ -47,11 +57,25 @@ function cssExtractPluginLoader(): RuleSetUseItem {
  * @see https://webpack.js.org/loaders/postcss-loader/
  * @see https://webpack.js.org/loaders/style-loader/
  */
-export function stylesheetRule(): RuleSetRule {
+export function stylesheetRule({minimize}: StylesheetRuleDeps): RuleSetRule {
+    const use: RuleSetUseItem[] = minimize
+        ? [
+              // prettier-format-preserve
+              miniCssExtractPluginLoader(),
+              cssLoader(1),
+              lessLoader(),
+          ]
+        : [
+              // prettier-format-preserve
+              styleLoader(),
+              cssLoader(1),
+              lessLoader(),
+          ];
+
     return {
         type: "javascript/auto",
         test: RegExpUtil.fileExtension(".css", ".less"),
-        use: [cssExtractPluginLoader(), cssLoader(1), lessLoader()],
+        use,
         // Declare all css/less imports as side effects (not to be considered
         // as dead code), regardless of the containing package claims to be
         // otherwise. This prevents css from being tree shaken.
