@@ -107,7 +107,7 @@ export class WebpackConfigGenerator {
                 module: true,
                 filename: "static/js/[name].js",
                 publicPath: "/",
-                chunkFormat: "array-push",
+                chunkLoading: "jsonp",
             },
             resolve: {
                 extensions: this.resolveExtensions,
