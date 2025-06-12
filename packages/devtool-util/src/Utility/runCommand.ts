@@ -21,7 +21,9 @@ import path from "path";
 export function runCommand(command: string, args: string[] = []) {
     const execute = (command: string) => {
         // TODO: Solve [DEP0190] DeprecationWarning, ref: https://github.com/nodejs/help/issues/5063
-        const result = childProcess.spawnSync(command, args, {
+        // Current workaround by moving args to the command
+        const commandWithArgs = command.concat(" ", args.join(" "));
+        const result = childProcess.spawnSync(commandWithArgs, [], {
             encoding: "utf8",
             shell: true,
             stdio: "inherit",
