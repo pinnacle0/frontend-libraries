@@ -5,7 +5,7 @@
 // -----------------------------------------------------------------------------
 
 import eslint from "@eslint/js";
-import tsESlint from "typescript-eslint";
+import tsESlint, {ConfigArray} from "typescript-eslint";
 import globals from "globals";
 // @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
@@ -37,7 +37,7 @@ function legacyPlugin(name: string, alias = name) {
     return fixupPluginRules(plugin);
 }
 
-export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
+export const baseline = (plugin: TSESLint.FlatConfig.Plugin): ConfigArray =>
     tsESlint.config({
         extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, eslintPluginPrettier, ...compat.extends("plugin:import/typescript")],
         plugins: {
@@ -199,9 +199,16 @@ export const baseline = (plugin: TSESLint.FlatConfig.Plugin) =>
             "react-hooks/exhaustive-deps": ["error"],
             "react-hooks/rules-of-hooks": ["error"],
         },
-    });
+    }, 
+    {
+        files: ["*.d.ts"],
+        rules: {
+            "import/no-default-export": "off",
+        },
+    }
+);
 
-export const vitest = tsESlint.config({
+export const vitest: ConfigArray = tsESlint.config({
     plugins: {
         vitest: eslintPluginVitest,
         "testing-library": eslintPluginTestingLibrary,
