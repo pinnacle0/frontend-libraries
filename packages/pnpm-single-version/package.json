@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/pnpm-single-version",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Pinnacle",
     "type": "module",
     "license": "MIT",
@@ -34,7 +34,7 @@
         "commander": "10.0.1",
         "find-up": "5.0.0",
         "is-ci": "3.0.1",
-        "minimatch": "10.0.1"
+        "minimatch": "10.0.3"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
