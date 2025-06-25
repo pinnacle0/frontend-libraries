@@ -15,18 +15,17 @@ export class TaskRunner {
         this.logger = Utility.createConsoleLogger(this.taskName);
     }
 
-    execute(tasks: Task[]) {
-        this.executeAsync(tasks)
-            .then(() => {
-                this.logger.info("All task done successfully!");
-            })
-            .catch(error => {
-                console.error(error);
-                process.exit(1);
-            });
+    async execute(tasks: Task[]): Promise<void> {
+        try {
+            await this.executeAsync(tasks);
+            this.logger.info("All task done successfully!");
+        } catch (error) {
+            console.error(error);
+            process.exit(1);
+        }
     }
 
-    private async executeAsync(tasks: Task[]) {
+    private async executeAsync(tasks: Task[]): Promise<void> {
         for (const {name, execute, skipInFastMode} of tasks) {
             if (!this.isFastMode || !skipInFastMode) {
                 this.logger.task(name);
