@@ -7,6 +7,11 @@
         "lib",
         "template"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pinnacle0/frontend-libraries.git",
+        "directory": "packages/devtool-util"
+    },
     "exports": {
         "./*": "./src/*.ts",
         "./Utility": "./src/Utility/index.ts",

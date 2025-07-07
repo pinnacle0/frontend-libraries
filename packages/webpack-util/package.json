@@ -6,6 +6,11 @@
     "exports": {
         ".": "./src/index.ts"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pinnacle0/frontend-libraries.git",
+        "directory": "packages/webpack-util"
+    },
     "scripts": {
         "build": "pnpm tsx script/build.ts",
         "format": "pnpm tsx script/format.ts",

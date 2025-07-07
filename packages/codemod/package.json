@@ -15,6 +15,11 @@
         ".": "./build/index.js",
         "./package.json": "./package.json"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pinnacle0/frontend-libraries.git",
+        "directory": "packages/codemod"
+    },
     "scripts": {
         "bin": "tsx ./src/bin.ts",
         "test": "vitest --config config/vitest.config.ts --run",
