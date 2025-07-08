@@ -1,6 +1,6 @@
 import {findWorkspaceDir} from "@pnpm/find-workspace-dir";
 import {realpath} from "fs/promises";
-import findUp from "find-up";
+import {findUp} from "find-up";
 import {ProjectRootError} from "../error.js";
 import path from "path";
 
