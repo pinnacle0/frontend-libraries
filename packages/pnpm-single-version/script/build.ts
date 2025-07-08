@@ -40,7 +40,7 @@ export const build = async () => {
     fs.copyFileSync(path.join(sourceFilePath, "command/pnpmfile/.pnpmfile.cjs"), path.join(outputPnpmFilePath, ".pnpmfile.cjs"));
     console.info("> Copied .pnpmfile.cjs template");
 
-    await spawnSync("swc", [sourceFilePath, "-d", outputPath, "--config-file", swcConfigFilePath], spawnOptions);
+    await spawnSync("swc", [sourceFilePath, "-d", outputPath, "--config-file", swcConfigFilePath, "--strip-leading-paths"], spawnOptions);
     console.info("> Transpiled");
 
     await spawnSync("tsc", ["-P", tsconfigFilePath, "--emitDeclarationOnly"], spawnOptions);

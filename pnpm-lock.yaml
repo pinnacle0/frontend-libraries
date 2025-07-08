@@ -258,9 +258,6 @@ importers:
       '@swc/core':
         specifier: 1.12.9
         version: 1.12.9
-      '@types/is-ci':
-        specifier: ^3.0.0
-        version: 3.0.4
       '@types/minimatch':
         specifier: 6.0.0
         version: 6.0.0
@@ -1799,9 +1796,6 @@ packages:
 
   '@types/http-proxy@1.17.16':
     resolution: {integrity: sha512-sdWoUajOB1cd0A8cRRQ1cfyWNbmFKLAqBB89Y8x5iYyG/mkJHc0YUH8pdWBy2omi9qtCpiIgGjuwO0dQST2l5w==}
-
-  '@types/is-ci@3.0.4':
-    resolution: {integrity: sha512-AkCYCmwlXeuH89DagDCzvCAyltI2v9lh3U3DqSg/GrBYoReAaWwxfXCqMx9UV5MajLZ4ZFwZzV4cABGIxk2XRw==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -7293,10 +7287,6 @@ snapshots:
     dependencies:
       '@types/node': 22.13.15
 
-  '@types/is-ci@3.0.4':
-    dependencies:
-      ci-info: 3.9.0
-
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
@@ -7318,6 +7308,7 @@ snapshots:
   '@types/node@24.0.10':
     dependencies:
       undici-types: 7.8.0
+    optional: true
 
   '@types/qs@6.14.0': {}
 
@@ -9783,7 +9774,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.0.10
+      '@types/node': 22.13.15
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -11795,7 +11786,8 @@ snapshots:
 
   undici-types@6.20.0: {}
 
-  undici-types@7.8.0: {}
+  undici-types@7.8.0:
+    optional: true
 
   unicorn-magic@0.1.0: {}
 
