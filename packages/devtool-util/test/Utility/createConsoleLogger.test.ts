@@ -1,4 +1,4 @@
-import {Utility} from "../../src/Utility";
+import {Utility} from "../../src/Utility/index.js";
 import {describe, test, expect, vi} from "vitest";
 
 describe("Utility.createConsoleLogger (smoke tests)", () => {
