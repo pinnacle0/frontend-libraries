@@ -4,6 +4,8 @@ import {NavigationData, TestFeaturePermission} from "../util/NavigationData";
 import {WebUINavigatorSide} from "./WebUINavigatorSide";
 import {WebUILogo} from "./WebUILogo";
 import {UIProvider} from "@pinnacle0/web-ui/core/UIProvider";
+import {ModalUtil} from "@pinnacle0/web-ui/util/ModalUtil";
+import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 
 const badges = {
     "/core/button": 4000,
@@ -27,5 +29,7 @@ export const Main = () => (
             badges={badges}
             onLifecycleError={globalErrorHandler}
         />
+        <ModalUtil.Root />
+        <MessageUtil.Root />
     </UIProvider>
 );
