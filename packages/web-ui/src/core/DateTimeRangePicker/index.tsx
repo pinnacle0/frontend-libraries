@@ -12,6 +12,7 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     disabledRange?: (diffToToday: number, date: Date) => boolean;
     presets?: Array<{label: React.ReactNode; value: [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])}>;
     preserveInvalidOnBlur?: boolean;
+    showSecond?: boolean;
 }
 
 interface State {
@@ -74,7 +75,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
     }
 
     render() {
-        const {value, allowNull, disabled, className, presets, preserveInvalidOnBlur = true} = this.props;
+        const {value, allowNull, disabled, className, presets, showSecond, preserveInvalidOnBlur = true} = this.props;
         const parsedValue: [Dayjs | null, Dayjs | null] = [value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null];
         return (
             <DatePicker.RangePicker
@@ -86,7 +87,7 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
                 disabled={disabled}
                 presets={presets}
                 showTime={DateTimeRangePicker.showTime}
-                showSecond={false}
+                showSecond={showSecond}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
                 onOpenChange={this.onOpenChange}
                 needConfirm={false}
