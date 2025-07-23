@@ -56,6 +56,7 @@ export class DateTimePicker<T extends boolean> extends React.PureComponent<Props
                 allowClear={allowNull}
                 disabled={disabled}
                 showTime
+                showSecond={false}
                 showNow={showNow}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
                 needConfirm={false}

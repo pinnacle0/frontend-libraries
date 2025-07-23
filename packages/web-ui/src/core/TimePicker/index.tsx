@@ -41,6 +41,7 @@ export class TimePicker<T extends boolean> extends React.PureComponent<Props<T>>
                 disabled={disabled}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
                 needConfirm={false}
+                showSecond={false}
             />
         );
     }

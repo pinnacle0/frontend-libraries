@@ -66,6 +66,7 @@ export class TimeRangePicker<T extends boolean> extends React.PureComponent<Prop
                 order={order}
                 preserveInvalidOnBlur={preserveInvalidOnBlur}
                 onOpenChange={this.onOpenChange}
+                showSecond={false}
             />
         );
     }
