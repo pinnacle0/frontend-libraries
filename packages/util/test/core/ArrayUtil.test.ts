@@ -55,7 +55,7 @@ describe("ArrayUtil.areSame", () => {
     ])("array %o", (...array: number[]) => {
         test("same as another array with same elements (always)", () => {
             const arrayClone: number[] = JSON.parse(JSON.stringify(array));
-            expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array); // different reference
+            (expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array)); // different reference
             expect(ArrayUtil.areSame(array, arrayClone, true)).toBe(true);
             expect(ArrayUtil.areSame(array, arrayClone, false)).toBe(true);
         });
@@ -63,7 +63,7 @@ describe("ArrayUtil.areSame", () => {
         test("same as another array with different order with compareOrdering false", () => {
             const compareOrdering = false;
             const arrayClone: number[] = JSON.parse(JSON.stringify(array));
-            expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array); // different reference
+            (expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array)); // different reference
             arrayClone.reverse();
             expect(ArrayUtil.areSame(array, arrayClone, compareOrdering)).toBe(true);
         });
@@ -71,7 +71,7 @@ describe("ArrayUtil.areSame", () => {
         test("not same as another array with different order with compareOrdering true", () => {
             const compareOrdering = true;
             const arrayClone: number[] = JSON.parse(JSON.stringify(array));
-            expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array); // different reference
+            (expect(arrayClone).toBeInstanceOf(Array), expect(arrayClone).not.toBe(array)); // different reference
             arrayClone.reverse();
             expect(ArrayUtil.areSame(array, arrayClone, compareOrdering)).toBe(false);
         });
