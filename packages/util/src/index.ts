@@ -5,6 +5,7 @@ export {DistributionGenerator} from "./core/DistributionGenerator.js";
 export {EnumUtil} from "./core/EnumUtil.js";
 export type {StringBasedEnumMap, StringBasedEnumValue} from "./core/EnumUtil.js";
 export {ErrorUtil} from "./core/ErrorUtil.js";
+export {DecoratorUtil} from "./core/DecoratorUtil.js";
 export {HashUtil} from "./core/HashUtil.js";
 export {IDGenerator} from "./core/IDGenerator.js";
 export {NumberUtil} from "./core/NumberUtil.js";
