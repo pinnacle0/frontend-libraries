@@ -9,8 +9,6 @@
         "allowSyntheticDefaultImports": true,
         "strictPropertyInitialization": true,
         "esModuleInterop": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
