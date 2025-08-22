@@ -46,7 +46,7 @@ export function Stack({router, className, style}: StackProps) {
                                     ? {transform: "translate3d(-100px, 0, 0)"}
                                     : index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()
                                       ? {transition: "none"}
-                                      : undefined
+                                      : {display: "none"}
                             }
                             key={screen.location.key}
                             enter={() => screen.transition.enteringKeyframes}
@@ -54,7 +54,8 @@ export function Stack({router, className, style}: StackProps) {
                             onEntering={() => screen.lifecycle.trigger("willEnter")}
                             onEntered={() => screen.lifecycle.trigger("didEnter")}
                             onExiting={() => screen.lifecycle.trigger("willExit")}
-                            onExited={() => screen.lifecycle.trigger("didExit")}>
+                            onExited={() => screen.lifecycle.trigger("didExit")}
+                        >
                             <RouteContext.Provider value={context}>
                                 <screen.content {...context} />
                             </RouteContext.Provider>
