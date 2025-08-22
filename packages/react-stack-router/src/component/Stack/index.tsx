@@ -27,6 +27,12 @@ export function Stack({router, className, style}: StackProps) {
         }
     }, [screens]);
 
+    const screenStyle = (index: number) => {
+        if (index === screens.length - 2) return {transform: "translate3d(-100px, 0, 0)"};
+        if (index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()) return {transition: "none"};
+        if (screens.length > 2) return {display: "none"};
+    };
+
     return (
         <div className={classNames("g-stack-router", className)} style={style}>
             <AnimatePresence>
@@ -41,13 +47,7 @@ export function Stack({router, className, style}: StackProps) {
                     return (
                         <Animated.div
                             className={classNames("g-stack-router-screen", {overlay: index > 0})}
-                            style={
-                                index === screens.length - 2
-                                    ? {transform: "translate3d(-100px, 0, 0)"}
-                                    : index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()
-                                      ? {transition: "none"}
-                                      : {display: "none"}
-                            }
+                            style={screenStyle(index)}
                             key={screen.location.key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
