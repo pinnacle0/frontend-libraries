@@ -33,8 +33,10 @@ body {
             rgb(0 0 0 / 30%) 0 30px 60px -30px;
     }
 
-    &:not(:nth-last-child(2)):not(:last-of-type) {
-        display: none;
+    &:not(:nth-last-child(2)) {
+        &:not(:last-of-type) {
+            display: none;
+        }
     }
 
     &:not(:last-of-type) {
