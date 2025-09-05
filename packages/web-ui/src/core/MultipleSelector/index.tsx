@@ -57,7 +57,7 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         const {disabled} = this.props;
         return (
             <div className="g-multiple-selector-selected-tags">
-                <Tags maxWidth={600} color="blue" items={labels} onClose={disabled ? undefined : this.onClose} />
+                <Tags maxWidth={600} color="blue" items={labels} onClose={disabled ? undefined : this.onClose} useItemsAsKey />
             </div>
         );
     };
