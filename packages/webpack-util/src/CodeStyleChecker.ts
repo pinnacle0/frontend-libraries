@@ -32,7 +32,7 @@ export class CodeStyleChecker {
     private checkESLint() {
         this.logger.task("Checking ESLint");
         for (const srcDirectory of this.checkableSrcDirectories) {
-            Utility.runCommand("eslint", ["--no-warn-ignored", "--no-error-on-unmatched-pattern", "--max-warnings=1", `"${srcDirectory}/**"`]);
+            Utility.runCommand("eslint", [`"${srcDirectory}/**"`, "--no-warn-ignored", "--no-error-on-unmatched-pattern", "--max-warnings=1", "--concurrency", "auto"]);
         }
     }
 

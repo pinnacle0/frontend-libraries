@@ -5,6 +5,7 @@ import eslintPluginPrettier from "eslint-config-prettier";
 import eslintPluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslint from "@eslint/js";
+import {defineConfig} from "eslint/config";
 import tsESlint from "typescript-eslint";
 import globals from "globals";
 
@@ -24,7 +25,7 @@ function legacyPlugin(name, alias = name) {
     return fixupPluginRules(plugin);
 }
 
-export default tsESlint.config(
+export default defineConfig(
     {
         files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
         plugins: {

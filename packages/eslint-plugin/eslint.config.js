@@ -1,9 +1,10 @@
 // @ts-check
 import eslint from "@eslint/js";
 import tsESlint from "typescript-eslint";
+import {defineConfig} from "eslint/config";
 import globals from "globals";
 
-export default tsESlint.config(
+export default defineConfig(
     {
         files: ["**/*.ts", "**/*.js"],
         // @ts-ignore

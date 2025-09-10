@@ -27,7 +27,7 @@ const config = {
     external: ["typescript", "eslint", /^eslint-.*/, /^@typescript-eslint.*/],
     plugins: [
         // prettier-ignore
-        rollupPluginNodeResolve(),
+        rollupPluginNodeResolve({preferBuiltins: true}),
         rollupPluginCommonjs({transformMixedEsModules: true}),
         rollupPluginJson(),
         rollupPluginTypescript({tsconfig: FilePath.tsConfigForSrc}),

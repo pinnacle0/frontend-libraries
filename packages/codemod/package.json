@@ -23,7 +23,7 @@
     "scripts": {
         "bin": "tsx ./src/bin.ts",
         "test": "vitest --config config/vitest.config.ts --run",
-        "lint": "eslint --no-warn-ignored \"./src/**\"",
+        "lint": "eslint --concurrency auto --no-warn-ignored \"./src/**\"",
         "new-codemod": "pnpm tsx ./script/new-codemod.ts",
         "codegen": "pnpm tsx ./script/codegen.ts",
         "build": "pnpm lint && pnpm test && tsc --build ./tsconfig.json",

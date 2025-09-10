@@ -45,7 +45,7 @@ function getFixtures(): {path: string; data: string}[] {
             path: formattedFixturePath,
             data: `//
 export function fn() {
-  console.info('is prettier this file is formatted');
+    console.info("is ugly and unformatted");
 }
 `,
         },

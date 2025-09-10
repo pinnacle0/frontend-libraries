@@ -33,9 +33,9 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
 
     const fileStats = fs.statSync(fileOrDirectory);
     if (fileStats.isDirectory()) {
-        const quotedGlobPattern = path.join(fileOrDirectory, `"**/*.{css,html,js,json,jsx,less,ts,tsx}"`);
         try {
-            Utility.runCommand("prettier", [flag, quotedGlobPattern, ...prettierIgnoreFlags, "--no-error-on-unmatched-pattern"]);
+            // experimental-cli ref: https://prettier.io/blog/2025/06/23/3.6.0#cli
+            Utility.runCommand("prettier", [flag, fileOrDirectory, ...prettierIgnoreFlags, "--no-error-on-unmatched-pattern", "--experimental-cli"]);
         } catch (error) {
             if (error && (error as any).childProcessResult?.status === PRETTIER_EXIT_CODE_WHEN_NO_FILES_ARE_FOUND) {
                 return;
@@ -43,7 +43,7 @@ function runPrettierCommand(fileOrDirectory: string, flag: "--check" | "--write"
             throw error;
         }
     } else if (fileStats.isFile()) {
-        Utility.runCommand("prettier", [flag, fileOrDirectory, ...prettierIgnoreFlags]);
+        Utility.runCommand("prettier", [flag, fileOrDirectory, ...prettierIgnoreFlags, "--experimental-cli"]);
     } else {
         throw new Error(`Path is not a file/directory: ${fileOrDirectory}`);
     }

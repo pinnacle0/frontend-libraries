@@ -39,7 +39,7 @@ new TaskRunner("build").execute([
         name: "lint",
         skipInFastMode: true,
         execute: () => {
-            Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`]);
+            Utility.runCommand("eslint", ["-c", FilePath.projectESLintConfig, "--no-warn-ignored", `"${FilePath.src}/**"`, "--concurrency", "auto"]);
         },
     },
     {
