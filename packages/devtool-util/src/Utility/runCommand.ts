@@ -20,9 +20,11 @@ import path from "path";
  */
 export function runCommand(command: string, args: string[] = []) {
     const execute = (command: string) => {
-        // TODO: Solve [DEP0190] DeprecationWarning, ref: https://github.com/nodejs/help/issues/5063
-        // Current workaround by moving args to the command
+        // using {shell: true} should not pass args
+        // It does not prevent shell injection but only to remove the warnings
+        // ref: [DEP0190] DeprecationWarning, https://nodejs.org/api/deprecations.html#dep0190-passing-args-to-nodechild_process-execfilespawn-with-shell-option-true
         const commandWithArgs = command.concat(" ", args.join(" "));
+
         const result = childProcess.spawnSync(commandWithArgs, [], {
             encoding: "utf8",
             shell: true,
