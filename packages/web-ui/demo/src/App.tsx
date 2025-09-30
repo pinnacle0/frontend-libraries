@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList} from "@pinnacle0/web-ui/src/core/FlatList";
+import {FlatList} from "@pinnacle0/web-ui/core/FlatList";
 import {Profile} from "./Profile";
 import type {User} from "./Profile";
 import {Reload} from "./Reload";
