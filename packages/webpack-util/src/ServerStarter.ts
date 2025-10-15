@@ -36,6 +36,7 @@ export interface WebpackServerStarterOptions
          */
         useSystemSocksProxy?: boolean | string;
     };
+    runtimeErrorHandler?: (error: Error) => boolean;
     interceptExpressApp?: (app: NonNullable<Application>) => void;
 }
 
@@ -52,6 +53,7 @@ export class ServerStarter {
     private readonly setupMiddlewares: DevServerConfiguration["setupMiddlewares"];
     private readonly port: number;
     private readonly apiProxy: DevServerConfiguration["proxy"];
+    private readonly runtimeErrorHandler: true | ((error: Error) => boolean);
     private readonly logger = Utility.createConsoleLogger("WebpackServerStarter");
     private readonly rspackConfig: Configuration;
 
@@ -70,8 +72,10 @@ export class ServerStarter {
         customizedLoaders,
         customizedPlugins,
         indirectCodeExclude,
+        runtimeErrorHandler,
     }: WebpackServerStarterOptions) {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
+        this.runtimeErrorHandler = runtimeErrorHandler ?? true;
         this.port = port;
         this.apiProxy = apiProxy
             ? [
@@ -142,7 +146,7 @@ export class ServerStarter {
                 hot: true,
                 client: {
                     overlay: {
-                        errors: true,
+                        runtimeErrors: this.runtimeErrorHandler,
                     },
                 },
                 setupMiddlewares: this.setupMiddlewares,
