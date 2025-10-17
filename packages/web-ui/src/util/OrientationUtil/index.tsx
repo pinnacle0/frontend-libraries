@@ -5,7 +5,7 @@
  * reliable cross-platform support including iOS 26+ where the legacy
  * window.orientation API has been removed.
  *
- * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Testing_media_queries
  */
 
 export type OrientationType = "portrait" | "landscape";
