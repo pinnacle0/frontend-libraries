@@ -1,40 +1,42 @@
 /**
- * 1)
- * This util only works on mobile devices.
- * 2)
- * For Safari Mobile & Iphone Mobile,
- * ScreenOrientation API is not supported, and screen.availHeight & screen.availWidth will not produce a good result.
- * So use old APIs: window.eventListener, 'orientationchange'.
+ * Orientation detection utility for mobile and desktop devices.
  *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/orientationchange_event
+ * Uses the matchMedia API with orientation media queries, which provides
+ * reliable cross-platform support including iOS 26+ where the legacy
+ * window.orientation API has been removed.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
  */
 
 export type OrientationType = "portrait" | "landscape";
 
 export type Subscriber = (orientation: OrientationType) => void;
 
-const supportScreenOrientationAPI = typeof window.screen.orientation !== "undefined";
-
 function subscribe(subscriber: Subscriber): () => void {
     const handler = () => subscriber(current());
-    if (supportScreenOrientationAPI) {
-        window.screen.orientation.addEventListener("change", handler);
-        return () => window.screen.orientation.removeEventListener("change", handler);
+    // Use matchMedia for iOS 26+ and other browsers
+    const portraitQuery = window.matchMedia("(orientation: portrait)");
+    const mediaHandler = () => handler();
+
+    // Use addEventListener for modern browsers, addListener for older ones
+    if (portraitQuery.addEventListener) {
+        portraitQuery.addEventListener("change", mediaHandler);
+        return () => portraitQuery.removeEventListener("change", mediaHandler);
     } else {
-        window.addEventListener("orientationchange", handler);
-        return () => window.removeEventListener("orientationchange", handler, false);
+        // Fallback for very old browsers
+        portraitQuery.addListener(mediaHandler);
+        return () => portraitQuery.removeListener(mediaHandler);
     }
 }
 
 function current(): OrientationType {
     try {
-        if (supportScreenOrientationAPI) {
-            return window.screen.orientation.angle === 0 ? "portrait" : "landscape";
-        } else {
-            return window.orientation === 0 ? "portrait" : "landscape";
-        }
+        // Use matchMedia API for iOS 26+ and other browsers
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        return isPortrait ? "portrait" : "landscape";
     } catch {
-        return "portrait";
+        // Final fallback: compare dimensions
+        return window.innerHeight >= window.innerWidth ? "portrait" : "landscape";
     }
 }
 
