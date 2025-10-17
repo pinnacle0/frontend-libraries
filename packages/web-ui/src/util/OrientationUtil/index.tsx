@@ -3,7 +3,7 @@
  *
  * Uses the matchMedia API with orientation media queries, which provides
  * reliable cross-platform support including iOS 26+ where the legacy
- * window.orientation API has been removed.
+ * window.orientation API has been removed since iOS 26+ PWA is not supported.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Testing_media_queries
  */
