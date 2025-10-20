@@ -35,8 +35,8 @@ function current(): OrientationType {
         const isPortrait = window.matchMedia("(orientation: portrait)").matches;
         return isPortrait ? "portrait" : "landscape";
     } catch {
-        // Final fallback: compare dimensions
-        return window.innerHeight >= window.innerWidth ? "portrait" : "landscape";
+        // Do not use window.innerHeight/window.innerWidth comparison, because it is incorrect if keyboard is popped up
+        return "portrait";
     }
 }
 
