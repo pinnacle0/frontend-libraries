@@ -17,10 +17,10 @@ const supportScreenOrientationAPI = typeof window.screen.orientation !== "undefi
 
 // TODO: Need to check if iOS 26.0+ PWA bug is fixed in the future.
 //
-// Cannot use userAgent to check because it freeze at iOS 26.
+// Cannot use userAgent to check because it freeze at iOS 18.6 or later.
 // ref: https://www.kochava.com/blog/ios-26-apple-freezes-os-version/
 // "notation" is a new option in Intl.PluralRules.prototype.resolvedOptions() in iOS 26.
-// https://webkit.org/blog/17333/webkit-features-in-safari-26-0/#web-api
+// https://webkit.org/blog/17333/webkit-features-in-safari-26-0/#javascript
 const isIOS26PWA = BrowserUtil.os() === "ios" && "notation" in new Intl.PluralRules().resolvedOptions() && "standalone" in window.navigator && window.navigator.standalone;
 
 export type OrientationType = "portrait" | "landscape";
