@@ -1,13 +1,16 @@
 /**
  * Orientation detection utility for mobile and desktop devices.
  *
+ * For Android,
  * Uses the ScreenOrientation API for checking the orientation of the screen.
  * For Deprecated browsers, it uses the window.orientation API.
  *
- * For iOS 26.0+ PWA, it does not dispatch any event when the orientation changes,
- * so we need to use media queries to check the orientation of the screen.
- *
  * @see https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation
+ *
+ * For iOS 26.0+ PWA, it does not dispatch any event when the orientation changes,
+ * For mobile Safari,
+ * Use media queries to check the orientation of the screen for iOS.
+ *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
  */
 
@@ -15,21 +18,18 @@ import {BrowserUtil} from "../BrowserUtil";
 
 const supportScreenOrientationAPI = typeof window.screen.orientation !== "undefined";
 
-// TODO: Need to check if iOS 26.0+ PWA bug is fixed in the future.
-//
-// Cannot use userAgent to check because it freeze at iOS 18.6 or later.
-// ref: https://www.kochava.com/blog/ios-26-apple-freezes-os-version/
-// "notation" is a new option in Intl.PluralRules.prototype.resolvedOptions() in iOS 26.
-// https://webkit.org/blog/17333/webkit-features-in-safari-26-0/#javascript
-const isIOS26PWA = BrowserUtil.os() === "ios" && "notation" in new Intl.PluralRules().resolvedOptions() && "standalone" in window.navigator && window.navigator.standalone;
-
 export type OrientationType = "portrait" | "landscape";
 
 export type Subscriber = (orientation: OrientationType) => void;
 
+// DO NOT USE matchMedia for non-safari browsers, because it can be incorrect if keyboard is popped up
+// Tested on iOS safari: 26.0-15.2
+// See Note from: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/orientation
+const isIOSSafari = BrowserUtil.os() === "ios" && navigator.userAgent.includes("Safari");
+
 function subscribe(subscriber: Subscriber): () => void {
     const handler = () => subscriber(current());
-    if (isIOS26PWA) {
+    if (isIOSSafari) {
         window.matchMedia("(orientation: portrait)").addEventListener("change", handler);
         return () => window.matchMedia("(orientation: portrait)").removeEventListener("change", handler);
     } else if (supportScreenOrientationAPI) {
@@ -43,7 +43,7 @@ function subscribe(subscriber: Subscriber): () => void {
 
 function current(): OrientationType {
     try {
-        if (isIOS26PWA) {
+        if (isIOSSafari) {
             return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
         } else if (supportScreenOrientationAPI) {
             return window.screen.orientation.angle === 0 ? "portrait" : "landscape";
