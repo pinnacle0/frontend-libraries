@@ -14,7 +14,6 @@ export {PromiseUtil} from "./core/PromiseUtil.js";
 export {ProvinceCityList} from "./core/ProvinceCityList.js";
 export type {ProvinceCityItem} from "./core/ProvinceCityList.js";
 export {RandomUtil} from "./core/RandomUtil.js";
-export {RegExpUtil} from "./core/RegExpUtil.js";
 export {TextUtil} from "./core/TextUtil.js";
 export {URLUtil} from "./core/URLUtil.js";
 export {VersionComparator} from "./core/VersionComparator.js";
