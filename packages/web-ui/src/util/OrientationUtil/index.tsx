@@ -8,9 +8,10 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation
  *
  * For iOS 26.0+ PWA, it does not dispatch any event when the orientation changes,
- * For mobile Safari,
+ * For iOS,
  * Use media queries to check the orientation of the screen for iOS.
  *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/orientation
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
  */
 
@@ -22,14 +23,9 @@ export type OrientationType = "portrait" | "landscape";
 
 export type Subscriber = (orientation: OrientationType) => void;
 
-// DO NOT USE matchMedia for non-safari browsers, because it can be incorrect if keyboard is popped up
-// Tested on iOS safari: 26.0-15.2
-// See Note from: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/orientation
-const isIOSSafari = BrowserUtil.os() === "ios" && navigator.userAgent.includes("Safari");
-
 function subscribe(subscriber: Subscriber): () => void {
     const handler = () => subscriber(current());
-    if (isIOSSafari) {
+    if (BrowserUtil.os() === "ios") {
         window.matchMedia("(orientation: portrait)").addEventListener("change", handler);
         return () => window.matchMedia("(orientation: portrait)").removeEventListener("change", handler);
     } else if (supportScreenOrientationAPI) {
@@ -43,7 +39,7 @@ function subscribe(subscriber: Subscriber): () => void {
 
 function current(): OrientationType {
     try {
-        if (isIOSSafari) {
+        if (BrowserUtil.os() === "ios") {
             return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
         } else if (supportScreenOrientationAPI) {
             return window.screen.orientation.angle === 0 ? "portrait" : "landscape";
