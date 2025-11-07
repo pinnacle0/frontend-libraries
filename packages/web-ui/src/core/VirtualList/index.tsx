@@ -1,8 +1,8 @@
 import "../../internal/polyfill/ResizeObserver";
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import {useVirtualizer, observeElementOffset as defaultObserveElementOffset, observeElementRect as defaultObserveElementRect} from "@tanstack/react-virtual";
-import type {VirtualizerOptions, Virtualizer} from "@tanstack/react-virtual";
+import {useVirtualizer} from "@tanstack/react-virtual";
+import type {Virtualizer} from "@tanstack/react-virtual";
 import type {ComponentType} from "react";
 import type {StringKey} from "../../internal/type";
 import "./index.less";
@@ -30,11 +30,9 @@ export interface Props<T extends object> {
     direction?: Direction;
     fixedSize?: (index: number) => number;
     overscan?: number;
-    observeElementRect?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementRect"];
-    observeElementOffset?: VirtualizerOptions<HTMLElement, HTMLElement>["observeElementOffset"];
     id?: string;
     className?: string;
-    listRef?: React.Ref<VirtualListHandler>;
+    listRef?: React.Ref<Virtualizer<HTMLElement, HTMLElement>>;
 }
 
 /**
@@ -47,12 +45,9 @@ export function VirtualList<T extends object>({
     renderItem: renderData,
     overscan = 5,
     initialRect = {width: 0, height: 0},
-    observeElementOffset,
     fixedSize,
-    observeElementRect,
     id,
     className,
-    listRef,
 }: Props<T>) {
     const Item = renderData;
     const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -63,21 +58,8 @@ export function VirtualList<T extends object>({
         count: data.length,
         getScrollElement: () => parentRef.current,
         estimateSize: fixedSize ?? (() => DEFAULT_ITEM_SIZE),
-        observeElementOffset: observeElementOffset ?? defaultObserveElementOffset,
-        observeElementRect: observeElementRect ?? defaultObserveElementRect,
         overscan,
     });
-
-    React.useImperativeHandle(listRef, () => ({
-        getVirtualItems: virtualizer.getVirtualItems,
-        scrollElement: virtualizer.scrollElement,
-        measure: virtualizer.measure,
-        scrollToIndex: virtualizer.scrollToIndex,
-        scrollToOffset: virtualizer.scrollToOffset,
-        getTotalSize: virtualizer.getTotalSize,
-        indexFromElement: virtualizer.indexFromElement,
-        range: virtualizer.range,
-    }));
 
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
