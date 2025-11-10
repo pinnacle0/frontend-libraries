@@ -42,6 +42,7 @@ export function VirtualList<T extends object>({
     fixedSize,
     id,
     className,
+    listRef,
 }: Props<T>) {
     const Item = renderData;
     const parentRef = React.useRef<HTMLDivElement | null>(null);
@@ -54,6 +55,8 @@ export function VirtualList<T extends object>({
         estimateSize: fixedSize ?? (() => DEFAULT_ITEM_SIZE),
         overscan,
     });
+
+    React.useImperativeHandle(listRef, () => virtualizer);
 
     const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
