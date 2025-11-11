@@ -9,6 +9,7 @@
  *
  * For iOS 26.0+ PWA, it does not dispatch any event when the orientation changes,
  * For iOS,
+ * Only support iOS 14+
  * Use media queries to check the orientation of the screen for iOS.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/orientation
@@ -23,11 +24,14 @@ export type OrientationType = "portrait" | "landscape";
 
 export type Subscriber = (orientation: OrientationType) => void;
 
-function subscribe(subscriber: Subscriber): () => void {
+function subscribe(subscriber: Subscriber) {
     const handler = () => subscriber(current());
     if (BrowserUtil.os() === "ios") {
-        window.matchMedia("(orientation: portrait)").addEventListener("change", handler);
-        return () => window.matchMedia("(orientation: portrait)").removeEventListener("change", handler);
+        const mediaQuery = window.matchMedia("(orientation: portrait)");
+        if (mediaQuery instanceof EventTarget) {
+            mediaQuery.addEventListener("change", handler);
+            return () => mediaQuery.removeEventListener("change", handler);
+        }
     } else if (supportScreenOrientationAPI) {
         window.screen.orientation.addEventListener("change", handler);
         return () => window.screen.orientation.removeEventListener("change", handler);
