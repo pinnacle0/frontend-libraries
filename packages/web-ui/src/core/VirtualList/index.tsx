@@ -2,14 +2,16 @@ import "../../internal/polyfill/ResizeObserver";
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {useVirtualizer} from "@tanstack/react-virtual";
-import type {Virtualizer} from "@tanstack/react-virtual";
 import type {ComponentType} from "react";
+import type {Virtualizer} from "@tanstack/react-virtual";
 import type {StringKey} from "../../internal/type";
 import "./index.less";
 
 const DEFAULT_ITEM_SIZE = 100;
 
 export type Direction = "horizontal" | "vertical";
+
+export type VirtualListHandler = Virtualizer<HTMLElement, HTMLElement>;
 
 export interface ItemProps<T extends object> {
     index: number;
@@ -26,7 +28,7 @@ export interface Props<T extends object> {
     overscan?: number;
     id?: string;
     className?: string;
-    listRef?: React.Ref<Virtualizer<HTMLElement, HTMLElement>>;
+    listRef?: React.Ref<VirtualListHandler>;
 }
 
 /**
