@@ -160,6 +160,13 @@ function range(size: number, fromIndex: number = 0) {
     return result;
 }
 
+function findDiffValues<T extends string | number>(newValues: ReadonlyArray<T>, values: ReadonlyArray<T>): T[] {
+    const diffSet = new Set<T>();
+    newValues.filter(value => !values.includes(value)).forEach(_ => diffSet.add(_));
+    values.filter(value => !newValues.includes(value)).forEach(_ => diffSet.add(_));
+    return Array.from(diffSet);
+}
+
 export const ArrayUtil = Object.freeze({
     sum,
     sumByKey,
@@ -173,4 +180,5 @@ export const ArrayUtil = Object.freeze({
     hasIntersection,
     compactMap,
     range,
+    findDiffValues,
 });

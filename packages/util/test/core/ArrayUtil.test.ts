@@ -423,3 +423,16 @@ describe("ArrayUtil.range", () => {
         expect(ArrayUtil.range(size, fromIndex)).toStrictEqual(expected);
     });
 });
+
+describe("ArrayUtil.findDiffValues", () => {
+    type TestEachRowSchema = {newValues: number[]; values: number[]; expected: number[]};
+    test.each`
+        newValues    | values       | expected
+        ${[1, 2, 3]} | ${[2, 3, 4]} | ${[1, 4]}
+        ${[1, 2, 3]} | ${[1, 2, 3]} | ${[]}
+        ${[1, 2, 3]} | ${[]}        | ${[1, 2, 3]}
+        ${[]}        | ${[1, 2, 3]} | ${[1, 2, 3]}
+    `("returns expected array from findDiffValues($newValues, $values)", ({newValues, values, expected}: TestEachRowSchema) => {
+        expect(ArrayUtil.findDiffValues(newValues, values)).toStrictEqual(expected);
+    });
+});
