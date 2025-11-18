@@ -13,7 +13,7 @@ overrides:
   cookie: 1.0.1
   brace-expansion: 2.0.2
   js-yaml: 4.1.1
-  glob: 11.1.0
+  glob: 12.0.0
 
 importers:
 
@@ -107,8 +107,8 @@ importers:
         specifier: 5.4.1
         version: 5.4.1
       glob:
-        specifier: 11.1.0
-        version: 11.1.0
+        specifier: 12.0.0
+        version: 12.0.0
       recast:
         specifier: 0.23.4
         version: 0.23.4
@@ -3778,8 +3778,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  glob@11.1.0:
-    resolution: {integrity: sha512-vuNwKSaKiqm7g0THUBu2x7ckSs3XJLXE+2ssL7/MfTGPLLcrJQ/4Uq1CjPTtO5cCIiRxqvN6Twy1qOwhL0Xjcw==}
+  glob@12.0.0:
+    resolution: {integrity: sha512-5Qcll1z7IKgHr5g485ePDdHcNQY0k2dtv/bjYy0iuyGxQw2qSOiiXUXJ+AYQpg3HNoUMHqAruX478Jeev7UULw==}
     engines: {node: 20 || >=22}
     hasBin: true
 
@@ -8692,7 +8692,7 @@ snapshots:
       '@npmcli/move-file': 2.0.1
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      glob: 11.1.0
+      glob: 12.0.0
       infer-owner: 1.0.4
       lru-cache: 7.18.3
       minipass: 3.3.6
@@ -9655,7 +9655,7 @@ snapshots:
       case: 1.6.3
       cli-color: 2.0.4
       commander: 12.1.0
-      glob: 11.1.0
+      glob: 12.0.0
       handlebars: 4.7.8
       slugify: 1.6.6
       svg2ttf: 6.0.3
@@ -9878,7 +9878,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  glob@11.1.0:
+  glob@12.0.0:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
@@ -10775,7 +10775,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.2
-      glob: 11.1.0
+      glob: 12.0.0
       graceful-fs: 4.2.11
       make-fetch-happen: 10.2.1
       nopt: 6.0.0
@@ -11603,7 +11603,7 @@ snapshots:
 
   rimraf@3.0.2:
     dependencies:
-      glob: 11.1.0
+      glob: 12.0.0
 
   rollup@4.50.1:
     dependencies:
@@ -12175,7 +12175,7 @@ snapshots:
   svgicons2svgfont@12.0.0:
     dependencies:
       commander: 9.5.0
-      glob: 11.1.0
+      glob: 12.0.0
       sax: 1.4.1
       svg-pathdata: 6.0.3
 
