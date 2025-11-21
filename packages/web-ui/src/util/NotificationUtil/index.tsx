@@ -15,7 +15,11 @@ function create(options: NotificationOptions) {
 }
 
 function destroy(key?: React.Key) {
-    notification.destroy(key);
+    if (notificationInstance) {
+        notificationInstance.destroy(key);
+    } else {
+        notification.destroy(key);
+    }
 }
 
 function Root(config?: NotificationConfig): React.ReactElement {
