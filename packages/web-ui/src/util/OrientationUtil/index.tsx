@@ -25,7 +25,16 @@ export type OrientationType = "portrait" | "landscape";
 export type Subscriber = (orientation: OrientationType) => void;
 
 function subscribe(subscriber: Subscriber) {
-    const handler = () => subscriber(current());
+    let lastOrientation = current();
+
+    const handler = () => {
+        const newOrientation = current();
+        if (newOrientation !== lastOrientation) {
+            lastOrientation = newOrientation;
+            subscriber(newOrientation);
+        }
+    };
+
     if (BrowserUtil.os() === "ios") {
         const mediaQuery = window.matchMedia("(orientation: portrait)");
         if (mediaQuery instanceof EventTarget) {
