@@ -1,7 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
-import "../../internal/polyfill/ResizeObserver";
 import "./index.less";
 
 export interface Props {

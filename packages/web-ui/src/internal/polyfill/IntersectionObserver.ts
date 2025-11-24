@@ -1,3 +1,0 @@
-import "intersection-observer";
-
-export {};

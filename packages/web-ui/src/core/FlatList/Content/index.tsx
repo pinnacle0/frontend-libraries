@@ -1,7 +1,6 @@
 import React from "react";
 import {Footer} from "./Footer";
 import type {FlatListProps, FlatListItemProps, Gap} from "../type";
-import "../../../internal/polyfill/IntersectionObserver";
 
 interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "endOfListMessage" | "onPullUpLoading" | "endReachThreshold" | "loading"> {
     hasNextPageMessage?: string;

@@ -1,4 +1,3 @@
-import "../../internal/polyfill/ResizeObserver";
 import React from "react";
 import {useVirtualizer} from "@tanstack/react-virtual";
 import {classNames} from "../../util/ClassNames";

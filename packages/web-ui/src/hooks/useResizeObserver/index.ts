@@ -1,5 +1,4 @@
 import React from "react";
-import "../../internal/polyfill/ResizeObserver";
 
 export function useResizeObserver(onResize: (rect: DOMRect) => void) {
     const ref = React.useRef<HTMLDivElement>(null);
