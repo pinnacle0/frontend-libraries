@@ -73,7 +73,7 @@ export class Item extends React.PureComponent<Props, State> {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplayMode.placement || "right"} color="white" styles={{container: this.overlayStyle}}>
+                            <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplayMode.placement || "right"} color="white" styles={{body: this.overlayStyle}}>
                                 {childrenNode}
                             </Tooltip>
                             {extraMessageNode}

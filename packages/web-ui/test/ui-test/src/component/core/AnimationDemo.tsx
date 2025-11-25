@@ -106,8 +106,8 @@ const AnimatedListInTab = () => {
     };
 
     return (
-        <Space size={20} orientation="vertical">
-            <TypedTabs tabs={tabs} type="line" activeKey={activeKey} onChange={setActiveKey} destroyOnHidden={destroyInactivePanel} />
+        <Space size={20} direction="vertical">
+            <TypedTabs tabs={tabs} type="line" activeKey={activeKey} onChange={setActiveKey} destroyInactiveTabPane={destroyInactivePanel} />
             <Checkbox value={destroyInactivePanel} onChange={setDestroyInactivePanel}>
                 Destroy inactive tab Panel
             </Checkbox>
@@ -118,7 +118,7 @@ const AnimatedListInTab = () => {
 const NestedAnimatedList = () => {
     const [list, setList] = React.useState(["1", "2", "3", "5"]);
     return (
-        <Space orientation="vertical" size={30}>
+        <Space direction="vertical" size={30}>
             <Animated.div
                 enter={{
                     frames: [{transform: "rotate(-360deg)"}, {transform: "rotate(0deg)"}],
@@ -138,7 +138,7 @@ const AnimatedSlicedList = () => {
     const remove = (index: number) => setList(list => list.filter((_, i) => i !== index));
 
     return (
-        <Space orientation="vertical" size={20}>
+        <Space direction="vertical" size={20}>
             <AnimatePresence>
                 {list.slice(Math.max(list.length - 5, 0)).map((_, index) => (
                     <Animated.div

@@ -40,7 +40,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                 <Button type="primary" id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
                     <UserOutlined />
                 </Button>
-                <Drawer size={350} open={showDrawer} closable={false} onClose={this.closeDrawer}>
+                <Drawer width={350} open={showDrawer} closable={false} onClose={this.closeDrawer}>
                     <div id="admin-app-default-drawer">
                         <UserOutlined className="avatar" />
                         <div className="grid">
