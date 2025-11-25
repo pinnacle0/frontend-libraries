@@ -5,7 +5,9 @@ import {i18n} from "../../internal/i18n/core";
 import {TextUtil} from "../../internal/TextUtil";
 import {Input} from "../Input";
 import type {Props as InputProps} from "../Input";
-import type {PickOptional} from "../../internal/type";
+import {ReactUtil} from "../../util/ReactUtil";
+import {useDidMountEffect} from "../../hooks/useDidMountEffect";
+import {useWillUnmountEffect} from "../../hooks/useWillUnmountEffect";
 import "./index.less";
 
 export interface Props extends Omit<InputProps, "suffix"> {
@@ -15,82 +17,53 @@ export interface Props extends Omit<InputProps, "suffix"> {
     sendButtonText?: string;
 }
 
-interface State {
-    isSending: boolean; // Only true during calling send API
-    nextSendRemainingSecond: number | null; // At least 1 when type is number
-}
+export const AuthenticationCodeInput = ReactUtil.memo("AuthenticationCodeInput", (props: Props) => {
+    const {nextSendInterval = 60, autoSendOnMount, sendButtonText, className, onSend, ...inputProps} = props;
+    const [isSending, setIsSending] = React.useState(false); // Only true during calling send API
+    const [nextSendRemainingSecond, setNextSendRemainingSecond] = React.useState<number | null>(null); // At least 1 when type is number
+    const timer = React.useRef<NodeJS.Timeout | null>(null);
+    const t = i18n();
 
-export class AuthenticationCodeInput extends React.PureComponent<Props, State> {
-    static displayName = "AuthenticationCodeInput";
-    static defaultProps: PickOptional<Props> = {
-        nextSendInterval: 60,
+    useDidMountEffect(() => {
+        if (autoSendOnMount) {
+            handleSend();
+        }
+    });
+
+    useWillUnmountEffect(() => {
+        timer.current !== null && clearInterval(timer.current);
+    });
+
+    const updateNextSendRemainingSecond = () => {
+        setNextSendRemainingSecond(prev => {
+            if (prev === null) return null;
+            const nextSecond = prev - 1;
+            if (nextSecond <= 0) {
+                timer.current && clearInterval(timer.current);
+                timer.current = null;
+                return null;
+            }
+            return nextSecond;
+        });
     };
 
-    private timer: number | undefined;
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            isSending: false,
-            nextSendRemainingSecond: null,
-        };
-    }
-
-    componentDidMount() {
-        if (this.props.autoSendOnMount) {
-            this.onSend();
-        }
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    updateNextSendRemainingSecond = () => {
-        const nextSendRemainingSecond = this.state.nextSendRemainingSecond! - 1;
-        if (nextSendRemainingSecond <= 0) {
-            clearInterval(this.timer);
-            this.setState({nextSendRemainingSecond: null});
-        } else {
-            this.setState({nextSendRemainingSecond});
-        }
-    };
-
-    onSend = async () => {
-        const {nextSendInterval, onSend} = this.props;
-
+    const handleSend = async () => {
         try {
-            this.setState({isSending: true});
+            setIsSending(true);
             const sendSuccess = await onSend();
             if (sendSuccess) {
-                this.setState({nextSendRemainingSecond: nextSendInterval!}, () => {
-                    this.timer = window.setInterval(this.updateNextSendRemainingSecond, 1000);
-                });
+                setNextSendRemainingSecond(nextSendInterval);
+                timer.current = setInterval(updateNextSendRemainingSecond, 1000);
             }
         } finally {
-            this.setState({isSending: false});
+            setIsSending(false);
         }
     };
 
-    render() {
-        const {
-            sendButtonText,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
-            onSend,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
-            autoSendOnMount,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in inputProps
-            nextSendInterval,
-            className,
-            ...inputProps
-        } = this.props;
-        const {isSending, nextSendRemainingSecond} = this.state;
-        const t = i18n();
-        const sendButton = (
-            <Button type="primary" ghost className="g-auth-code-input-send-button" size="small" disabled={inputProps.disabled || nextSendRemainingSecond !== null || isSending} onClick={this.onSend}>
-                {nextSendRemainingSecond ? TextUtil.interpolate(t.waitResendAuthCode, nextSendRemainingSecond.toString()) : sendButtonText || t.sendAuthCode}
-            </Button>
-        );
-        return <Input {...inputProps} className={classNames(className, "g-auth-code-input")} suffix={sendButton} />;
-    }
-}
+    const sendButton = (
+        <Button type="primary" ghost className="g-auth-code-input-send-button" size="small" disabled={inputProps.disabled || nextSendRemainingSecond !== null || isSending} onClick={handleSend}>
+            {nextSendRemainingSecond ? TextUtil.interpolate(t.waitResendAuthCode, nextSendRemainingSecond.toString()) : sendButtonText || t.sendAuthCode}
+        </Button>
+    );
+    return <Input {...inputProps} className={classNames(className, "g-auth-code-input")} suffix={sendButton} />;
+});
