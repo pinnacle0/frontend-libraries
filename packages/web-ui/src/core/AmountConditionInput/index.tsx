@@ -3,6 +3,7 @@ import {Space} from "../Space";
 import {NumberInput} from "../NumberInput";
 import {EnumSelect} from "../EnumSelect";
 import type {ControlledFormValue} from "../../internal/type";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export enum Operator {
     GREATER_THAN = "GREATER_THAN",
@@ -23,41 +24,36 @@ export interface Props extends ControlledFormValue<AmountConditionValue> {
     operators?: Operator[];
 }
 
-export class AmountConditionInput extends React.PureComponent<Props> {
-    static displayName = "AmountConditionInput";
+const selectStyle: React.CSSProperties = {width: 55};
+const inputStyle: React.CSSProperties = {width: 180, borderTopLeftRadius: 0, borderBottomLeftRadius: 0};
 
-    private readonly operators: Operator[] = this.props.operators || [Operator.GREATER_THAN, Operator.GREATER_EQUAL, Operator.LESS_THAN, Operator.LESS_EQUAL, Operator.EQUALS];
-    private readonly selectStyle: React.CSSProperties = {width: 55};
-    private readonly inputStyle: React.CSSProperties = {width: 180, borderTopLeftRadius: 0, borderBottomLeftRadius: 0};
+export const AmountConditionInput = ReactUtil.memo("AmountConditionInput", (props: Props) => {
+    const {value, onChange, scale, operators = [Operator.GREATER_THAN, Operator.GREATER_EQUAL, Operator.LESS_THAN, Operator.LESS_EQUAL, Operator.EQUALS]} = props;
 
-    operatorTranslator = (value: Operator): string => {
-        switch (value) {
-            case Operator.GREATER_THAN:
-                return ">";
-            case Operator.GREATER_EQUAL:
-                return "≥";
-            case Operator.LESS_THAN:
-                return "<";
-            case Operator.LESS_EQUAL:
-                return "≤";
-            case Operator.EQUALS:
-                return "=";
-            case Operator.NOT_EQUALS:
-                return "≠";
-        }
-    };
+    const onConditionChange = (condition: Operator) => onChange({condition, amount: value.amount});
+    const onAmountChange = (amount: number | null) => onChange({condition: value.condition, amount});
 
-    onConditionChange = (value: Operator) => this.props.onChange({condition: value, amount: this.props.value.amount});
+    return (
+        <Space.Compact block>
+            <EnumSelect value={value.condition} onChange={onConditionChange} translator={operatorTranslator} list={operators} style={selectStyle} />
+            <NumberInput allowNull scale={scale} value={value.amount} onChange={onAmountChange} inputStyle={inputStyle} />
+        </Space.Compact>
+    );
+});
 
-    onAmountChange = (value: number | null) => this.props.onChange({condition: this.props.value.condition, amount: value});
-
-    render() {
-        const {scale, value} = this.props;
-        return (
-            <Space.Compact block>
-                <EnumSelect value={value.condition} onChange={this.onConditionChange} translator={this.operatorTranslator} list={this.operators} style={this.selectStyle} />
-                <NumberInput allowNull scale={scale} value={value.amount} onChange={this.onAmountChange} inputStyle={this.inputStyle} />
-            </Space.Compact>
-        );
+const operatorTranslator = (value: Operator): string => {
+    switch (value) {
+        case Operator.GREATER_THAN:
+            return ">";
+        case Operator.GREATER_EQUAL:
+            return "≥";
+        case Operator.LESS_THAN:
+            return "<";
+        case Operator.LESS_EQUAL:
+            return "≤";
+        case Operator.EQUALS:
+            return "=";
+        case Operator.NOT_EQUALS:
+            return "≠";
     }
-}
+};
