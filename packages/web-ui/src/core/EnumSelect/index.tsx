@@ -75,7 +75,7 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
                 listHeight={listHeight}
                 listItemHeight={listItemHeight}
                 style={style}
-                dropdownStyle={dropdownStyle}
+                styles={{popup: {root: dropdownStyle}}}
                 placeholder={
                     prefix ? (
                         <div className="prefixed-placeholder-wrapper">

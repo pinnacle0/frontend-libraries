@@ -26,11 +26,11 @@
         "demo": "cd demo && pnpm start"
     },
     "dependencies": {
-        "@ant-design/cssinjs": "1.24.0",
+        "@ant-design/cssinjs": "2.0.1",
         "@ant-design/icons": "6.1.0",
         "@juggle/resize-observer": "3.4.0",
         "@tanstack/react-virtual": "3.13.12",
-        "antd": "5.29.1",
+        "antd": "6.0.0",
         "classnames": "2.5.1",
         "dayjs": "1.11.19",
         "intersection-observer": "0.12.2",
