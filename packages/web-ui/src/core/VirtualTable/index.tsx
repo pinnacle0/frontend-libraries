@@ -16,6 +16,7 @@ import "./index.less";
 
 export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 
+// TODO/Ian: replace with Antd virtual table
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
