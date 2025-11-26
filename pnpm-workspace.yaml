@@ -3,7 +3,7 @@ packages:
     - "!**/test/**"
     - "!**/build/**"
     - "!**/dist/**"
-minimumReleaseAge: 4320
+# minimumReleaseAge: 4320 TODO/Ian: Add back for master branch
 onlyBuiltDependencies:
     - "@swc/core"
     - es5-ext
