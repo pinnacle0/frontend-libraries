@@ -1,10 +1,11 @@
 packages:
-  - packages/**
-  - '!**/test/**'
-  - '!**/build/**'
-  - '!**/dist/**'
+    - packages/**
+    - "!**/test/**"
+    - "!**/build/**"
+    - "!**/dist/**"
+minimumReleaseAge: 4320
 onlyBuiltDependencies:
-  - '@swc/core'
-  - es5-ext
-  - esbuild
-  - ttf2woff2
+    - "@swc/core"
+    - es5-ext
+    - esbuild
+    - ttf2woff2
