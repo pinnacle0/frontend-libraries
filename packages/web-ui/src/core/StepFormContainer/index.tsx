@@ -55,7 +55,7 @@ export class StepFormContainer extends React.PureComponent<Props> {
                     current={currentStep}
                     titlePlacement={stepLabelPlacement}
                     responsive={stepLabelPlacement !== "horizontal"}
-                    items={steps.map((step, index) => ({key: index, title: step.title, description: step.description}))}
+                    items={steps.map((step, index) => ({key: index, title: step.title, content: step.description}))}
                 />
                 <Form layout={formLayout} onFinish={currentStep < steps.length - 1 ? this.goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={this.renderButtons}>
                     {steps[currentStep].content}
