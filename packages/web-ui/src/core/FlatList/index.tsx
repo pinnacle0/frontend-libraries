@@ -6,8 +6,8 @@ import {Content} from "./Content";
 import {FloatingLoader} from "./FloatingLoader";
 import {Refresh} from "./Refresh";
 import type {Boundary, FlatListProps} from "./type";
-import "./index.less";
 import {useRefreshing} from "./hook/useRefreshing";
+import "./index.less";
 
 export * from "./type";
 
