@@ -51,8 +51,8 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      */
     rowKey: StringKey<RowType> | ((record: RowType, index?: number) => string) | "index";
     onRowClick?: (record: RowType, index?: number) => void;
-    scrollX?: "max-content" | "none" | number;
-    scrollY?: number;
+    scrollX?: string | number;
+    scrollY?: string | number;
     loading?: boolean;
     // if emptyPlaceholder is provided, emptyIcon and emptyText will be ignored
     emptyPlaceholder?: React.ReactElement | string | number;
@@ -228,7 +228,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
                     columns={tableColumns}
                     onChange={this.onSortChange}
                     rowKey={rowKey === "index" ? this.rowKeyByIndex : rowKey}
-                    scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY}}
+                    scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY === "none" ? undefined : scrollY}}
                     {...restProps}
                 />
             </React.Fragment>
