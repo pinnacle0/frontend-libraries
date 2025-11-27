@@ -1,7 +1,7 @@
 import React from "react";
 import type {StringKey} from "../../internal/type";
-import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
+import "./index.less";
 
 export interface Props<T extends object> {
     data: T[];
