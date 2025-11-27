@@ -16,7 +16,7 @@ import "./index.less";
 
 export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 
-// TODO/Ian: remove after this is replace with AntTable visual
+// TODO/Ian: remove after AntTable visual is tested and replace this
 export interface VirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
