@@ -1,18 +1,11 @@
 import React from "react";
 import AntdCollapse from "antd/es/collapse";
-import type {CollapseProps, CollapsePanelProps} from "antd/es/collapse";
+import type {CollapseProps} from "antd/es/collapse";
+import {ReactUtil} from "../../util/ReactUtil";
 
-/** Will be remove in future, replaced by Foldable and Accordion */
 export interface Props extends CollapseProps {}
-
 export type CollapseItemsProps = CollapseProps["items"];
 
-export class Collapse extends React.PureComponent<Props> {
-    static displayName = "Collapse";
-
-    render() {
-        return <AntdCollapse {...this.props} />;
-    }
-}
-
-export type PanelProps = CollapsePanelProps;
+export const Collapse = ReactUtil.memo("Collapse", ({...props}: Props) => {
+    return <AntdCollapse {...props} />;
+});
