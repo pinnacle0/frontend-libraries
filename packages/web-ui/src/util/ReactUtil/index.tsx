@@ -61,7 +61,7 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
         if (typeof componentOrMap === "function") {
             const Component = componentOrMap;
             namedComponentMap[key] = memo(displayName, (props: any) => <Component {...props} />);
-        } else if (componentOrMap != null && typeof componentOrMap === "object") {
+        } else {
             const nestedComponentMap: {[key: string]: React.ComponentType<any>} = {};
             Object.entries(componentOrMap).forEach(([key, Component]) => {
                 nestedComponentMap[key] = Component;
