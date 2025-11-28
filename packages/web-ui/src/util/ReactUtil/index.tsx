@@ -82,17 +82,26 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
  *
  * Then you can use <MainComponent> or <MainComponent.SubComponent1> or <MainComponent.SubComponent2> with proper displayName set.
  */
-function compound<T extends React.FunctionComponent<any>, TCMap extends {[key: string]: React.ComponentType<any>}>(displayName: string, componentMap: TCMap, component: T): T & TCMap {
+function compound<T extends React.FunctionComponent<any>, TCMap extends {[key: string]: React.ComponentType<any> | {[key: string]: React.ComponentType<any>}}>(
+    displayName: string,
+    componentMap: TCMap,
+    component: T
+): T & TCMap {
     const compound = memo(displayName, component);
 
     Object.entries(componentMap).forEach(([key, componentOrMap]) => {
+        Object.assign(compound, {[key]: componentOrMap});
         if (typeof componentOrMap === "function") {
             const Component = componentOrMap;
             Object.assign(compound, {
                 [key]: Component,
             });
         } else {
-            Object.assign(compound, {[key]: componentOrMap});
+            const nestedComponentMap: {[key: string]: React.ComponentType<any>} = {};
+            Object.entries(componentOrMap).forEach(([key, Component]) => {
+                nestedComponentMap[key] = Component;
+            });
+            Object.assign(compound, {[key]: nestedComponentMap});
         }
     });
 

@@ -91,7 +91,11 @@ describe("ReactUtil.compound", () => {
 
         const B1 = ReactUtil.memo("B1", (_props: {str: string}) => <div />);
         const B2 = ReactUtil.memo("B2", (_props: {num: number}) => <div />);
-        const B = ReactUtil.compound("B", {B1, B2, A}, (_props: {str: string; num: number}) => <div />);
+        const B = ReactUtil.statics("B", {B1, B2});
+
+        const C1 = ReactUtil.memo("C1", (_props: {str: string}) => <div />);
+        const C2 = ReactUtil.memo("C2", (_props: {num: number}) => <div />);
+        const C = ReactUtil.compound("C", {C1, C2, A, B}, (_props: {str: string; num: number}) => <div />);
 
         expect(Object.keys(A).includes("A1")).toBe(true);
         expect(Object.keys(A).includes("A2")).toBe(true);
@@ -99,28 +103,35 @@ describe("ReactUtil.compound", () => {
         expect((A.A1 as any).type.displayName).toBe("A1");
         expect((A.A2 as any).type.displayName).toBe("A2");
 
-        expect(Object.keys(B).includes("B1")).toBe(true);
-        expect(Object.keys(B).includes("B2")).toBe(true);
-        expect(Object.keys(B).includes("A")).toBe(true);
-        expect((B as any).type.displayName).toBe("B");
-        expect((B.B1 as any).type.displayName).toBe("B1");
-        expect((B.B2 as any).type.displayName).toBe("B2");
-        expect((B.A as any).type.displayName).toBe("A");
-        expect((B.A.A1 as any).type.displayName).toBe("A1");
-        expect((B.A.A2 as any).type.displayName).toBe("A2");
+        expect(Object.keys(C).includes("C1")).toBe(true);
+        expect(Object.keys(C).includes("C2")).toBe(true);
+        expect(Object.keys(C).includes("A")).toBe(true);
+        expect((C as any).type.displayName).toBe("C");
+        expect((C.C1 as any).type.displayName).toBe("C1");
+        expect((C.C2 as any).type.displayName).toBe("C2");
+        expect((C.A as any).type.displayName).toBe("A");
+        expect((C.A.A1 as any).type.displayName).toBe("A1");
+        expect((C.A.A2 as any).type.displayName).toBe("A2");
+        expect(Object.keys(C.B)).toEqual(["B1", "B2"]);
+        expect((C.B.B1 as any).type.displayName).toBe("B1");
+        expect((C.B.B2 as any).type.displayName).toBe("B2");
 
         // type check
         <A str="foo" num={100} />;
         <A.A1 str="foo" />;
         <A.A2 num={100} />;
-        <B str="foo" num={100} />;
-        <B.B1 str="foo" />;
-        <B.B2 num={100} />;
-        <B.A str="foo" />;
-        <B.A.A1 />;
-        <B.A.A2 />;
+        <C str="foo" num={100} />;
+        <C.C1 str="foo" />;
+        <C.C2 num={100} />;
+        <C.A str="foo" />;
+        <C.A.A1 str="foo" />;
+        <C.A.A2 num={100} />;
+        <C.B.B1 str="foo" />;
+        <C.B.B2 num={100} />;
 
         // @ts-expect-error
-        ReactUtil.compound("Wrapped", {A, a: 123}, B);
+        <C.B />;
+        // @ts-expect-error
+        ReactUtil.compound("Wrapped", {A, B, a: 123}, C);
     });
 });
