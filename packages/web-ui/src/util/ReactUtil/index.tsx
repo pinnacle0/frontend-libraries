@@ -77,7 +77,7 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
  *
  * Example usage:
  *    const SubComponent1 = ReactUtil.memo("SubComponent1", (props) => {...});
- *    const SubComponent2 = ReactUtil.memo("SubComponent2", (props) => {...});
+ *    const SubComponent2 = ReactUtil.statics("SubComponent2", {SubComponent21, SubComponent22});
  *    const MainComponent = ReactUtil.compound("MainComponent", {SubComponent1, SubComponent2}, (props) => {...});
  *
  * Then you can use <MainComponent> or <MainComponent.SubComponent1> or <MainComponent.SubComponent2> with proper displayName set.
