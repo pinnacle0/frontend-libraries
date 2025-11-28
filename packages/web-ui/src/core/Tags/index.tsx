@@ -27,7 +27,7 @@ export class Tags extends React.PureComponent<Props> {
         const tagColor = typeof color === "function" ? color(item, index) : color;
         const key = (typeof item === "string" || typeof item === "number") && useItemsAsKey ? item : null;
         return (
-            <Tag color={tagColor} key={key} style={this.singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)}>
+            <Tag color={tagColor} key={key || index} style={this.singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)}>
                 {item}
             </Tag>
         );
