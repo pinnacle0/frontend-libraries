@@ -74,6 +74,7 @@ interface State {
     customizationConfig: {[key: string]: boolean};
 }
 
+// TODO/Ian: block virtual props
 export class Table<RowType extends object, OrderByFieldType> extends React.PureComponent<TableProps<RowType, OrderByFieldType>, State> {
     static displayName = "Table";
     static defaultProps: PickOptional<TableProps<any, any>> = {
