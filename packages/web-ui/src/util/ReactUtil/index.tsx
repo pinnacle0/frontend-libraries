@@ -61,7 +61,7 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
         if (typeof componentOrMap === "function") {
             const Component = componentOrMap;
             namedComponentMap[key] = memo(displayName, (props: any) => <Component {...props} />);
-        } else {
+        } else if (componentOrMap != null && typeof componentOrMap === "object") {
             const nestedComponentMap: {[key: string]: React.ComponentType<any>} = {};
             Object.entries(componentOrMap).forEach(([key, Component]) => {
                 nestedComponentMap[key] = Component;
@@ -72,9 +72,37 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
     return namedComponentMap as T;
 }
 
+/**
+ * Builds a compound component by attaching sub-components to a main component.
+ *
+ * Example usage:
+ *    const SubComponent1 = ReactUtil.memo("SubComponent1", (props) => {...});
+ *    const SubComponent2 = ReactUtil.memo("SubComponent2", (props) => {...});
+ *    const MainComponent = ReactUtil.compound("MainComponent", {SubComponent1, SubComponent2}, (props) => {...});
+ *
+ * Then you can use <MainComponent> or <MainComponent.SubComponent1> or <MainComponent.SubComponent2> with proper displayName set.
+ */
+function compound<T extends React.FunctionComponent<any>, TCMap extends {[key: string]: React.ComponentType<any>}>(displayName: string, componentMap: TCMap, component: T): T & TCMap {
+    const compound = memo(displayName, component);
+
+    Object.entries(componentMap).forEach(([key, componentOrMap]) => {
+        if (typeof componentOrMap === "function") {
+            const Component = componentOrMap;
+            Object.assign(compound, {
+                [key]: Component,
+            });
+        } else {
+            Object.assign(compound, {[key]: componentOrMap});
+        }
+    });
+
+    return compound as T & TCMap;
+}
+
 export const ReactUtil = Object.freeze({
     joinNodes,
     interpolateNode,
     memo,
     statics,
+    compound,
 });

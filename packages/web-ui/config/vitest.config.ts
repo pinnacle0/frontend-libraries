@@ -6,7 +6,7 @@ export default defineConfig({
         bail: 1,
         environment: "jsdom",
         root: "../",
-        include: ["**/web-ui/test/unit-test/**/*.test.ts"],
+        include: ["**/web-ui/test/unit-test/**/*.test.{ts,tsx}"],
         typecheck: {
             enabled: true,
             checker: "tsc",
