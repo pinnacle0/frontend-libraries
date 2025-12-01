@@ -8,22 +8,18 @@ import {Space} from "../Space";
 import type {ControlledFormValue} from "../../internal/type";
 import type {HeaderRender} from "antd/es/calendar/generateCalendar";
 import type {Dayjs} from "dayjs";
+import {ReactUtil} from "../../util/ReactUtil";
 
 // load plugin when component is imported
 dayjs.extend(localeData);
 
 const AntCalendar = generateCalendar<Dayjs>(dayjsGenerateConfig);
+const headerStyle: React.CSSProperties = {padding: 8};
 
 interface Props extends ControlledFormValue<string> {}
-
-export class DateCalendar extends React.PureComponent<Props> {
-    static displayName = "DateCalendar";
-
-    private readonly headerStyle: React.CSSProperties = {padding: 8};
-
-    private readonly now = dayjs();
-
-    isDateDisabled = (current: Dayjs): boolean => {
+export const DateCalendar = ReactUtil.memo("DateCalendar", (props: Props) => {
+    const {value, onChange} = props;
+    const isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
             return false;
         }
@@ -39,14 +35,15 @@ export class DateCalendar extends React.PureComponent<Props> {
         return false;
     };
 
-    onChange = (date: Dayjs) => this.props.onChange(dayjs(date).format("YYYY-MM-DD"));
+    const onAntChange = (date: Dayjs) => onChange(dayjs(date).format("YYYY-MM-DD"));
 
-    renderHeader: HeaderRender<Dayjs> = ({value, onChange}) => {
+    const renderHeader: HeaderRender<Dayjs> = ({value, onChange}) => {
         const start = 0;
         const end = 12;
         const monthOptions = [];
+        const now = dayjs();
 
-        const localeData = this.now.localeData();
+        const localeData = now.localeData();
         const months = [];
         for (let i = 0; i < 12; i++) {
             months.push(localeData.monthsShort(value.month(i)));
@@ -62,7 +59,7 @@ export class DateCalendar extends React.PureComponent<Props> {
 
         const month = value.month();
         const year = value.year();
-        const yearOfNow = this.now.year();
+        const yearOfNow = now.year();
         const options = [];
 
         for (let i = yearOfNow - 100; i <= yearOfNow; i++) {
@@ -74,7 +71,7 @@ export class DateCalendar extends React.PureComponent<Props> {
         }
 
         return (
-            <div style={this.headerStyle}>
+            <div style={headerStyle}>
                 <Space>
                     <div>
                         <Select size="small" popupMatchSelectWidth={false} onChange={newYear => onChange(value.year(newYear))} value={year}>
@@ -91,7 +88,5 @@ export class DateCalendar extends React.PureComponent<Props> {
         );
     };
 
-    render() {
-        return <AntCalendar disabledDate={this.isDateDisabled} headerRender={this.renderHeader} value={dayjs(this.props.value, "YYYY-MM-DD")} fullscreen={false} onChange={this.onChange} />;
-    }
-}
+    return <AntCalendar disabledDate={isDateDisabled} headerRender={renderHeader} value={dayjs(value, "YYYY-MM-DD")} fullscreen={false} onChange={onAntChange} />;
+});
