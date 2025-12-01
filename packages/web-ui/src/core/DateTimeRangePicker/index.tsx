@@ -4,6 +4,7 @@ import DatePicker from "antd/es/date-picker";
 import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? [Date, Date] : [Date | null, Date | null]> {
     allowNull: T;
@@ -15,24 +16,22 @@ export interface Props<T extends boolean> extends ControlledFormValue<T extends 
     showSecond?: boolean;
 }
 
-interface State {
-    shouldCheckDateRangeValid: boolean;
-}
+export const DateTimeRangePicker = ReactUtil.memo("DateTimeRangePicker", <T extends boolean>(props: Props<T>) => {
+    const {value, allowNull, disabled, className, presets, showSecond, preserveInvalidOnBlur = true, disabledRange, onChange} = props;
+    const [shouldCheckDateRangeValid, setShouldCheckDateRangeValid] = React.useState(false);
 
-export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<Props<T>, State> {
-    static displayName = "DateTimeRangePicker";
-    static showTime = {
-        defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")],
-    };
+    React.useEffect(() => {
+        if (shouldCheckDateRangeValid && value[0] && value[1]) {
+            const typedOnChange = onChange as (value: [Date | null, Date | null]) => void;
+            if (dayjs(value[0]).isAfter(dayjs(value[1]))) {
+                typedOnChange([value[1], value[0]]);
+            }
+            setShouldCheckDateRangeValid(false);
+        }
+    }, [shouldCheckDateRangeValid, value, onChange]);
 
-    constructor(props: Props<T>) {
-        super(props);
-        this.state = {shouldCheckDateRangeValid: false};
-    }
-
-    isDateDisabled = (current: Dayjs): boolean => {
+    const isDateDisabled = (current: Dayjs): boolean => {
         if (!current) return false;
-
         /**
          * This is for compatibility of MySQL.
          * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
@@ -41,11 +40,11 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         if (current.valueOf() >= new Date(2038, 0).valueOf()) return true;
 
         const diffToToday = Math.floor(current.diff(dayjs().startOf("day"), "day", true));
-        return this.props.disabledRange?.(diffToToday, current.toDate()) || false;
+        return disabledRange?.(diffToToday, current.toDate()) || false;
     };
 
-    onChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
-        const typedOnChange = this.props.onChange as (value: [Date | null, Date | null]) => void;
+    const onAntChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
+        const typedOnChange = onChange as (value: [Date | null, Date | null]) => void;
         if (dates) {
             // need manually reset the min/max millisecond
             // otherwise, from/to will use now's millisecond value, which is inaccurate
@@ -59,39 +58,24 @@ export class DateTimeRangePicker<T extends boolean> extends React.PureComponent<
         }
     };
 
-    onOpenChange = (open: boolean) => {
-        this.setState({shouldCheckDateRangeValid: !open});
+    const onOpenChange = (open: boolean) => {
+        setShouldCheckDateRangeValid(!open);
     };
 
-    componentDidUpdate(): void {
-        if (this.state.shouldCheckDateRangeValid && this.props.value[0] && this.props.value[1]) {
-            const dates = this.props.value;
-            const typedOnChange = this.props.onChange as (value: [Date | null, Date | null]) => void;
-            if (dayjs(dates[0]).isAfter(dayjs(dates[1]))) {
-                typedOnChange([dates[1], dates[0]]);
-            }
-            this.setState({shouldCheckDateRangeValid: false});
-        }
-    }
-
-    render() {
-        const {value, allowNull, disabled, className, presets, showSecond, preserveInvalidOnBlur = true} = this.props;
-        const parsedValue: [Dayjs | null, Dayjs | null] = [value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null];
-        return (
-            <DatePicker.RangePicker
-                className={className}
-                value={parsedValue}
-                onCalendarChange={this.onChange}
-                disabledDate={this.isDateDisabled}
-                allowClear={allowNull}
-                disabled={disabled}
-                presets={presets}
-                showTime={DateTimeRangePicker.showTime}
-                showSecond={showSecond}
-                preserveInvalidOnBlur={preserveInvalidOnBlur}
-                onOpenChange={this.onOpenChange}
-                needConfirm={false}
-            />
-        );
-    }
-}
+    return (
+        <DatePicker.RangePicker
+            className={className}
+            value={[value[0] ? dayjs(value[0]) : null, value[1] ? dayjs(value[1]) : null]}
+            onCalendarChange={onAntChange}
+            disabledDate={isDateDisabled}
+            allowClear={allowNull}
+            disabled={disabled}
+            presets={presets}
+            showTime={{defaultValue: [dayjs().startOf("day"), dayjs().endOf("day")]}}
+            showSecond={showSecond}
+            preserveInvalidOnBlur={preserveInvalidOnBlur}
+            onOpenChange={onOpenChange}
+            needConfirm={false}
+        />
+    );
+});
