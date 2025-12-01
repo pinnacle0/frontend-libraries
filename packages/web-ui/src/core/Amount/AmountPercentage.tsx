@@ -1,6 +1,7 @@
 import React from "react";
 import type {Props as AmountProps} from "./index";
 import {Amount} from "./index";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props extends Omit<AmountProps, "postfix" | "scale" | "value"> {
     /**
@@ -16,12 +17,7 @@ export interface Props extends Omit<AmountProps, "postfix" | "scale" | "value"> 
     percentageScale: number;
 }
 
-export class AmountPercentage extends React.PureComponent<Props> {
-    static displayName = "AmountPercentage";
-
-    render() {
-        const {percentageScale, value, ...restProps} = this.props;
-        const percentageValue = value !== null && value !== undefined ? value * 100 : value;
-        return <Amount value={percentageValue} scale={percentageScale} postfix="%" {...restProps} />;
-    }
-}
+export const AmountPercentage = ReactUtil.memo("AmountPercentage", ({percentageScale, value, ...restProps}: Props) => {
+    const percentageValue = value !== null && value !== undefined ? value * 100 : value;
+    return <Amount value={percentageValue} scale={percentageScale} postfix="%" {...restProps} />;
+});
