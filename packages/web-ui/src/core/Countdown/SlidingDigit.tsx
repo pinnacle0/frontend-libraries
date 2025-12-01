@@ -1,39 +1,29 @@
 import React from "react";
+import {ReactUtil} from "../../util/ReactUtil";
 
 interface Props {
     digit: string;
 }
 
-interface State {
-    currentDigit: string;
-    withSlidedClass: boolean;
-}
+export const SlidingDigit = ReactUtil.memo("SlidingDigit", ({digit}: Props) => {
+    const [currentDigit, setCurrentDigit] = React.useState(digit);
+    const [withSlidedClass, setWithSlidedClass] = React.useState(false);
 
-export class SlidingDigit extends React.PureComponent<Props, State> {
-    static displayName = "SlidingDigit";
+    React.useEffect(() => {
+        setWithSlidedClass(true);
+    }, [digit]);
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            currentDigit: this.props.digit,
-            withSlidedClass: false,
-        };
-    }
+    const handleTransitionEnd = () => {
+        setCurrentDigit(digit);
+        setWithSlidedClass(false);
+    };
 
-    componentDidUpdate() {
-        if (this.state.currentDigit !== this.props.digit) {
-            this.setState({withSlidedClass: true});
-        }
-    }
-
-    render() {
-        return (
-            <div className="sliding-digit-outer">
-                <div onTransitionEnd={() => this.setState({currentDigit: this.props.digit, withSlidedClass: false})} className={`sliding-digit-inner ${this.state.withSlidedClass ? "slided" : ""}`}>
-                    <p>{this.props.digit}</p>
-                    <p>{this.state.currentDigit}</p>
-                </div>
+    return (
+        <div className="sliding-digit-outer">
+            <div onTransitionEnd={handleTransitionEnd} className={`sliding-digit-inner ${withSlidedClass ? "slided" : ""}`}>
+                <p>{digit}</p>
+                <p>{currentDigit}</p>
             </div>
-        );
-    }
-}
+        </div>
+    );
+});

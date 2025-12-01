@@ -1,6 +1,6 @@
 import React from "react";
-import type {PickOptional} from "../../internal/type";
 import {SlidingDigit} from "./SlidingDigit";
+import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
 export interface Props {
@@ -23,14 +23,50 @@ export interface Props {
     style?: React.CSSProperties;
 }
 
-interface State {
-    remainingSecond: number;
-}
+export const Countdown = ReactUtil.memo("Countdown", (props: Props) => {
+    const {timeToComplete, onComplete, onTick, renderer, isHidden, className, style} = props;
 
-export class Countdown extends React.PureComponent<Props, State> {
-    static displayName = "Countdown";
-    static defaultProps: PickOptional<Props> = {
-        renderer: (hours, minutes, seconds) => (
+    const computeRemainingSecond = () => {
+        if (timeToComplete <= 0) return 0;
+        return Math.ceil((timeToComplete - Date.now()) / 1000);
+    };
+
+    const [remainingSecond, setRemainingSecond] = React.useState(computeRemainingSecond());
+    const isTimerCompleted = React.useRef(false);
+
+    React.useEffect(() => {
+        const timer = setInterval(handleTick, 1000);
+        return () => clearInterval(timer);
+    });
+
+    React.useEffect(() => {
+        isTimerCompleted.current = false;
+    }, [timeToComplete]);
+
+    const handleTick = () => {
+        if (!isTimerCompleted.current && timeToComplete > 0) {
+            const newRemainingSecond = computeRemainingSecond();
+            if (newRemainingSecond <= 0) {
+                isTimerCompleted.current = true; // To avoid call onComplete more than once
+                onComplete?.();
+            } else if (newRemainingSecond !== remainingSecond) {
+                setRemainingSecond(newRemainingSecond);
+                onTick?.(newRemainingSecond);
+            }
+        }
+    };
+
+    return isHidden ? null : (
+        <div className={`g-countdown ${className || ""}`} style={style}>
+            {BodyNode(timeToComplete, remainingSecond, renderer)}
+        </div>
+    );
+});
+
+const BodyNode = (timeToComplete: number, remainingSecond: number, renderer?: (hours: string, minutes: string, seconds: string, remainingSecond: number | null) => React.ReactElement | string) => {
+    const bodyRenderer =
+        renderer ||
+        ((hours, minutes, seconds) => (
             <React.Fragment>
                 <SlidingDigit digit={hours.charAt(0)} />
                 <SlidingDigit digit={hours.charAt(1)} />
@@ -41,85 +77,23 @@ export class Countdown extends React.PureComponent<Props, State> {
                 <SlidingDigit digit={seconds.charAt(0)} />
                 <SlidingDigit digit={seconds.charAt(1)} />
             </React.Fragment>
-        ),
-    };
+        ));
 
-    private timer!: number;
-    private isTimerCompleted = false;
+    if (timeToComplete <= 0) return bodyRenderer("--", "--", "--", null);
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {remainingSecond: this.computeRemainingSecond()};
+    if (remainingSecond / 3600 >= 100) {
+        return bodyRenderer("99", "59", "59", remainingSecond);
+    } else if (remainingSecond <= 0) {
+        return bodyRenderer("00", "00", "00", 0);
+    } else {
+        const hours = Math.floor(remainingSecond / 3600)
+            .toString()
+            .padStart(2, "0");
+        const remainingSecondWithinHour = remainingSecond % 3600;
+        const minutes = Math.floor(remainingSecondWithinHour / 60)
+            .toString()
+            .padStart(2, "0");
+        const seconds = (remainingSecondWithinHour % 60).toString().padStart(2, "0");
+        return bodyRenderer(hours, minutes, seconds, remainingSecond);
     }
-
-    componentDidMount() {
-        this.timer = window.setInterval(this.onTick, 1000);
-    }
-
-    componentWillUnmount() {
-        window.clearInterval(this.timer);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.timeToComplete !== this.props.timeToComplete) {
-            this.isTimerCompleted = false;
-        }
-    }
-
-    computeRemainingSecond = () => {
-        const {timeToComplete} = this.props;
-        if (timeToComplete > 0) {
-            return Math.ceil((timeToComplete - Date.now()) / 1000);
-        } else {
-            return 0;
-        }
-    };
-
-    onTick = () => {
-        const {timeToComplete, onComplete, onTick} = this.props;
-        if (!this.isTimerCompleted && timeToComplete > 0) {
-            const remainingSecond = this.computeRemainingSecond();
-            if (remainingSecond <= 0) {
-                this.isTimerCompleted = true; // To avoid call onComplete more than once
-                onComplete?.();
-            } else if (remainingSecond !== this.state.remainingSecond) {
-                this.setState({remainingSecond}, () => onTick?.(remainingSecond));
-            }
-        }
-    };
-
-    render() {
-        const {isHidden, renderer, timeToComplete, className, style} = this.props;
-        const {remainingSecond} = this.state;
-        if (isHidden) {
-            return null;
-        }
-
-        let bodyNode: React.ReactElement | string;
-        if (timeToComplete > 0) {
-            if (remainingSecond / 3600 >= 100) {
-                bodyNode = renderer!("99", "59", "59", remainingSecond);
-            } else if (remainingSecond <= 0) {
-                bodyNode = renderer!("00", "00", "00", 0);
-            } else {
-                const hours = Math.floor(remainingSecond / 3600)
-                    .toString()
-                    .padStart(2, "0");
-                const remainingSecondWithinHour = remainingSecond % 3600;
-                const minutes = Math.floor(remainingSecondWithinHour / 60)
-                    .toString()
-                    .padStart(2, "0");
-                const seconds = (remainingSecondWithinHour % 60).toString().padStart(2, "0");
-                bodyNode = renderer!(hours, minutes, seconds, remainingSecond);
-            }
-        } else {
-            bodyNode = renderer!("--", "--", "--", null);
-        }
-
-        return (
-            <div className={`g-countdown ${className || ""}`} style={style}>
-                {bodyNode}
-            </div>
-        );
-    }
-}
+};

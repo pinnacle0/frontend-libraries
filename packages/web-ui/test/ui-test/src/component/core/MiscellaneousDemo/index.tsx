@@ -101,6 +101,7 @@ const groups: DemoHelperGroupConfig[] = [
         components: [
             <Countdown timeToComplete={Date.now() + 50 * 3600 * 1000} />,
             <Countdown timeToComplete={0} onComplete={() => alert("Should never alert")} />,
+            <Countdown timeToComplete={Date.now() + 5000} onComplete={() => MessageUtil.success("5 seconds Timer complete")} />,
             <Countdown timeToComplete={Date.now() - 100000} onComplete={() => MessageUtil.success("Timer complete")} />,
             <Countdown
                 timeToComplete={Date.now() + 50 * 3600 * 1000}
