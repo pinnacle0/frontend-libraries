@@ -5,6 +5,7 @@ import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 /**
  * Attention:
@@ -29,16 +30,12 @@ export interface BaseProps<T extends string | number> {
 }
 
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T> {}
+export const Cascader = ReactUtil.compound("Cascader", {Nullable, InitialNullable}, <T extends string | number>(props: Props<T>) => {
+    const {data, canSelectAnyLevel, placeholder, className, style, disabled, prefix, value, onChange} = props;
 
-export class Cascader<T extends string | number> extends React.PureComponent<Props<T>> {
-    static displayName = "Cascader";
-    static Nullable = Nullable;
-    static InitialNullable = InitialNullable;
-
-    getAntValue = (): Array<string | number> => {
-        const data = this.getAntDataSource();
+    const getAntValue = (): Array<string | number> => {
+        const data = getAntDataSource();
         const getCascaderValues = (data: DefaultOptionType[]): Array<string | number> => {
-            const {value} = this.props;
             for (const item of data) {
                 if (item.value === value) {
                     return [item.value];
@@ -54,7 +51,7 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
         return getCascaderValues(data);
     };
 
-    getAntDataSource = (): DefaultOptionType[] => {
+    const getAntDataSource = (): DefaultOptionType[] => {
         const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map(node => ({
                 label: node.label,
@@ -63,48 +60,43 @@ export class Cascader<T extends string | number> extends React.PureComponent<Pro
                 children: node.children && node.children.length > 0 ? getAntChildren(node.children) : undefined,
             }));
         };
-        return getAntChildren(this.props.data);
+        return getAntChildren(data);
     };
 
-    displayRender = (labels: React.ReactNode[]) =>
-        this.props.prefix ? (
+    const displayRender = (labels: React.ReactNode[]) => {
+        if (!prefix) return labels.join("/");
+        return (
             <div className="prefixed-label-wrapper">
-                {this.props.prefix}
+                {prefix}
                 {labels.join("/")}
             </div>
-        ) : (
-            labels.join("/")
         );
+    };
 
-    onChange = (antValue: Array<string | number | null>) => this.props.onChange(antValue[antValue.length - 1] as T);
-
-    render() {
-        const {canSelectAnyLevel, placeholder, disabled, style, className, prefix} = this.props;
-        return (
-            <AntCascader
-                multiple={false}
-                className={`g-cascader ${className || ""}`}
-                popupClassName="g-cascader-popup"
-                style={style}
-                changeOnSelect={canSelectAnyLevel}
-                value={this.getAntValue()}
-                onChange={this.onChange}
-                options={this.getAntDataSource()}
-                allowClear={false}
-                expandTrigger="hover"
-                displayRender={this.displayRender}
-                placeholder={
-                    prefix ? (
-                        <div className="prefixed-placeholder-wrapper">
-                            {prefix}
-                            {placeholder}
-                        </div>
-                    ) : (
-                        placeholder
-                    )
-                }
-                disabled={disabled}
-            />
-        );
-    }
-}
+    return (
+        <AntCascader
+            multiple={false}
+            className={`g-cascader ${className || ""}`}
+            classNames={{popup: {root: "g-cascader-popup"}}}
+            style={style}
+            changeOnSelect={canSelectAnyLevel}
+            value={getAntValue()}
+            onChange={antValue => onChange(antValue[antValue.length - 1] as T)}
+            options={getAntDataSource()}
+            allowClear={false}
+            expandTrigger="hover"
+            displayRender={displayRender}
+            placeholder={
+                prefix ? (
+                    <div className="prefixed-placeholder-wrapper">
+                        {prefix}
+                        {placeholder}
+                    </div>
+                ) : (
+                    placeholder
+                )
+            }
+            disabled={disabled}
+        />
+    );
+});

@@ -2,20 +2,11 @@ import React from "react";
 import AntCheckbox from "antd/es/checkbox";
 import type {CheckboxChangeEvent, CheckboxOptionType, CheckboxProps} from "antd/es/checkbox";
 import type {ControlledFormValue} from "../../internal/type";
-
-export interface Props extends Omit<CheckboxProps, "value" | "onChange" | "checked">, ControlledFormValue<boolean> {}
-
-export class Checkbox extends React.PureComponent<Props> {
-    static displayName = "Checkbox";
-
-    static Group = AntCheckbox.Group;
-
-    onChange = (e: CheckboxChangeEvent) => this.props.onChange(e.target.checked);
-
-    render() {
-        const {value} = this.props;
-        return <AntCheckbox {...this.props} checked={value} onChange={this.onChange} />;
-    }
-}
+import {ReactUtil} from "../../util/ReactUtil";
 
 export type {CheckboxChangeEvent, CheckboxOptionType};
+export interface Props extends Omit<CheckboxProps, "value" | "onChange" | "checked">, ControlledFormValue<boolean> {}
+
+export const Checkbox = ReactUtil.compound("Checkbox", {Group: AntCheckbox.Group}, (props: Props) => {
+    return <AntCheckbox {...props} checked={props.value} onChange={e => props.onChange(e.target.checked)} />;
+});
