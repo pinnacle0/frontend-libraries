@@ -13,10 +13,11 @@ import {ReactUtil} from "../../util/ReactUtil";
 // load plugin when component is imported
 dayjs.extend(localeData);
 
+export interface Props extends ControlledFormValue<string> {}
+
 const AntCalendar = generateCalendar<Dayjs>(dayjsGenerateConfig);
 const headerStyle: React.CSSProperties = {padding: 8};
 
-interface Props extends ControlledFormValue<string> {}
 export const DateCalendar = ReactUtil.memo("DateCalendar", ({value, onChange}: Props) => {
     const isDateDisabled = (current: Dayjs): boolean => {
         if (!current) {
