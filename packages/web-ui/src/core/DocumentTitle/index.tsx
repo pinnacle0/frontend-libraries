@@ -1,4 +1,6 @@
 import React from "react";
+import {ReactUtil} from "../../util/ReactUtil";
+import {useWillUnmountEffect} from "../../hooks/useWillUnmountEffect";
 
 /**
  * <DocumentTitle> will set the document.title as one of following:
@@ -16,43 +18,28 @@ interface BaseOption {
     separator: string;
 }
 
-export class DocumentTitle extends React.PureComponent<Props> {
-    static displayName = "DocumentTitle";
-    static baseOption: BaseOption = {
-        baseTitle: "<Document Title Unset>",
-        separator: "-",
-    };
-    static register = <K extends keyof BaseOption>(option: Pick<BaseOption, K> | BaseOption) => Object.assign(DocumentTitle.baseOption, option);
+const baseOption: BaseOption = {
+    baseTitle: "<Document Title Unset>",
+    separator: "-",
+};
 
-    private readonly prevTitle: string;
+const DocumentTitle = ReactUtil.memo("DocumentTitle", ({title, children}: Props) => {
+    const prevTitle = React.useRef(document.title);
 
-    constructor(props: Props) {
-        super(props);
-        this.prevTitle = document.title;
-    }
-
-    componentDidMount() {
-        this.updateTitle();
-    }
-
-    componentDidUpdate(prevProps: Readonly<Props>) {
-        if (prevProps.title !== this.props.title) {
-            this.updateTitle();
-        }
-    }
-
-    componentWillUnmount() {
-        document.title = this.prevTitle;
-    }
-
-    updateTitle = () => {
-        const {title} = this.props;
-        const {baseTitle, separator} = DocumentTitle.baseOption;
+    React.useEffect(() => {
+        const {baseTitle, separator} = baseOption;
         const fullTitle = title ? `${baseTitle} ${separator} ${title}` : baseTitle;
         document.title = fullTitle;
-    };
+        console.info("update title", fullTitle);
+    }, [title]);
 
-    render() {
-        return this.props.children;
-    }
-}
+    useWillUnmountEffect(() => {
+        document.title = prevTitle.current;
+    });
+
+    return children;
+});
+
+Object.assign(DocumentTitle, {register: <K extends keyof BaseOption>(option: Pick<BaseOption, K> | BaseOption) => Object.assign(baseOption, option)});
+
+export {DocumentTitle};

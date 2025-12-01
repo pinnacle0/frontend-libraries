@@ -16,7 +16,6 @@ export const Carousel3D = ReactUtil.memo("Carousel3D", ({children}: Props) => {
     const isChildTransition = React.useRef(true);
     const timer = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
-
     useDidMountEffect(() => {
         startAnimation();
     });
