@@ -80,6 +80,10 @@ function statics<T extends {[key: string]: React.ComponentType<any> | {[key: str
  *    const SubComponent2 = ReactUtil.statics("SubComponent2", {SubComponent21, SubComponent22});
  *    const MainComponent = ReactUtil.compound("MainComponent", {SubComponent1, SubComponent2}, (props) => {...});
  *
+ * Example usage 2:
+ *    const MainComponent = compound("MainComponent", {SubComponent1: props => <div />, SubComponent2: props => <div />}, props => <div />);
+ *
+ * It will automatically memoize the sub-components if they are not already memoized with ReactUtil.memo.
  * Then you can use <MainComponent> or <MainComponent.SubComponent1> or <MainComponent.SubComponent2> with proper displayName set.
  */
 function compound<T extends React.FunctionComponent<any>, TCMap extends {[key: string]: React.ComponentType<any> | {[key: string]: React.ComponentType<any>}}>(
@@ -94,7 +98,7 @@ function compound<T extends React.FunctionComponent<any>, TCMap extends {[key: s
         if (typeof componentOrMap === "function") {
             const Component = componentOrMap;
             Object.assign(compound, {
-                [key]: Component,
+                [key]: "displayName" in Component ? Component : memo(key, (props: any) => <Component {...props} />),
             });
         } else {
             const nestedComponentMap: {[key: string]: React.ComponentType<any>} = {};

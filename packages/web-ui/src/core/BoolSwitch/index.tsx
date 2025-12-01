@@ -12,21 +12,23 @@ export interface Props extends ControlledFormValue<boolean> {
     loading?: boolean;
 }
 
-const YesNo = ReactUtil.memo("YesNo", (props: Omit<Props, "trueText" | "falseText">) => {
-    const t = i18n();
-    return <BoolSwitch trueText={t.yes} falseText={t.no} {...props} />;
-});
-
-const OnOff = ReactUtil.memo("OnOff", (props: Omit<Props, "trueText" | "falseText">) => {
-    const t = i18n();
-    return <BoolSwitch trueText={t.on} falseText={t.off} {...props} />;
-});
-
-const ActiveOrNot = ReactUtil.memo("ActiveOrNot", (props: Omit<Props, "trueText" | "falseText">) => {
-    const t = i18n();
-    return <BoolSwitch trueText={t.active} falseText={t.inactive} {...props} />;
-});
-
-export const BoolSwitch = ReactUtil.compound("BoolSwitch", {YesNo, OnOff, ActiveOrNot}, ({trueText, falseText, disabled, loading, style, value, onChange}: Props) => {
-    return <AntSwitch loading={loading} style={style} checked={value} onChange={onChange} disabled={disabled} checkedChildren={trueText} unCheckedChildren={falseText} />;
-});
+export const BoolSwitch = ReactUtil.compound(
+    "BoolSwitch",
+    {
+        YesNo: (props: Omit<Props, "trueText" | "falseText">) => {
+            const t = i18n();
+            return <BoolSwitch trueText={t.yes} falseText={t.no} {...props} />;
+        },
+        OnOff: (props: Omit<Props, "trueText" | "falseText">) => {
+            const t = i18n();
+            return <BoolSwitch trueText={t.on} falseText={t.off} {...props} />;
+        },
+        ActiveOrNot: (props: Omit<Props, "trueText" | "falseText">) => {
+            const t = i18n();
+            return <BoolSwitch trueText={t.active} falseText={t.inactive} {...props} />;
+        },
+    },
+    ({trueText, falseText, disabled, loading, style, value, onChange}: Props) => {
+        return <AntSwitch loading={loading} style={style} checked={value} onChange={onChange} disabled={disabled} checkedChildren={trueText} unCheckedChildren={falseText} />;
+    }
+);
