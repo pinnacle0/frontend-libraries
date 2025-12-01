@@ -85,9 +85,7 @@ describe("ReactUtil.statics", () => {
 
 describe("ReactUtil.compound", () => {
     test("test", () => {
-        const A1 = ReactUtil.memo("A1", (_props: {str?: string}) => <div />);
-        const A2 = ReactUtil.memo("A2", (_props: {num?: number}) => <div />);
-        const A = ReactUtil.compound("A", {A1, A2}, (_props: {str: string; num?: number}) => <div />);
+        const A = ReactUtil.compound("A", {A1: (_props: {str?: string}) => <div />, A2: (_props: {num?: number}) => <div />}, (_props: {str: string; num?: number}) => <div />);
 
         const B1 = ReactUtil.memo("B1", (_props: {str: string}) => <div />);
         const B2 = ReactUtil.memo("B2", (_props: {num: number}) => <div />);
