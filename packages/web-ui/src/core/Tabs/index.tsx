@@ -3,7 +3,7 @@ import AntTabs from "antd/es/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import type {TabsProps} from "antd/es/tabs";
-import type {PickOptional} from "../../internal/type";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {
     tabBarPrefix?: React.ReactNode;
@@ -36,61 +36,46 @@ export interface TabItem {
     destroyInactiveTabPane?: boolean;
 }
 
-export class Tabs extends React.PureComponent<Props> {
-    static displayName = "Tabs";
+export const Tabs = ReactUtil.compound("Tabs", {Single}, (props: Props) => {
+    const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type = "card", animated, ...restProps} = props;
+    const tabBarRef = React.useRef<HTMLDivElement>(null);
 
-    static Single = Single;
-
-    static defaultProps: PickOptional<Props> = {
-        type: "card",
-    };
-
-    private tabBarRef: HTMLDivElement | null = null;
-
-    componentDidMount() {
-        this.resizeTabs();
-        window.addEventListener("resize", this.resizeTabs);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.resizeTabs);
-    }
-
-    resizeTabs = () => {
-        const {initialMaxVisibleTabCount} = this.props;
+    const resizeTabs = React.useCallback(() => {
         if (initialMaxVisibleTabCount && initialMaxVisibleTabCount >= 1) {
-            const tabBarWidth = this.tabBarRef?.getBoundingClientRect().width;
-            const tabNodes = this.tabBarRef?.querySelectorAll<HTMLDivElement>(".ant-tabs-nav-list > .ant-tabs-tab");
+            const tabBarWidth = tabBarRef.current?.getBoundingClientRect().width;
+            const tabNodes = tabBarRef.current?.querySelectorAll<HTMLDivElement>(".ant-tabs-nav-list > .ant-tabs-tab");
             if (tabBarWidth && tabNodes && tabNodes.length > initialMaxVisibleTabCount) {
                 const singleTabWidth = tabBarWidth / initialMaxVisibleTabCount;
                 Array.from(tabNodes).forEach(tabNode => (tabNode.style.width = `${singleTabWidth}px`));
             }
         }
-    };
+    }, [initialMaxVisibleTabCount]);
 
-    tabBarCallBackRef = (tabBar: HTMLDivElement | null) => (this.tabBarRef = tabBar);
+    React.useEffect(() => {
+        resizeTabs();
+        window.addEventListener("resize", resizeTabs);
+        return () => {
+            window.removeEventListener("resize", resizeTabs);
+        };
+    }, [resizeTabs]);
 
-    render() {
-        const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type, animated, ...restProps} = this.props;
-
-        // Passing {} or {left:undefined} to <AntTabs tabBarExtraContent> will lead to error
-        let tabBarExtraContent: TabsProps["tabBarExtraContent"];
-        if (tabBarPrefix || tabBarSuffix) {
-            tabBarExtraContent = {};
-            if (tabBarPrefix) tabBarExtraContent.left = tabBarPrefix;
-            if (tabBarSuffix) tabBarExtraContent.right = tabBarSuffix;
-        }
-
-        return (
-            <AntTabs
-                className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
-                animated={animated === undefined ? type === "line" : animated}
-                type={type}
-                tabBarExtraContent={tabBarExtraContent}
-                // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
-                renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={this.tabBarCallBackRef} />)}
-                {...restProps}
-            />
-        );
+    // Passing {} or {left:undefined} to <AntTabs tabBarExtraContent> will lead to error
+    let tabBarExtraContent: TabsProps["tabBarExtraContent"];
+    if (tabBarPrefix || tabBarSuffix) {
+        tabBarExtraContent = {};
+        if (tabBarPrefix) tabBarExtraContent.left = tabBarPrefix;
+        if (tabBarSuffix) tabBarExtraContent.right = tabBarSuffix;
     }
-}
+
+    return (
+        <AntTabs
+            className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
+            animated={animated === undefined ? type === "line" : animated}
+            type={type}
+            tabBarExtraContent={tabBarExtraContent}
+            // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
+            renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={(ref: any) => (tabBarRef.current = ref)} />)}
+            {...restProps}
+        />
+    );
+});

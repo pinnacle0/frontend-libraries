@@ -1,7 +1,8 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
-import type {ControlledFormValue, PickOptional} from "../../internal/type";
+import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 interface Props<T> extends ControlledFormValue<T[]> {
     parser: (rawString: string) => T[];
@@ -13,82 +14,58 @@ interface Props<T> extends ControlledFormValue<T[]> {
     autoFocus?: boolean;
 }
 
-interface State {
-    inputText: string;
-}
-
 const separators = [" ", ";", "|", "*", "Tab", "Enter"];
 
-export class TagInput<T> extends React.PureComponent<Props<T>, State> {
-    static displayName = "TagInput";
+export const TagInput = ReactUtil.memo("TagInput", <T,>(props: Props<T>) => {
+    const {value, renderTag = item => item as string, className, style, disabled, placeholder, autoFocus = true, onChange, parser} = props;
+    const [inputText, setInputText] = React.useState("");
 
-    static defaultProps: PickOptional<Props<string>> = {
-        renderTag: item => item,
-    };
+    const removeTag = (index: number) => {
+        if (disabled) return;
 
-    constructor(props: Props<T>) {
-        super(props);
-        this.state = {inputText: ""};
-    }
-
-    removeTag = (index: number) => {
-        const {onChange, value, disabled} = this.props;
-        if (disabled) {
-            return;
-        }
         const newTags = [...value];
         newTags.splice(index, 1);
         onChange(newTags);
     };
 
-    addTagsByInput = (input: string) => {
-        if (this.props.disabled) {
-            return;
-        }
+    const addTagsByInput = (input: string) => {
+        if (disabled) return;
+
         if (input) {
-            const {parser, onChange, value} = this.props;
-            this.setState({inputText: ""});
+            setInputText("");
             onChange([...value, ...parser(input)]);
         }
     };
 
-    onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         // Ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
-        const {inputText} = this.state;
-
-        if (event.key === "Backspace") {
-            if (!inputText.length) {
-                this.removeTag(this.props.value.length - 1);
-            }
+        if (event.key === "Backspace" && !inputText.length) {
+            removeTag(value.length - 1);
         } else if (separators.includes(event.key)) {
             event.preventDefault();
-            this.addTagsByInput(inputText);
+            addTagsByInput(inputText);
         }
     };
 
-    onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({inputText: event.target.value});
+    const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => setInputText(event.target.value);
 
-    onBlur = () => this.addTagsByInput(this.state.inputText);
+    const onBlur = () => addTagsByInput(inputText);
 
-    render() {
-        const {value, renderTag, className, style, disabled, placeholder, autoFocus = true} = this.props;
-        const {inputText} = this.state;
-        return (
-            <div className={classNames("g-tag-input", {"ant-input-disabled": disabled})} style={style}>
-                {value.map((tag, index) => {
-                    return (
-                        <div className={classNames("g-tag-input-label", className?.(tag))} key={index}>
-                            {renderTag!(tag)}
-                            <i onClick={() => this.removeTag(index)}>×</i>
-                        </div>
-                    );
-                })}
-                {!value.length && !inputText && <div className="placeholder">{placeholder}</div>}
-                {/* The absolute position of textarea for prevent the cursor jumps back to the beginning while typing in the textarea out of view */}
-                <div className="text-area-wrapper">
-                    <textarea disabled={disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={inputText} autoFocus={autoFocus} />
-                </div>
+    return (
+        <div className={classNames("g-tag-input", {"ant-input-disabled": disabled})} style={style}>
+            {value.map((tag, index) => {
+                return (
+                    <div className={classNames("g-tag-input-label", className?.(tag))} key={index}>
+                        {renderTag(tag)}
+                        <i onClick={() => removeTag(index)}>×</i>
+                    </div>
+                );
+            })}
+            {!value.length && !inputText && <div className="placeholder">{placeholder}</div>}
+            {/* The absolute position of textarea for prevent the cursor jumps back to the beginning while typing in the textarea out of view */}
+            <div className="text-area-wrapper">
+                <textarea disabled={disabled} onBlur={onBlur} onChange={onInputChange} onKeyDown={onKeyDown} value={inputText} autoFocus={autoFocus} />
             </div>
-        );
-    }
-}
+        </div>
+    );
+});

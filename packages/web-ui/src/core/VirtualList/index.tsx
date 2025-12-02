@@ -5,6 +5,7 @@ import type {ComponentType} from "react";
 import type {Virtualizer} from "@tanstack/react-virtual";
 import type {StringKey} from "../../internal/type";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 const DEFAULT_ITEM_SIZE = 100;
 
@@ -33,51 +34,43 @@ export interface Props<T extends object> {
 /**
  * Efficiently rendering large lists and tabular data
  */
-export function VirtualList<T extends object>({
-    data,
-    rowKey = "index",
-    direction = "vertical",
-    renderItem: renderData,
-    overscan = 5,
-    initialRect = {width: 0, height: 0},
-    fixedSize,
-    id,
-    className,
-    listRef,
-}: Props<T>) {
-    const Item = renderData;
-    const parentRef = React.useRef<HTMLDivElement | null>(null);
-    const horizontal = direction === "horizontal";
-    const virtualizer = useVirtualizer<HTMLElement, HTMLElement>({
-        initialRect,
-        horizontal,
-        count: data.length,
-        getScrollElement: () => parentRef.current,
-        estimateSize: fixedSize ?? (() => DEFAULT_ITEM_SIZE),
-        overscan,
-    });
+export const VirtualList = ReactUtil.memo(
+    "VirtualList",
+    <T extends object>({data, rowKey = "index", direction = "vertical", renderItem: renderData, overscan = 5, initialRect = {width: 0, height: 0}, fixedSize, id, className, listRef}: Props<T>) => {
+        const Item = renderData;
+        const parentRef = React.useRef<HTMLDivElement | null>(null);
+        const horizontal = direction === "horizontal";
+        const virtualizer = useVirtualizer<HTMLElement, HTMLElement>({
+            initialRect,
+            horizontal,
+            count: data.length,
+            getScrollElement: () => parentRef.current,
+            estimateSize: fixedSize ?? (() => DEFAULT_ITEM_SIZE),
+            overscan,
+        });
 
-    React.useImperativeHandle(listRef, () => virtualizer);
+        React.useImperativeHandle(listRef, () => virtualizer);
 
-    const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
+        const getItemKey = (index: number) => (rowKey === "index" ? index : data[index][rowKey]);
 
-    return (
-        <div id={id} className={classNames("g-virtual-list", className, {horizontal})} ref={parentRef}>
-            <div className="g-virtual-list-inner" style={horizontal ? {width: virtualizer.getTotalSize()} : {height: virtualizer.getTotalSize()}}>
-                {virtualizer.getVirtualItems().map(virtualRow => (
-                    <div
-                        className="g-virtual-list-item"
-                        key={getItemKey(virtualRow.index) as string | number}
-                        ref={virtualizer.measureElement}
-                        data-index={virtualRow.index}
-                        style={{transform: horizontal ? `translateX(${virtualRow.start}px)` : `translateY(${virtualRow.start}px)`}}
-                    >
-                        <div className="g-virtual-list-item-wrapper">
-                            <Item data={data[virtualRow.index]} index={virtualRow.index} />
+        return (
+            <div id={id} className={classNames("g-virtual-list", className, {horizontal})} ref={parentRef}>
+                <div className="g-virtual-list-inner" style={horizontal ? {width: virtualizer.getTotalSize()} : {height: virtualizer.getTotalSize()}}>
+                    {virtualizer.getVirtualItems().map(virtualRow => (
+                        <div
+                            className="g-virtual-list-item"
+                            key={getItemKey(virtualRow.index) as string | number}
+                            ref={virtualizer.measureElement}
+                            data-index={virtualRow.index}
+                            style={{transform: horizontal ? `translateX(${virtualRow.start}px)` : `translateY(${virtualRow.start}px)`}}
+                        >
+                            <div className="g-virtual-list-item-wrapper">
+                                <Item data={data[virtualRow.index]} index={virtualRow.index} />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    );
-}
+        );
+    }
+);

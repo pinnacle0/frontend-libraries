@@ -4,6 +4,7 @@ import type {HttpRequestHeader} from "antd/es/upload/interface";
 import AntUpload from "antd/es/upload";
 import type {UploaderProps, UploadLogInfo} from "../../util/UploadUtil/type";
 import {Spin} from "../Spin";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     children: React.ReactNode;
@@ -19,41 +20,30 @@ export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderP
     disabled?: boolean;
 }
 
-interface State {
-    uploading: boolean;
-}
+const defaultStyle: React.CSSProperties = {minWidth: 250};
+const UPLOAD_HEADER: HttpRequestHeader = {Accept: "application/json"};
 
-export class Uploader<SuccessResponseType, ErrorResponseType> extends React.PureComponent<Props<SuccessResponseType, ErrorResponseType>, State> {
-    static displayName = "Uploader";
+export const Uploader = ReactUtil.memo("Uploader", <SuccessResponseType, ErrorResponseType>(props: Props<SuccessResponseType, ErrorResponseType>) => {
+    const {children, accept, beforeUpload, className, style, uploadURL, formField, disabled, onUploadSuccess, onUploadFailure} = props;
+    const [uploading, setUploading] = React.useState(false);
+    const uploadStartTime = React.useRef<number | null>(null);
 
-    private readonly defaultStyle: React.CSSProperties = {minWidth: 250};
-    private readonly uploadHeader: HttpRequestHeader = {Accept: "application/json"};
-    private uploadStartTime: number | undefined;
+    const preventDefaultDragDrop = (e: DragEvent) => e.preventDefault();
 
-    constructor(props: Props<SuccessResponseType, ErrorResponseType>) {
-        super(props);
-        this.state = {uploading: false};
-    }
+    React.useEffect(() => {
+        document.addEventListener("dragover", preventDefaultDragDrop);
+        document.addEventListener("drop", preventDefaultDragDrop);
+        return () => {
+            document.removeEventListener("dragover", preventDefaultDragDrop);
+            document.removeEventListener("drop", preventDefaultDragDrop);
+        };
+    }, []);
 
-    componentDidMount() {
-        document.addEventListener("dragover", this.preventDefaultDragDrop);
-        document.addEventListener("drop", this.preventDefaultDragDrop);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener("dragover", this.preventDefaultDragDrop);
-        document.removeEventListener("drop", this.preventDefaultDragDrop);
-    }
-
-    preventDefaultDragDrop = (e: DragEvent) => e.preventDefault();
-
-    onUpload = ({file}: UploadChangeParam) => {
+    const onUploadChange = ({file}: UploadChangeParam) => {
         if (file.status === "uploading") {
-            this.setState({uploading: true});
-            this.uploadStartTime = Date.now();
+            setUploading(true);
+            uploadStartTime.current = Date.now();
         } else if (file.status === "done" || file.status === "error") {
-            const {onUploadSuccess, onUploadFailure} = this.props;
-
             try {
                 const info: UploadLogInfo = {
                     file_name: file.fileName || file.name,
@@ -61,7 +51,7 @@ export class Uploader<SuccessResponseType, ErrorResponseType> extends React.Pure
                     file_type: file.type || "-",
                     api_response: JSON.stringify(file.response),
                 };
-                const elapsedTime = this.uploadStartTime ? Date.now() - this.uploadStartTime : 0;
+                const elapsedTime = uploadStartTime.current ? Date.now() - uploadStartTime.current : 0;
 
                 if (file.status === "error") {
                     onUploadFailure?.(
@@ -84,32 +74,29 @@ export class Uploader<SuccessResponseType, ErrorResponseType> extends React.Pure
                     );
                 }
             } finally {
-                this.setState({uploading: false});
+                setUploading(false);
+                uploadStartTime.current = null;
             }
         }
     };
 
-    render() {
-        const {children, accept, beforeUpload, className, style, uploadURL, formField, disabled} = this.props;
-        const {uploading} = this.state;
-        return (
-            <AntUpload.Dragger
-                name={formField}
-                showUploadList={false}
-                multiple={false}
-                accept={accept}
-                className={className}
-                style={{...this.defaultStyle, ...style}}
-                action={uploadURL}
-                onChange={this.onUpload}
-                disabled={this.state.uploading || disabled}
-                beforeUpload={beforeUpload}
-                headers={this.uploadHeader}
-            >
-                <Spin spinning={uploading} size="small">
-                    {children}
-                </Spin>
-            </AntUpload.Dragger>
-        );
-    }
-}
+    return (
+        <AntUpload.Dragger
+            name={formField}
+            showUploadList={false}
+            multiple={false}
+            accept={accept}
+            className={className}
+            style={{...defaultStyle, ...style}}
+            action={uploadURL}
+            onChange={onUploadChange}
+            disabled={uploading || disabled}
+            beforeUpload={beforeUpload}
+            headers={UPLOAD_HEADER}
+        >
+            <Spin spinning={uploading} size="small">
+                {children}
+            </Spin>
+        </AntUpload.Dragger>
+    );
+});

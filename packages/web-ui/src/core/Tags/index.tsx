@@ -1,6 +1,7 @@
 import React from "react";
 import {Tag} from "../Tag";
 import type {TagColor} from "../Tag";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props {
     items: Array<React.ReactElement | string | number | null>;
@@ -17,29 +18,23 @@ export interface Props {
     extraContent?: React.ReactElement | string | number | null;
 }
 
-export class Tags extends React.PureComponent<Props> {
-    static displayName = "Tags";
+const singleTagStyle: React.CSSProperties = {marginRight: 5, marginBottom: 4};
 
-    private readonly singleTagStyle: React.CSSProperties = {marginRight: 5, marginBottom: 4};
-
-    renderTag = (item: React.ReactElement | string | number | null, index: number) => {
-        const {color, onClose, useItemsAsKey} = this.props;
+export const Tags = ReactUtil.memo("Tags", ({items, maxWidth, extraContent, color, onClose, useItemsAsKey}: Props) => {
+    const renderTag = (item: React.ReactElement | string | number | null, index: number) => {
         const tagColor = typeof color === "function" ? color(item, index) : color;
         const key = (typeof item === "string" || typeof item === "number") && useItemsAsKey ? item : null;
         return (
-            <Tag color={tagColor} key={key || index} style={this.singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)}>
+            <Tag color={tagColor} key={key || index} style={singleTagStyle} closable={onClose !== undefined} onClose={() => onClose?.(index)}>
                 {item}
             </Tag>
         );
     };
 
-    render() {
-        const {items, maxWidth, extraContent} = this.props;
-        return (
-            <div style={{maxWidth}}>
-                {items.map(this.renderTag)}
-                {extraContent && extraContent}
-            </div>
-        );
-    }
-}
+    return (
+        <div style={{maxWidth}}>
+            {items.map(renderTag)}
+            {extraContent && extraContent}
+        </div>
+    );
+});
