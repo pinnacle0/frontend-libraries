@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 /**
  * Currently, <Markdown> supports:
@@ -17,48 +18,43 @@ export interface Props {
     style?: React.CSSProperties;
 }
 
-export class Markdown extends React.PureComponent<Props> {
-    static displayName = "Markdown";
+export const Markdown = ReactUtil.memo("Markdown", ({children, whitelist, style}: Props) => {
+    const symbols = whitelist || ["**", "__", "`"];
 
-    renderBold = (splitContents: string[], symbols: MarkdownSymbol[]) => {
+    const renderBold = (splitContents: string[], symbols: MarkdownSymbol[]) => {
         return splitContents.map((_, segmentIndex) => {
-            const text = this.processLine(_, segmentIndex, symbols.slice(1));
+            const text = processLine(_, segmentIndex, symbols.slice(1));
             return segmentIndex % 2 === 1 ? <b key={`bold${segmentIndex}`}>{text}</b> : text;
         });
     };
 
-    renderEmphasis = (splitContents: string[], symbols: MarkdownSymbol[]) => {
+    const renderEmphasis = (splitContents: string[], symbols: MarkdownSymbol[]) => {
         return splitContents.map((_, segmentIndex) => {
-            const text = this.processLine(_, segmentIndex, symbols.slice(1));
+            const text = processLine(_, segmentIndex, symbols.slice(1));
             return segmentIndex % 2 === 1 ? <em key={`emphasis${segmentIndex}`}>{text}</em> : text;
         });
     };
 
-    processLine = (content: string, _: number, symbols: MarkdownSymbol[]): React.ReactNode => {
+    const processLine = (content: string, _: number, symbols: MarkdownSymbol[]): React.ReactNode => {
         switch (symbols[0]) {
             case "**":
-                return this.renderBold(content.split(/\*\*/g), symbols);
+                return renderBold(content.split(/\*\*/g), symbols);
             case "__":
-                return this.renderBold(content.split(/__/g), symbols);
+                return renderBold(content.split(/__/g), symbols);
             case "`":
-                return this.renderEmphasis(content.split(/`/g), symbols);
+                return renderEmphasis(content.split(/`/g), symbols);
             default:
                 return content;
         }
     };
 
-    render() {
-        const {children, style, whitelist} = this.props;
-        const symbols = whitelist || ["**", "__", "`"];
-
-        return (
-            <div className="g-markdown" style={style}>
-                {children.split("\n").map((line, index) => (
-                    <div className="line" key={index}>
-                        {this.processLine(line, index, symbols)}
-                    </div>
-                ))}
-            </div>
-        );
-    }
-}
+    return (
+        <div className="g-markdown" style={style}>
+            {children.split("\n").map((line, index) => (
+                <div className="line" key={index}>
+                    {processLine(line, index, symbols)}
+                </div>
+            ))}
+        </div>
+    );
+});
