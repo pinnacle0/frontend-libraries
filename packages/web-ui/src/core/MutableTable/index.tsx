@@ -1,8 +1,8 @@
 import React from "react";
 import type {TableColumns} from "../Table";
 import {Table} from "../Table";
-import type {PickOptional} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
+import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
 /**
@@ -36,41 +36,32 @@ export interface Props<RowType extends object> {
     disabled?: boolean;
 }
 
-export class MutableTable<RowType extends object> extends React.PureComponent<Props<RowType>> {
-    static displayName = "MutableTable";
+const defaultSequenceColumn: SequenceColumnConfig = {
+    title: i18n().sequence,
+    renderer: (index: number) => (index + 1).toString(),
+    width: 90,
+    align: "center",
+};
 
-    static defaultProps: PickOptional<Props<any>> = {
-        scrollX: "none",
-    };
+export const MutableTable = ReactUtil.memo("MutableTable", <RowType extends object>(props: Props<RowType>) => {
+    const {dataSource, shouldRenderIfUpdate, scrollX = "none", scrollY, bordered, columns, sequenceColumn, fixedRowCount, disabled, nextRow, onChange, onRowCountChange} = props;
+    const previousDataSourceLength = React.useRef(dataSource.length);
+    const ref = React.useRef<HTMLDivElement>(null);
 
-    private readonly ref: React.RefObject<HTMLDivElement | null>;
-    private readonly defaultSequenceColumn: SequenceColumnConfig = {
-        title: i18n().sequence,
-        renderer: (index: number) => (index + 1).toString(),
-        width: 90,
-        align: "center",
-    };
-
-    constructor(props: Props<RowType>) {
-        super(props);
-        this.ref = React.createRef();
-    }
-
-    componentDidUpdate(prevProps: Props<RowType>) {
-        if (prevProps.dataSource.length < this.props.dataSource.length && Number(this.props.scrollY) > 0) {
-            const tableContainerRef = this.ref.current!.querySelector(".ant-table-body");
+    React.useEffect(() => {
+        if (previousDataSourceLength.current < dataSource.length && Number(scrollY) > 0) {
+            const tableContainerRef = ref.current!.querySelector(".ant-table-body");
             if (tableContainerRef) {
                 tableContainerRef.scrollTop = tableContainerRef.scrollHeight;
             }
         }
-    }
+    }, [dataSource.length, scrollY]);
 
-    getColumns = (): TableColumns<RowType> => {
-        const {columns, dataSource, nextRow, fixedRowCount, scrollX, sequenceColumn, disabled} = this.props;
+    const getColumns = (): TableColumns<RowType> => {
         const newColumns = [...columns];
         const t = i18n();
         if (sequenceColumn) {
-            const finalSequenceColumn = sequenceColumn === "default" ? this.defaultSequenceColumn : {...this.defaultSequenceColumn, ...sequenceColumn};
+            const finalSequenceColumn = sequenceColumn === "default" ? defaultSequenceColumn : {...defaultSequenceColumn, ...sequenceColumn};
             newColumns.unshift({
                 title: finalSequenceColumn.title,
                 width: finalSequenceColumn.width,
@@ -89,12 +80,12 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
                 return (
                     <div className="operation">
                         {(!fixedRowCount || fixedRowCount <= index) && (
-                            <button type="button" disabled={disabled || dataSourceLength === 1} onClick={() => this.onDeleteRow(index)}>
+                            <button type="button" disabled={disabled || dataSourceLength === 1} onClick={() => onDeleteRow(index)}>
                                 &#65293;
                             </button>
                         )}
                         {index === dataSourceLength - 1 && (
-                            <button disabled={disabled || nextRow === undefined} type="button" onClick={() => this.onAddRow(nextRow!)}>
+                            <button disabled={disabled || nextRow === undefined} type="button" onClick={() => onAddRow(nextRow!)}>
                                 &#xff0b;
                             </button>
                         )}
@@ -105,8 +96,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
         return newColumns;
     };
 
-    onDeleteRow = (index: number) => {
-        const {dataSource, onChange, onRowCountChange} = this.props;
+    const onDeleteRow = (index: number) => {
         if (onRowCountChange) {
             onRowCountChange("remove-row");
         }
@@ -118,8 +108,7 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
         }
     };
 
-    onAddRow = (nextRow: RowType | true) => {
-        const {dataSource, onChange, onRowCountChange} = this.props;
+    const onAddRow = (nextRow: RowType | true) => {
         if (onRowCountChange) {
             onRowCountChange("add-row");
         }
@@ -131,21 +120,18 @@ export class MutableTable<RowType extends object> extends React.PureComponent<Pr
         }
     };
 
-    render() {
-        const {dataSource, shouldRenderIfUpdate, scrollX, scrollY, bordered} = this.props;
-        return (
-            <div className="g-mutable-table-wrapper" ref={this.ref}>
-                <Table
-                    className="g-mutable-table"
-                    scrollX={scrollX}
-                    scrollY={scrollY}
-                    rowKey="index"
-                    columns={this.getColumns()}
-                    dataSource={dataSource}
-                    shouldRenderIfUpdate={shouldRenderIfUpdate}
-                    bordered={bordered}
-                />
-            </div>
-        );
-    }
-}
+    return (
+        <div className="g-mutable-table-wrapper" ref={ref}>
+            <Table
+                className="g-mutable-table"
+                scrollX={scrollX}
+                scrollY={scrollY}
+                rowKey="index"
+                columns={getColumns()}
+                dataSource={dataSource}
+                shouldRenderIfUpdate={shouldRenderIfUpdate}
+                bordered={bordered}
+            />
+        </div>
+    );
+});
