@@ -1,6 +1,7 @@
 import React from "react";
 import {classNames} from "../../../../util/ClassNames";
 import {Loader} from "../../shared/Loader";
+import {ReactUtil} from "../../../../util/ReactUtil";
 import "./index.less";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
     hasNextPageMessage?: string;
     loading?: boolean;
 }
-export const Footer = ({loading, hasNextPage, hasNextPageMessage, endOfListMessage}: Props) => {
+export const Footer = ReactUtil.memo("Footer", ({loading, hasNextPage, hasNextPageMessage, endOfListMessage}: Props) => {
     const ref = React.useRef<HTMLDivElement | null>(null);
     const end = endOfListMessage ?? "All data loaded";
     const next = hasNextPageMessage ?? "Pull up to load more";
@@ -19,4 +20,4 @@ export const Footer = ({loading, hasNextPage, hasNextPageMessage, endOfListMessa
             {loading ? <Loader /> : hasNextPage ? next : end}
         </div>
     );
-};
+});

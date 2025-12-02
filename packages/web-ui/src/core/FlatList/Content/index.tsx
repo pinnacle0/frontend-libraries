@@ -1,23 +1,25 @@
 import React from "react";
 import {Footer} from "./Footer";
 import type {FlatListProps, FlatListItemProps, Gap} from "../type";
+import {ReactUtil} from "../../../util/ReactUtil";
 
 interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "endOfListMessage" | "onPullUpLoading" | "endReachThreshold" | "loading"> {
     hasNextPageMessage?: string;
 }
 
-export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loading = false, endOfListMessage, onPullUpLoading, hasNextPageMessage, endReachThreshold = 4}: Props<T>) {
-    const Item = renderItem;
-    const itemStyle = useGap(gap);
-    const markerId = React.useRef(createKey());
-    const {first, second} = React.useMemo(() => splitByLast(data, endReachThreshold), [data, endReachThreshold]);
+export const Content = ReactUtil.memo("Content", <T extends object>(props: Props<T>) => {
+    const {data, emptyPlaceholder, renderItem, gap, rowKey, loading = false, endOfListMessage, onPullUpLoading, hasNextPageMessage, endReachThreshold = 4} = props;
     const [dataKey, setDataKey] = React.useState(createKey());
-    const loadedDataKey = React.useRef<string>(createKey());
-
+    const markerId = React.useRef(createKey());
     const previousMarker = React.useRef<HTMLDivElement | null>(null);
     const onPullUpLoadingRef = React.useRef(onPullUpLoading);
-    onPullUpLoadingRef.current = onPullUpLoading;
+    const loadedDataKey = React.useRef<string>(createKey());
+    const itemStyle = useGap(gap);
 
+    React.useEffect(() => (onPullUpLoadingRef.current = onPullUpLoading), [onPullUpLoading]);
+    React.useEffect(() => setDataKey(createKey()), [data]);
+
+    const {first, second} = React.useMemo(() => splitByLast(data, endReachThreshold), [data, endReachThreshold]);
     const observer = React.useMemo(
         () =>
             new IntersectionObserver(mutations => {
@@ -41,9 +43,8 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
         }
     };
 
-    React.useEffect(() => setDataKey(createKey()), [data]);
-
     const createItem = (source: FlatListItemProps<T>[]) => {
+        const Item = renderItem;
         return source.map(({data, index}) => (
             <div className="g-flat-list-item" key={rowKey === "index" ? index : String(data[rowKey])} style={itemStyle}>
                 <Item data={data} index={index} />
@@ -65,7 +66,7 @@ export function Content<T>({data, emptyPlaceholder, renderItem, gap, rowKey, loa
             )}
         </div>
     );
-}
+});
 
 function useGap(gap?: Gap): React.CSSProperties {
     if (!gap) return {};
