@@ -4,6 +4,9 @@ packages:
     - "!**/build/**"
     - "!**/dist/**"
 minimumReleaseAge: 4320
+minimumReleaseAgeExclude:
+    - "@pinnacle0/*"
+    - "swc-plugin-core-fe-hmr"
 onlyBuiltDependencies:
     - "@swc/core"
     - es5-ext
