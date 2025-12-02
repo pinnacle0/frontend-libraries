@@ -133,7 +133,7 @@ export const NumberInput = ReactUtil.compound(
 
         const onInputChange = (newValue: string) => triggerParentOnChangeIfValid(newValue);
 
-        const onInputPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 (inputRef || ref).current?.blur();
             }
@@ -157,7 +157,7 @@ export const NumberInput = ReactUtil.compound(
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                     onChange={onInputChange}
-                    onKeyPress={onInputPress}
+                    onKeyDown={onInputKeyDown}
                     suffix={suffix}
                     prefix={prefix}
                     inputMode="decimal"
