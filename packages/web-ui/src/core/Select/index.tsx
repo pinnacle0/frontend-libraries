@@ -8,10 +8,12 @@ export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<V
     options?: Array<DefaultOptionType>;
 }
 
-export const Select = ReactUtil.compound(
-    "Select",
-    {Option: AntSelect.Option as typeof AntSelect.Option, OptGroup: AntSelect.OptGroup as typeof AntSelect.OptGroup},
-    <ValueType extends SelectValue>(props: Props<ValueType>) => {
-        return <AntSelect {...props} />;
-    }
-);
+// Antd will check Select children displayName to validate children, cannot use ReactUtil.compound here.
+const Option: typeof AntSelect.Option = AntSelect.Option;
+const OptGroup: typeof AntSelect.OptGroup = AntSelect.OptGroup;
+
+const InternalSelect = ReactUtil.memo("Select", <ValueType extends SelectValue>(props: Props<ValueType>) => {
+    return <AntSelect {...props} />;
+});
+
+export const Select: typeof InternalSelect & {Option: typeof Option; OptGroup: typeof OptGroup} = Object.assign(InternalSelect, {Option, OptGroup});

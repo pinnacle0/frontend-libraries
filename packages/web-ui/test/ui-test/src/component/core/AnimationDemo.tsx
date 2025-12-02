@@ -83,7 +83,7 @@ const AnimatedListWithOperators = ({initialList}: {initialList: string[]}) => {
     const [list, setList] = React.useState(initialList);
 
     return (
-        <Space direction="vertical" size={20}>
+        <Space orientation="vertical" size={20}>
             <AnimatedList list={list} onChange={setList} />
             <AnimatedListOperators list={list} onChange={setList} />
         </Space>
