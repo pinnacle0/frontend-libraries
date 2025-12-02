@@ -3,6 +3,8 @@ import AntInput from "antd/es/input";
 import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} from "antd/es/input";
 import type {ControlledFormValue} from "../../internal/type";
 import type {InputFocusOptions} from "antd/es/input/Input";
+import {ReactUtil} from "../../util/ReactUtil";
+import {useDidMountEffect} from "../../hooks/useDidMountEffect";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 export type FocusType = "cursor-at-start" | "cursor-at-last" | "select-all" | "prevent-scroll";
@@ -29,68 +31,61 @@ export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, Controlle
     inputRef?: React.RefObject<InputRef | null>;
 }
 
-export class Input extends React.PureComponent<Props> {
-    static displayName = "Input";
-
-    static Readonly = (props: InputReadonlyProps) => <AntInput onChange={() => {}} readOnly disabled {...props} />;
-
-    static Search = ({onChange, ...rest}: InputSearchProps) => <AntInput.Search onChange={e => Input.onChange(e, onChange)} {...rest} />;
-
-    static TextArea = ({onChange, ...rest}: InputTextAreaProps) => <AntInput.TextArea onChange={e => Input.onChange(e, onChange)} {...rest} />;
-
-    static Password = ({onChange, ...rest}: InputPasswordProps) => <AntInput.Password onChange={e => Input.onChange(e, onChange)} {...rest} />;
-
-    static Nullable = ({value, onChange, ...rest}: InputNullableProps) => <Input value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />;
-
-    static NullableTextArea = ({value, onChange, ...rest}: InputNullableTextAreaProps) => <Input.TextArea value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />;
-
-    private static onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void, autoTrim?: boolean) => {
-        if (autoTrim) {
-            e.target.value = e.target.value.trim();
-        }
-        onValueChange(e.target.value);
-    };
-
-    private antInputRef = React.createRef<InputRef>();
-
-    private getRef = () => this.props.inputRef ?? this.antInputRef;
-
-    private createFocusOptions(focus?: FocusType): InputFocusOptions | undefined {
-        const type = focus || this.props.focus;
-        if (!type) return undefined;
-        if (type === "prevent-scroll") {
-            return {preventScroll: true};
-        } else {
-            return {cursor: type === "cursor-at-start" ? "start" : type === "cursor-at-last" ? "end" : "all"};
-        }
-    }
-
-    private handleClick: React.MouseEventHandler<HTMLInputElement> = event => {
-        this.getRef().current?.focus(this.createFocusOptions());
-        this.props.onClick?.(event);
-    };
-
-    componentDidMount() {
-        if (this.props.autoFocus) {
-            this.getRef().current?.focus(this.createFocusOptions());
-        }
-    }
-
-    blur = () => this.getRef().current?.blur();
-
-    focus = (focusType?: FocusType) => (this.props.inputRef || this.antInputRef).current?.focus(this.createFocusOptions(focusType));
-
-    render() {
-        const {
-            onChange,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
-            autoFocus,
-            autoTrim,
-            inputRef,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- not included in restProps
-            onClick,
-            ...restProps
-        } = this.props;
-        return <AntInput {...restProps} ref={inputRef || this.antInputRef} onClick={this.handleClick} onChange={e => Input.onChange(e, onChange, autoTrim)} />;
-    }
+export interface InputHandler {
+    blur: () => void;
+    focus: (focusType?: FocusType) => void;
 }
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, onValueChange: (newValue: string) => void, autoTrim?: boolean) => {
+    if (autoTrim) {
+        e.target.value = e.target.value.trim();
+    }
+    onValueChange(e.target.value);
+};
+
+export const Input = ReactUtil.compound(
+    "Input",
+    {
+        Readonly: (props: InputReadonlyProps) => <AntInput onChange={() => {}} readOnly disabled {...props} />,
+
+        Search: ({onChange, ...rest}: InputSearchProps) => <AntInput.Search onChange={e => handleInputChange(e, onChange)} {...rest} />,
+
+        TextArea: ({onChange, ...rest}: InputTextAreaProps) => <AntInput.TextArea onChange={e => handleInputChange(e, onChange)} {...rest} />,
+
+        Password: ({onChange, ...rest}: InputPasswordProps) => <AntInput.Password onChange={e => handleInputChange(e, onChange)} {...rest} />,
+
+        Nullable: ({value, onChange, ...rest}: InputNullableProps) => <Input value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />,
+
+        NullableTextArea: ({value, onChange, ...rest}: InputNullableTextAreaProps) => <Input.TextArea value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />,
+    },
+    React.forwardRef<InputHandler, Props>((props, forwardRef) => {
+        const {onChange, autoFocus, autoTrim, inputRef, focus: focusProp, onClick, ...restProps} = props;
+        const antInputRef = React.useRef<InputRef>(null);
+        const ref = inputRef ?? antInputRef;
+
+        const createFocusOptions = (focusType?: FocusType): InputFocusOptions | undefined => {
+            if (!focusType) return undefined;
+            if (focusType === "prevent-scroll") {
+                return {preventScroll: true};
+            } else {
+                return {cursor: focusType === "cursor-at-start" ? "start" : focusType === "cursor-at-last" ? "end" : "all"};
+            }
+        };
+
+        React.useImperativeHandle(forwardRef, () => ({
+            blur: () => ref.current?.blur(),
+            focus: (focusType?: FocusType) => ref.current?.focus(createFocusOptions(focusType || focusProp)),
+        }));
+
+        useDidMountEffect(() => {
+            if (autoFocus) ref.current?.focus(createFocusOptions(focusProp));
+        });
+
+        const handleClick: React.MouseEventHandler<HTMLInputElement> = event => {
+            ref.current?.focus(createFocusOptions(focusProp));
+            onClick?.(event);
+        };
+
+        return <AntInput {...restProps} ref={inputRef || antInputRef} onClick={handleClick} onChange={e => handleInputChange(e, onChange, autoTrim)} />;
+    })
+);

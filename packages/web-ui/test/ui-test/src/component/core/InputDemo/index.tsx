@@ -1,5 +1,6 @@
 import React from "react";
 import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
+import type {InputHandler} from "@pinnacle0/web-ui/core/Input";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import {AuthenticationCodeInput} from "@pinnacle0/web-ui/core/AuthenticationCodeInput";
@@ -36,7 +37,7 @@ const RequiredNumberInputPercentage = ({initialValue, ...props}: Omit<NumberInpu
 };
 const FocusInputDemo = () => {
     const [value, setValue] = React.useState<string>("same text inside");
-    const inputRef = React.createRef<Input>();
+    const inputRef = React.useRef<InputHandler>(null);
 
     return (
         <div>
