@@ -1,5 +1,6 @@
 import React from "react";
 import {Input} from "../../core/Input";
+import type {FormHandler} from "../../core/Form";
 import {Form} from "../../core/Form";
 import {Markdown} from "../../core/Markdown";
 import {classNames} from "../ClassNames";
@@ -15,7 +16,7 @@ interface State {
 export class PromptBody extends React.PureComponent<Props, State> {
     static displayName = "PromptBody";
 
-    private readonly formRef: React.RefObject<Form | null>;
+    private readonly formRef: React.RefObject<FormHandler | null>;
     private readonly warningStyle: React.CSSProperties = {marginTop: 8, color: "red"};
     private readonly formStyle: React.CSSProperties = {marginTop: 12};
 
