@@ -55,6 +55,7 @@ export const MutableTable = ReactUtil.memo("MutableTable", <RowType extends obje
                 tableContainerRef.scrollTop = tableContainerRef.scrollHeight;
             }
         }
+        previousDataSourceLength.current = dataSource.length;
     }, [dataSource.length, scrollY]);
 
     const getColumns = (): TableColumns<RowType> => {
