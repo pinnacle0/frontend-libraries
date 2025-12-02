@@ -53,9 +53,12 @@ export const Form = ReactUtil.compound(
         } = props;
         const [isValidating, setIsValidating] = React.useState(false);
         const [validators, setValidators] = React.useState<Array<() => Promise<boolean>>>([]);
+
+        const registerValidator = React.useCallback((validator: () => Promise<boolean>) => setValidators(prev => [...prev, validator]), []);
+        const unregisterValidator = React.useCallback((validator: () => Promise<boolean>) => setValidators(prev => prev.filter(v => v !== validator)), []);
         const validationContext = {
-            registerValidator: (validator: () => Promise<boolean>) => setValidators(prev => [...prev, validator]),
-            unregisterValidator: (validator: () => Promise<boolean>) => setValidators(prev => prev.filter(v => v !== validator)),
+            registerValidator,
+            unregisterValidator,
             errorDisplayMode: () => errorDisplayMode,
         };
 
