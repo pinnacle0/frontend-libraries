@@ -1,5 +1,6 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
+import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
 interface Props {
@@ -7,11 +8,6 @@ interface Props {
     className?: string;
 }
 
-export class HTMLContent extends React.PureComponent<Props> {
-    static displayName = "HTMLContent";
-
-    render() {
-        const {html, className} = this.props;
-        return <div className={classNames("g-html-content", className)} dangerouslySetInnerHTML={{__html: html}} />;
-    }
-}
+export const HTMLContent = ReactUtil.memo("HTMLContent", ({html, className}: Props) => {
+    return <div className={classNames("g-html-content", className)} dangerouslySetInnerHTML={{__html: html}} />;
+});

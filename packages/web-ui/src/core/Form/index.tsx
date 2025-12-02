@@ -4,9 +4,9 @@ import {Button} from "../Button";
 import {FormValidationContext} from "./context";
 import {i18n} from "../../internal/i18n/core";
 import {Item} from "./Item";
+import {ReactUtil} from "../../util/ReactUtil";
 import type {FormErrorDisplayMode} from "./context";
 import "./index.less";
-import {ReactUtil} from "../../util/ReactUtil";
 
 export type {Props as FormItemProps, FormValidator} from "./Item";
 

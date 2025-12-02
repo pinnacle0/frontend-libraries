@@ -9,6 +9,7 @@ import {i18n} from "../../internal/i18n/core";
 import type {UploaderProps, UploadSuccessLogEntry} from "../../util/UploadUtil/type";
 import {Uploader} from "../../core/Uploader";
 import {Tooltip} from "../../core/Tooltip";
+import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
@@ -23,48 +24,42 @@ export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderP
     style?: React.CSSProperties;
 }
 
-export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React.PureComponent<Props<SuccessResponseType, ErrorResponseType>> {
-    static displayName = "ImageUploader";
+export const ImageUploader = ReactUtil.memo("ImageUploader", <Res, Err>(props: Props<Res, Err>) => {
+    const {uploadURL, formField, className, style, imageURL, disabled, width, height, onRemove, onUploadFailure, fileSizeLimitMB, onChange, onUploadSuccess} = props;
+    const t = i18n();
 
-    openPreviewModal = async (e: React.MouseEvent) => {
+    const openPreviewModal = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        const {imageURL} = this.props;
-        if (imageURL) {
-            await MediaUtil.openImage(imageURL);
-        }
+        if (imageURL) await MediaUtil.openImage(imageURL);
     };
 
-    removeImage = async (e: React.MouseEvent) => {
+    const removeImage = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        const {onRemove} = this.props;
-        const t = i18n();
         if (await ModalUtil.confirm(t.confirmImageRemoval)) {
             onRemove?.();
         }
     };
 
-    beforeUpload = (file: File): boolean => {
-        const {fileSizeLimitMB} = this.props;
+    const beforeUpload = (file: File): boolean => {
         if (fileSizeLimitMB && file.size > 1024 * 1024 * fileSizeLimitMB) {
             return false;
         }
         return true;
     };
 
-    preventUploadBehavior = (e: React.MouseEvent) => {
+    const preventUploadBehavior = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
             // Only trigger for clicking "Upload" icon
             e.stopPropagation();
         }
     };
 
-    onUploadSuccess = (logEntry: UploadSuccessLogEntry, response: SuccessResponseType) => {
-        const {onChange, onUploadSuccess} = this.props;
+    const onAntUploadSuccess = (logEntry: UploadSuccessLogEntry, response: Res) => {
         onChange(response);
         onUploadSuccess?.(logEntry, response);
     };
 
-    renderActionIcon = (name: string, icon: React.ReactElement) => {
+    const renderActionIcon = (name: string, icon: React.ReactElement) => {
         return (
             <Tooltip title={name} childContainerProps={{className: "action"}}>
                 {icon}
@@ -72,33 +67,29 @@ export class ImageUploader<SuccessResponseType, ErrorResponseType> extends React
         );
     };
 
-    render() {
-        const {uploadURL, formField, className, style, imageURL, disabled, width, height, onRemove, onUploadFailure} = this.props;
-        const t = i18n();
-        return (
-            <Uploader<SuccessResponseType, ErrorResponseType>
-                accept="image/*"
-                formField={formField}
-                uploadURL={uploadURL}
-                onUploadFailure={onUploadFailure}
-                onUploadSuccess={this.onUploadSuccess}
-                style={{...style, width, height}}
-                className={classNames("g-image-uploader", className)}
-                disabled={disabled}
-                beforeUpload={this.beforeUpload}
-            >
-                {imageURL ? (
-                    <div className="image-container" style={{backgroundImage: `url(${imageURL})`, height}}>
-                        <div className="overlay" onClick={this.preventUploadBehavior}>
-                            {this.renderActionIcon(t.preview, <EyeOutlined onClick={this.openPreviewModal} />)}
-                            {!disabled && this.renderActionIcon(t.upload, <CloudUploadOutlined />)}
-                            {!disabled && onRemove && this.renderActionIcon(t.delete, <DeleteOutlined onClick={this.removeImage} />)}
-                        </div>
+    return (
+        <Uploader<Res, Err>
+            accept="image/*"
+            formField={formField}
+            uploadURL={uploadURL}
+            onUploadFailure={onUploadFailure}
+            onUploadSuccess={onAntUploadSuccess}
+            style={{...style, width, height}}
+            className={classNames("g-image-uploader", className)}
+            disabled={disabled}
+            beforeUpload={beforeUpload}
+        >
+            {imageURL ? (
+                <div className="image-container" style={{backgroundImage: `url(${imageURL})`, height}}>
+                    <div className="overlay" onClick={preventUploadBehavior}>
+                        {renderActionIcon(t.preview, <EyeOutlined onClick={openPreviewModal} />)}
+                        {!disabled && renderActionIcon(t.upload, <CloudUploadOutlined />)}
+                        {!disabled && onRemove && renderActionIcon(t.delete, <DeleteOutlined onClick={removeImage} />)}
                     </div>
-                ) : (
-                    t.uploadHint
-                )}
-            </Uploader>
-        );
-    }
-}
+                </div>
+            ) : (
+                t.uploadHint
+            )}
+        </Uploader>
+    );
+});
