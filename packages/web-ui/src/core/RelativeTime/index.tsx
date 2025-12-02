@@ -1,6 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import {ReactUtil} from "../../util/ReactUtil";
 
 // load plugin when component is imported
 dayjs.extend(relativeTime);
@@ -9,52 +10,29 @@ export interface Props {
     date: Date;
 }
 
-interface State {
-    elapsedText: string;
-}
+export const RelativeTime = ReactUtil.memo("RelativeTime", ({date}: Props) => {
+    const [elapsedText, setElapsedText] = React.useState("-");
+    const repaintTimeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
-export class RelativeTime extends React.PureComponent<Props, State> {
-    static displayName = "RelativeTime";
+    const repaint = React.useCallback(() => {
+        clearTimeout(repaintTimeout.current);
 
-    private repaintTimeout: number | undefined;
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            elapsedText: "-",
-        };
-    }
-
-    componentDidMount() {
-        this.repaint();
-    }
-
-    componentDidUpdate(prevProps: Readonly<Props>) {
-        if (prevProps.date !== this.props.date) {
-            this.repaint();
-        }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.repaintTimeout);
-    }
-
-    repaint = () => {
-        clearTimeout(this.repaintTimeout);
-
-        const elapsedText = dayjs(this.props.date).fromNow();
-        this.setState({elapsedText});
+        const elapsedText = dayjs(date).fromNow();
+        setElapsedText(elapsedText);
         /**
          * dayjs relative time plugin uses 45 minutes for "an hour ago" threshold and 45 seconds for "a minute ago" threshold.
          * Repaint after 15 minutes / seconds interval should be good enough for now.
          * See: https://day.js.org/docs/en/customization/relative-time
          */
-        const isAnHourAgo = Date.now() - this.props.date.getTime() > 3600 * 1000;
+        const isAnHourAgo = Date.now() - date.getTime() > 3600 * 1000;
         const timeoutDuration = isAnHourAgo ? 15 * 1000 * 60 : 15 * 1000;
-        this.repaintTimeout = window.setTimeout(this.repaint, timeoutDuration);
-    };
+        repaintTimeout.current = setTimeout(repaint, timeoutDuration);
+    }, [date]);
 
-    render() {
-        return this.state.elapsedText;
-    }
-}
+    React.useEffect(() => {
+        repaint();
+        return () => clearTimeout(repaintTimeout.current);
+    }, [repaint]);
+
+    return elapsedText;
+});

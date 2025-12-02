@@ -1,19 +1,9 @@
 import React from "react";
 import type {RadioChangeEvent, RadioProps} from "antd/es/radio";
 import AntRadio from "antd/es/radio";
-
-export interface Props extends RadioProps {}
-
-export class Radio extends React.PureComponent<Props> {
-    static displayName = "Radio";
-
-    static Button = AntRadio.Button;
-
-    static Group = AntRadio.Group;
-
-    render() {
-        return <AntRadio {...this.props} />;
-    }
-}
+import {ReactUtil} from "../../util/ReactUtil";
 
 export type {RadioChangeEvent};
+export interface Props extends RadioProps {}
+
+export const Radio = ReactUtil.compound("Radio", {Button: AntRadio.Button, Group: AntRadio.Group}, (props: Props) => <AntRadio {...props} />);
