@@ -2,6 +2,7 @@ import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {Tooltip} from "../Tooltip";
 import {FormValidationContext} from "./context";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export type FormValidator = () => string | null | Promise<string | null>;
 
@@ -16,71 +17,51 @@ export interface Props {
     widthMode?: "fill" | "auto" | "shrink"; // No affect for <Form layout="inline">
 }
 
-interface State {
-    errorMessage: string | null;
-}
+const overlayStyle: React.CSSProperties = {color: "red"};
 
-export class Item extends React.PureComponent<Props, State> {
-    static displayName = "Form.Item";
-    static contextType = FormValidationContext;
-    declare context: React.ContextType<typeof FormValidationContext>;
+export const Item = ReactUtil.memo("Item", (props: Props) => {
+    const {label, children, className, required, extra, labelStyle, widthMode, validator} = props;
+    const {registerValidator, unregisterValidator, errorDisplayMode} = React.useContext(FormValidationContext);
+    const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-    private readonly overlayStyle: React.CSSProperties = {color: "red"};
+    const validate = React.useCallback(async (): Promise<boolean> => {
+        if (!validator) return true;
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {errorMessage: null};
-    }
+        const errorMessage = await validator();
+        setErrorMessage(errorMessage);
+        return errorMessage === null;
+    }, [validator]);
 
-    componentDidMount() {
-        this.context.registerValidator(this.validate);
-    }
+    React.useEffect(() => {
+        registerValidator(validate);
+        return () => unregisterValidator(validate);
+    }, [registerValidator, unregisterValidator, validate]);
 
-    componentWillUnmount() {
-        this.context.unregisterValidator(this.validate);
-    }
+    const childrenNode = typeof children === "number" || typeof children === "string" ? <span className="pure-text">{children}</span> : children;
+    const extraMessageNode = extra && <div className="message">{extra}</div>;
+    const errorDisplay = errorDisplayMode();
 
-    validate = async (): Promise<boolean> => {
-        const {validator} = this.props;
-        if (validator) {
-            const errorMessage = await validator();
-            this.setState({errorMessage});
-            return errorMessage === null;
-        } else {
-            return true;
-        }
-    };
-
-    render() {
-        const {label, children, className, required, extra, labelStyle, widthMode} = this.props;
-        const {errorMessage} = this.state;
-        const errorDisplayMode = this.context.errorDisplayMode();
-
-        const childrenNode = typeof children === "number" || typeof children === "string" ? <span className="pure-text">{children}</span> : children;
-        const extraMessageNode = extra && <div className="message">{extra}</div>;
-
-        return (
-            <div className={classNames("g-form-item", className)}>
-                <div className={classNames("g-form-item-label", {required})} style={labelStyle}>
-                    {label && <label>{label}</label>}
-                </div>
-                <div className={classNames("g-form-item-children", {"has-error": errorMessage}, widthMode ? `width-${widthMode}` : "")}>
-                    {errorDisplayMode.type === "extra" ? (
-                        <React.Fragment>
-                            {childrenNode}
-                            {extraMessageNode}
-                            {errorMessage && <div className="message error">{errorMessage}</div>}
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplayMode.placement || "right"} color="white" styles={{container: this.overlayStyle}}>
-                                {childrenNode}
-                            </Tooltip>
-                            {extraMessageNode}
-                        </React.Fragment>
-                    )}
-                </div>
+    return (
+        <div className={classNames("g-form-item", className)}>
+            <div className={classNames("g-form-item-label", {required})} style={labelStyle}>
+                {label && <label>{label}</label>}
             </div>
-        );
-    }
-}
+            <div className={classNames("g-form-item-children", {"has-error": errorMessage}, widthMode ? `width-${widthMode}` : "")}>
+                {errorDisplay.type === "extra" ? (
+                    <React.Fragment>
+                        {childrenNode}
+                        {extraMessageNode}
+                        {errorMessage && <div className="message error">{errorMessage}</div>}
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplay.placement || "right"} color="white" styles={{container: overlayStyle}}>
+                            {childrenNode}
+                        </Tooltip>
+                        {extraMessageNode}
+                    </React.Fragment>
+                )}
+            </div>
+        </div>
+    );
+});
