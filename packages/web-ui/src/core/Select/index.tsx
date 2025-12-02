@@ -1,21 +1,17 @@
 import AntSelect from "antd/es/select";
 import React from "react";
 import type {SelectProps, SelectValue, DefaultOptionType, OptionProps as SelectOptionProps} from "antd/es/select";
+import {ReactUtil} from "../../util/ReactUtil";
 
+export type {SelectValue, SelectOptionProps};
 export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<ValueType>, "options"> {
     options?: Array<DefaultOptionType>;
 }
 
-export class Select<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
-    static displayName = "Select";
-
-    static Option: typeof AntSelect.Option = AntSelect.Option;
-
-    static OptGroup: typeof AntSelect.OptGroup = AntSelect.OptGroup;
-
-    render() {
-        return <AntSelect {...this.props} />;
+export const Select = ReactUtil.compound(
+    "Select",
+    {Option: AntSelect.Option as typeof AntSelect.Option, OptGroup: AntSelect.OptGroup as typeof AntSelect.OptGroup},
+    <ValueType extends SelectValue>(props: Props<ValueType>) => {
+        return <AntSelect {...props} />;
     }
-}
-
-export type {SelectValue, SelectOptionProps};
+);

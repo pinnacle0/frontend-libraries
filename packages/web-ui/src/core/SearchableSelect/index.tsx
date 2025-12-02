@@ -1,3 +1,4 @@
+import {ReactUtil} from "../../util/ReactUtil";
 import type {Props as SelectProps, SelectValue, SelectOptionProps} from "../Select";
 import {Select} from "../Select";
 import React from "react";
@@ -6,12 +7,10 @@ export interface Props<ValueType extends SelectValue> extends Omit<SelectProps<V
     options?: Array<{value: string; label: string}>;
 }
 
-export class SearchableSelect<ValueType extends SelectValue> extends React.PureComponent<Props<ValueType>> {
-    static displayName = "SearchableSelect";
-
-    static Option = Select.Option as React.ComponentType<SelectOptionProps & {children: string}>;
-
-    render() {
-        return <Select optionFilterProp={this.props.options ? "label" : "children"} showSearch {...this.props} />;
+export const SearchableSelect = ReactUtil.compound(
+    "SearchableSelect",
+    {Option: Select.Option as React.ComponentType<SelectOptionProps & {children: string}>},
+    <ValueType extends SelectValue>(props: Props<ValueType>) => {
+        return <Select showSearch={{optionFilterProp: props.options ? "label" : "children"}} {...props} />;
     }
-}
+);
