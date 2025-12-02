@@ -6,6 +6,10 @@ import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import {Map} from "./Map";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
+
+const TRUE_VALUE = "@@TRUE";
+const FALSE_VALUE = "@@FALSE";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
@@ -23,30 +27,19 @@ export interface BaseProps<Enum extends string | boolean | number> {
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
 
-export class EnumSelect<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
-    private readonly trueValue = "@@TRUE";
-    private readonly falseValue = "@@FALSE";
+export const EnumSelect = ReactUtil.compound("EnumSelect", {Nullable, InitialNullable, Map}, <Enum extends string | boolean | number>(props: Props<Enum>) => {
+    const {list, value, translator, prefix, onChange, disabled, className = "", style, dropdownStyle, listHeight, listItemHeight, placeholder, suffixIcon} = props;
 
-    static displayName = "EnumSelect";
+    const getAntSelectValue = (): LabeledValue | undefined => {
+        // Special case for InitialNullable, to show placeholder, no pre-selection
+        if (value === null) return undefined;
 
-    static Nullable = Nullable;
-    static InitialNullable = InitialNullable;
-    static Map = Map;
-
-    getAntSelectValue = (): LabeledValue | undefined => {
-        const value = this.props.value as Enum;
-        if (value === null) {
-            // Special case for InitialNullable, to show placeholder, no pre-selection
-            return undefined;
-        }
-
-        const {translator, prefix} = this.props;
         const antValue = value.toString();
         let antLabel = translator ? translator(value) : antValue;
         if (prefix) {
             antLabel = (
                 <div className="prefixed-label-wrapper">
-                    {this.props.prefix}
+                    {prefix}
                     {antLabel}
                 </div>
             );
@@ -57,47 +50,43 @@ export class EnumSelect<Enum extends string | boolean | number> extends React.Pu
         };
     };
 
-    onChange = ({value: antValue}: LabeledValue) => {
-        const enumValue = antValue === this.trueValue ? true : antValue === this.falseValue ? false : antValue;
-        this.props.onChange(enumValue as Enum);
+    const onAntChange = ({value: antValue}: LabeledValue) => {
+        const enumValue = antValue === TRUE_VALUE ? true : antValue === FALSE_VALUE ? false : antValue;
+        onChange(enumValue as Enum);
     };
 
-    render() {
-        const {list, translator, disabled, className = "", style, dropdownStyle, listHeight, listItemHeight, placeholder, suffixIcon, prefix} = this.props;
-
-        return (
-            <Select<LabeledValue>
-                disabled={disabled}
-                labelInValue
-                value={this.getAntSelectValue()}
-                onChange={this.onChange}
-                className={`g-enum-select ${className}`}
-                listHeight={listHeight}
-                listItemHeight={listItemHeight}
-                style={style}
-                styles={{popup: {root: dropdownStyle}}}
-                placeholder={
-                    prefix ? (
-                        <div className="prefixed-placeholder-wrapper">
-                            {prefix}
-                            {placeholder}
-                        </div>
-                    ) : (
-                        placeholder
-                    )
-                }
-                suffixIcon={suffixIcon}
-                optionLabelProp={prefix ? "label" : undefined}
-            >
-                {list.map(_ => {
-                    const label = translator ? translator(_) : _.toString();
-                    return (
-                        <Select.Option title={null} key={_.toString()} value={_ === true ? this.trueValue : _ === false ? this.falseValue : _} label={label}>
-                            {label}
-                        </Select.Option>
-                    );
-                })}
-            </Select>
-        );
-    }
-}
+    return (
+        <Select<LabeledValue>
+            disabled={disabled}
+            labelInValue
+            value={getAntSelectValue()}
+            onChange={onAntChange}
+            className={`g-enum-select ${className}`}
+            listHeight={listHeight}
+            listItemHeight={listItemHeight}
+            style={style}
+            styles={{popup: {root: dropdownStyle}}}
+            placeholder={
+                prefix ? (
+                    <div className="prefixed-placeholder-wrapper">
+                        {prefix}
+                        {placeholder}
+                    </div>
+                ) : (
+                    placeholder
+                )
+            }
+            suffixIcon={suffixIcon}
+            optionLabelProp={prefix ? "label" : undefined}
+        >
+            {list.map(_ => {
+                const label = translator ? translator(_) : _.toString();
+                return (
+                    <Select.Option title={null} key={_.toString()} value={_ === true ? TRUE_VALUE : _ === false ? FALSE_VALUE : _} label={label}>
+                        {label}
+                    </Select.Option>
+                );
+            })}
+        </Select>
+    );
+});

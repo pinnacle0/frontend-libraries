@@ -6,6 +6,7 @@ import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import {Map} from "./Map";
 import type {RadioGroupButtonStyle} from "antd/es/radio";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface BaseProps<Enum extends string | boolean | number> {
     list: readonly Enum[];
@@ -19,29 +20,20 @@ export interface BaseProps<Enum extends string | boolean | number> {
 
 export interface Props<Enum extends string | boolean | number> extends BaseProps<Enum>, ControlledFormValue<Enum> {}
 
-export class EnumRadio<Enum extends string | boolean | number> extends React.PureComponent<Props<Enum>> {
-    static displayName = "EnumRadio";
-    static Nullable = Nullable;
-    static InitialNullable = InitialNullable;
-    static Map = Map;
+export const EnumRadio = ReactUtil.compound("EnumRadio", {Nullable, InitialNullable, Map}, <Enum extends string | boolean | number>(props: Props<Enum>) => {
+    const {list, translator, value, useButtonMode, buttonStyle, disabled, className, style, onChange} = props;
 
-    onChange = (event: RadioChangeEvent) => {
-        const enumValue: Enum = event.target.value;
-        this.props.onChange(enumValue);
-    };
+    const RadioItem = useButtonMode ? Radio.Button : Radio;
+    const onAntChange = (event: RadioChangeEvent) => onChange(event.target.value);
 
-    render() {
-        const {list, translator, value, useButtonMode, buttonStyle, disabled, className, style} = this.props;
-        const RadioItem = useButtonMode ? Radio.Button : Radio;
-        return (
-            <Radio.Group value={value} onChange={this.onChange} disabled={disabled} className={className} style={style} optionType={useButtonMode ? "button" : undefined} buttonStyle={buttonStyle}>
-                {list.map(_ => (
-                    // RadioItem can accept any type as value, and emit the exact type while onChange
-                    <RadioItem key={_.toString()} value={_}>
-                        {translator ? translator(_) : _.toString()}
-                    </RadioItem>
-                ))}
-            </Radio.Group>
-        );
-    }
-}
+    return (
+        <Radio.Group value={value} onChange={onAntChange} disabled={disabled} className={className} style={style} optionType={useButtonMode ? "button" : undefined} buttonStyle={buttonStyle}>
+            {list.map(_ => (
+                // RadioItem can accept any type as value, and emit the exact type while onChange
+                <RadioItem key={_.toString()} value={_}>
+                    {translator ? translator(_) : _.toString()}
+                </RadioItem>
+            ))}
+        </Radio.Group>
+    );
+});
