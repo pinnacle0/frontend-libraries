@@ -8,6 +8,7 @@ import {i18n} from "../../internal/i18n/core";
 import type {ControlledFormValue, StringKey} from "../../internal/type";
 import {TextUtil} from "../../internal/TextUtil";
 import {TablePopover} from "./TablePopover";
+import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props<RowType extends object> extends ControlledFormValue<RowType[]> {
     dataSource: RowType[];
@@ -32,50 +33,60 @@ export interface Props<RowType extends object> extends ControlledFormValue<RowTy
     onPopoverOpenChange?: (open: boolean) => void;
 }
 
-export class MultipleSelector<RowType extends object> extends React.PureComponent<Props<RowType>> {
-    static displayName = "MultipleSelector";
+export const MultipleSelector = ReactUtil.memo("MultipleSelector", <RowType extends object>(props: Props<RowType>) => {
+    const {
+        value,
+        onChange,
+        renderButtonText,
+        renderTags,
+        popoverPlacement,
+        disabled,
+        popoverClassName,
+        popoverStyle,
+        popoverOpen,
+        onPopoverOpenChange,
+        onPopoverFirstRender,
+        dataSource,
+        tableColumns,
+        rowKey,
+        scrollY,
+    } = props;
+    const t = i18n();
 
-    buttonText = (): string => {
-        const {value, renderButtonText} = this.props;
-        const t = i18n();
-        const length = value.length;
+    const buttonText = (): string => {
         if (renderButtonText) {
-            return typeof renderButtonText === "string" ? renderButtonText : renderButtonText(length);
+            return typeof renderButtonText === "string" ? renderButtonText : renderButtonText(value.length);
         } else {
             return value.length === 0 ? t.select : TextUtil.interpolate(t.edit, value.length.toString());
         }
     };
 
-    onClose = (index: number) => {
-        const {value, onChange} = this.props;
+    const onClose = (index: number) => {
         const newValue = [...value];
         newValue.splice(index, 1);
         onChange(newValue);
     };
 
-    renderSelectedAsTags = (labels: string[]) => {
-        const {disabled} = this.props;
+    const renderSelectedAsTags = (labels: string[]) => {
         return (
             <div className="g-multiple-selector-selected-tags">
-                <Tags maxWidth={600} color="blue" items={labels} onClose={disabled ? undefined : this.onClose} useItemsAsKey />
+                <Tags maxWidth={600} color="blue" items={labels} onClose={disabled ? undefined : onClose} useItemsAsKey />
             </div>
         );
     };
 
-    renderSelectedItems = () => {
-        const {value, renderTags} = this.props;
+    const renderSelectedItems = () => {
         if (renderTags) {
             if (typeof renderTags === "function") {
                 const renderedResult = renderTags(value);
-                return Array.isArray(renderedResult) ? this.renderSelectedAsTags(renderedResult) : renderedResult;
+                return Array.isArray(renderedResult) ? renderSelectedAsTags(renderedResult) : renderedResult;
             } else {
-                return this.renderSelectedAsTags(value.map(_ => _[renderTags] as any));
+                return renderSelectedAsTags(value.map(_ => _[renderTags] as any));
             }
         }
     };
 
-    renderPopover = () => {
-        const {renderPopover, value, onChange, disabled, onPopoverFirstRender, dataSource, tableColumns, rowKey, scrollY} = this.props;
+    const renderPopover = () => {
         return (
             <TablePopover
                 dataSource={dataSource}
@@ -92,23 +103,20 @@ export class MultipleSelector<RowType extends object> extends React.PureComponen
         );
     };
 
-    render() {
-        const {popoverPlacement, disabled, popoverClassName, popoverStyle} = this.props;
-        return (
-            <div className="g-multiple-selector">
-                {this.renderSelectedItems()}
-                <Popover
-                    placement={popoverPlacement || "bottomLeft"}
-                    trigger="click"
-                    content={this.renderPopover()}
-                    classNames={{root: popoverClassName}}
-                    styles={{root: popoverStyle}}
-                    open={this.props.popoverOpen}
-                    onOpenChange={this.props.onPopoverOpenChange}
-                >
-                    <Button disabled={disabled === "button"}>{this.buttonText()}</Button>
-                </Popover>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="g-multiple-selector">
+            {renderSelectedItems()}
+            <Popover
+                placement={popoverPlacement || "bottomLeft"}
+                trigger="click"
+                content={renderPopover()}
+                classNames={{root: popoverClassName}}
+                styles={{root: popoverStyle}}
+                open={popoverOpen}
+                onOpenChange={onPopoverOpenChange}
+            >
+                <Button disabled={disabled === "button"}>{buttonText()}</Button>
+            </Popover>
+        </div>
+    );
+});

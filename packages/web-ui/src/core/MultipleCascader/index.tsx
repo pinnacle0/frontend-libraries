@@ -4,6 +4,7 @@ import AntCascader from "antd/es/cascader";
 import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
 /**
  * Attention:
@@ -26,13 +27,11 @@ export interface BaseProps<T extends string | number> {
 
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T[]> {}
 
-export class MultipleCascader<T extends string | number> extends React.PureComponent<Props<T>> {
-    static displayName = "MultipleCascader";
-    static nonLeafPrefix = "@@NON_LEAF_";
+const NON_LEAF_PREFIX = "@@NON_LEAF_";
 
-    getAntValue = (): (string | number)[][] => {
-        const data = this.getAntDataSource();
-        const value = this.props.value;
+export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends string | number>({value, placeholder = "", disabled, style, className, onChange, data}: Props<T>) => {
+    const getAntValue = (): (string | number)[][] => {
+        const data = getAntDataSource();
         const getCascaderValues = (data: DefaultOptionType[], value: T): Array<string | number> => {
             for (const item of data) {
                 if (item.value === value) {
@@ -50,23 +49,22 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
         return value.map(_ => getCascaderValues(data, _));
     };
 
-    getAntDataSource = (): DefaultOptionType[] => {
+    const getAntDataSource = (): DefaultOptionType[] => {
         const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map((node, index) => ({
                 label: node.label,
                 disabled: node.disabled,
-                value: Array.isArray(node.value) ? MultipleCascader.nonLeafPrefix + `${index}_` + node.label : node.value,
+                value: Array.isArray(node.value) ? NON_LEAF_PREFIX + `${index}_` + node.label : node.value,
                 children: Array.isArray(node.value) && node.value.length > 0 ? getAntChildren(node.value) : undefined,
             }));
         };
-        return getAntChildren(this.props.data);
+        return getAntChildren(data);
     };
 
-    onChange = (antValue: (string | number | null)[][]) => {
-        const data = this.getAntDataSource();
+    const onAntChange = (antValue: (string | number | null)[][]) => {
         const lastNodes = antValue.map(_ => _[_.length - 1]);
-        const branches = lastNodes.filter(_ => `${_}`.startsWith(MultipleCascader.nonLeafPrefix));
-        const leaves = lastNodes.filter(_ => !`${_}`.startsWith(MultipleCascader.nonLeafPrefix));
+        const branches = lastNodes.filter(_ => `${_}`.startsWith(NON_LEAF_PREFIX));
+        const leaves = lastNodes.filter(_ => !`${_}`.startsWith(NON_LEAF_PREFIX));
 
         const recursion = (data: DefaultOptionType): (string | number)[] => {
             if (data.children) {
@@ -88,26 +86,24 @@ export class MultipleCascader<T extends string | number> extends React.PureCompo
             return [];
         };
 
-        this.props.onChange([...leaves, ...branches.flatMap(_ => getLeafValue(data, _ as string))] as T[]);
+        const newData = getAntDataSource();
+        onChange([...leaves, ...branches.flatMap(_ => getLeafValue(newData, _ as string))] as T[]);
     };
 
-    render() {
-        const {placeholder = "", disabled, style, className} = this.props;
-        return (
-            <AntCascader
-                multiple
-                className={classNames("g-multiple-cascader", className)}
-                popupClassName="g-multiple-cascader-popup"
-                style={style}
-                value={this.getAntValue()}
-                onChange={this.onChange}
-                options={this.getAntDataSource()}
-                placeholder={placeholder}
-                disabled={disabled}
-                expandTrigger="hover"
-                allowClear
-                maxTagCount="responsive"
-            />
-        );
-    }
-}
+    return (
+        <AntCascader
+            multiple
+            className={classNames("g-multiple-cascader", className)}
+            classNames={{popup: {root: "g-multiple-cascader-popup"}}}
+            style={style}
+            value={getAntValue()}
+            onChange={onAntChange}
+            options={getAntDataSource()}
+            placeholder={placeholder}
+            disabled={disabled}
+            expandTrigger="hover"
+            allowClear
+            maxTagCount="responsive"
+        />
+    );
+});
