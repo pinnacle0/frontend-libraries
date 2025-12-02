@@ -6,22 +6,12 @@ import {Button} from "../Button";
 import {Space} from "../Space";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
-import type {InputRef as AntInputRef} from "antd/es";
+import type {InputRef} from "antd/es";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
+import {ReactUtil} from "../../util/ReactUtil";
 
-// NOTE: Use `this.typeSafeProps` instead of `this.props` inside this component for better type-safety.
-// The type argument on `Props<AllowNull extends boolean>` allows better type-inference for consumers of this component.
-// However it breaks type-inference inside the component class :(
-
-type DefaultPropsKeys = "scale" | "min" | "max" | "editable";
-
-type PropsWithDefault<AllowNull extends boolean = true> = {
-    [K in Exclude<keyof Props<AllowNull>, DefaultPropsKeys>]: Props<AllowNull>[K];
-} & {[K in DefaultPropsKeys]: NonNullable<Props<AllowNull>[K]>};
-
-export type InputRef = AntInputRef;
-
+export type {InputRef};
 export interface Props<AllowNull extends boolean> extends ControlledFormValue<AllowNull extends true ? number | null : number> {
     /** Whether `null` is allowed in `value` */
     allowNull: AllowNull;
@@ -61,131 +51,113 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     focus?: FocusType;
 }
 
-interface State {
-    // Used to display editing data, which may be non-numeric.
-    // Only blur, or press Enter will trigger onChange.
-    editingValue: string;
-    isEditing: boolean;
-}
+export const NumberInput = ReactUtil.compound(
+    "NumberInput",
+    {
+        Percentage: NumberInputPercentage,
+    },
+    <AllowNull extends boolean>(props: Props<AllowNull>) => {
+        const {
+            value,
+            allowNull,
+            disabled,
+            className,
+            editable = true,
+            stepperMode,
+            placeholder,
+            inputStyle,
+            suffix,
+            prefix,
+            allowClear,
+            inputRef,
+            autoFocus,
+            focus,
+            scale = 0,
+            min = -99_999_999,
+            max = 99_999_999,
+            step = truncate(10 ** (-1 * scale), scale),
+            onChange,
+            displayRenderer,
+        } = props;
+        const [editingValue, setEditingValue] = React.useState(value !== null ? value.toFixed(scale) : "");
+        const [isEditing, setIsEditing] = React.useState(false);
+        const prevRef = React.useRef({max, min, scale});
+        const ref = React.useRef<InputRef>(null);
 
-export class NumberInput<AllowNull extends boolean> extends React.PureComponent<Props<AllowNull>, State> {
-    static displayName = "NumberInput";
+        React.useEffect(() => {
+            !isEditing && setEditingValue(value === null ? "" : truncate(value, scale).toString());
+        }, [isEditing, value, scale]);
 
-    static defaultProps: Pick<Props<any>, DefaultPropsKeys> = {
-        scale: 0,
-        min: -99_999_999,
-        max: 99_999_999,
-        editable: true,
-    };
+        React.useEffect(() => {
+            const shouldCallOnChange = max < prevRef.current.max || min > prevRef.current.min || scale !== prevRef.current.scale;
+            if (shouldCallOnChange) {
+                value === null ? onChange(value) : onChange(clamp({value: truncate(value, scale), min, max}));
+            }
+            prevRef.current = {max, min, scale};
+        }, [max, min, scale, value, onChange]);
 
-    static Percentage = NumberInputPercentage;
+        const triggerParentOnChangeIfValid = (uncheckedValue: string) => {
+            setEditingValue(uncheckedValue);
+            const checkedValue = rectifyInputIfValid(uncheckedValue, {min, max, scale, allowNull});
+            // if `null` is not allowed, `checkedValue` will be invalid
+            if (checkedValue === "@@INVALID") return;
 
-    private inputRef = React.createRef<InputRef>();
+            const normalizedParentValue = value === null ? null : truncate(value, scale);
+            // Only call onChange if values are different
+            if (checkedValue !== normalizedParentValue) {
+                onChange(checkedValue as AllowNull extends true ? number | null : number);
+            }
+        };
 
-    constructor(props: PropsWithDefault<AllowNull>) {
-        super(props);
-        this.state = {editingValue: props.value !== null ? props.value.toFixed(props.scale) : "", isEditing: false};
-    }
+        const stopPropagation = (event: React.MouseEvent) => event.stopPropagation();
 
-    componentDidUpdate(prevProps: PropsWithDefault<AllowNull>) {
-        const {value, max, min, scale, onChange} = this.typeSafeProps;
-        const {isEditing} = this.state;
-        if (!isEditing && value !== prevProps.value) {
-            this.setState({editingValue: value === null ? "" : truncate(value, scale).toString()});
-        }
-        const shouldCallOnChange = max < prevProps.max || min > prevProps.min || scale !== prevProps.scale;
-        if (shouldCallOnChange) {
-            value === null ? onChange(value) : onChange(clamp({value: truncate(value, scale), min, max}));
-        }
-    }
+        const onMinusClick = () => {
+            const nextValue: number = value === null ? 0 : value - step; // parentValue is kept in sync with latest valid user input, safe to use the parentValue for stepping
+            triggerParentOnChangeIfValid(nextValue.toString()); // The value is checked excessively but it's better than having a unguarded class method
+        };
 
-    getStep = () => {
-        const {step, scale} = this.typeSafeProps;
-        if (step !== undefined) {
-            return step;
-        }
-        return truncate(10 ** (-1 * scale), scale);
-    };
+        const onAddClick = () => {
+            const prevValue: number = value === null ? 0 : value + step; // parentValue is kept in sync with latest valid user input, safe to use the parentValue for stepping
+            triggerParentOnChangeIfValid(prevValue.toString()); // The value is checked excessively but it's better than having a unguarded class method
+        };
 
-    triggerParentOnChangeIfValid = (uncheckedValue: string) => {
-        this.setState({editingValue: uncheckedValue});
+        const onInputFocus = () => {
+            setIsEditing(true);
+            setEditingValue(value === null ? "" : truncate(value, scale).toString());
+        };
 
-        const typeSafeProps = this.typeSafeProps;
-        const {onChange, scale} = typeSafeProps;
-        const checkedValue = rectifyInputIfValid(uncheckedValue, typeSafeProps);
-        // if `null` is not allowed, `checkedValue` will be invalid
-        if (checkedValue === "@@INVALID") {
-            return;
-        }
-        const normalizedParentValue = typeSafeProps.value === null ? null : truncate(typeSafeProps.value, scale);
-        // Only call onChange if values are different
-        if (checkedValue !== normalizedParentValue) {
-            onChange(checkedValue);
-        }
-    };
+        const onInputBlur = () => {
+            triggerParentOnChangeIfValid(editingValue);
+            setIsEditing(false);
+        };
 
-    stopPropagation = (event: React.MouseEvent) => event.stopPropagation();
+        const onInputChange = (newValue: string) => triggerParentOnChangeIfValid(newValue);
 
-    onMinusClick = () => {
-        const {value: parentValue} = this.typeSafeProps;
-        const step = this.getStep();
-        const nextValue: number = parentValue === null ? 0 : parentValue - step; // parentValue is kept in sync with latest valid user input, safe to use the parentValue for stepping
-        this.triggerParentOnChangeIfValid(nextValue.toString()); // The value is checked excessively but it's better than having a unguarded class method
-    };
-
-    onAddClick = () => {
-        const {value: parentValue} = this.typeSafeProps;
-        const step = this.getStep();
-        const prevValue: number = parentValue === null ? 0 : parentValue + step; // parentValue is kept in sync with latest valid user input, safe to use the parentValue for stepping
-        this.triggerParentOnChangeIfValid(prevValue.toString()); // The value is checked excessively but it's better than having a unguarded class method
-    };
-
-    onInputFocus = () => {
-        const {value, scale} = this.typeSafeProps;
-        this.setState({isEditing: true, editingValue: value === null ? "" : truncate(value, scale).toString()});
-    };
-
-    onInputBlur = () => {
-        this.triggerParentOnChangeIfValid(this.state.editingValue);
-        this.setState({isEditing: false});
-    };
-
-    onInputChange = (newValue: string) => this.triggerParentOnChangeIfValid(newValue);
-
-    onInputPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter") {
-            (this.props.inputRef || this.inputRef).current?.blur();
-        }
-    };
-
-    render() {
-        const {disabled, className, editable, stepperMode, placeholder, inputStyle, suffix, prefix, allowClear, inputRef, autoFocus, focus} = this.typeSafeProps;
-        const {editingValue, isEditing} = this.state;
+        const onInputPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === "Enter") {
+                (inputRef || ref).current?.blur();
+            }
+        };
 
         const containerClassName = classNames("g-number-input", stepperMode, {disabled}, className);
         const content = (
             <React.Fragment>
                 {stepperMode && (
-                    <Button
-                        type={stepperMode === "no-border" ? "text" : "default"}
-                        className="minus"
-                        disabled={disabled || !canMinus({...this.typeSafeProps, step: this.getStep()})}
-                        onClick={this.onMinusClick}
-                    >
+                    <Button type={stepperMode === "no-border" ? "text" : "default"} className="minus" disabled={disabled || !canMinus({value, step, min, scale})} onClick={onMinusClick}>
                         &#65293;
                     </Button>
                 )}
                 <Input
-                    inputRef={inputRef || this.inputRef}
+                    inputRef={inputRef || ref}
                     style={inputStyle}
                     placeholder={placeholder}
                     disabled={disabled}
-                    value={isEditing ? editingValue : getDisplayValue(this.typeSafeProps)}
+                    value={isEditing ? editingValue : getDisplayValue({value, scale, displayRenderer})}
                     readOnly={!editable}
-                    onFocus={this.onInputFocus}
-                    onBlur={this.onInputBlur}
-                    onChange={this.onInputChange}
-                    onKeyPress={this.onInputPress}
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                    onChange={onInputChange}
+                    onKeyPress={onInputPress}
                     suffix={suffix}
                     prefix={prefix}
                     inputMode="decimal"
@@ -195,12 +167,7 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
                     variant={stepperMode === "no-border" ? "borderless" : "outlined"}
                 />
                 {stepperMode && (
-                    <Button
-                        type={stepperMode === "no-border" ? "text" : "default"}
-                        className="add"
-                        disabled={disabled || !canAdd({...this.typeSafeProps, step: this.getStep()})}
-                        onClick={this.onAddClick}
-                    >
+                    <Button type={stepperMode === "no-border" ? "text" : "default"} className="add" disabled={disabled || !canAdd({value, step, max, scale})} onClick={onAddClick}>
                         &#xff0b;
                     </Button>
                 )}
@@ -208,18 +175,13 @@ export class NumberInput<AllowNull extends boolean> extends React.PureComponent<
         );
 
         return stepperMode === "outlined" ? (
-            <Space.Compact className={containerClassName} onClick={this.stopPropagation}>
+            <Space.Compact className={containerClassName} onClick={stopPropagation}>
                 {content}
             </Space.Compact>
         ) : (
-            <Space className={containerClassName} onClick={this.stopPropagation} size={0}>
+            <Space className={containerClassName} onClick={stopPropagation} size={0}>
                 {content}
             </Space>
         );
     }
-
-    private get typeSafeProps() {
-        // Use a less restrictive type here (allow null) for type inference in various places to work
-        return this.props as unknown as PropsWithDefault;
-    }
-}
+);
