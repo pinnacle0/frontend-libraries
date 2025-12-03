@@ -70,10 +70,10 @@ const getColumns = (horizontalScroll: boolean = false): TableColumn<Profile>[] =
 };
 
 const VirtualTableWithData = ({hasData = false}: {hasData?: boolean}) => {
-    return <VirtualTable rowKey="index" rowHeight={50} dataSource={hasData ? data : []} scrollY={400} scrollX={800} columns={getColumns()} />;
+    return <VirtualTable rowKey="index" dataSource={hasData ? data : []} scrollY={400} scrollX={800} columns={getColumns()} />;
 };
 
-const LoadingVirtualTable = () => <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} loading />;
+const LoadingVirtualTable = () => <VirtualTable rowKey="index" dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} loading />;
 
 const VirtualTableWithRowSelection = () => {
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
@@ -84,7 +84,7 @@ const VirtualTableWithRowSelection = () => {
         fixed: true,
         selectedRowKeys,
     };
-    return <VirtualTable rowKey="index" rowHeight={50} rowSelection={rowSelection} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />;
+    return <VirtualTable rowKey="index" rowSelection={rowSelection} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />;
 };
 
 const VirtualTableWithVariousData = () => {
@@ -108,7 +108,7 @@ const VirtualTableWithVariousData = () => {
                 <Button onClick={deleteLastData}>delete 1 data</Button>
                 <Button onClick={deleteLastTenData}>delete 10 data</Button>
             </div>
-            <VirtualTable rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+            <VirtualTable rowKey="index" dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
         </div>
     );
 };
@@ -143,13 +143,13 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
                 <Button onClick={deleteLastData}>delete 1 data</Button>
                 <Button onClick={deleteLastTenData}>delete 10 data</Button>
             </div>
-            <VirtualTable rowSelection={rowSelection} rowKey="index" rowHeight={50} dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+            <VirtualTable rowSelection={rowSelection} rowKey="index" dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
         </div>
     );
 };
 
 const VirtualTableWithFixedColumns = () => {
-    return <VirtualTable rowKey="index" rowHeight={50} dataSource={data.slice(0, 8)} scrollY={400} scrollX={800} columns={getColumns(true)} />;
+    return <VirtualTable rowKey="index" dataSource={data.slice(0, 8)} scrollY={400} scrollX={800} columns={getColumns(true)} />;
 };
 
 const VirtualTableInModal = () => {
@@ -162,7 +162,7 @@ const VirtualTableInModal = () => {
             <Button onClick={toggleModal}>Show Modal</Button>
             {showModal && (
                 <Modal width={1300} onCancel={toggleModal} title="Virtual Table">
-                    <VirtualTable rowKey="index" rowHeight={50} dataSource={data.slice(0, 1)} scrollY={400} columns={getColumns()} />
+                    <VirtualTable rowKey="index" dataSource={data.slice(0, 1)} scrollY={400} columns={getColumns()} />
                 </Modal>
             )}
         </div>
@@ -184,7 +184,7 @@ const VirtualTableWithDynamicSize = () => {
                 <EnumSelect list={[300, 500, 700]} value={width} onChange={setWidth} />
             </div>
             <div style={{height}}>
-                <VirtualTable rowHeight={50} dataSource={data.slice(0, 12)} scrollX={width} columns={getColumns(true)} />
+                <VirtualTable dataSource={data.slice(0, 12)} scrollX={width} columns={getColumns(true)} />
             </div>
         </div>
     );

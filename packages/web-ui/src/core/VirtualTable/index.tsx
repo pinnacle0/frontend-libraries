@@ -10,7 +10,6 @@ export * from "./OldVirtualTable";
 export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
 export interface Props<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
-    rowHeight: number;
     className?: string;
     headerHeight?: number;
     rowKey?: TableProps<RowType, undefined>["rowKey"];
@@ -23,7 +22,7 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
 }
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
-    const {rowHeight, onRow, className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
+    const {className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, emptyPlaceholder, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
     const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -36,8 +35,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
 
         const updateScroll = () => {
             const contentRect = container.getBoundingClientRect();
-            !propsScrollY && setScrollY(Math.max(0, contentRect.height - headerHeight));
-            !propsScrollX && setScrollX(Math.max(0, contentRect.width));
+            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight));
+            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width));
         };
 
         updateScroll();
@@ -50,12 +49,13 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
     }, [propsScrollY, propsScrollX, headerHeight]);
 
-    const onTableRow = () => {
-        return {style: {height: rowHeight}, ...onRow};
+    const containerStyle: React.CSSProperties = {
+        height: propsScrollY ? propsScrollY + headerHeight : "100%",
+        width: propsScrollX ? propsScrollX : "100%",
     };
 
     return (
-        <div ref={containerRef} className={classNames("g-virtual-table", className)} style={{height: propsScrollY ?? scrollY, width: propsScrollX ?? scrollX}}>
+        <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
             <Table
                 // @ts-ignore: using Our Table component with virtual props from antd
                 virtual
@@ -63,7 +63,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 scrollX={scrollX}
                 scrollY={scrollY}
                 rowKey={rowKey}
-                onRow={onTableRow}
+                emptyPlaceholder={emptyPlaceholder || "暂无数据"}
                 {...restProps}
             />
         </div>

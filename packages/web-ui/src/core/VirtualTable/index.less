@@ -1,14 +1,28 @@
 .g-virtual-table {
     .ant-table-tbody {
-        // TODO/Ian: need to fix antd table cell vertical-align issue
         .ant-table-cell {
-            overflow: hidden;
-            vertical-align: middle;
-            text-wrap: nowrap;
+            display: flex;
+            align-items: center;
 
-            &:last-child {
-                padding-right: 10px;
+            &.ant-table-selection-column {
+                justify-content: center;
             }
+
+            &[style*="text-align: right"] {
+                justify-content: flex-end;
+            }
+
+            &[style*="text-align: center"] {
+                justify-content: center;
+            }
+
+            &[style*="text-align: left"] {
+                justify-content: flex-start;
+            }
+        }
+
+        .ant-table-expanded-row-fixed {
+            padding: 0;
         }
     }
 }
