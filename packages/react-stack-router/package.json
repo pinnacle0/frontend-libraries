@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/react-stack-router",
-    "version": "0.2.12",
+    "version": "0.2.13",
     "author": "Pinnacle",
     "license": "MIT",
     "exports": {
@@ -33,7 +33,7 @@
         "history": "5.3.0"
     },
     "devDependencies": {
-        "@types/react": "19.2.6",
+        "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
         "cpy-cli": "^6.0.0",
         "react": "19.2.0",
