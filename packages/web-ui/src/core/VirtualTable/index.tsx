@@ -15,14 +15,14 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     rowKey?: TableProps<RowType, undefined>["rowKey"];
     /**
      * Antd <Table virtual /> must use number scrollX or number scrollY to work
-     * if scrollX and scrollY is not provided, height: 100% and width: 100% will be used and please wrap the table with a container
+     * if scrollX and scrollY is not provided, height: 100% and width: 100% will be used
      */
     scrollY?: number;
     scrollX?: number;
 }
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
-    const {className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, emptyPlaceholder, ...restProps} = props;
+    const {className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
     const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -35,8 +35,10 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
 
         const updateScroll = () => {
             const contentRect = container.getBoundingClientRect();
-            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight));
-            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width));
+            const {paddingX, paddingY} = getPadding(container);
+
+            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight - paddingY));
+            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width - paddingX));
         };
 
         updateScroll();
@@ -63,9 +65,15 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 scrollX={scrollX}
                 scrollY={scrollY}
                 rowKey={rowKey}
-                emptyPlaceholder={emptyPlaceholder || "暂无数据"}
                 {...restProps}
             />
         </div>
     );
 });
+
+function getPadding(container: HTMLElement) {
+    const {paddingLeft, paddingRight, paddingTop, paddingBottom} = getComputedStyle(container);
+    const paddingX = Number(paddingLeft.replace("px", "")) + Number(paddingRight.replace("px", ""));
+    const paddingY = Number(paddingTop.replace("px", "")) + Number(paddingBottom.replace("px", ""));
+    return {paddingX, paddingY};
+}

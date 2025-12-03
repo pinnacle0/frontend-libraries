@@ -1,28 +1,26 @@
 .g-virtual-table {
-    .ant-table-tbody {
-        .ant-table-cell {
-            display: flex;
-            align-items: center;
+    .ant-table-body {
+        .ant-table-tbody {
+            .ant-table-cell {
+                display: flex;
+                align-items: center;
 
-            &.ant-table-selection-column {
-                justify-content: center;
+                &.ant-table-selection-column {
+                    justify-content: center;
+                }
+
+                &[style*="text-align: right"] {
+                    justify-content: flex-end;
+                }
+
+                &[style*="text-align: center"] {
+                    justify-content: center;
+                }
+
+                &[style*="text-align: left"] {
+                    justify-content: flex-start;
+                }
             }
-
-            &[style*="text-align: right"] {
-                justify-content: flex-end;
-            }
-
-            &[style*="text-align: center"] {
-                justify-content: center;
-            }
-
-            &[style*="text-align: left"] {
-                justify-content: flex-start;
-            }
-        }
-
-        .ant-table-expanded-row-fixed {
-            padding: 0;
         }
     }
 }
