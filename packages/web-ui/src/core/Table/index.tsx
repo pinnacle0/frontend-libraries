@@ -45,7 +45,7 @@ export interface TableSorter<OrderByFieldType = undefined> {
     currentOrderBy?: OrderByFieldType; // This may be undefined if the table supports only 1 sort field
 }
 
-export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<AntTableProps<RowType>, "onRow" | "scroll" | "locale" | "virtual"> {
+export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<AntTableProps<RowType>, "scroll" | "locale" | "virtual"> {
     columns: TableColumns<RowType, OrderByFieldType>;
     dataSource: RowType[];
     /**
@@ -53,6 +53,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      * Use {rowKey: "index"} only if you are certain that the data source is immutable.
      */
     rowKey: StringKey<RowType> | ((record: RowType, index?: number) => string) | "index";
+    // onRowClick will override the return props from onRow
     onRowClick?: (record: RowType, index?: number) => void;
     scrollX?: string | number;
     scrollY?: string | number;
@@ -83,7 +84,7 @@ const settingIconContainerStyle: React.CSSProperties = {display: "flex", justify
 const settingIconStyle: React.CSSProperties = {fontSize: "20px"};
 
 export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFieldType>(props: TableProps<RowType, OrderByFieldType>) => {
-    const {sortConfig, loading, columns, onRowClick, rowKey, scrollX = "max-content", scrollY, emptyPlaceholder, emptyIcon, emptyText, dataSource, customizedStorageKey, ...restProps} = props;
+    const {sortConfig, loading, columns, onRow, onRowClick, rowKey, scrollX = "max-content", scrollY, emptyPlaceholder, emptyIcon, emptyText, dataSource, customizedStorageKey, ...restProps} = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
     const t = i18n();
 
@@ -122,12 +123,10 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         }
     };
 
-    const onRow = (record: RowType, index?: number) => {
-        return onRowClick
-            ? {
-                  onClick: () => onRowClick(record, index),
-              }
-            : {};
+    const onAntRow = (record: RowType, index?: number) => {
+        const rowProps: React.HTMLAttributes<any> & React.TdHTMLAttributes<any> = onRow ? onRow(record, index) : {};
+        onRowClick && (rowProps.onClick = () => onRowClick(record, index));
+        return rowProps;
     };
 
     const renderPopoverContent = () => {
@@ -189,7 +188,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
                 dataSource={dataSource}
                 tableLayout="auto"
                 locale={{emptyText: emptyTextNode}}
-                onRow={onRow}
+                onRow={onAntRow}
                 loading={loading ? {indicator: <LoadingOutlined />} : false}
                 pagination={false}
                 columns={tableColumns}
