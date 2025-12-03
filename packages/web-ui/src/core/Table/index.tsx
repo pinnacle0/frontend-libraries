@@ -10,7 +10,8 @@ import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
-import type {PickOptional, StringKey} from "../../internal/type";
+import type {StringKey} from "../../internal/type";
+import {ReactUtil} from "../../util/ReactUtil";
 
 enum SortOrder {
     DESC = "DESC",
@@ -18,6 +19,8 @@ enum SortOrder {
 }
 
 type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
+
+export type {TableRowSelection};
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | string | number;
@@ -70,65 +73,46 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     customizedStorageKey?: string;
 }
 
-interface State {
-    customizationConfig: {[key: string]: boolean};
+interface CustomizationConfig {
+    [key: string]: boolean;
 }
 
-// TODO/Ian: block virtual props
-export class Table<RowType extends object, OrderByFieldType> extends React.PureComponent<TableProps<RowType, OrderByFieldType>, State> {
-    static displayName = "Table";
-    static defaultProps: PickOptional<TableProps<any, any>> = {
-        scrollX: "max-content",
-    };
+const emptyPlaceHolderContainerStyle: React.CSSProperties = {padding: "50px 0"};
+const emptyPlaceHolderIconStyle: React.CSSProperties = {display: "block", fontSize: 50, marginBottom: 20};
+const settingIconContainerStyle: React.CSSProperties = {display: "flex", justifyContent: "flex-end", marginBottom: "7px", marginRight: "5px"};
+const settingIconStyle: React.CSSProperties = {fontSize: "20px"};
 
-    private readonly emptyPlaceHolderContainerStyle: React.CSSProperties = {padding: "50px 0"};
-    private readonly emptyPlaceHolderIconStyle: React.CSSProperties = {display: "block", fontSize: 50, marginBottom: 20};
-    private readonly settingIconContainerStyle: React.CSSProperties = {display: "flex", justifyContent: "flex-end", marginBottom: "7px", marginRight: "5px"};
-    private readonly settingIconStyle: React.CSSProperties = {fontSize: "20px"};
-    private readonly storageKey = `table-customization-config:${this.props.customizedStorageKey || location.pathname}`;
-    private readonly canCustomized: boolean;
+export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFieldType>(props: TableProps<RowType, OrderByFieldType>) => {
+    const {sortConfig, loading, columns, onRowClick, rowKey, scrollX = "max-content", scrollY, emptyPlaceholder, emptyIcon, emptyText, dataSource, customizedStorageKey, ...restProps} = props;
+    const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
+    const t = i18n();
 
-    constructor(props: TableProps<RowType, OrderByFieldType>) {
-        super(props);
-        const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
-        const defaultConfig = ArrayUtil.toObject(columnsCustomizedKeyList, key => [key, true]);
-        const savedConfig = LocalStorageUtil.getObject(
-            this.storageKey,
-            defaultConfig,
-            item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<string, any>)[_] !== undefined)
-        );
+    const hasUniqueSortingColumn = () => columns.some(_ => _.sortField === true);
 
-        this.canCustomized = Object.keys(defaultConfig).length > 0;
-        this.state = {customizationConfig: savedConfig};
-    }
+    const rowKeyByIndex = (record: RowType) => dataSource.indexOf(record);
 
-    hasUniqueSortingColumn = () => this.props.columns.some(_ => _.sortField === true);
-
-    rowKeyByIndex = (record: RowType) => this.props.dataSource.indexOf(record);
-
-    transformColumns = (column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
-        const {renderData, onHeaderClick, ...restColumnProps} = column;
-        const customizedKey = column.customizedKey;
+    const transformColumns = (originalColumn: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
+        const {renderData, onHeaderClick, ...restColumnProps} = originalColumn;
+        const customizedKey = originalColumn.customizedKey;
         return {
             // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
             onHeaderCell: onHeaderClick ? () => ({onClick: onHeaderClick}) : undefined,
             render: (_: any, record: RowType, index: number) => renderData(record, index),
-            hidden: column.hidden || (customizedKey ? this.state.customizationConfig[customizedKey] === false : false),
+            hidden: originalColumn.hidden || (customizedKey ? customizationConfig[customizedKey] === false : false),
             ...restColumnProps,
         };
     };
 
-    onCustomizationConfigChange = (value: boolean, key: string) => {
-        const newConfig = {...this.state.customizationConfig, [key]: value};
-        this.setState({customizationConfig: newConfig});
-        LocalStorageUtil.setObject(this.storageKey, newConfig);
+    const onCustomizationConfigChange = (value: boolean, key: string) => {
+        const newConfig = {...customizationConfig, [key]: value};
+        setCustomizationConfig(newConfig);
+        LocalStorageUtil.setObject(getStorageKey(customizedStorageKey), newConfig);
     };
 
-    onSortChange = (_1: any, _2: any, sorter: {} | {order: "descend" | "ascend"; column: TableColumn<RowType, OrderByFieldType>}) => {
-        const {sortConfig} = this.props;
+    const onSortChange = (_1: any, _2: any, sorter: {} | {order: "descend" | "ascend"; column: TableColumn<RowType, OrderByFieldType>}) => {
         if (sortConfig) {
-            if (!("column" in sorter && sorter.column !== undefined) || !("sortField" in sorter.column) || this.hasUniqueSortingColumn()) {
+            if (!("column" in sorter && sorter.column !== undefined) || !("sortField" in sorter.column) || hasUniqueSortingColumn()) {
                 // AntD sorter here may be {}, if clicking on the header 3rd time (ASC -> DESC -> undefined);
                 sortConfig.onSortChange(sortConfig.currentOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC, sortConfig.currentOrderBy);
             } else {
@@ -138,8 +122,7 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
         }
     };
 
-    onRow = (record: RowType, index?: number) => {
-        const {onRowClick} = this.props;
+    const onRow = (record: RowType, index?: number) => {
         return onRowClick
             ? {
                   onClick: () => onRowClick(record, index),
@@ -147,94 +130,86 @@ export class Table<RowType extends object, OrderByFieldType> extends React.PureC
             : {};
     };
 
-    renderPopoverContent = () => {
-        const {columns} = this.props;
-        const {customizationConfig} = this.state;
+    const renderPopoverContent = () => {
         return columns
             .filter(_ => _.customizedKey && !_.hidden)
             .map((_, index) => (
                 <div key={index}>
-                    <Checkbox value={customizationConfig[_.customizedKey!] !== false} onChange={checked => this.onCustomizationConfigChange(checked, _.customizedKey!)}>
+                    <Checkbox value={customizationConfig[_.customizedKey!] !== false} onChange={checked => onCustomizationConfigChange(checked, _.customizedKey!)}>
                         {_.title}
                     </Checkbox>
                 </div>
             ));
     };
 
-    render() {
-        //
-        const {
-            sortConfig,
-            loading,
-            columns,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Exclude onRowClick from restProps, because onRowClick also exists in Ant Table props, which is depreciated though
-            onRowClick,
-            rowKey,
-            scrollX,
-            scrollY,
-            emptyPlaceholder,
-            emptyIcon,
-            emptyText,
-            ...restProps
-        } = this.props;
-        const t = i18n();
-        const emptyTextNode = loading ? (
-            <div />
-        ) : (
-            <div style={this.emptyPlaceHolderContainerStyle}>
-                {emptyPlaceholder || (
-                    <React.Fragment>
-                        {emptyIcon || <FileSearchOutlined style={this.emptyPlaceHolderIconStyle} />}
-                        <h2>{emptyText || t.emptyData}</h2>
-                    </React.Fragment>
-                )}
-            </div>
-        );
+    const emptyTextNode = loading ? (
+        <div />
+    ) : (
+        <div style={emptyPlaceHolderContainerStyle}>
+            {emptyPlaceholder || (
+                <React.Fragment>
+                    {emptyIcon || <FileSearchOutlined style={emptyPlaceHolderIconStyle} />}
+                    <h2>{emptyText || t.emptyData}</h2>
+                </React.Fragment>
+            )}
+        </div>
+    );
 
-        let tableColumns: Array<AntColumnsProps<RowType>>;
-        if (sortConfig) {
-            const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
-            tableColumns = columns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
-                if (column.sortField) {
-                    const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
-                    return {
-                        ...this.transformColumns(column, index),
-                        sorter: true,
-                        sortOrder: isSortingColumn ? sortOrder : null,
-                        sortDirections: ["descend", "ascend"],
-                    };
-                } else {
-                    return this.transformColumns(column, index);
-                }
-            });
-        } else {
-            tableColumns = columns.map(this.transformColumns);
-        }
-
-        return (
-            <React.Fragment>
-                {this.canCustomized && (
-                    <div style={this.settingIconContainerStyle}>
-                        <Popover trigger="hover" placement="bottomLeft" content={this.renderPopoverContent()}>
-                            <SettingOutlined style={this.settingIconStyle} />
-                        </Popover>
-                    </div>
-                )}
-                <AntTable
-                    tableLayout="auto"
-                    locale={{emptyText: emptyTextNode}}
-                    onRow={this.onRow}
-                    loading={loading ? {indicator: <LoadingOutlined />} : false}
-                    pagination={false}
-                    columns={tableColumns}
-                    onChange={this.onSortChange}
-                    rowKey={rowKey === "index" ? this.rowKeyByIndex : rowKey}
-                    scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY === "none" ? undefined : scrollY}}
-                    {...restProps}
-                />
-            </React.Fragment>
-        );
+    let tableColumns: Array<AntColumnsProps<RowType>>;
+    if (sortConfig) {
+        const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
+        tableColumns = columns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
+            if (column.sortField) {
+                const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
+                return {
+                    ...transformColumns(column, index),
+                    sorter: true,
+                    sortOrder: isSortingColumn ? sortOrder : null,
+                    sortDirections: ["descend", "ascend"],
+                };
+            } else {
+                return transformColumns(column, index);
+            }
+        });
+    } else {
+        tableColumns = columns.map(transformColumns);
     }
-}
 
-export type {TableRowSelection};
+    const canCustomized = Object.keys(customizationConfig).length > 0;
+    return (
+        <React.Fragment>
+            {canCustomized && (
+                <div style={settingIconContainerStyle}>
+                    <Popover trigger="hover" placement="bottomLeft" content={renderPopoverContent()}>
+                        <SettingOutlined style={settingIconStyle} />
+                    </Popover>
+                </div>
+            )}
+            <AntTable
+                dataSource={dataSource}
+                tableLayout="auto"
+                locale={{emptyText: emptyTextNode}}
+                onRow={onRow}
+                loading={loading ? {indicator: <LoadingOutlined />} : false}
+                pagination={false}
+                columns={tableColumns}
+                onChange={onSortChange}
+                rowKey={rowKey === "index" ? rowKeyByIndex : rowKey}
+                scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY === "none" ? undefined : scrollY}}
+                {...restProps}
+            />
+        </React.Fragment>
+    );
+});
+
+const getStorageKey = (customizedStorageKey?: string) => `table-customization-config:${customizedStorageKey || location.pathname}`;
+
+const getCustomizationConfig = <RowType extends object, OrderByFieldType>(props: TableProps<RowType, OrderByFieldType>, storageKey: string) => {
+    const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
+    const defaultConfig = ArrayUtil.toObject(columnsCustomizedKeyList, key => [key, true]);
+    return LocalStorageUtil.getObject(
+        storageKey,
+        defaultConfig,
+        item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<string, any>)[_] !== undefined)
+    );
+};
