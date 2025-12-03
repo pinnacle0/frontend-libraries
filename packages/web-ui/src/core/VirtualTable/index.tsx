@@ -60,7 +60,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
             <Table
-                // @ts-ignore: using Our Table component with virtual props from antd
+                // @ts-ignore: using our Table component with virtual props from antd
                 virtual
                 headerHeight={headerHeight}
                 scrollX={scrollX}
