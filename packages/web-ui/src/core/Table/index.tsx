@@ -45,7 +45,7 @@ export interface TableSorter<OrderByFieldType = undefined> {
     currentOrderBy?: OrderByFieldType; // This may be undefined if the table supports only 1 sort field
 }
 
-export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<AntTableProps<RowType>, "onRow" | "scroll" | "locale"> {
+export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<AntTableProps<RowType>, "onRow" | "scroll" | "locale" | "virtual"> {
     columns: TableColumns<RowType, OrderByFieldType>;
     dataSource: RowType[];
     /**

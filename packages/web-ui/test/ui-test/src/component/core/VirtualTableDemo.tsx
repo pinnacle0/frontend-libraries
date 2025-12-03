@@ -1,5 +1,5 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable/type";
+import type {TableColumn, TableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
 import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
@@ -25,7 +25,7 @@ const extraColumns = Array.from({length: 20}, (_, idx) => ({
     renderData: () => idx + 1,
 }));
 
-const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profile>[] => {
+const getColumns = (horizontalScroll: boolean = false): TableColumn<Profile>[] => {
     return [
         {
             title: "Name",
@@ -63,8 +63,8 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
             title: "hidden column",
             width: 200,
             fixed: "right",
-            display: "hidden",
             renderData: () => "hidden",
+            hidden: true,
         },
     ];
 };
@@ -77,10 +77,10 @@ const LoadingVirtualTable = () => <VirtualTable rowKey="index" rowHeight={50} da
 
 const VirtualTableWithRowSelection = () => {
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
-    const rowSelection: VirtualTableRowSelection<Profile> = {
-        width: 40,
+    const rowSelection: TableRowSelection<Profile> = {
+        columnWidth: 40,
         onChange: _ => setSelectedRowKeys(_),
-        isDisabled: (_, rowIndex) => rowIndex === 0,
+        getCheckboxProps: record => ({disabled: data.indexOf(record) === 0}),
         fixed: true,
         selectedRowKeys,
     };
@@ -122,10 +122,10 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
     };
 
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
-    const rowSelection: VirtualTableRowSelection<Profile> = {
-        width: 40,
+    const rowSelection: TableRowSelection<Profile> = {
+        columnWidth: 40,
         onChange: _ => setSelectedRowKeys(_),
-        isDisabled: (_, rowIndex) => rowIndex === 0,
+        getCheckboxProps: record => ({disabled: data.indexOf(record) === 0}),
         fixed: true,
         selectedRowKeys,
     };
