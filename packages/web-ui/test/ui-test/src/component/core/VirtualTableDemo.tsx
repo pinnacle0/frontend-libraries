@@ -184,7 +184,7 @@ const VirtualTableWithDynamicSize = () => {
                 <EnumSelect list={[300, 500, 700]} value={width} onChange={setWidth} />
             </div>
             <div style={{height}}>
-                <VirtualTable rowHeight={50} dataSource={data.slice(0, 9)} scrollX={width} columns={getColumns(true)} />
+                <VirtualTable rowHeight={50} dataSource={data.slice(0, 12)} scrollX={width} columns={getColumns(true)} />
             </div>
         </div>
     );

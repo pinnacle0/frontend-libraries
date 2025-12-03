@@ -1,7 +1,9 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
-import {Table, type TableProps} from "../Table";
+import type {TableProps} from "../Table";
+import {Table} from "../Table";
+import "./index.less";
 
 export * from "./OldVirtualTable";
 
@@ -20,9 +22,8 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     scrollX?: number;
 }
 
-// TODO/Ian: update
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
-    const {rowHeight, className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
+    const {rowHeight, onRow, className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
     const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -49,15 +50,20 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
     }, [propsScrollY, propsScrollX, headerHeight]);
 
+    const onTableRow = () => {
+        return {style: {height: rowHeight}, ...onRow};
+    };
+
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={{height: propsScrollY ?? scrollY, width: propsScrollX ?? scrollX}}>
             <Table
                 // @ts-ignore: using Our Table component with virtual props from antd
                 virtual
+                headerHeight={headerHeight}
                 scrollX={scrollX}
                 scrollY={scrollY}
                 rowKey={rowKey}
-                onRow={() => ({style: {height: rowHeight}})}
+                onRow={onTableRow}
                 {...restProps}
             />
         </div>

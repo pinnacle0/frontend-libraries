@@ -1,0 +1,14 @@
+.g-virtual-table {
+    .ant-table-tbody {
+        // TODO/Ian: need to fix antd table cell vertical-align issue
+        .ant-table-cell {
+            overflow: hidden;
+            vertical-align: middle;
+            text-wrap: nowrap;
+
+            &:last-child {
+                padding-right: 10px;
+            }
+        }
+    }
+}
