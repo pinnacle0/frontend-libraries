@@ -36,9 +36,10 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         const updateScroll = () => {
             const contentRect = container.getBoundingClientRect();
             const {paddingX, paddingY} = getPadding(container);
+            const {borderX, borderY} = getBorder(container);
 
-            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight - paddingY));
-            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width - paddingX));
+            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight - paddingY - borderY));
+            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width - paddingX - borderX));
         };
 
         updateScroll();
@@ -76,4 +77,11 @@ function getPadding(container: HTMLElement) {
     const paddingX = Number(paddingLeft.replace("px", "")) + Number(paddingRight.replace("px", ""));
     const paddingY = Number(paddingTop.replace("px", "")) + Number(paddingBottom.replace("px", ""));
     return {paddingX, paddingY};
+}
+
+function getBorder(container: HTMLElement) {
+    const {borderLeftWidth, borderRightWidth, borderTopWidth, borderBottomWidth} = getComputedStyle(container);
+    const borderX = Number(borderLeftWidth.replace("px", "")) + Number(borderRightWidth.replace("px", ""));
+    const borderY = Number(borderTopWidth.replace("px", "")) + Number(borderBottomWidth.replace("px", ""));
+    return {borderX, borderY};
 }
