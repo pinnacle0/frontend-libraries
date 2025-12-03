@@ -62,7 +62,7 @@ const TableWithActionButton = ({hasData = false}: {hasData?: boolean}) => {
         },
     ];
 
-    return <Table rowKey="index" dataSource={hasData ? data : []} columns={columns} />;
+    return <Table rowKey="index" dataSource={hasData ? data : []} columns={columns} headerHeight={100} />;
 };
 
 const groups: DemoHelperGroupConfig[] = [

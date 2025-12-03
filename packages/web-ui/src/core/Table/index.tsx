@@ -72,6 +72,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      * key for column customization
      */
     customizedStorageKey?: string;
+    headerHeight?: number;
 }
 
 interface CustomizationConfig {
@@ -84,7 +85,23 @@ const settingIconContainerStyle: React.CSSProperties = {display: "flex", justify
 const settingIconStyle: React.CSSProperties = {fontSize: "20px"};
 
 export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFieldType>(props: TableProps<RowType, OrderByFieldType>) => {
-    const {sortConfig, loading, columns, onRow, onRowClick, rowKey, scrollX = "max-content", scrollY, emptyPlaceholder, emptyIcon, emptyText, dataSource, customizedStorageKey, ...restProps} = props;
+    const {
+        sortConfig,
+        loading,
+        columns,
+        onRow,
+        onRowClick,
+        rowKey,
+        scrollX = "max-content",
+        scrollY,
+        emptyPlaceholder,
+        emptyIcon,
+        emptyText,
+        dataSource,
+        customizedStorageKey,
+        headerHeight,
+        ...restProps
+    } = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
     const t = i18n();
 
@@ -98,7 +115,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         return {
             // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
-            onHeaderCell: onHeaderClick ? () => ({onClick: onHeaderClick}) : undefined,
+            onHeaderCell: () => ({onClick: onHeaderClick, style: {height: headerHeight}}),
             render: (_: any, record: RowType, index: number) => renderData(record, index),
             hidden: originalColumn.hidden || (customizedKey ? customizationConfig[customizedKey] === false : false),
             ...restColumnProps,

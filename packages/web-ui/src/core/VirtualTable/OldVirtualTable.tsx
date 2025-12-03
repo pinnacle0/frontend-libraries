@@ -12,7 +12,7 @@ import {useScrollBarSize} from "./hooks/useScrollBarSize";
 import {useScrollToEdge, useSyncScroll, useScrollable} from "./hooks/useScroll";
 import {useColumnsStickyPosition} from "./hooks/useColumnsStickyPosition";
 import {ReactUtil} from "../../util/ReactUtil";
-import "./index.less";
+import "./index.old.less";
 
 export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 

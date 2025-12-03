@@ -2,17 +2,14 @@ import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
 import {Table, type TableProps} from "../Table";
-import "./index.less";
 
 export * from "./OldVirtualTable";
 
 export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
-// TODO/Ian: replace with antd <Table virtual />
 export interface Props<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
     rowHeight: number;
     className?: string;
-    overscan?: number;
     headerHeight?: number;
     rowKey?: TableProps<RowType, undefined>["rowKey"];
     /**
@@ -25,40 +22,42 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
 
 // TODO/Ian: update
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
-    const {rowHeight, className, overscan, headerHeight, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
-    const [scrollY, setScrollY] = React.useState<number | string>(propsScrollY ?? 300);
-    const [scrollX, setScrollX] = React.useState<number | string>(propsScrollX ?? 300);
+    const {rowHeight, className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
+    const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
+    const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    // React.useEffect(() => {
-    //     if (propsScrollY !== undefined) return;
+    React.useEffect(() => {
+        if (propsScrollY !== undefined && propsScrollX !== undefined) return;
 
-    //     const container = containerRef.current?.parentElement;
-    //     if (!container) return;
+        const container = containerRef.current?.parentElement;
+        if (!container) return;
 
-    //     const updateScrollY = () => {
-    //         const contentHeight = container.getBoundingClientRect().height;
-    //         setScrollY(Math.max(0, contentHeight - headerHeight));
-    //     };
+        const updateScroll = () => {
+            const contentRect = container.getBoundingClientRect();
+            !propsScrollY && setScrollY(Math.max(0, contentRect.height - headerHeight));
+            !propsScrollX && setScrollX(Math.max(0, contentRect.width));
+        };
 
-    //     updateScrollY();
+        updateScroll();
 
-    //     const resizeObserver = new ResizeObserver(updateScrollY);
-    //     resizeObserver.observe(container);
+        const resizeObserver = new ResizeObserver(updateScroll);
+        resizeObserver.observe(container);
 
-    //     return () => {
-    //         resizeObserver.disconnect();
-    //     };
-    // }, [propsScrollY, headerHeight]);
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, [propsScrollY, propsScrollX, headerHeight]);
 
     return (
-        <div ref={containerRef} className={classNames("g-virtual-table", className)} style={{height: "100%"}}>
+        <div ref={containerRef} className={classNames("g-virtual-table", className)} style={{height: propsScrollY ?? scrollY, width: propsScrollX ?? scrollX}}>
             <Table
                 // @ts-ignore: using Our Table component with virtual props from antd
                 virtual
                 scrollX={scrollX}
                 scrollY={scrollY}
                 rowKey={rowKey}
+                onRow={() => ({style: {height: rowHeight}})}
                 {...restProps}
             />
         </div>
