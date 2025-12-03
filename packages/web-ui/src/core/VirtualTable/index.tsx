@@ -28,6 +28,11 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
+        if (propsScrollY) setScrollY(propsScrollY);
+        if (propsScrollX) setScrollX(propsScrollX);
+    }, [propsScrollY, propsScrollX]);
+
+    React.useEffect(() => {
         if (propsScrollY !== undefined && propsScrollX !== undefined) return;
 
         const container = containerRef.current?.parentElement;
@@ -52,7 +57,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
     }, [propsScrollY, propsScrollX, headerHeight]);
 
-    const containerStyle: React.CSSProperties = {
+    const containerStyle = {
         height: propsScrollY ? propsScrollY + headerHeight : "100%",
         width: propsScrollX ? propsScrollX : "100%",
     };

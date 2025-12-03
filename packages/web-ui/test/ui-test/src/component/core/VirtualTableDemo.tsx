@@ -170,21 +170,31 @@ const VirtualTableInModal = () => {
 };
 
 const VirtualTableWithDynamicSize = () => {
-    const [height, setHeight] = React.useState(300);
-    const [width, setWidth] = React.useState(300);
+    const [height, setHeight] = React.useState<number | null>(300);
+    const [width, setWidth] = React.useState<number | null>(300);
+    const [scrollY, setScrollY] = React.useState<number | null>(null);
+    const [scrollX, setScrollX] = React.useState<number | null>(null);
 
     return (
-        <div>
+        <div style={{width: 800, height: 800}}>
             <div>
                 Change Height
-                <EnumSelect list={[300, 500, 700]} value={height} onChange={setHeight} />
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={height} onChange={setHeight} />
             </div>
             <div>
                 Change Width
-                <EnumSelect list={[300, 500, 700]} value={width} onChange={setWidth} />
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={width} onChange={setWidth} />
             </div>
-            <div style={{height}}>
-                <VirtualTable dataSource={data.slice(0, 12)} scrollX={width} columns={getColumns(true)} />
+            <div>
+                Change Scroll Y
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={scrollY} onChange={setScrollY} />
+            </div>
+            <div>
+                Change Scroll X
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={scrollX} onChange={setScrollX} />
+            </div>
+            <div style={{width: width ?? undefined, height: height ?? undefined}}>
+                <VirtualTable dataSource={data.slice(0, 12)} scrollX={scrollX ?? undefined} scrollY={scrollY ?? undefined} columns={getColumns(true)} />
             </div>
         </div>
     );
