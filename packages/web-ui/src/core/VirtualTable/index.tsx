@@ -28,12 +28,9 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
+        if (propsScrollY !== undefined && propsScrollX !== undefined) return;
         if (propsScrollY) setScrollY(propsScrollY);
         if (propsScrollX) setScrollX(propsScrollX);
-    }, [propsScrollY, propsScrollX]);
-
-    React.useEffect(() => {
-        if (propsScrollY !== undefined && propsScrollX !== undefined) return;
 
         const container = containerRef.current?.parentElement;
         if (!container) return;
