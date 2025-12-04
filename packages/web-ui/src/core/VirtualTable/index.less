@@ -1,24 +1,30 @@
 .g-virtual-table {
-    .ant-table-tbody {
-        .ant-table-cell {
-            display: flex;
-            align-items: center;
+    .ant-table {
+        .ant-table-tbody {
+            .ant-table-cell {
+                display: flex;
+                align-items: center;
 
-            &.ant-table-selection-column {
-                justify-content: center;
-            }
+                &.ant-table-selection-column {
+                    justify-content: center;
+                }
 
-            &[style*="text-align: right"] {
-                justify-content: flex-end;
-            }
+                &[style*="text-align: right"] {
+                    justify-content: flex-end;
+                }
 
-            &[style*="text-align: center"] {
-                justify-content: center;
-            }
+                &[style*="text-align: center"] {
+                    justify-content: center;
+                }
 
-            &[style*="text-align: left"] {
-                justify-content: flex-start;
+                &[style*="text-align: left"] {
+                    justify-content: flex-start;
+                }
             }
+        }
+
+        &.ant-table-empty .ant-table-container .ant-table-body {
+            overflow: hidden !important;
         }
     }
 }

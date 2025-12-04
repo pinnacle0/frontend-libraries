@@ -19,9 +19,8 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     scrollX?: number;
 }
 
-// TODO/Ian: update noData placeholder
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
-    const {className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, ...restProps} = props;
+    const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
     const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided
     const [scrollY, setScrollY] = React.useState<number>(0); // Only used and observed when propsScrollY is not provided
@@ -56,22 +55,37 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         computedHeaderHeight && setHeaderHeight(computedHeaderHeight);
     }, [containerRef]);
 
-    const containerStyle = React.useMemo(() => {
-        return {
+    const containerStyle = React.useMemo(
+        () => ({
             height: propsScrollY ? propsScrollY + headerHeight : "100%",
             width: propsScrollX ? propsScrollX : "100%",
-        };
-    }, [propsScrollY, propsScrollX, headerHeight]);
+        }),
+        [propsScrollY, propsScrollX, headerHeight]
+    );
+
+    const emptyNodeStyle = React.useMemo(
+        () => ({
+            height: (propsScrollY ? propsScrollY : scrollY) - 32,
+            padding: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+        }),
+        [propsScrollY, scrollY]
+    );
 
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
             <Table
                 // @ts-ignore: using our Table component with virtual props from antd
                 virtual
+                dataSource={dataSource}
                 minHeaderHeight={minHeaderHeight}
                 scrollX={propsScrollX ?? scrollX}
                 scrollY={propsScrollY ?? scrollY}
                 rowKey={rowKey}
+                emptyPlaceholder={emptyPlaceholder || "暂无数据"}
+                emptyNodeStyle={emptyNodeStyle}
                 {...restProps}
             />
         </div>

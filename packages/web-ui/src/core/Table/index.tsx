@@ -62,6 +62,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
     emptyPlaceholder?: React.ReactElement | string | number;
     emptyIcon?: React.ReactElement | string | number;
     emptyText?: string;
+    emptyNodeStyle?: React.CSSProperties;
     sortConfig?: TableSorter<OrderByFieldType>;
     /**
      * Just adding to props, without any usage, so that it could trigger re-render when it changes.
@@ -97,6 +98,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         emptyPlaceholder,
         emptyIcon,
         emptyText,
+        emptyNodeStyle,
         dataSource,
         customizedStorageKey,
         minHeaderHeight,
@@ -161,7 +163,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
     const emptyTextNode = loading ? (
         <div />
     ) : (
-        <div style={emptyPlaceHolderContainerStyle}>
+        <div className="empty-text-node" style={{...emptyPlaceHolderContainerStyle, ...emptyNodeStyle}}>
             {emptyPlaceholder || (
                 <React.Fragment>
                     {emptyIcon || <FileSearchOutlined style={emptyPlaceHolderIconStyle} />}
