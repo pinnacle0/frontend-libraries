@@ -15,7 +15,7 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     rowKey?: TableProps<RowType, undefined>["rowKey"];
     /**
      * Antd <Table virtual /> must use number scrollX or number scrollY to work
-     * if scrollX and scrollY is not provided, height: 100% and width: 100% will be used
+     * if scrollX/scrollY is not provided, it will compute the width/height from the parent respectively.
      */
     scrollY?: number;
     scrollX?: number;
@@ -54,10 +54,13 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
     }, [propsScrollY, propsScrollX, headerHeight]);
 
-    const containerStyle = {
-        height: propsScrollY ? propsScrollY + headerHeight : "100%",
-        width: propsScrollX ? propsScrollX : "100%",
-    };
+    const containerStyle = React.useMemo(
+        () => ({
+            height: propsScrollY ? propsScrollY + headerHeight : "100%",
+            width: propsScrollX ? propsScrollX : "100%",
+        }),
+        [propsScrollY, propsScrollX, headerHeight]
+    );
 
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
