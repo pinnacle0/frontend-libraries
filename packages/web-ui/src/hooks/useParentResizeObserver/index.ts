@@ -1,15 +1,13 @@
 import React from "react";
 import {useResizeObserver} from "../useResizeObserver";
 
-export function useParentResizeObserver<T extends HTMLElement = HTMLDivElement>(onResize: (parentRect: DOMRect, parentRef: HTMLElement) => void) {
-    const ref = React.useRef<T>(null);
-
+export function useParentResizeObserver<T extends HTMLElement = HTMLDivElement>(ref: React.RefObject<T | null>, onResize: (parentRect: DOMRect, parentRef: HTMLElement) => void) {
     const onParentResize = React.useCallback(
         (parentRect: DOMRect) => {
             const parent = ref.current?.parentElement;
             if (parent) onResize(parentRect, parent);
         },
-        [onResize]
+        [onResize, ref]
     );
 
     const parentRef = useResizeObserver<HTMLElement>(onParentResize);
@@ -18,7 +16,5 @@ export function useParentResizeObserver<T extends HTMLElement = HTMLDivElement>(
     React.useLayoutEffect(() => {
         const parent = ref.current?.parentElement;
         if (parent) parentRef.current = parent;
-    }, [parentRef]);
-
-    return ref;
+    }, [ref, parentRef]);
 }

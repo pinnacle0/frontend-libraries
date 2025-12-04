@@ -72,7 +72,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      * key for column customization
      */
     customizedStorageKey?: string;
-    headerHeight?: number;
+    minHeaderHeight?: number;
 }
 
 interface CustomizationConfig {
@@ -99,7 +99,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         emptyText,
         dataSource,
         customizedStorageKey,
-        headerHeight,
+        minHeaderHeight,
         ...restProps
     } = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
@@ -115,7 +115,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         return {
             // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
-            onHeaderCell: () => ({onClick: onHeaderClick, style: {height: headerHeight}}),
+            onHeaderCell: () => ({onClick: onHeaderClick, style: {minHeight: minHeaderHeight}}),
             render: (_: any, record: RowType, index: number) => renderData(record, index),
             hidden: originalColumn.hidden || (customizedKey ? customizationConfig[customizedKey] === false : false),
             ...restColumnProps,
