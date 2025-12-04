@@ -3,7 +3,6 @@ import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
 import type {TableProps} from "../Table";
 import {Table} from "../Table";
-import {useParentResizeObserver} from "../../hooks/useParentResizeObserver";
 import "./index.less";
 
 export * from "./OldVirtualTable";
@@ -22,23 +21,41 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     scrollX?: number;
 }
 
+// TODO/Ian: update noData placeholder
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
     const {className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
-    const [scrollY, setScrollY] = React.useState<number>(0);
-    const [scrollX, setScrollX] = React.useState<number>(0);
+    const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
+    const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
-    const containerRef = useParentResizeObserver(
-        React.useCallback(
-            (parentRect: DOMRectReadOnly, parentRef: HTMLElement) => {
-                const {paddingX, paddingY} = getPadding(parentRef);
-                const {borderX, borderY} = getBorder(parentRef);
+    // TODO/Ian: scrollX, scrollY should respect to the container's rect
+    React.useEffect(() => {
+        if (propsScrollY) setScrollY(propsScrollY);
+        if (propsScrollX) setScrollX(propsScrollX);
+        if (propsScrollY !== undefined && propsScrollX !== undefined) return;
 
-                propsScrollY === undefined && setScrollY(Math.max(0, parentRect.height - headerHeight - paddingY - borderY));
-                propsScrollX === undefined && setScrollX(Math.max(0, parentRect.width - paddingX - borderX));
-            },
-            [propsScrollY, propsScrollX, headerHeight]
-        )
-    );
+        const container = containerRef.current?.parentElement;
+        if (!container) return;
+
+        const updateScroll = () => {
+            const contentRect = container.getBoundingClientRect();
+            const {paddingX, paddingY} = getPadding(container);
+            const {borderX, borderY} = getBorder(container);
+
+            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight - paddingY - borderY));
+            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width - paddingX - borderX));
+        };
+
+        updateScroll();
+
+        const resizeObserver = new ResizeObserver(updateScroll);
+        resizeObserver.observe(container);
+
+        return () => {
+            resizeObserver.unobserve(container);
+            resizeObserver.disconnect();
+        };
+    }, [propsScrollY, propsScrollX, headerHeight]);
 
     const containerStyle = React.useMemo(
         () => ({
