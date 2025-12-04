@@ -1,5 +1,5 @@
 import React from "react";
-import {useDidMountEffect} from "../../../hooks/useDidMountEffect";
+import {useDidMountEffect} from "../../../../hooks/useDidMountEffect";
 
 export const useScrollBarSize = () => {
     const [scrollbarSize, setScrollBarSize] = React.useState(0);

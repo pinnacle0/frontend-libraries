@@ -1,17 +1,17 @@
 import React from "react";
 import {useVirtualizer} from "@tanstack/react-virtual";
-import {classNames} from "../../util/ClassNames";
-import {Spin} from "../Spin";
+import {classNames} from "../../../util/ClassNames";
+import {Spin} from "../../Spin";
 import {TableRow} from "./TableRow";
 import {TableHeader} from "./TableHeader";
-import type {StringKey} from "../../internal/type";
+import type {StringKey} from "../../../internal/type";
 import type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 import {useRowSelection} from "./hooks/useRowSelection";
 import {useColumnWidths} from "./hooks/useColumnWidths";
 import {useScrollBarSize} from "./hooks/useScrollBarSize";
 import {useScrollToEdge, useSyncScroll, useScrollable} from "./hooks/useScroll";
 import {useColumnsStickyPosition} from "./hooks/useColumnsStickyPosition";
-import {ReactUtil} from "../../util/ReactUtil";
+import {ReactUtil} from "../../../util/ReactUtil";
 import "./index.old.less";
 
 export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";

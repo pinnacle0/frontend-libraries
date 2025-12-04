@@ -1,6 +1,6 @@
 import React from "react";
-import {ReactUtil} from "../../util/ReactUtil";
-import {classNames} from "../../util/ClassNames";
+import {ReactUtil} from "../../../util/ReactUtil";
+import {classNames} from "../../../util/ClassNames";
 import type {VirtualItem} from "@tanstack/react-virtual";
 import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 

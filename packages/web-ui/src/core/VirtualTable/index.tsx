@@ -5,8 +5,6 @@ import type {TableProps} from "../Table";
 import {Table} from "../Table";
 import "./index.less";
 
-export * from "./OldVirtualTable";
-
 export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
 export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {

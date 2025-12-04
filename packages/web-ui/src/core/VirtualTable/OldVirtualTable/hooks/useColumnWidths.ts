@@ -1,5 +1,5 @@
 import React from "react";
-import {useDebounce} from "../../../hooks/useDebounce";
+import {useDebounce} from "../../../../hooks/useDebounce";
 
 /**
  * VirtualTable is not crated by <table>, the header cell width cannot auto align the body cell width which has large content.
