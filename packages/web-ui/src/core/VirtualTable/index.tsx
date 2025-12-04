@@ -9,7 +9,7 @@ export * from "./OldVirtualTable";
 
 export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
-export interface Props<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
+export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
     rowKey?: TableProps<RowType, undefined>["rowKey"];
     /**
      * Antd <Table virtual /> must use number scrollX or number scrollY to work
@@ -19,7 +19,7 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
     scrollX?: number;
 }
 
-export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
+export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
     const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
     const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided

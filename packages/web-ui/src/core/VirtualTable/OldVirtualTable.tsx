@@ -16,7 +16,7 @@ import "./index.old.less";
 
 export type {VirtualTableColumn, VirtualTableRowSelection} from "./type";
 
-export interface VirtualTableProps<RowType extends object> {
+export interface OldVirtualTableProps<RowType extends object> {
     dataSource: RowType[];
     columns: VirtualTableColumn<RowType>[];
     rowHeight: number;
@@ -41,7 +41,7 @@ export interface VirtualTableProps<RowType extends object> {
 
 export const OldVirtualTable = ReactUtil.memo("OldVirtualTable", function <
     RowType extends object,
->({columns, rowHeight, dataSource, className, rowClassName, loading, emptyPlaceholder, onRowClick, scrollY, scrollX, overscan, rowSelection, headerHeight = 50, rowKey = "index"}: VirtualTableProps<RowType>) {
+>({columns, rowHeight, dataSource, className, rowClassName, loading, emptyPlaceholder, onRowClick, scrollY, scrollX, overscan, rowSelection, headerHeight = 50, rowKey = "index"}: OldVirtualTableProps<RowType>) {
     const count = dataSource.length;
     const scrollContentRef = React.useRef<HTMLDivElement | null>(null);
     const totalSize = count * rowHeight;
