@@ -28,7 +28,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        if (propsScrollX && propsScrollX) return;
+        if (propsScrollY && propsScrollX) return;
 
         const parent = containerRef.current?.parentElement;
         if (!parent) return;
@@ -42,6 +42,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
 
         updateScroll();
+
         const observer = new ResizeObserver(updateScroll);
         observer.observe(parent);
         return () => {
