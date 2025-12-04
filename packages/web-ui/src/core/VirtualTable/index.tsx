@@ -22,6 +22,10 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
 }
 
 // TODO/Ian: update noData placeholder
+
+// TODO/Ian: Known issue:
+// When conatainer is static, scrollXY not respecting container size,
+// When scrollX is static and larger than container width, scrollX not respecting container width
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
     const {className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
@@ -29,21 +33,32 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
+    const updateScroll = React.useCallback(
+        (x: number | undefined, y: number | undefined) => {
+            const containerRect = containerRef.current!.getBoundingClientRect();
+            x && setScrollX(NumberUtil.clamp(x, 0, containerRect.width));
+            y && setScrollY(NumberUtil.clamp(y, 0, containerRect.height));
+        },
+        [containerRef]
+    );
+
     useParentResizeObserver(
         containerRef,
         React.useCallback(
             (parentRect: DOMRectReadOnly, parentRef: HTMLElement) => {
                 const {paddingX, paddingY} = getPadding(parentRef);
                 const {borderX, borderY} = getBorder(parentRef);
-
-                const containerRect = containerRef.current!.getBoundingClientRect();
-
-                setScrollY(NumberUtil.clamp(parentRect.height - headerHeight - paddingY - borderY, 0, containerRect.height));
-                setScrollX(NumberUtil.clamp(parentRect.width - paddingX - borderX, 0, containerRect.width));
+                const x = parentRect.width - paddingX - borderX;
+                const y = parentRect.height - headerHeight - paddingY - borderY;
+                updateScroll(x, y);
             },
-            [headerHeight]
+            [headerHeight, updateScroll]
         )
     );
+
+    React.useEffect(() => {
+        updateScroll(propsScrollX, propsScrollY);
+    }, [propsScrollX, propsScrollY, updateScroll]);
 
     React.useEffect(() => {
         const computedHeaderHeight = containerRef.current?.querySelector(".ant-table-header")?.getBoundingClientRect().height;

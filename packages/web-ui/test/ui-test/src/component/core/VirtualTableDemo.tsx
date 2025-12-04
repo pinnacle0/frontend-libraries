@@ -170,8 +170,8 @@ const VirtualTableInModal = () => {
 };
 
 const VirtualTableWithDynamicSize = () => {
-    const [height, setHeight] = React.useState<number | null>(300);
-    const [width, setWidth] = React.useState<number | null>(300);
+    const [height, setHeight] = React.useState<number | null>(null);
+    const [width, setWidth] = React.useState<number | null>(null);
     const [scrollY, setScrollY] = React.useState<number | null>(null);
     const [scrollX, setScrollX] = React.useState<number | null>(null);
 
