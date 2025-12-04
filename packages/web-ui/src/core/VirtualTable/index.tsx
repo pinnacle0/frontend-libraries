@@ -3,8 +3,6 @@ import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
 import type {TableProps} from "../Table";
 import {Table} from "../Table";
-import {useParentResizeObserver} from "../../hooks/useParentResizeObserver";
-import {NumberUtil} from "../../internal/NumberUtil";
 import "./index.less";
 
 export * from "./OldVirtualTable";
@@ -22,43 +20,35 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
 }
 
 // TODO/Ian: update noData placeholder
-
-// TODO/Ian: Known issue:
-// When conatainer is static, scrollXY not respecting container size,
-// When scrollX is static and larger than container width, scrollX not respecting container width
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
     const {className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
-    const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
-    const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
+    const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided
+    const [scrollY, setScrollY] = React.useState<number>(0); // Only used and observed when propsScrollY is not provided
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    const updateScroll = React.useCallback(
-        (x: number | undefined, y: number | undefined) => {
-            const containerRect = containerRef.current!.getBoundingClientRect();
-            x && setScrollX(NumberUtil.clamp(x, 0, containerRect.width));
-            y && setScrollY(NumberUtil.clamp(y, 0, containerRect.height));
-        },
-        [containerRef]
-    );
-
-    useParentResizeObserver(
-        containerRef,
-        React.useCallback(
-            (parentRect: DOMRectReadOnly, parentRef: HTMLElement) => {
-                const {paddingX, paddingY} = getPadding(parentRef);
-                const {borderX, borderY} = getBorder(parentRef);
-                const x = parentRect.width - paddingX - borderX;
-                const y = parentRect.height - headerHeight - paddingY - borderY;
-                updateScroll(x, y);
-            },
-            [headerHeight, updateScroll]
-        )
-    );
-
     React.useEffect(() => {
-        updateScroll(propsScrollX, propsScrollY);
-    }, [propsScrollX, propsScrollY, updateScroll]);
+        if (propsScrollX && propsScrollX) return;
+
+        const parent = containerRef.current?.parentElement;
+        if (!parent) return;
+
+        const updateScroll = () => {
+            const {paddingX, paddingY} = getPadding(parent);
+            const {borderX, borderY} = getBorder(parent);
+            const {width, height} = parent.getBoundingClientRect();
+            !propsScrollX && setScrollX(Math.max(width - paddingX - borderX, 0));
+            !propsScrollY && setScrollY(Math.max(height - headerHeight - paddingY - borderY, 0));
+        };
+
+        updateScroll();
+        const observer = new ResizeObserver(updateScroll);
+        observer.observe(parent);
+        return () => {
+            observer.unobserve(parent);
+            observer.disconnect();
+        };
+    }, [propsScrollX, propsScrollY, headerHeight]);
 
     React.useEffect(() => {
         const computedHeaderHeight = containerRef.current?.querySelector(".ant-table-header")?.getBoundingClientRect().height;
@@ -78,8 +68,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 // @ts-ignore: using our Table component with virtual props from antd
                 virtual
                 minHeaderHeight={minHeaderHeight}
-                scrollX={scrollX}
-                scrollY={scrollY}
+                scrollX={propsScrollX ?? scrollX}
+                scrollY={propsScrollY ?? scrollY}
                 rowKey={rowKey}
                 {...restProps}
             />

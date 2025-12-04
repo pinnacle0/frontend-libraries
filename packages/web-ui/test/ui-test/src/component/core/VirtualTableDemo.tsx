@@ -185,6 +185,7 @@ const VirtualTableWithDynamicSize = () => {
                 Change Width
                 <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={width} onChange={setWidth} />
             </div>
+            <em> Define scrollX/Y will override container width/height</em>
             <div>
                 Change Scroll Y
                 <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={scrollY} onChange={setScrollY} />
