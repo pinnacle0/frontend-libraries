@@ -3,6 +3,7 @@ import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
 import type {TableProps} from "../Table";
 import {Table} from "../Table";
+import {useParentResizeObserver} from "../../hooks/useParentResizeObserver";
 import "./index.less";
 
 export * from "./OldVirtualTable";
@@ -23,36 +24,21 @@ export interface Props<RowType extends object> extends Omit<TableProps<RowType, 
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: Props<RowType>) {
     const {className, headerHeight = 50, rowKey = "index", scrollY: propsScrollY, scrollX: propsScrollX, ...restProps} = props;
-    const [scrollY, setScrollY] = React.useState<number>(propsScrollY ?? 0);
-    const [scrollX, setScrollX] = React.useState<number>(propsScrollX ?? 0);
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const [scrollY, setScrollY] = React.useState<number>(0);
+    const [scrollX, setScrollX] = React.useState<number>(0);
 
-    React.useEffect(() => {
-        if (propsScrollY !== undefined && propsScrollX !== undefined) return;
-        if (propsScrollY) setScrollY(propsScrollY);
-        if (propsScrollX) setScrollX(propsScrollX);
+    const containerRef = useParentResizeObserver(
+        React.useCallback(
+            (parentRect: DOMRectReadOnly, parentRef: HTMLElement) => {
+                const {paddingX, paddingY} = getPadding(parentRef);
+                const {borderX, borderY} = getBorder(parentRef);
 
-        const container = containerRef.current?.parentElement;
-        if (!container) return;
-
-        const updateScroll = () => {
-            const contentRect = container.getBoundingClientRect();
-            const {paddingX, paddingY} = getPadding(container);
-            const {borderX, borderY} = getBorder(container);
-
-            propsScrollY === undefined && setScrollY(Math.max(0, contentRect.height - headerHeight - paddingY - borderY));
-            propsScrollX === undefined && setScrollX(Math.max(0, contentRect.width - paddingX - borderX));
-        };
-
-        updateScroll();
-
-        const resizeObserver = new ResizeObserver(updateScroll);
-        resizeObserver.observe(container);
-
-        return () => {
-            resizeObserver.disconnect();
-        };
-    }, [propsScrollY, propsScrollX, headerHeight]);
+                propsScrollY === undefined && setScrollY(Math.max(0, parentRect.height - headerHeight - paddingY - borderY));
+                propsScrollX === undefined && setScrollX(Math.max(0, parentRect.width - paddingX - borderX));
+            },
+            [propsScrollY, propsScrollX, headerHeight]
+        )
+    );
 
     const containerStyle = React.useMemo(
         () => ({
@@ -68,8 +54,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 // @ts-ignore: using our Table component with virtual props from antd
                 virtual
                 headerHeight={headerHeight}
-                scrollX={scrollX}
-                scrollY={scrollY}
+                scrollX={propsScrollX ?? scrollX}
+                scrollY={propsScrollY ?? scrollY}
                 rowKey={rowKey}
                 {...restProps}
             />
@@ -77,16 +63,17 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     );
 });
 
+// parseFloat removes the "px" suffix
 function getPadding(container: HTMLElement) {
     const {paddingLeft, paddingRight, paddingTop, paddingBottom} = getComputedStyle(container);
-    const paddingX = Number(paddingLeft.replace("px", "")) + Number(paddingRight.replace("px", ""));
-    const paddingY = Number(paddingTop.replace("px", "")) + Number(paddingBottom.replace("px", ""));
+    const paddingX = parseFloat(paddingLeft) + parseFloat(paddingRight);
+    const paddingY = parseFloat(paddingTop) + parseFloat(paddingBottom);
     return {paddingX, paddingY};
 }
 
 function getBorder(container: HTMLElement) {
     const {borderLeftWidth, borderRightWidth, borderTopWidth, borderBottomWidth} = getComputedStyle(container);
-    const borderX = Number(borderLeftWidth.replace("px", "")) + Number(borderRightWidth.replace("px", ""));
-    const borderY = Number(borderTopWidth.replace("px", "")) + Number(borderBottomWidth.replace("px", ""));
+    const borderX = parseFloat(borderLeftWidth) + parseFloat(borderRightWidth);
+    const borderY = parseFloat(borderTopWidth) + parseFloat(borderBottomWidth);
     return {borderX, borderY};
 }
