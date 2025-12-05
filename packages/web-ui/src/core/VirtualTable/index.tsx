@@ -18,7 +18,7 @@ export interface VirtualTableProps<RowType extends object> extends Omit<TablePro
 }
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, ...restProps} = props;
+    const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
     const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided
     const [scrollY, setScrollY] = React.useState<number>(0); // Only used and observed when propsScrollY is not provided
@@ -61,16 +61,12 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         [propsScrollY, propsScrollX, headerHeight]
     );
 
-    const emptyNodeStyle = React.useMemo(
-        () => ({
-            height: (propsScrollY ? propsScrollY : scrollY) - 32,
-            padding: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        }),
-        [propsScrollY, scrollY]
-    );
+    const combinedEmptyNodeStyle = React.useMemo(() => {
+        return {
+            ...emptyNodeStyle,
+            height: propsScrollY ? propsScrollY : scrollY,
+        };
+    }, [propsScrollY, scrollY, emptyNodeStyle]);
 
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
@@ -83,7 +79,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 scrollY={propsScrollY ?? scrollY}
                 rowKey={rowKey}
                 emptyPlaceholder={emptyPlaceholder || "暂无数据"}
-                emptyNodeStyle={emptyNodeStyle}
+                emptyNodeStyle={combinedEmptyNodeStyle}
                 {...restProps}
             />
         </div>
