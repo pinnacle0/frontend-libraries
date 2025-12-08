@@ -38,6 +38,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
             !propsScrollY && setScrollY(Math.max(height - headerHeight - paddingY - borderY, 0));
         };
 
+        updateScroll();
+
         const observer = new ResizeObserver(updateScroll);
         observer.observe(parent);
         return () => {
