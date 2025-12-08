@@ -30,7 +30,6 @@ const DocumentTitle = ReactUtil.memo("DocumentTitle", ({title, children}: Props)
         const {baseTitle, separator} = baseOption;
         const fullTitle = title ? `${baseTitle} ${separator} ${title}` : baseTitle;
         document.title = fullTitle;
-        console.info("update title", fullTitle);
     }, [title]);
 
     useWillUnmountEffect(() => {
