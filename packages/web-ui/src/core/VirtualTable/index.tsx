@@ -31,9 +31,6 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         if (!parent) return;
 
         const updateScroll = () => {
-            const parent = containerRef.current?.parentElement;
-            if (!parent) return;
-
             const {paddingX, paddingY} = getPadding(parent);
             const {borderX, borderY} = getBorder(parent);
             const {width, height} = parent.getBoundingClientRect();
