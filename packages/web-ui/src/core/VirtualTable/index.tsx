@@ -9,6 +9,7 @@ export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
 export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
     rowKey?: TableProps<RowType, undefined>["rowKey"];
+    resize?: boolean;
     /**
      * Antd <Table virtual /> must use number scrollX or number scrollY to work
      * if scrollX/scrollY is not provided, it will compute the width/height from the parent respectively.
@@ -18,7 +19,7 @@ export interface VirtualTableProps<RowType extends object> extends Omit<TablePro
 }
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
+    const {resize, dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
     const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided
     const [scrollY, setScrollY] = React.useState<number>(0); // Only used and observed when propsScrollY is not provided
@@ -31,6 +32,9 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         if (!parent) return;
 
         const updateScroll = () => {
+            const parent = containerRef.current?.parentElement;
+            if (!parent) return;
+
             const {paddingX, paddingY} = getPadding(parent);
             const {borderX, borderY} = getBorder(parent);
             const {width, height} = parent.getBoundingClientRect();
@@ -38,13 +42,17 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
             !propsScrollY && setScrollY(Math.max(height - headerHeight - paddingY - borderY, 0));
         };
 
+        updateScroll();
+
+        if (!resize) return;
+
         const observer = new ResizeObserver(updateScroll);
         observer.observe(parent);
         return () => {
             observer.unobserve(parent);
             observer.disconnect();
         };
-    }, [propsScrollX, propsScrollY, headerHeight]);
+    }, [propsScrollX, propsScrollY, headerHeight, resize]);
 
     React.useEffect(() => {
         const computedHeaderHeight = containerRef.current?.querySelector(".ant-table-header")?.getBoundingClientRect().height;
