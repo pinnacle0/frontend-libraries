@@ -17,6 +17,7 @@ export interface VirtualTableProps<RowType extends object> extends Omit<TablePro
     scrollX?: number;
 }
 
+// TODO/Ian: take min from propsScrollX and propsScrollY?
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
     const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
     const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
