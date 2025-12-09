@@ -6,17 +6,20 @@ import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.
 
 interface HTMLPluginOptions {
     entry: HTMLEntryDescriptor;
+    scriptLoading?: "module" | "defer";
+    removeScriptTypeAttributes?: boolean; // default to true
 }
 
 /**
  * Creates a html file from a template with <script> and <link> injected
  * with the respective hashed output filenames.
  */
-export function htmlPlugin({entry}: HTMLPluginOptions): RspackPluginInstance {
+export function htmlPlugin({entry, scriptLoading = "defer", removeScriptTypeAttributes = true}: HTMLPluginOptions): RspackPluginInstance {
     return WebpackConfigSerializationUtil.serializablePlugin("HTMLWebpackPlugin", HTMLWebpackPlugin, {
         template: entry.htmlPath,
         filename: `${entry.name}.html`,
         chunks: [entry.name],
+        scriptLoading,
         minify: {
             collapseBooleanAttributes: true,
             collapseInlineTagWhitespace: true,
@@ -29,8 +32,8 @@ export function htmlPlugin({entry}: HTMLPluginOptions): RspackPluginInstance {
             removeAttributeQuotes: true,
             removeComments: true,
             removeEmptyAttributes: true,
+            removeScriptTypeAttributes,
             removeRedundantAttributes: true,
-            removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true,
             removeTagWhitespace: true,
             useShortDoctype: true,
