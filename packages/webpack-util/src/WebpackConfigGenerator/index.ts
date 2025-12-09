@@ -34,7 +34,6 @@ export class WebpackConfigGenerator {
 
     private readonly configEntryDescriptors: EntryDescriptor[];
     private readonly entry: NonNullable<Configuration["entry"]>;
-    private readonly htmlWebpackPluginInstances: NonNullable<Configuration["plugins"]>;
     private readonly resolveExtensions: NonNullable<NonNullable<Configuration["resolve"]>["extensions"]>;
     private readonly resolveModules: NonNullable<NonNullable<Configuration["resolve"]>["modules"]>;
     private readonly resolveAliases: NonNullable<NonNullable<Configuration["resolve"]>["alias"]>;
@@ -63,9 +62,6 @@ export class WebpackConfigGenerator {
             extraEntries: options.extraEntries || {},
         });
         this.entry = WebpackEntryFactory.generate({
-            configEntryDescriptors: this.configEntryDescriptors,
-        });
-        this.htmlWebpackPluginInstances = HTMLWebpackPluginsFactory.generate({
             configEntryDescriptors: this.configEntryDescriptors,
         });
         this.outputPublicPath = WebpackOutputPublicURLFactory.generate({
@@ -107,7 +103,6 @@ export class WebpackConfigGenerator {
                 module: true,
                 filename: "static/js/[name].js",
                 publicPath: "/",
-                chunkFormat: "array-push",
             },
             resolve: {
                 extensions: this.resolveExtensions,
@@ -135,7 +130,11 @@ export class WebpackConfigGenerator {
                 outputModule: true,
             },
             plugins: [
-                ...this.htmlWebpackPluginInstances,
+                ...HTMLWebpackPluginsFactory.generate({
+                    configEntryDescriptors: this.configEntryDescriptors,
+                    scriptLoading: "module",
+                    removeScriptTypeAttributes: true,
+                }),
                 Plugin.reactRefresh(this.indirectCodeExclude),
                 Plugin.webpack.progress({enableProfiling: false}),
                 Plugin.webpack.define(this.defineVars),
@@ -187,7 +186,9 @@ export class WebpackConfigGenerator {
                 rules: [Rule.ts(), Rule.stylesheet({minimize: true}), Rule.image(), Rule.other({extraExtensionsForOtherRule: this.extraExtensionsForOtherRule}), ...this.customizedLoaders],
             },
             plugins: [
-                ...this.htmlWebpackPluginInstances,
+                ...HTMLWebpackPluginsFactory.generate({
+                    configEntryDescriptors: this.configEntryDescriptors,
+                }),
                 Plugin.scriptTagCrossOriginPlugin(),
                 Plugin.typeChecker({tsconfigFilePath: this.tsconfigFilePath}),
                 Plugin.fileOutput.miniCssExtract({enableProfiling: this.enableProfiling}),

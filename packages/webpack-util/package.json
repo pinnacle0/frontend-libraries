@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.8.21",
+    "version": "0.8.22",
     "type": "module",
     "exports": {
         ".": "./src/index.ts"
@@ -17,8 +17,8 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@rspack/cli": "1.6.5",
-        "@rspack/core": "1.6.5",
+        "@rspack/cli": "1.6.6",
+        "@rspack/core": "1.6.6",
         "@rspack/dev-server": "1.1.4",
         "@rspack/plugin-react-refresh": "1.5.3",
         "@swc/core": "1.14.0",
