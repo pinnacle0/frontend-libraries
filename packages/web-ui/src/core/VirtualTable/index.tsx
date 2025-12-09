@@ -7,67 +7,65 @@ import "./index.less";
 
 export type {TableRowSelection, TableColumn, TableColumns} from "../Table";
 
-export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey"> {
+export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "rowKey" | "scrollX" | "scrollY"> {
     rowKey?: TableProps<RowType, undefined>["rowKey"];
-    /**
-     * Antd <Table virtual /> must use number scrollX or number scrollY to work
-     * if scrollX/scrollY is not provided, it will compute the width/height from the parent respectively.
-     */
-    scrollY?: number;
-    scrollX?: number;
+    height?: number; // height will include header height
+    width?: number;
 }
 
-// TODO/Ian: take min from propsScrollX and propsScrollY?
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, className, minHeaderHeight = 55, rowKey = "index", scrollX: propsScrollX, scrollY: propsScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
-    const [headerHeight, setHeaderHeight] = React.useState<number>(minHeaderHeight);
-    const [scrollX, setScrollX] = React.useState<number>(0); // Only used and observed when propsScrollX is not provided
-    const [scrollY, setScrollY] = React.useState<number>(0); // Only used and observed when propsScrollY is not provided
+    const {dataSource, className, rowKey = "index", height: propHeight, width: propWidth, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
+    const [height, setHeight] = React.useState<number | "100%">(propHeight ?? "100%");
+    const [width, setWidth] = React.useState<number | "100%">(propWidth ?? "100%");
+    const [scrollX, setScrollX] = React.useState<number>(0);
+    const [scrollY, setScrollY] = React.useState<number>(0);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    React.useEffect(() => {
-        if (propsScrollY && propsScrollX) return;
+    // Need to update height and width to match the parent even height/width is provided since it should not exceed the parent's size
+    const updateSize = React.useCallback(
+        (entries: ResizeObserverEntry[]) => {
+            const {width: parentWidth, height: parentHeight} = entries[0].contentRect;
 
+            let newHeight = Math.max(parentHeight, 0);
+            let newWidth = Math.max(parentWidth, 0);
+            if (propHeight) newHeight = Math.min(newHeight, propHeight);
+            if (propWidth) newWidth = Math.min(newWidth, propWidth);
+
+            setHeight(newHeight);
+            setWidth(newWidth);
+
+            const headerHeight = containerRef.current?.querySelector(".ant-table-header")?.getBoundingClientRect().height ?? 0;
+            setScrollY(newHeight - headerHeight);
+            setScrollX(newWidth);
+        },
+        [propHeight, propWidth]
+    );
+
+    React.useEffect(() => {
         const parent = containerRef.current?.parentElement;
         if (!parent) return;
 
-        const updateScroll = () => {
-            const {paddingX, paddingY} = getPadding(parent);
-            const {borderX, borderY} = getBorder(parent);
-            const {width, height} = parent.getBoundingClientRect();
-            !propsScrollX && setScrollX(Math.max(width - paddingX - borderX, 0));
-            !propsScrollY && setScrollY(Math.max(height - headerHeight - paddingY - borderY, 0));
-        };
-
-        updateScroll();
-
-        const observer = new ResizeObserver(updateScroll);
+        const observer = new ResizeObserver(updateSize);
         observer.observe(parent);
         return () => {
             observer.unobserve(parent);
             observer.disconnect();
         };
-    }, [propsScrollX, propsScrollY, headerHeight]);
+    }, [updateSize, propHeight, propWidth]);
 
     React.useEffect(() => {
-        const computedHeaderHeight = containerRef.current?.querySelector(".ant-table-header")?.getBoundingClientRect().height;
-        computedHeaderHeight && setHeaderHeight(computedHeaderHeight);
-    }, [containerRef]);
+        setHeight(propHeight ?? "100%");
+        setWidth(propWidth ?? "100%");
+    }, [propHeight, propWidth]);
 
-    const containerStyle = React.useMemo(
-        () => ({
-            height: propsScrollY ? propsScrollY + headerHeight : "100%",
-            width: propsScrollX ? propsScrollX : "100%",
-        }),
-        [propsScrollY, propsScrollX, headerHeight]
-    );
+    const containerStyle = React.useMemo(() => ({height, width}), [height, width]);
 
     const combinedEmptyNodeStyle = React.useMemo(() => {
         return {
             ...emptyNodeStyle,
-            height: propsScrollY ? propsScrollY : scrollY,
+            height: scrollY,
         };
-    }, [propsScrollY, scrollY, emptyNodeStyle]);
+    }, [scrollY, emptyNodeStyle]);
 
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
@@ -75,9 +73,11 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 // @ts-ignore: using our Table component with virtual props from antd
                 virtual
                 dataSource={dataSource}
-                minHeaderHeight={minHeaderHeight}
-                scrollX={propsScrollX ?? scrollX}
-                scrollY={propsScrollY ?? scrollY}
+                /**
+                 * Antd <Table virtual /> must use number scrollX or number scrollY to work
+                 */
+                scrollX={scrollX}
+                scrollY={scrollY}
                 rowKey={rowKey}
                 emptyPlaceholder={emptyPlaceholder || "暂无数据"}
                 emptyNodeStyle={combinedEmptyNodeStyle}
@@ -86,18 +86,3 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         </div>
     );
 });
-
-// parseFloat removes the "px" suffix
-function getPadding(container: HTMLElement) {
-    const {paddingLeft, paddingRight, paddingTop, paddingBottom} = getComputedStyle(container);
-    const paddingX = parseFloat(paddingLeft) + parseFloat(paddingRight);
-    const paddingY = parseFloat(paddingTop) + parseFloat(paddingBottom);
-    return {paddingX, paddingY};
-}
-
-function getBorder(container: HTMLElement) {
-    const {borderLeftWidth, borderRightWidth, borderTopWidth, borderBottomWidth} = getComputedStyle(container);
-    const borderX = parseFloat(borderLeftWidth) + parseFloat(borderRightWidth);
-    const borderY = parseFloat(borderTopWidth) + parseFloat(borderBottomWidth);
-    return {borderX, borderY};
-}
