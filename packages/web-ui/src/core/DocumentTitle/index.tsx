@@ -23,7 +23,7 @@ const baseOption: BaseOption = {
     separator: "-",
 };
 
-const DocumentTitle = ReactUtil.memo("DocumentTitle", ({title, children}: Props) => {
+const InternalDocumentTitle = ReactUtil.memo("DocumentTitle", ({title, children}: Props) => {
     const prevTitle = React.useRef(document.title);
 
     React.useEffect(() => {
@@ -39,6 +39,6 @@ const DocumentTitle = ReactUtil.memo("DocumentTitle", ({title, children}: Props)
     return children;
 });
 
-Object.assign(DocumentTitle, {register: <K extends keyof BaseOption>(option: Pick<BaseOption, K> | BaseOption) => Object.assign(baseOption, option)});
+const DocumentTitle = Object.assign(InternalDocumentTitle, {register: <K extends keyof BaseOption>(option: Pick<BaseOption, K> | BaseOption) => Object.assign(baseOption, option)});
 
 export {DocumentTitle};
