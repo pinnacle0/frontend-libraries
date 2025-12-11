@@ -3,23 +3,17 @@ import AntTooltip from "antd/es/tooltip";
 import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 
+export type {TooltipPlacement};
 export interface Props extends TooltipProps {
     childContainerProps?: React.HTMLAttributes<HTMLDivElement>;
-    isInline?: boolean;
 }
 
 export const Tooltip = ReactUtil.memo("Tooltip", (props: Props) => {
-    const {children, childContainerProps = {}, isInline, ...restProps} = props;
-    const {style: childContainerStyle = {}, ...restChildContainerProps} = childContainerProps;
-    isInline && (childContainerStyle.display = "inline");
+    const {children, childContainerProps, ...restProps} = props;
 
     return (
         <AntTooltip {...restProps}>
-            <div {...restChildContainerProps} style={childContainerStyle}>
-                {children}
-            </div>
+            <div {...childContainerProps}>{children}</div>
         </AntTooltip>
     );
 });
-
-export type {TooltipPlacement};
