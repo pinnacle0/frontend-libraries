@@ -13,34 +13,16 @@ export interface VirtualTableProps<RowType extends object> extends Omit<TablePro
     width?: number;
 }
 
+interface Dimensions {
+    height: number | "100%";
+    width: number | "100%";
+    headerHeight: number;
+}
+
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
     const {dataSource, className, rowKey = "index", height: propHeight, width: propWidth, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
-    const [height, setHeight] = React.useState<number | "100%">(propHeight ?? "100%");
-    const [width, setWidth] = React.useState<number | "100%">(propWidth ?? "100%");
-    const [headerHeight, setHeaderHeight] = React.useState<number>(0);
-    const [scrollX, setScrollX] = React.useState<number>(0);
-    const [scrollY, setScrollY] = React.useState<number>(0);
+    const [{width, height, headerHeight}, setDimensions] = React.useState<Dimensions>({width: propWidth ?? "100%", height: propHeight ?? "100%", headerHeight: 0});
     const containerRef = React.useRef<HTMLDivElement>(null);
-
-    // Need to listen to header change onMount so we can calculate the scrollY correctly
-    React.useEffect(() => {
-        const header = containerRef.current?.querySelector(".ant-table-header");
-        if (!header) return;
-
-        const observer = new ResizeObserver(entries => {
-            setHeaderHeight(entries[0].contentRect.height);
-        });
-        observer.observe(header);
-        return () => {
-            observer.unobserve(header);
-            observer.disconnect();
-        };
-    }, [setHeaderHeight]);
-
-    React.useEffect(() => {
-        setHeight(propHeight ?? "100%");
-        setWidth(propWidth ?? "100%");
-    }, [propHeight, propWidth]);
 
     React.useEffect(() => {
         const parent = containerRef.current?.parentElement;
@@ -54,11 +36,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
             if (propHeight) newHeight = Math.min(newHeight, propHeight);
             if (propWidth) newWidth = Math.min(newWidth, propWidth);
 
-            setHeight(newHeight);
-            setWidth(newWidth);
-
-            setScrollY(newHeight - headerHeight);
-            setScrollX(newWidth);
+            setDimensions(prev => ({...prev, height: newHeight, width: newWidth}));
         });
 
         observer.observe(parent);
@@ -68,8 +46,23 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         };
     }, [propHeight, propWidth, headerHeight]);
 
-    const containerStyle = React.useMemo(() => ({height, width}), [height, width]);
+    // Need to listen to header change onMount so we can calculate the scrollY correctly
+    React.useEffect(() => {
+        const header = containerRef.current?.querySelector(".ant-table-header");
+        if (!header) return;
 
+        const observer = new ResizeObserver(entries => {
+            setDimensions(prev => ({...prev, headerHeight: entries[0].contentRect.height}));
+        });
+        observer.observe(header);
+        return () => {
+            observer.unobserve(header);
+            observer.disconnect();
+        };
+    }, [setDimensions]);
+
+    const scrollY = React.useMemo(() => (typeof height === "number" ? height - headerHeight : 0), [height, headerHeight]);
+    const containerStyle = React.useMemo(() => ({height, width}), [height, width]);
     const combinedEmptyNodeStyle = React.useMemo(() => {
         return {
             ...emptyNodeStyle,
@@ -86,8 +79,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 /**
                  * Antd <Table virtual /> must use number scrollX or number scrollY to work
                  */
-                scrollX={scrollX}
-                scrollY={scrollY}
+                scrollX={typeof width === "number" ? width : 0}
+                scrollY={typeof height === "number" ? height - headerHeight : 0}
                 rowKey={rowKey}
                 emptyPlaceholder={emptyPlaceholder || "暂无数据"}
                 emptyNodeStyle={combinedEmptyNodeStyle}
