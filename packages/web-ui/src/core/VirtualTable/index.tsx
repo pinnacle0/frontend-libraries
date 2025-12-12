@@ -35,7 +35,7 @@ export interface VirtualTableProps<RowType extends object> extends Omit<TablePro
 }
 
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, columns, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, emptyNodeStyle, ...restProps} = props;
+    const {dataSource, columns, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState(propScrollY ?? 300);
     const [headerHeight, setHeaderHeight] = React.useState(0);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -79,12 +79,6 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
             height: "100%",
         };
     }, [width]);
-    const combinedEmptyNodeStyle = React.useMemo(() => {
-        return {
-            ...emptyNodeStyle,
-            height: scrollY,
-        };
-    }, [scrollY, emptyNodeStyle]);
 
     const scrollX = React.useMemo(() => {
         return columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
@@ -103,7 +97,6 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 scrollY={scrollY}
                 scrollX={scrollX}
                 emptyPlaceholder={emptyPlaceholder || "暂无数据"}
-                emptyNodeStyle={combinedEmptyNodeStyle}
                 {...restProps}
             />
         </div>
