@@ -1,5 +1,5 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {TableColumn, TableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
+import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
 import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
@@ -25,7 +25,7 @@ const extraColumns = Array.from({length: 20}, (_, idx) => ({
     renderData: () => idx + 1,
 }));
 
-const getColumns = (horizontalScroll: boolean = false): TableColumn<Profile>[] => {
+const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profile>[] => {
     return [
         {
             title: "Name",
@@ -70,21 +70,21 @@ const getColumns = (horizontalScroll: boolean = false): TableColumn<Profile>[] =
 };
 
 const VirtualTableWithData = ({hasData = false}: {hasData?: boolean}) => {
-    return <VirtualTable rowKey="index" dataSource={hasData ? data : []} scrollY={400} columns={getColumns()} />;
+    return <VirtualTable rowKey="index" dataSource={hasData ? data : []} scrollY={400} width={800} columns={getColumns()} />;
 };
 
-const LoadingVirtualTable = () => <VirtualTable rowKey="index" dataSource={data} scrollY={400} columns={getColumns()} loading />;
+const LoadingVirtualTable = () => <VirtualTable rowKey="index" dataSource={data} scrollY={400} width={800} columns={getColumns()} loading />;
 
 const VirtualTableWithRowSelection = () => {
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
-    const rowSelection: TableRowSelection<Profile> = {
+    const rowSelection: VirtualTableRowSelection<Profile> = {
         columnWidth: 40,
         onChange: _ => setSelectedRowKeys(_),
         getCheckboxProps: record => ({disabled: data.indexOf(record) === 0}),
         fixed: true,
         selectedRowKeys,
     };
-    return <VirtualTable rowKey="index" rowSelection={rowSelection} dataSource={data} scrollY={400} columns={getColumns()} />;
+    return <VirtualTable rowKey="index" rowSelection={rowSelection} dataSource={data} scrollY={400} width={800} columns={getColumns()} />;
 };
 
 const VirtualTableWithVariousData = () => {
@@ -108,7 +108,7 @@ const VirtualTableWithVariousData = () => {
                 <Button onClick={deleteLastData}>delete 1 data</Button>
                 <Button onClick={deleteLastTenData}>delete 10 data</Button>
             </div>
-            <VirtualTable rowKey="index" dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+            <VirtualTable rowKey="index" dataSource={data} scrollY={400} width={800} columns={getColumns()} />
         </div>
     );
 };
@@ -122,7 +122,7 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
     };
 
     const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>(Array.from({length: data.length}, (_, idx) => idx));
-    const rowSelection: TableRowSelection<Profile> = {
+    const rowSelection: VirtualTableRowSelection<Profile> = {
         columnWidth: 40,
         onChange: _ => setSelectedRowKeys(_),
         getCheckboxProps: record => ({disabled: data.indexOf(record) === 0}),
@@ -143,13 +143,13 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
                 <Button onClick={deleteLastData}>delete 1 data</Button>
                 <Button onClick={deleteLastTenData}>delete 10 data</Button>
             </div>
-            <VirtualTable rowSelection={rowSelection} rowKey="index" dataSource={data} scrollY={400} scrollX={800} columns={getColumns()} />
+            <VirtualTable rowSelection={rowSelection} rowKey="index" dataSource={data} scrollY={400} width={800} columns={getColumns()} />
         </div>
     );
 };
 
 const VirtualTableWithFixedColumns = () => {
-    return <VirtualTable rowKey="index" dataSource={data.slice(0, 8)} scrollY={400} scrollX={800} columns={getColumns(true)} />;
+    return <VirtualTable rowKey="index" dataSource={data.slice(0, 8)} scrollY={400} width={800} columns={getColumns(true)} />;
 };
 
 const VirtualTableInModal = () => {
@@ -170,31 +170,21 @@ const VirtualTableInModal = () => {
 };
 
 const VirtualTableWithDynamicSize = () => {
-    const [containerscrollY, setContainerscrollY] = React.useState<number | null>(null);
-    const [containerWidth, setContainerWidth] = React.useState<number | null>(null);
-    const [scrollY, setscrollY] = React.useState<number | null>(null);
-    const [scrollX, setscrollX] = React.useState<number | null>(null);
+    const [height, setHeight] = React.useState<number | null>(null);
+    const [width, setWidth] = React.useState<number | null>(null);
 
     return (
         <div style={{width: 800, height: 800}}>
             <div>
-                Change Container scrollY
-                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={containerscrollY} onChange={setContainerscrollY} />
+                Change Height
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={height} onChange={setHeight} />
             </div>
             <div>
-                Change Container Width
-                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={containerWidth} onChange={setContainerWidth} />
+                Change Width
+                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={width} onChange={setWidth} />
             </div>
-            <div>
-                Change Table scrollY
-                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={scrollY} onChange={setscrollY} />
-            </div>
-            <div>
-                Change Table scrollX
-                <EnumSelect.Nullable nullText="not set" list={[300, 500, 700]} value={scrollX} onChange={setscrollX} />
-            </div>
-            <div style={{width: containerWidth ?? "100%", height: containerscrollY ?? "100%"}}>
-                <VirtualTable dataSource={data.slice(0, 12)} scrollX={scrollX ?? undefined} scrollY={scrollY ?? undefined} columns={getColumns(true)} />
+            <div style={{height: height ?? "100%"}}>
+                <VirtualTable rowKey="index" dataSource={data.slice(0, 12)} width={width ?? undefined} columns={getColumns(true)} />
             </div>
         </div>
     );
