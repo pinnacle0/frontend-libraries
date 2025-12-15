@@ -26,9 +26,9 @@ export const DatePicker = ReactUtil.memo("DatePicker", <T extends boolean>(props
         return current.valueOf() >= new Date(2038, 0).valueOf();
     };
 
-    const onAntChange = (_: Dayjs | null, dateString: string | string[]) => {
+    const onAntChange = (_: Dayjs | null, dateString: string | null) => {
         if (dateString || allowNull) {
-            const typedOnChange = onChange as (value: string | string[]) => void;
+            const typedOnChange = onChange as (value: string | null) => void;
             typedOnChange(dateString);
         }
     };

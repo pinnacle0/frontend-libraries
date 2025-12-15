@@ -28,8 +28,8 @@
     "dependencies": {
         "@ant-design/cssinjs": "2.0.1",
         "@ant-design/icons": "6.1.0",
-        "@tanstack/react-virtual": "3.13.12",
-        "antd": "6.0.0",
+        "@tanstack/react-virtual": "3.13.13",
+        "antd": "6.1.0",
         "classnames": "2.5.1",
         "dayjs": "1.11.19",
         "rc-picker": "4.11.3"

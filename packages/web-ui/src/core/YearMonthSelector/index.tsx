@@ -30,7 +30,7 @@ export const YearMonthSelector = ReactUtil.memo("YearMonthSelector", <T extends 
         return disabledRange?.(diffMonthToThisMonth, current.toDate()) || false;
     };
 
-    const onAntChange = (date: Dayjs | null, dateString: string | string[]) => {
+    const onAntChange = (date: Dayjs | null, dateString: string | null) => {
         if (dateString || allowNull) {
             const typedOnChange = onChange as (value: [number, number] | null) => void;
             typedOnChange(date && [date.year(), date.month() + 1]);
