@@ -8,14 +8,14 @@ import {fetchData} from "./fetch";
 import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList/type";
 import "./index.less";
 
-const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
+const NormalItem: React.FC<FlatListItemProps<{name: string}>> = React.memo(props => {
     const {data, index} = props;
     const [expand, setExpand] = React.useState(false);
 
     return (
         <div className={classNames(`item ${index}`, {expand})}>
             <h4>
-                {data}
+                {data.name}
                 <div>index: {index}</div>
             </h4>
             <button onClick={() => setExpand(_ => !_)}>toggle</button>
@@ -100,20 +100,20 @@ const NormalItem: React.FC<FlatListItemProps<string>> = React.memo(props => {
 /* }); */
 
 export const FlatListDemo = () => {
-    const [data, setData] = React.useState<string[]>([]);
+    const [data, setData] = React.useState<{name: string}[]>([]);
     const [loading, setLoading] = React.useState(false);
 
     const refreshData = async () => {
         setLoading(true);
         const data = await fetchData();
-        setData(data);
+        setData(data.map(name => ({name})));
         setLoading(false);
     };
 
     const loadMoreData = async () => {
         setLoading(true);
         const data = await fetchData();
-        setData(_ => [..._, ...data]);
+        setData(_ => [..._, ...data.map(name => ({name}))]);
         setLoading(false);
     };
 
@@ -128,8 +128,8 @@ export const FlatListDemo = () => {
                 loading={loading}
                 data={data}
                 renderItem={NormalItem}
-                pullDownRefreshMessage="Release to refresh"
-                pullDownRefreshingMessage="Refreshing..."
+                pullDownMessage="Release to refresh"
+                pullUpMessage="Release to load more"
                 onPullDownRefresh={refreshData}
                 onPullUpLoading={data.length < 100 ? loadMoreData : undefined}
             />

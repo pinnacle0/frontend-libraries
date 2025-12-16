@@ -16,7 +16,8 @@ export const Content = ReactUtil.memo("Content", <T extends object>(props: Props
     const loadedDataKey = React.useRef<string>(createKey());
     const itemStyle = useGap(gap);
 
-    React.useEffect(() => (onPullUpLoadingRef.current = onPullUpLoading), [onPullUpLoading]);
+    onPullUpLoadingRef.current = onPullUpLoading;
+
     React.useEffect(() => setDataKey(createKey()), [data]);
 
     const {first, second} = React.useMemo(() => splitByLast(data, endReachThreshold), [data, endReachThreshold]);
