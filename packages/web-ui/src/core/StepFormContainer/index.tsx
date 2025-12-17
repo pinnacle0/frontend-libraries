@@ -20,6 +20,7 @@ export interface Props {
     onStepChange: (step: number) => void;
     onFinish: () => void;
     stepLabelPlacement?: "horizontal" | "vertical"; // Default: horizontal
+    responsive?: boolean;
     id?: string;
     className?: string;
     style?: React.CSSProperties;
@@ -30,6 +31,7 @@ export interface Props {
 export const StepFormContainer = ReactUtil.memo("StepFormContainer", (props: Props) => {
     const {
         stepLabelPlacement,
+        responsive,
         formLayout,
         currentStep,
         steps,
@@ -61,7 +63,7 @@ export const StepFormContainer = ReactUtil.memo("StepFormContainer", (props: Pro
             <Steps
                 current={currentStep}
                 titlePlacement={stepLabelPlacement}
-                responsive={stepLabelPlacement !== "horizontal"}
+                responsive={responsive === undefined ? stepLabelPlacement !== "horizontal" : responsive}
                 items={steps.map((step, index) => ({key: index, title: step.title, content: step.description}))}
             />
             <Form layout={formLayout} onFinish={currentStep < steps.length - 1 ? goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={renderButtons}>
