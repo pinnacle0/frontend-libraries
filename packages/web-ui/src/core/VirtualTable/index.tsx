@@ -4,6 +4,7 @@ import {ReactUtil} from "../../util/ReactUtil";
 import type {TableColumn, TableProps} from "../Table";
 import {Table} from "../Table";
 import "./index.less";
+import {useResizeObserver} from "../../hooks/useResizeObserver";
 
 export type {TableRowSelection as VirtualTableRowSelection} from "../Table";
 
@@ -38,40 +39,19 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const {dataSource, columns, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState(propScrollY ?? 300);
     const [headerHeight, setHeaderHeight] = React.useState(0);
-    const containerRef = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-        const parent = containerRef.current?.parentElement;
-        if (!parent) return;
-
-        const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-            const parentHeight = entries[0].contentRect.height;
-            let newScrollY = Math.max(0, parentHeight - headerHeight);
-            if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
-            setScrollY(newScrollY);
-        });
-
-        observer.observe(parent);
-        return () => {
-            observer.unobserve(parent);
-            observer.disconnect();
-        };
-    }, [propScrollY, headerHeight]);
+    const containerRef = useResizeObserver(({height}) => {
+        let newScrollY = Math.max(0, height - headerHeight);
+        if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
+        setScrollY(newScrollY);
+    });
 
     // Need to listen to header change onMount so we can calculate the scrollY correctly
+    const headerRef = useResizeObserver(({height}) => {
+        setHeaderHeight(height);
+    });
     React.useEffect(() => {
-        const header = containerRef.current?.querySelector(".ant-table-header");
-        if (!header) return;
-
-        const observer = new ResizeObserver(entries => {
-            setHeaderHeight(entries[0].contentRect.height);
-        });
-        observer.observe(header);
-        return () => {
-            observer.unobserve(header);
-            observer.disconnect();
-        };
-    }, []);
+        headerRef.current = containerRef.current?.querySelector(".ant-table-header") ?? null;
+    }, [containerRef, headerRef]);
 
     const containerStyle = React.useMemo(() => {
         return {
