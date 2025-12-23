@@ -17,7 +17,7 @@ export type {VirtualTableProps, VirtualTableColumns} from "./type";
  * We cannot use overflow: hidden since it will cause the last few rows to be hidden
  *
  * scrollX:
- * It is the total scroll width of the table
+ * It is the total of column width of the table
  * If scrollX > all columns width, all columns will be expanded and lose the width property
  * In order to calculate the scrollX, we need to sum up the width of all columns
  *
