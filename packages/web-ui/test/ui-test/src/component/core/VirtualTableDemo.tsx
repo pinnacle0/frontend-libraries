@@ -1,5 +1,5 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {VirtualTableColumn, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
+import type {VirtualTableColumns, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
 import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
@@ -25,7 +25,7 @@ const extraColumns = Array.from({length: 20}, (_, idx) => ({
     renderData: () => idx + 1,
 }));
 
-const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profile>[] => {
+const getColumns = (horizontalScroll: boolean = false): VirtualTableColumns<Profile> => {
     return [
         {
             title: "Name",
@@ -67,6 +67,13 @@ const getColumns = (horizontalScroll: boolean = false): VirtualTableColumn<Profi
             hidden: true,
         },
     ];
+};
+
+const getColumnsWithOptionalWidth = (): VirtualTableColumns<Profile, true> => {
+    return getColumns().map((column, i) => ({
+        ...column,
+        width: i === 0 ? undefined : column.width,
+    }));
 };
 
 const VirtualTableWithData = ({hasData = false}: {hasData?: boolean}) => {
@@ -169,6 +176,19 @@ const VirtualTableInModal = () => {
     );
 };
 
+const VirtualTableWithScrollX = () => {
+    const [scrollX, setScrollX] = React.useState<number>(800);
+    return (
+        <React.Fragment>
+            <div>
+                Change ScrollX
+                <EnumSelect list={[800, 1000, 2000]} value={scrollX} onChange={setScrollX} />
+            </div>
+            <VirtualTable rowKey="index" dataSource={data.slice(0, 1)} scrollX={scrollX} width={800} scrollY={400} columns={getColumnsWithOptionalWidth()} />
+        </React.Fragment>
+    );
+};
+
 const VirtualTableWithDynamicSize = () => {
     const [height, setHeight] = React.useState<number | null>(null);
     const [width, setWidth] = React.useState<number | null>(null);
@@ -230,6 +250,11 @@ const groups: DemoHelperGroupConfig[] = [
         title: "Loading VirtualTable",
         showPropsHint: false,
         components: [<LoadingVirtualTable />],
+    },
+    {
+        title: "VirtualTable with scrollX",
+        showPropsHint: false,
+        components: [<VirtualTableWithScrollX />],
     },
     {
         title: "Virtual Table With Dynamic Size",

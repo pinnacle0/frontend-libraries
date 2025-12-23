@@ -1,12 +1,13 @@
 import React from "react";
 import {classNames} from "../../util/ClassNames";
 import {ReactUtil} from "../../util/ReactUtil";
-import type {TableColumn, TableProps} from "../Table";
 import {Table} from "../Table";
 import "./index.less";
 import {useResizeObserver} from "../../hooks/useResizeObserver";
+import type {VirtualTableProps} from "./type";
 
 export type {TableRowSelection as VirtualTableRowSelection} from "../Table";
+export type {VirtualTableProps, VirtualTableColumns} from "./type";
 
 /**
  * Antd Table's scrollX behaviour is different from scrollY
@@ -20,23 +21,10 @@ export type {TableRowSelection as VirtualTableRowSelection} from "../Table";
  * If scrollX > all columns width, all columns will be expanded and lose the width property
  * In order to calculate the scrollX, we need to sum up the width of all columns
  *
- * For future refactor:
- * If want to use column without width, must refactor to either pass column width or pass scrollX props
+ * If scrollX is not provided, all column must provide width, ref: ./type.ts
  */
-
-export interface VirtualTableColumn<RowType extends object> extends Omit<TableColumn<RowType>, "width"> {
-    width: number;
-}
-export type VirtualTableColumns<RowType extends object> = VirtualTableColumn<RowType>[];
-
-export interface VirtualTableProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "columns" | "scrollX" | "scrollY"> {
-    columns: VirtualTableColumn<RowType>[];
-    width?: number | string;
-    scrollY?: number;
-}
-
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, columns, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
+    const {dataSource, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState(propScrollY ?? 300);
     const [headerHeight, setHeaderHeight] = React.useState(0);
     const containerRef = useResizeObserver(({height}) => {
@@ -61,8 +49,9 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     }, [width]);
 
     const scrollX = React.useMemo(() => {
-        return columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
-    }, [columns]);
+        if ("scrollX" in restProps) return restProps.scrollX;
+        restProps.columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
+    }, [restProps]);
 
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
@@ -70,7 +59,6 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                 // @ts-ignore: using our Table component with virtual props from antd
                 virtual
                 dataSource={dataSource}
-                columns={columns}
                 /**
                  * Antd <Table virtual /> must use number scrollX or number scrollY to work
                  */
