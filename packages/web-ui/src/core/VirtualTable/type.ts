@@ -1,6 +1,6 @@
 import type {TableColumn, TableProps} from "../Table";
 
-export interface TableColumnWithWidth<RowType extends object> extends Omit<TableColumn<RowType>, "width"> {
+interface TableColumnWithWidth<RowType extends object> extends Omit<TableColumn<RowType>, "width"> {
     width: number;
 }
 
@@ -11,12 +11,12 @@ interface VirtualTableBaseProps<RowType extends object> extends Omit<TableProps<
     scrollY?: number;
 }
 
-export interface VirtualTablePropsWithScrollX<RowType extends object> extends VirtualTableBaseProps<RowType> {
+interface VirtualTablePropsWithScrollX<RowType extends object> extends VirtualTableBaseProps<RowType> {
     columns: VirtualTableColumns<RowType, true>;
     scrollX: number;
 }
 
-export interface VirtualTablePropsWithColumnWidth<RowType extends object> extends VirtualTableBaseProps<RowType> {
+interface VirtualTablePropsWithColumnWidth<RowType extends object> extends VirtualTableBaseProps<RowType> {
     columns: VirtualTableColumns<RowType, false>;
 }
 
