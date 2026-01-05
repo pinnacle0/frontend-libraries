@@ -6,7 +6,7 @@ import "./index.less";
 import {useResizeObserver} from "../../hooks/useResizeObserver";
 import type {VirtualTableProps} from "./type";
 
-export type {TableRowSelection as VirtualTableRowSelection} from "../Table";
+export type {TableRowSelection as VirtualTableRowSelection, TableRef as VirtualTableRef} from "../Table";
 export type {VirtualTableProps, VirtualTableColumns} from "./type";
 
 /**
@@ -27,11 +27,25 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
     const {dataSource, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState(propScrollY ?? 300);
     const [headerHeight, setHeaderHeight] = React.useState(0);
-    const containerRef = useResizeObserver(({height}) => {
-        let newScrollY = Math.max(0, height - headerHeight);
-        if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
-        setScrollY(newScrollY);
-    });
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        const parent = containerRef.current?.parentElement;
+        if (!parent) return;
+
+        const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+            const parentHeight = entries[0].contentRect.height;
+            let newScrollY = Math.max(0, parentHeight - headerHeight);
+            if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
+            setScrollY(newScrollY);
+        });
+
+        observer.observe(parent);
+        return () => {
+            observer.unobserve(parent);
+            observer.disconnect();
+        };
+    }, [propScrollY, headerHeight]);
 
     // Need to listen to header change onMount so we can calculate the scrollY correctly
     const headerRef = useResizeObserver(({height}) => {
@@ -53,6 +67,8 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
         restProps.columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
     }, [restProps]);
 
+    const emptyElement = <div style={{height: scrollY}}>{emptyPlaceholder || "暂无数据"}</div>;
+
     return (
         <div ref={containerRef} className={classNames("g-virtual-table", className)} style={containerStyle}>
             <Table
@@ -64,7 +80,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
                  */
                 scrollY={scrollY}
                 scrollX={scrollX}
-                emptyPlaceholder={emptyPlaceholder || "暂无数据"}
+                emptyPlaceholder={emptyElement}
                 {...restProps}
             />
         </div>

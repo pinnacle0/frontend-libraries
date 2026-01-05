@@ -1,5 +1,5 @@
 import {Button} from "@pinnacle0/web-ui/core/Button";
-import type {VirtualTableColumns, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
+import type {VirtualTableColumns, VirtualTableRef, VirtualTableRowSelection} from "@pinnacle0/web-ui/core/VirtualTable";
 import {VirtualTable} from "@pinnacle0/web-ui/core/VirtualTable";
 import {Modal} from "@pinnacle0/web-ui/core/Modal";
 import React from "react";
@@ -122,6 +122,7 @@ const VirtualTableWithVariousData = () => {
 
 const VirtualTableWithVariousDataAndRowSelection = () => {
     const [data, setData] = React.useState<Profile[]>([]);
+    const tableRef = React.useRef<VirtualTableRef>(null);
     const singleData = {
         name: "John Brown",
         age: 32,
@@ -149,8 +150,9 @@ const VirtualTableWithVariousDataAndRowSelection = () => {
                 <Button onClick={addTenData}>add 10 data</Button>
                 <Button onClick={deleteLastData}>delete 1 data</Button>
                 <Button onClick={deleteLastTenData}>delete 10 data</Button>
+                <Button onClick={() => tableRef.current?.scrollTo({index: 9})}>scroll to 10</Button>
             </div>
-            <VirtualTable rowSelection={rowSelection} rowKey="index" dataSource={data} scrollY={400} width={800} columns={getColumns()} />
+            <VirtualTable rowSelection={rowSelection} rowKey="index" dataSource={data} scrollY={400} width={800} columns={getColumns()} tableRef={tableRef} />
         </div>
     );
 };

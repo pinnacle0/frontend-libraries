@@ -8,7 +8,7 @@ import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps} from "antd/es/table";
+import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps, TableRef} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
 import type {StringKey} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
@@ -20,7 +20,7 @@ enum SortOrder {
 
 type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
 
-export type {TableRowSelection};
+export type {TableRowSelection, TableRef};
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | string | number;
@@ -74,6 +74,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      */
     customizedStorageKey?: string;
     minHeaderHeight?: number;
+    tableRef?: React.Ref<TableRef>;
 }
 
 interface CustomizationConfig {
@@ -102,6 +103,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         dataSource,
         customizedStorageKey,
         minHeaderHeight,
+        tableRef,
         ...restProps
     } = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
@@ -204,6 +206,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
                 </div>
             )}
             <AntTable
+                ref={tableRef}
                 dataSource={dataSource}
                 tableLayout="auto"
                 locale={{emptyText: emptyTextNode}}
