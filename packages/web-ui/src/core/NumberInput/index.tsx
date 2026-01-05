@@ -49,6 +49,7 @@ export interface Props<AllowNull extends boolean> extends ControlledFormValue<Al
     autoFocus?: boolean;
     /** Set cursor and input behavior when focus  */
     focus?: FocusType;
+    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export const NumberInput = ReactUtil.compound(
@@ -78,6 +79,7 @@ export const NumberInput = ReactUtil.compound(
             step = truncate(10 ** (-1 * scale), scale),
             onChange,
             displayRenderer,
+            onFocus,
         } = props;
         const [editingValue, setEditingValue] = React.useState(value !== null ? value.toFixed(scale) : "");
         const [isEditing, setIsEditing] = React.useState(false);
@@ -121,9 +123,10 @@ export const NumberInput = ReactUtil.compound(
             triggerParentOnChangeIfValid(prevValue.toString()); // The value is checked excessively but it's better than having a unguarded class method
         };
 
-        const onInputFocus = () => {
+        const onInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
             setIsEditing(true);
             setEditingValue(value === null ? "" : truncate(value, scale).toString());
+            onFocus?.(event);
         };
 
         const onInputBlur = () => {
