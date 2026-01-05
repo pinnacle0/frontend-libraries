@@ -6,7 +6,7 @@ import "./index.less";
 import {useResizeObserver} from "../../hooks/useResizeObserver";
 import type {VirtualTableProps} from "./type";
 
-export type {TableRowSelection as VirtualTableRowSelection, TableRef as VirtualTableRef} from "../Table";
+export type {TableRowSelection as VirtualTableRowSelection, TableHandler as VirtualTableHandler} from "../Table";
 export type {VirtualTableProps, VirtualTableColumns} from "./type";
 
 /**

@@ -20,7 +20,11 @@ enum SortOrder {
 
 type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
 
-export type {TableRowSelection, TableRef};
+export type {TableRowSelection};
+
+export interface TableHandler {
+    scrollTo: (index: number) => void;
+}
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | string | number;
@@ -74,7 +78,7 @@ export interface TableProps<RowType extends object, OrderByFieldType> extends Om
      */
     customizedStorageKey?: string;
     minHeaderHeight?: number;
-    tableRef?: React.Ref<TableRef>;
+    tableRef?: React.Ref<TableHandler>;
 }
 
 interface CustomizationConfig {
@@ -108,6 +112,16 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
     } = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
     const t = i18n();
+    const antTableRef = React.useRef<TableRef>(null);
+
+    React.useImperativeHandle(tableRef, () => ({
+        scrollTo: (index: number) => {
+            const rowHeight = antTableRef.current?.nativeElement.querySelector(".ant-table-row")?.getBoundingClientRect().height;
+            if (rowHeight) {
+                antTableRef.current?.scrollTo({top: rowHeight * index});
+            }
+        },
+    }));
 
     const hasUniqueSortingColumn = () => columns.some(_ => _.sortField === true);
 
@@ -206,7 +220,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
                 </div>
             )}
             <AntTable
-                ref={tableRef}
+                ref={antTableRef}
                 dataSource={dataSource}
                 tableLayout="auto"
                 locale={{emptyText: emptyTextNode}}
