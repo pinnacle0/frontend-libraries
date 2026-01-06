@@ -13,7 +13,7 @@ export type {VirtualTableProps, VirtualTableColumns} from "./type";
  * Antd Table's scrollX behaviour is different from scrollY
  *
  * scrollY:
- * the height of the scrollable(visible/rendered) container 
+ * the height of the scrollable (visible/rendered) container
  * If scrollY > container height, it will overflow the container
  * We cannot use overflow: hidden on container since it will cause the last few rows to be hidden
  *
