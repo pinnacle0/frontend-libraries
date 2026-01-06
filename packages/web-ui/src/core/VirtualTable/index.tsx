@@ -64,7 +64,7 @@ export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType ext
 
     const scrollX = React.useMemo(() => {
         if ("scrollX" in restProps) return restProps.scrollX;
-        restProps.columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
+        return restProps.columns.reduce((acc, column) => acc + (column.hidden ? 0 : column.width), 0);
     }, [restProps]);
 
     const emptyElement = <div style={{height: scrollY}}>{emptyPlaceholder || "暂无数据"}</div>;
