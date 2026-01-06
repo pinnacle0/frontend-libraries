@@ -13,11 +13,12 @@ export type {VirtualTableProps, VirtualTableColumns} from "./type";
  * Antd Table's scrollX behaviour is different from scrollY
  *
  * scrollY:
- * the height of the scrollable container (ignoring the container height) which will cause overflow
- * We cannot use overflow: hidden since it will cause the last few rows to be hidden
+ * the height of the scrollable(visible/rendered) container 
+ * If scrollY > container height, it will overflow the container
+ * We cannot use overflow: hidden on container since it will cause the last few rows to be hidden
  *
  * scrollX:
- * It is the total of column width of the table
+ * It is the total of column width of all columns that are not hidden
  * If scrollX > all columns width, all columns will be expanded and lose the width property
  * In order to calculate the scrollX, we need to sum up the width of all columns
  *
