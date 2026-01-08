@@ -1,6 +1,6 @@
 import React from "react";
-import {ReactUtil} from "../../../util/ReactUtil";
-import {classNames} from "../../../util/ClassNames";
+import {ReactUtil} from "../../util/ReactUtil";
+import {classNames} from "../../util/ClassNames";
 import type {VirtualTableColumn, ColumnsStickyPosition} from "./type";
 
 interface Props<RowType extends object> {

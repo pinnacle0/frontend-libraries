@@ -1,5 +1,5 @@
 import React from "react";
-import {ArrayUtil} from "../../../../internal/ArrayUtil";
+import {ArrayUtil} from "../../../internal/ArrayUtil";
 import type {VirtualTableColumn, ColumnsStickyPosition} from "../type";
 
 export const useColumnsStickyPosition = <RowType extends object>(columns: VirtualTableColumn<RowType>[], columnWidths: number[]): ColumnsStickyPosition => {
