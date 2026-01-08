@@ -5,6 +5,7 @@ import {Table} from "../Table";
 import "./index.less";
 import {useResizeObserver} from "../../hooks/useResizeObserver";
 import type {VirtualTableProps} from "./type";
+import {useDebounce} from "../../hooks/useDebounce";
 
 export type {TableRowSelection as VirtualTableRowSelection, TableHandler as VirtualTableHandler} from "../Table";
 export type {VirtualTableProps, VirtualTableColumns} from "./type";
@@ -25,28 +26,30 @@ export type {VirtualTableProps, VirtualTableColumns} from "./type";
  * If scrollX is not provided, all column must provide width, ref: ./type.ts
  */
 export const VirtualTable = ReactUtil.memo("VirtualTable", function <RowType extends object>(props: VirtualTableProps<RowType>) {
-    const {dataSource, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, ...restProps} = props;
+    const {dataSource, className, width = "100%", scrollY: propScrollY, emptyPlaceholder, debounceDelay = 0, ...restProps} = props;
     const [scrollY, setScrollY] = React.useState(propScrollY ?? 300);
     const [headerHeight, setHeaderHeight] = React.useState(0);
     const containerRef = React.useRef<HTMLDivElement>(null);
+
+    const updateScrollY = useDebounce((entries: ResizeObserverEntry[]) => {
+        const parentHeight = entries[0].contentRect.height;
+        let newScrollY = Math.max(0, parentHeight - headerHeight);
+        if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
+        setScrollY(newScrollY);
+    }, debounceDelay);
 
     React.useEffect(() => {
         const parent = containerRef.current?.parentElement;
         if (!parent) return;
 
-        const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-            const parentHeight = entries[0].contentRect.height;
-            let newScrollY = Math.max(0, parentHeight - headerHeight);
-            if (propScrollY) newScrollY = Math.min(newScrollY, propScrollY);
-            setScrollY(newScrollY);
-        });
+        const observer = new ResizeObserver(updateScrollY);
 
         observer.observe(parent);
         return () => {
             observer.unobserve(parent);
             observer.disconnect();
         };
-    }, [propScrollY, headerHeight]);
+    }, [headerHeight, updateScrollY]);
 
     // Need to listen to header change onMount so we can calculate the scrollY correctly
     const headerRef = useResizeObserver(({height}) => {

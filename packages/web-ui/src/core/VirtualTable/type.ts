@@ -9,6 +9,7 @@ export type VirtualTableColumns<RowType extends object, UseScrollX = false> = Us
 interface VirtualTableBaseProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "columns" | "scrollX" | "scrollY"> {
     width?: number | string;
     scrollY?: number;
+    debounceDelay?: number;
 }
 
 interface VirtualTablePropsWithScrollX<RowType extends object> extends VirtualTableBaseProps<RowType> {
