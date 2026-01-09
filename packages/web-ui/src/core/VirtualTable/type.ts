@@ -1,49 +1,24 @@
-type ColumnIndex = number;
+import type {TableColumn, TableProps} from "../Table";
 
-export type ColumnFixedPosition = "left" | "right";
-
-export interface StickyPosition {
-    value: number;
-    isLast: boolean;
+interface TableColumnWithWidth<RowType extends object> extends Omit<TableColumn<RowType>, "width"> {
+    width: number;
 }
 
-export type ColumnsStickyPosition = Record<ColumnIndex, StickyPosition>;
+export type VirtualTableColumns<RowType extends object, UseScrollX = false> = UseScrollX extends true ? TableColumn<RowType>[] : TableColumnWithWidth<RowType>[];
 
-/**
- * Similar usage of Antd Table but only support partial features: fixed columns, row selection, on row click
- */
-export type VirtualTableRowSelection<RowType extends object> = {
-    width: number;
-    selectedRowKeys: React.Key[];
-    onChange: (selectedRowKeys: React.Key[], selectedRows: RowType[]) => void;
-    /**
-     * Can only sticky in left
-     */
-    fixed?: boolean;
-    isDisabled?: (data: RowType, rowIndex: number) => boolean;
-    isSelectAllDisabled?: boolean;
-    /**
-     * Attention:
-     * If title is provided, the select all checkbox wil be overridden
-     */
-    title?: React.ReactElement | string | number | null;
-};
+interface VirtualTableBaseProps<RowType extends object> extends Omit<TableProps<RowType, undefined>, "columns" | "scrollX" | "scrollY"> {
+    width?: number | string;
+    scrollY?: number;
+    debounceDelay?: number;
+}
 
-export type VirtualTableColumn<RowType extends object> = {
-    title: React.ReactElement | string | number;
-    width: number;
-    /**
-     * Attention:
-     * If renderData return null, the corresponding table cell will not render
-     */
-    renderData: (record: RowType, rowIndex: number) => React.ReactNode | undefined;
-    align?: "left" | "right" | "center";
-    display?: "default" | "hidden";
-    fixed?: "left" | "right";
-    /**
-     * Attention:
-     * The overridden cell should return null in renderData props:
-     * e.g. [{colSpan: 3, renderData: () => <div />}, {renderData: () => null}], {renderData: () => null}
-     */
-    colSpan?: (record: RowType, rowIndex: number, colIndex: number) => number;
-};
+interface VirtualTablePropsWithScrollX<RowType extends object> extends VirtualTableBaseProps<RowType> {
+    columns: VirtualTableColumns<RowType, true>;
+    scrollX: number;
+}
+
+interface VirtualTablePropsWithColumnWidth<RowType extends object> extends VirtualTableBaseProps<RowType> {
+    columns: VirtualTableColumns<RowType, false>;
+}
+
+export type VirtualTableProps<RowType extends object> = VirtualTablePropsWithScrollX<RowType> | VirtualTablePropsWithColumnWidth<RowType>;
