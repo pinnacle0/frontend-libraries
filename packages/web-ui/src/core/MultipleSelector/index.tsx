@@ -44,6 +44,7 @@ export const MultipleSelector = ReactUtil.memo("MultipleSelector", <RowType exte
         popoverClassName,
         popoverStyle,
         popoverOpen,
+        renderPopover,
         onPopoverOpenChange,
         onPopoverFirstRender,
         dataSource,
@@ -86,30 +87,26 @@ export const MultipleSelector = ReactUtil.memo("MultipleSelector", <RowType exte
         }
     };
 
-    const renderPopover = () => {
-        return (
-            <TablePopover
-                dataSource={dataSource}
-                columns={tableColumns}
-                rowKey={rowKey}
-                value={value}
-                onChange={onChange}
-                onFirstRender={onPopoverFirstRender}
-                selectionDisabled={disabled === "table"}
-                scrollY={scrollY || 500}
-            >
-                {renderPopover}
-            </TablePopover>
-        );
-    };
-
     return (
         <div className="g-multiple-selector">
             {renderSelectedItems()}
             <Popover
                 placement={popoverPlacement || "bottomLeft"}
                 trigger="click"
-                content={renderPopover()}
+                content={
+                    <TablePopover
+                        dataSource={dataSource}
+                        columns={tableColumns}
+                        rowKey={rowKey}
+                        value={value}
+                        onChange={onChange}
+                        onFirstRender={onPopoverFirstRender}
+                        selectionDisabled={disabled === "table"}
+                        scrollY={scrollY || 500}
+                    >
+                        {renderPopover}
+                    </TablePopover>
+                }
                 classNames={{root: popoverClassName}}
                 styles={{root: popoverStyle}}
                 open={popoverOpen}
