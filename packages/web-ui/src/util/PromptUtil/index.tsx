@@ -1,6 +1,5 @@
 import React from "react";
 import {ModalUtil} from "../ModalUtil";
-import type {PromptBodyHandler} from "./PromptBody";
 import {PromptBody} from "./PromptBody";
 import {i18n} from "../../internal/i18n/util";
 
@@ -21,7 +20,7 @@ export interface PromptConfig {
 function createAsync(config: PromptConfig): Promise<PromptResult> {
     const t = i18n();
     return new Promise<PromptResult>(resolve => {
-        const ref = React.useRef<PromptBodyHandler>(null);
+        const ref: React.RefObject<PromptBody | null> = React.createRef();
         ModalUtil.createSync({
             title: config.title,
             body: <PromptBody {...config} ref={ref} />,
