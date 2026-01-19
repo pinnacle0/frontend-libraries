@@ -6,6 +6,7 @@
  *
  * therefore, if there are any popstate event fired within 300ms after above scenarios, it recognized as a native swipe back pop event
  */
+// TODO: test if work now
 export function createSafariEdgeSwipeDetector() {
     let isForwardSwipe = false;
     const isBackwardSwipe = new TimeoutFalseValue(200);

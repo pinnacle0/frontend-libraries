@@ -39,6 +39,7 @@ body {
         }
     }
 
+    // only hide the content inside the screen, not the screen itself, otherwise the screen swipe back animation will disappear
     &:nth-last-child(2):not(.animating) > * {
         display: none !important;
     }
