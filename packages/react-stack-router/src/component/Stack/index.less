@@ -39,6 +39,10 @@ body {
         }
     }
 
+    &:nth-last-child(2):not(.animating) > * {
+        display: none;
+    }
+
     &:not(:last-of-type) {
         pointer-events: none;
     }

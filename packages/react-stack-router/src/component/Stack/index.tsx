@@ -15,6 +15,8 @@ interface StackProps {
 
 export function Stack({router, className, style}: StackProps) {
     const [screens, setScreens] = useState<Screen[]>([]);
+    const [animating, setAnimating] = useState<boolean>(false);
+
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
     useLayoutEffect(() => {
@@ -40,7 +42,7 @@ export function Stack({router, className, style}: StackProps) {
 
                     return (
                         <Animated.div
-                            className={classNames("g-stack-router-screen", {overlay: index > 0})}
+                            className={classNames("g-stack-router-screen", {overlay: index > 0, animating})}
                             style={
                                 index === screens.length - 2
                                     ? {transform: "translate3d(-100px, 0, 0)"}
@@ -51,10 +53,22 @@ export function Stack({router, className, style}: StackProps) {
                             key={screen.location.key}
                             enter={() => screen.transition.enteringKeyframes}
                             exit={() => screen.transition.exitingKeyframes}
-                            onEntering={() => screen.lifecycle.trigger("willEnter")}
-                            onEntered={() => screen.lifecycle.trigger("didEnter")}
-                            onExiting={() => screen.lifecycle.trigger("willExit")}
-                            onExited={() => screen.lifecycle.trigger("didExit")}
+                            onEntering={() => {
+                                setAnimating(true);
+                                screen.lifecycle.trigger("willEnter");
+                            }}
+                            onEntered={() => {
+                                setAnimating(false);
+                                screen.lifecycle.trigger("didEnter");
+                            }}
+                            onExiting={() => {
+                                setAnimating(true);
+                                screen.lifecycle.trigger("willExit");
+                            }}
+                            onExited={() => {
+                                setAnimating(false);
+                                screen.lifecycle.trigger("didExit");
+                            }}
                         >
                             <RouteContext.Provider value={context}>
                                 <screen.content {...context} />
