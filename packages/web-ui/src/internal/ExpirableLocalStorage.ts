@@ -28,6 +28,13 @@ export class ExpirableLocalStorage {
     }
 
     /**
+     * clear all keys
+     */
+    clearAll(): void {
+        this.clear(Object.keys(this.storage).filter(key => key.startsWith(ExpirableLocalStorage.PREFIX)));
+    }
+
+    /**
      * set boolean value
      * @param key storage key
      * @param value boolean value
