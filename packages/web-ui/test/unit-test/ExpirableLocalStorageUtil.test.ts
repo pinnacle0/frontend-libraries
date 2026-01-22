@@ -69,4 +69,20 @@ describe("ExpirableLocalStorageUtil", () => {
         // pruned key because the new expiredTimestamp is expired
         expect(Object.keys(localStorage).includes("@@EXPIRABLE/Object")).toEqual(false);
     });
+
+    test("clear", () => {
+        const key = "clear";
+        const value = "test";
+        const defaultValue = "default";
+
+        const currentTimestamp = new Date().getTime();
+        const nonExpiredTimestamp = currentTimestamp + 1000;
+
+        ExpirableLocalStorageUtil.setString(key, value, nonExpiredTimestamp);
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${key}`)).toEqual(true);
+
+        ExpirableLocalStorageUtil.clear(key);
+        expect(Object.keys(localStorage).includes(`@@EXPIRABLE/${key}`)).toEqual(false);
+        expect(ExpirableLocalStorageUtil.getString(key, defaultValue)).toEqual(defaultValue);
+    });
 });

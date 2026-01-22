@@ -28,10 +28,19 @@ export class ExpirableLocalStorage {
     }
 
     /**
+     * clear keys
+     * @param keys keys to clear
+     */
+    clear(keys: string | string[]): void {
+        const keysToClear: string[] = typeof keys === "string" ? [this.canonicalKey(keys)] : keys.map(this.canonicalKey);
+        this.internalClear(keysToClear);
+    }
+
+    /**
      * clear all keys
      */
     clearAll(): void {
-        this.clear(Object.keys(this.storage).filter(key => key.startsWith(ExpirableLocalStorage.PREFIX)));
+        this.internalClear(Object.keys(this.storage).filter(key => key.startsWith(ExpirableLocalStorage.PREFIX)));
     }
 
     /**
@@ -239,7 +248,11 @@ export class ExpirableLocalStorage {
         this.storage.setItem(key, JSON.stringify(data));
     }
 
-    private clear(keys: string[]): void {
+    /**
+     * internal clear (keys should be canonical keys)
+     * @param keys keys to clear
+     */
+    private internalClear(keys: string[]): void {
         try {
             keys.forEach(key => this.storage.removeItem(key));
         } catch {
@@ -261,7 +274,7 @@ export class ExpirableLocalStorage {
                 return this.now() > expiryTimestamp;
             });
 
-            this.clear(expiredKeys);
+            this.internalClear(expiredKeys);
         } catch {
             // Do nothing
         }
