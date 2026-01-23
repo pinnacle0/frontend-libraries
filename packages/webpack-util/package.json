@@ -30,7 +30,7 @@
         "react-refresh": "0.18.0",
         "socks-proxy-agent": "8.0.5",
         "style-loader": "4.0.0",
-        "swc-plugin-core-fe-hmr": "1.0.8",
+        "swc-plugin-core-fe-hmr": "1.0.10",
         "ts-checker-rspack-plugin": "1.2.4",
         "yargs": "17.7.2"
     },
