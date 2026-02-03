@@ -1,4 +1,7 @@
 /**
+ *
+ * Safari edge swipe itself have animation, so we need to detect and cancel our own animation otherwise the animation plays twice
+ *
  * Aim at detect popstate event triggered by mobile Safari edge swipe gesture
  *
  * for left edge swipe (back): clientX of touchend event is always be a negative value
@@ -6,7 +9,6 @@
  *
  * therefore, if there are any popstate event fired within 300ms after above scenarios, it recognized as a native swipe back pop event
  */
-// TODO: test if work now
 export function createSafariEdgeSwipeDetector() {
     let isForwardSwipe = false;
     const isBackwardSwipe = new TimeoutFalseValue(200);

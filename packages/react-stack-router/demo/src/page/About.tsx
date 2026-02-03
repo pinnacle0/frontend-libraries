@@ -1,6 +1,5 @@
-import {useDidEnterEffect, useDidExitEffect, useHash, useLocation, useLocationState, useSearchParams, useWillEnterEffect, useWillExitEffect} from "@pinnacle0/react-stack-router";
+import {useHash, useLocation, useLocationState, useSearchParams} from "@pinnacle0/react-stack-router";
 import {Back} from "../component/Back";
-import {useEffect, useState} from "react";
 import {router} from "../router";
 
 export const About = () => {
@@ -17,22 +16,6 @@ export const About = () => {
         document.body.style.backgroundColor = "maroon";
     });
 
-    useWillEnterEffect(() => {
-        console.info("about page will enter");
-    });
-
-    useDidEnterEffect(() => {
-        console.info("about page did enter");
-    });
-
-    useWillExitEffect(() => {
-        console.info("about page will exit");
-    });
-
-    useDidExitEffect(() => {
-        console.info("about page did exit");
-    });
-
     return (
         <div style={{flex: 1, background: "maroon", color: "#fff", overscrollBehaviorY: "none", overflow: "hidden"}}>
             <div style={{height: "100%", overflowY: "auto"}}>
@@ -44,7 +27,8 @@ export const About = () => {
                 <button
                     onClick={() => {
                         setState({count: count + 1});
-                    }}>
+                    }}
+                >
                     local state count: {count}
                 </button>
                 <br />

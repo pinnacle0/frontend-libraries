@@ -1,6 +1,5 @@
 import {useEffect, useLayoutEffect, useState} from "react";
 import classNames from "classnames";
-import {AnimatePresence, Animated} from "../Animated";
 import {RouteContext} from "../../context";
 import type {CSSProperties} from "react";
 import type {Screen} from "../../screen";
@@ -15,7 +14,6 @@ interface StackProps {
 
 export function Stack({router, className, style}: StackProps) {
     const [screens, setScreens] = useState<Screen[]>([]);
-    const [animating, setAnimating] = useState<boolean>(false);
 
     useEffect(() => router.subscribe(_ => setScreens([..._])), [router]);
 
@@ -31,52 +29,21 @@ export function Stack({router, className, style}: StackProps) {
 
     return (
         <div className={classNames("g-stack-router", className)} style={style}>
-            <AnimatePresence>
-                {screens.map((screen, index) => {
-                    const context: RouteContext = {
-                        location: screen.location,
-                        lifecycle: screen.lifecycle,
-                        params: screen.params,
-                        searchParams: screen.searchParams,
-                    };
+            {screens.map((screen, index) => {
+                const context: RouteContext = {
+                    location: screen.location,
+                    params: screen.params,
+                    searchParams: screen.searchParams,
+                };
 
-                    return (
-                        <Animated.div
-                            className={classNames("g-stack-router-screen", {overlay: index > 0, animating})}
-                            style={
-                                index === screens.length - 2
-                                    ? {transform: "translate3d(-100px, 0, 0)"}
-                                    : index === screens.length - 1 && router.isSafariEdgeSwipeBackwardPop()
-                                      ? {transition: "none"}
-                                      : undefined
-                            }
-                            key={screen.location.key}
-                            enter={() => screen.transition.enteringKeyframes}
-                            exit={() => screen.transition.exitingKeyframes}
-                            onEntering={() => {
-                                setAnimating(true);
-                                screen.lifecycle.trigger("willEnter");
-                            }}
-                            onEntered={() => {
-                                setAnimating(false);
-                                screen.lifecycle.trigger("didEnter");
-                            }}
-                            onExiting={() => {
-                                setAnimating(true);
-                                screen.lifecycle.trigger("willExit");
-                            }}
-                            onExited={() => {
-                                setAnimating(false);
-                                screen.lifecycle.trigger("didExit");
-                            }}
-                        >
-                            <RouteContext.Provider value={context}>
-                                <screen.content {...context} />
-                            </RouteContext.Provider>
-                        </Animated.div>
-                    );
-                })}
-            </AnimatePresence>
+                return (
+                    <div className={classNames("g-stack-router-screen", index === screens.length - 1 ? router.transitionType : undefined, {overlay: index > 0})} key={screen.location.key}>
+                        <RouteContext.Provider value={context}>
+                            <screen.content {...context} />
+                        </RouteContext.Provider>
+                    </div>
+                );
+            })}
         </div>
     );
 }

@@ -43,7 +43,8 @@ export const Home = () => {
                         await push("/game/456");
                         await push("/game/7809");
                         console.info("after enter");
-                    }}>
+                    }}
+                >
                     Push multiple game/:id using useNavigate() with async
                 </button>
                 <button onClick={popAll}>Pop All</button>

@@ -1,8 +1,7 @@
-import {use, useCallback, useEffect, useLayoutEffect, useMemo, useRef} from "react";
+import {use, useCallback, useEffect, useMemo, useRef} from "react";
 import {RouteContext, RouterContext} from "./context";
 import type {History} from "history";
 import type {LocationState, Location} from "./type";
-import type {LifecycleHook} from "./screen/lifecycle";
 
 /**
  * Route History hooks
@@ -64,26 +63,3 @@ export const useLocationMatch = (callback: LocationMatchCallback) => {
         }
     }, [location, currentLocation.key]);
 };
-
-/**
- * Screen lifecycle hooks
- */
-
-export const useWillEnterEffect = (callback: () => any) => useLifecycle("willEnter", callback);
-
-export const useDidEnterEffect = (callback: () => any) => useLifecycle("didEnter", callback);
-
-export const useWillExitEffect = (callback: () => any) => useLifecycle("willExit", callback);
-
-export const useDidExitEffect = (callback: () => any) => useLifecycle("didExit", callback);
-
-function useLifecycle(hook: LifecycleHook, callback: () => void) {
-    const {lifecycle} = use(RouteContext);
-    const callbackRef = useRef(callback);
-    callbackRef.current;
-
-    useLayoutEffect(() => {
-        const unsubscribe = lifecycle.attach(hook, () => callbackRef.current());
-        return () => unsubscribe();
-    }, [hook, lifecycle]);
-}
