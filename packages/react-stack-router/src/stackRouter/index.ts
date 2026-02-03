@@ -3,20 +3,14 @@ import {Route, formatPath} from "../route";
 import {Screen} from "../screen";
 import {createKey, invariant} from "../util";
 import {createStackHistory} from "./stackHistory";
-import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 import type React from "react";
 import type {History, Update, To, Key} from "history";
 import type {LocationState, Location, PushOption, ReplaceOption} from "../type";
 import type {Match} from "../route";
 import type {StackHistory} from "./stackHistory";
-import type {TransitionType} from "../screen/transition";
+import {createSafariEdgeSwipeDetector} from "./safariEdgeSwipeDetector";
 
 export type Subscriber = (screens: Screen[]) => void;
-
-type TransitionOption = {
-    type: TransitionType;
-    duration: number;
-};
 
 type InternalLocationState<S extends LocationState> = {
     $key: Key;
@@ -33,7 +27,10 @@ export type StackRouterOptions = {
     transitionDuration: number;
 };
 
-type InitializeState = "Initialized" | "Initializing" | "Uninitialized";
+export type TransitionType = "entering" | "exiting" | "none";
+
+// TODO: maybe a bit redundant, try simplify it if possible
+type InitializeState = "Initialized" | "SettingUpInitialStack" | "Initializing" | "Uninitialized";
 
 export class StackRouter {
     private actionsBeforeInitialized: (() => void)[] = [];
@@ -41,16 +38,15 @@ export class StackRouter {
     private screens: Screen[] = [];
     private stackHistory: StackHistory<InternalLocationState<any>>;
     private subscribers = new Set<Subscriber>();
-    private route = new Route<StackRoutePayload>();
     private safariEdgeSwipeDetector = createSafariEdgeSwipeDetector();
-    private transitionDuration: number;
+    private route = new Route<StackRoutePayload>();
 
     private pushOption = new Snapshot<PushOption>();
     private resolve = new Snapshot<() => void>();
+    transitionType: TransitionType = "none";
 
     constructor(options: StackRouterOptions) {
         this.stackHistory = createStackHistory(options.history);
-        this.transitionDuration = options.transitionDuration;
     }
 
     async initialize() {
@@ -75,14 +71,16 @@ export class StackRouter {
             segments.pop();
         }
         this.stackHistory.listen(this.handler.bind(this));
-        this.state = "Initialized";
+        this.transitionType = "none";
+        this.state = "SettingUpInitialStack";
         await Promise.all(
             stack.map((to, index) => {
                 // need to re-write the key of last state
                 const state = index === stack.length - 1 ? {...defaultState, $key: createKey()} : {};
-                return index === 0 ? this.replace(to, {state}) : this.push(to, {transitionType: "exiting", state});
+                return index === 0 ? this.replace(to, {state}) : this.push(to, {state});
             })
         );
+        this.state = "Initialized";
         this.actionsBeforeInitialized.forEach(action => action());
         this.actionsBeforeInitialized = [];
     }
@@ -103,7 +101,7 @@ export class StackRouter {
     }
 
     async push(to: To, option?: PushOption): Promise<void> {
-        if (this.state !== "Initialized") {
+        if (this.state === "Initializing" || this.state === "Uninitialized") {
             this.actionsBeforeInitialized.push(() => this.push(to, option));
             return;
         }
@@ -137,7 +135,7 @@ export class StackRouter {
     }
 
     replace(to: To, option?: ReplaceOption): void {
-        if (this.state !== "Initialized") {
+        if (this.state === "Initializing" || this.state === "Uninitialized") {
             this.actionsBeforeInitialized.push(() => this.replace(to, option));
             return;
         }
@@ -184,63 +182,57 @@ export class StackRouter {
         return matched;
     }
 
-    private createScreen(location: Location, transitionOption: Required<TransitionOption>): Screen {
+    private createScreen(location: Location): Screen {
         const matchedRoute = this.validateRoute(location.pathname);
         return new Screen({
             content: matchedRoute.payload.component,
             location,
             params: matchedRoute.params,
             searchParams: Object.fromEntries(new URLSearchParams(location.search)),
-            transition: {
-                type: transitionOption.type,
-                duration: transitionOption.duration,
-            },
         });
     }
 
-    private pushScreen(location: Location, transition: TransitionType): void {
-        const option = this.pushOption.value;
+    private pushScreen(location: Location, transitionType: TransitionType): void {
         const resolve = this.resolve.value;
 
-        const screen = this.createScreen(location, {type: option?.transitionType ?? transition, duration: option?.transitionDuration ?? this.transitionDuration});
-        resolve && screen.lifecycle.attachOnce("didEnter", resolve);
+        this.transitionType = transitionType;
+        const screen = this.createScreen(location);
+        resolve?.();
         this.screens.push(screen);
         this.notify();
     }
 
-    private popScreen(transition: TransitionType) {
+    private popScreen(transitionType: TransitionType) {
         const resolve = this.resolve.value;
+        this.transitionType = transitionType;
         const top = this.getTopScreen();
-
         if (!top) {
             resolve?.();
             return;
         }
 
-        top.transition.update(transition);
         this.screens.pop();
-        top.lifecycle.attachOnce("didExit", () => resolve?.());
+        resolve?.();
         this.notify();
     }
 
     private replaceScreen(location: Location) {
-        const top = this.getTopScreen();
-
-        top?.transition.update("none");
+        this.transitionType = "none";
         this.screens.pop();
 
-        const screen = this.createScreen(location, {type: "exiting", duration: this.transitionDuration});
+        const screen = this.createScreen(location);
         this.screens.push(screen);
         this.notify();
     }
 
     private handler({action, location}: Update) {
+        // safari edge swipe itself have animation, so we need to set the transition type to cancel our own animation otherwise the animation plays twice
         switch (action) {
             case Action.Push:
-                this.pushScreen(location as any, this.safariEdgeSwipeDetector.isForwardPop ? "none" : "both");
+                this.pushScreen(location as any, this.state === "SettingUpInitialStack" || this.safariEdgeSwipeDetector.isForwardPop ? "none" : "entering");
                 break;
             case Action.Pop:
-                this.popScreen(this.safariEdgeSwipeDetector.isBackwardPop ? "none" : "both");
+                this.popScreen(this.state === "SettingUpInitialStack" || this.safariEdgeSwipeDetector.isBackwardPop ? "none" : "exiting");
                 break;
             case Action.Replace:
                 this.replaceScreen(location as any);

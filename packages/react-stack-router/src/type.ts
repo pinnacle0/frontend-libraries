@@ -1,8 +1,6 @@
 import type React from "react";
 import type {To, Location as HistoryLocation} from "history";
 import type {RouteProps} from "./component/Route";
-import type {TransitionType} from "./screen/transition";
-import type {Lifecycle} from "./screen/lifecycle";
 
 export type LocationState = Record<string, any>;
 export type Path = string | To;
@@ -13,8 +11,6 @@ export type Location<S extends Record<string, any> = Record<string, any>> = Omit
 
 export interface PushOption {
     state?: LocationState | undefined;
-    transitionType?: TransitionType;
-    transitionDuration?: number;
 }
 
 export interface ReplaceOption {
@@ -37,5 +33,4 @@ export interface RouteRenderProps<Params extends Record<string, string>, SearchP
     location: Location<State>;
     params: Params;
     searchParams: SearchParams;
-    lifecycle: Lifecycle;
 }

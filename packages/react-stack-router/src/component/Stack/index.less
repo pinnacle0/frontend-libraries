@@ -15,36 +15,66 @@ body {
     flex: 1 0 auto;
 }
 
+@keyframes enter {
+    from {
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes exit {
+    from {
+        transform: translate3d(-300px, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
 .g-stack-router-screen {
     display: flex;
     flex-flow: column nowrap;
     flex: 1 0 auto;
-    transition: transform 400ms cubic-bezier(0.05, 0.74, 0.3, 1.01);
-    will-change: transform;
+    overflow: visible;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+    }
 
     &.overlay {
         width: 100%;
         height: 100%;
         top: 0;
         position: fixed;
-        overflow-y: hidden;
         box-shadow:
             rgb(50 50 93 / 25%) 0 50px 100px -20px,
             rgb(0 0 0 / 30%) 0 30px 60px -30px;
     }
 
-    &:not(:nth-last-child(2)) {
-        &:not(:last-of-type) {
-            display: none;
-        }
+    &.entering {
+        animation: enter 200ms;
     }
 
-    // only hide the content inside the screen, not the screen itself, otherwise the screen swipe back animation will disappear
-    &:nth-last-child(2):not(.animating) > * {
-        display: none !important;
+    &.exiting {
+        animation: exit 200ms;
     }
 
     &:not(:last-of-type) {
         pointer-events: none;
+
+        // only hide the content inside the screen, not the screen itself, otherwise the screen swipe back animation will disappear
+        > * {
+            display: none !important;
+        }
     }
 }
