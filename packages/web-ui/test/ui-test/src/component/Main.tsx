@@ -9,7 +9,7 @@ import {MessageUtil} from "@pinnacle0/web-ui/util/MessageUtil";
 
 const badges = {
     "/core/button": 4000,
-    "/admin/table-page": 30,
+    "/admin/table-page": [30, 10],
     "/admin/result-page": 9,
 };
 

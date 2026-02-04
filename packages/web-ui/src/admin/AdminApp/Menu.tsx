@@ -8,7 +8,7 @@ import {AdminNavigationUtil} from "../../util/AdminNavigationUtil";
 import type {NavigationGroupItem} from "../../util/AdminNavigationUtil";
 
 interface Badges {
-    [key: string]: number;
+    [key: string]: number | number[];
 }
 interface Props<Feature, Field> {
     siteName: string;
@@ -37,9 +37,11 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
     const shouldAlertNewBadge = React.useCallback(
         (badges: Badges): boolean => {
             for (const [key, badge] of Object.entries(badges)) {
-                if (prevBadges && (prevBadges[key] === undefined || badge > prevBadges[key])) {
-                    return true;
-                }
+                if (!prevBadges) continue;
+
+                if (prevBadges[key] === undefined) return true;
+                if (typeof prevBadges[key] === "number" && typeof badge === "number" && badge > prevBadges[key]) return true;
+                if (Array.isArray(prevBadges[key]) && Array.isArray(badge) && badgeHasUpdate(prevBadges[key], badge)) return true;
             }
             return false;
         },
@@ -47,10 +49,14 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
     );
 
     const calculateTotalBadge = React.useCallback(
-        (badges: {[key: string]: number}): number => {
+        (badges: Badges): number => {
             let totalCount = 0;
             shownNavigationGroups.forEach(({modules}) => {
-                modules.forEach(_ => (totalCount += badges[_.url] || 0));
+                modules.forEach(_ => {
+                    const badge = badges[_.url];
+                    if (typeof badge === "number") totalCount += badge;
+                    if (Array.isArray(badge)) totalCount += badge.reduce((acc, curr) => acc + curr, 0);
+                });
             });
             return totalCount;
         },
@@ -105,10 +111,24 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
         let totalCount = 0;
         const children = groupItem.modules.map(({title, url}) => {
             const count = badges?.[url] || 0;
-            totalCount += count;
+            totalCount += typeof count === "number" ? count : count.reduce((acc, curr) => acc + curr, 0);
+
+            let label: React.ReactNode;
+            if (typeof count === "number") {
+                label = <Badge count={count}>{title}</Badge>;
+            } else if (Array.isArray(count)) {
+                label = (
+                    <div className="g-admin-menu-badge-list">
+                        <span>{title}</span>
+                        {count.map((item, index) => (
+                            <Badge key={index} count={item} />
+                        ))}
+                    </div>
+                );
+            }
 
             return {
-                label: <Badge count={count}>{title}</Badge>,
+                label,
                 key: url,
                 onClick() {
                     history.push(url);
@@ -149,4 +169,12 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
             items={shownNavigationGroups.map(renderMenuGroup)}
         />
     );
+}
+
+function badgeHasUpdate(a: number[], b: number[]): boolean {
+    // assume a.length == b.length
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return true;
+    }
+    return false;
 }

@@ -27,7 +27,7 @@ export interface Props<Feature, Field> {
     NavigatorSideComponent?: React.ComponentType;
     WelcomeComponent?: React.ComponentType;
     sideMenuWidth?: number;
-    badges?: {[key: string]: number};
+    badges?: {[key: string]: number | number[]};
     noBrowserRouter?: boolean;
     onLifecycleError?: (error: unknown, componentStack: string) => void;
     onNotFound?: (notFoundPath: string) => void;

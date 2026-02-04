@@ -132,6 +132,16 @@
         height: ~"calc(100vh - 45px)"; // Minus header height
         overflow-y: auto;
     }
+
+    .ant-menu-item {
+        .g-admin-menu-badge-list {
+            display: flex;
+
+            > .ant-badge {
+                width: 24px;
+            }
+        }
+    }
 }
 
 // Submenu popup is put directly under <body> in collapse mode
