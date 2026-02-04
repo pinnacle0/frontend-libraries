@@ -37,7 +37,7 @@ export interface TableColumn<RowType extends object, OrderByFieldType = undefine
     sortField?: OrderByFieldType | true; // True is used for only 1 columns sorting
     onHeaderClick?: () => void;
     hidden?: boolean;
-    customizedKey?: string;
+    customizedKey?: string | {key: string; defaultValue: boolean};
     onCell?: (data: RowType, index?: number) => React.HTMLAttributes<any> | React.TdHTMLAttributes<any>;
 }
 
@@ -135,7 +135,7 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
             key: index.toString(),
             onHeaderCell: () => ({onClick: onHeaderClick, style: {minHeight: minHeaderHeight}}),
             render: (_: any, record: RowType, index: number) => renderData(record, index),
-            hidden: originalColumn.hidden || (customizedKey ? customizationConfig[customizedKey] === false : false),
+            hidden: originalColumn.hidden || (customizedKey ? customizationConfig[typeof customizedKey === "string" ? customizedKey : customizedKey.key] === false : false),
             ...restColumnProps,
         };
     };
@@ -167,13 +167,16 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
     const renderPopoverContent = () => {
         return columns
             .filter(_ => _.customizedKey && !_.hidden)
-            .map((_, index) => (
-                <div key={index}>
-                    <Checkbox value={customizationConfig[_.customizedKey!] !== false} onChange={checked => onCustomizationConfigChange(checked, _.customizedKey!)}>
-                        {_.title}
-                    </Checkbox>
-                </div>
-            ));
+            .map((_, index) => {
+                const customizedKey = typeof _.customizedKey === "string" ? _.customizedKey : _.customizedKey!.key;
+                return (
+                    <div key={index}>
+                        <Checkbox value={customizationConfig[customizedKey] !== false} onChange={checked => onCustomizationConfigChange(checked, customizedKey)}>
+                            {_.title}
+                        </Checkbox>
+                    </div>
+                );
+            });
     };
 
     const emptyTextNode = loading ? (
@@ -241,10 +244,10 @@ const getStorageKey = (customizedStorageKey?: string) => `table-customization-co
 
 const getCustomizationConfig = <RowType extends object, OrderByFieldType>(props: TableProps<RowType, OrderByFieldType>, storageKey: string) => {
     const columnsCustomizedKeyList = ArrayUtil.compactMap(props.columns, _ => _.customizedKey || null);
-    const defaultConfig = ArrayUtil.toObject(columnsCustomizedKeyList, key => [key, true]);
+    const defaultConfig = ArrayUtil.toObject(columnsCustomizedKeyList, key => [typeof key === "string" ? key : key.key, typeof key === "string" ? true : key.defaultValue]);
     return LocalStorageUtil.getObject(
         storageKey,
         defaultConfig,
-        item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<string, any>)[_] !== undefined)
+        item => typeof item === "object" && !Array.isArray(item) && columnsCustomizedKeyList.some(_ => (item as Record<string, any>)[typeof _ === "string" ? _ : _.key] !== undefined)
     );
 };
