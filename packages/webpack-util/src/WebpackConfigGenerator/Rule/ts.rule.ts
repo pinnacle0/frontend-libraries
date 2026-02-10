@@ -20,7 +20,8 @@ export function tsRule({fastRefresh = false}: Deps = {}): RuleSetRule {
                 transform: {
                     react: {
                         development: fastRefresh,
-                        runtime: "automatic",
+                        // our ub project is using react-router-v5, which is not compatible with automatic runtime, so keep it classic
+                        runtime: "classic",
                         refresh: fastRefresh,
                     },
                     decoratorVersion: "2022-03",
