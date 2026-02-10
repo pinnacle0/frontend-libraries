@@ -20,7 +20,7 @@ export function tsRule({fastRefresh = false}: Deps = {}): RuleSetRule {
                 transform: {
                     react: {
                         development: fastRefresh,
-                        runtime: "classic",
+                        runtime: "automatic",
                         refresh: fastRefresh,
                     },
                     decoratorVersion: "2022-03",
