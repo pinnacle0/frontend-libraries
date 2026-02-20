@@ -7,7 +7,6 @@ minimumReleaseAge: 4320
 minimumReleaseAgeExclude:
     - "@pinnacle0/*"
     - "swc-plugin-core-fe-hmr"
-    - "minimatch"
 onlyBuiltDependencies:
     - "@swc/core"
     - es5-ext
