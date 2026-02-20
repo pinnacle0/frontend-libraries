@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.4.33",
+    "version": "0.4.34",
     "license": "MIT",
     "type": "module",
     "exports": {

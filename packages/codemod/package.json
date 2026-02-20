@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/codemod",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "type": "module",
     "description": "Provide codemod by using babel and recast",
     "main": "build/index.js",
