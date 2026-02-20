@@ -32,7 +32,8 @@
         "style-loader": "4.0.0",
         "swc-plugin-core-fe-hmr": "1.0.10",
         "ts-checker-rspack-plugin": "1.2.4",
-        "yargs": "17.7.2"
+        "yargs": "17.7.2",
+        "webpack": "5.104.1"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
