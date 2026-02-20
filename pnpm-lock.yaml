@@ -252,8 +252,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       minimatch:
-        specifier: 10.2.2
-        version: 10.2.2
+        specifier: 10.0.3
+        version: 10.0.3
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
@@ -8557,7 +8557,7 @@ snapshots:
 
   '@types/minimatch@6.0.0':
     dependencies:
-      minimatch: 10.2.2
+      minimatch: 10.0.3
 
   '@types/node-forge@1.3.14':
     dependencies:

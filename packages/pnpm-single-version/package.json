@@ -34,7 +34,7 @@
         "commander": "14.0.0",
         "find-up": "7.0.0",
         "is-ci": "4.1.0",
-        "minimatch": "10.2.2"
+        "minimatch": "10.0.3"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
