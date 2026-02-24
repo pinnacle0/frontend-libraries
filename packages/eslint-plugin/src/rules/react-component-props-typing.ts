@@ -41,7 +41,7 @@ export const rule = ESLintUtils.RuleCreator(_ => name)<Options, MessageIds>({
 });
 
 function checkComponentClass(context: Readonly<TSESLint.RuleContext<MessageIds, Options>>, classNode: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
-    const propsGenericAnnotation = getRawGenericsOfSuperClass(context, classNode)?.[0] || null;
+    const propsGenericAnnotation = getRawGenericsOfSuperClass(context.sourceCode, classNode)?.[0] || null;
     if (propsGenericAnnotation === null) {
         const componentOrPureComponent = ((classNode.superClass as TSESTree.MemberExpression).property as TSESTree.Identifier).name === "Component" ? "Component" : "PureComponent";
         context.report({

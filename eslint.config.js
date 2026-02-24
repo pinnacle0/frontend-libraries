@@ -40,6 +40,8 @@ export default defineConfig(
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
                 ecmaVersion: "latest",
                 sourceType: "module",
                 ecmaFeatures: {jsx: true},

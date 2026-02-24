@@ -42,6 +42,6 @@
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@types/yargs": "17.0.32"
+        "@types/yargs": "17.0.35"
     }
 }

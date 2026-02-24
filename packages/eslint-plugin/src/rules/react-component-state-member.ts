@@ -50,7 +50,7 @@ function checkClassBody(context: Readonly<TSESLint.RuleContext<MessageIds, Optio
         if (!classElement.static && !classElement.declare && getClassElementName(classElement) === "state") {
             const stateDeclarationSourceCode = context.sourceCode.getText(classElement);
             const constructorEndLocation = classBody.body.find(_ => getClassElementCategory(_) === "constructor")?.range[1];
-            const propsGenericAnnotation = getRawGenericsOfSuperClass(context, classNode)?.[0] || null;
+            const propsGenericAnnotation = getRawGenericsOfSuperClass(context.sourceCode, classNode)?.[0] || null;
             context.report({
                 messageId: "reactComponentStateMember",
                 node: classElement,

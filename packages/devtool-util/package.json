@@ -35,8 +35,8 @@
         "yargs": "17.7.2"
     },
     "optionalDependencies": {
-        "eslint": "^9.35.0",
-        "prettier": "^3.6.2"
+        "eslint": "^10.0.1",
+        "prettier": "^3.8.1"
     },
     "engines": {
         "node": ">=22"
@@ -67,6 +67,6 @@
         }
     },
     "devDependencies": {
-        "@types/yargs": "17.0.32"
+        "@types/yargs": "17.0.35"
     }
 }

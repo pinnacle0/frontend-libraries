@@ -3,6 +3,7 @@ import eslint from "@eslint/js";
 import tsESlint from "typescript-eslint";
 import {defineConfig} from "eslint/config";
 import globals from "globals";
+import path from "path";
 
 export default defineConfig(
     {
@@ -12,6 +13,8 @@ export default defineConfig(
         languageOptions: {
             parser: tsESlint.parser,
             parserOptions: {
+                projectService: true,
+                tsconfigRootDir: path.join(import.meta.dirname, "../"),
                 ecmaVersion: "latest",
                 sourceType: "module",
             },
