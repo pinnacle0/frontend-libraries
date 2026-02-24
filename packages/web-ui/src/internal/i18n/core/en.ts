@@ -18,6 +18,7 @@ export const en = {
     sendAuthCode: "Send",
     waitResendAuthCode: "Resend in {1}s",
     confirmImageRemoval: "Are you sure to remove the image?",
+    imageOversizeAlert: "Image size cannot exceed {1} MB",
     depositPositive: "Add",
     depositNegative: "Minus",
     nextPage: "Next Page",

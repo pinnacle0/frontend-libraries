@@ -6,10 +6,11 @@ import {classNames} from "../../util/ClassNames";
 import {ModalUtil} from "../../util/ModalUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {i18n} from "../../internal/i18n/core";
+import {TextUtil} from "../../internal/TextUtil";
 import type {UploaderProps, UploadSuccessLogEntry} from "../../util/UploadUtil/type";
-import {Uploader} from "../../core/Uploader";
-import {Tooltip} from "../../core/Tooltip";
 import {ReactUtil} from "../../util/ReactUtil";
+import {Uploader} from "../Uploader";
+import {Tooltip} from "../Tooltip";
 import "./index.less";
 
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
@@ -41,7 +42,8 @@ export const ImageUploader = ReactUtil.memo("ImageUploader", <Res, Err>(props: P
     };
 
     const beforeUpload = (file: File): boolean => {
-        if (fileSizeLimitMB && file.size > 1024 * 1024 * fileSizeLimitMB) {
+        if (fileSizeLimitMB && file.size > 1000 * 1000 * fileSizeLimitMB) {
+            ModalUtil.createSync({body: TextUtil.interpolate(t.imageOversizeAlert, fileSizeLimitMB.toString())});
             return false;
         }
         return true;

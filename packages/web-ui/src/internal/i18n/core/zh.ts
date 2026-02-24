@@ -18,6 +18,7 @@ export const zh = {
     sendAuthCode: "发送验证码",
     waitResendAuthCode: "{1}秒后重发",
     confirmImageRemoval: "确定要移除图片吗?",
+    imageOversizeAlert: "图片大小不能超过 {1} MB",
     depositPositive: "充正",
     depositNegative: "冲负",
     nextPage: "下一页",
