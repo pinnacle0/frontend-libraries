@@ -155,6 +155,9 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
+      '@eslint-community/eslint-plugin-eslint-comments':
+        specifier: 4.6.0
+        version: 4.6.0(eslint@10.0.1)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.56.0
         version: 8.56.0(@typescript-eslint/parser@8.56.0(eslint@10.0.1)(typescript@5.9.2))(eslint@10.0.1)(typescript@5.9.2)
@@ -176,9 +179,6 @@ importers:
       eslint-config-prettier:
         specifier: 10.1.8
         version: 10.1.8(eslint@10.0.1)
-      eslint-plugin-eslint-comments:
-        specifier: 3.2.0
-        version: 3.2.0(eslint@10.0.1)
       eslint-plugin-import:
         specifier: 2.32.0
         version: 2.32.0(@typescript-eslint/parser@8.56.0(eslint@10.0.1)(typescript@5.9.2))(eslint@10.0.1)
@@ -958,6 +958,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@eslint-community/eslint-plugin-eslint-comments@4.6.0':
+    resolution: {integrity: sha512-2EX2bBQq1ez++xz2o9tEeEQkyvfieWgUFMH4rtJJri2q0Azvhja3hZGXsjPXs31R4fQkZDtWzNDDK2zQn5UE5g==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
 
   '@eslint-community/eslint-utils@4.9.1':
     resolution: {integrity: sha512-phrYmNiYppR7znFEdqgfWHXR6NCkZEK7hwWDHZUjit/2/U0r6XvkDl0SYnoM51Hq7FhCGdLDT6zxCCOY1hexsQ==}
@@ -6746,6 +6752,12 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.3':
     optional: true
+
+  '@eslint-community/eslint-plugin-eslint-comments@4.6.0(eslint@10.0.1)':
+    dependencies:
+      escape-string-regexp: 4.0.0
+      eslint: 10.0.1
+      ignore: 7.0.5
 
   '@eslint-community/eslint-utils@4.9.1(eslint@10.0.1)':
     dependencies:

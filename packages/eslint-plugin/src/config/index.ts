@@ -15,8 +15,7 @@ import eslintPluginPrettier from "eslint-config-prettier";
 import eslintPluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
-// @ts-expect-error -- untyped module
-import eslintPluginComments from "eslint-plugin-eslint-comments";
+import eslintPluginComments from "@eslint-community/eslint-plugin-eslint-comments";
 import eslintPluginVitest from "@vitest/eslint-plugin";
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
