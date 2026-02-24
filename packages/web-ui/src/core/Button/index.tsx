@@ -10,6 +10,6 @@ export interface Props extends ButtonProps {
     loading?: boolean;
 }
 
-export const Button = ReactUtil.memo("Button", ({className, loading, style, ...rest}: Props) => {
+export const Button = ReactUtil.memo("Button", ({className, loading, ...rest}: Props) => {
     return <AntButton className={classNames("g-button", className)} loading={loading} {...rest} />;
 });
