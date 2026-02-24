@@ -24,7 +24,7 @@ const FilePath = {
 const config = {
     input: [FilePath.rollupInputFile],
     output: [{file: FilePath.rollupOutputFile, format: "esm"}],
-    external: ["typescript", "eslint", /^eslint-.*/, /^@typescript-eslint.*/],
+    external: ["typescript", "eslint", /eslint-plugin-.*/, /^@typescript-eslint.*/],
     plugins: [
         // prettier-ignore
         rollupPluginNodeResolve({preferBuiltins: true}),
