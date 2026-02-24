@@ -35,7 +35,7 @@
         "yargs": "17.7.2"
     },
     "optionalDependencies": {
-        "eslint": "^10.0.1",
+        "eslint": "^9.39.3",
         "prettier": "^3.8.1"
     },
     "engines": {
