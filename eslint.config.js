@@ -53,7 +53,9 @@ export default defineConfig(
             },
         },
         settings: {
-            react: {version: "detect"},
+            // TODO/David: change to {version: "detect"} after eslint-plugin-react upgraded
+            // ref: https://github.com/vercel/next.js/issues/89764#issuecomment-3928272828
+            react: {version: "19"},
         },
         rules: {
             "@typescript-eslint/no-empty-object-type": "off",
