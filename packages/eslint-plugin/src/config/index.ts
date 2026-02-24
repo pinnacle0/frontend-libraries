@@ -5,7 +5,9 @@
 // -----------------------------------------------------------------------------
 
 import eslint from "@eslint/js";
-import tsESlint, {ConfigArray} from "typescript-eslint";
+import tsESlint from "typescript-eslint";
+import {defineConfig, type Config} from "eslint/config";
+import {ESLint} from "eslint";
 import globals from "globals";
 // @ts-expect-error -- untyped module
 import confusingBrowserGlobals from "confusing-browser-globals";
@@ -18,7 +20,6 @@ import eslintPluginComments from "eslint-plugin-eslint-comments";
 import eslintPluginVitest from "@vitest/eslint-plugin";
 import {FlatCompat} from "@eslint/eslintrc";
 import {fixupPluginRules} from "@eslint/compat";
-import type {TSESLint} from "@typescript-eslint/utils";
 
 // TODO/David: remove after all legacy plugin updated
 // ref: https://github.com/import-js/eslint-plugin-import/issues/2948#issuecomment-2148832701
@@ -37,8 +38,8 @@ function legacyPlugin(name: string, alias = name) {
     return fixupPluginRules(plugin);
 }
 
-export const baseline = (plugin: TSESLint.FlatConfig.Plugin): ConfigArray =>
-    tsESlint.config(
+export const baseline = (plugin: ESLint.Plugin): Config[] =>
+    defineConfig(
         {
             extends: [eslint.configs.recommended, tsESlint.configs.eslintRecommended, ...tsESlint.configs.recommended, eslintPluginPrettier, ...compat.extends("plugin:import/typescript")],
             plugins: {
@@ -46,7 +47,7 @@ export const baseline = (plugin: TSESLint.FlatConfig.Plugin): ConfigArray =>
                 "@typescript-eslint": tsESlint.plugin,
                 "@pinnacle0": plugin,
                 react: eslintPluginReact,
-                "react-hooks": eslintPluginReactHooks,
+                "react-hooks": eslintPluginReactHooks as any,
                 "eslint-comments": eslintPluginComments,
             },
             languageOptions: {
@@ -226,7 +227,7 @@ export const baseline = (plugin: TSESLint.FlatConfig.Plugin): ConfigArray =>
         }
     );
 
-export const vitest: ConfigArray = tsESlint.config({
+export const vitest: Config[] = defineConfig({
     plugins: {
         vitest: eslintPluginVitest,
         "testing-library": eslintPluginTestingLibrary,

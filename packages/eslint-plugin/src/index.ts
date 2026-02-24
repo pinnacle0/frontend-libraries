@@ -1,19 +1,22 @@
 import {rules} from "./rules/index.js";
 import {baseline, vitest} from "./config/index.js";
-import type {TSESLint} from "@typescript-eslint/utils";
+import type {Config} from "eslint/config";
+import type {ESLint} from "eslint";
 
-export default (() => {
-    const plugin = {
+const plugin = (() => {
+    const p = {
         configs: {} as {
-            baseline: TSESLint.FlatConfig.ConfigArray;
-            vitest: TSESLint.FlatConfig.ConfigArray;
+            baseline: Config[];
+            vitest: Config[];
         },
-        rules,
+        rules: rules as unknown as ESLint.Plugin["rules"],
         processors: {},
     };
-    Object.assign(plugin.configs, {
-        baseline: baseline(plugin),
+    Object.assign(p.configs, {
+        baseline: baseline(p),
         vitest,
     });
-    return plugin satisfies TSESLint.FlatConfig.Plugin;
-})();
+    return p;
+})() satisfies ESLint.Plugin;
+
+export default plugin;
