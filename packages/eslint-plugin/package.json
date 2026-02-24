@@ -32,7 +32,7 @@
         "eslint-plugin-react-hooks": "7.0.1"
     },
     "peerDependencies": {
-        "eslint": ">=9.34.0"
+        "eslint": ">=10.0.1"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
@@ -49,7 +49,7 @@
         "eslint-plugin-testing-library": "^7.16.0"
     },
     "engines": {
-        "node": ">=22"
+        "node": ">=24"
     },
     "publishConfig": {
         "directory": "build",

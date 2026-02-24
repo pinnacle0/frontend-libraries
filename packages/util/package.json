@@ -13,7 +13,7 @@
         ".": "./src/index.ts"
     },
     "engines": {
-        "node": ">=22"
+        "node": ">=24"
     },
     "scripts": {
         "build": "pnpm tsx script/build.ts",
