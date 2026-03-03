@@ -18,5 +18,16 @@ export const MultipleEnumSelect = ReactUtil.memo("MultipleEnumSelect", <Enum ext
         label: translator ? translator(value) : value.toString(),
     }));
 
-    return <Select mode="multiple" value={value} maxTagCount={maxShownTagCount} onChange={onChange} disabled={disabled} style={style} options={options} showSearch={{optionFilterProp: "label"}} />;
+    return (
+        <Select
+            mode="multiple"
+            value={value as any}
+            maxTagCount={maxShownTagCount}
+            onChange={onChange as any}
+            disabled={disabled}
+            style={style}
+            options={options}
+            showSearch={{optionFilterProp: "label"}}
+        />
+    );
 });

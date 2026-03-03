@@ -1,52 +1,50 @@
 @import url("../../css/variable.less");
 
-.g-image-uploader {
+.g-image-uploader,
+.rc-upload {
     min-width: auto;
+    padding: 0 !important;
 
-    > .ant-upload {
-        padding: 0 !important;
+    .image-container {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center center;
+        position: relative;
 
-        .image-container {
-            height: 100%;
-            width: 100%;
-            background-size: cover;
-            background-position: center center;
-            position: relative;
+        > .overlay {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            justify-content: center;
+            align-items: center;
 
-            > .overlay {
-                display: none;
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                justify-content: center;
-                align-items: center;
+            > .action {
+                @size: 60px;
 
-                > .action {
-                    @size: 60px;
+                margin: 0 6px;
+                width: @size;
+                height: @size;
+                line-height: @size;
+                border-radius: @size;
+                color: #fff;
+                background-color: rgb(0 0 0 / 70%);
+                font-size: 32px;
+                transition: all 300ms;
 
-                    margin: 0 6px;
-                    width: @size;
-                    height: @size;
-                    line-height: @size;
-                    border-radius: @size;
-                    color: #fff;
-                    background-color: rgb(0 0 0 / 70%);
-                    font-size: 32px;
-                    transition: all 300ms;
-
-                    &:hover {
-                        background-color: @lib-main-blue;
-                        transform: scale(1.12);
-                    }
+                &:hover {
+                    background-color: @lib-main-blue;
+                    transform: scale(1.12);
                 }
             }
+        }
 
-            &:hover {
-                > .overlay {
-                    display: flex;
-                }
+        &:hover {
+            > .overlay {
+                display: flex;
             }
         }
     }

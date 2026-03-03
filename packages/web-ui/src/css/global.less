@@ -1,11 +1,27 @@
-@import url("antd/dist/reset.css");
+@import url("./rc-components.less");
+@import url("./antd-theme.less");
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 * {
     font-family: "Microsoft YaHei", Yahei, "Helvetica Neue", Helvetica, Arial, "Segoe UI", Roboto, "Hiragino Sans GB", sans-serif;
 }
 
+html,
+body,
+#app-root {
+    height: 100%;
+}
+
+#app-root {
+    font-size: 14px;
+}
+
 a {
-    // Remove antd pre-set color & animation
     transition: none;
     color: inherit;
     text-decoration: none;
@@ -47,16 +63,15 @@ pre {
 
 del,
 del * {
-    // Without *, tags inside <del> is not deleted (e.g: <del>100.<small>1234</small></del>)
     text-decoration: line-through;
 
     &::before,
     &::after {
-        content: "\00a0"; /* Make line-through looks longer */
+        content: "\00a0";
     }
 }
 
-button {
+button:not(.g-button, .rc-tabs-tab-btn, .rc-tabs-tab-remove, .rc-tabs-nav-more, .rc-tabs-nav-add, .rc-pagination-item, .rc-menu-item, .rc-dialog-close) {
     border: none;
     outline: none;
     background-color: transparent;
@@ -70,32 +85,34 @@ button {
     &:not(:disabled) {
         &:hover {
             cursor: pointer;
-            opacity: 0.82;
         }
     }
 }
 
-.ant-select {
-    // Override ant-select element
-    > span:first-child {
-        display: none !important;
-    }
-}
-
-.ant-radio-group .ant-radio-wrapper,
-.ant-checkbox-group .ant-checkbox-wrapper,
-.ant-checkbox-group.ant-checkbox-group {
-    line-height: unset; // Use parent line height for vertical centering
-}
-
 ::placeholder {
-    color: #ccc;
+    color: rgb(0 0 0 / 25%);
 }
 
-// antd date range picker needConfirm={true} will trigger double focus on the start range panel
-// hide the button by css
-.ant-picker-dropdown.ant-picker-dropdown-range {
-    .ant-picker-footer {
-        display: none;
+@keyframes g-icon-spin {
+    100% {
+        transform: rotate(360deg);
     }
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border-style: none;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
 }

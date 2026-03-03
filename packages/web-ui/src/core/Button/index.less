@@ -1,5 +1,185 @@
-button.ant-btn {
-    .ant-btn-icon.ant-btn-loading-icon {
-        display: none;
+@import url("../../css/variable.less");
+
+.g-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: @ant-radius;
+    outline: none;
+    transition:
+        color 0.2s,
+        background-color 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s;
+    line-height: @ant-line-height;
+    font-size: @ant-font-size;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+    &:not(:disabled):active {
+        opacity: 0.9;
+    }
+
+    // Sizes
+    &.g-button-small {
+        height: @ant-control-height-sm;
+        padding: 0 7px;
+        font-size: @ant-font-size;
+    }
+
+    &.g-button-middle {
+        height: @ant-control-height;
+        padding: 4px 15px;
+        font-size: @ant-font-size;
+    }
+
+    &.g-button-large {
+        height: @ant-control-height-lg;
+        padding: 6.4px 15px;
+        font-size: 16px;
+    }
+
+    // Types
+    &.g-button-default {
+        color: @ant-text;
+        background: @ant-bg;
+        border-color: @ant-border;
+
+        &:not(:disabled):hover {
+            color: @primary-hover;
+            border-color: @primary-hover;
+        }
+
+        &:focus-visible {
+            color: @primary-hover;
+            border-color: @primary-hover;
+            box-shadow: 0 0 0 2px rgb(22 119 255 / 20%);
+        }
+    }
+
+    &.g-button-primary {
+        color: #fff;
+        background: @primary;
+        border-color: @primary;
+
+        &:not(:disabled):hover {
+            background: @primary-hover;
+            border-color: @primary-hover;
+        }
+
+        &:focus-visible {
+            box-shadow: 0 0 0 2px rgb(22 119 255 / 20%);
+        }
+    }
+
+    &.g-button-dashed {
+        color: @ant-text;
+        background: @ant-bg;
+        border-style: dashed;
+        border-color: @ant-border;
+
+        &:not(:disabled):hover {
+            color: @primary-hover;
+            border-color: @primary-hover;
+        }
+
+        &:focus-visible {
+            border-color: @primary-hover;
+            box-shadow: 0 0 0 2px rgb(22 119 255 / 20%);
+        }
+    }
+
+    &.g-button-link {
+        color: @primary;
+        background: transparent;
+        border: none;
+
+        &:not(:disabled):hover {
+            color: @primary-hover;
+        }
+    }
+
+    &.g-button-text {
+        color: @ant-text;
+        background: transparent;
+        border: none;
+
+        &:not(:disabled):hover {
+            color: @primary-hover;
+        }
+    }
+
+    &.g-button-danger {
+        &.g-button-primary {
+            background: @ant-error;
+            border-color: @ant-error;
+
+            &:not(:disabled):hover {
+                background: @ant-error-hover;
+                border-color: @ant-error-hover;
+            }
+        }
+
+        &.g-button-default {
+            &:not(:disabled):hover {
+                color: @ant-error;
+                border-color: @ant-error;
+            }
+        }
+    }
+
+    &.g-button-ghost {
+        &.g-button-primary {
+            color: #fff;
+            background: transparent;
+            border-color: #fff;
+        }
+    }
+
+    &.g-button-block {
+        width: 100%;
+    }
+
+    &.g-button-circle {
+        border-radius: 50%;
+        padding: 0;
+
+        &.g-button-small {
+            width: @ant-control-height-sm;
+            height: @ant-control-height-sm;
+        }
+
+        &.g-button-middle {
+            width: @ant-control-height;
+            height: @ant-control-height;
+        }
+
+        &.g-button-large {
+            width: @ant-control-height-lg;
+            height: @ant-control-height-lg;
+        }
+    }
+
+    &.g-button-round {
+        border-radius: 999px;
+    }
+
+    .g-button-icon {
+        margin-right: 8px;
+        line-height: 0;
+    }
+
+    &.g-button-loading .g-button-icon {
+        margin-right: 8px;
     }
 }

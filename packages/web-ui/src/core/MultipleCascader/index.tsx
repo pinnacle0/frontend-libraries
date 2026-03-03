@@ -1,18 +1,12 @@
 import React from "react";
-import type {DefaultOptionType} from "antd/es/cascader";
-import AntCascader from "antd/es/cascader";
+import RcCascader from "@rc-component/cascader";
 import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
-/**
- * Attention:
- * CascaderDataNode.value must be unique in the whole data tree.
- */
-
 export interface CascaderDataNode<T extends string | number> {
-    label: string; // Label must be unique
+    label: string;
     value: T | Array<CascaderDataNode<T>>;
     disabled?: boolean;
 }
@@ -25,13 +19,20 @@ export interface BaseProps<T extends string | number> {
     disabled?: boolean;
 }
 
+interface DefaultOptionType {
+    label: string;
+    value: string | number;
+    disabled?: boolean;
+    children?: DefaultOptionType[];
+}
+
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T[]> {}
 
 const NON_LEAF_PREFIX = "@@NON_LEAF_";
 
 export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends string | number>({value, placeholder = "", disabled, style, className, onChange, data}: Props<T>) => {
     const getAntValue = (): (string | number)[][] => {
-        const data = getAntDataSource();
+        const data = getDataSource();
         const getCascaderValues = (data: DefaultOptionType[], value: T): Array<string | number> => {
             for (const item of data) {
                 if (item.value === value) {
@@ -49,19 +50,19 @@ export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends st
         return value.map(_ => getCascaderValues(data, _));
     };
 
-    const getAntDataSource = (): DefaultOptionType[] => {
-        const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
+    const getDataSource = (): DefaultOptionType[] => {
+        const getChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map((node, index) => ({
                 label: node.label,
                 disabled: node.disabled,
-                value: Array.isArray(node.value) ? NON_LEAF_PREFIX + `${index}_` + node.label : node.value,
-                children: Array.isArray(node.value) && node.value.length > 0 ? getAntChildren(node.value) : undefined,
+                value: Array.isArray(node.value) ? NON_LEAF_PREFIX + `${index}_` + node.label : (node.value as string | number),
+                children: Array.isArray(node.value) && node.value.length > 0 ? getChildren(node.value) : undefined,
             }));
         };
-        return getAntChildren(data);
+        return getChildren(data);
     };
 
-    const onAntChange = (antValue: (string | number | null)[][]) => {
+    const onCascaderChange = (antValue: (string | number | null)[][]) => {
         const lastNodes = antValue.map(_ => _[_.length - 1]);
         const branches = lastNodes.filter(_ => `${_}`.startsWith(NON_LEAF_PREFIX));
         const leaves = lastNodes.filter(_ => !`${_}`.startsWith(NON_LEAF_PREFIX));
@@ -86,19 +87,18 @@ export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends st
             return [];
         };
 
-        const newData = getAntDataSource();
+        const newData = getDataSource();
         onChange([...leaves, ...branches.flatMap(_ => getLeafValue(newData, _ as string))] as T[]);
     };
 
     return (
-        <AntCascader
-            multiple
+        <RcCascader
+            checkable
             className={classNames("g-multiple-cascader", className)}
-            classNames={{popup: {root: "g-multiple-cascader-popup"}}}
             style={style}
-            value={getAntValue()}
-            onChange={onAntChange}
-            options={getAntDataSource()}
+            value={getAntValue() as any}
+            onChange={onCascaderChange as any}
+            options={getDataSource()}
             placeholder={placeholder}
             disabled={disabled}
             expandTrigger="hover"

@@ -1,5 +1,5 @@
 import React from "react";
-import UserOutlined from "@ant-design/icons/UserOutlined";
+import {UserOutlined} from "../../../../internal/icons";
 import {Button} from "../../../../core/Button";
 import {Drawer} from "../../../../core/Drawer";
 import {i18n} from "../../../../internal/i18n/admin";

@@ -19,6 +19,7 @@ export interface Props<T extends string> extends Omit<TabsProps, "onChange"> {
     tabs: TypedTabMap<T> | TypedTabList<T>;
     activeKey: T;
     onChange: (tab: T) => void;
+    children?: React.ReactNode;
 }
 
 export const TypedTabs = ReactUtil.memo("TypedTabs", <T extends string>(props: Props<T>) => {

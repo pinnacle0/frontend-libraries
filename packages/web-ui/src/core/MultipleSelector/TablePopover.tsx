@@ -54,6 +54,6 @@ export const TablePopover = ReactUtil.memo("TablePopover", <RowType extends obje
               selectedRowKeys,
               onChange: onAntChange as (_: React.Key[]) => void,
           };
-    const table = <Table rowSelection={rowSelection} size="small" dataSource={dataSource} columns={columns} rowKey={rowKey} scrollY={scrollY} scrollX="none" />;
+    const table = <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} rowKey={rowKey} scrollY={scrollY} scrollX="none" />;
     return <div className="g-multiple-selector-table-popover">{children ? children(table) : table}</div>;
 });

@@ -1,5 +1,4 @@
 import React from "react";
-import type {LabeledValue} from "antd/es/select";
 import type {ControlledFormValue} from "../../internal/type";
 import {Select} from "../Select";
 import {Nullable} from "./Nullable";
@@ -7,6 +6,12 @@ import {InitialNullable} from "./InitialNullable";
 import {Map} from "./Map";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
+
+interface LabeledValue {
+    value: string | number;
+    label?: React.ReactNode;
+    key?: string;
+}
 
 const TRUE_VALUE = "@@TRUE";
 const FALSE_VALUE = "@@FALSE";
@@ -31,7 +36,6 @@ export const EnumSelect = ReactUtil.compound("EnumSelect", {Nullable, InitialNul
     const {list, value, translator, prefix, onChange, disabled, className = "", style, dropdownStyle, listHeight, listItemHeight, placeholder, suffixIcon} = props;
 
     const getAntSelectValue = (): LabeledValue | undefined => {
-        // Special case for InitialNullable, to show placeholder, no pre-selection
         if (value === null) return undefined;
 
         const antValue = value.toString();
@@ -56,7 +60,7 @@ export const EnumSelect = ReactUtil.compound("EnumSelect", {Nullable, InitialNul
     };
 
     return (
-        <Select<LabeledValue>
+        <Select<any>
             disabled={disabled}
             labelInValue
             value={getAntSelectValue()}
@@ -65,7 +69,7 @@ export const EnumSelect = ReactUtil.compound("EnumSelect", {Nullable, InitialNul
             listHeight={listHeight}
             listItemHeight={listItemHeight}
             style={style}
-            styles={{popup: {root: dropdownStyle}}}
+            dropdownStyle={dropdownStyle}
             placeholder={
                 prefix ? (
                     <div className="prefixed-placeholder-wrapper">

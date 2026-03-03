@@ -1,15 +1,12 @@
 import React from "react";
-import AntTable from "antd/es/table";
-import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
-import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
-import SettingOutlined from "@ant-design/icons/SettingOutlined";
+import RcTable from "@rc-component/table";
+import type {ColumnType as RcColumnType, TableProps as RcTableProps} from "@rc-component/table";
+import {FileSearchOutlined, LoadingOutlined, SettingOutlined} from "../../internal/icons";
 import {i18n} from "../../internal/i18n/core";
 import {Checkbox} from "../Checkbox";
 import {Popover} from "../Popover";
 import {ArrayUtil} from "../../internal/ArrayUtil";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
-import type {ColumnProps as AntColumnsProps, TableProps as AntTableProps, TableRef} from "antd/es/table";
-import type {TableRowSelection} from "antd/es/table/interface";
 import type {StringKey} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
 
@@ -18,9 +15,18 @@ enum SortOrder {
     ASC = "ASC",
 }
 
-type RenderedCell<T extends object> = Exclude<ReturnType<NonNullable<AntColumnsProps<T>["render"]>>, React.ReactNode>;
+type RenderedCell = {children: React.ReactNode; props?: React.TdHTMLAttributes<HTMLTableCellElement>};
 
-export type {TableRowSelection};
+export interface TableRowSelection<T extends object> {
+    type?: "checkbox" | "radio";
+    selectedRowKeys?: React.Key[];
+    onChange?: (selectedRowKeys: React.Key[], selectedRows: T[]) => void;
+    getCheckboxProps?: (record: T) => Partial<{disabled: boolean; name: string}>;
+    fixed?: boolean;
+    columnWidth?: string | number;
+    columnTitle?: React.ReactNode;
+    renderCell?: (checked: boolean, record: T, index: number, originNode: React.ReactNode) => React.ReactNode;
+}
 
 export interface TableHandler {
     scrollTo: (index: number) => void;
@@ -28,13 +34,13 @@ export interface TableHandler {
 
 export interface TableColumn<RowType extends object, OrderByFieldType = undefined> {
     title: React.ReactElement | string | number;
-    renderData: (record: RowType, index: number) => React.ReactNode | RenderedCell<RowType> | undefined; // Using name render leads to type incompatibility
+    renderData: (record: RowType, index: number) => React.ReactNode | RenderedCell | undefined;
     align?: "left" | "right" | "center";
     colSpan?: number;
     width?: string | number;
     className?: string;
     fixed?: "left" | "right";
-    sortField?: OrderByFieldType | true; // True is used for only 1 columns sorting
+    sortField?: OrderByFieldType | true;
     onHeaderClick?: () => void;
     hidden?: boolean;
     customizedKey?: string | {key: string; defaultValue: boolean};
@@ -46,39 +52,31 @@ export type TableColumns<RowType extends object, OrderByFieldType = undefined> =
 export interface TableSorter<OrderByFieldType = undefined> {
     currentOrder: SortOrder;
     onSortChange: (sortOrder: SortOrder, orderBy: OrderByFieldType | undefined) => void;
-    currentOrderBy?: OrderByFieldType; // This may be undefined if the table supports only 1 sort field
+    currentOrderBy?: OrderByFieldType;
 }
 
-export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<AntTableProps<RowType>, "scroll" | "locale" | "virtual"> {
+export interface TableProps<RowType extends object, OrderByFieldType> extends Omit<RcTableProps<RowType>, "scroll" | "locale" | "columns" | "data"> {
     columns: TableColumns<RowType, OrderByFieldType>;
     dataSource: RowType[];
-    /**
-     * Attention:
-     * Use {rowKey: "index"} only if you are certain that the data source is immutable.
-     */
     rowKey: StringKey<RowType> | ((record: RowType, index?: number) => string) | "index";
-    // onRowClick will override the return props from onRow
     onRowClick?: (record: RowType, index?: number) => void;
     scrollX?: string | number;
     scrollY?: string | number;
     loading?: boolean;
-    // if emptyPlaceholder is provided, emptyIcon and emptyText will be ignored
     emptyPlaceholder?: React.ReactElement | string | number;
     emptyIcon?: React.ReactElement | string | number;
     emptyText?: string;
     emptyNodeStyle?: React.CSSProperties;
     sortConfig?: TableSorter<OrderByFieldType>;
-    /**
-     * Just adding to props, without any usage, so that it could trigger re-render when it changes.
-     * A similar API is: https://facebook.github.io/react-native/docs/flatlist#extradata
-     */
     shouldRenderIfUpdate?: any;
-    /**
-     * key for column customization
-     */
     customizedStorageKey?: string;
     minHeaderHeight?: number;
     tableRef?: React.Ref<TableHandler>;
+    rowSelection?: TableRowSelection<RowType>;
+    onRow?: (record: RowType, index?: number) => React.HTMLAttributes<any>;
+    pagination?: false;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
 interface CustomizationConfig {
@@ -112,28 +110,27 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
     } = props;
     const [customizationConfig, setCustomizationConfig] = React.useState<CustomizationConfig>(getCustomizationConfig(props, getStorageKey(customizedStorageKey)));
     const t = i18n();
-    const antTableRef = React.useRef<TableRef>(null);
+    const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
     React.useImperativeHandle(tableRef, () => ({
         scrollTo: (index: number) => {
-            const rowHeight = antTableRef.current?.nativeElement.querySelector(".ant-table-row")?.getBoundingClientRect().height;
+            const rowHeight = tableContainerRef.current?.querySelector("tr.rc-table-row")?.getBoundingClientRect().height;
             if (rowHeight) {
-                antTableRef.current?.scrollTo({top: rowHeight * index});
+                const scrollBody = tableContainerRef.current?.querySelector(".rc-table-body");
+                if (scrollBody) scrollBody.scrollTop = rowHeight * index;
             }
         },
     }));
 
     const hasUniqueSortingColumn = () => columns.some(_ => _.sortField === true);
-
     const rowKeyByIndex = (record: RowType) => dataSource.indexOf(record);
 
-    const transformColumns = (originalColumn: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
-        const {renderData, onHeaderClick, ...restColumnProps} = originalColumn;
+    const transformColumns = (originalColumn: TableColumn<RowType, OrderByFieldType>, index: number): RcColumnType<RowType> => {
+        const {renderData, onHeaderClick, sortField, ...restColumnProps} = originalColumn;
         const customizedKey = originalColumn.customizedKey;
         return {
-            // Ant Table requires key when enabling sorting, using column index here
             key: index.toString(),
-            onHeaderCell: () => ({onClick: onHeaderClick, style: {minHeight: minHeaderHeight}}),
+            onHeaderCell: () => ({onClick: onHeaderClick, style: {minHeight: minHeaderHeight, cursor: sortField ? "pointer" : undefined}}) as any,
             render: (_: any, record: RowType, index: number) => renderData(record, index),
             hidden: originalColumn.hidden || (customizedKey ? customizationConfig[typeof customizedKey === "string" ? customizedKey : customizedKey.key] === false : false),
             ...restColumnProps,
@@ -146,19 +143,19 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         LocalStorageUtil.setObject(getStorageKey(customizedStorageKey), newConfig);
     };
 
-    const onSortChange = (_1: any, _2: any, sorter: {} | {order: "descend" | "ascend"; column: TableColumn<RowType, OrderByFieldType>}) => {
-        if (sortConfig) {
-            if (!("column" in sorter && sorter.column !== undefined) || !("sortField" in sorter.column) || hasUniqueSortingColumn()) {
-                // AntD sorter here may be {}, if clicking on the header 3rd time (ASC -> DESC -> undefined);
+    const onSortChange = (column: TableColumn<RowType, OrderByFieldType>) => {
+        if (sortConfig && column.sortField) {
+            if (column.sortField === true || hasUniqueSortingColumn()) {
                 sortConfig.onSortChange(sortConfig.currentOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC, sortConfig.currentOrderBy);
             } else {
-                const sortField = sorter.column.sortField as OrderByFieldType;
-                sortConfig.onSortChange(sorter.order === "ascend" ? SortOrder.ASC : SortOrder.DESC, sortField);
+                const sortField = column.sortField as OrderByFieldType;
+                const newOrder = sortConfig.currentOrderBy === sortField ? (sortConfig.currentOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC) : SortOrder.ASC;
+                sortConfig.onSortChange(newOrder, sortField);
             }
         }
     };
 
-    const onAntRow = (record: RowType, index?: number) => {
+    const onRcRow = (record: RowType, index?: number) => {
         const rowProps: React.HTMLAttributes<any> & React.TdHTMLAttributes<any> = onRow ? onRow(record, index) : {};
         onRowClick && (rowProps.onClick = () => onRowClick(record, index));
         return rowProps;
@@ -192,25 +189,22 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
         </div>
     );
 
-    let tableColumns: Array<AntColumnsProps<RowType>>;
-    if (sortConfig) {
-        const sortOrder: "ascend" | "descend" = sortConfig.currentOrder === SortOrder.ASC ? "ascend" : "descend";
-        tableColumns = columns.map((column: TableColumn<RowType, OrderByFieldType>, index: number): AntColumnsProps<RowType> => {
-            if (column.sortField) {
-                const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
-                return {
-                    ...transformColumns(column, index),
-                    sorter: true,
-                    sortOrder: isSortingColumn ? sortOrder : null,
-                    sortDirections: ["descend", "ascend"],
-                };
-            } else {
-                return transformColumns(column, index);
-            }
-        });
-    } else {
-        tableColumns = columns.map(transformColumns);
-    }
+    const tableColumns: Array<RcColumnType<RowType>> = columns.map((column, index) => {
+        const base = transformColumns(column, index);
+        if (sortConfig && column.sortField) {
+            const isSortingColumn = column.sortField === true || sortConfig.currentOrderBy === column.sortField;
+            const sortOrder = sortConfig.currentOrder === SortOrder.ASC ? "↑" : "↓";
+            return {
+                ...base,
+                title: (
+                    <span onClick={() => onSortChange(column)} style={{cursor: "pointer"}}>
+                        {column.title} {isSortingColumn ? sortOrder : ""}
+                    </span>
+                ),
+            };
+        }
+        return base;
+    });
 
     const canCustomized = Object.keys(customizationConfig).length > 0;
     return (
@@ -222,20 +216,22 @@ export const Table = ReactUtil.memo("Table", <RowType extends object, OrderByFie
                     </Popover>
                 </div>
             )}
-            <AntTable
-                ref={antTableRef}
-                dataSource={dataSource}
-                tableLayout="auto"
-                locale={{emptyText: emptyTextNode}}
-                onRow={onAntRow}
-                loading={loading ? {indicator: <LoadingOutlined />} : false}
-                pagination={false}
-                columns={tableColumns}
-                onChange={onSortChange}
-                rowKey={rowKey === "index" ? rowKeyByIndex : rowKey}
-                scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY === "none" ? undefined : scrollY}}
-                {...restProps}
-            />
+            <div ref={tableContainerRef} style={{position: "relative"}}>
+                {loading && (
+                    <div style={{position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.65)", zIndex: 4}}>
+                        <LoadingOutlined />
+                    </div>
+                )}
+                <RcTable
+                    data={dataSource}
+                    columns={tableColumns.filter(c => !c.hidden)}
+                    rowKey={rowKey === "index" ? rowKeyByIndex : rowKey}
+                    scroll={{x: scrollX === "none" ? undefined : scrollX, y: scrollY === "none" ? undefined : scrollY}}
+                    onRow={onRcRow}
+                    emptyText={emptyTextNode}
+                    {...restProps}
+                />
+            </div>
         </React.Fragment>
     );
 });

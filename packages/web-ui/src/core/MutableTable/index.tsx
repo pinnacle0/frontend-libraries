@@ -44,7 +44,7 @@ const defaultSequenceColumn: SequenceColumnConfig = {
 };
 
 export const MutableTable = ReactUtil.memo("MutableTable", <RowType extends object>(props: Props<RowType>) => {
-    const {dataSource, shouldRenderIfUpdate, scrollX = "none", scrollY, bordered, columns, sequenceColumn, fixedRowCount, disabled, nextRow, onChange, onRowCountChange} = props;
+    const {dataSource, shouldRenderIfUpdate, scrollX = "none", scrollY, columns, sequenceColumn, fixedRowCount, disabled, nextRow, onChange, onRowCountChange} = props;
     const previousDataSourceLength = React.useRef(dataSource.length);
     const ref = React.useRef<HTMLDivElement>(null);
 
@@ -123,16 +123,7 @@ export const MutableTable = ReactUtil.memo("MutableTable", <RowType extends obje
 
     return (
         <div className="g-mutable-table-wrapper" ref={ref}>
-            <Table
-                className="g-mutable-table"
-                scrollX={scrollX}
-                scrollY={scrollY}
-                rowKey="index"
-                columns={getColumns()}
-                dataSource={dataSource}
-                shouldRenderIfUpdate={shouldRenderIfUpdate}
-                bordered={bordered}
-            />
+            <Table className="g-mutable-table" scrollX={scrollX} scrollY={scrollY} rowKey="index" columns={getColumns()} dataSource={dataSource} shouldRenderIfUpdate={shouldRenderIfUpdate} />
         </div>
     );
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
+import {FileSearchOutlined} from "../../../../../../src/internal/icons";
 import type {InputHandler} from "@pinnacle0/web-ui/core/Input";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
@@ -13,7 +13,7 @@ import {DemoHelper} from "../../DemoHelper";
 import type {Props as NumberInputProps} from "@pinnacle0/web-ui/core/NumberInput";
 import type {DemoHelperGroupConfig} from "../../DemoHelper";
 import type {Props as NumberInputPercentageProps} from "@pinnacle0/web-ui/core/NumberInput/NumberInputPercentage";
-import {Button} from "antd";
+import {Button} from "@pinnacle0/web-ui/core/Button";
 
 const UncontrolledTagInput = () => {
     const parser = (text: string) => text.split(/[\n ,;]/g).filter(Boolean);

@@ -1,8 +1,10 @@
 import React from "react";
-import AntDatePicker from "antd/es/date-picker";
+import {Picker} from "@rc-component/picker";
+import dayjsGenerateConfig from "@rc-component/picker/lib/generate/dayjs";
 import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
+import en_US from "@rc-component/picker/lib/locale/en_US";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export interface Props<T extends boolean> extends ControlledFormValue<T extends false ? string : string | null> {
@@ -18,29 +20,28 @@ export const DatePicker = ReactUtil.memo("DatePicker", <T extends boolean>(props
 
     const isDateDisabled = (current: Dayjs): boolean => {
         if (!current) return false;
-        /**
-         * This is for compatibility of MySQL.
-         * MySQL TIMESTAMP data type is used for values that contain both date and time parts.
-         * TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.
-         */
         return current.valueOf() >= new Date(2038, 0).valueOf();
     };
 
-    const onAntChange = (_: Dayjs | null, dateString: string | null) => {
-        if (dateString || allowNull) {
+    const onPickerChange = (_date: Dayjs | null, dateString: string | string[]) => {
+        const str = Array.isArray(dateString) ? dateString[0] : dateString;
+        if (str || allowNull) {
             const typedOnChange = onChange as (value: string | null) => void;
-            typedOnChange(dateString);
+            typedOnChange(str || null);
         }
     };
 
     return (
-        <AntDatePicker
+        <Picker<Dayjs>
+            generateConfig={dayjsGenerateConfig}
+            locale={en_US}
             className={className}
+            picker="date"
             showTime={false}
             disabledDate={isDateDisabled}
             placeholder={placeholder}
             value={value ? dayjs(value) : null}
-            onChange={onAntChange}
+            onChange={onPickerChange as any}
             allowClear={allowNull}
             disabled={disabled}
             preserveInvalidOnBlur={preserveInvalidOnBlur}

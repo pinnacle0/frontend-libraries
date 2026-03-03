@@ -4,7 +4,7 @@ import {AnimatePresence, Animated} from "@pinnacle0/web-ui/core/Animated";
 import {Button} from "@pinnacle0/web-ui/core/Button";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {Space} from "@pinnacle0/web-ui/core/Space";
-import {CloseCircleFilled} from "@ant-design/icons";
+import {CloseCircleFilled} from "../../../../../src/internal/icons";
 import {TypedTabs} from "@pinnacle0/web-ui/core/TypedTabs";
 import {NumberInput} from "@pinnacle0/web-ui/core/NumberInput";
 import type {DemoHelperGroupConfig} from "../DemoHelper";

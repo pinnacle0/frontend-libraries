@@ -1,6 +1,8 @@
 import React from "react";
 import dayjs from "dayjs";
-import DatePicker from "antd/es/date-picker";
+import {RangePicker} from "@rc-component/picker";
+import dayjsGenerateConfig from "@rc-component/picker/lib/generate/dayjs";
+import en_US from "@rc-component/picker/lib/locale/en_US";
 import type {Dayjs} from "dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
@@ -30,7 +32,7 @@ export const TimeRangePicker = ReactUtil.memo("TimeRangePicker", <T extends bool
         }
     }, [onChange, shouldCheckDateRangeValid, value]);
 
-    const onAntChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
+    const onRangeChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
         const typedOnChange = onChange as (value: [string | null, string | null]) => void;
         if (dates) {
             const start = dates[0];
@@ -46,12 +48,14 @@ export const TimeRangePicker = ReactUtil.memo("TimeRangePicker", <T extends bool
     };
 
     return (
-        <DatePicker.RangePicker
+        <RangePicker<Dayjs>
+            generateConfig={dayjsGenerateConfig}
+            locale={en_US}
             picker="time"
             mode={undefined}
             className={className}
             value={[value[0] ? dayjs(value[0], TIME_FORMATTER) : null, value[1] ? dayjs(value[1], TIME_FORMATTER) : null]}
-            onCalendarChange={onAntChange}
+            onCalendarChange={onRangeChange}
             disabled={disabled}
             allowClear={allowNull}
             order={order}

@@ -1,6 +1,5 @@
 import React from "react";
-import DownOutlined from "@ant-design/icons/DownOutlined";
-import UpOutlined from "@ant-design/icons/UpOutlined";
+import {DownOutlined, UpOutlined} from "../../internal/icons";
 import {classNames} from "../../util/ClassNames";
 import {Form} from "../../core/Form";
 import {Button} from "../../core/Button";
@@ -16,7 +15,7 @@ export interface Props {
     children?: React.ReactNode;
     errorDisplayMode?: FormErrorDisplayMode;
     extraElements?: React.ReactNode;
-    expandedArea?: React.ReactElement; // If undefined, the Filter cannot be expanded
+    expandedArea?: React.ReactElement;
     loading?: boolean;
     reminder?: string;
 }

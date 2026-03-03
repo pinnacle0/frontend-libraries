@@ -1,5 +1,5 @@
 import React from "react";
-import AntUpload from "antd/es/upload";
+import RcUpload from "@rc-component/upload";
 import {i18n} from "../../internal/i18n/core";
 import {TextUtil} from "../../internal/TextUtil";
 import {Spin} from "../Spin";
@@ -25,24 +25,14 @@ export const LocalImporter = ReactUtil.memo("LocalImporter", ({type, children, c
         } finally {
             setImporting(false);
         }
-
         return false;
     };
 
     return (
-        <AntUpload.Dragger
-            showUploadList={false}
-            multiple={false}
-            accept={type === "txt" ? ".txt" : ".csv"}
-            className={className}
-            disabled={disabled}
-            style={style}
-            height={Number(style?.height)}
-            beforeUpload={beforeUpload}
-        >
+        <RcUpload multiple={false} accept={type === "txt" ? ".txt" : ".csv"} className={className} disabled={disabled} style={style} beforeUpload={beforeUpload as any}>
             <Spin spinning={importing} size="small">
                 {children || TextUtil.interpolate(t.localImporterHint, type)}
             </Spin>
-        </AntUpload.Dragger>
+        </RcUpload>
     );
 });

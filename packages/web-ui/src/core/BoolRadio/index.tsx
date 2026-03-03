@@ -1,7 +1,7 @@
 import React from "react";
 import {EnumRadio} from "../EnumRadio";
 import type {ControlledFormValue} from "../../internal/type";
-import type {RadioGroupButtonStyle} from "antd/es/radio";
+import type {RadioGroupButtonStyle} from "../Radio";
 import {i18n} from "../../internal/i18n/core";
 import {ReactUtil} from "../../util/ReactUtil";
 

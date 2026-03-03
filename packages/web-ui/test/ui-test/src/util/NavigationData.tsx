@@ -1,5 +1,5 @@
 import React from "react";
-import FileSearchOutlined from "@ant-design/icons/FileSearchOutlined";
+import {FileSearchOutlined} from "../../../../src/internal/icons";
 import {SelectDemo} from "../component/core/SelectDemo";
 import {SliderDemo} from "../component/core/SliderDemo";
 import {AmountDemo} from "../component/core/AmountDemo";

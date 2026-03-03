@@ -107,8 +107,8 @@ export const MultipleSelector = ReactUtil.memo("MultipleSelector", <RowType exte
                         {renderPopover}
                     </TablePopover>
                 }
-                classNames={{root: popoverClassName}}
-                styles={{root: popoverStyle}}
+                className={popoverClassName}
+                style={popoverStyle}
                 open={popoverOpen}
                 onOpenChange={onPopoverOpenChange}
             >

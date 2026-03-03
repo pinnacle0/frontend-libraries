@@ -1,5 +1,5 @@
 import React from "react";
-import {UserOutlined} from "@ant-design/icons";
+import {UserOutlined} from "../../../../../src/internal/icons";
 import {Form} from "@pinnacle0/web-ui/core/Form";
 import {Input} from "@pinnacle0/web-ui/core/Input";
 import {EnumSelect} from "@pinnacle0/web-ui/core/EnumSelect";
@@ -17,7 +17,7 @@ import {dummyEmptyCallback} from "../../dummy/dummyCallback";
 import type {DemoHelperGroupConfig} from "../DemoHelper";
 import {DemoHelper} from "../DemoHelper";
 import {Amount} from "@pinnacle0/web-ui/core/Amount";
-import {Space} from "antd";
+import {Space} from "@pinnacle0/web-ui/core/Space";
 
 const UncontrolledEnumSelect = withUncontrolledInitialValue(EnumSelect);
 const UncontrolledEnumRadio = withUncontrolledInitialValue(EnumRadio);

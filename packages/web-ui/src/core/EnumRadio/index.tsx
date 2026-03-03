@@ -1,11 +1,10 @@
 import React from "react";
-import type {RadioChangeEvent} from "../Radio";
+import type {RadioChangeEvent, RadioGroupButtonStyle} from "../Radio";
 import {Radio} from "../Radio";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import {Map} from "./Map";
-import type {RadioGroupButtonStyle} from "antd/es/radio";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export interface BaseProps<Enum extends string | boolean | number> {
@@ -30,7 +29,7 @@ export const EnumRadio = ReactUtil.compound("EnumRadio", {Nullable, InitialNulla
         <Radio.Group value={value} onChange={onAntChange} disabled={disabled} className={className} style={style} optionType={useButtonMode ? "button" : undefined} buttonStyle={buttonStyle}>
             {list.map(_ => (
                 // RadioItem can accept any type as value, and emit the exact type while onChange
-                <RadioItem key={_.toString()} value={_}>
+                <RadioItem key={_.toString()} value={_ as any}>
                     {translator ? translator(_) : _.toString()}
                 </RadioItem>
             ))}

@@ -1,5 +1,4 @@
 import React from "react";
-import AntResult from "antd/es/result";
 import {Button} from "../../core/Button";
 import {Link} from "../../core/Link";
 import {i18n} from "../../internal/i18n/admin";
@@ -11,6 +10,8 @@ interface Props {
     hideButton?: boolean;
     secondaryButton?: {label: string; onClick: () => void};
 }
+
+const iconStyle: React.CSSProperties = {fontSize: 72, display: "block", textAlign: "center", marginBottom: 24};
 
 export class Result extends React.PureComponent<Props> {
     static displayName = "AdminPage.Result";
@@ -26,7 +27,6 @@ export class Result extends React.PureComponent<Props> {
                     <Link to="/">
                         <Button type="primary">{t.goHome}</Button>
                     </Link>
-
                     {secondaryButton && <Button onClick={secondaryButton.onClick}>{secondaryButton.label}</Button>}
                 </div>
             )
@@ -35,6 +35,13 @@ export class Result extends React.PureComponent<Props> {
 
     render() {
         const {type, title, subtitle} = this.props;
-        return <AntResult title={title} subTitle={subtitle} status={type} extra={this.renderExtra()} />;
+        return (
+            <div style={{padding: "48px 32px", textAlign: "center"}}>
+                <div style={iconStyle}>{type === "success" ? <span style={{color: "#52c41a"}}>✓</span> : <span style={{color: "#ff4d4f"}}>✕</span>}</div>
+                <h1 style={{fontSize: 24, fontWeight: 600, marginBottom: 8}}>{title}</h1>
+                {subtitle && <p style={{fontSize: 14, color: "rgba(0,0,0,0.45)", marginBottom: 24}}>{subtitle}</p>}
+                {this.renderExtra()}
+            </div>
+        );
     }
 }

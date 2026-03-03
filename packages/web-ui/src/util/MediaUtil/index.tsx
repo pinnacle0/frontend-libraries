@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import {CloseOutlined} from "../../internal/icons";
 import "./index.less";
 
 function openImage(url: string) {
@@ -43,11 +43,6 @@ function openVideo(url: string) {
 
 function playAudio(url: string) {
     try {
-        /**
-         * Attention:
-         * (1) For old browsers, Promise return value may be unsupported.
-         * (2) For modern browsers, if the user never has interaction with the page, play() will reject.
-         */
         const elementSource = new Audio(url);
         elementSource.play().catch(() => {});
     } catch {

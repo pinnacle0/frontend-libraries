@@ -22,7 +22,7 @@ export const OverflowableText = ReactUtil.memo("OverflowableText", ({children, s
     return (
         <div className={classNames("g-overflowable-text", className)}>
             {overflow ? (
-                <Tooltip overlay={children} childContainerProps={{className: "wrap-text", style: {width: maxWidth, ...style}}}>
+                <Tooltip title={children} childContainerProps={{className: "wrap-text", style: {width: maxWidth, ...style}}}>
                     {children}
                 </Tooltip>
             ) : (

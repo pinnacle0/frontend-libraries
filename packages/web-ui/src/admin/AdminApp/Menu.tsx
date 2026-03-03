@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory, useLocation} from "react-router-dom";
-import AntMenu from "antd/es/menu";
+import RcMenu from "@rc-component/menu";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {Badge} from "../../core/Badge";
@@ -31,14 +31,10 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
     const shownNavigationGroups = React.useMemo(() => AdminNavigationUtil.groups(navigationGroups, permissions, superAdminPermission, false), [navigationGroups, permissions, superAdminPermission]);
     const modules = React.useMemo(() => AdminNavigationUtil.modules(shownNavigationGroups), [shownNavigationGroups]);
 
-    /**
-     * Return true if any field of currentBadges > prevBadges.
-     */
     const shouldAlertNewBadge = React.useCallback(
         (badges: Badges): boolean => {
             for (const [key, badge] of Object.entries(badges)) {
                 if (!prevBadges) continue;
-
                 if (prevBadges[key] === undefined) return true;
                 if (typeof prevBadges[key] === "number" && typeof badge === "number" && badge > prevBadges[key]) return true;
                 if (Array.isArray(prevBadges[key]) && Array.isArray(badge) && badgeHasUpdate(prevBadges[key], badge)) return true;
@@ -64,7 +60,7 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
     );
 
     const calculateMenuKeyByURL = React.useCallback(() => {
-        let currentOpenedMenuKey: string | null = shownNavigationGroups?.[0]?.title || null; // Fallback opened key
+        let currentOpenedMenuKey: string | null = shownNavigationGroups?.[0]?.title || null;
         let currentSelectedMenuKey = null;
         const currentModule = AdminNavigationUtil.moduleByURL(location.pathname, modules);
         const totalBadgeCount = badges ? calculateTotalBadge(badges) : 0;
@@ -87,7 +83,7 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
         }
 
         if (!menuExpanded) {
-            currentOpenedMenuKey = null; // Otherwise, AntD will pop this menu
+            currentOpenedMenuKey = null;
         }
 
         return {currentOpenedMenuKey, currentSelectedMenuKey};
@@ -100,7 +96,7 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
         } else if (length === 1) {
             setCurrentOpenedMenuKey(openKeys[0]);
         } else {
-            const index = openKeys.indexOf(currentOpenedMenuKey!); // By logic, index should be 0/1 (length should be 2)
+            const index = openKeys.indexOf(currentOpenedMenuKey!);
             if (index >= 0) {
                 setCurrentOpenedMenuKey(openKeys[length - 1 - index]);
             }
@@ -115,7 +111,12 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
 
             let label: React.ReactNode;
             if (typeof count === "number") {
-                label = <Badge count={count}>{title}</Badge>;
+                label = (
+                    <span className="g-admin-menu-item-label">
+                        <span>{title}</span>
+                        {count > 0 && <Badge count={count} />}
+                    </span>
+                );
             } else if (Array.isArray(count)) {
                 label = (
                     <div className="g-admin-menu-badge-list">
@@ -137,9 +138,10 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
         });
 
         const label = (
-            <Badge count={totalCount}>
-                {groupItem.icon} {menuExpanded ? groupItem.title : ""}
-            </Badge>
+            <span className="g-admin-menu-submenu-label">
+                <span>{groupItem.icon} {menuExpanded ? groupItem.title : ""}</span>
+                {totalCount > 0 && <Badge count={totalCount} />}
+            </span>
         );
 
         return {
@@ -160,19 +162,18 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
     }, [badges]);
 
     return (
-        <AntMenu
-            theme="dark"
+        <RcMenu
             mode="inline"
             openKeys={currentOpenedMenuKey ? [currentOpenedMenuKey] : []}
             selectedKeys={currentSelectedMenuKey ? [currentSelectedMenuKey] : []}
             onOpenChange={onMenuOpenChange as any}
             items={shownNavigationGroups.map(renderMenuGroup)}
+            style={{background: "#001529", color: "rgba(255,255,255,0.65)", borderRight: "none"}}
         />
     );
 }
 
 function badgeHasUpdate(a: number[], b: number[]): boolean {
-    // assume a.length == b.length
     for (let i = 0; i < a.length; i++) {
         if (a[i] !== b[i]) return true;
     }

@@ -58,26 +58,27 @@
                 line-height: 1.8;
             }
 
-            .ant-input,
-            .ant-select,
-            .ant-input-password,
-            .ant-input-affix-wrapper,
-            .ant-cascader-picker,
-            .ant-picker,
+            .rc-input,
+            .rc-input-affix-wrapper,
+            .rc-select,
+            .rc-picker,
+            .rc-cascader,
             .g-number-input,
-            textarea {
+            textarea,
+            input[type="text"],
+            input[type="search"],
+            input[type="password"] {
                 width: 100%;
             }
 
-            .ant-space-compact {
+            .g-space-compact {
                 width: 100%;
 
-                .ant-input,
-                .ant-select,
-                .ant-input-password,
-                .ant-input-affix-wrapper,
-                .ant-cascader-picker,
-                .ant-picker,
+                .rc-input,
+                .rc-input-affix-wrapper,
+                .rc-select,
+                .rc-picker,
+                .rc-cascader,
                 .g-number-input,
                 textarea {
                     width: auto;
@@ -88,7 +89,7 @@
                 width: auto;
             }
 
-            .ant-input-group {
+            .rc-input-group {
                 > * {
                     width: auto;
                 }
@@ -97,10 +98,10 @@
             &.has-error {
                 textarea,
                 input,
-                .ant-select-content,
-                .ant-descriptions-view,
-                .ant-input-affix-wrapper,
-                .ant-upload {
+                .rc-select,
+                .rc-descriptions,
+                .rc-input-affix-wrapper,
+                .rc-upload {
                     border-color: #f5222d !important;
                 }
             }
@@ -113,12 +114,11 @@
                 max-width: initial;
                 width: auto;
 
-                .ant-input,
-                .ant-select,
-                .ant-input-password,
-                .ant-input-affix-wrapper,
-                .ant-cascader-picker,
-                .ant-picker,
+                .rc-input,
+                .rc-input-affix-wrapper,
+                .rc-select,
+                .rc-picker,
+                .rc-cascader,
                 .g-number-input,
                 textarea {
                     width: auto;
@@ -129,7 +129,7 @@
 
     .g-form-submit-form-item {
         .g-form-submit-button {
-            .ant-spin {
+            .g-spin-container {
                 color: #fff;
                 line-height: 100%;
             }
@@ -158,20 +158,19 @@
                     line-height: 2.4;
                 }
 
-                .ant-select {
+                .rc-select {
                     width: 130px;
                 }
 
-                .ant-select-multiple {
+                .rc-select-multiple {
                     width: 100%;
                     min-width: 130px;
                 }
 
-                // Tune margin top, to make them visually aligned with label
                 .g-amount,
-                .ant-switch,
-                .ant-radio-wrapper,
-                .ant-checkbox-wrapper {
+                .g-switch,
+                .g-radio,
+                .g-checkbox {
                     margin-top: 5px;
                 }
             }

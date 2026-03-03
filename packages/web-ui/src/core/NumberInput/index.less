@@ -1,11 +1,13 @@
 .g-number-input {
     user-select: none;
 
-    .ant-input {
+    .rc-input,
+    .rc-input-affix-wrapper,
+    input {
         width: 90px;
     }
 
-    .ant-btn {
+    .g-button {
         flex: 0 0 auto;
         padding: 0;
         width: 32px;
@@ -13,7 +15,8 @@
 
     &.no-border,
     &.outlined {
-        .ant-input {
+        .rc-input input,
+        input {
             text-align: center;
         }
     }

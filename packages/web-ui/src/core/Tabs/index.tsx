@@ -1,22 +1,8 @@
 import React from "react";
-import AntTabs from "antd/es/tabs";
+import RcTabs from "@rc-component/tabs";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
-import type {TabsProps} from "antd/es/tabs";
 import {ReactUtil} from "../../util/ReactUtil";
-
-export interface Props extends Omit<TabsProps, "tabBarExtraContent"> {
-    tabBarPrefix?: React.ReactNode;
-    tabBarSuffix?: React.ReactNode;
-    /**
-     * Attention:
-     *  - Should be at least 1
-     *  - No effect if tabs count < initialMaxVisibleTabCount
-     *  - Not work when used together with customized props.renderTabBar
-     *  - Will not recalculate tab width when resize after mount
-     */
-    initialMaxVisibleTabCount?: number;
-}
 
 export interface TabItem {
     key: string;
@@ -36,14 +22,35 @@ export interface TabItem {
     destroyInactiveTabPane?: boolean;
 }
 
+export interface Props {
+    items?: TabItem[];
+    activeKey?: string;
+    defaultActiveKey?: string;
+    onChange?: (activeKey: string) => void;
+    type?: "line" | "card" | "editable-card";
+    tabBarPrefix?: React.ReactNode;
+    tabBarSuffix?: React.ReactNode;
+    initialMaxVisibleTabCount?: number;
+    className?: string;
+    style?: React.CSSProperties;
+    animated?: boolean;
+    size?: "large" | "middle" | "small";
+    centered?: boolean;
+    tabPosition?: "top" | "right" | "bottom" | "left";
+    destroyInactiveTabPane?: boolean;
+    onEdit?: (targetKey: React.MouseEvent | React.KeyboardEvent | string, action: "add" | "remove") => void;
+    renderTabBar?: (props: any, DefaultTabBar: any) => React.ReactElement;
+    hideAdd?: boolean;
+}
+
 export const Tabs = ReactUtil.compound("Tabs", {Single}, (props: Props) => {
-    const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type = "card", animated, ...restProps} = props;
+    const {tabBarPrefix, tabBarSuffix, initialMaxVisibleTabCount, className, renderTabBar, type = "card", animated, items, ...restProps} = props;
     const tabBarRef = React.useRef<HTMLDivElement>(null);
 
     const resizeTabs = React.useCallback(() => {
         if (initialMaxVisibleTabCount && initialMaxVisibleTabCount >= 1) {
             const tabBarWidth = tabBarRef.current?.getBoundingClientRect().width;
-            const tabNodes = tabBarRef.current?.querySelectorAll<HTMLDivElement>(".ant-tabs-nav-list > .ant-tabs-tab");
+            const tabNodes = tabBarRef.current?.querySelectorAll<HTMLDivElement>(".rc-tabs-nav-list > .rc-tabs-tab");
             if (tabBarWidth && tabNodes && tabNodes.length > initialMaxVisibleTabCount) {
                 const singleTabWidth = tabBarWidth / initialMaxVisibleTabCount;
                 Array.from(tabNodes).forEach(tabNode => (tabNode.style.width = `${singleTabWidth}px`));
@@ -54,27 +61,24 @@ export const Tabs = ReactUtil.compound("Tabs", {Single}, (props: Props) => {
     React.useEffect(() => {
         resizeTabs();
         window.addEventListener("resize", resizeTabs);
-        return () => {
-            window.removeEventListener("resize", resizeTabs);
-        };
+        return () => window.removeEventListener("resize", resizeTabs);
     }, [resizeTabs]);
 
-    // Passing {} or {left:undefined} to <AntTabs tabBarExtraContent> will lead to error
-    let tabBarExtraContent: TabsProps["tabBarExtraContent"];
+    let extra: any;
     if (tabBarPrefix || tabBarSuffix) {
-        tabBarExtraContent = {};
-        if (tabBarPrefix) tabBarExtraContent.left = tabBarPrefix;
-        if (tabBarSuffix) tabBarExtraContent.right = tabBarSuffix;
+        extra = {};
+        if (tabBarPrefix) extra.left = tabBarPrefix;
+        if (tabBarSuffix) extra.right = tabBarSuffix;
     }
 
     return (
-        <AntTabs
+        <RcTabs
             className={classNames("g-tabs", className, {"with-max-visible-tab-count": initialMaxVisibleTabCount})}
             animated={animated === undefined ? type === "line" : animated}
-            type={type}
-            tabBarExtraContent={tabBarExtraContent}
-            // DefaultTabBar is a React.ForwardRef component but mark as a React.ComponentType by antd, needed to change the type  to 'any' in order to assign ref
+            editable={type === "editable-card" ? {onEdit: (action, info) => props.onEdit?.(info?.key || "", action)} : undefined}
+            tabBarExtraContent={extra}
             renderTabBar={renderTabBar || ((oldProps, DefaultTabBar: any) => <DefaultTabBar {...oldProps} ref={(ref: any) => (tabBarRef.current = ref)} />)}
+            items={items}
             {...restProps}
         />
     );

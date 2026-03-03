@@ -55,7 +55,7 @@ export const Item = ReactUtil.memo("Item", (props: Props) => {
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
-                        <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplay.placement || "right"} color="white" styles={{container: overlayStyle}}>
+                        <Tooltip title={errorMessage} open={errorMessage !== null} placement={errorDisplay.placement || "right"} color="white" style={overlayStyle}>
                             {childrenNode}
                         </Tooltip>
                         {extraMessageNode}

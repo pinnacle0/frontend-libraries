@@ -1,57 +1,51 @@
 @import url("../../css/variable.less");
 
 .g-modal {
-    @content-padding: 24px;
+    color: inherit;
 
-    &.ant-modal {
-        color: inherit;
+    .rc-dialog-header {
+        background: @ant-bg-container;
+        padding: 16px 24px;
+        font-weight: 600;
+        font-size: 16px;
+    }
 
-        .ant-modal-header {
-            background: @lib-background-gray;
-            padding: 12px 20px;
+    .rc-dialog-close {
+        color: @ant-text-secondary;
+        position: absolute;
+        top: 17px;
+        right: 17px;
+        cursor: pointer;
+
+        &:hover {
+            color: @ant-text;
         }
+    }
 
-        .ant-modal-close {
-            color: #666;
-            position: absolute;
-            top: 12px;
-            height: 24px;
+    .rc-dialog-content {
+        padding: 0;
+    }
 
-            &:hover {
-                color: #000;
-            }
-
-            .ant-modal-close-x {
-                font-size: 20px;
-                font-weight: bold;
-            }
+    .rc-dialog-body {
+        > .g-spin-container {
+            padding: 24px;
         }
+    }
 
-        .ant-modal-container {
+    .rc-dialog-footer {
+        margin-top: 0;
+        padding: 10px 16px;
+    }
+
+    &.no-padding {
+        .rc-dialog-body > .g-spin-container {
             padding: 0;
         }
+    }
 
-        .ant-modal-body {
-            > .ant-spin-nested-loading {
-                > .ant-spin-container {
-                    padding: @content-padding;
-                }
-            }
-        }
-
-        .ant-modal-footer {
-            margin-top: 0;
-            padding: 0 @content-padding 16px;
-        }
-
-        &.no-padding {
-            .ant-modal-body {
-                > .ant-spin-nested-loading {
-                    > .ant-spin-container {
-                        padding: 0;
-                    }
-                }
-            }
+    &.no-footer {
+        .rc-dialog-footer {
+            display: none;
         }
     }
 }

@@ -1,20 +1,14 @@
 import React from "react";
-import AntCascader from "antd/es/cascader";
-import type {DefaultOptionType} from "antd/es/cascader";
+import RcCascader from "@rc-component/cascader";
 import type {ControlledFormValue} from "../../internal/type";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
-/**
- * Attention:
- * CascaderDataNode.value must be unique in the whole data tree.
- */
-
 export interface CascaderDataNode<T extends string | number> {
     label: string;
-    value?: T; // Undefined if same with label
+    value?: T;
     disabled?: boolean;
     children?: Array<CascaderDataNode<T>>;
 }
@@ -29,12 +23,20 @@ export interface BaseProps<T extends string | number> {
     prefix?: React.ReactNode;
 }
 
+interface DefaultOptionType {
+    label: string;
+    value: string | number;
+    disabled?: boolean;
+    children?: DefaultOptionType[];
+}
+
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T> {}
+
 export const Cascader = ReactUtil.compound("Cascader", {Nullable, InitialNullable}, <T extends string | number>(props: Props<T>) => {
     const {data, canSelectAnyLevel, placeholder, className, style, disabled, prefix, value, onChange} = props;
 
     const getAntValue = (): Array<string | number> => {
-        const data = getAntDataSource();
+        const data = getDataSource();
         const getCascaderValues = (data: DefaultOptionType[]): Array<string | number> => {
             for (const item of data) {
                 if (item.value === value) {
@@ -51,16 +53,16 @@ export const Cascader = ReactUtil.compound("Cascader", {Nullable, InitialNullabl
         return getCascaderValues(data);
     };
 
-    const getAntDataSource = (): DefaultOptionType[] => {
-        const getAntChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
+    const getDataSource = (): DefaultOptionType[] => {
+        const getChildren = (list: Array<CascaderDataNode<T>>): DefaultOptionType[] => {
             return list.map(node => ({
                 label: node.label,
                 disabled: node.disabled,
                 value: node.value || node.label,
-                children: node.children && node.children.length > 0 ? getAntChildren(node.children) : undefined,
+                children: node.children && node.children.length > 0 ? getChildren(node.children) : undefined,
             }));
         };
-        return getAntChildren(data);
+        return getChildren(data);
     };
 
     const displayRender = (labels: React.ReactNode[]) => {
@@ -74,18 +76,16 @@ export const Cascader = ReactUtil.compound("Cascader", {Nullable, InitialNullabl
     };
 
     return (
-        <AntCascader
-            multiple={false}
+        <RcCascader
             className={`g-cascader ${className || ""}`}
-            classNames={{popup: {root: "g-cascader-popup"}}}
             style={style}
             changeOnSelect={canSelectAnyLevel}
             value={getAntValue()}
-            onChange={antValue => onChange(antValue[antValue.length - 1] as T)}
-            options={getAntDataSource()}
+            onChange={(antValue: any) => onChange(antValue[antValue.length - 1] as T)}
+            options={getDataSource()}
             allowClear={false}
             expandTrigger="hover"
-            displayRender={displayRender}
+            displayRender={displayRender as any}
             placeholder={
                 prefix ? (
                     <div className="prefixed-placeholder-wrapper">

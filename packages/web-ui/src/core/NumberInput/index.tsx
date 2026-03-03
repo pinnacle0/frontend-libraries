@@ -6,7 +6,7 @@ import {Button} from "../Button";
 import {Space} from "../Space";
 import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "./util";
 import {NumberInputPercentage} from "./NumberInputPercentage";
-import type {InputRef} from "antd/es";
+import type {InputRef} from "@rc-component/input";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
@@ -167,7 +167,6 @@ export const NumberInput = ReactUtil.compound(
                     allowClear={allowClear}
                     focus={focus}
                     autoFocus={autoFocus}
-                    variant={stepperMode === "no-border" ? "borderless" : "outlined"}
                 />
                 {stepperMode && (
                     <Button type={stepperMode === "no-border" ? "text" : "default"} className="add" disabled={disabled || !canAdd({value, step, max, scale})} onClick={onAddClick}>
@@ -178,11 +177,11 @@ export const NumberInput = ReactUtil.compound(
         );
 
         return stepperMode === "outlined" ? (
-            <Space.Compact className={containerClassName} onClick={stopPropagation}>
+            <Space.Compact className={containerClassName} onClick={stopPropagation as any}>
                 {content}
             </Space.Compact>
         ) : (
-            <Space className={containerClassName} onClick={stopPropagation} size={0}>
+            <Space className={containerClassName} onClick={stopPropagation as any} size={0}>
                 {content}
             </Space>
         );

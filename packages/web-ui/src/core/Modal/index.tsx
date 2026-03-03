@@ -1,33 +1,65 @@
 import React from "react";
-import AntModal from "antd/es/modal";
+import Dialog from "@rc-component/dialog";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
-import type {ModalProps} from "antd/es/modal";
+import {CloseOutlined} from "../../internal/icons";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 
-export interface Props extends ModalProps {
-    width: number | string; // Do not use "auto"
+export interface Props {
+    open?: boolean;
+    title?: React.ReactNode;
+    width: number | string;
     children: React.ReactNode;
     loading?: boolean;
     addInnerPadding?: boolean;
+    centered?: boolean;
+    footer?: React.ReactNode;
+    closable?: boolean;
+    maskClosable?: boolean;
+    keyboard?: boolean;
+    onCancel?: (e: React.SyntheticEvent) => void;
+    afterClose?: () => void;
+    destroyOnClose?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
+    wrapClassName?: string;
+    zIndex?: number;
+    mask?: boolean;
+    getContainer?: string | HTMLElement | (() => HTMLElement) | false;
 }
 
 export const Modal = ReactUtil.memo("Modal", (props: Props) => {
-    const {centered = true, open = true, footer = null, maskClosable = false, keyboard = false, children, loading = false, title, className, addInnerPadding = true, ...restProps} = props;
+    const {
+        centered = true,
+        open = true,
+        footer = null,
+        maskClosable = false,
+        keyboard = false,
+        children,
+        loading = false,
+        title,
+        className,
+        addInnerPadding = true,
+        closable = true,
+        onCancel,
+        ...restProps
+    } = props;
     return (
-        // footer === undefined will render default buttons from antd, but in our case, it will never be undefined as the default is null
-        <AntModal
+        <Dialog
+            visible={open}
             title={title}
             className={classNames("g-modal", className, {"no-padding": !addInnerPadding, "no-footer": footer === null})}
             footer={footer}
-            centered={centered}
-            open={open}
+            onClose={onCancel as any}
             maskClosable={maskClosable}
             keyboard={keyboard}
+            closable={closable}
+            closeIcon={<CloseOutlined />}
+            style={centered ? {top: "50%", transform: "translateY(-50%)"} : undefined}
             {...restProps}
         >
             <Spin spinning={loading || false}>{children}</Spin>
-        </AntModal>
+        </Dialog>
     );
 });

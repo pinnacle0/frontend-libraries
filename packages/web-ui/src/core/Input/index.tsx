@@ -1,31 +1,41 @@
 import React from "react";
-import AntInput from "antd/es/input";
-import type {InputProps, PasswordProps, SearchProps, TextAreaProps, InputRef} from "antd/es/input";
+import RcInput from "@rc-component/input";
+import type {InputProps as RcInputProps, InputRef} from "@rc-component/input";
+import type {InputFocusOptions} from "@rc-component/util/lib/Dom/focus";
 import type {ControlledFormValue} from "../../internal/type";
-import type {InputFocusOptions} from "antd/es/input/Input";
 import {ReactUtil} from "../../util/ReactUtil";
 import {useDidMountEffect} from "../../hooks/useDidMountEffect";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 export type FocusType = "cursor-at-start" | "cursor-at-last" | "select-all" | "prevent-scroll";
 
-export interface InputReadonlyProps extends Omit<InputProps, ExcludedAntInputKeys | "readonly" | "disabled" | "allowClear"> {
+export type {InputRef};
+
+export interface InputReadonlyProps extends Omit<RcInputProps, ExcludedAntInputKeys | "readonly" | "disabled" | "allowClear"> {
     value: string;
 }
 
-export interface InputSearchProps extends Omit<SearchProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
+export interface InputSearchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, ExcludedAntInputKeys | "prefix" | "suffix">, ControlledFormValue<string> {
+    prefix?: React.ReactNode;
+    suffix?: React.ReactNode;
+    allowClear?: boolean;
+}
 
-export interface InputTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
+export interface InputTextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "onChange">, ControlledFormValue<string> {}
 
-export interface InputPasswordProps extends Omit<PasswordProps, ExcludedAntInputKeys>, ControlledFormValue<string> {}
+export interface InputPasswordProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, ExcludedAntInputKeys | "prefix" | "suffix">, ControlledFormValue<string> {
+    prefix?: React.ReactNode;
+    suffix?: React.ReactNode;
+    allowClear?: boolean;
+}
 
-export interface InputNullableProps extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {
+export interface InputNullableProps extends Omit<RcInputProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {
     autoTrim?: boolean;
 }
 
-export interface InputNullableTextAreaProps extends Omit<TextAreaProps, ExcludedAntInputKeys>, ControlledFormValue<string | null> {}
+export interface InputNullableTextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "onChange">, ControlledFormValue<string | null> {}
 
-export interface Props extends Omit<InputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
+export interface Props extends Omit<RcInputProps, ExcludedAntInputKeys>, ControlledFormValue<string> {
     autoTrim?: boolean;
     focus?: FocusType;
     inputRef?: React.RefObject<InputRef | null>;
@@ -46,13 +56,26 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
 export const Input = ReactUtil.compound(
     "Input",
     {
-        Readonly: (props: InputReadonlyProps) => <AntInput onChange={() => {}} readOnly disabled {...props} />,
+        Readonly: (props: InputReadonlyProps) => <RcInput onChange={() => {}} readOnly disabled {...props} />,
 
-        Search: ({onChange, ...rest}: InputSearchProps) => <AntInput.Search onChange={e => handleInputChange(e, onChange)} {...rest} />,
+        Search: ({onChange, prefix, suffix, allowClear, ...rest}: InputSearchProps) => <input type="search" onChange={e => handleInputChange(e, onChange)} {...rest} />,
 
-        TextArea: ({onChange, ...rest}: InputTextAreaProps) => <AntInput.TextArea onChange={e => handleInputChange(e, onChange)} {...rest} />,
+        TextArea: ({onChange, value, ...rest}: InputTextAreaProps) => <textarea value={value} onChange={e => handleInputChange(e, onChange)} {...rest} />,
 
-        Password: ({onChange, ...rest}: InputPasswordProps) => <AntInput.Password onChange={e => handleInputChange(e, onChange)} {...rest} />,
+        Password: ({onChange, prefix, suffix, allowClear, ...rest}: InputPasswordProps) => {
+            const [visible, setVisible] = React.useState(false);
+            return (
+                <div style={{position: "relative", display: "inline-flex", width: "100%"}}>
+                    <input type={visible ? "text" : "password"} onChange={e => handleInputChange(e, onChange)} style={{width: "100%", paddingRight: 30}} {...rest} />
+                    <span
+                        onClick={() => setVisible(!visible)}
+                        style={{position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", cursor: "pointer", fontSize: 14, color: "rgba(0,0,0,0.45)"}}
+                    >
+                        {visible ? "🙈" : "👁"}
+                    </span>
+                </div>
+            );
+        },
 
         Nullable: ({value, onChange, ...rest}: InputNullableProps) => <Input value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />,
 
@@ -86,6 +109,6 @@ export const Input = ReactUtil.compound(
             onClick?.(event);
         };
 
-        return <AntInput {...restProps} ref={inputRef || antInputRef} onClick={handleClick} onChange={e => handleInputChange(e, onChange, autoTrim)} />;
+        return <RcInput {...restProps} ref={inputRef || antInputRef} onClick={handleClick} onChange={e => handleInputChange(e, onChange, autoTrim)} />;
     })
 );

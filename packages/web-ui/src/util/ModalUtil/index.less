@@ -1,76 +1,53 @@
 @import url("../../css/variable.less");
 
 .g-modal {
-    &.ant-modal-confirm {
-        .ant-modal-container {
-            padding: 0;
+    &.hide-modal-btns {
+        .rc-dialog-header {
+            background: @lib-background-gray;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            color: inherit;
+
+            > span {
+                font-size: 20px;
+            }
         }
 
-        .ant-modal-body {
-            .ant-modal-confirm-paragraph {
+        .rc-dialog-body {
+            margin: 0 !important;
+            padding: 18px 20px;
+            color: inherit;
+
+            .header,
+            .body,
+            .footer {
                 max-width: 100%;
-
-                .ant-modal-confirm-title {
-                    background: @lib-background-gray;
-                    padding: 12px 20px;
-                    border-radius: 8px 8px 0 0;
-                    color: inherit;
-
-                    > span {
-                        font-size: 20px;
-                    }
-
-                    > .anticon-close {
-                        color: #666;
-                        position: absolute;
-                        top: 17px;
-                        right: 17px;
-
-                        &:hover {
-                            color: #000;
-                        }
-                    }
-                }
-
-                .ant-modal-confirm-content {
-                    margin: 0 !important;
-                    padding: 18px 20px;
-                    color: inherit;
-
-                    > .footer {
-                        position: absolute;
-                        bottom: 0;
-                        left: 50%;
-                        transform: translateX(-50%);
-                    }
-                }
             }
 
-            .ant-modal-confirm-btns {
-                margin: 0 auto 20px;
-                text-align: center;
-                float: none;
-
-                .ant-btn {
-                    min-width: 120px;
-                }
-            }
-
-            .ant-modal-confirm-title + .ant-modal-confirm-content {
-                max-width: unset;
+            > .footer {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 
-        &.hide-modal-btns {
-            .ant-modal-confirm-btns {
-                display: none;
+        .rc-dialog-footer {
+            margin: 0 auto 20px;
+            text-align: center;
+            float: none;
+
+            .g-button {
+                min-width: 120px;
             }
         }
 
-        &.no-padding {
-            .ant-modal-confirm-content {
-                padding: 0;
-            }
+        &.hide-modal-btns .rc-dialog-footer {
+            display: none;
+        }
+
+        &.no-padding .rc-dialog-body {
+            padding: 0;
         }
     }
 }

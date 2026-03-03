@@ -1,0 +1,1536 @@
+@import url("./variable.less");
+
+// ==============================================
+// Overrides for rc-component demo/dev CSS
+// These must come AFTER rc-components.less imports
+// ==============================================
+
+// ========== rc-input ==========
+.rc-input {
+    display: inline-block;
+    width: 100%;
+    min-height: @ant-control-height;
+    padding: 4px 11px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &:hover {
+        border-color: @primary-hover;
+    }
+
+    &:focus {
+        border-color: @primary;
+        box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+        outline: 0;
+    }
+
+    &::placeholder {
+        color: rgb(0 0 0 / 25%);
+    }
+
+    &-disabled,
+    &[disabled] {
+        color: @ant-text-secondary;
+        background: @ant-bg-layout;
+        cursor: not-allowed;
+
+        &:hover {
+            border-color: @ant-border;
+        }
+    }
+}
+
+.rc-input-affix-wrapper {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-height: @ant-control-height;
+    padding: 0 11px;
+    font-size: @ant-font-size;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &:hover:not(.rc-input-affix-wrapper-disabled) {
+        border-color: @primary-hover;
+    }
+
+    &-focused,
+    &:focus-within {
+        border-color: @primary;
+        box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+        outline: 0;
+    }
+
+    &-disabled {
+        color: @ant-text-secondary;
+        background: @ant-bg-layout;
+        cursor: not-allowed;
+    }
+
+    input {
+        padding: 4px 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: inherit;
+        color: inherit;
+
+        &::placeholder {
+            color: rgb(0 0 0 / 25%);
+        }
+    }
+}
+
+.rc-input-clear-icon {
+    color: @ant-text-secondary;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+        color: @ant-text;
+    }
+}
+
+// ========== rc-select ==========
+.rc-select {
+    display: inline-block;
+    font-size: @ant-font-size;
+    position: relative;
+    width: auto;
+}
+
+.rc-select-selector {
+    display: flex;
+    align-items: center;
+    min-height: @ant-control-height;
+    padding: 0 11px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.rc-select-single:not(.rc-select-customize-input) .rc-select-selector {
+    padding: 0 11px;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+}
+
+.rc-select-multiple .rc-select-selector {
+    padding: 1px 4px;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+}
+
+.rc-select-multiple .rc-select-selection-item {
+    background: @ant-bg-layout;
+    border-radius: @ant-radius-sm;
+    border: 1px solid @ant-border-secondary;
+}
+
+.rc-select-selection-search-input {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.rc-select-selection-placeholder {
+    color: rgb(0 0 0 / 25%);
+    opacity: 1;
+}
+
+.rc-select:not(.rc-select-disabled):hover .rc-select-selector {
+    border-color: @primary-hover;
+}
+
+.rc-select-focused:not(.rc-select-disabled) .rc-select-selector {
+    border-color: @primary !important;
+    box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+    outline: 0;
+}
+
+.rc-select-disabled .rc-select-selector {
+    color: @ant-text-secondary;
+    background: @ant-bg-layout;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.rc-select-arrow {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: @ant-text-secondary;
+    font-size: 12px;
+    pointer-events: none;
+
+    &-icon::after {
+        border-top-color: @ant-text-secondary;
+    }
+}
+
+.rc-select-dropdown {
+    position: absolute;
+    z-index: 1050;
+    padding: 4px;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+    border: none;
+    min-height: auto;
+    max-height: 256px;
+    overflow-y: auto;
+}
+
+.rc-select-item {
+    padding: 5px 12px;
+    border-radius: @ant-radius-sm;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: @ant-font-size;
+    line-height: 22px;
+}
+
+.rc-select-item-option-active {
+    background: @ant-bg-layout;
+}
+
+.rc-select-item-option-selected {
+    font-weight: 600;
+    background: @primary-bg;
+}
+
+.rc-select-item-option-disabled {
+    color: @ant-text-secondary;
+    cursor: not-allowed;
+}
+
+.rc-select-item-empty {
+    color: @ant-text-secondary;
+}
+
+// ========== rc-picker ==========
+.rc-picker {
+    display: inline-flex;
+    align-items: center;
+    min-height: @ant-control-height;
+    padding: 4px 11px;
+    font-size: @ant-font-size;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &:hover {
+        border-color: @primary-hover;
+    }
+
+    &-focused {
+        border: 1px solid @primary;
+        box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+        outline: 0;
+    }
+
+    &-invalid {
+        box-shadow: 0 0 0 2px rgb(255 38 5 / 6%);
+    }
+
+    input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: @ant-font-size;
+        color: @ant-text;
+        width: 100%;
+
+        &::placeholder {
+            color: rgb(0 0 0 / 25%);
+        }
+    }
+
+    &-disabled {
+        background: @ant-bg-layout;
+        cursor: not-allowed;
+
+        input {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.rc-picker-input {
+    display: inline-flex;
+    align-items: center;
+    flex: 1;
+
+    &-active > input {
+        background: transparent;
+    }
+}
+
+.rc-picker-suffix {
+    color: @ant-text-secondary;
+    margin-left: 4px;
+}
+
+.rc-picker-clear {
+    color: @ant-text-secondary;
+    cursor: pointer;
+
+    &:hover {
+        color: @ant-text;
+    }
+}
+
+.rc-picker-separator {
+    padding: 0 8px;
+    color: @ant-text-secondary;
+}
+
+.rc-picker-active-bar {
+    background: @primary;
+}
+
+// Override picker panel (inline or dropdown)
+.rc-picker-panel {
+    border: none;
+    background: @ant-bg-container;
+}
+
+.rc-picker-dropdown {
+    position: absolute;
+    z-index: 1050;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+
+    .rc-picker-cell-in-view {
+        color: @ant-text;
+    }
+
+    .rc-picker-cell:not(.rc-picker-cell-in-view) {
+        color: @ant-text-secondary;
+    }
+
+    .rc-picker-cell-inner {
+        min-width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: @ant-radius-sm;
+    }
+
+    .rc-picker-cell:hover .rc-picker-cell-inner {
+        background: @ant-bg-layout;
+    }
+
+    .rc-picker-cell-selected .rc-picker-cell-inner {
+        background: @primary;
+        color: #fff;
+    }
+
+    .rc-picker-cell-today .rc-picker-cell-inner {
+        border: 1px solid @primary;
+    }
+
+    .rc-picker-cell-in-range > .rc-picker-cell-inner {
+        background: @primary-bg;
+    }
+
+    .rc-picker-cell-range-start > .rc-picker-cell-inner,
+    .rc-picker-cell-range-end > .rc-picker-cell-inner {
+        background: @primary;
+        color: #fff;
+    }
+
+    .rc-picker-cell-range-hover::after,
+    .rc-picker-range-hover-start::after,
+    .rc-picker-range-hover-end::after {
+        border-color: @primary-border;
+    }
+
+    .rc-picker-header {
+        padding: 0 8px;
+        border-bottom: 1px solid @ant-border-secondary;
+
+        button {
+            color: @ant-text-secondary;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0 6px;
+            line-height: 40px;
+
+            &:hover {
+                color: @primary;
+            }
+        }
+    }
+
+    .rc-picker-content th {
+        color: @ant-text-secondary;
+        font-weight: 400;
+        padding: 4px 0;
+    }
+
+    .rc-picker-range-arrow {
+        &::before {
+            border-color: @ant-border-secondary;
+        }
+
+        &::after {
+            border-color: @ant-bg-container @ant-bg-container transparent transparent;
+        }
+    }
+}
+
+// Picker footer/presets (works for both inline and dropdown)
+.rc-picker-footer {
+    border-top: 1px solid @ant-border-secondary;
+    background: @ant-bg-container;
+    padding: 4px 12px;
+}
+
+.rc-picker-presets {
+    background: @ant-bg-container;
+    border-right: 1px solid @ant-border-secondary;
+}
+
+.rc-picker-ranges {
+    padding: 4px 12px;
+}
+
+// Picker: time panel
+.rc-picker-time-panel-column {
+    &-active {
+        background: @primary-bg;
+    }
+}
+
+.rc-picker-time-panel-cell-selected {
+    .rc-picker-time-panel-cell-inner {
+        background: @primary-bg;
+    }
+}
+
+// Picker: week panel
+.rc-picker-week-panel-row:hover .rc-picker-cell {
+    background: @ant-bg-layout;
+}
+
+.rc-picker-week-panel-row-selected .rc-picker-cell {
+    background: @primary-bg;
+}
+
+.rc-picker-week-panel-row-range-hover .rc-picker-cell {
+    background: @primary-bg;
+}
+
+.rc-picker-week-panel-row-range-start .rc-picker-cell,
+.rc-picker-week-panel-row-range-end .rc-picker-cell {
+    background: @primary-bg;
+}
+
+// Picker: selection overflow (multiple mode)
+.rc-picker-selection-overflow {
+    border: none;
+}
+
+.rc-picker-selection-item {
+    border: 1px solid @ant-border-secondary;
+    background: @ant-bg-layout;
+    border-radius: @ant-radius-sm;
+}
+
+// ========== rc-dialog ==========
+.rc-dialog-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: @ant-bg-mask;
+}
+
+.rc-dialog-wrap {
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    outline: 0;
+}
+
+.rc-dialog {
+    position: relative;
+    width: auto;
+    margin: 0 auto;
+    top: 100px;
+    padding-bottom: 24px;
+}
+
+.rc-dialog-content {
+    position: relative;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    overflow: hidden;
+    padding: 0;
+    background: @ant-bg-container;
+}
+
+.rc-dialog-container {
+    position: relative;
+    background: @ant-bg-container;
+    border: none;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+}
+
+.rc-dialog-header {
+    padding: 16px 24px;
+    color: @ant-text;
+    background: @ant-bg-container;
+    border-bottom: 1px solid @ant-border-secondary;
+    border-radius: @ant-radius-lg @ant-radius-lg 0 0;
+}
+
+.rc-dialog-title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+    color: @ant-text;
+}
+
+.rc-dialog-body {
+    padding: 24px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+}
+
+.rc-dialog-footer {
+    padding: 10px 16px;
+    text-align: right;
+    background: @ant-bg-container;
+    border-top: 1px solid @ant-border-secondary;
+    border-radius: 0 0 @ant-radius-lg @ant-radius-lg;
+}
+
+.rc-dialog-close {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    z-index: 1;
+    padding: 0;
+    color: @ant-text-secondary;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 1;
+    text-shadow: none;
+    filter: none;
+
+    &:hover {
+        color: @ant-text;
+        opacity: 1;
+    }
+}
+
+.rc-dialog-close-x::after {
+    content: "\00d7";
+    font-size: 20px;
+}
+
+// ========== rc-drawer ==========
+.rc-drawer-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background: @ant-bg-mask;
+}
+
+.rc-drawer-content-wrapper {
+    position: fixed;
+    z-index: 1000;
+    background: @ant-bg-container;
+    box-shadow: @ant-shadow;
+}
+
+.rc-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid @ant-border-secondary;
+    font-weight: 600;
+    font-size: 16px;
+    color: @ant-text;
+}
+
+.rc-drawer-body {
+    padding: 24px;
+    font-size: @ant-font-size;
+    color: @ant-text;
+}
+
+.rc-drawer-close {
+    color: @ant-text-secondary;
+    cursor: pointer;
+
+    &:hover {
+        color: @ant-text;
+    }
+}
+
+// ========== rc-table ==========
+.rc-table {
+    font-size: @ant-font-size;
+    color: @ant-text;
+    border-radius: @ant-radius-lg @ant-radius-lg 0 0;
+    line-height: @ant-line-height;
+}
+
+.rc-table table {
+    width: 100%;
+    border-spacing: 0;
+}
+
+.rc-table th,
+.rc-table td {
+    padding: 16px;
+    border: none;
+    border-bottom: 1px solid @ant-border-secondary;
+    transition: background 0.2s;
+}
+
+.rc-table-rtl.rc-table th,
+.rc-table-rtl.rc-table td {
+    border-left: none;
+    border-right: none;
+}
+
+.rc-table-cell {
+    background: @ant-bg-container;
+}
+
+.rc-table-cell.rc-table-cell-row-hover {
+    background: @primary-bg;
+}
+
+.rc-table thead th {
+    text-align: left;
+    background: #fafafa;
+    color: @ant-text;
+    font-weight: 600;
+}
+
+.rc-table tbody tr td {
+    background: @ant-bg-container;
+}
+
+.rc-table tbody tr th {
+    background: #fafafa;
+}
+
+.rc-table-header {
+    border: none;
+}
+
+.rc-table-content {
+    border: none;
+    border-radius: @ant-radius-lg @ant-radius-lg 0 0;
+}
+
+.rc-table-body {
+    border: none;
+}
+
+.rc-table-title {
+    padding: 16px;
+    border: none;
+    border-bottom: 1px solid @ant-border-secondary;
+}
+
+.rc-table-footer {
+    padding: 16px;
+    border: none;
+    border-top: 1px solid @ant-border-secondary;
+}
+
+.rc-table-caption {
+    border-color: @ant-border-secondary;
+}
+
+.rc-table-summary {
+    border-top: 1px solid @ant-border-secondary;
+    border-left: none;
+}
+
+.rc-table-placeholder {
+    text-align: center;
+    color: @ant-text-secondary;
+    padding: 48px 16px;
+}
+
+.rc-table-expanded-row .rc-table-cell {
+    box-shadow: none;
+}
+
+.rc-table-fixed-column .rc-table-body::after {
+    border-right-color: @ant-border-secondary;
+}
+
+.rc-table-expanded-row-fixed::after {
+    border-right-color: @ant-border-secondary;
+}
+
+.rc-table-tbody-virtual {
+    border-left: none;
+
+    .rc-table-cell {
+        border-right: none;
+        border-bottom: 1px solid @ant-border-secondary;
+    }
+}
+
+// ========== rc-tabs ==========
+.rc-tabs {
+    font-size: @ant-font-size;
+    color: @ant-text;
+    border: none;
+    overflow: visible;
+}
+
+.rc-tabs-nav {
+    position: relative;
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.rc-tabs-nav::before {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    content: "";
+    border-bottom: 1px solid @ant-border-secondary;
+}
+
+.rc-tabs-nav-list {
+    position: relative;
+    display: flex;
+    transition: transform 0.3s;
+}
+
+.rc-tabs-tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 0;
+    margin: 0 32px 0 0;
+    font-size: @ant-font-size;
+    font-weight: normal;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: @ant-text;
+
+    &:hover {
+        color: @primary-hover;
+    }
+}
+
+.rc-tabs-tab-btn {
+    outline: none;
+    transition: color 0.3s;
+    font-size: inherit;
+    font-weight: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    line-height: 1.5715;
+}
+
+.rc-tabs-tab-active {
+    font-weight: 600;
+
+    .rc-tabs-tab-btn {
+        color: @primary;
+    }
+}
+
+.rc-tabs-tab-focus {
+    outline: none;
+}
+
+.rc-tabs-ink-bar {
+    position: absolute;
+    background: @primary;
+    pointer-events: none;
+}
+
+.rc-tabs-top .rc-tabs-ink-bar,
+.rc-tabs-bottom .rc-tabs-ink-bar {
+    height: 2px;
+}
+
+.rc-tabs-left .rc-tabs-ink-bar,
+.rc-tabs-right .rc-tabs-ink-bar {
+    width: 2px;
+}
+
+.rc-tabs-ink-bar-animated {
+    transition: all 0.3s;
+}
+
+.rc-tabs-tab-remove {
+    margin-left: 8px;
+    color: @ant-text-secondary;
+    font-size: 12px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+        color: @ant-text;
+    }
+}
+
+.rc-tabs-nav-more {
+    background: transparent;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius-sm;
+    color: @ant-text;
+    padding: 0 8px;
+    cursor: pointer;
+}
+
+.rc-tabs-nav-add {
+    background: transparent;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius-sm;
+    color: @ant-text;
+    padding: 0 8px;
+    cursor: pointer;
+}
+
+.rc-tabs-extra-content {
+    display: flex;
+    align-items: center;
+}
+
+.rc-tabs-content-holder {
+    flex: auto;
+}
+
+.rc-tabs-tabpane-hidden {
+    display: none;
+}
+
+.rc-tabs-dropdown {
+    background: @ant-bg-elevated;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    box-shadow: @ant-shadow;
+}
+
+.rc-tabs-dropdown-menu-item-selected {
+    background: @primary-bg;
+}
+
+// Nav ping indicators override (demo uses red borders)
+.rc-tabs-nav-measure-ping-left::before,
+.rc-tabs-nav-wrap-ping-left::before {
+    border-left-color: @ant-border-secondary;
+}
+
+.rc-tabs-nav-measure-ping-right::after,
+.rc-tabs-nav-wrap-ping-right::after {
+    border-right-color: @ant-border-secondary;
+}
+
+.rc-tabs-nav-measure-ping-top::before,
+.rc-tabs-nav-wrap-ping-top::before {
+    border-top-color: @ant-border-secondary;
+}
+
+.rc-tabs-nav-measure-ping-bottom::after,
+.rc-tabs-nav-wrap-ping-bottom::after {
+    border-top-color: @ant-border-secondary;
+}
+
+// ========== rc-pagination ==========
+.rc-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: @ant-font-size;
+}
+
+.rc-pagination-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: @ant-control-height;
+    height: @ant-control-height;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    background: @ant-bg;
+    cursor: pointer;
+    transition:
+        color 0.2s,
+        border-color 0.2s;
+
+    a {
+        color: @ant-text;
+        padding: 0 6px;
+    }
+
+    &:hover {
+        border-color: @primary;
+
+        a {
+            color: @primary;
+        }
+    }
+
+    &-active {
+        border-color: @primary;
+        font-weight: 600;
+
+        a {
+            color: @primary;
+        }
+    }
+}
+
+.rc-pagination-prev,
+.rc-pagination-next {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: @ant-control-height;
+    height: @ant-control-height;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    background: @ant-bg;
+    cursor: pointer;
+
+    &:hover:not(.rc-pagination-disabled) {
+        border-color: @primary;
+        color: @primary;
+    }
+}
+
+.rc-pagination-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.rc-pagination-options {
+    margin-left: 16px;
+}
+
+// ========== rc-menu ==========
+.rc-menu {
+    font-size: @ant-font-size;
+    color: @ant-text;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    margin: 0;
+    padding: 4px;
+}
+
+.rc-menu-item,
+.rc-menu-submenu-title {
+    margin: 4px 0;
+    padding: 8px 16px;
+    border-radius: @ant-radius;
+    cursor: pointer;
+    transition:
+        color 0.2s,
+        background 0.2s;
+    line-height: 1.5715;
+    color: inherit;
+}
+
+.rc-menu-item:hover,
+.rc-menu-submenu-title:hover {
+    background: rgb(255 255 255 / 8%);
+}
+
+.rc-menu-item-active,
+.rc-menu-submenu-active > .rc-menu-submenu-title {
+    background: rgb(255 255 255 / 8%);
+}
+
+.rc-menu-item-selected {
+    color: #fff;
+    background: @primary;
+    font-weight: 500;
+}
+
+.rc-menu-submenu-selected {
+    background: transparent;
+}
+
+.rc-menu-horizontal > .rc-menu-submenu-active,
+.rc-menu-horizontal > .rc-menu-item-active {
+    border-bottom: 2px solid @primary;
+    background-color: transparent;
+    color: @primary;
+}
+
+.rc-menu-submenu-popup {
+    position: absolute;
+    z-index: 1050;
+    background: @ant-bg-elevated;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    padding: 4px;
+
+    .rc-menu {
+        padding: 0;
+        background: transparent;
+    }
+
+    .rc-menu-item {
+        color: @ant-text;
+
+        &:hover {
+            background: @ant-bg-layout;
+        }
+    }
+
+    .rc-menu-item-active {
+        background: @ant-bg-layout;
+    }
+
+    .rc-menu-item-selected {
+        color: @primary;
+        background: @primary-bg;
+    }
+}
+
+.rc-menu-inline .rc-menu-submenu-title {
+    display: flex;
+    align-items: center;
+}
+
+.rc-menu-submenu-arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.rc-menu-sub {
+    padding: 0;
+}
+
+// ========== rc-dropdown ==========
+.rc-dropdown {
+    position: absolute;
+    z-index: 1050;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+    padding: 4px;
+
+    .rc-menu {
+        border: none;
+        box-shadow: none;
+    }
+
+    .rc-menu-item:hover,
+    .rc-menu-item-active {
+        background: @ant-bg-layout;
+    }
+
+    .rc-menu-item-selected {
+        background: @primary-bg;
+        color: @primary;
+
+        &::after {
+            color: @primary;
+        }
+    }
+}
+
+.rc-dropdown-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rc-dropdown-menu-item {
+    padding: 5px 12px;
+    border-radius: @ant-radius-sm;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: @ant-font-size;
+
+    &:hover {
+        background: @ant-bg-layout;
+    }
+}
+
+// ========== rc-tooltip ==========
+.rc-tooltip {
+    z-index: 1070;
+}
+
+.rc-tooltip-inner {
+    min-height: auto;
+    padding: 6px 8px;
+    font-size: @ant-font-size;
+    color: #fff;
+    background: rgb(0 0 0 / 85%);
+    border-radius: @ant-radius;
+    box-shadow: @ant-shadow-secondary;
+}
+
+.rc-tooltip-arrow {
+    display: none;
+}
+
+// ========== rc-checkbox ==========
+.rc-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover .rc-checkbox-inner,
+    &-input:focus + .rc-checkbox-inner {
+        border-color: @primary;
+    }
+}
+
+.rc-checkbox-inner {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius-sm;
+    background-color: @ant-bg;
+    transition:
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.rc-checkbox-checked .rc-checkbox-inner {
+    background-color: @primary;
+    border-color: @primary;
+}
+
+.rc-checkbox-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+// ========== rc-switch ==========
+.rc-switch {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 44px;
+    height: 22px;
+    line-height: 20px;
+    vertical-align: middle;
+    border-radius: 100px;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: @ant-text-secondary;
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+    }
+}
+
+.rc-switch::after {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    background-color: #fff;
+    content: " ";
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+    transition: left 0.2s;
+}
+
+.rc-switch-checked {
+    background-color: @primary;
+    border: 0;
+
+    &::after {
+        left: calc(100% - 20px);
+    }
+}
+
+.rc-switch-disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+// ========== rc-slider ==========
+.rc-slider {
+    position: relative;
+    width: 100%;
+    height: 14px;
+    padding: 5px 0;
+    border-radius: 6px;
+    touch-action: none;
+    box-sizing: border-box;
+}
+
+.rc-slider-rail {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: @ant-bg-layout;
+    border-radius: 6px;
+}
+
+.rc-slider-track,
+.rc-slider-tracks {
+    position: absolute;
+    height: 4px;
+    background-color: @primary-hover;
+    border-radius: 6px;
+}
+
+.rc-slider-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    background-color: @ant-bg;
+    border: 2px solid @primary-hover;
+    border-radius: 50%;
+    cursor: pointer;
+    touch-action: pan-x;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &:hover,
+    &:active {
+        border-color: @primary;
+        box-shadow: 0 0 0 5px rgb(22 119 255 / 12%);
+    }
+
+    &-dragging {
+        border-color: @primary;
+        box-shadow: 0 0 0 5px rgb(22 119 255 / 12%);
+    }
+
+    &:focus-visible {
+        border-color: @primary;
+        box-shadow: 0 0 0 3px rgb(22 119 255 / 12%);
+    }
+}
+
+.rc-slider-dot-active {
+    border-color: @primary-hover;
+}
+
+.rc-slider-tooltip-inner {
+    background-color: rgb(0 0 0 / 75%);
+}
+
+// ========== rc-upload ==========
+.rc-upload {
+    display: inline-block;
+}
+
+// ========== rc-notification ==========
+.rc-notification {
+    position: fixed;
+    z-index: 1010;
+}
+
+.rc-notification-notice {
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+}
+
+.rc-notification-notice-wrapper {
+    border: none;
+}
+
+.rc-notification-notice-close {
+    position: absolute;
+    top: 16px;
+    right: 22px;
+    color: @ant-text-secondary;
+    cursor: pointer;
+
+    &:hover {
+        color: @ant-text;
+    }
+}
+
+// ========== rc-collapse ==========
+.rc-collapse {
+    border: 1px solid @ant-border-secondary;
+    border-radius: @ant-radius-lg;
+    background: @ant-bg-container;
+}
+
+.rc-collapse > .rc-collapse-item {
+    border-bottom: 1px solid @ant-border-secondary;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.rc-collapse-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: @ant-text;
+    font-size: @ant-font-size;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: @ant-bg-layout;
+    }
+}
+
+.rc-collapse-content {
+    border-top: 1px solid @ant-border-secondary;
+}
+
+.rc-collapse-content-box {
+    padding: 16px;
+    font-size: @ant-font-size;
+    color: @ant-text;
+}
+
+// ========== rc-image ==========
+.rc-image {
+    position: relative;
+    display: inline-block;
+}
+
+.rc-image-preview-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background: @ant-bg-mask;
+}
+
+.rc-image-preview-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1080;
+}
+
+// ========== rc-cascader ==========
+// Cascader trigger: root .rc-cascader (uses BaseSelect with prefixCls=rc-cascader)
+// Override patch.less border 1px solid blue; use .rc-cascader.rc-cascader for specificity
+.rc-cascader.rc-cascader,
+.g-cascader.rc-cascader {
+    display: inline-flex;
+    align-items: center;
+    min-height: @ant-control-height;
+    padding: 0 11px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.rc-cascader.rc-cascader:not(.rc-cascader-disabled):hover,
+.g-cascader.rc-cascader:not(.rc-cascader-disabled):hover {
+    border-color: @primary-hover;
+}
+
+.rc-cascader.rc-cascader-focused:not(.rc-cascader-disabled),
+.rc-cascader.rc-cascader-open:not(.rc-cascader-disabled),
+.g-cascader.rc-cascader-focused:not(.rc-cascader-disabled),
+.g-cascader.rc-cascader-open:not(.rc-cascader-disabled) {
+    border-color: @primary !important;
+    box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+    outline: 0;
+}
+
+.rc-cascader.rc-cascader-disabled,
+.g-cascader.rc-cascader-disabled {
+    color: @ant-text-secondary;
+    background: @ant-bg-layout;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.rc-cascader-placeholder {
+    color: rgb(0 0 0 / 25%);
+}
+
+.rc-cascader-suffix {
+    color: @ant-text-secondary;
+}
+
+.rc-cascader-dropdown {
+    z-index: 1050;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+}
+
+.rc-cascader-menus {
+    display: flex;
+}
+
+.rc-cascader-menu {
+    min-width: 112px;
+    padding: 4px;
+    border: none;
+    border-right: 1px solid @ant-border-secondary;
+
+    &:last-child {
+        border-right: none;
+    }
+}
+
+.rc-cascader-rtl .rc-cascader-menu {
+    border: none;
+    border-left: 1px solid @ant-border-secondary;
+
+    &:last-child {
+        border-left: none;
+    }
+}
+
+.rc-cascader-menu-item {
+    padding: 5px 12px;
+    border-radius: @ant-radius-sm;
+    cursor: pointer;
+    font-size: @ant-font-size;
+    line-height: 22px;
+    transition: background 0.2s;
+
+    &:hover {
+        background: @ant-bg-layout;
+    }
+}
+
+.rc-cascader-menu-item-active {
+    background: @primary-bg;
+}
+
+.rc-cascader-menu-item-selected {
+    background: @primary-bg;
+    font-weight: 600;
+}
+
+.rc-cascader-panel {
+    border: 1px solid @ant-border-secondary;
+    border-radius: @ant-radius;
+}
+
+.rc-cascader-checkbox {
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius-sm;
+}
+
+// ========== textarea ==========
+textarea {
+    padding: 4px 11px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    resize: vertical;
+
+    &:hover {
+        border-color: @primary-hover;
+    }
+
+    &:focus {
+        border-color: @primary;
+        box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+        outline: 0;
+    }
+
+    &::placeholder {
+        color: rgb(0 0 0 / 25%);
+    }
+}

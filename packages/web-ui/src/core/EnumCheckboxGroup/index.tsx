@@ -17,5 +17,5 @@ export const EnumCheckboxGroup = ReactUtil.compound("EnumCheckboxGroup", {Map}, 
         value: _,
         disabled: disabledItems ? disabledItems === "all" || disabledItems.includes(_) : false,
     }));
-    return <Checkbox.Group options={options} value={value} onChange={onChange as any} />;
+    return <Checkbox.Group options={options as any} value={value as any} onChange={onChange as any} />;
 });

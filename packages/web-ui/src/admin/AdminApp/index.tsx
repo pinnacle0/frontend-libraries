@@ -1,7 +1,5 @@
 import React from "react";
-import AntLayout from "antd/es/layout";
-import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
+import {MenuFoldOutlined, MenuUnfoldOutlined} from "../../internal/icons";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import type {NavigationGroupItem} from "../../util/AdminNavigationUtil";
 import {SoundSwitch} from "./Default/SoundSwitch";
@@ -82,22 +80,36 @@ export class AdminApp<Feature, Field> extends React.PureComponent<Props<Feature,
             onLifecycleError,
         } = this.props;
         const {menuExpanded} = this.state;
+        const collapsedWidth = 80;
+        const expandedWidth = sideMenuWidth || 200;
+
         const coreContent = (
             <AdminAppContext.Provider value={this.adminAppContext}>
-                <AntLayout id="admin-app">
-                    <AntLayout.Sider collapsed={!menuExpanded} width={sideMenuWidth}>
+                <div id="admin-app">
+                    <div
+                        className="admin-sider"
+                        style={{
+                            width: menuExpanded ? expandedWidth : collapsedWidth,
+                            minWidth: menuExpanded ? expandedWidth : collapsedWidth,
+                            background: "#001529",
+                            display: "flex",
+                            flexDirection: "column",
+                            overflow: "auto",
+                            transition: "width 0.2s",
+                        }}
+                    >
                         {LogoComponent && <LogoComponent expanded={menuExpanded} />}
                         <Menu navigationGroups={navigationGroups} permissions={permissions} superAdminPermission={superAdminPermission} menuExpanded={menuExpanded} siteName={name} badges={badges} />
                         <div className="toggle-menu-icon" onClick={this.toggleMenuExpansion}>
                             {menuExpanded ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                         </div>
-                    </AntLayout.Sider>
-                    <AntLayout>
-                        <AntLayout.Header>
+                    </div>
+                    <div style={{flex: 1, display: "flex", flexDirection: "column", overflow: "hidden"}}>
+                        <div className="admin-header">
                             <Navigator navigationGroups={navigationGroups} permissions={permissions} superAdminPermission={superAdminPermission} />
                             {NavigatorSideComponent && <NavigatorSideComponent />}
-                        </AntLayout.Header>
-                        <AntLayout.Content>
+                        </div>
+                        <div className="admin-content" style={{flex: 1, overflow: "auto"}}>
                             <RouteSwitch
                                 navigationGroups={navigationGroups}
                                 permissions={permissions}
@@ -106,9 +118,9 @@ export class AdminApp<Feature, Field> extends React.PureComponent<Props<Feature,
                                 onLifecycleError={onLifecycleError}
                                 onNotFound={onNotFound}
                             />
-                        </AntLayout.Content>
-                    </AntLayout>
-                </AntLayout>
+                        </div>
+                    </div>
+                </div>
             </AdminAppContext.Provider>
         );
 

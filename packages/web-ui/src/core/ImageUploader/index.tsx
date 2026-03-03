@@ -1,7 +1,5 @@
 import React from "react";
-import CloudUploadOutlined from "@ant-design/icons/CloudUploadOutlined";
-import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
-import EyeOutlined from "@ant-design/icons/EyeOutlined";
+import {CloudUploadOutlined, DeleteOutlined, EyeOutlined} from "../../internal/icons";
 import {classNames} from "../../util/ClassNames";
 import {ModalUtil} from "../../util/ModalUtil";
 import {MediaUtil} from "../../util/MediaUtil";
@@ -16,7 +14,7 @@ import "./index.less";
 export interface Props<SuccessResponseType, ErrorResponseType> extends UploaderProps<SuccessResponseType, ErrorResponseType> {
     imageURL: string | null;
     onChange: (response: SuccessResponseType) => void;
-    width: number; // At least 200px if onRemove supported, else at least 150px
+    width: number;
     height: number;
     onRemove?: () => void;
     disabled?: boolean;
@@ -51,7 +49,6 @@ export const ImageUploader = ReactUtil.memo("ImageUploader", <Res, Err>(props: P
 
     const preventUploadBehavior = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
-            // Only trigger for clicking "Upload" icon
             e.stopPropagation();
         }
     };

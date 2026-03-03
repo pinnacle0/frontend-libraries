@@ -1,160 +1,214 @@
 @import url("../../css/variable.less");
 
 #admin-app {
-    .ant-layout-sider {
-        height: 100vh;
+    display: flex;
+    height: 100%;
 
-        > .ant-layout-sider-children {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+    .admin-sider {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        background: #001529;
 
-            > .ant-menu {
-                flex: 1 1 0;
-                overflow: hidden auto;
+        .rc-menu-submenu-selected {
+            background-color: unset;
+        }
 
-                .ant-menu-submenu-title .ant-badge {
-                    font-size: 16px;
-                }
+        .rc-menu {
+            flex: 1 1 0;
+            min-height: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent !important;
+            color: rgb(255 255 255 / 65%);
 
-                .ant-menu-item .ant-badge {
-                    font-size: 14px;
-                }
-
-                .ant-badge {
-                    color: inherit;
-
-                    .anticon {
-                        // Override Antd default
-                        font-size: 16px;
-                        margin-right: 2px;
-                    }
-
-                    .ant-badge-count {
-                        position: absolute;
-                        right: -24px;
-                        top: 8px;
-                    }
-                }
+            .rc-menu-item,
+            .rc-menu-submenu-title {
+                color: #fff;
             }
 
-            > .toggle-menu-icon {
+            .rc-menu-item-active,
+            .rc-menu-item-selected,
+            .rc-menu-submenu-active > .rc-menu-submenu-title {
+                background-color: rgb(255 255 255 / 8%);
                 color: #fff;
-                font-size: 20px;
-                padding: 3px 24px;
+            }
+
+            .rc-menu-item-selected {
+                background-color: @primary;
+            }
+
+            .rc-menu-item:not(.rc-menu-item-selected) {
+                opacity: 0.65;
 
                 &:hover {
-                    opacity: 0.7;
-                    cursor: pointer;
+                    opacity: 1;
                 }
+            }
+
+            .g-admin-menu-item-label,
+            .g-admin-menu-submenu-label {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                > span:first-child {
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                > .g-badge {
+                    flex-shrink: 0;
+                    margin-left: 8px;
+                    min-width: 20px;
+                }
+            }
+
+            .rc-menu-submenu-title .g-badge {
+                font-size: 16px;
+            }
+
+            .rc-menu-item .g-badge {
+                font-size: 14px;
+            }
+
+            .g-badge {
+                color: inherit;
             }
         }
 
-        &.ant-layout-sider-collapsed {
-            > .ant-layout-sider-children {
-                > .ant-menu {
-                    .ant-menu-submenu-title {
-                        overflow: visible;
-                        padding-left: 24px;
-                        text-align: center;
+        .toggle-menu-icon {
+            flex-shrink: 0;
+            color: #fff;
+            font-size: 20px;
+            padding: 12px 24px;
+            cursor: pointer;
 
-                        .ant-badge {
-                            .ant-badge-count {
-                                right: -2px;
-                                top: 0;
-                                z-index: 1;
-                            }
-                        }
-                    }
-                }
+            &:hover {
+                opacity: 0.7;
             }
         }
     }
 
-    .ant-layout-header {
-        height: 39px;
+    .admin-header {
+        flex-shrink: 0;
+        height: 38px;
         background: #fff;
         display: flex;
-        padding: 0 12px 0 0;
         align-items: center;
         justify-content: space-between;
+        padding: 0 24px;
         border-bottom: 1px solid @lib-border-gray;
 
-        > .navigator-bar.ant-tabs-card {
+        .navigator-bar,
+        .rc-tabs.g-tabs.navigator-bar {
+            flex: 1;
             min-width: 0;
+            height: 100%;
+            border: none;
+            overflow: hidden;
 
-            > .ant-tabs-nav {
+            .rc-tabs-nav {
                 margin: 0;
+                height: 100%;
+                border: none;
+            }
 
-                .ant-tabs-tab {
-                    border: none;
-                    margin-right: 0;
-                    border-radius: 0;
-                    width: auto;
+            .rc-tabs-nav-list {
+                height: 100%;
+            }
 
-                    > .ant-tabs-tab-btn {
-                        transition: none;
-                    }
+            .rc-tabs-tab {
+                height: 100%;
+                margin-right: 0;
+                padding: 0 16px;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                font-size: 14px;
 
-                    &:hover {
-                        background: @lib-background-gray;
-                    }
+                &:hover {
+                    color: @primary-hover;
+                }
+            }
 
-                    .ant-spin {
-                        // Hide loading status for inactive tab
-                        display: none;
-                    }
+            .rc-tabs-tab-active {
+                background: @primary;
+                font-weight: 600;
 
-                    &.ant-tabs-tab-active {
-                        background: @lib-main-blue;
+                .rc-tabs-tab-btn {
+                    color: #fff;
+                }
 
-                        .ant-tabs-tab-btn {
-                            color: #fff;
+                .g-spin-container {
+                    display: inline-flex;
+                    align-items: center;
+                    margin-left: 8px;
+                    color: #fff;
+                }
 
-                            .ant-spin {
-                                display: inline-flex;
-                                align-items: center;
-                                margin-left: 8px;
-                                color: #fff;
-                            }
-                        }
+                .rc-tabs-tab-remove {
+                    color: #fff;
+                    opacity: 1;
+                }
+            }
 
-                        .anticon-close {
-                            color: #fff;
-                        }
-                    }
+            .rc-tabs-tab:not(.rc-tabs-tab-active) .g-spin-container {
+                display: none;
+            }
+
+            .rc-tabs-ink-bar {
+                display: none;
+            }
+
+            .rc-tabs-tab-btn {
+                color: inherit;
+            }
+
+            .rc-tabs-tab-remove {
+                opacity: 0.65;
+
+                &:hover {
+                    opacity: 1;
                 }
             }
         }
     }
 
-    .ant-layout-content {
-        height: ~"calc(100vh - 45px)"; // Minus header height
+    .admin-content {
+        height: calc(100% - 38px);
         overflow-y: auto;
     }
 
-    .ant-menu-item {
+    .rc-menu-item {
         .g-admin-menu-badge-list {
             display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
 
-            > .ant-badge {
+            > span {
+                flex: 1;
+                min-width: 0;
+            }
+
+            > .g-badge {
                 width: 24px;
+                flex-shrink: 0;
             }
         }
     }
 }
 
-// Submenu popup is put directly under <body> in collapse mode
-.ant-menu-submenu-popup {
-    .ant-menu-item {
-        .ant-badge {
+.rc-menu-submenu-popup {
+    .rc-menu-item {
+        .g-badge {
             color: inherit;
-
-            .ant-badge-count {
-                position: absolute;
-                right: -22px;
-                top: 6px;
-            }
         }
     }
 }
