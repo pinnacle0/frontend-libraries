@@ -1,0 +1,74 @@
+@import url("../../css/variable.less");
+
+.g-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.5;
+
+    &:hover {
+        border-color: #d9d9d9;
+    }
+
+    &.checked {
+        border-color: @primary;
+        color: @primary;
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+    input {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        cursor: inherit;
+    }
+}
+
+.g-radio-group {
+    .g-radio-button {
+        padding: 4px 15px;
+        cursor: pointer;
+        border: 1px solid #d9d9d9;
+        background: #fff;
+        color: rgb(0, 0 / 0%.88);
+        opacity: 1;
+
+        &:hover {
+            border-color: #d9d9d9;
+        }
+
+        &.checked {
+            border-color: @primary;
+            color: @primary;
+
+            + .g-radio-button {
+                border-left-color: @primary;
+            }
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        &:first-of-type {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        &:not(:last-of-type) {
+            border-right: none;
+        }
+    }
+}

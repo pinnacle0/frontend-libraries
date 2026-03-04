@@ -1,5 +1,6 @@
 import React from "react";
 import RcTooltip from "@rc-component/tooltip";
+import "@rc-component/tooltip/assets/bootstrap.css";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
 

@@ -1,4 +1,5 @@
 import RcSelect from "@rc-component/select";
+import "@rc-component/select/assets/index.less";
 import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 

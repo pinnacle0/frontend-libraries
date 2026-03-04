@@ -2,7 +2,7 @@
 
 // ==============================================
 // Overrides for rc-component demo/dev CSS
-// These must come AFTER rc-components.less imports
+// Overrides for rc-component styles (imported in each component)
 // ==============================================
 
 // ========== rc-input ==========
@@ -101,131 +101,6 @@
     &:hover {
         color: @ant-text;
     }
-}
-
-// ========== rc-select ==========
-.rc-select {
-    display: inline-block;
-    font-size: @ant-font-size;
-    position: relative;
-    width: auto;
-}
-
-.rc-select-selector {
-    display: flex;
-    align-items: center;
-    min-height: @ant-control-height;
-    padding: 0 11px;
-    font-size: @ant-font-size;
-    line-height: @ant-line-height;
-    color: @ant-text;
-    background-color: @ant-bg;
-    border: 1px solid @ant-border;
-    border-radius: @ant-radius;
-    cursor: pointer;
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-}
-
-.rc-select-single:not(.rc-select-customize-input) .rc-select-selector {
-    padding: 0 11px;
-    border: 1px solid @ant-border;
-    border-radius: @ant-radius;
-}
-
-.rc-select-multiple .rc-select-selector {
-    padding: 1px 4px;
-    border: 1px solid @ant-border;
-    border-radius: @ant-radius;
-}
-
-.rc-select-multiple .rc-select-selection-item {
-    background: @ant-bg-layout;
-    border-radius: @ant-radius-sm;
-    border: 1px solid @ant-border-secondary;
-}
-
-.rc-select-selection-search-input {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-}
-
-.rc-select-selection-placeholder {
-    color: rgb(0 0 0 / 25%);
-    opacity: 1;
-}
-
-.rc-select:not(.rc-select-disabled):hover .rc-select-selector {
-    border-color: @primary-hover;
-}
-
-.rc-select-focused:not(.rc-select-disabled) .rc-select-selector {
-    border-color: @primary !important;
-    box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
-    outline: 0;
-}
-
-.rc-select-disabled .rc-select-selector {
-    color: @ant-text-secondary;
-    background: @ant-bg-layout;
-    cursor: not-allowed;
-    opacity: 1;
-}
-
-.rc-select-arrow {
-    position: absolute;
-    right: 11px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: @ant-text-secondary;
-    font-size: 12px;
-    pointer-events: none;
-
-    &-icon::after {
-        border-top-color: @ant-text-secondary;
-    }
-}
-
-.rc-select-dropdown {
-    position: absolute;
-    z-index: 1050;
-    padding: 4px;
-    border-radius: @ant-radius-lg;
-    box-shadow: @ant-shadow;
-    background: @ant-bg-elevated;
-    border: none;
-    min-height: auto;
-    max-height: 256px;
-    overflow-y: auto;
-}
-
-.rc-select-item {
-    padding: 5px 12px;
-    border-radius: @ant-radius-sm;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-size: @ant-font-size;
-    line-height: 22px;
-}
-
-.rc-select-item-option-active {
-    background: @ant-bg-layout;
-}
-
-.rc-select-item-option-selected {
-    font-weight: 600;
-    background: @primary-bg;
-}
-
-.rc-select-item-option-disabled {
-    color: @ant-text-secondary;
-    cursor: not-allowed;
-}
-
-.rc-select-item-empty {
-    color: @ant-text-secondary;
 }
 
 // ========== rc-picker ==========
@@ -1115,16 +990,12 @@
 // ========== rc-tooltip ==========
 .rc-tooltip {
     z-index: 1070;
-}
-
-.rc-tooltip-inner {
     min-height: auto;
     padding: 6px 8px;
     font-size: @ant-font-size;
     color: #fff;
     background: rgb(0 0 0 / 85%);
     border-radius: @ant-radius;
-    box-shadow: @ant-shadow-secondary;
 }
 
 .rc-tooltip-arrow {
@@ -1393,13 +1264,12 @@
 }
 
 // ========== rc-cascader ==========
-// Cascader trigger: root .rc-cascader (uses BaseSelect with prefixCls=rc-cascader)
-// Override patch.less border 1px solid blue; use .rc-cascader.rc-cascader for specificity
 .rc-cascader.rc-cascader,
 .g-cascader.rc-cascader {
+    width: 184px;
     display: inline-flex;
     align-items: center;
-    min-height: @ant-control-height;
+    height: @ant-control-height;
     padding: 0 11px;
     font-size: @ant-font-size;
     line-height: @ant-line-height;
@@ -1411,6 +1281,11 @@
     transition:
         border-color 0.2s,
         box-shadow 0.2s;
+
+    input.rc-cascader-input {
+        outline: none;
+        border: none;
+    }
 }
 
 .rc-cascader.rc-cascader:not(.rc-cascader-disabled):hover,
@@ -1425,6 +1300,10 @@
     border-color: @primary !important;
     box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
     outline: 0;
+
+    &.rc-cascader-open {
+        color: rgb(0 0 0 / 25%);
+    }
 }
 
 .rc-cascader.rc-cascader-disabled,
@@ -1436,16 +1315,23 @@
 }
 
 .rc-cascader-placeholder {
-    color: rgb(0 0 0 / 25%);
+    color: rgb(0 0 0 / 50%);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .rc-cascader-suffix {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
     color: @ant-text-secondary;
 }
 
 .rc-cascader-dropdown {
     z-index: 1050;
     border-radius: @ant-radius-lg;
+    border: none;
     box-shadow: @ant-shadow;
     background: @ant-bg-elevated;
 }
@@ -1504,6 +1390,7 @@
 .rc-cascader-checkbox {
     border: 1px solid @ant-border;
     border-radius: @ant-radius-sm;
+    margin-right: 6px;
 }
 
 // ========== textarea ==========

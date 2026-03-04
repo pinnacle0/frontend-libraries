@@ -1,4 +1,5 @@
 import RcImage from "@rc-component/image";
+import "@rc-component/image/assets/index.css";
 import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 

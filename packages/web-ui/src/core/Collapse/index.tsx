@@ -1,5 +1,6 @@
 import React from "react";
 import RcCollapse from "@rc-component/collapse";
+import "@rc-component/collapse/assets/index.css";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export interface CollapseItemProps {

@@ -1,4 +1,5 @@
 import RcDropdown from "@rc-component/dropdown";
+import "@rc-component/dropdown/assets/index.css";
 import React from "react";
 import {Button} from "../Button";
 import type {Props as ButtonProps} from "../Button";

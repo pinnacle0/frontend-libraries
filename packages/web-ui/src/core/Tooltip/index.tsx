@@ -1,5 +1,6 @@
 import React from "react";
 import RcTooltip from "@rc-component/tooltip";
+import "@rc-component/tooltip/assets/bootstrap.css";
 import {ReactUtil} from "../../util/ReactUtil";
 
 export type TooltipPlacement = "top" | "left" | "right" | "bottom" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight" | "leftTop" | "leftBottom" | "rightTop" | "rightBottom";

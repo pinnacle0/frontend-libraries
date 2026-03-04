@@ -71,7 +71,7 @@ const groups: DemoHelperGroupConfig[] = [
                         disabled: true,
                     },
                 ]}
-                style={{width: 200}}
+                // style={{width: 200}}
             />,
         ],
     },

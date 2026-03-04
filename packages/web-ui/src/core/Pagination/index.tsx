@@ -1,5 +1,6 @@
 import React from "react";
 import RcPagination from "@rc-component/pagination";
+import "@rc-component/pagination/assets/index.less";
 import {i18n} from "../../internal/i18n/core";
 import {TextUtil} from "../../internal/TextUtil";
 import "./index.less";

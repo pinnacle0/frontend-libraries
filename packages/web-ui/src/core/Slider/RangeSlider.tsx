@@ -1,5 +1,6 @@
 import React from "react";
 import RcSlider from "@rc-component/slider";
+import "@rc-component/slider/assets/index.css";
 import type {ControlledFormValue} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
 

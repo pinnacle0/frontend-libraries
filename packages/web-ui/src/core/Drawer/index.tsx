@@ -1,5 +1,6 @@
 import React from "react";
 import RcDrawer from "@rc-component/drawer";
+import "@rc-component/drawer/assets/index.css";
 import {CloseOutlined} from "../../internal/icons";
 import {ReactUtil} from "../../util/ReactUtil";
 

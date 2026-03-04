@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Dialog from "@rc-component/dialog";
+import "@rc-component/dialog/assets/index.css";
 import {CloseOutlined} from "../../internal/icons";
 import type {PickOptional} from "../../internal/type";
 import {TextUtil} from "../../internal/TextUtil";

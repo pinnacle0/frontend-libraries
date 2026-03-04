@@ -1,5 +1,6 @@
 import React from "react";
 import RcCascader from "@rc-component/cascader";
+import "@rc-component/cascader/assets/index.less";
 import {classNames} from "../../util/ClassNames";
 import type {ControlledFormValue} from "../../internal/type";
 import "./index.less";

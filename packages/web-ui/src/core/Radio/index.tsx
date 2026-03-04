@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import {ReactUtil} from "../../util/ReactUtil";
+import "./index.less";
 
 export interface RadioChangeEvent {
     target: {value: any; checked: boolean};
@@ -30,9 +31,6 @@ interface RadioGroupProps {
 
 const RadioGroupContext = React.createContext<{value?: any; onChange?: (e: RadioChangeEvent) => void; disabled?: boolean; optionType?: string; buttonStyle?: RadioGroupButtonStyle} | null>(null);
 
-const radioStyle: React.CSSProperties = {display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, lineHeight: 1.5};
-const inputStyle: React.CSSProperties = {width: 16, height: 16, margin: 0, cursor: "inherit"};
-
 const RadioButton = ({value, disabled, children, className, style, onChange, ...restProps}: RadioProps) => {
     const group = React.useContext(RadioGroupContext);
     const checked = group ? group.value === value : false;
@@ -44,18 +42,8 @@ const RadioButton = ({value, disabled, children, className, style, onChange, ...
         group?.onChange?.(event);
     };
 
-    const buttonStyle: React.CSSProperties = {
-        padding: "4px 15px",
-        cursor: isDisabled ? "not-allowed" : "pointer",
-        border: "1px solid #d9d9d9",
-        borderInlineStart: "none",
-        background: checked ? (group?.buttonStyle === "solid" ? "#1677ff" : "#fff") : "#fff",
-        color: checked ? (group?.buttonStyle === "solid" ? "#fff" : "#1677ff") : "rgba(0,0,0,0.88)",
-        opacity: isDisabled ? 0.65 : 1,
-    };
-
     return (
-        <label className={classNames("g-radio-button", className)} style={{...buttonStyle, ...style}}>
+        <label className={classNames("g-radio-button", {checked, disabled: isDisabled}, className)} style={style}>
             <input type="radio" checked={checked} onChange={handleChange} disabled={isDisabled} style={{display: "none"}} {...restProps} />
             <span>{children}</span>
         </label>
@@ -86,8 +74,8 @@ const InternalRadio = ({value, disabled, children, className, style, onChange, .
     };
 
     return (
-        <label className={classNames("g-radio", className)} style={{...radioStyle, ...(isDisabled ? {cursor: "not-allowed", opacity: 0.65} : {}), ...style}}>
-            <input type="radio" checked={checked} onChange={handleChange} disabled={isDisabled} style={inputStyle} {...restProps} />
+        <label className={classNames("g-radio", {checked, disabled: isDisabled}, className)} style={style}>
+            <input type="radio" checked={checked} onChange={handleChange} disabled={isDisabled} {...restProps} />
             {children && <span>{children}</span>}
         </label>
     );

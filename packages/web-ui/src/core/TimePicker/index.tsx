@@ -2,6 +2,7 @@ import type {Dayjs} from "dayjs";
 import dayjs from "dayjs";
 import React from "react";
 import {Picker} from "@rc-component/picker";
+import "@rc-component/picker/assets/index.less";
 import dayjsGenerateConfig from "@rc-component/picker/lib/generate/dayjs";
 import type {ControlledFormValue} from "../../internal/type";
 import en_US from "@rc-component/picker/lib/locale/en_US";

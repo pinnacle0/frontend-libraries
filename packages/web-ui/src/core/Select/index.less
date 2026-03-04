@@ -1,0 +1,139 @@
+@import url("~@rc-component/select/assets/index.less");
+@import url("../../css/variable.less");
+
+// ============== Trigger ==============
+.g-select.rc-select {
+    display: inline-flex;
+    align-items: center;
+    min-height: @ant-control-height;
+    padding: 0 11px;
+    font-size: @ant-font-size;
+    line-height: @ant-line-height;
+    color: @ant-text;
+    background-color: @ant-bg;
+    border: 1px solid @ant-border;
+    border-radius: @ant-radius;
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &.rc-select-multiple {
+        padding: 1px 4px;
+    }
+
+    &:not(.rc-select-disabled):hover {
+        border-color: @primary-hover;
+    }
+
+    &.rc-select-disabled {
+        color: @ant-text-secondary;
+        background: @ant-bg-layout;
+        cursor: not-allowed;
+        opacity: 1;
+    }
+
+    .rc-select-input {
+        border: none;
+        outline: none;
+    }
+
+    .rc-select-placeholder {
+        color: rgb(0 0 0 / 25%);
+        opacity: 1;
+    }
+
+    .rc-select-selection-search-input {
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+
+    .rc-select-arrow {
+        position: absolute;
+        right: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: @ant-text-secondary;
+        font-size: 12px;
+        pointer-events: none;
+
+        &-icon::after {
+            border-top-color: @ant-text-secondary;
+        }
+    }
+}
+
+.rc-select-focused:not(.rc-select-disabled),
+.rc-select-open:not(.rc-select-disabled) {
+    border-color: @primary !important;
+    box-shadow: 0 0 0 2px rgb(5 145 255 / 10%);
+    outline: 0;
+}
+
+// ============== Multiple tags ==============
+.rc-select-content {
+    &-item {
+        flex: none;
+    }
+
+    .rc-select-selection-item {
+        flex: none;
+        background: @ant-bg-layout;
+        border-radius: @ant-radius-sm;
+        border: 1px solid @ant-border-secondary;
+    }
+}
+
+.rc-select-multiple .rc-select-selection-item {
+    flex: none;
+    background: @ant-bg-layout;
+    border-radius: @ant-radius-sm;
+    border: 1px solid @ant-border-secondary;
+}
+
+// ============== Dropdown ==============
+.rc-select-dropdown {
+    position: absolute;
+    z-index: 1050;
+    padding: 4px;
+    border-radius: @ant-radius-lg;
+    box-shadow: @ant-shadow;
+    background: @ant-bg-elevated;
+    border: none;
+    min-height: auto;
+    max-height: 256px;
+    overflow-y: auto;
+
+    &-hidden {
+        display: none;
+    }
+}
+
+// ============== Dropdown options ==============
+.rc-select-item {
+    padding: 5px 12px;
+    border-radius: @ant-radius-sm;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: @ant-font-size;
+    line-height: 22px;
+
+    &-option-active {
+        background: @ant-bg-layout;
+    }
+
+    &-option-selected {
+        font-weight: 600;
+        background: @primary-bg;
+    }
+
+    &-option-disabled {
+        color: @ant-text-secondary;
+        cursor: not-allowed;
+    }
+
+    &-empty {
+        color: @ant-text-secondary;
+    }
+}

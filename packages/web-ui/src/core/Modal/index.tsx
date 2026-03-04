@@ -1,5 +1,6 @@
 import React from "react";
 import Dialog from "@rc-component/dialog";
+import "@rc-component/dialog/assets/index.css";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import {CloseOutlined} from "../../internal/icons";

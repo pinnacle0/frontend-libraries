@@ -1,5 +1,6 @@
 import React from "react";
 import RcTabs from "@rc-component/tabs";
+import "@rc-component/tabs/assets/index.css";
 import {classNames} from "../../util/ClassNames";
 import {Single} from "./Single";
 import {ReactUtil} from "../../util/ReactUtil";

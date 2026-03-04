@@ -1,6 +1,7 @@
 import React from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import RcMenu from "@rc-component/menu";
+import "@rc-component/menu/assets/index.less";
 import {LocalStorageUtil} from "../../util/LocalStorageUtil";
 import {MediaUtil} from "../../util/MediaUtil";
 import {Badge} from "../../core/Badge";
@@ -139,7 +140,9 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
 
         const label = (
             <span className="g-admin-menu-submenu-label">
-                <span>{groupItem.icon} {menuExpanded ? groupItem.title : ""}</span>
+                <span>
+                    {groupItem.icon} {menuExpanded ? groupItem.title : ""}
+                </span>
                 {totalCount > 0 && <Badge count={totalCount} />}
             </span>
         );

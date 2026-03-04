@@ -1,5 +1,6 @@
 import React from "react";
 import RcInput from "@rc-component/input";
+import "@rc-component/input/assets/index.less";
 import type {InputProps as RcInputProps, InputRef} from "@rc-component/input";
 import type {InputFocusOptions} from "@rc-component/util/lib/Dom/focus";
 import type {ControlledFormValue} from "../../internal/type";

@@ -1,6 +1,8 @@
 import React from "react";
 import RcCascader from "@rc-component/cascader";
+import "@rc-component/cascader/assets/index.less";
 import type {ControlledFormValue} from "../../internal/type";
+import {DownOutlined} from "../../internal/icons";
 import {Nullable} from "./Nullable";
 import {InitialNullable} from "./InitialNullable";
 import "./index.less";
@@ -85,6 +87,7 @@ export const Cascader = ReactUtil.compound("Cascader", {Nullable, InitialNullabl
             options={getDataSource()}
             allowClear={false}
             expandTrigger="hover"
+            suffixIcon={<DownOutlined style={{fontSize: 12, color: "inherit"}} />}
             displayRender={displayRender as any}
             placeholder={
                 prefix ? (

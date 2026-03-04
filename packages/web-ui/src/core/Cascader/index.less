@@ -1,11 +1,32 @@
 .g-cascader {
+    .rc-cascader-content {
+        height: 100%;
+
+        > .prefixed-label-wrapper,
+        > .rc-cascader-placeholder {
+            height: 100%;
+            min-width: 0;
+            overflow: hidden;
+        }
+    }
+
     .prefixed-placeholder-wrapper,
     .prefixed-label-wrapper {
         display: flex;
         align-items: center;
+        height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         :first-child {
             margin-right: 4px;
+            flex-shrink: 0;
+        }
+
+        :not(:first-child) {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 }

@@ -1,5 +1,7 @@
 import React from "react";
 import RcTable from "@rc-component/table";
+import "@rc-component/table/assets/index.css";
+import "@rc-component/checkbox/assets/index.css";
 import type {ColumnType as RcColumnType, TableProps as RcTableProps} from "@rc-component/table";
 import {FileSearchOutlined, LoadingOutlined, SettingOutlined} from "../../internal/icons";
 import {i18n} from "../../internal/i18n/core";
