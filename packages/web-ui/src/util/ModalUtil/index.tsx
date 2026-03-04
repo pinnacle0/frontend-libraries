@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Dialog from "@rc-component/dialog";
-import "@rc-component/dialog/assets/index.css";
 import {CloseOutlined} from "../../internal/icons";
-import type {PickOptional} from "../../internal/type";
+import {Button} from "../../core/Button";
 import {TextUtil} from "../../internal/TextUtil";
 import {i18n} from "../../internal/i18n/util";
+import type {PickOptional} from "../../internal/type";
 import "./index.less";
 
 export interface ModalConfig {
@@ -24,7 +24,6 @@ export interface ModalConfig {
     hideButtons?: boolean;
     addInnerPadding?: boolean;
     footerExtra?: React.ReactElement | string | number;
-    cancelButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 export type CreateModalReturnType = {destroy: () => void; update: (props: Partial<{title: React.ReactNode; content: React.ReactNode}>) => void};
@@ -82,30 +81,31 @@ function createSync(config: ModalConfig): CreateModalReturnType {
                 maskClosable={false}
                 footer={
                     mergedConfig.hideButtons ? null : (
-                        <div style={{display: "flex", justifyContent: "flex-end", gap: 8, padding: "10px 16px"}}>
+                        <div style={{display: "flex", justifyContent: "center", gap: 8, padding: "10px 16px"}}>
                             {mergedConfig.footerExtra && <div style={{marginRight: "auto"}}>{mergedConfig.footerExtra}</div>}
                             {mergedConfig.cancelText && (
-                                <button
+                                <Button
+                                    type="primary"
+                                    style={{width: 120, height: 32}}
                                     onClick={() => {
                                         mergedConfig.onCancel?.(false);
                                         destroy();
                                     }}
-                                    style={{padding: "4px 15px", borderRadius: 6, border: "1px solid #d9d9d9", background: "#fff", cursor: "pointer"}}
-                                    {...mergedConfig.cancelButtonProps}
                                 >
                                     {mergedConfig.cancelText}
-                                </button>
+                                </Button>
                             )}
-                            <button
+                            <Button
+                                type="primary"
+                                style={{width: 120, height: 32}}
                                 onClick={() => {
                                     mergedConfig.onOk?.();
                                     destroy();
                                 }}
                                 autoFocus={mergedConfig.autoFocusButton === "ok"}
-                                style={{padding: "4px 15px", borderRadius: 6, border: "none", background: "#1677ff", color: "#fff", cursor: "pointer"}}
                             >
                                 {mergedConfig.okText}
-                            </button>
+                            </Button>
                         </div>
                     )
                 }

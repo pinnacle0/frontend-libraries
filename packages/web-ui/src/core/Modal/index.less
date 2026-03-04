@@ -1,13 +1,19 @@
 @import url("../../css/variable.less");
+@import url("@rc-component/dialog/assets/index.css");
 
 .g-modal {
     color: inherit;
 
     .rc-dialog-header {
-        background: @ant-bg-container;
+        background-color: #f2f2f3;
         padding: 16px 24px;
-        font-weight: 600;
-        font-size: 16px;
+
+        .rc-dialog-title {
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 1.5;
+            color: @ant-text;
+        }
     }
 
     .rc-dialog-close {
@@ -35,6 +41,13 @@
     .rc-dialog-footer {
         margin-top: 0;
         padding: 10px 16px;
+        border-top: none;
+
+        > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     &.no-padding {

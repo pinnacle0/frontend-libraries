@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-import {LoadingOutlined} from "../../internal/icons";
 import {ReactUtil} from "../../util/ReactUtil";
 import "./index.less";
 
@@ -39,8 +38,6 @@ export const Button = ReactUtil.memo(
                 disabled={disabled || loading}
                 {...rest}
             >
-                {loading && <LoadingOutlined style={{marginRight: children ? 8 : 0}} />}
-                {!loading && icon && <span className="g-button-icon">{icon}</span>}
                 {children && <span>{children}</span>}
             </button>
         );

@@ -1,11 +1,10 @@
 import React from "react";
 import Dialog from "@rc-component/dialog";
-import "@rc-component/dialog/assets/index.css";
 import {classNames} from "../../util/ClassNames";
 import {Spin} from "../Spin";
 import {CloseOutlined} from "../../internal/icons";
-import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
+import "./index.less";
 
 export interface Props {
     open?: boolean;

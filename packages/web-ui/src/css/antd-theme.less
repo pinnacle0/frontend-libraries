@@ -359,13 +359,14 @@
     left: 0;
     z-index: 1000;
     outline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
 }
 
 .rc-dialog {
-    position: relative;
     width: auto;
-    margin: 0 auto;
-    top: 100px;
     padding-bottom: 24px;
 }
 
@@ -386,34 +387,11 @@
     box-shadow: @ant-shadow;
 }
 
-.rc-dialog-header {
-    padding: 16px 24px;
-    color: @ant-text;
-    background: @ant-bg-container;
-    border-bottom: 1px solid @ant-border-secondary;
-    border-radius: @ant-radius-lg @ant-radius-lg 0 0;
-}
-
-.rc-dialog-title {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 1.5;
-    color: @ant-text;
-}
-
 .rc-dialog-body {
     padding: 24px;
     font-size: @ant-font-size;
     line-height: @ant-line-height;
     color: @ant-text;
-}
-
-.rc-dialog-footer {
-    padding: 10px 16px;
-    text-align: right;
-    background: @ant-bg-container;
-    border-top: 1px solid @ant-border-secondary;
-    border-radius: 0 0 @ant-radius-lg @ant-radius-lg;
 }
 
 .rc-dialog-close {
