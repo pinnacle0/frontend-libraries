@@ -73,7 +73,8 @@
             "minimatch@3": "3.1.5",
             "minimatch@5": "5.1.9",
             "minimatch@9": "9.0.9",
-            "minimatch@10": "10.2.4"
+            "minimatch@10": "10.2.4",
+            "serialize-javascript": "7.0.3"
         },
         "onlyBuiltDependencies": [
             "@swc/core",

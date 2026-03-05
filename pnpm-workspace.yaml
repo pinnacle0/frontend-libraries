@@ -7,6 +7,8 @@ minimumReleaseAge: 4320
 minimumReleaseAgeExclude:
     - "@pinnacle0/*"
     - "swc-plugin-core-fe-hmr"
+    - "@rspack/*"
+    - "ts-checker-rspack-plugin"
 onlyBuiltDependencies:
     - "@swc/core"
     - es5-ext
