@@ -192,6 +192,9 @@ importers:
       eslint-plugin-react-hooks:
         specifier: 7.0.1
         version: 7.0.1(eslint@9.39.3)
+      rollup:
+        specifier: 4.59.0
+        version: 4.59.0
     devDependencies:
       '@pinnacle0/devtool-util':
         specifier: workspace:*
@@ -211,9 +214,6 @@ importers:
       '@types/yargs':
         specifier: 17.0.35
         version: 17.0.35
-      rollup:
-        specifier: 4.59.0
-        version: 4.59.0
       yargs:
         specifier: 17.7.2
         version: 17.7.2
