@@ -14,7 +14,7 @@ overrides:
   '@ant-design/fast-color': 3.0.0
   '@ant-design/icons': 6.1.0
   qs: 6.14.2
-  tar: 7.5.8
+  tar: 7.5.10
   lodash: 4.17.23
   '@isaacs/brace-expansion': 5.0.1
   webpack: 5.104.1
@@ -5626,8 +5626,8 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@7.5.8:
-    resolution: {integrity: sha512-SYkBtK99u0yXa+IWL0JRzzcl7RxNpvX/U08Z+8DKnysfno7M+uExnTZH8K+VGgShf2qFPKtbNr9QBl8n7WBP6Q==}
+  tar@7.5.10:
+    resolution: {integrity: sha512-8mOPs1//5q/rlkNSPcCegA6hiHJYDmSLEI8aMH/CdSQJNWztHC9WHNam5zdQlfpTwB9Xp7IBEsHfV5LKMJGVAw==}
     engines: {node: '>=18'}
 
   terser-webpack-plugin@5.3.16:
@@ -8946,7 +8946,7 @@ snapshots:
       minipass-pipeline: 1.2.4
       p-map: 7.0.4
       ssri: 12.0.0
-      tar: 7.5.8
+      tar: 7.5.10
       unique-filename: 4.0.0
 
   cacheable-lookup@7.0.0: {}
@@ -10909,7 +10909,7 @@ snapshots:
       nopt: 8.1.0
       proc-log: 5.0.0
       semver: 7.7.3
-      tar: 7.5.8
+      tar: 7.5.10
       tinyglobby: 0.2.15
       which: 5.0.0
     transitivePeerDependencies:
@@ -11991,7 +11991,7 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  tar@7.5.8:
+  tar@7.5.10:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
