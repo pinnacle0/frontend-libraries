@@ -11,21 +11,20 @@ import {SocksProxyAgent} from "socks-proxy-agent";
 import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil.js";
 import type {Agent} from "https";
 
-export interface WebpackServerStarterOptions
-    extends Pick<
-        WebpackConfigGeneratorOptions,
-        | "projectDirectory"
-        | "dynamicPathResolvers"
-        | "extraEntries"
-        | "prioritizedExtensionPrefixes"
-        | "defineVars"
-        | "extraExtensionsForOtherRule"
-        | "tsconfigFilePath"
-        | "tsconfigFilename"
-        | "customizedLoaders"
-        | "customizedPlugins"
-        | "indirectCodeExclude"
-    > {
+export interface WebpackServerStarterOptions extends Pick<
+    WebpackConfigGeneratorOptions,
+    | "projectDirectory"
+    | "dynamicPathResolvers"
+    | "extraEntries"
+    | "prioritizedExtensionPrefixes"
+    | "defineVars"
+    | "extraExtensionsForOtherRule"
+    | "tsconfigFilePath"
+    | "tsconfigFilename"
+    | "customizedLoaders"
+    | "customizedPlugins"
+    | "indirectCodeExclude"
+> {
     port: number;
     apiProxy?: {
         target: string;
