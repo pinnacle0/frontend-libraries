@@ -32,7 +32,7 @@
         "chalk": "5.4.1",
         "fantasticon": "3.0.0",
         "socks-proxy-agent": "8.0.5",
-        "yargs": "17.7.2"
+        "yargs": "18.0.0"
     },
     "optionalDependencies": {
         "eslint": "^9.39.3",
