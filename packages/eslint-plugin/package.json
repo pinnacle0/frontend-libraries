@@ -32,7 +32,8 @@
         "eslint-plugin-react-hooks": "7.0.1"
     },
     "peerDependencies": {
-        "eslint": "^9.39.3"
+        "eslint": "^9.39.3",
+        "rollup": "4.59.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
