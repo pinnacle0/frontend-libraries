@@ -55,6 +55,11 @@ export class IconGenerator {
             outputDir: this.iconComponentDirectory,
             formatOptions: {
                 svg: {
+                    round: 0,
+                    fontId: "iconfont",
+                    fixedWidth: false,
+                    metadata: "iconfont",
+                    usePathBounds: true,
                     centerHorizontally: true,
                     centerVertically: true,
                     preserveAspectRatio: true,
