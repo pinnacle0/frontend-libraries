@@ -27,7 +27,7 @@ export const Button = ReactUtil.memo(
         return (
             <button
                 className={classNames("g-button", `g-button-${type}`, `g-button-${size}`, className, {
-                    "g-button-loading": loading,
+                    loading,
                     "g-button-circle": shape === "circle",
                     "g-button-round": shape === "round",
                     "g-button-danger": danger,

@@ -3,7 +3,6 @@ import type {SelectProps as RcSelectProps} from "@rc-component/select";
 import React from "react";
 import {ReactUtil} from "../../util/ReactUtil";
 import classNames from "classnames";
-// import "@rc-component/select/assets/index.less";
 import "./index.less";
 
 export type SelectValue = string | number | string[] | number[];

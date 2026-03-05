@@ -1,11 +1,12 @@
 import React from "react";
 import RcInput from "@rc-component/input";
-import "@rc-component/input/assets/index.less";
 import type {InputProps as RcInputProps, InputRef} from "@rc-component/input";
 import type {InputFocusOptions} from "@rc-component/util/lib/Dom/focus";
 import type {ControlledFormValue} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
 import {useDidMountEffect} from "../../hooks/useDidMountEffect";
+import "./index.less";
+import classNames from "classnames";
 
 type ExcludedAntInputKeys = "value" | "onChange" | "addonBefore" | "addonAfter";
 export type FocusType = "cursor-at-start" | "cursor-at-last" | "select-all" | "prevent-scroll";
@@ -57,17 +58,17 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
 export const Input = ReactUtil.compound(
     "Input",
     {
-        Readonly: (props: InputReadonlyProps) => <RcInput onChange={() => {}} readOnly disabled {...props} />,
+        Readonly: (props: InputReadonlyProps) => <Input onChange={() => {}} readOnly disabled {...props} />,
 
-        Search: ({onChange, prefix, suffix, allowClear, ...rest}: InputSearchProps) => <input type="search" onChange={e => handleInputChange(e, onChange)} {...rest} />,
+        Search: ({onChange, prefix, suffix, allowClear, ...rest}: InputSearchProps) => <Input className="g-search-input" type="search" onChange={onChange} {...rest} />,
 
-        TextArea: ({onChange, value, ...rest}: InputTextAreaProps) => <textarea value={value} onChange={e => handleInputChange(e, onChange)} {...rest} />,
+        TextArea: ({onChange, value, ...rest}: InputTextAreaProps) => <textarea className="g-input-textarea" value={value} onChange={e => handleInputChange(e, onChange)} {...rest} />,
 
         Password: ({onChange, prefix, suffix, allowClear, ...rest}: InputPasswordProps) => {
             const [visible, setVisible] = React.useState(false);
             return (
                 <div style={{position: "relative", display: "inline-flex", width: "100%"}}>
-                    <input type={visible ? "text" : "password"} onChange={e => handleInputChange(e, onChange)} style={{width: "100%", paddingRight: 30}} {...rest} />
+                    <Input type={visible ? "text" : "password"} onChange={onChange} style={{width: "100%", paddingRight: 30}} {...rest} />
                     <span
                         onClick={() => setVisible(!visible)}
                         style={{position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", cursor: "pointer", fontSize: 14, color: "rgba(0,0,0,0.45)"}}
@@ -83,7 +84,7 @@ export const Input = ReactUtil.compound(
         NullableTextArea: ({value, onChange, ...rest}: InputNullableTextAreaProps) => <Input.TextArea value={value || ""} onChange={value => onChange(value.trim() ? value : null)} {...rest} />,
     },
     React.forwardRef<InputHandler, Props>((props, forwardRef) => {
-        const {onChange, autoFocus, autoTrim, inputRef, focus: focusProp, onClick, ...restProps} = props;
+        const {onChange, autoFocus, autoTrim, inputRef, focus: focusProp, onClick, className, ...restProps} = props;
         const antInputRef = React.useRef<InputRef>(null);
         const ref = inputRef ?? antInputRef;
 
@@ -110,6 +111,6 @@ export const Input = ReactUtil.compound(
             onClick?.(event);
         };
 
-        return <RcInput {...restProps} ref={inputRef || antInputRef} onClick={handleClick} onChange={e => handleInputChange(e, onChange, autoTrim)} />;
+        return <RcInput {...restProps} className={classNames("g-input", className)} ref={inputRef || antInputRef} onClick={handleClick} onChange={e => handleInputChange(e, onChange, autoTrim)} />;
     })
 );

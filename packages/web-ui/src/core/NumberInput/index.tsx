@@ -151,6 +151,7 @@ export const NumberInput = ReactUtil.compound(
                     </Button>
                 )}
                 <Input
+                    className={classNames({"no-border": stepperMode === "no-border"})}
                     inputRef={inputRef || ref}
                     style={inputStyle}
                     placeholder={placeholder}

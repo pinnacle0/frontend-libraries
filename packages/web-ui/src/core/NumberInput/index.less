@@ -1,21 +1,39 @@
 .g-number-input {
     user-select: none;
 
-    .rc-input,
-    .rc-input-affix-wrapper,
+    .rc-input.g-input,
+    .rc-input.g-input-affix-wrapper,
     input {
         width: 90px;
+
+        &.no-border {
+            border: none;
+        }
     }
 
     .g-button {
         flex: 0 0 auto;
         padding: 0;
         width: 32px;
+
+        & + .g-input {
+            border-radius: 0;
+        }
+
+        &.minus {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &.add {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
     }
 
     &.no-border,
     &.outlined {
-        .rc-input input,
+        .g-input input,
         input {
             text-align: center;
         }

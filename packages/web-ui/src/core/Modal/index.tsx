@@ -13,7 +13,6 @@ export interface Props {
     children: React.ReactNode;
     loading?: boolean;
     addInnerPadding?: boolean;
-    centered?: boolean;
     footer?: React.ReactNode;
     closable?: boolean;
     maskClosable?: boolean;
@@ -30,21 +29,7 @@ export interface Props {
 }
 
 export const Modal = ReactUtil.memo("Modal", (props: Props) => {
-    const {
-        centered = true,
-        open = true,
-        footer = null,
-        maskClosable = false,
-        keyboard = false,
-        children,
-        loading = false,
-        title,
-        className,
-        addInnerPadding = true,
-        closable = true,
-        onCancel,
-        ...restProps
-    } = props;
+    const {open = true, footer = null, maskClosable = false, keyboard = false, children, loading = false, title, className, addInnerPadding = true, closable = true, onCancel, ...restProps} = props;
     return (
         <Dialog
             visible={open}
@@ -56,7 +41,6 @@ export const Modal = ReactUtil.memo("Modal", (props: Props) => {
             keyboard={keyboard}
             closable={closable}
             closeIcon={<CloseOutlined />}
-            style={centered ? {top: "50%", transform: "translateY(-50%)"} : undefined}
             {...restProps}
         >
             <Spin spinning={loading || false}>{children}</Spin>

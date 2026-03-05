@@ -106,8 +106,14 @@
     overflow-y: auto;
 
     &-hidden {
-        display: none;
+        display: none !important;
     }
+}
+
+// When rc-trigger adds -hidden to the popup wrapper (parent of .rc-select-dropdown)
+.rc-trigger-popup-hidden:has(.rc-select-dropdown) {
+    display: none !important;
+    visibility: hidden !important;
 }
 
 // ============== Dropdown options ==============

@@ -45,7 +45,7 @@
 
     &.g-button-large {
         height: @ant-control-height-lg;
-        padding: 6.4px 15px;
+        padding: 6px 15px;
         font-size: 16px;
     }
 
@@ -140,9 +140,15 @@
 
     &.g-button-ghost {
         &.g-button-primary {
-            color: #fff;
+            color: @primary;
             background: transparent;
-            border-color: #fff;
+            border-color: @primary;
+
+            &:hover {
+                color: @primary-hover;
+                background: transparent;
+                border-color: @primary-hover;
+            }
         }
     }
 
@@ -179,7 +185,7 @@
         line-height: 0;
     }
 
-    &.g-button-loading .g-button-icon {
+    &.loading .g-button-icon {
         margin-right: 8px;
     }
 }
