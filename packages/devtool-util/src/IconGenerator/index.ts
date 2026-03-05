@@ -59,7 +59,7 @@ export class IconGenerator {
                     fontId: "iconfont",
                     fixedWidth: false,
                     metadata: "iconfont",
-                    usePathBounds: true,
+                    usePathBounds: false,
                     centerHorizontally: true,
                     centerVertically: true,
                     preserveAspectRatio: true,
