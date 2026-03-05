@@ -5,6 +5,7 @@ import type {ControlledFormValue} from "../../internal/type";
 import {i18n} from "../../internal/i18n/core";
 import {Space} from "../Space";
 import {ReactUtil} from "../../util/ReactUtil";
+import "./index.less";
 
 export type AmountRangeValue<T extends boolean> = T extends true ? [number | null, number | null] : [number, number];
 
@@ -18,10 +19,6 @@ export interface Props<T extends boolean> extends ControlledFormValue<AmountRang
     inputStyle?: React.CSSProperties;
 }
 
-const minInputStyle: React.CSSProperties = {borderTopRightRadius: 0, borderBottomRightRadius: 0, width: 80, textAlign: "right"};
-const maxInputStyle: React.CSSProperties = {borderTopLeftRadius: 0, borderBottomLeftRadius: 0, width: 80, borderLeftWidth: 0, textAlign: "left"};
-const connectorStyle: React.CSSProperties = {width: 30, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#fff", pointerEvents: "none"};
-
 export const AmountRangeInput = ReactUtil.memo("AmountRangeInput", <T extends boolean>(props: Props<T>) => {
     const {value, onChange, scale = 2, disabled, min = 0, shouldNotEqual, allowNull, style, inputStyle} = props;
     const t = i18n();
@@ -30,18 +27,9 @@ export const AmountRangeInput = ReactUtil.memo("AmountRangeInput", <T extends bo
     const onMaxAmountChange = (maxValue: number | null) => onChange([value[0], maxValue] as any);
 
     return (
-        <Space.Compact block style={style}>
-            <NumberInput
-                disabled={disabled}
-                allowNull={allowNull!}
-                min={min}
-                scale={scale}
-                placeholder={t.minimum}
-                value={value[0] as any}
-                onChange={onMinAmountChange}
-                inputStyle={{...minInputStyle, ...inputStyle}}
-            />
-            <Input.Readonly style={connectorStyle} value="~" />
+        <Space.Compact block className="g-amount-range-input" style={style}>
+            <NumberInput disabled={disabled} allowNull={allowNull!} min={min} scale={scale} placeholder={t.minimum} value={value[0] as any} onChange={onMinAmountChange} inputStyle={inputStyle} />
+            <Input.Readonly className="g-amount-range-connector" value="~" />
             <NumberInput
                 disabled={disabled}
                 allowNull={allowNull!}
@@ -50,7 +38,7 @@ export const AmountRangeInput = ReactUtil.memo("AmountRangeInput", <T extends bo
                 placeholder={t.maximum}
                 value={value[1] as any}
                 onChange={onMaxAmountChange}
-                inputStyle={{...maxInputStyle, ...inputStyle}}
+                inputStyle={inputStyle}
             />
         </Space.Compact>
     );

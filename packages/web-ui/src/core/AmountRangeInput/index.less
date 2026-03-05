@@ -1,0 +1,29 @@
+@import url("../../css/variable.less");
+
+.g-amount-range-input {
+    // Min input (first NumberInput)
+    > .g-number-input:first-of-type .g-input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        width: 80px;
+        text-align: right;
+    }
+
+    // Connector
+    > .g-amount-range-connector.rc-input {
+        width: 30px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        background-color: transparent;
+        pointer-events: none;
+    }
+
+    // Max input (last NumberInput)
+    > .g-number-input:last-of-type .g-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        width: 80px;
+        text-align: left;
+    }
+}

@@ -4,6 +4,7 @@ import {NumberInput} from "../NumberInput";
 import {EnumSelect} from "../EnumSelect";
 import type {ControlledFormValue} from "../../internal/type";
 import {ReactUtil} from "../../util/ReactUtil";
+import "./index.less";
 
 export enum Operator {
     GREATER_THAN = "GREATER_THAN",
@@ -34,7 +35,7 @@ export const AmountConditionInput = ReactUtil.memo("AmountConditionInput", (prop
     const onAmountChange = (amount: number | null) => onChange({condition: value.condition, amount});
 
     return (
-        <Space.Compact block>
+        <Space.Compact block className="g-amount-condition-input">
             <EnumSelect value={value.condition} onChange={onConditionChange} translator={operatorTranslator} list={operators} style={selectStyle} />
             <NumberInput allowNull scale={scale} value={value.amount} onChange={onAmountChange} inputStyle={inputStyle} />
         </Space.Compact>
