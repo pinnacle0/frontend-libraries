@@ -18,6 +18,7 @@ export type CreateAsyncModalPromise<WithCloseHandling extends boolean> = WithClo
 export interface ModalConfig {
     body: React.ReactNode; // Use array for multiple rows
     title?: React.ReactElement | string;
+    maskClosable?: boolean;
     closable?: boolean;
     width?: number;
     className?: string;
@@ -83,6 +84,7 @@ function createSync(config: ModalConfig): CreateModalReturnType {
                 <div className="footer">{mergedConfig.footerExtra}</div>
             </React.Fragment>
         ),
+        maskClosable: mergedConfig.maskClosable,
         width: mergedConfig.width,
         className: `g-modal ${mergedConfig.className} ${mergedConfig.hideButtons ? "hide-modal-btns" : ""} ${mergedConfig.addInnerPadding ? "" : "no-padding"}`,
         okText: mergedConfig.okText,
