@@ -11,15 +11,19 @@ export interface Props {
     style?: React.CSSProperties;
     newTab?: boolean; // Default value: If `to` is local (start with /), then false; Else true
     replace?: boolean; // Only work when `to` is local path or LocationDescriptorObject
+    disabled?: boolean;
 }
 
-export const Link = ReactUtil.memo("Link", ({to, children, newTab, replace, className, style}: Props) => {
-    const fullClassNames: string = classNames(
-        {
-            "g-text-link": typeof children === "string" || typeof children === "number",
-        },
-        className
-    );
+export const Link = ReactUtil.memo("Link", ({to, children, newTab, replace, className, disabled, style}: Props) => {
+    const fullClassNames: string = classNames({"g-text-link": typeof children === "string" || typeof children === "number", disabled}, className);
+
+    if (disabled) {
+        return (
+            <span className={fullClassNames} style={style}>
+                {children}
+            </span>
+        );
+    }
 
     if (typeof to === "object") {
         return (
