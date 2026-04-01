@@ -10,6 +10,7 @@ minimumReleaseAgeExclude:
     - "@rspack/*"
     - "ts-checker-rspack-plugin"
     - tar
+    - "@xmldom/xmldom"
 onlyBuiltDependencies:
     - "@swc/core"
     - es5-ext
