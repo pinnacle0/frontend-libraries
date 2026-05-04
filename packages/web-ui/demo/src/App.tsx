@@ -90,6 +90,7 @@ export function App() {
         <div className="app">
             <div className="header">Contact</div>
             <FlatList
+                virtual
                 data={data}
                 rowKey="index"
                 renderItem={Profile}

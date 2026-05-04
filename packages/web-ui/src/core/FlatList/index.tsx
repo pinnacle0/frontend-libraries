@@ -3,12 +3,16 @@ import {classNames} from "../../util/ClassNames";
 import {useTransform} from "../../hooks/useTransform";
 import {useScrollListSwipe} from "./hook/useScrollListSwipe";
 import {Content} from "./Content";
+import {Footer} from "./Content/Footer";
 import {FloatingLoader} from "./FloatingLoader";
 import {Refresh} from "./Refresh";
 import type {Boundary, FlatListProps} from "./type";
 import {useRefreshing} from "./hook/useRefreshing";
 import "./index.less";
 import {ReactUtil} from "../../util/ReactUtil";
+import {VirtualList} from "../VirtualList";
+import type {VirtualItem} from "@tanstack/react-virtual";
+import {usePaddingGap} from "./useGap";
 
 export * from "./type";
 
@@ -34,6 +38,11 @@ export const FlatList = ReactUtil.memo(
         endOfListMessage,
         style,
         wrapperStyle,
+        virtual,
+        virtualItemSize,
+        virtualOverscan,
+        virtualInitialRect,
+        virtualListRef,
     }: FlatListProps<T>) => {
         const refreshing = useRefreshing(exactRefreshing ?? false, 1000);
         const [showFloatingLoader, setShowFloatingLoader] = React.useState(refreshing);
@@ -82,6 +91,25 @@ export const FlatList = ReactUtil.memo(
             refreshing && setShowFloatingLoader(true);
         };
 
+        const virtualItemStyle = usePaddingGap(gap);
+        const loadedData = React.useRef<T[] | null>(null);
+        const onPullUpLoadingRef = React.useRef(onPullUpLoading);
+        onPullUpLoadingRef.current = !exactRefreshing ? onPullUpLoading : undefined;
+
+        const handleVirtualItemsChange = React.useCallback(
+            (virtualItems: VirtualItem[]) => {
+                if (!onPullUpLoadingRef.current || data.length === 0) return;
+
+                const lastVirtualItem = virtualItems[virtualItems.length - 1];
+                if (!lastVirtualItem || lastVirtualItem.index < data.length - (endReachThreshold ?? 4)) return;
+
+                if (loadedData.current === data) return;
+                loadedData.current = data;
+                onPullUpLoadingRef.current();
+            },
+            [data, endReachThreshold]
+        );
+
         React.useEffect(() => {
             if (refreshing) {
                 if (previousBoundary.current === "top") {
@@ -105,20 +133,57 @@ export const FlatList = ReactUtil.memo(
                             <Refresh ref={updateRefreshHeight} refreshing={refreshing} message={pullDownMessage} />
                         </React.Fragment>
                     )}
-                    <div className="g-flat-list-scrollable" ref={scrollRef} style={style} onScroll={handleScroll}>
-                        <Content
-                            data={data}
-                            rowKey={rowKey}
-                            renderItem={renderItem}
-                            gap={gap}
-                            emptyPlaceholder={emptyPlaceholder}
-                            loading={loading}
-                            endOfListMessage={endOfListMessage}
-                            hasNextPageMessage={pullUpMessage}
-                            onPullUpLoading={!exactRefreshing ? onPullUpLoading : undefined}
-                            endReachThreshold={endReachThreshold}
-                        />
-                    </div>
+                    {virtual ? (
+                        data.length === 0 && emptyPlaceholder ? (
+                            <div className="g-flat-list-scrollable" ref={scrollRef} style={style} onScroll={handleScroll}>
+                                <div className="g-flat-list-content">{emptyPlaceholder}</div>
+                            </div>
+                        ) : (
+                            <VirtualList
+                                data={data}
+                                rowKey={rowKey}
+                                renderItem={renderItem}
+                                fixedSize={virtualItemSize}
+                                overscan={virtualOverscan}
+                                initialRect={virtualInitialRect}
+                                listRef={virtualListRef}
+                                className="g-flat-list-scrollable g-flat-list-virtual-scrollable"
+                                innerClassName="g-flat-list-virtual-content"
+                                itemWrapperClassName="g-flat-list-item"
+                                itemWrapperStyle={virtualItemStyle}
+                                style={style}
+                                scrollRef={scrollRef}
+                                onScroll={handleScroll}
+                                onVirtualItemsChange={handleVirtualItemsChange}
+                                footerSize={50}
+                                footer={
+                                    data.length > 0 ? (
+                                        <Footer
+                                            loading={loading}
+                                            hasNextPage={!exactRefreshing && onPullUpLoading !== undefined}
+                                            endOfListMessage={endOfListMessage}
+                                            hasNextPageMessage={pullUpMessage}
+                                        />
+                                    ) : undefined
+                                }
+                            />
+                        )
+                    ) : (
+                        <div className="g-flat-list-scrollable" ref={scrollRef} style={style} onScroll={handleScroll}>
+                            <Content
+                                data={data}
+                                rowKey={rowKey}
+                                renderItem={renderItem}
+                                gap={gap}
+                                emptyPlaceholder={emptyPlaceholder}
+                                loading={loading}
+                                endOfListMessage={endOfListMessage}
+                                hasNextPageMessage={pullUpMessage}
+                                onPullUpLoading={!exactRefreshing ? onPullUpLoading : undefined}
+                                endReachThreshold={endReachThreshold}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         );

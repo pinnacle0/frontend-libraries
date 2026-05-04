@@ -1,5 +1,5 @@
 import React from "react";
-import type {FlatListItemProps} from "@pinnacle0/web-ui/src/core/FlatList";
+import type {FlatListItemProps} from "@pinnacle0/web-ui/core/FlatList";
 import "./index.less";
 
 export interface User {

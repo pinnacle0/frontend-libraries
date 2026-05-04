@@ -1,4 +1,5 @@
 import type React from "react";
+import type {VirtualListHandler} from "../VirtualList";
 
 export type Boundary = "top" | "bottom";
 
@@ -75,6 +76,28 @@ export interface FlatListProps<T> {
      * Default: 4
      */
     endReachThreshold?: number;
+    /**
+     * Enable virtual rendering for large data sets.
+     */
+    virtual?: boolean;
+    /**
+     * Estimated height of each virtual item.
+     * Default: 100
+     */
+    virtualItemSize?: (index: number) => number;
+    /**
+     * Number of virtual items rendered outside of the viewport.
+     * Default: 5
+     */
+    virtualOverscan?: number;
+    /**
+     * Optional initial viewport size for virtual rendering.
+     */
+    virtualInitialRect?: {width: number; height: number};
+    /**
+     * Ref for the underlying virtualizer.
+     */
+    virtualListRef?: React.Ref<VirtualListHandler>;
     className?: string;
     id?: string;
     style?: React.CSSProperties;

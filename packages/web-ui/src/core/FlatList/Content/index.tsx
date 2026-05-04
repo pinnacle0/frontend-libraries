@@ -1,7 +1,8 @@
 import React from "react";
 import {Footer} from "./Footer";
-import type {FlatListProps, FlatListItemProps, Gap} from "../type";
+import type {FlatListProps, FlatListItemProps} from "../type";
 import {ReactUtil} from "../../../util/ReactUtil";
+import {useGap} from "../useGap";
 
 interface Props<T> extends Pick<FlatListProps<T>, "data" | "renderItem" | "gap" | "emptyPlaceholder" | "rowKey" | "endOfListMessage" | "onPullUpLoading" | "endReachThreshold" | "loading"> {
     hasNextPageMessage?: string;
@@ -68,18 +69,6 @@ export const Content = ReactUtil.memo("Content", <T extends object>(props: Props
         </div>
     );
 });
-
-function useGap(gap?: Gap): React.CSSProperties {
-    if (!gap) return {};
-    if (Array.isArray(gap)) {
-        return {marginTop: gap[0], marginBottom: gap[0], marginLeft: gap[1], marginRight: gap[1]};
-    } else if (typeof gap === "number") {
-        return {marginTop: gap, marginBottom: gap, marginLeft: gap, marginRight: gap};
-    } else {
-        const {top, bottom, left, right} = gap;
-        return {marginTop: top, marginBottom: bottom, marginLeft: left, marginRight: right};
-    }
-}
 
 function splitByLast<T>(data: T[], last: number): {first: FlatListItemProps<T>[]; second: FlatListItemProps<T>[]} {
     const pair = data.map((data, index) => ({data, index}));
