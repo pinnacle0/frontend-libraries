@@ -21,6 +21,22 @@ import {BrowserUtil} from "../BrowserUtil";
 export type OrientationType = "portrait" | "landscape";
 export type Subscriber = (orientation: OrientationType) => void;
 
+function orientationFromAngle(angle: number): OrientationType {
+    return Math.abs(angle) === 90 ? "landscape" : "portrait";
+}
+
+function currentByDeviceAngle(): OrientationType | undefined {
+    if (typeof window.screen.orientation !== "undefined") {
+        return orientationFromAngle(window.screen.orientation.angle);
+    } else if (typeof window.orientation === "number") {
+        return orientationFromAngle(window.orientation);
+    }
+}
+
+function currentByMediaQuery(): OrientationType {
+    return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
+}
+
 function subscribe(subscriber: Subscriber): (() => void) | undefined {
     try {
         let lastOrientation = current();
@@ -52,11 +68,11 @@ function subscribe(subscriber: Subscriber): (() => void) | undefined {
 function current(): OrientationType {
     try {
         if (BrowserUtil.os() === "ios") {
-            return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
+            return currentByDeviceAngle() ?? currentByMediaQuery();
         } else if (typeof window.screen.orientation !== "undefined") {
-            return window.screen.orientation.angle === 0 ? "portrait" : "landscape";
+            return orientationFromAngle(window.screen.orientation.angle);
         } else {
-            return window.orientation === 0 ? "portrait" : "landscape";
+            return orientationFromAngle(window.orientation);
         }
     } catch {
         // Do not use window.innerHeight/window.innerWidth comparison, because it is incorrect if keyboard is popped up
