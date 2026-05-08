@@ -1,18 +1,9 @@
 import {BrowserUtil} from "../BrowserUtil";
 
 /**
- * Orientation detection utility for mobile and desktop devices.
  *
- * For Android,
- * Uses the ScreenOrientation API for checking the orientation of the screen.
- * For Deprecated browsers, it uses the window.orientation API.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation
- *
- * For iOS 26.0+ PWA, it does not dispatch any event when the orientation changes,
- * For iOS,
- * Only support iOS 14+
- * Use media queries to check the orientation of the screen for iOS.
+ * For iOS 26.0+ PWA, it does not dispatch any event, angle changes when the orientation changes,
+ * therefore use media queries to check the orientation of the screen.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/orientation
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
