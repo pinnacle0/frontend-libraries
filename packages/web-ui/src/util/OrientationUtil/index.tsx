@@ -22,7 +22,7 @@ export type OrientationType = "portrait" | "landscape";
 export type Subscriber = (orientation: OrientationType) => void;
 
 function isIOSPWA(): boolean {
-    return window.matchMedia("(display-mode: standalone)").matches || ("standalone" in window.navigator && window.navigator.standalone === true);
+    return BrowserUtil.os() === "ios" && (window.matchMedia("(display-mode: standalone)").matches || ("standalone" in window.navigator && window.navigator.standalone === true));
 }
 
 function orientationFromAngle(angle: number): OrientationType {
@@ -45,7 +45,7 @@ function subscribe(subscriber: Subscriber): (() => void) | undefined {
             }
         };
 
-        if (BrowserUtil.os() === "ios" && isIOSPWA()) {
+        if (isIOSPWA()) {
             const mediaQuery = window.matchMedia("(orientation: portrait)");
             mediaQuery.addEventListener("change", handler);
             return () => mediaQuery.removeEventListener("change", handler);
@@ -63,7 +63,7 @@ function subscribe(subscriber: Subscriber): (() => void) | undefined {
 
 function current(): OrientationType {
     try {
-        if (BrowserUtil.os() === "ios" && isIOSPWA()) {
+        if (isIOSPWA()) {
             return currentByMediaQuery();
         } else if (typeof window.screen.orientation !== "undefined") {
             return orientationFromAngle(window.screen.orientation.angle);
