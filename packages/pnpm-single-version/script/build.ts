@@ -1,5 +1,3 @@
-import type {SpawnSyncOptionsWithStringEncoding} from "child_process";
-import {spawnSync} from "child_process";
 import {Utility} from "@pinnacle0/devtool-util/Utility";
 import fs from "fs";
 import esbuild from "esbuild";
@@ -10,12 +8,6 @@ const outputPnpmFilePath = path.join(import.meta.dirname, "../dist/command/pnpmf
 const sourceFilePath = path.join(import.meta.dirname, "../src");
 const swcConfigFilePath = path.join(import.meta.dirname, "../config/.swcrc");
 const tsconfigFilePath = path.join(import.meta.dirname, "../config/tsconfig.src.json");
-
-const spawnOptions: SpawnSyncOptionsWithStringEncoding = {
-    encoding: "utf-8",
-    shell: true,
-    stdio: "inherit",
-};
 
 const buildHookBundle = async () => {
     await esbuild.build({
@@ -40,10 +32,10 @@ export const build = async () => {
     fs.copyFileSync(path.join(sourceFilePath, "command/pnpmfile/.pnpmfile.cjs"), path.join(outputPnpmFilePath, ".pnpmfile.cjs"));
     console.info("> Copied .pnpmfile.cjs template");
 
-    await spawnSync("swc", [sourceFilePath, "-d", outputPath, "--config-file", swcConfigFilePath, "--strip-leading-paths"], spawnOptions);
+    Utility.runCommand("swc", [sourceFilePath, "-d", outputPath, "--config-file", swcConfigFilePath, "--strip-leading-paths"]);
     console.info("> Transpiled");
 
-    await spawnSync("tsc", ["-P", tsconfigFilePath, "--emitDeclarationOnly"], spawnOptions);
+    Utility.runCommand("tsc", ["-P", tsconfigFilePath, "--emitDeclarationOnly"]);
     console.info("> d.ts generated");
 };
 

@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Reload = () => {
     return (
         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 489.533 489.533">

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
+        "types": ["node"],
         "allowJs": true,
-        "downlevelIteration": true,
         "removeComments": false,
         "sourceMap": true,
         "strict": true,
