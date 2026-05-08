@@ -29,15 +29,6 @@ function orientationFromAngle(angle: number): OrientationType {
     return Math.abs(angle) === 90 ? "landscape" : "portrait";
 }
 
-function currentByDeviceAngle(): OrientationType | null {
-    if (typeof window.screen.orientation !== "undefined") {
-        return orientationFromAngle(window.screen.orientation.angle);
-    } else if (typeof window.orientation === "number") {
-        return orientationFromAngle(window.orientation);
-    }
-    return null;
-}
-
 function currentByMediaQuery(): OrientationType {
     return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
 }
@@ -72,8 +63,8 @@ function subscribe(subscriber: Subscriber): (() => void) | undefined {
 
 function current(): OrientationType {
     try {
-        if (BrowserUtil.os() === "ios") {
-            return currentByDeviceAngle() ?? currentByMediaQuery();
+        if (BrowserUtil.os() === "ios" && isIOSPWA()) {
+            return currentByMediaQuery();
         } else if (typeof window.screen.orientation !== "undefined") {
             return orientationFromAngle(window.screen.orientation.angle);
         } else {
