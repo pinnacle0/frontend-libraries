@@ -11,6 +11,16 @@ import {SocksProxyAgent} from "socks-proxy-agent";
 import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil.js";
 import type {Agent} from "https";
 
+export interface ApiProxyOption {
+    target: string;
+    context: string[];
+    /**
+     * Use system socks proxy for all the api requests, you can also specify a socks proxy url, eg: socks5://127.0.0.1:1086
+     * Default: true
+     */
+    useSystemSocksProxy?: boolean | string;
+}
+
 export interface WebpackServerStarterOptions extends Pick<
     WebpackConfigGeneratorOptions,
     | "projectDirectory"
@@ -26,15 +36,7 @@ export interface WebpackServerStarterOptions extends Pick<
     | "indirectCodeExclude"
 > {
     port: number;
-    apiProxy?: {
-        target: string;
-        context: string[];
-        /**
-         * Use system socks proxy for all the api requests, you can also specify a socks proxy url, eg: socks5://127.0.0.1:1086
-         * Default: true
-         */
-        useSystemSocksProxy?: boolean | string;
-    };
+    apiProxy?: ApiProxyOption | ApiProxyOption[];
     runtimeErrorHandler?: (error: Error) => boolean;
     interceptExpressApp?: (app: NonNullable<Application>) => void;
 }
@@ -76,17 +78,7 @@ export class ServerStarter {
         this.devServerConfigContentBase = path.join(projectDirectory, "static");
         this.runtimeErrorHandler = runtimeErrorHandler ?? true;
         this.port = port;
-        this.apiProxy = apiProxy
-            ? [
-                  {
-                      agent: this.createAPISocksProxyAgent(apiProxy.useSystemSocksProxy ?? true),
-                      context: apiProxy.context,
-                      target: apiProxy.target,
-                      secure: false,
-                      changeOrigin: true,
-                  },
-              ]
-            : undefined;
+        this.apiProxy = apiProxy ? this.createApiProxy(apiProxy) : undefined;
         this.setupMiddlewares =
             interceptExpressApp &&
             ((middlewares, devServer) => {
@@ -165,6 +157,21 @@ export class ServerStarter {
             },
             rspack(this.rspackConfig)
         );
+    }
+
+    private createApiProxy(apiProxyOptions: ApiProxyOption | ApiProxyOption[]): DevServerConfiguration["proxy"] {
+        const mapApiProxyOption = (apiProxyOption: ApiProxyOption) => ({
+            agent: this.createAPISocksProxyAgent(apiProxyOption.useSystemSocksProxy ?? true),
+            context: apiProxyOption.context,
+            target: apiProxyOption.target,
+            secure: false,
+            changeOrigin: true,
+        });
+
+        if (Array.isArray(apiProxyOptions)) {
+            return apiProxyOptions.map(mapApiProxyOption);
+        }
+        return [mapApiProxyOption(apiProxyOptions)];
     }
 
     private createAPISocksProxyAgent(useSocksProxy: string | boolean): Agent | null {
