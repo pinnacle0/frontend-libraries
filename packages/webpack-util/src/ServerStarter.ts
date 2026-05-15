@@ -8,6 +8,7 @@ import {RspackDevServer} from "@rspack/dev-server";
 import type {WebpackConfigGeneratorOptions} from "./type.js";
 import {WebpackConfigGenerator} from "./WebpackConfigGenerator/index.js";
 import {SocksProxyAgent} from "socks-proxy-agent";
+import {HttpsProxyAgent} from "https-proxy-agent";
 import {SystemProxySettingsUtil} from "./SystemProxySettingsUtil.js";
 import type {Agent} from "https";
 
@@ -15,8 +16,19 @@ export interface ApiProxyOption {
     target: string;
     context: string[];
     /**
-     * Use system socks proxy for all the api requests, you can also specify a socks proxy url, eg: socks5://127.0.0.1:1086
-     * Default: true
+     * Route api requests through the system proxy.
+     *
+     * - `true` (default): auto-detect the macOS system proxy. SOCKS5 is preferred
+     *   (it forwards the hostname so rule-based clients like Shadowrocket can match
+     *   DOMAIN-SUFFIX / DOMAIN-KEYWORD rules); falls back to the HTTP web-proxy slot,
+     *   which is what Shadowrocket's "Set As System Proxy" toggle populates on macOS.
+     * - `false`: disable the proxy entirely.
+     * - `string`: an explicit proxy URL — `socks5://host:port`, `socks://host:port`,
+     *   or `http://host:port`.
+     *
+     * Note: only HTTPS api targets are supported when the system proxy is HTTP
+     * (the typical case for production APIs). For HTTP targets behind an HTTP-only
+     * system proxy, configure SOCKS in macOS Network Preferences instead.
      */
     useSystemSocksProxy?: boolean | string;
 }
@@ -161,7 +173,7 @@ export class ServerStarter {
 
     private createApiProxy(apiProxyOptions: ApiProxyOption | ApiProxyOption[]): DevServerConfiguration["proxy"] {
         const mapApiProxyOption = (apiProxyOption: ApiProxyOption) => ({
-            agent: this.createAPISocksProxyAgent(apiProxyOption.useSystemSocksProxy ?? true),
+            agent: this.createApiProxyAgent(apiProxyOption.useSystemSocksProxy ?? true),
             context: apiProxyOption.context,
             target: apiProxyOption.target,
             secure: false,
@@ -174,18 +186,36 @@ export class ServerStarter {
         return [mapApiProxyOption(apiProxyOptions)];
     }
 
-    private createAPISocksProxyAgent(useSocksProxy: string | boolean): Agent | null {
-        if (useSocksProxy === false) return null;
+    private createApiProxyAgent(useSystemProxy: string | boolean): Agent | null {
+        if (useSystemProxy === false) return null;
 
-        if (typeof useSocksProxy === "string") {
-            this.logger.info(["Using socks proxy:", useSocksProxy]);
-            return new SocksProxyAgent(useSocksProxy);
+        if (typeof useSystemProxy === "string") {
+            return this.createAgentFromUrl(useSystemProxy);
         }
 
         const settings = SystemProxySettingsUtil.get();
-        if (!settings) return null;
-        const url = `socks://${settings.server}:${settings.port}`;
-        this.logger.info(["Using socks proxy:", url]);
-        return new SocksProxyAgent(url);
+        if (!settings) {
+            this.logger.info(["No system proxy detected — api requests will go direct"]);
+            return null;
+        }
+
+        if (settings.kind === "socks") {
+            const url = `socks://${settings.server}:${settings.port}`;
+            this.logger.info(["Using system SOCKS proxy:", url]);
+            return new SocksProxyAgent(url);
+        }
+        const url = `http://${settings.server}:${settings.port}`;
+        this.logger.info(["Using system HTTP proxy:", url]);
+        return new HttpsProxyAgent(url);
+    }
+
+    private createAgentFromUrl(url: string): Agent {
+        const {protocol} = new URL(url);
+        if (protocol === "socks:" || protocol === "socks4:" || protocol === "socks5:") {
+            this.logger.info(["Using SOCKS proxy:", url]);
+            return new SocksProxyAgent(url);
+        }
+        this.logger.info(["Using HTTP proxy:", url]);
+        return new HttpsProxyAgent(url);
     }
 }
