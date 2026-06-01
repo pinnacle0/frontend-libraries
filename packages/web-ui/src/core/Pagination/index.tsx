@@ -42,7 +42,7 @@ export const Pagination = ReactUtil.memo("Pagination", (props: Props) => {
                 <AntPagination
                     disabled={disabled}
                     showSizeChanger={onPageSizeChange !== undefined}
-                    size={small ? "small" : "default"}
+                    size={small ? "small" : undefined}
                     onChange={onChange}
                     onShowSizeChange={onShowSizeChange}
                     current={pageIndex}

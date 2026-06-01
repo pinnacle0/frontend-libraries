@@ -18,7 +18,7 @@ import {Button} from "antd";
 const UncontrolledTagInput = () => {
     const parser = (text: string) => text.split(/[\n ,;]/g).filter(Boolean);
     const [input, setInput] = React.useState<string[]>([]);
-    return <TagInput parser={parser} value={input} onChange={setInput} disabled />;
+    return <TagInput parser={parser} value={input} onChange={setInput} />;
 };
 
 const NullableNumberInput = (props: Omit<NumberInputProps<true>, "value" | "onChange" | "allowNull">) => {

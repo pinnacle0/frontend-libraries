@@ -44,3 +44,6 @@
 
 # swc plugins
 **/.swc/**
+
+# claude
+**/.claude/**

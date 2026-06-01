@@ -2,8 +2,7 @@
     display: flex;
     flex-flow: row wrap;
     align-content: flex-start;
-    overflow-y: auto;
-    height: 100%;
+    min-height: 40px;
     border: 1px solid #ddd;
     border-radius: 4px;
     position: relative;
@@ -12,7 +11,6 @@
         position: absolute;
         top: 0;
         left: 0;
-        font-size: 16px;
         padding: 2px 7px;
         color: rgb(211 211 211);
         z-index: 1;
@@ -36,13 +34,16 @@
     .text-area-wrapper {
         position: relative;
         width: 100%;
+        // Reserve a line of height so the box doesn't collapse when the textarea switches to position: absolute on focus
+        min-height: 28px;
 
         textarea {
             resize: none;
             width: 100%;
             margin: 0 5px;
             background: transparent;
-            font-size: 16px;
+            // Inherit the site font (textareas default to monospace) so typed text matches other inputs
+            font: inherit;
             border: 0;
             position: relative;
             z-index: 2;
@@ -52,7 +53,6 @@
             &:visited {
                 border: 0;
                 outline: none;
-                position: absolute;
             }
         }
     }

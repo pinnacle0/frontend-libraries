@@ -20,7 +20,7 @@ overrides:
     js-yaml: 4.1.1
     "@ant-design/colors": 8.0.0
     "@ant-design/fast-color": 3.0.0
-    "@ant-design/icons": 6.1.0
+    "@ant-design/icons": 6.2.5
     qs: 6.14.2
     tar: 7.5.11
     lodash: 4.17.23
