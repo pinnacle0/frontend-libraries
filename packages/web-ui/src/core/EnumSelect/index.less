@@ -1,4 +1,4 @@
-.g-enum-select {
+.g-enum-select.ant-select {
     &-label {
         display: flex;
         align-items: center;
@@ -7,10 +7,9 @@
     &-prefix {
         margin-right: 4px;
     }
-}
 
-.g-enum-select.ant-select {
-    .ant-select-content {
+    > div.ant-select-content,
+    > div.ant-select-content.ant-select-content-has-value {
         display: flex;
         align-items: center;
     }
