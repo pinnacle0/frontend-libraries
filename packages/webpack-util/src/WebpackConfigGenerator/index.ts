@@ -126,9 +126,6 @@ export class WebpackConfigGenerator {
                     ...this.customizedLoaders,
                 ],
             },
-            experiments: {
-                outputModule: true,
-            },
             plugins: [
                 ...HTMLWebpackPluginsFactory.generate({
                     configEntryDescriptors: this.configEntryDescriptors,

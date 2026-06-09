@@ -152,7 +152,7 @@ export class ServerStarter {
                         runtimeErrors: this.runtimeErrorHandler,
                     },
                 },
-                setupMiddlewares: this.setupMiddlewares,
+                ...(this.setupMiddlewares ? {setupMiddlewares: this.setupMiddlewares} : {}),
                 devMiddleware: {
                     stats: {
                         colors: true,
@@ -165,7 +165,7 @@ export class ServerStarter {
                         logging: "warn",
                     },
                 },
-                proxy: this.apiProxy,
+                ...(this.apiProxy ? {proxy: this.apiProxy} : {}),
             },
             rspack(this.rspackConfig)
         );
