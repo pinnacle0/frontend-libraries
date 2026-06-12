@@ -59,9 +59,12 @@
                         text-align: center;
 
                         .ant-badge {
+                            // Badge now wraps the icon (in the menu item's `icon` slot), which antd sizes to the
+                            // full title height with the glyph vertically centered — offset the count down so it
+                            // sits on the icon's top-right corner instead of floating above the title.
                             .ant-badge-count {
-                                right: -2px;
-                                top: 0;
+                                right: -8px;
+                                top: 10px;
                                 z-index: 1;
                             }
                         }
