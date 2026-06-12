@@ -136,15 +136,17 @@ export function Menu<Feature, Field>({siteName, permissions, superAdminPermissio
             };
         });
 
-        const label = (
-            <Badge count={totalCount}>
-                {groupItem.icon} {menuExpanded ? groupItem.title : ""}
-            </Badge>
-        );
+        // Keep the icon in the menu item's `icon` slot (not inside `label`): when the Sider collapses,
+        // antd renders the Menu as inline-collapsed, which hides each item's `label` but keeps its `icon`.
+        // Putting the icon in `label` would make it disappear on collapse. The group's total badge lives
+        // in the `label` when expanded; when collapsed (label hidden) we surface it on the icon instead.
+        const label = <Badge count={totalCount}>{groupItem.title}</Badge>;
+        const icon = menuExpanded ? groupItem.icon : <Badge count={totalCount}>{groupItem.icon}</Badge>;
 
         return {
             children,
             label,
+            icon,
             key: groupItem.title,
         };
     };
