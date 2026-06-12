@@ -2,6 +2,7 @@ import {Utility} from "@pinnacle0/devtool-util/Utility";
 import path from "path";
 import type {Configuration} from "@rspack/core";
 import {rspack} from "@rspack/core";
+import express from "express";
 import type {Application} from "express";
 import type {Configuration as DevServerConfiguration} from "@rspack/dev-server";
 import {RspackDevServer} from "@rspack/dev-server";
@@ -64,6 +65,7 @@ export interface WebpackServerStarterOptions extends Pick<
 export class ServerStarter {
     private readonly devServerConfigContentBase: string;
     private readonly setupMiddlewares: DevServerConfiguration["setupMiddlewares"];
+    private readonly app: DevServerConfiguration["app"];
     private readonly port: number;
     private readonly apiProxy: DevServerConfiguration["proxy"];
     private readonly runtimeErrorHandler: true | ((error: Error) => boolean);
@@ -94,9 +96,12 @@ export class ServerStarter {
         this.setupMiddlewares =
             interceptExpressApp &&
             ((middlewares, devServer) => {
-                devServer.app && interceptExpressApp(devServer.app);
+                if (devServer.app) interceptExpressApp(devServer.app as Application);
                 return middlewares;
             });
+        // rspack-dev-server v2 builds `devServer.app` with `connect` (middleware-only — no `.get`/`.post`),
+        // so supply an Express instance via the `app` option whenever `interceptExpressApp` is used.
+        this.app = interceptExpressApp ? async () => express() : undefined;
 
         this.rspackConfig = new WebpackConfigGenerator({
             projectDirectory,
@@ -152,6 +157,7 @@ export class ServerStarter {
                         runtimeErrors: this.runtimeErrorHandler,
                     },
                 },
+                ...(this.app ? {app: this.app} : {}),
                 ...(this.setupMiddlewares ? {setupMiddlewares: this.setupMiddlewares} : {}),
                 devMiddleware: {
                     stats: {
