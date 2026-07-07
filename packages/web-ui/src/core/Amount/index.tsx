@@ -44,19 +44,19 @@ export const Amount = ReactUtil.compound("Amount", {Percentage: AmountPercentage
 
         return (
             <div className={fullClassNames} style={style}>
-                {prefix && <div className="prefix">{prefix}</div>}
-                <div className="digits">
+                {prefix && <span className="prefix">{prefix}</span>}
+                <span className="digits">
                     {parts[0]}
                     {parts[1] && (
                         <React.Fragment>
                             .<small>{parts[1]}</small>
                         </React.Fragment>
                     )}
-                </div>
-                {postfix && <div className="postfix">{postfix}</div>}
+                </span>
+                {postfix && <span className="postfix">{postfix}</span>}
             </div>
         );
     } else {
-        return <span className={classNames("g-amount", "null-text", className)}>{nullText}</span>;
+        return <div className={classNames("g-amount", "null-text", className)}>{nullText}</div>;
     }
 });
