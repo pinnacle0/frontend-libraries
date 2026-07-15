@@ -13,7 +13,6 @@ export interface Options extends CreateToolkitOptions {
 }
 
 export async function runner(type: Codemod, paths: string[] | string, options: Options) {
-    let matchedPaths: string[] = [];
     const transform = await resolveCodemod(type);
 
     const mergedOptions = {
@@ -21,11 +20,7 @@ export async function runner(type: Codemod, paths: string[] | string, options: O
         ...options,
     };
 
-    if (Array.isArray(paths)) {
-        matchedPaths = paths.map(_ => (path.isAbsolute(_) ? _ : path.resolve(process.cwd(), _)));
-    } else {
-        matchedPaths = await glob(paths, {});
-    }
+    const matchedPaths = Array.isArray(paths) ? paths.map(_ => (path.isAbsolute(_) ? _ : path.resolve(process.cwd(), _))) : await glob(paths, {});
 
     for (const matchedPath of matchedPaths) {
         try {

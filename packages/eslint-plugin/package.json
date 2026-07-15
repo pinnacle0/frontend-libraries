@@ -26,13 +26,13 @@
         "@typescript-eslint/utils": "8.63.0",
         "confusing-browser-globals": "1.0.11",
         "eslint-config-prettier": "10.1.8",
-        "@eslint-community/eslint-plugin-eslint-comments": "4.6.0",
+        "@eslint-community/eslint-plugin-eslint-comments": "4.7.2",
         "eslint-plugin-import": "2.32.0",
         "eslint-plugin-react": "7.37.5",
-        "eslint-plugin-react-hooks": "7.0.1"
+        "eslint-plugin-react-hooks": "7.1.1"
     },
     "peerDependencies": {
-        "eslint": "^9.39.3",
+        "eslint": "^10.7.0",
         "rollup": "4.59.0"
     },
     "devDependencies": {

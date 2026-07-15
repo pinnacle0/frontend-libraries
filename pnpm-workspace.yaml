@@ -48,3 +48,7 @@ allowBuilds:
     es5-ext: true
     esbuild: true
     ttf2woff2: true
+# eslint-plugin-react / eslint-plugin-import have not widened peers to ESLint 10 yet
+peerDependencyRules:
+    allowedVersions:
+        eslint: "10"
