@@ -492,6 +492,9 @@ importers:
       react-refresh:
         specifier: 0.18.0
         version: 0.18.0
+      selfsigned:
+        specifier: 5.5.0
+        version: 5.5.0
       socks-proxy-agent:
         specifier: 8.0.5
         version: 8.0.5
@@ -523,9 +526,6 @@ importers:
       '@types/yargs':
         specifier: 17.0.35
         version: 17.0.35
-      selfsigned:
-        specifier: 5.5.0
-        version: 5.5.0
     publishDirectory: build
 
 packages:
