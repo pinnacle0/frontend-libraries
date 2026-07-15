@@ -18,7 +18,4 @@ export {TextUtil} from "./core/TextUtil.js";
 export {URLUtil} from "./core/URLUtil.js";
 export {VersionComparator} from "./core/VersionComparator.js";
 
-export {Memo} from "./decorator/Memo.js";
-export {Throttle} from "./decorator/Throttle.js";
-
 export * from "./type.js";
