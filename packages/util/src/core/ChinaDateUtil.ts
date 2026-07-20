@@ -1,16 +1,16 @@
 export class ChinaDateUtil {
     static format(date: Date): string {
-        const p = this.getParts(date);
+        const p = ChinaDateUtil.getParts(date);
         return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
     }
 
     static todayStr(): string {
-        const p = this.getParts(new Date());
+        const p = ChinaDateUtil.getParts(new Date());
         return `${p.year}-${p.month}-${p.day}`;
     }
 
     static today(type: "start" | "end"): Date {
-        const p = this.getParts(new Date());
+        const p = ChinaDateUtil.getParts(new Date());
         const year = Number(p.year);
         const month = Number(p.month);
         const day = Number(p.day);
