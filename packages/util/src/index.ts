@@ -1,4 +1,5 @@
 export {ArrayUtil} from "./core/ArrayUtil.js";
+export {ChinaDateUtil} from "./core/ChinaDateUtil.js";
 export {DateUtil} from "./core/DateUtil.js";
 export type {DayStartOrEnd} from "./core/DateUtil.js";
 export {DistributionGenerator} from "./core/DistributionGenerator.js";
