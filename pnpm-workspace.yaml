@@ -7,7 +7,7 @@ minimumReleaseAge: 4320
 minimumReleaseAgeExclude:
     - "@pinnacle0/*"
     - "swc-plugin-core-fe-hmr"
-    - "fast-uri"
+    - "fast-uri" # TODO: remove exclude on 25/7/2026
 overrides:
     semver: 7.7.3
     nanoid: 3.3.8
