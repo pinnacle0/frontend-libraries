@@ -64,6 +64,20 @@ export class ChinaDateUtil {
         return ChinaDateUtil.format(ChinaDateUtil.daysAfterToday(days, "day-start"));
     }
 
+    static daysBefore(date: Date, days: number, type: DayStartOrEnd): Date {
+        if (days < 0) throw new Error("[util] DateUtil.daysBefore: days must be >=0");
+        return ChinaDateUtil.dateRelativeTo(date, -days, type);
+    }
+    
+    static daysAfter(date: Date, days: number, type: DayStartOrEnd): Date {
+        if (days < 0) throw new Error("[util] DateUtil.daysAfter: days must be >=0");
+        return ChinaDateUtil.dateRelativeTo(date, days, type);
+    }
+    
+    static someday(date: Date, type: DayStartOrEnd): Date {
+        return ChinaDateUtil.dateRelativeTo(date, 0, type);
+    }
+
     private static getParts(date: Date) {
         const parts = new Intl.DateTimeFormat("en-US", {
             timeZone: "Asia/Shanghai", // UTC+8
