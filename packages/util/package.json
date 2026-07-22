@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/util",
-    "version": "2.9.8",
+    "version": "2.9.9",
     "license": "MIT",
     "type": "module",
     "sideEffects": false,
