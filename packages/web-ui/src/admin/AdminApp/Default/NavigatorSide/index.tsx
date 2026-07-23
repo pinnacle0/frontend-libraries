@@ -10,6 +10,7 @@ type DrawerUserInfo = {[title: string]: React.ReactElement | string | null};
 interface Props {
     onLogout: () => void;
     drawerInfo: DrawerUserInfo;
+    drawerSize?: number; // default is 350
 }
 
 interface State {
@@ -32,7 +33,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
 
     render() {
         const t = i18n();
-        const {onLogout, drawerInfo} = this.props;
+        const {onLogout, drawerInfo, drawerSize} = this.props;
         const {showDrawer} = this.state;
 
         return (
@@ -40,7 +41,7 @@ export class NavigatorSide extends React.PureComponent<Props, State> {
                 <Button type="primary" id="admin-app-default-navigator-side-button" size="small" onClick={this.showDrawer}>
                     <UserOutlined />
                 </Button>
-                <Drawer size={350} open={showDrawer} closable={false} onClose={this.closeDrawer}>
+                <Drawer size={drawerSize ?? 350} open={showDrawer} closable={false} onClose={this.closeDrawer}>
                     <div id="admin-app-default-drawer">
                         <UserOutlined className="avatar" />
                         <div className="grid">
