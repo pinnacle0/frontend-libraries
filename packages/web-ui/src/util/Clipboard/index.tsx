@@ -26,33 +26,18 @@ async function copyText(text: string) {
 }
 
 /**
- * Save image to clipboard via javascript.
- *
- * CAVEATS:
- * 1. Typescript have no type definition of navigator.clipboard.write and ClipboardItem yet
- * 2. Compatibility:
- *    - png only, need extra transformation via canvas if image format is jpg
- *    - supported by chrome 76 and safari 13.1
- * 3. Need another request to fetch image
- *
- * references:
- * - https://github.com/Microsoft/TypeScript/issues/26728
- * - https://developer.mozilla.org/zh-CN/docs/Web/API/ClipboardItem
- * - https://github.com/lgarron/clipboard-polyfill
+ * - PNG only, because JPEG requires extra transformation via canvas
+ * - supported by Chrome 76+ and safari 13.1+
  */
 async function copyImage(base64Image: string) {
-    if ("ClipboardItem" in window && "write" in navigator.clipboard) {
+    if (navigator.clipboard && "ClipboardItem" in window) {
         const [base64Metadata, base64String] = base64Image.trim().split(";base64,");
-        if (base64Metadata !== "data:image/png") {
-            // not png format or invalid argument
-            return false;
-        }
+        if (base64Metadata !== "data:image/png") return false;
+
         const unicodeArray = atob(base64String)
             .split("")
             .map(_ => _.charCodeAt(0));
-        const byteArray = Uint8Array.from(unicodeArray);
-        const blob = new Blob([byteArray], {type: "image/png"});
-        // @ts-ignore
+        const blob = new Blob([Uint8Array.from(unicodeArray)], {type: "image/png"});
         await navigator.clipboard.write([new window.ClipboardItem({"image/png": blob})]);
         return true;
     } else {
