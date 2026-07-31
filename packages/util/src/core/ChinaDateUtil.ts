@@ -78,7 +78,7 @@ export class ChinaDateUtil {
         return ChinaDateUtil.dateRelativeTo(date, 0, type);
     }
 
-    private static getParts(date: Date) {
+    static getParts(date: Date) {
         const parts = new Intl.DateTimeFormat("en-US", {
             timeZone: "Asia/Shanghai", // UTC+8
             year: "numeric",
