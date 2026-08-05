@@ -41,7 +41,7 @@ overrides:
     follow-redirects: 1.16.0
     uuid: 11.1.1
     webpack-dev-server: 5.2.4
-    ip-address: 10.2.2
+    ip-address: 10.3.1
     ws@8: 8.21.0
 allowBuilds:
     "@swc/core": true
