@@ -55,5 +55,5 @@
             "@typescript-eslint/parser"
         ]
     },
-    "packageManager": "pnpm@11.10.0"
+    "packageManager": "pnpm@11.20.0"
 }

@@ -38,7 +38,7 @@ overrides:
   follow-redirects: 1.16.0
   uuid: 11.1.1
   webpack-dev-server: 5.2.4
-  ip-address: 10.1.1
+  ip-address: 10.2.2
   ws@8: 8.21.0
 
 importers:
@@ -4151,8 +4151,8 @@ packages:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
     engines: {node: '>= 0.4'}
 
-  ip-address@10.1.1:
-    resolution: {integrity: sha512-1FMu8/N15Ck1BL551Jf42NYIoin2unWjLQ2Fze/DXryJRl5twqtwNHlO39qERGbIOcKYWHdgRryhOC+NG4eaLw==}
+  ip-address@10.2.2:
+    resolution: {integrity: sha512-aNJVEVdXTr/g5+N2VCLo+CTrFLo/Y+9rx9RC5BpxPtf7NEknmzY+UQvMO8Fjni5KFmDaHJieL8HCMJKjJXsTgg==}
     engines: {node: '>= 12'}
 
   ipaddr.js@1.9.1:
@@ -10268,7 +10268,7 @@ snapshots:
       hasown: 2.0.4
       side-channel: 1.1.1
 
-  ip-address@10.1.1: {}
+  ip-address@10.2.2: {}
 
   ipaddr.js@1.9.1: {}
 
@@ -11614,7 +11614,7 @@ snapshots:
 
   socks@2.8.9:
     dependencies:
-      ip-address: 10.1.1
+      ip-address: 10.2.2
       smart-buffer: 4.2.0
 
   sort-keys-length@1.0.1:

@@ -7,8 +7,6 @@ minimumReleaseAge: 4320
 minimumReleaseAgeExclude:
     - "@pinnacle0/*"
     - "swc-plugin-core-fe-hmr"
-    - "eslint" # TODO: remove exclude on 2026-08-01
-    - "globals" # TODO: remove exclude on 2026-08-01
 overrides:
     semver: 7.7.3
     nanoid: 3.3.8
@@ -43,7 +41,7 @@ overrides:
     follow-redirects: 1.16.0
     uuid: 11.1.1
     webpack-dev-server: 5.2.4
-    ip-address: 10.1.1
+    ip-address: 10.2.2
     ws@8: 8.21.0
 allowBuilds:
     "@swc/core": true
