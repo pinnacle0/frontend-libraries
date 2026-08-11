@@ -17,7 +17,7 @@ function isIOSPWA(): boolean {
 }
 
 function orientationFromAngle(angle: number): OrientationType {
-    return Math.abs(angle) === 90 ? "landscape" : "portrait";
+    return Math.abs(angle) % 180 === 90 ? "landscape" : "portrait";
 }
 
 function subscribe(subscriber: Subscriber): (() => void) | undefined {
