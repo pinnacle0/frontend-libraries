@@ -20,10 +20,6 @@ function orientationFromAngle(angle: number): OrientationType {
     return Math.abs(angle) === 90 ? "landscape" : "portrait";
 }
 
-function currentByMediaQuery(): OrientationType {
-    return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
-}
-
 function subscribe(subscriber: Subscriber): (() => void) | undefined {
     try {
         let lastOrientation = current();
@@ -55,7 +51,7 @@ function subscribe(subscriber: Subscriber): (() => void) | undefined {
 function current(): OrientationType {
     try {
         if (isIOSPWA()) {
-            return currentByMediaQuery();
+            return window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape";
         } else if (typeof window.screen.orientation !== "undefined") {
             return orientationFromAngle(window.screen.orientation.angle);
         } else {
