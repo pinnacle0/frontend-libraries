@@ -237,7 +237,7 @@ importers:
         version: 18.0.0
     optionalDependencies:
       '@vitest/eslint-plugin':
-        specifier: ^1.6.26
+        specifier: ^1.6.9
         version: 1.6.26(@typescript-eslint/eslint-plugin@8.63.0(@typescript-eslint/parser@8.63.0(eslint@10.8.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.8.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.8.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)(vitest@4.1.10(@types/node@26.1.1)(jsdom@27.0.0(supports-color@10.2.2))(vite@7.3.2(@types/node@26.1.1)(less@4.8.1(supports-color@10.2.2))(lightningcss@1.33.0)(terser@5.49.0)(tsx@4.23.0)))
       eslint-plugin-testing-library:
         specifier: ^7.16.0
