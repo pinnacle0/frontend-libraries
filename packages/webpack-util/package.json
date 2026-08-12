@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.8.35",
+    "version": "0.8.36",
     "type": "module",
     "exports": {
         ".": "./src/index.ts"
@@ -26,8 +26,8 @@
         "express": "4.22.1",
         "html-webpack-plugin": "5.6.6",
         "https-proxy-agent": "9.0.0",
-        "less": "4.8.1",
-        "less-loader": "13.0.0",
+        "less": "4.4.1",
+        "less-loader": "12.3.0",
         "pretty-format": "30.2.0",
         "react-refresh": "0.18.0",
         "socks-proxy-agent": "10.1.0",
