@@ -1,5 +1,5 @@
 import {ChinaDateUtil} from "../../src/core/ChinaDateUtil.js";
-import {describe, test, expect, beforeAll, afterAll} from "vitest";
+import {describe, test, expect, beforeAll, afterAll, vi} from "vitest";
 
 /**
  * ChinaDateUtil is pinned to Beijing time (UTC+8), so these expectations are built independently of
@@ -92,6 +92,32 @@ describe("ChinaDateUtil (machine timezone is not Beijing)", () => {
             expect(ChinaDateUtil.format(date1, "chinese")).toBe("2018年02月12日");
             expect(ChinaDateUtil.format(date1, "chinese-with-time")).toBe("2018年02月12日 12:12:12");
             expect(ChinaDateUtil.format(date1, "time")).toBe("12:12:12");
+        });
+    });
+
+    describe("getParts fallback when formatToParts throws", () => {
+        test("returns local date parts and still formats without throwing", () => {
+            const spy = vi.spyOn(Intl.DateTimeFormat.prototype, "formatToParts").mockImplementation(() => {
+                throw new TypeError("(intermediate value).formatToParts is not a function");
+            });
+
+            try {
+                // Local-component constructor: getters always match these values regardless of TZ.
+                const date = new Date(2018, 1, 12, 9, 8, 7);
+                expect(ChinaDateUtil.getParts(date)).toEqual({
+                    year: "2018",
+                    month: "02",
+                    day: "12",
+                    hour: "09",
+                    minute: "08",
+                    second: "07",
+                });
+                expect(ChinaDateUtil.format(date)).toBe("2018-02-12");
+                expect(ChinaDateUtil.format(date, "with-time")).toBe("2018-02-12 09:08:07");
+                expect(ChinaDateUtil.format(date, "chinese-with-time")).toBe("2018年02月12日 09:08:07");
+            } finally {
+                spy.mockRestore();
+            }
         });
     });
 });

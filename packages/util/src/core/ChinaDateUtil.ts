@@ -79,26 +79,40 @@ export class ChinaDateUtil {
     }
 
     static getParts(date: Date) {
-        const parts = new Intl.DateTimeFormat("en-US", {
-            timeZone: "Asia/Shanghai", // UTC+8
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false, // may return "24" for midnight in some environments
-        }).formatToParts(date);
+        try {
+            const parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "Asia/Shanghai", // UTC+8
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false, // may return "24" for midnight in some environments
+            }).formatToParts(date);
 
-        const get = (type: string) => parts.find(p => p.type === type)?.value ?? "";
-        return {
-            year: get("year"),
-            month: get("month"),
-            day: get("day"),
-            hour: get("hour") === "24" ? "00" : get("hour"),
-            minute: get("minute"),
-            second: get("second"),
-        };
+            const get = (type: string) => parts.find(p => p.type === type)?.value ?? "";
+            return {
+                year: get("year"),
+                month: get("month"),
+                day: get("day"),
+                hour: get("hour") === "24" ? "00" : get("hour"),
+                minute: get("minute"),
+                second: get("second"),
+            };
+        } catch {
+            // Fallback for environments where formatToParts is unavailable (e.g. some polyfills / older runtimes).
+            // Ignores timezone — uses the Date's local components as-is.
+            const pad = (n: number) => String(n).padStart(2, "0");
+            return {
+                year: String(date.getFullYear()),
+                month: pad(date.getMonth() + 1),
+                day: pad(date.getDate()),
+                hour: pad(date.getHours()),
+                minute: pad(date.getMinutes()),
+                second: pad(date.getSeconds()),
+            };
+        }
     }
 
     private static dateRelativeTo(date: Date, diffDays: number, type: DayStartOrEnd): Date {
