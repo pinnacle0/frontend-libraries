@@ -1,4 +1,4 @@
-import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh";
+import {ReactRefreshRspackPlugin} from "@rspack/plugin-react-refresh";
 import type {RspackPluginInstance, SwcJsMinimizerRspackPluginOptions} from "@rspack/core";
 import {SwcJsMinimizerRspackPlugin} from "@rspack/core";
 import {WebpackConfigSerializationUtil} from "../WebpackConfigSerializationUtil.js";
