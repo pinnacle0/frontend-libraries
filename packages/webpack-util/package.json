@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/webpack-util",
-    "version": "0.8.36",
+    "version": "0.8.37",
     "type": "module",
     "exports": {
         ".": "./src/index.ts"
