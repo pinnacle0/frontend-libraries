@@ -52,14 +52,41 @@ export const Form = ReactUtil.compound(
             errorDisplayMode = {type: "extra"},
         } = props;
         const [isValidating, setIsValidating] = React.useState(false);
-        const [validators, setValidators] = React.useState<Array<() => Promise<boolean>>>([]);
+        // Ref (not state): Form.Item registers during render, so triggerSubmit must see
+        // the latest validators in the same commit — before useEffect / a setState flush.
+        const validatorsRef = React.useRef(new Set<() => Promise<boolean>>());
+        const isSubmittingRef = React.useRef(false);
 
-        const registerValidator = React.useCallback((validator: () => Promise<boolean>) => setValidators(prev => [...prev, validator]), []);
-        const unregisterValidator = React.useCallback((validator: () => Promise<boolean>) => setValidators(prev => prev.filter(v => v !== validator)), []);
+        const registerValidator = React.useCallback((validator: () => Promise<boolean>) => {
+            validatorsRef.current.add(validator);
+        }, []);
+        const unregisterValidator = React.useCallback((validator: () => Promise<boolean>) => {
+            validatorsRef.current.delete(validator);
+        }, []);
         const validationContext = {
             registerValidator,
             unregisterValidator,
             errorDisplayMode: () => errorDisplayMode,
+        };
+
+        const triggerSubmit = async () => {
+            if (isSubmittingRef.current) {
+                return false;
+            }
+            isSubmittingRef.current = true;
+            try {
+                setIsValidating(true);
+                const validatorResults = await Promise.all([...validatorsRef.current].map(_ => _()));
+                if (validatorResults.every(_ => _)) {
+                    // Also true even if validatorResults is [] (form has no Form.Item)
+                    onFinish?.();
+                    return true;
+                }
+                return false;
+            } finally {
+                isSubmittingRef.current = false;
+                setIsValidating(false);
+            }
         };
 
         React.useImperativeHandle(forwardRef, () => ({
@@ -70,21 +97,6 @@ export const Form = ReactUtil.compound(
             event.preventDefault();
             event.stopPropagation();
             await triggerSubmit();
-        };
-
-        const triggerSubmit = async () => {
-            try {
-                setIsValidating(true);
-                const validatorResults = await Promise.all(validators.map(_ => _()));
-                if (validatorResults.every(_ => _)) {
-                    // Also true even if validatorResults is []
-                    onFinish?.();
-                    return true;
-                }
-                return false;
-            } finally {
-                setIsValidating(false);
-            }
         };
 
         const renderSubmitButton = () => {

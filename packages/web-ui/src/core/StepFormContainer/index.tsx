@@ -25,6 +25,7 @@ export interface Props {
     className?: string;
     style?: React.CSSProperties;
     formLayout?: "horizontal" | "vertical";
+    loading?: boolean;
     buttonRenderer?: (prevButton: React.ReactElement, nextButton: React.ReactElement) => React.ReactElement;
 }
 
@@ -40,6 +41,7 @@ export const StepFormContainer = ReactUtil.memo("StepFormContainer", (props: Pro
         className,
         id,
         onStepChange,
+        loading,
         buttonRenderer = (prevButton, nextButton) => (currentStep > 0 ? [prevButton, nextButton] : nextButton),
     } = props;
     const t = i18n();
@@ -48,9 +50,9 @@ export const StepFormContainer = ReactUtil.memo("StepFormContainer", (props: Pro
 
     const goToNextStep = () => onStepChange(currentStep + 1);
 
-    const renderButtons = (submitButton: React.ReactElement, isValidating: boolean) => {
+    const renderButtons = (submitButton: React.ReactElement, isValidating: boolean, isLoading?: boolean) => {
         const prevButton = (
-            <Button onClick={goToPrevStep} disabled={isValidating} key="prevButton" type="primary" ghost>
+            <Button onClick={goToPrevStep} disabled={isValidating || isLoading} key="prevButton" type="primary" ghost>
                 {t.prevStep}
             </Button>
         );
@@ -66,7 +68,14 @@ export const StepFormContainer = ReactUtil.memo("StepFormContainer", (props: Pro
                 responsive={responsive === undefined ? stepLabelPlacement !== "horizontal" : responsive}
                 items={steps.map((step, index) => ({key: index, title: step.title, content: step.description}))}
             />
-            <Form layout={formLayout} onFinish={currentStep < steps.length - 1 ? goToNextStep : onFinish} buttonText={nextButtonText} buttonRenderer={renderButtons}>
+            <Form
+                key={currentStep}
+                layout={formLayout}
+                loading={loading}
+                onFinish={currentStep < steps.length - 1 ? goToNextStep : onFinish}
+                buttonText={nextButtonText}
+                buttonRenderer={renderButtons}
+            >
                 {steps[currentStep].content}
             </Form>
         </div>

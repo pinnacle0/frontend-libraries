@@ -32,8 +32,11 @@ export const Item = ReactUtil.memo("Item", (props: Props) => {
         return errorMessage === null;
     }, [validator]);
 
-    React.useEffect(() => {
-        registerValidator(validate);
+    // Register during render so a submit in this commit (or the parent's useLayoutEffect)
+    // already sees this item. Cleanup still belongs in useLayoutEffect so unmount /
+    // validator identity changes drop the stale function before paint.
+    registerValidator(validate);
+    React.useLayoutEffect(() => {
         return () => unregisterValidator(validate);
     }, [registerValidator, unregisterValidator, validate]);
 
