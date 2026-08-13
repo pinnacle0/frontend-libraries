@@ -33,6 +33,6 @@ describe("NamingUtil.toPascalCase", () => {
         ${"home-0"}
         ${"home_0"}
     `("toPascalCase('$input') throws error", ({input}: {input: string}) => {
-        expect(() => NamingUtil.toPascalCase(input)).toThrowError();
+        expect(() => NamingUtil.toPascalCase(input)).toThrow();
     });
 });

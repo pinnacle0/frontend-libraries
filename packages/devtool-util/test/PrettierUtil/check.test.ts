@@ -23,15 +23,15 @@ describe("PrettierUtil.check", () => {
     });
 
     test("passes when called with formatted file", () => {
-        expect(() => PrettierUtil.check(formattedFixturePath)).not.toThrowError();
+        expect(() => PrettierUtil.check(formattedFixturePath)).not.toThrow();
     });
 
     test("throws when called with unformatted file", () => {
-        expect(() => PrettierUtil.check(unformattedFixturePath)).toThrowError();
+        expect(() => PrettierUtil.check(unformattedFixturePath)).toThrow();
     });
 
     test("throws when called with directory containing unformatted files", () => {
-        expect(() => PrettierUtil.check(tmpDirectory)).toThrowError();
+        expect(() => PrettierUtil.check(tmpDirectory)).toThrow();
     });
 });
 

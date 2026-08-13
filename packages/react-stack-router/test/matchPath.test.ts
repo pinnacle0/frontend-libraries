@@ -35,7 +35,7 @@ describe("match path segment testing", () => {
         if (!throwError) {
             expect(matchPathSegment(pattern, path)).toStrictEqual(result);
         } else {
-            expect(() => matchPathSegment(pattern, path)).toThrowError();
+            expect(() => matchPathSegment(pattern, path)).toThrow();
         }
     });
 });

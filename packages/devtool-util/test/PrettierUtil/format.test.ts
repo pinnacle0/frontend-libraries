@@ -16,6 +16,6 @@ describe("PrettierUtil.format", () => {
     });
 
     test("when running PrettierUtil.format(emptyDirectory), suppress error", () => {
-        expect(() => PrettierUtil.format(tmpDirectory)).not.toThrowError();
+        expect(() => PrettierUtil.format(tmpDirectory)).not.toThrow();
     });
 });

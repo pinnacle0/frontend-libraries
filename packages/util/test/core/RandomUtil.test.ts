@@ -3,7 +3,7 @@ import {describe, test, expect} from "vitest";
 
 describe("RandomUtil.ofOne", () => {
     test("throws if array is empty", () => {
-        expect(() => RandomUtil.ofOne([])).toThrowError();
+        expect(() => RandomUtil.ofOne([])).toThrow();
     });
 
     test("item is in array", () => {
@@ -17,9 +17,9 @@ describe("RandomUtil.ofOne", () => {
 
 describe("RandomUtil.ofMany", () => {
     test("throws if array is too small", () => {
-        expect(() => RandomUtil.ofMany([], 1, true)).toThrowError();
-        expect(() => RandomUtil.ofMany([1], 2, true)).toThrowError();
-        expect(() => RandomUtil.ofMany([1], 2, false)).toThrowError();
+        expect(() => RandomUtil.ofMany([], 1, true)).toThrow();
+        expect(() => RandomUtil.ofMany([1], 2, true)).toThrow();
+        expect(() => RandomUtil.ofMany([1], 2, false)).toThrow();
     });
 
     test("item is in array with correct size and ordering", () => {
@@ -50,8 +50,8 @@ describe("RandomUtil.ofMany", () => {
 
 describe("RandomUtil.integerBetween", () => {
     test("throws if invalid args", () => {
-        expect(() => RandomUtil.integerBetween(2, 1)).toThrowError();
-        expect(() => RandomUtil.integerBetween(-1, -2)).toThrowError();
+        expect(() => RandomUtil.integerBetween(2, 1)).toThrow();
+        expect(() => RandomUtil.integerBetween(-1, -2)).toThrow();
     });
 
     test("random number is within range", () => {
@@ -65,11 +65,11 @@ describe("RandomUtil.integerBetween", () => {
 
 describe("RandomUtil.integersBetween", () => {
     test("throws if invalid args", () => {
-        expect(() => RandomUtil.integersBetween(2, 1, 1, true)).toThrowError();
-        expect(() => RandomUtil.integersBetween(2, 3, 3, true)).toThrowError();
-        expect(() => RandomUtil.integersBetween(2, 100, 0, true)).toThrowError();
+        expect(() => RandomUtil.integersBetween(2, 1, 1, true)).toThrow();
+        expect(() => RandomUtil.integersBetween(2, 3, 3, true)).toThrow();
+        expect(() => RandomUtil.integersBetween(2, 100, 0, true)).toThrow();
 
-        expect(() => RandomUtil.integersBetween(2, 3, 2, true)).not.toThrowError();
+        expect(() => RandomUtil.integersBetween(2, 3, 2, true)).not.toThrow();
     });
 
     test("random numbers is within range", () => {

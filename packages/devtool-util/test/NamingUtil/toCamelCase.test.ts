@@ -33,6 +33,6 @@ describe("NamingUtil.toCamelCase", () => {
         ${"home-0"}
         ${"home_0"}
     `("toCamelCase('$input') throws error", ({input}: {input: string}) => {
-        expect(() => NamingUtil.toCamelCase(input)).toThrowError();
+        expect(() => NamingUtil.toCamelCase(input)).toThrow();
     });
 });
