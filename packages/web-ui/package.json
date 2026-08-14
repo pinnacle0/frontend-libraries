@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/web-ui",
-    "version": "0.7.30",
+    "version": "0.7.31",
     "author": "Pinnacle",
     "license": "MIT",
     "sideEffects": [
@@ -27,11 +27,11 @@
     },
     "dependencies": {
         "@ant-design/cssinjs": "2.1.2",
-        "@ant-design/icons": "6.2.5",
-        "@tanstack/react-virtual": "3.13.13",
-        "antd": "6.4.3",
+        "@ant-design/icons": "6.3.2",
+        "@tanstack/react-virtual": "3.14.9",
+        "antd": "6.6.0",
         "classnames": "2.5.1",
-        "dayjs": "1.11.19",
+        "dayjs": "1.11.21",
         "rc-picker": "4.11.3"
     },
     "peerDependencies": {
@@ -43,17 +43,17 @@
         "@pinnacle0/devtool-util": "workspace:*",
         "@pinnacle0/webpack-util": "workspace:*",
         "@testing-library/dom": "10.4.1",
-        "@testing-library/react": "16.3.0",
-        "@testing-library/user-event": "14.6.1",
-        "@types/react": "19.2.17",
-        "@types/react-dom": "19.2.3",
+        "@testing-library/react": "16.3.2",
+        "@testing-library/user-event": "14.6.3",
+        "@types/react": "19.2.18",
+        "@types/react-dom": "19.2.4",
         "@types/react-router": "5.1.20",
         "@types/react-router-dom": "5.3.3",
         "history": "5.3.0",
         "jsdom": "27.0.0",
         "less": "4.8.1",
-        "react": "19.2.7",
-        "react-dom": "19.2.7",
+        "react": "19.2.8",
+        "react-dom": "19.2.8",
         "react-router-dom": "5.3.0"
     },
     "exports": {

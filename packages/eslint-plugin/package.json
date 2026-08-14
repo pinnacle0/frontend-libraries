@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.5.8",
+    "version": "0.5.9",
     "license": "MIT",
     "type": "module",
     "exports": {
@@ -20,33 +20,33 @@
         "prepublishOnly": "pnpm build"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "8.63.0",
-        "@typescript-eslint/parser": "8.63.0",
-        "@typescript-eslint/rule-tester": "8.63.0",
-        "@typescript-eslint/utils": "8.63.0",
+        "@typescript-eslint/eslint-plugin": "8.67.0",
+        "@typescript-eslint/parser": "8.67.0",
+        "@typescript-eslint/rule-tester": "8.67.0",
+        "@typescript-eslint/utils": "8.67.0",
         "confusing-browser-globals": "1.0.11",
         "eslint-config-prettier": "10.1.8",
-        "@eslint-community/eslint-plugin-eslint-comments": "4.6.0",
+        "@eslint-community/eslint-plugin-eslint-comments": "4.7.2",
         "eslint-plugin-import": "2.32.0",
         "eslint-plugin-react": "7.37.5",
-        "eslint-plugin-react-hooks": "7.0.1"
+        "eslint-plugin-react-hooks": "7.1.1"
     },
     "peerDependencies": {
-        "eslint": "10.8.0",
+        "eslint": "10.8.1",
         "rollup": "4.59.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
-        "@rollup/plugin-commonjs": "29.0.0",
+        "@rollup/plugin-commonjs": "29.0.3",
         "@rollup/plugin-json": "6.1.0",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.3.0",
         "@types/yargs": "17.0.35",
-        "yargs": "18.0.0"
+        "yargs": "18.1.0"
     },
     "optionalDependencies": {
-        "@vitest/eslint-plugin": "^1.6.9",
-        "eslint-plugin-testing-library": "^7.16.0"
+        "@vitest/eslint-plugin": "^1.6.27",
+        "eslint-plugin-testing-library": "^7.16.2"
     },
     "engines": {
         "node": ">=24"

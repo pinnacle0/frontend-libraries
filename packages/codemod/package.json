@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/codemod",
-    "version": "1.2.8",
+    "version": "1.2.9",
     "type": "module",
     "description": "Provide codemod by using babel and recast",
     "main": "build/index.js",
@@ -38,7 +38,7 @@
         "chalk": "6.0.0",
         "glob": "13.0.6",
         "recast": "0.23.4",
-        "yargs": "18.0.0"
+        "yargs": "18.1.0"
     },
     "devDependencies": {
         "@pinnacle0/devtool-util": "workspace:*",
