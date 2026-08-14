@@ -1,6 +1,6 @@
 {
     "name": "@pinnacle0/eslint-plugin",
-    "version": "0.5.9",
+    "version": "0.5.10",
     "license": "MIT",
     "type": "module",
     "exports": {
@@ -23,6 +23,8 @@
         "@typescript-eslint/eslint-plugin": "8.67.0",
         "@typescript-eslint/parser": "8.67.0",
         "@typescript-eslint/rule-tester": "8.67.0",
+        "@typescript-eslint/scope-manager": "8.67.0",
+        "@typescript-eslint/typescript-estree": "8.67.0",
         "@typescript-eslint/utils": "8.67.0",
         "confusing-browser-globals": "1.0.11",
         "eslint-config-prettier": "10.1.8",
