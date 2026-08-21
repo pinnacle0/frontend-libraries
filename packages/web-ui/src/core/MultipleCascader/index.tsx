@@ -23,13 +23,14 @@ export interface BaseProps<T extends string | number> {
     className?: string;
     style?: React.CSSProperties;
     disabled?: boolean;
+    showSearch?: boolean;
 }
 
 export interface Props<T extends string | number> extends BaseProps<T>, ControlledFormValue<T[]> {}
 
 const NON_LEAF_PREFIX = "@@NON_LEAF_";
 
-export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends string | number>({value, placeholder = "", disabled, style, className, onChange, data}: Props<T>) => {
+export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends string | number>({value, placeholder = "", disabled, style, className, onChange, data, showSearch}: Props<T>) => {
     const getAntValue = (): (string | number)[][] => {
         const data = getAntDataSource();
         const getCascaderValues = (data: DefaultOptionType[], value: T): Array<string | number> => {
@@ -104,6 +105,13 @@ export const MultipleCascader = ReactUtil.memo("MultipleCascader", <T extends st
             expandTrigger="hover"
             allowClear
             maxTagCount="responsive"
+            showSearch={
+                showSearch
+                    ? {
+                          autoClearSearchValue: false,
+                      }
+                    : undefined
+            }
         />
     );
 });

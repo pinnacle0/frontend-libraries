@@ -116,6 +116,11 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<UncontrolledMultipleCascader data={multipleCascaderData} initialValue={[]} placeholder="Placeholder here" />],
     },
     {
+        title: "Multiple Cascader With Manual Input",
+        showPropsHint: false,
+        components: [<UncontrolledMultipleCascader data={multipleCascaderData} initialValue={[]} placeholder="Type a custom value" showSearch />],
+    },
+    {
         title: "Cascader With Prefix",
         showPropsHint: false,
         components: [<InitialNullableCascader data={cascaderData} initialValue={null} placeholder="Placeholder here" prefix={<div>prefix</div>} />],
