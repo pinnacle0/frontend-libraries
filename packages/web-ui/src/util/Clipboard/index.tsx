@@ -7,12 +7,11 @@ async function copyRichText(html: string, fallbackPlainText: string): Promise<vo
             }),
         ]);
     } else {
-        await Clipboard.copyText(fallbackPlainText);
+        await copyText(fallbackPlainText);
     }
 }
 
-async function copyText(text: string) {
-    // navigator.clipboard supposed to be unavailable only in local http server
+async function copyText(text: string): Promise<void> {
     if (navigator.clipboard) {
         await navigator.clipboard.writeText(text);
     } else {
@@ -42,7 +41,7 @@ async function copyText(text: string) {
  * - PNG only, because JPEG requires extra transformation via canvas
  * - supported by Chrome 76+ and safari 13.1+
  */
-async function copyImage(base64Image: string) {
+async function copyImage(base64Image: string): Promise<boolean> {
     if (navigator.clipboard && "ClipboardItem" in window) {
         const [base64Metadata, base64String] = base64Image.trim().split(";base64,");
         if (base64Metadata !== "data:image/png") return false;
