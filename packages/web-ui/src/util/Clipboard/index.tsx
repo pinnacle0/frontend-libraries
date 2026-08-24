@@ -1,3 +1,16 @@
+async function copyRichText(html: string, fallbackPlainText: string): Promise<void> {
+    if (navigator.clipboard && "write" in navigator.clipboard && "ClipboardItem" in window) {
+        await navigator.clipboard.write([
+            new window.ClipboardItem({
+                "text/html": new Blob([html], {type: "text/html"}),
+                "text/plain": new Blob([fallbackPlainText], {type: "text/plain"}),
+            }),
+        ]);
+    } else {
+        await Clipboard.copyText(fallbackPlainText);
+    }
+}
+
 async function copyText(text: string) {
     // navigator.clipboard supposed to be unavailable only in local http server
     if (navigator.clipboard) {
@@ -46,6 +59,7 @@ async function copyImage(base64Image: string) {
 }
 
 export const Clipboard = Object.freeze({
+    copyRichText,
     copyText,
     copyImage,
 });
