@@ -16,7 +16,6 @@ Eight published packages under `packages/`:
 - `webpack-util` — opinionated build/dev pipeline around `@rspack/*` + webpack 5 (`Builder`, `ServerStarter`, `WebpackConfigGenerator`, `CodeStyleChecker`, `TestRunner`).
 - `devtool-util` — shared internal build helpers (`TaskRunner`, `Utility`, `PrettierUtil`, `NamingUtil`, plus `ModuleGenerator`/`IconGenerator`/`APIGenerator`). Most other packages' `script/build.ts` is just `new TaskRunner("build").execute([...])` from here.
 - `eslint-plugin` — custom ESLint rules (e.g. `module-class-lifecycle-order`, `react-component-method-ordering`, `no-deep-nested-relative-imports`) plus exported flat configs `baseline` and `vitest`. Has a `new-rule` scaffolder and a `codegen` step that regenerates the rules index — run it after adding a rule.
-- `codemod` — CLI (`pinnacle-codemod` / `pmod`) of babel/recast codemods for migrating consumers of the other packages. Add new codemods via `pnpm new-codemod`, then `pnpm codegen` to refresh the registry.
 - `pnpm-single-version` — CLI (`psv`) used by the root `postinstall` to enforce that packages listed under `pnpmSingleVersion.includes` in the root `package.json` (React, antd icons, eslint, etc.) resolve to exactly one version across the workspace.
 
 ## Commands
@@ -36,7 +35,6 @@ Per-package extras worth knowing:
 - `web-ui`: `pnpm --filter @pinnacle0/web-ui run demo` (Vite dev server in `packages/web-ui/demo/`). Build also runs `stylelint` over `.less` files.
 - `react-stack-router`: `pnpm --filter @pinnacle0/react-stack-router run demo`. Build is `tsc --build` + `cpy 'src/**/*.less' dist --parents` (no separate lint step in `package.json` — lint is enforced via the root config when running tsc/tests).
 - `eslint-plugin`: `pnpm --filter @pinnacle0/eslint-plugin run new-rule` to scaffold, then `pnpm --filter @pinnacle0/eslint-plugin run codegen` to refresh the rules barrel.
-- `codemod`: `pnpm --filter @pinnacle0/codemod run new-codemod`, then `pnpm --filter @pinnacle0/codemod run codegen`. The CLI itself is `pnpm --filter @pinnacle0/codemod run bin` during development.
 
 Run a single vitest test:
 
