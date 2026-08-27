@@ -22,9 +22,6 @@ overrides:
     # webpack-util > ts-checker-rspack-plugin > chokidar (2.3.2 without override)
     # react-stack-router > cpy-cli (2.3.2 without override)
     picomatch: 4.0.5
-    # web-ui > react-router-dom@5 > react-router (1.9.0 without override)
-    # scoped to react-router only — express 5's own router@2.x needs path-to-regexp@^8, a global pin would break it
-    "react-router>path-to-regexp": 0.1.13
     # devtool-util > fantasticon > svg2ttf (0.9.12 without override)
     "@xmldom/xmldom": 0.8.13
 allowBuilds:
