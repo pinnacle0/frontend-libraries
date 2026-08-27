@@ -10,20 +10,17 @@ minimumReleaseAgeExclude:
 overrides:
     # eslint-plugin > eslint-plugin-react-hooks / eslint-plugin-import / eslint-plugin-react (6.3.1 without override)
     semver: 7.7.3
-    # eslint-plugin > eslint-plugin-import / eslint-plugin-react > minimatch@3 (1.1.18 without override)
-    # pnpm-single-version > @swc/cli > minimatch@9 (2.1.4 without override)
-    # devtool-util > fantasticon > glob > minimatch@9 (2.1.4 without override)
-    brace-expansion: 5.0.9
-    # pnpm-single-version > @pnpm/lockfile-file (@zkochan/js-yaml@0.0.7 fork without override)
-    js-yaml: 5.2.3
     # devtool-util > fantasticon > node-gyp > ttf2woff2 (10.5.0 without override)
     # devtool-util > fantasticon > svgicons2svgfont (11.1.0 without override)
     glob: 13.0.6
+    # pnpm-single-version > @swc/cli (minimatch@9 pulls brace-expansion@2.1.4 without override)
+    # devtool-util > fantasticon > glob (minimatch@9 pulls brace-expansion@2.1.4 without override)
+    minimatch@9: 10.2.6
+    # pnpm-single-version > @pnpm/lockfile-file (@zkochan/js-yaml@0.0.7 fork without override)
+    js-yaml: 5.2.3
     # webpack-util > ts-checker-rspack-plugin > chokidar (2.3.2 without override)
     # react-stack-router > cpy-cli (2.3.2 without override)
     picomatch: 4.0.5
-    # devtool-util > fantasticon > svg2ttf (0.9.12 without override)
-    "@xmldom/xmldom": 0.8.13
 allowBuilds:
     "@swc/core": true
     es5-ext: true
