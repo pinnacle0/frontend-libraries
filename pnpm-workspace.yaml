@@ -13,9 +13,6 @@ overrides:
     # devtool-util > fantasticon > node-gyp > ttf2woff2 (10.5.0 without override)
     # devtool-util > fantasticon > svgicons2svgfont (11.1.0 without override)
     glob: 13.0.6
-    # pnpm-single-version > @swc/cli (minimatch@9 pulls brace-expansion@2.1.4 without override)
-    # devtool-util > fantasticon > glob (minimatch@9 pulls brace-expansion@2.1.4 without override)
-    minimatch@9: 10.2.6
     # pnpm-single-version > @pnpm/lockfile-file (@zkochan/js-yaml@0.0.7 fork without override)
     js-yaml: 5.2.3
     # webpack-util > ts-checker-rspack-plugin > chokidar (2.3.2 without override)
