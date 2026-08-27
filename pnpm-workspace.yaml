@@ -10,7 +10,7 @@ minimumReleaseAgeExclude:
 overrides:
     # eslint-plugin > eslint-plugin-react-hooks / eslint-plugin-import / eslint-plugin-react (6.3.1 without override)
     semver: 7.7.3
-    # web-ui > @ant-design/colors (3.0.0  without override)
+    # web-ui > antd / @ant-design/icons > @ant-design/colors > @ant-design/fast-color (3.0.0 without override)
     "@ant-design/fast-color": 3.0.1
     # eslint-plugin > eslint-plugin-import / eslint-plugin-react > minimatch@3 (1.1.18 without override)
     # pnpm-single-version > @swc/cli > minimatch@9 (2.1.4 without override)
@@ -18,16 +18,15 @@ overrides:
     brace-expansion: 5.0.7
     # pnpm-single-version > @pnpm/lockfile-file (@zkochan/js-yaml@0.0.7 fork without override)
     js-yaml: 5.2.3
-    # webpack-util > express (6.14.2 without override)
-    qs: 6.15.2
     # devtool-util > fantasticon > node-gyp > ttf2woff2 (10.5.0 without override)
     # devtool-util > fantasticon > svgicons2svgfont (11.1.0 without override)
     glob: 13.0.6
     # webpack-util > ts-checker-rspack-plugin > chokidar (2.3.2 without override)
     # react-stack-router > cpy-cli (2.3.2 without override)
-    picomatch: 4.0.4
+    picomatch: 4.0.5
     # web-ui > react-router-dom@5 > react-router (1.9.0 without override)
-    path-to-regexp: 0.1.13
+    # scoped to react-router only — express 5's own router@2.x needs path-to-regexp@^8, a global pin would break it
+    "react-router>path-to-regexp": 0.1.13
     # devtool-util > fantasticon > svg2ttf (0.9.12 without override)
     "@xmldom/xmldom": 0.8.13
 allowBuilds:
