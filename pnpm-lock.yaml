@@ -6,39 +6,15 @@ settings:
 
 overrides:
   semver: 7.7.3
-  nanoid: 3.3.8
-  cross-spawn: 7.0.6
+  '@ant-design/fast-color': 3.0.1
   brace-expansion: 5.0.7
   js-yaml: 5.2.3
-  '@ant-design/colors': 8.0.0
-  '@ant-design/fast-color': 3.0.0
-  '@ant-design/icons': 6.3.2
-  dayjs: 1.11.21
   qs: 6.15.2
-  tar: 7.5.21
-  lodash: 4.18.1
-  '@isaacs/brace-expansion': 5.0.1
-  webpack: 5.109.2
-  minimatch@3: 3.1.5
-  minimatch@5: 5.1.9
-  minimatch@9: 9.0.9
   minimatch@10: 10.2.6
-  serialize-javascript: 7.0.5
   glob: 13.0.6
-  flatted: 3.4.2
-  yauzl: 3.2.1
-  file-type: 21.3.2
-  handlebars: 4.7.9
-  node-forge: 1.4.0
   picomatch: 4.0.4
   path-to-regexp: 0.1.13
   '@xmldom/xmldom': 0.8.13
-  fast-uri: 3.1.5
-  follow-redirects: 1.16.0
-  uuid: 11.1.1
-  webpack-dev-server: 5.2.4
-  ip-address: 10.3.1
-  ws@8: 8.21.0
 
 importers:
 
@@ -507,8 +483,8 @@ importers:
 
 packages:
 
-  '@ant-design/colors@8.0.0':
-    resolution: {integrity: sha512-6YzkKCw30EI/E9kHOIXsQDHmMvTllT8STzjMb4K2qzit33RW2pqCJP0sk+hidBntXxE+Vz4n1+RvCTfBw6OErw==}
+  '@ant-design/colors@8.0.1':
+    resolution: {integrity: sha512-foPVl0+SWIslGUtD/xBr1p9U4AKzPhNYEseXYRRo5QSzGACYZrQbe11AYJbYfAWnWSpGBx6JjBmSeugUsD9vqQ==}
 
   '@ant-design/cssinjs-utils@2.1.2':
     resolution: {integrity: sha512-5fTHQ158jJJ5dC/ECeyIdZUzKxE/mpEMRZxthyG1sw/AKRHKgJBg00Yi6ACVXgycdje7KahRNvNET/uBccwCnA==}
@@ -522,8 +498,8 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
 
-  '@ant-design/fast-color@3.0.0':
-    resolution: {integrity: sha512-eqvpP7xEDm2S7dUzl5srEQCBTXZMmY3ekf97zI+M2DHOYyKdJGH0qua0JACHTqbkRnD/KHFQP9J1uMJ/XWVzzA==}
+  '@ant-design/fast-color@3.0.1':
+    resolution: {integrity: sha512-esKJegpW4nckh0o6kV3Tkb7NPIZYbPnnFxmQDUmL08ukXZAvV85TZBr70eGuke/CIArLaP6aw8lt9KILjnWuOw==}
     engines: {node: '>=8.x'}
 
   '@ant-design/icons-svg@4.5.0':
@@ -1556,7 +1532,7 @@ packages:
     engines: {node: '>=12.x'}
     peerDependencies:
       date-fns: '>= 2.x'
-      dayjs: 1.11.21
+      dayjs: '>= 1.x'
       luxon: '>= 3.x'
       moment: '>= 2.x'
       react: '>=16.9.0'
@@ -2890,9 +2866,6 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
-  buffer-crc32@0.2.13:
-    resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
-
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
@@ -3110,7 +3083,7 @@ packages:
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
-      webpack: 5.109.2
+      webpack: ^5.27.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -3617,6 +3590,10 @@ packages:
     resolution: {integrity: sha512-DLkUvGwep3poOV2wpzbHCOnSKGk1LzyXTv+aHFgN2VFl96wnp8YA9YjO2qPzg5PuL8q/SW9Pdi6WTkYOIh995w==}
     engines: {node: '>=20'}
 
+  file-type@21.3.4:
+    resolution: {integrity: sha512-Ievi/yy8DS3ygGvT47PjSfdFoX+2isQueoYP1cntFW1JLYAuS4GD7NUPGg4zv2iZfV52uDyk5w5Z0TdpRS6Q1g==}
+    engines: {node: '>=20'}
+
   file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
 
@@ -3884,7 +3861,7 @@ packages:
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x || 2.x
-      webpack: 5.109.2
+      webpack: ^5.20.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -4260,7 +4237,7 @@ packages:
     peerDependencies:
       '@rspack/core': 0.x || 1.x
       less: ^3.5.0 || ^4.0.0
-      webpack: 5.109.2
+      webpack: ^5.0.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -4535,7 +4512,7 @@ packages:
       lightningcss: '*'
       postcss: '*'
       uglify-js: '*'
-      webpack: 5.109.2
+      webpack: ^5.1.0
     peerDependenciesMeta:
       '@minify-html/node':
         optional: true
@@ -4603,8 +4580,8 @@ packages:
   nan@2.28.0:
     resolution: {integrity: sha512-fTsDz99OTq2sVePhGdp4qQhggZFtKr64ZNVyVajRKtMOkJxYekplBh577PiJB12v/D3s2E5cGtOI45LWp6rnLQ==}
 
-  nanoid@3.3.8:
-    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
+  nanoid@3.3.18:
+    resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -5008,7 +4985,7 @@ packages:
     engines: {node: '>=8.x'}
     peerDependencies:
       date-fns: '>= 2.x'
-      dayjs: 1.11.21
+      dayjs: '>= 1.x'
       luxon: '>= 3.x'
       moment: '>= 2.x'
       react: '>=16.9.0'
@@ -5447,7 +5424,7 @@ packages:
     resolution: {integrity: sha512-1V4WqhhZZgjVAVJyt7TdDPZoPBPNHbekX4fWnCJL1yQukhCeZhJySUL+gL9y6sNdN95uEOS83Y55SqHcP7MzLA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
-      webpack: 5.109.2
+      webpack: ^5.27.0
 
   stylelint-config-recommended@18.0.0:
     resolution: {integrity: sha512-mxgT2XY6YZ3HWWe3Di8umG6aBmWmHTblTgu/f10rqFXnyWxjKWwNdjSWkgkwCtxIKnqjSJzvFmPT5yabVIRxZg==}
@@ -5999,8 +5976,8 @@ packages:
     resolution: {integrity: sha512-2rAgRKu54VsHkqI0/tYkmluGXHD4KW7yZoycuqDQ15QOTnc2VVfy0nN/1eMhnQLO00A+dwtK20xuCnc1YGeUyg==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
-  yauzl@3.2.1:
-    resolution: {integrity: sha512-k1isifdbpNSFEHFJ1ZY4YDewv0IH9FR61lDetaRMD3j2ae3bIXGV+7c+LHCqtQGofSd8PIyV4X6+dHMAnSr60A==}
+  yauzl@3.4.0:
+    resolution: {integrity: sha512-jIH9yLR9wqr0wOS0TpBvo/g/2UgZH5qePVbjgRliiF0BYvOZyaBknKsF+x9Iht0O6sqgnB93rCICdOZFecJuDw==}
     engines: {node: '>=12'}
 
   yerror@8.0.0:
@@ -6030,9 +6007,9 @@ packages:
 
 snapshots:
 
-  '@ant-design/colors@8.0.0':
+  '@ant-design/colors@8.0.1':
     dependencies:
-      '@ant-design/fast-color': 3.0.0
+      '@ant-design/fast-color': 3.0.1
 
   '@ant-design/cssinjs-utils@2.1.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
@@ -6054,13 +6031,13 @@ snapshots:
       react-dom: 19.2.8(react@19.2.8)
       stylis: 4.4.0
 
-  '@ant-design/fast-color@3.0.0': {}
+  '@ant-design/fast-color@3.0.1': {}
 
   '@ant-design/icons-svg@4.5.0': {}
 
   '@ant-design/icons@6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@ant-design/colors': 8.0.0
+      '@ant-design/colors': 8.0.1
       '@ant-design/icons-svg': 4.5.0
       '@rc-component/util': 1.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       clsx: 2.1.1
@@ -7033,7 +7010,7 @@ snapshots:
 
   '@rc-component/color-picker@3.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@ant-design/fast-color': 3.0.0
+      '@ant-design/fast-color': 3.0.1
       '@rc-component/util': 1.12.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       clsx: 2.1.1
       react: 19.2.8
@@ -8192,7 +8169,7 @@ snapshots:
 
   '@xhmikosr/archive-type@8.1.0(supports-color@10.2.2)':
     dependencies:
-      file-type: 21.3.2(supports-color@10.2.2)
+      file-type: 21.3.4(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -8225,7 +8202,7 @@ snapshots:
   '@xhmikosr/decompress-tarbz2@9.0.2(supports-color@10.2.2)':
     dependencies:
       '@xhmikosr/decompress-tar': 9.0.1(supports-color@10.2.2)
-      file-type: 21.3.2(supports-color@10.2.2)
+      file-type: 21.3.4(supports-color@10.2.2)
       is-stream: 4.0.1
       seek-bzip: 2.0.0
       unbzip2-stream: 1.4.3
@@ -8246,9 +8223,9 @@ snapshots:
 
   '@xhmikosr/decompress-unzip@8.2.1(supports-color@10.2.2)':
     dependencies:
-      file-type: 21.3.2(supports-color@10.2.2)
+      file-type: 21.3.4(supports-color@10.2.2)
       get-stream: 9.0.1
-      yauzl: 3.2.1
+      yauzl: 3.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -8271,7 +8248,7 @@ snapshots:
       '@xhmikosr/decompress': 11.1.3(supports-color@10.2.2)
       content-disposition: 2.0.1
       ext-name: 5.0.0
-      file-type: 21.3.2(supports-color@10.2.2)
+      file-type: 21.3.4(supports-color@10.2.2)
       filenamify: 7.0.2
       got: 14.6.6
     transitivePeerDependencies:
@@ -8355,10 +8332,10 @@ snapshots:
 
   antd@6.4.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
-      '@ant-design/colors': 8.0.0
+      '@ant-design/colors': 8.0.1
       '@ant-design/cssinjs': 2.1.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@ant-design/cssinjs-utils': 2.1.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@ant-design/fast-color': 3.0.0
+      '@ant-design/fast-color': 3.0.1
       '@ant-design/icons': 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@ant-design/react-slick': 2.0.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@babel/runtime': 7.29.7
@@ -8575,8 +8552,6 @@ snapshots:
       electron-to-chromium: 1.5.392
       node-releases: 2.0.51
       update-browserslist-db: 1.2.3(browserslist@4.28.6)
-
-  buffer-crc32@0.2.13: {}
 
   buffer-from@1.1.2: {}
 
@@ -9513,6 +9488,15 @@ snapshots:
       flat-cache: 4.0.1
 
   file-type@21.3.2(supports-color@10.2.2):
+    dependencies:
+      '@tokenizer/inflate': 0.4.1(supports-color@10.2.2)
+      strtok3: 10.3.5
+      token-types: 6.1.2
+      uint8array-extras: 1.5.0
+    transitivePeerDependencies:
+      - supports-color
+
+  file-type@21.3.4(supports-color@10.2.2):
     dependencies:
       '@tokenizer/inflate': 0.4.1(supports-color@10.2.2)
       strtok3: 10.3.5
@@ -10468,7 +10452,7 @@ snapshots:
 
   nan@2.28.0: {}
 
-  nanoid@3.3.8: {}
+  nanoid@3.3.18: {}
 
   natural-compare@1.4.0: {}
 
@@ -10761,13 +10745,13 @@ snapshots:
 
   postcss@8.5.23:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
   postcss@8.5.26:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -12023,9 +12007,8 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 22.0.0
 
-  yauzl@3.2.1:
+  yauzl@3.4.0:
     dependencies:
-      buffer-crc32: 0.2.13
       pend: 1.2.0
 
   yerror@8.0.0: {}
