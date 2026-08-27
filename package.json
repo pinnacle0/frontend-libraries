@@ -19,7 +19,7 @@
         "@eslint/compat": "2.1.0",
         "@eslint/eslintrc": "3.3.6",
         "@eslint/js": "10.0.1",
-        "@pinnacle0/pnpm-single-version": "1.0.10",
+        "@pinnacle0/pnpm-single-version": "1.0.11",
         "@types/eslint": "9.6.1",
         "@types/node": "26.2.0",
         "@typescript-eslint/eslint-plugin": "8.67.0",
