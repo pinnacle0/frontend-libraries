@@ -1,4 +1,4 @@
-import type {Lockfile} from "@pnpm/lockfile-file";
+import type {Lockfile} from "@pnpm/lockfile-utils";
 import {checker} from "./checker/index.js";
 import {parseOptions} from "./parser-option/parse-option.js";
 import {findProjectRoot} from "./parser-option/find-project-root.js";
