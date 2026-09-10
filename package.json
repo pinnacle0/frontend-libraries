@@ -11,15 +11,11 @@
     "engines": {
         "node": ">=24"
     },
-    "scripts": {
-        "postinstall": "psv check"
-    },
     "devDependencies": {
         "@eslint-community/eslint-plugin-eslint-comments": "4.7.2",
         "@eslint/compat": "2.1.0",
         "@eslint/eslintrc": "3.3.6",
         "@eslint/js": "10.0.1",
-        "@pinnacle0/pnpm-single-version": "1.0.11",
         "@types/eslint": "9.6.1",
         "@types/node": "26.2.0",
         "@typescript-eslint/eslint-plugin": "8.67.0",
@@ -40,20 +36,6 @@
         "typescript-eslint": "8.67.0",
         "vite": "8.2.1",
         "vitest": "4.1.10"
-    },
-    "pnpmSingleVersion": {
-        "includes": [
-            "react",
-            "@types/react",
-            "@types/react-dom",
-            "@ant-design/*",
-            "react",
-            "react-dom",
-            "rc-picker",
-            "eslint",
-            "@typescript-eslint/eslint-plugin",
-            "@typescript-eslint/parser"
-        ]
     },
     "packageManager": "pnpm@11.21.0"
 }

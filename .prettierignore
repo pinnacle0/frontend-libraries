@@ -37,7 +37,3 @@ pnpm-lock.yaml
 
 # Codegen templates
 **/template/*
-
-# Tool script dir
-.psv
-.husky

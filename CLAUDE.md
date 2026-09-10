@@ -16,14 +16,13 @@ Eight published packages under `packages/`:
 - `webpack-util` — opinionated build/dev pipeline around `@rspack/*` + webpack 5 (`Builder`, `ServerStarter`, `WebpackConfigGenerator`, `CodeStyleChecker`, `TestRunner`).
 - `devtool-util` — shared internal build helpers (`TaskRunner`, `Utility`, `PrettierUtil`, `NamingUtil`, plus `ModuleGenerator`/`IconGenerator`/`APIGenerator`). Most other packages' `script/build.ts` is just `new TaskRunner("build").execute([...])` from here.
 - `eslint-plugin` — custom ESLint rules (e.g. `module-class-lifecycle-order`, `react-component-method-ordering`, `no-deep-nested-relative-imports`) plus exported flat configs `baseline` and `vitest`. Has a `new-rule` scaffolder and a `codegen` step that regenerates the rules index — run it after adding a rule.
-- `pnpm-single-version` — CLI (`psv`) used by the root `postinstall` to enforce that packages listed under `pnpmSingleVersion.includes` in the root `package.json` (React, antd icons, eslint, etc.) resolve to exactly one version across the workspace.
 
 ## Commands
 
 Run from repo root unless noted. The CI workflows in `.github/workflows/pkg-*-ci.yml` only invoke `pnpm install` then `pnpm --filter <pkg> run build` — `build` is the single source of truth for what must pass.
 
 ```bash
-pnpm install                                    # also runs `psv check` via postinstall
+pnpm install                                    
 pnpm --filter @pinnacle0/<pkg> run build        # full pipeline: lint + test + tsc + asset copy
 pnpm --filter @pinnacle0/<pkg> run test         # vitest --run (one-shot, all tests)
 pnpm --filter @pinnacle0/<pkg> run lint         # where defined
@@ -52,7 +51,6 @@ The vitest config is package-local at `config/vitest.config.ts` — every test i
 - **Prettier**: `printWidth: 200`, `tabWidth: 4`, `bracketSpacing: false`, `arrowParens: "avoid"`, `trailingComma: "es5"`. Indentation is 4 spaces across `.ts/.tsx/.css/.less/.js/.jsx`, with `.json/.yaml` also at 4. Don't reformat to defaults.
 - **ESLint (root flat config in [eslint.config.js](eslint.config.js))** — applies repo-wide. Notable: `@typescript-eslint/consistent-type-imports` is on, `@typescript-eslint/explicit-member-accessibility` requires `no-public`, `no-console` allows only `info/warn/error`, `react/jsx-fragments` requires `<React.Fragment>` (element, not shorthand).
 - **TypeScript** ([tsconfig.base.json](tsconfig.base.json)): `strict`, `exactOptionalPropertyTypes`, `noUnusedLocals`, `noUnusedParameters`, `noUncheckedSideEffectImports`. New code should hold to these.
-- **Single-version dependencies**: changing the version of anything listed in root `pnpmSingleVersion.includes` (react, antd icons, eslint, `@typescript-eslint/*`, etc.) must be done consistently across all packages or `psv check` will fail at install. Root `pnpm-workspace.yaml` `overrides:` pins transitive versions; prefer adding to `overrides` rather than patching lockfiles.
 - **Build pipeline shape**: most packages' `script/build.ts` uses `TaskRunner` from `@pinnacle0/devtool-util/TaskRunner` with `skipInFastMode` on the lint/test/style stages. Setting `FAST_MODE=true` skips them — only do this for inner-loop iteration, never for CI/publish.
 - **web-ui consumer reminders** (from its README): import `@pinnacle0/web-ui/css/global.less` once at app entry; wrap with `<LocaleProvider>` for non-English; wrap with `<BrowserRouter>` if using `admin/MainLayout`; never import `@pinnacle0/web-ui/internal/*`.
 - **react-stack-router** still depends on `react-router-dom@5.x` via `web-ui`'s peerDep — they coexist; the stack router replaces `react-router-dom`'s screen rendering, not its history primitives.
