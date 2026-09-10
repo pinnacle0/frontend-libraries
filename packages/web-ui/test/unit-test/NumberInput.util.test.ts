@@ -1,4 +1,4 @@
-import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, truncate} from "../../src/core/NumberInput/util.js";
+import {canAdd, canMinus, clamp, getDisplayValue, rectifyInputIfValid, stripThousandSeparators, truncate} from "../../src/core/NumberInput/util.js";
 import {describe, test, expect, vi} from "vitest";
 
 describe("truncate", () => {
@@ -192,6 +192,45 @@ describe("getDisplayValue", () => {
     });
 });
 
+describe("stripThousandSeparators", () => {
+    test("drops the separators when what remains is a plain number", () => {
+        expect.assertions(15);
+        const createTest = (_: {inputText: string; expectedText: string}) => ({
+            run: () => expect(stripThousandSeparators(_.inputText)).toBe(_.expectedText),
+        });
+        createTest({inputText: "1,000", expectedText: "1000"}).run();
+        createTest({inputText: "1, 000", expectedText: "1000"}).run();
+        createTest({inputText: "1 000", expectedText: "1000"}).run();
+        createTest({inputText: "1,000,000", expectedText: "1000000"}).run();
+        createTest({inputText: "1, 000, 000", expectedText: "1000000"}).run();
+        createTest({inputText: "1 000 000", expectedText: "1000000"}).run();
+        createTest({inputText: "1,000.50", expectedText: "1000.50"}).run();
+        createTest({inputText: "-1,000", expectedText: "-1000"}).run();
+        createTest({inputText: "+1,000", expectedText: "+1000"}).run();
+        createTest({inputText: " 1,000 ", expectedText: "1000"}).run(); // pasted from a spreadsheet or a web page
+        createTest({inputText: "\t1, 000\n", expectedText: "1000"}).run();
+        // Grouping is deliberately not validated: this is a plain number input, so a mis-grouped separator is read rather than rejected
+        createTest({inputText: "1,00", expectedText: "100"}).run();
+        createTest({inputText: "12,34,567", expectedText: "1234567"}).run();
+        createTest({inputText: "1,,000", expectedText: "1000"}).run();
+        createTest({inputText: "1,", expectedText: "1"}).run(); // a half-typed number keeps its value instead of going invalid
+    });
+
+    test("returns the userInput verbatim when stripping would not leave a plain number", () => {
+        expect.assertions(7);
+        const createTest = (_: {inputText: string}) => ({
+            run: () => expect(stripThousandSeparators(_.inputText)).toBe(_.inputText),
+        });
+        createTest({inputText: ","}).run(); // must NOT collapse to "", which `rectifyInputIfValid` would read as `null`
+        createTest({inputText: "."}).run();
+        createTest({inputText: "1.0f"}).run();
+        createTest({inputText: "1000"}).run(); // no separators, nothing to strip
+        createTest({inputText: "100\t200"}).run(); // two spreadsheet cells must not merge into 100200
+        createTest({inputText: "1e3"}).run(); // left for `Number()` to handle, exactly as before
+        createTest({inputText: ".5"}).run();
+    });
+});
+
 describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
     type Config = Parameters<typeof rectifyInputIfValid>[1];
 
@@ -284,6 +323,53 @@ describe("makeBestEffortToConvertEditingValueToValidNumber", () => {
         createTest({convertibleText: "0.50069696969696969", expectedFloatValue: 0.5007}).run();
         createTest({convertibleText: "0.50001", expectedFloatValue: 0.5}).run();
         createTest({convertibleText: "1.00000000000000001", expectedFloatValue: 1}).run();
+        expect(allowNullGetterSpy).not.toHaveBeenCalled();
+    });
+
+    test("accepts thousand separators in the userInput (integer config)", () => {
+        expect.assertions(8);
+        const allowNullGetterSpy = vi.fn();
+        const config: Config = {
+            min: 0,
+            max: 99_999_999,
+            scale: 0,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
+        };
+        const createTest = (_: {inputText: string; expectedIntegerValue: number}) => ({
+            run: () => expect(rectifyInputIfValid(_.inputText, config)).toBe(_.expectedIntegerValue),
+        });
+        createTest({inputText: "1,000", expectedIntegerValue: 1000}).run();
+        createTest({inputText: "1, 000", expectedIntegerValue: 1000}).run();
+        createTest({inputText: "1 000 000", expectedIntegerValue: 1000000}).run();
+        createTest({inputText: "12,345,678", expectedIntegerValue: 12345678}).run();
+        createTest({inputText: "1,000.4", expectedIntegerValue: 1000}).run();
+        createTest({inputText: "999,999,999", expectedIntegerValue: 99999999}).run(); // still clamped to `max`
+        createTest({inputText: "1,00", expectedIntegerValue: 100}).run(); // mis-grouped, but read rather than rejected
+        expect(allowNullGetterSpy).not.toHaveBeenCalled();
+    });
+
+    test("accepts thousand separators in the userInput (float 2 decimal point config)", () => {
+        expect.assertions(7);
+        const allowNullGetterSpy = vi.fn();
+        const config: Config = {
+            min: -99_999_999,
+            max: 99_999_999,
+            scale: 2,
+            get allowNull() {
+                return allowNullGetterSpy();
+            },
+        };
+        const createTest = (_: {inputText: string; expectedFloatValue: number}) => ({
+            run: () => expect(rectifyInputIfValid(_.inputText, config)).toBe(_.expectedFloatValue),
+        });
+        createTest({inputText: "1,000.50", expectedFloatValue: 1000.5}).run();
+        createTest({inputText: "-1,000.25", expectedFloatValue: -1000.25}).run();
+        createTest({inputText: "+1,000", expectedFloatValue: 1000}).run();
+        createTest({inputText: " 1,000 ", expectedFloatValue: 1000}).run();
+        createTest({inputText: "1 000", expectedFloatValue: 1000}).run();
+        createTest({inputText: "1,000,000.129", expectedFloatValue: 1000000.13}).run(); // truncated to `scale`
         expect(allowNullGetterSpy).not.toHaveBeenCalled();
     });
 

@@ -133,6 +133,20 @@ const groups: DemoHelperGroupConfig[] = [
         components: [<RequiredNumberInputPercentage initialValue={0.4} percentageScale={0} />, <RequiredNumberInputPercentage initialValue={0.6} percentageScale={2} stepperMode="outlined" />],
     },
     {
+        title: "Number Input with thousand separators",
+        components: [
+            <p>Paste or type 1,000,000 / 1, 000 / 1 000 - correctly grouped separators are accepted, and the stored value stays unformatted</p>,
+            "-",
+            <RequiredNumberInput scale={0} min={0} max={99999999} initialValue={1000000} />,
+            <RequiredNumberInput scale={2} min={-99999999} max={99999999} stepperMode="outlined" step={1000} initialValue={1234567.89} />,
+            <NullableNumberInput scale={2} placeholder="e.g. 1,000,000.00" />,
+            "-",
+            <p>Mis-grouped input (1,00 / 12,34,567) is still rejected, and reverts onBlur</p>,
+            "-",
+            <NullableNumberInput scale={0} placeholder="try 1,00 then blur" />,
+        ],
+    },
+    {
         title: "Text Area",
         components: [<TextArea initialValue="Text Area Content" disabled />, <NullableTextArea initialValue={null} />],
     },
